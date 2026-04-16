@@ -10,11 +10,6 @@ import torch
 import torch.nn as nn
 from typing import Optional, List
 
-from transformers.masking_utils import (
-    create_causal_mask,
-    create_sliding_window_causal_mask,
-)
-
 from config import ModelConfig, resolve_module
 
 
@@ -51,6 +46,71 @@ class CoconutTailLoop:
         self._tail_start = inject_layer - 1
         self._tail_layers = list(range(self._tail_start, large_config.num_layers))
 
+        # Cache layer_types once; fall back to all-full-attention for models
+        # that pre-date the mixed-attention Qwen2.5 config field.
+        config = large_model.config
+        if hasattr(config, "layer_types"):
+            self._layer_types: List[str] = list(config.layer_types)
+        else:
+            self._layer_types = ["full_attention"] * large_config.num_layers
+
+        self._sliding_window: Optional[int] = getattr(config, "sliding_window", None)
+
+    # ------------------------------------------------------------------
+    # Mask construction — pure PyTorch, no transformers internals
+    # ------------------------------------------------------------------
+
+    def _build_attention_mask_mapping(
+        self,
+        hidden_states: torch.Tensor,
+        attention_mask: Optional[torch.Tensor],
+    ) -> dict:
+        """Build a {layer_type -> 4-D float mask} dict for the large model layers.
+
+        We construct the masks ourselves rather than calling transformers'
+        internal masking utilities, whose signatures change across versions.
+
+        Shape: (batch, 1, seq_len, seq_len), additive float mask convention
+        (0.0 = attend, large negative = do not attend).
+        """
+        batch, seq_len, _ = hidden_states.shape
+        device = hidden_states.device
+        dtype = hidden_states.dtype
+        neg_inf = torch.finfo(dtype).min / 2
+
+        # --- causal (upper-triangle) mask ---
+        # triu(diagonal=1) gives True for future positions → fill with neg_inf
+        causal_2d = torch.triu(
+            torch.ones(seq_len, seq_len, device=device, dtype=torch.bool), diagonal=1
+        )
+        full_mask = torch.zeros(batch, 1, seq_len, seq_len, device=device, dtype=dtype)
+        full_mask.masked_fill_(causal_2d, neg_inf)
+
+        # --- padding mask (if provided) ---
+        if attention_mask is not None and attention_mask.ndim == 2:
+            # (batch, seq_len) → (batch, 1, 1, seq_len): mask padding tokens as keys
+            pad_mask = attention_mask[:, None, None, :].to(dtype=torch.bool)
+            full_mask = full_mask.masked_fill(~pad_mask, neg_inf)
+
+        mask_mapping = {"full_attention": full_mask}
+
+        # --- sliding-window mask (Qwen2.5 layers that use it) ---
+        if "sliding_attention" in self._layer_types and self._sliding_window is not None:
+            window = self._sliding_window
+            rows = torch.arange(seq_len, device=device)
+            cols = torch.arange(seq_len, device=device)
+            # Positions too far in the past: row - col >= window
+            beyond_window = (rows[:, None] - cols[None, :]) >= window
+            sliding_mask = full_mask.clone()
+            sliding_mask.masked_fill_(beyond_window, neg_inf)
+            mask_mapping["sliding_attention"] = sliding_mask
+
+        return mask_mapping
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+
     def _build_position_ids(
         self,
         input_ids: torch.Tensor,
@@ -64,33 +124,6 @@ class CoconutTailLoop:
 
         batch_size, seq_len = input_ids.shape
         return torch.arange(seq_len, device=input_ids.device).unsqueeze(0).expand(batch_size, -1)
-
-    def _prepare_attention_mask_mapping(
-        self,
-        hidden_states: torch.Tensor,
-        attention_mask: Optional[torch.Tensor],
-        position_ids: torch.Tensor,
-    ):
-        """Match the mask preparation logic used by the HF Qwen2 model."""
-        if isinstance(attention_mask, dict):
-            return attention_mask
-
-        seq_len = hidden_states.shape[1]
-        cache_position = torch.arange(seq_len, device=hidden_states.device)
-        mask_kwargs = {
-            "config": self.large_model.config,
-            "inputs_embeds": hidden_states,
-            "attention_mask": attention_mask,
-            "cache_position": cache_position,
-            "past_key_values": None,
-            "position_ids": position_ids,
-        }
-        mask_mapping = {
-            "full_attention": create_causal_mask(**mask_kwargs),
-        }
-        if "sliding_attention" in self.large_model.config.layer_types:
-            mask_mapping["sliding_attention"] = create_sliding_window_causal_mask(**mask_kwargs)
-        return mask_mapping
 
     def _apply_injection(
         self,
@@ -122,18 +155,14 @@ class CoconutTailLoop:
         self,
         layer_indices: List[int],
         hidden_states: torch.Tensor,
-        attention_mask: Optional[torch.Tensor],
+        attention_mask_mapping: dict,
         position_ids: torch.Tensor,
+        position_embeddings,
     ) -> torch.Tensor:
         """Run a subset of large-model decoder layers on the hidden state."""
-        attention_mask_mapping = self._prepare_attention_mask_mapping(
-            hidden_states, attention_mask, position_ids
-        )
-        position_embeddings = self._rotary_emb(hidden_states, position_ids)
-
         for layer_idx in layer_indices:
             layer = self._layers[layer_idx]
-            layer_type = self.large_model.config.layer_types[layer_idx]
+            layer_type = self._layer_types[layer_idx]
             layer_out = layer(
                 hidden_states,
                 attention_mask=attention_mask_mapping[layer_type],
@@ -146,6 +175,10 @@ class CoconutTailLoop:
 
         return hidden_states
 
+    # ------------------------------------------------------------------
+    # Main entry points
+    # ------------------------------------------------------------------
+
     def initial_pass(
         self,
         input_ids: torch.Tensor,
@@ -156,9 +189,7 @@ class CoconutTailLoop:
         """Run one injected full forward pass through the large model."""
         hidden_states = self._embed(input_ids)
         position_ids = self._build_position_ids(input_ids, attention_mask)
-        attention_mask_mapping = self._prepare_attention_mask_mapping(
-            hidden_states, attention_mask, position_ids
-        )
+        attention_mask_mapping = self._build_attention_mask_mapping(hidden_states, attention_mask)
         position_embeddings = self._rotary_emb(hidden_states, position_ids)
 
         for layer_idx in range(self.large_config.num_layers):
@@ -168,7 +199,7 @@ class CoconutTailLoop:
                 )
 
             layer = self._layers[layer_idx]
-            layer_type = self.large_model.config.layer_types[layer_idx]
+            layer_type = self._layer_types[layer_idx]
             layer_out = layer(
                 hidden_states,
                 attention_mask=attention_mask_mapping[layer_type],
@@ -194,26 +225,29 @@ class CoconutTailLoop:
                 input_ids, attention_mask, injected_state, injection_mode
             )
             position_ids = self._build_position_ids(input_ids, attention_mask)
+            # Mask and position embeddings are the same for every loop iteration
+            # (same sequence length, same positions).
+            attention_mask_mapping = self._build_attention_mask_mapping(
+                hidden_states, attention_mask
+            )
+            position_embeddings = self._rotary_emb(hidden_states, position_ids)
             current_state = hidden_states
 
             for _ in range(self.num_iters):
-                if self.full_loop:
-                    h = self._run_layers(
-                        list(range(self.large_config.num_layers)),
-                        current_state,
-                        attention_mask,
-                        position_ids,
-                    )
-                else:
-                    # Reuse the original token positions because the loop feeds
-                    # back a full-sequence latent state instead of appending a
-                    # fresh token each iteration.
-                    h = self._run_layers(
-                        self._tail_layers,
-                        current_state,
-                        attention_mask,
-                        position_ids,
-                    )
+                layer_indices = (
+                    list(range(self.large_config.num_layers))
+                    if self.full_loop
+                    else self._tail_layers
+                )
+                # Reuse the original token positions because the loop feeds back
+                # a full-sequence latent state rather than appending a fresh token.
+                h = self._run_layers(
+                    layer_indices,
+                    current_state,
+                    attention_mask_mapping,
+                    position_ids,
+                    position_embeddings,
+                )
                 current_state = self._norm(h)
 
         return current_state
