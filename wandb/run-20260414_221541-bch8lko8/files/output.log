@@ -1,0 +1,43 @@
+
+============================================================
+Epoch 1/10
+============================================================
+Traceback (most recent call last):
+  File "C:\Users\pyro\Music\latent-space-translation\main.py", line 347, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\pyro\Music\latent-space-translation\main.py", line 339, in main
+    cmd_train(args, pipeline_config, training_config)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\pyro\Music\latent-space-translation\main.py", line 152, in cmd_train
+    train(
+    ~~~~~^
+        pipeline=pipeline,
+        ^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        eval_fn=eval_fn,
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pyro\Music\latent-space-translation\training\train.py", line 184, in train
+    outputs = pipeline(
+        input_ids_small=batch["input_ids_small"],
+    ...<3 lines>...
+        labels=batch["labels"],
+    )
+  File "C:\Users\pyro\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pyro\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\pyro\Music\latent-space-translation\models\pipeline.py", line 163, in forward
+    logits = self._ref["small_lm_head"](h_normed.float())  # (batch, seq, vocab_size)
+  File "C:\Users\pyro\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\pyro\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "C:\Users\pyro\AppData\Roaming\Python\Python314\site-packages\torch\nn\modules\linear.py", line 134, in forward
+    return F.linear(input, self.weight, self.bias)
+           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: expected mat1 and mat2 to have the same dtype, but got: float != struct c10::Half

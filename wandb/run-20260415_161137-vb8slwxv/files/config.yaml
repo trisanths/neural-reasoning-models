@@ -1,0 +1,119 @@
+_wandb:
+    value:
+        cli_version: 0.26.0
+        e:
+            3rfm1hta23digdmyhq0p0mcymls2nzag:
+                args:
+                    - train
+                codePath: main.py
+                codePathLocal: main.py
+                cpu_count: 8
+                cpu_count_logical: 16
+                cudaVersion: "13.1"
+                disk:
+                    /:
+                        total: "1999751868416"
+                        used: "1413893726208"
+                email: trisanthsrini@gmail.com
+                executable: C:\Python314\python.exe
+                gpu: NVIDIA GeForce RTX 5070 Ti
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Blackwell
+                      cudaCores: 8960
+                      memoryTotal: "17094934528"
+                      name: NVIDIA GeForce RTX 5070 Ti
+                      uuid: GPU-2ae11d92-89d3-2b89-4f4b-3ee41a184ba8
+                host: DESKTOP-23I08E0
+                memory:
+                    total: "33883017216"
+                os: Windows-11-10.0.26200-SP0
+                program: C:\Users\pyro\Music\latent-space-translation\main.py
+                python: CPython 3.14.2
+                root: C:\Users\pyro\Music\latent-space-translation
+                startedAt: "2026-04-15T21:11:37.372995Z"
+                writerId: 3rfm1hta23digdmyhq0p0mcymls2nzag
+        m: []
+        python_version: 3.14.2
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 51
+                - 53
+                - 71
+            "3":
+                - 2
+                - 16
+                - 61
+            "4": 3.14.2
+            "5": 0.26.0
+            "6": 5.3.0
+            "8":
+                - 3
+            "12": 0.26.0
+            "13": windows-amd64
+pipeline:
+    value:
+        coconut_full_loop: false
+        coconut_num_iters: 6
+        device: cuda
+        dtype: float16
+        injection_mode: add
+        large_inject_layer: 33
+        large_model:
+            embed_path: model.embed_tokens
+            hidden_dim: 2048
+            layer_template: model.layers[{i}]
+            layers_path: model.layers
+            lm_head_path: lm_head
+            name: Qwen/Qwen2.5-3B-Instruct
+            norm_path: model.norm
+            num_layers: 36
+            rotary_path: model.rotary_emb
+        seed: 42
+        small_extract_layer: 24
+        small_model:
+            embed_path: model.embed_tokens
+            hidden_dim: 896
+            layer_template: model.layers[{i}]
+            layers_path: model.layers
+            lm_head_path: lm_head
+            name: Qwen/Qwen2.5-0.5B-Instruct
+            norm_path: model.norm
+            num_layers: 24
+            rotary_path: model.rotary_emb
+        use_8bit: false
+training:
+    value:
+        batch_size: 4
+        checkpoint_dir: checkpoints
+        eval_every_steps: 1000
+        grad_clip: 1
+        gradient_accumulation_steps: 4
+        lambda_align: 0.3
+        lambda_answer: 1
+        lambda_cycle: 0.5
+        lr: 0.0001
+        max_seq_len: 512
+        num_epochs: 10
+        num_workers: 2
+        procrustes_num_samples: 200
+        save_every_steps: 500
+        use_wandb: true
+        wandb_project: latent-space-translation
+        wandb_run_name: null
+        warmup_steps: 100
+        weight_decay: 0.01
