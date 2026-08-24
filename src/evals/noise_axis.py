@@ -9,6 +9,10 @@ signature answer_fn(question, chunks) -> str and a list of examples,
 each a dict with keys question, answer, chunks (list of strings), and
 episode_id. Accuracy uses the same normalized exact match as the
 naturalized suite. Everything is seeded and deterministic.
+
+run_noise_axis_interactive plugs the emit-query-read decode loop from
+src/evals/interactive.py in as the reader, so the corrupted chunks are
+exactly the documents that loop serves through <|result|>.
 """
 
 import random
@@ -127,3 +131,24 @@ def run_noise_axis(answer_fn, examples, rates=DEFAULT_RATES, seed: int = 0) -> d
         "noisiest_accuracy": accuracies[hi],
         "degradation": accuracies[lo] - accuracies[hi],
     }
+
+
+def run_noise_axis_interactive(step_fn, tokenizer, examples,
+                               rates=DEFAULT_RATES, seed: int = 0,
+                               max_rounds: int = 4,
+                               max_new_tokens: int = 128) -> dict:
+    """Run the noise axis with the interactive decode loop as the reader.
+
+    Each example's chunks become the document set the loop retrieves
+    from, so a corrupted chunk is served through <|result|> whenever
+    BM25 selects it. step_fn is a next token scores callable as
+    described in src/evals/interactive.py. The import stays inside this
+    function so the module keeps no heavyweight dependencies for
+    callers that bring their own answer_fn.
+    """
+    from src.evals.interactive import make_retrieval_answer_fn
+
+    answer_fn = make_retrieval_answer_fn(
+        step_fn, tokenizer, max_rounds=max_rounds,
+        max_new_tokens=max_new_tokens, seed=seed)
+    return run_noise_axis(answer_fn, examples, rates=rates, seed=seed)

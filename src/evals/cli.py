@@ -30,6 +30,9 @@ def main(argv=None):
     parser.add_argument("--out", required=True, help="report output directory")
     parser.add_argument("--heldout-episodes", type=int, default=40)
     parser.add_argument("--heldout-seed", type=int, default=999)
+    parser.add_argument("--heldout-retrieval", action="store_true",
+                        help="score held out worlds through the interactive "
+                             "emit-query-read loop instead of packed contexts")
     parser.add_argument("--device", default=None, help="cuda or cpu, default auto")
     args = parser.parse_args(argv)
 
@@ -39,13 +42,15 @@ def main(argv=None):
 
     episodes = list(generate_episodes(args.heldout_seed, args.heldout_episodes))
     heldout = run_heldout(model, tokenizer, episodes, device,
-                          seed=args.heldout_seed)
+                          seed=args.heldout_seed,
+                          use_retrieval=args.heldout_retrieval)
     probes = run_probes(model, tokenizer, device)
 
     meta = {
         "checkpoint": args.ckpt,
         "step": int(state.get("step", -1)),
         "heldout_seed": args.heldout_seed,
+        "heldout_retrieval": args.heldout_retrieval,
         "device": device,
     }
     json_path, md_path = write_report(build_report(heldout, probes, meta), args.out)

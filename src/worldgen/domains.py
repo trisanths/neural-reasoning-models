@@ -8,6 +8,16 @@ irrelevant sentence. The engine composes these into full episodes.
 Facts follow the SPEC schema: {"id", "s", "p", "o", "t"} where s is an entity
 id and o is an entity id or a literal string. Questions carry machine
 checkable answers, the derivation fact ids, and a hop count.
+
+Document templates follow one surface convention: each sentence restates the
+entity on the side of the relation that questions anchor on (the acquiree,
+the child, the route's origin, the restricted substance, the adopting
+jurisdiction). Bag-of-words retrieval cannot see argument roles, so a
+sentence mentioning each entity once is indistinguishable from a reversed
+statement of the same relation over the same names. The restatement puts the
+role into term frequency: the supporting document carries the anchored name
+twice while a document using that name in the opposite role carries it once,
+which is exactly the signal a query built from question terms can use.
 """
 
 from src.worldgen import names
@@ -36,21 +46,28 @@ class Corporate:
         "each company has exactly one chief executive",
     ]
 
+    # Restated anchors: the acquiree (questions ask who acquired it), the
+    # company in ceo_of (questions ask for its chief executive), and the
+    # company in hq_in (questions ask where it is headquartered).
     TEMPLATES = {
         "acquired": [
-            "{s} acquired {o} in period {t}.",
-            "In period {t}, {s} completed its takeover of {o}.",
-            "A filing dated period {t} records that {o} was purchased by {s}.",
+            "{s} acquired {o} in period {t}, taking {o} as a subsidiary.",
+            "In period {t}, {s} completed its takeover of {o}, bringing "
+            "{o} under new ownership.",
+            "A filing dated period {t} records that {o} was purchased by "
+            "{s}; owners of {o} approved the sale.",
         ],
         "ceo_of": [
-            "{s} serves as chief executive of {o}.",
-            "The board of {o} confirmed {s} as chief executive.",
-            "{o} lists {s} as its chief executive officer.",
+            "{s} serves as chief executive of {o}, leading {o} day to day.",
+            "The board of {o} confirmed {s} as chief executive of {o}.",
+            "{o} lists {s} as its chief executive officer; the {o} board "
+            "minutes record the vote.",
         ],
         "hq_in": [
-            "{s} is headquartered in {o}.",
-            "The head office of {s} is located in {o}.",
-            "{s} operates from its base in {o}.",
+            "{s} is headquartered in {o}, where {s} keeps its main office.",
+            "The head office of {s} is located in {o}; {s} files from "
+            "that address.",
+            "{s} operates from its base in {o}, and {s} maintains that site.",
         ],
     }
 
@@ -181,16 +198,25 @@ class Regulatory:
         "adoption of a code is transitive",
     ]
 
+    # Restated anchors: the substance in restricts (questions name the
+    # substance), and the adopting jurisdiction in adopts_code_of (a
+    # propagation hop reaches the adoption fact from that jurisdiction).
     TEMPLATES = {
         "restricts": [
-            "The authority of {s} prohibits {o} as of period {t}.",
-            "{s} placed {o} on its restricted register in period {t}.",
-            "A notice from {s} bans the sale of {o} effective period {t}.",
+            "The authority of {s} prohibits {o} as of period {t}; all "
+            "sales of {o} must cease.",
+            "{s} placed {o} on its restricted register in period {t}, "
+            "so {o} is barred there.",
+            "A notice from {s} bans the sale of {o} effective period {t}; "
+            "stocks of {o} must be withdrawn.",
         ],
         "adopts_code_of": [
-            "{s} adopts the regulatory code of {o} in period {t}.",
-            "In period {t}, {s} incorporated the code of {o} into its law.",
-            "The legislature of {s} enacted the framework of {o} in period {t}.",
+            "{s} adopts the regulatory code of {o} in period {t}, which "
+            "binds {s} directly.",
+            "In period {t}, {s} incorporated the code of {o} into its "
+            "law, amending the statutes of {s}.",
+            "The legislature of {s} enacted the framework of {o} in "
+            "period {t}, making it law across {s}.",
         ],
     }
 
@@ -315,11 +341,16 @@ class Logistics:
         "freight may pass through intermediate hubs",
     ]
 
+    # Restated anchor: the origin hub. Relay questions walk the route
+    # forward, so each hop knows the origin and seeks the destination.
     TEMPLATES = {
         "route_to": [
-            "The route from {s} to {o} carries {c} containers per period.",
-            "A corridor links {s} to {o} with capacity {c}.",
-            "Schedules show {s} shipping to {o} at {c} containers each period.",
+            "The route from {s} to {o} carries {c} containers per "
+            "period, loading at {s}.",
+            "A corridor links {s} to {o} with capacity {c}; departures "
+            "leave {s} on schedule.",
+            "Schedules show {s} shipping to {o} at {c} containers each "
+            "period, outbound from {s}.",
         ],
     }
 
@@ -425,16 +456,23 @@ class Kinship:
         "a grandparent is the parent of a parent",
     ]
 
+    # Restated anchors: the child in parent_of (parent and grandparent
+    # questions walk outward from the child), and the person in
+    # born_in_year. Neither relation's templates borrow the other's
+    # vocabulary, so the born/parent synonym folds stay disjoint.
     TEMPLATES = {
         "parent_of": [
-            "{s} is the parent of {o}.",
-            "Records list {o} as the child of {s}.",
-            "{o} was raised by {s}.",
+            "{s} is the parent of {o}, and {o} grew up in the family home.",
+            "Records list {o} as the child of {s}, naming {o} in the "
+            "family register.",
+            "{o} was raised by {s}, who brought {o} up at home.",
         ],
         "born_in_year": [
-            "{s} was born in the year {o}.",
-            "The registry gives {o} as the birth year of {s}.",
-            "{s}'s recorded year of birth is {o}.",
+            "{s} was born in the year {o}; the entry for {s} is preserved.",
+            "The registry gives {o} as the birth year of {s}, in the "
+            "file kept under {s}.",
+            "{s}'s recorded year of birth is {o}, per the ledger page "
+            "for {s}.",
         ],
     }
 
@@ -498,9 +536,13 @@ class Kinship:
         add_q(f"Who is the parent of {name_of[chain['ids'][1]]}?",
               name_of[chain["ids"][0]], "lookup", [chain["parent"][0]], 1)
         chain = chains[-1]
+        # The derivation walks outward from the questioned person: first the
+        # fact naming their parent, then the fact naming that parent's parent.
+        # Retrieval traces follow derivation order, and only the grandchild's
+        # name is in the question, so the anchored fact must come first.
         add_q(f"Who is the grandparent of {name_of[chain['ids'][2]]}?",
               name_of[chain["ids"][0]], "multi_hop",
-              [chain["parent"][0], chain["parent"][1]], 2)
+              [chain["parent"][1], chain["parent"][0]], 2)
 
         return entities, list(Kinship.rules), facts, questions
 

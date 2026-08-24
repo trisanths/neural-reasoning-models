@@ -2,16 +2,21 @@
 
 Two modes.
 
-Scan mode (--shards): scans the token stream for <|q|> markers, checks that
-every trace runs question, retrieve, query, result, chunk, answer, eot in that
-order with each marker appearing exactly once, prints the first decoded trace,
-and exits nonzero when any trace is malformed.
+Scan mode (--shards): scans the token stream for <|q|> markers and checks that
+every trace follows the multi-hop grammar: question, zero or more
+retrieve-query result-chunk rounds, answer, eot, with every span nonempty. It
+prints the first decoded trace and a hop histogram, and exits nonzero when any
+trace is malformed.
 
 Oracle mode (--manifest): reads a manifest written by scripts.render_regime_c,
 picks random rendered episodes, regenerates each one from its seed, and checks
-that the stored tokens equal the recomputed render exactly. It also checks the
-first trace semantically: the query span encodes build_query of the question
-and the result span encodes the BM25 oracle's top document for that query.
+that the stored tokens equal the recomputed render exactly. It then verifies
+every trace in the episode semantically against the recomputed plan: the
+number of traces matches the non-dropped questions, each hop's query span
+encodes the planned query, each result span encodes a document that supports
+that hop's derivation fact, and the oracle BM25 retriever, excluding the
+chunks earlier hops of the same question returned, ranks that document top-1
+for the query.
 
 Usage:
 
@@ -26,35 +31,65 @@ Usage:
 import argparse
 import json
 import random
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
 
 from src.train.data import ShardReader
-from src.train.retrieval import BM25Index, build_query, render_episode_retrieval
+from src.train.retrieval import (
+    BM25Index,
+    plan_episode_traces,
+    render_episode_retrieval,
+)
 from src.train.tokenizer import load_tokenizer
 from src.worldgen.engine import generate_episodes
 
-TRACE_ORDER = ["<|q|>", "<|retrieve|>", "<|result|>", "<|a|>", "<|eot|>"]
 
+def parse_trace(ids: list[int], sid: dict):
+    """Split one trace into spans.
 
-def check_trace(ids: list[int], sid: dict) -> str | None:
-    """Return a problem description, or None when the trace is well formed."""
-    marker_ids = [sid[name] for name in TRACE_ORDER]
-    positions = []
-    for name, mid in zip(TRACE_ORDER, marker_ids):
-        found = [i for i, t in enumerate(ids) if t == mid]
-        if len(found) != 1:
-            return f"{name} appears {len(found)} times"
-        positions.append(found[0])
-    if positions != sorted(positions):
-        return f"markers out of order at positions {positions}"
-    for name, lo, hi in (("query", positions[1], positions[2]),
-                         ("chunk", positions[2], positions[3]),
-                         ("answer", positions[3], positions[4])):
+    Returns (question, [(query, chunk), ...], answer) as token id lists, or a
+    problem string when the trace violates the grammar. The trace must start
+    at <|q|> and end at <|eot|>.
+    """
+    special = {v: k for k, v in sid.items()}
+    if not ids or ids[0] != sid["<|q|>"] or ids[-1] != sid["<|eot|>"]:
+        return "trace does not run from <|q|> to <|eot|>"
+    marks = [(i, special[t]) for i, t in enumerate(ids) if t in special]
+    names = [name for _, name in marks]
+    expect = ["<|q|>"]
+    n_rounds = (len(names) - 3) // 2
+    if len(names) != 3 + 2 * n_rounds or n_rounds < 0:
+        return f"unexpected marker count {len(names)}"
+    expect += ["<|retrieve|>", "<|result|>"] * n_rounds + ["<|a|>", "<|eot|>"]
+    if names != expect:
+        return f"marker sequence {names} != {expect}"
+    spans = []
+    for (lo, _), (hi, _) in zip(marks, marks[1:]):
         if hi - lo < 2:
-            return f"empty {name} span"
-    return None
+            return f"empty span after {special[ids[lo]]} at {lo}"
+        spans.append(ids[lo + 1:hi])
+    question = spans[0]
+    rounds = [(spans[1 + 2 * k], spans[2 + 2 * k]) for k in range(n_rounds)]
+    answer = spans[-1]
+    return question, rounds, answer
+
+
+def iter_traces(stream: list[int], sid: dict):
+    """Yield (start, trace token list) for each <|q|> ... <|eot|> run."""
+    q_id, eot_id = sid["<|q|>"], sid["<|eot|>"]
+    i = 0
+    while i < len(stream):
+        if stream[i] != q_id:
+            i += 1
+            continue
+        try:
+            end = stream.index(eot_id, i)
+        except ValueError:
+            return
+        yield i, stream[i:end + 1]
+        i = end + 1
 
 
 def scan_shards(shards: str, tok, max_traces: int) -> int:
@@ -63,36 +98,82 @@ def scan_shards(shards: str, tok, max_traces: int) -> int:
     scan = min(reader.total_tokens, 2_000_000)
     stream = reader.get_slice(0, scan).tolist()
 
-    q_id, eot_id = sid["<|q|>"], sid["<|eot|>"]
     checked = 0
     printed = False
-    i = 0
-    while i < len(stream) and checked < max_traces:
-        if stream[i] != q_id:
-            i += 1
-            continue
-        try:
-            end = stream.index(eot_id, i)
-        except ValueError:
+    hops = Counter()
+    for start, trace in iter_traces(stream, sid):
+        if checked >= max_traces:
             break
-        trace = stream[i:end + 1]
-        problem = check_trace(trace, sid)
-        if problem is not None:
-            print(f"BAD_TRACE at token {i}: {problem}")
+        parsed = parse_trace(trace, sid)
+        if isinstance(parsed, str):
+            print(f"BAD_TRACE at token {start}: {parsed}")
             print(tok.decode(trace))
             return 1
+        _, rounds, _ = parsed
+        hops[len(rounds)] += 1
         if not printed:
             print("first decoded trace:")
             print(tok.decode(trace))
             printed = True
         checked += 1
-        i = end + 1
 
     if checked == 0:
         print("NO_TRACES_FOUND")
         return 1
-    print(f"TRACE_OK checked {checked} traces over {scan:,} tokens")
+    histo = " ".join(f"{h}:{n}" for h, n in sorted(hops.items()))
+    mean = sum(h * n for h, n in hops.items()) / checked
+    print(f"TRACE_OK checked {checked} traces over {scan:,} tokens, "
+          f"hops {histo}, mean {mean:.2f}")
     return 0
+
+
+def verify_episode_semantics(episode: dict, got: list[int], tok) -> str | None:
+    """Check every trace in a rendered episode against the recomputed plan.
+
+    Returns a problem string or None. got is the episode's full token run
+    starting at <|world|>.
+    """
+    sid = tok.special_ids
+    documents = episode.get("documents", [])
+    plans, _ = plan_episode_traces(episode)
+    rendered = [
+        (q, plan) for q, plan in zip(episode.get("questions", []), plans)
+        if plan is not None
+    ]
+    traces = list(iter_traces(got, sid))
+    if len(traces) != len(rendered):
+        return (f"{len(traces)} traces in stream but {len(rendered)} "
+                f"rendered questions")
+    index = BM25Index.for_documents(documents) if documents else None
+    for (start, trace), (question, plan) in zip(traces, rendered):
+        parsed = parse_trace(trace, sid)
+        if isinstance(parsed, str):
+            return f"{question['qid']}: {parsed}"
+        q_span, rounds, a_span = parsed
+        if q_span != tok.encode(question["text"]):
+            return f"{question['qid']}: question span mismatch"
+        if a_span != tok.encode(question["answer"]):
+            return f"{question['qid']}: answer span mismatch"
+        if len(rounds) != len(plan):
+            return (f"{question['qid']}: {len(rounds)} rounds but plan "
+                    f"has {len(plan)} hops")
+        derivation = question.get("derivation") or []
+        exclude: set = set()
+        for k, ((query_span, chunk_span), (query, doc_idx)) in enumerate(
+                zip(rounds, plan)):
+            if query_span != tok.encode(query):
+                return f"{question['qid']} hop {k + 1}: query span mismatch"
+            doc = documents[doc_idx]
+            if chunk_span != tok.encode(doc["text"]):
+                return f"{question['qid']} hop {k + 1}: chunk span mismatch"
+            if derivation[k] not in doc.get("supports", []):
+                return (f"{question['qid']} hop {k + 1}: result does not "
+                        f"support fact {derivation[k]}")
+            if index.top(query, exclude) != doc_idx:
+                return (f"{question['qid']} hop {k + 1}: query is not "
+                        f"top-1 for its document")
+            exclude.add(doc_idx)
+    return None
 
 
 def verify_manifest(manifest_path: str, tok, samples: int,
@@ -136,24 +217,13 @@ def verify_manifest(manifest_path: str, tok, samples: int,
                   f"{len(want)} recomputed tokens")
             return 1
 
-        question = episode["questions"][0]
-        query = build_query(question["text"])
-        idx_r = got.index(sid["<|retrieve|>"])
-        idx_res = got.index(sid["<|result|>"])
-        idx_a = got.index(sid["<|a|>"])
-        if got[idx_r + 1:idx_res] != tok.encode(query):
-            print(f"QUERY_MISMATCH index {index}: span does not encode "
-                  f"{query!r}")
+        problem = verify_episode_semantics(episode, got, tok)
+        if problem is not None:
+            print(f"SEMANTIC_MISMATCH index {index}: {problem}")
             return 1
-        oracle = BM25Index([d["text"] for d in episode["documents"]])
-        top_text = episode["documents"][oracle.top(query)]["text"]
-        if got[idx_res + 1:idx_a] != tok.encode(top_text):
-            print(f"RESULT_MISMATCH index {index}: span does not encode "
-                  f"the oracle top document")
-            return 1
+        n_traces = sum(1 for _ in iter_traces(got, sid))
         print(f"sample {n}: chunk {ch['id']} episode {k} index {index} ok, "
-              f"{len(got)} tokens, query {query!r}, "
-              f"result doc {top_text[:60]!r}")
+              f"{len(got)} tokens, {n_traces} traces verified per hop")
 
     print(f"ORACLE_VERIFY_OK {samples} samples")
     return 0
