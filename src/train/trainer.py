@@ -58,6 +58,12 @@ class Trainer:
 
         self.model = model.to(device)
 
+        # torch.compile wraps the forward pass only; parameters, optimizer
+        # state, and checkpoints stay on the eager module, so state_dict
+        # keys are unchanged and checkpoints resume with or without compile.
+        self.compile = bool(train_cfg.get("compile", False))
+        self.run_model = torch.compile(self.model) if self.compile else self.model
+
         opt_cfg = cfg["optimizer"]
         decay, no_decay = [], []
         for param in self.model.parameters():
@@ -134,9 +140,9 @@ class Trainer:
                 targets = targets.to(self.device, non_blocking=True)
                 if self.use_autocast:
                     with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-                        _, loss = self.model(inputs, targets)
+                        _, loss = self.run_model(inputs, targets)
                 else:
-                    _, loss = self.model(inputs, targets)
+                    _, loss = self.run_model(inputs, targets)
                 (loss / self.grad_accum_steps).backward()
                 step_loss += loss.item() / self.grad_accum_steps
             if self.grad_clip > 0:
