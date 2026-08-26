@@ -4,6 +4,7 @@ logging, deterministic seeding, and resume from checkpoint."""
 
 import json
 import math
+import os
 import time
 from pathlib import Path
 
@@ -43,6 +44,9 @@ class Trainer:
         self.cfg = cfg
         self.out_dir = Path(out_dir)
         self.out_dir.mkdir(parents=True, exist_ok=True)
+        # Remove temp files left behind by an interrupted checkpoint write.
+        for stale in self.out_dir.glob("*.pt.tmp"):
+            stale.unlink(missing_ok=True)
         if device is None:
             device = "cuda" if torch.cuda.is_available() else "cpu"
         self.device = device
@@ -107,9 +111,16 @@ class Trainer:
         if self.device == "cuda":
             state["cuda_rng"] = torch.cuda.get_rng_state_all()
         path = self.out_dir / (name or f"ckpt-{self.step:07d}.pt")
-        torch.save(state, path)
-        torch.save(state, self.out_dir / "latest.pt")
+        self._atomic_save(state, path)
+        self._atomic_save(state, self.out_dir / "latest.pt")
         return path
+
+    def _atomic_save(self, state: dict, path: Path) -> None:
+        """Write to a temp file in the same directory, then rename over path,
+        so a crash mid-write never leaves a truncated checkpoint behind."""
+        tmp = path.with_name(path.name + ".tmp")
+        torch.save(state, tmp)
+        os.replace(tmp, path)
 
     def load_checkpoint(self, path: str) -> None:
         state = torch.load(path, map_location=self.device, weights_only=False)
