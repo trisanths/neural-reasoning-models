@@ -108,9 +108,13 @@ Remaining work:
    scripts/curve/). Checkpoint sync is in flight; the eval battery
    (scripts/eval_battery.py, scripts/compute_verdict.py) runs per lane as
    checkpoints land.
-2. Regime D, the weakened-form pretraining diet: render 7.0B tokens with
-   scripts/render_regime_b.py --worldgen-retrieval (natural 0.80,
-   worldgen-with-retrieval 0.15, procgen 0.05, seed 41414) on the dev box
-   and stage to s3://decoupled-reasoner-009398924577/data/regime_d/.
+2. Regime D, the weakened-form pretraining diet: rendered on the dev box
+   with scripts/render_regime_b.py --worldgen-retrieval (seed 41414,
+   natural 0.80, worldgen-with-retrieval 0.15, procgen 0.05, 4 procs):
+   212 chunks, 7,113,855,219 tokens, measured shares exactly
+   0.8000/0.1500/0.0500, DONE reason target_reached. The merged index
+   loads in ShardReader (636 shards) and decoded windows from all three
+   sources read correctly. Staged to
+   s3://decoupled-reasoner-009398924577/data/regime_d/.
 3. Weakened-form additions not yet built: the frequency-ordered resident
    knowledge diet and the teacher distillation arm.

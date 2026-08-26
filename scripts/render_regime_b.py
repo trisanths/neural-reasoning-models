@@ -10,6 +10,14 @@ Three token sources feed one interleaved uint16 stream:
   procgen   procedural warm-up examples mapped into the reserved vocab
             range [PROCGEN_OFFSET, PROCGEN_OFFSET + 256).
 
+With --worldgen-retrieval the worldgen share is instead rendered through
+src/train/retrieval.py with the same multi-hop trace conventions as regime
+C (<|retrieve|> query <|result|> chunk rounds between question and answer).
+That variant is regime D, the weakened-form diet: natural text plus
+retrieval-trace episodes mixed. The flag changes nothing about the natural
+or procgen sources and is off by default, so plain regime B renders are
+unchanged.
+
 Default mix by tokens: 80 percent natural, 15 percent worldgen, 5 percent
 procgen. Within a chunk the next segment always comes from the source
 furthest below its target share, so the realized mix tracks the target
@@ -54,6 +62,7 @@ from src.procgen.cli import DEFAULT_MIX as PROCGEN_DEFAULT_MIX
 from src.procgen.cli import GENERATORS as PROCGEN_GENERATORS
 from src.procgen.cli import parse_mix as parse_procgen_mix
 from src.train.data import INDEX_NAME, ShardReader, ShardWriter, render_episode
+from src.train.retrieval import render_episode_retrieval
 from src.train.tokenizer import PROCGEN_OFFSET, load_tokenizer
 from src.worldgen.domains import DOMAIN_ORDER
 from src.worldgen.engine import generate_episodes
@@ -111,15 +120,17 @@ class NaturalSampler:
 
 
 class WorldgenSampler:
-    """Yields whole episodes rendered without retrieval traces."""
+    """Yields whole episodes, plain QA by default, retrieval traces when
+    retrieval is set (the regime D worldgen share)."""
 
     def __init__(self, tok, base_seed: int, chunk_id: int, stride: int,
                  domains, contradiction_rate: float, filler_rate: float,
-                 max_doc_tokens):
+                 max_doc_tokens, retrieval: bool = False):
         self.tok = tok
         self.index_base = chunk_id * stride
         self.stride = stride
         self.max_doc_tokens = max_doc_tokens
+        self.retrieval = retrieval
         self.episodes = 0
         self.stream = generate_episodes(
             base_seed, stride, domains=domains,
@@ -133,8 +144,8 @@ class WorldgenSampler:
                 f"chunk exhausted its worldgen index stride of {self.stride}; "
                 f"raise --episode-stride")
         self.episodes += 1
-        return render_episode(episode, self.tok,
-                              max_doc_tokens=self.max_doc_tokens)
+        render = render_episode_retrieval if self.retrieval else render_episode
+        return render(episode, self.tok, max_doc_tokens=self.max_doc_tokens)
 
 
 class ProcgenSampler:
@@ -187,7 +198,7 @@ def _render_chunk(chunk_id: int) -> dict:
         samplers["worldgen"] = WorldgenSampler(
             _G["tok"], p["base_seed"], chunk_id, p["episode_stride"],
             p["domains"], p["contradiction_rate"], p["filler_rate"],
-            p["max_doc_tokens"])
+            p["max_doc_tokens"], retrieval=p["worldgen_retrieval"])
     if "procgen" in mix:
         samplers["procgen"] = ProcgenSampler(
             _G["procgen_mix"],
@@ -260,7 +271,8 @@ def write_manifest(out_dir, params, tokenizer_path) -> dict:
         for name, n in chunk["source_tokens"].items():
             totals[name] += n
     manifest = {
-        "regime": "b",
+        "regime": "d" if params["worldgen_retrieval"] else "b",
+        "worldgen_retrieval": params["worldgen_retrieval"],
         "base_seed": params["base_seed"],
         "mix": params["mix"],
         "natural_shards": params["natural_shards"],
@@ -309,6 +321,10 @@ def main(argv=None):
     parser.add_argument("--mix-natural", type=float, default=0.80)
     parser.add_argument("--mix-worldgen", type=float, default=0.15)
     parser.add_argument("--mix-procgen", type=float, default=0.05)
+    parser.add_argument("--worldgen-retrieval", action="store_true",
+                        help="render the worldgen share with multi-hop "
+                             "retrieval traces (regime C conventions) instead "
+                             "of plain QA episodes; this is regime D")
     parser.add_argument("--natural-window", type=int, default=4096,
                         help="tokens per resampled natural window")
     parser.add_argument("--procgen-mix", default=PROCGEN_DEFAULT_MIX,
@@ -356,12 +372,14 @@ def main(argv=None):
         "chunk_tokens": args.chunk_tokens,
         "max_doc_tokens": args.max_doc_tokens,
         "shard_size": args.shard_size,
+        "worldgen_retrieval": args.worldgen_retrieval,
     }
 
     done = scan_done(out_dir)
     done_ids = {c["id"] for c in done}
     total_tokens = sum(c["tokens"] for c in done)
     print(f"render_regime_b start seed {args.seed} mix {mix} "
+          f"worldgen_retrieval {args.worldgen_retrieval} "
           f"chunk_tokens {args.chunk_tokens} num_chunks {max_chunks} "
           f"target_tokens {args.target_tokens} procs {args.procs} "
           f"out {out_dir}", flush=True)

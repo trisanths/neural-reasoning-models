@@ -197,6 +197,69 @@ def test_target_tokens_stops_early(tok_path, natural_dir, tmp_path_factory):
     assert manifest["total_tokens"] >= CHUNK_TOKENS
 
 
+def test_worldgen_retrieval_flag_renders_regime_d(tok_path, natural_dir,
+                                                  tmp_path_factory):
+    """--worldgen-retrieval puts multi-hop traces in the worldgen segments
+    and nowhere else; natural and procgen segments match the plain samplers."""
+    out = tmp_path_factory.mktemp("regimed_out")
+    assert run_render(out, tok_path, natural_dir, procs=1,
+                      extra=["--worldgen-retrieval"]) == 0
+    tok = load_tokenizer(tok_path)
+    sid = tok.special_ids
+    with open(out / "manifest.json") as fh:
+        manifest = json.load(fh)
+    assert manifest["regime"] == "d"
+    assert manifest["worldgen_retrieval"] is True
+
+    chunk = manifest["chunks"][0]
+    reader = ShardReader(str(out / "chunk-00000"))
+    stream = reader.get_slice(0, reader.total_tokens)
+    counts = np.bincount(stream, minlength=tok.vocab_size)
+    assert counts[sid["<|retrieve|>"]] > 0
+    assert counts[sid["<|result|>"]] > 0
+
+    # Replay the chunk's worldgen stream with the retrieval sampler. Its
+    # token total must match the manifest's worldgen share, and it must
+    # account for every trace token in the chunk, which proves the traces
+    # sit only in worldgen segments.
+    sampler = render_regime_b.WorldgenSampler(
+        tok, BASE_SEED, 0, manifest["episode_stride"], manifest["domains"],
+        manifest["contradiction_rate"], manifest["filler_rate"],
+        manifest["max_doc_tokens"], retrieval=True)
+    wg_tokens: list = []
+    for _ in range(chunk["worldgen_episodes"]):
+        wg_tokens.extend(sampler.next_segment())
+    assert len(wg_tokens) == chunk["source_tokens"]["worldgen"]
+    wg_counts = np.bincount(np.asarray(wg_tokens), minlength=tok.vocab_size)
+    assert wg_counts[sid["<|retrieve|>"]] == counts[sid["<|retrieve|>"]]
+    assert wg_counts[sid["<|result|>"]] == counts[sid["<|result|>"]]
+
+    # The natural share replays byte for byte from the plain natural
+    # sampler, so the flag left it untouched, and it carries no trace ids.
+    nat = render_regime_b.NaturalSampler(
+        ShardReader(natural_dir), NATURAL_WINDOW,
+        np.random.default_rng((BASE_SEED, 0, 1)))
+    nat_tokens = np.concatenate(
+        [nat.next_segment() for _ in range(chunk["natural_windows"])])
+    assert nat_tokens.size == chunk["source_tokens"]["natural"]
+    assert sid["<|retrieve|>"] not in nat_tokens
+    assert sid["<|result|>"] not in nat_tokens
+
+    # The procgen share replays from the plain procgen sampler and stays in
+    # the reserved range, so it is untouched too. Reserved-range tokens in
+    # the chunk come only from procgen, and their histograms match.
+    proc = render_regime_b.ProcgenSampler(
+        render_regime_b.parse_procgen_mix(manifest["procgen_mix"]),
+        np.random.default_rng((BASE_SEED, 0, 2)))
+    proc_tokens = np.concatenate(
+        [proc.next_segment() for _ in range(chunk["procgen_examples"])])
+    assert proc_tokens.size == chunk["source_tokens"]["procgen"]
+    lo, hi = PROCGEN_OFFSET, PROCGEN_OFFSET + PROCGEN_SYMBOLS
+    assert proc_tokens.min() >= lo and proc_tokens.max() < hi
+    proc_counts = np.bincount(proc_tokens, minlength=tok.vocab_size)
+    np.testing.assert_array_equal(counts[lo:hi], proc_counts[lo:hi])
+
+
 def test_mix_normalization_rejects_bad_weights():
     with pytest.raises(ValueError):
         render_regime_b.normalize_mix(-1.0, 0.5, 0.5)
