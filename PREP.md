@@ -96,12 +96,21 @@ Launched detached on this instance, log ~/logs/regime_c_full.log:
 Oracle spot-check on a fresh 3-chunk render: byte round-trip from seeds and
 per-hop top-1 support both pass (ORACLE_VERIFY_OK, 3 samples).
 
-## Open items before the kill test
+## Open items after the kill test
 
-1. Regime C render completion, then the shard checks from scripts/decode_trace
-   (--shards scan plus --manifest oracle mode) on the full output.
-2. Kill-test launch on two p5.4xlarge: train the 350M model under regime A
-   and regime C, about 7B tokens each.
-3. Score both models on the naturalized reading suite, the knowledge probes,
-   and the retrieval-noise axis, then apply the pre-registered decision rule
-   in SPEC.md section 7.
+The kill test is done and scored. Verdict: the strict form is dead. Regime C
+scored 0.0000 contains-answer on all 250 naturalized items on every seed
+against a regime A mean of 0.2053, ratio 0.0000, below the 0.6 threshold of
+SPEC.md section 7. Full numbers in results/killtest-2026-08-26/ and PLAN.md.
+Remaining work:
+
+1. Phase 2 scaling curve: eight lanes running on the training box (CURVE.md,
+   scripts/curve/). Checkpoint sync is in flight; the eval battery
+   (scripts/eval_battery.py, scripts/compute_verdict.py) runs per lane as
+   checkpoints land.
+2. Regime D, the weakened-form pretraining diet: render 7.0B tokens with
+   scripts/render_regime_b.py --worldgen-retrieval (natural 0.80,
+   worldgen-with-retrieval 0.15, procgen 0.05, seed 41414) on the dev box
+   and stage to s3://decoupled-reasoner-009398924577/data/regime_d/.
+3. Weakened-form additions not yet built: the frequency-ordered resident
+   knowledge diet and the teacher distillation arm.
