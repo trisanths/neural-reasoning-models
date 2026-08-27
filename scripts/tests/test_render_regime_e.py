@@ -1,0 +1,285 @@
+import json
+import random
+import shutil
+from pathlib import Path
+
+import numpy as np
+import pyarrow as pa
+import pyarrow.parquet as pq
+import pytest
+
+from scripts import render_regime_e
+from src.train.data import ShardReader
+from src.train.tokenizer import (PROCGEN_OFFSET, PROCGEN_SYMBOLS,
+                                 load_tokenizer, train_tokenizer)
+
+BASE_SEED = 917
+# One rendered worldgen retrieval episode is a few thousand tokens, so the
+# chunk has to be large enough for the 10 percent share to hold at least one.
+CHUNK_TOKENS = 40000
+NUM_CHUNKS = 3
+NATURAL_WINDOW = 256
+
+# Real-world anchors planted in every raw document. The scrubber must keep
+# all of them out of the rendered stream.
+REAL_ENTITIES = ["Einstein", "Paris", "NASA", "Curie", "Lisbon"]
+
+
+@pytest.fixture(scope="module")
+def tok_path(tmp_path_factory):
+    base = tmp_path_factory.mktemp("regimeecorpus")
+    rng = random.Random(23)
+    words = [
+        "lomera", "vantrix", "korath", "acquired", "shipped", "company",
+        "officer", "route", "the", "of", "reports", "that", "cargo", "who",
+        "held", "contract", "quarter", "filing", "memo", "note", "sentence",
+        "mentions", "passage", "does", "what", "when", "where", "many",
+    ]
+    corpus = base / "corpus.txt"
+    with open(corpus, "w") as fh:
+        for _ in range(1500):
+            fh.write(" ".join(rng.choices(words, k=10)) + "\n")
+    path = base / "tokenizer.json"
+    train_tokenizer([str(corpus)], out_path=str(path), vocab_size=1024)
+    return str(path)
+
+
+@pytest.fixture(scope="module")
+def parquet_dir(tmp_path_factory):
+    out = tmp_path_factory.mktemp("regimee_parquet")
+    rng = random.Random(31)
+    subjects = ["Einstein", "Marie Curie", "NASA", "the harbor office",
+                "the northern depot"]
+    places = ["Paris", "Lisbon"]
+    verbs = ["reported", "shipped", "audited", "approved", "recorded"]
+    objects = ["a quarterly filing", "the cargo manifest", "an old ledger",
+               "the survey results", "a repair contract"]
+    # Every document opens with a sentence that mentions each planted
+    # entity mid-sentence, so the scrubber's sentence-start heuristic has
+    # the evidence it needs to treat later sentence-initial mentions as
+    # entities.
+    preamble = ("The council heard from Einstein, Marie Curie, NASA, "
+                "Paris, and Lisbon before the review.")
+    for fi in range(2):
+        texts = []
+        for _ in range(120):
+            sents = [preamble]
+            for _ in range(rng.randint(6, 10)):
+                sents.append(
+                    f"{rng.choice(subjects)} {rng.choice(verbs)} "
+                    f"{rng.choice(objects)} in {rng.choice(places)} "
+                    f"in {rng.randint(1900, 2020)} with "
+                    f"{rng.randint(4, 900)} staff.")
+            texts.append(" ".join(sents))
+        table = pa.table({"text": texts})
+        pq.write_table(table, out / f"{fi:03d}.parquet", row_group_size=40)
+    return str(out)
+
+
+def run_render(out: Path, tok_path: str, parquet_dir: str, procs: int = 2,
+               extra: list | None = None) -> int:
+    return render_regime_e.main([
+        "--out", str(out),
+        "--tokenizer", tok_path,
+        "--parquet-dir", parquet_dir,
+        "--seed", str(BASE_SEED),
+        "--chunk-tokens", str(CHUNK_TOKENS),
+        "--num-chunks", str(NUM_CHUNKS),
+        "--natural-window", str(NATURAL_WINDOW),
+        "--qa-per-passage", "4",
+        "--qa-passage-chars", "600",
+        "--procs", str(procs),
+    ] + (extra or []))
+
+
+def chunk_bytes(chunk_dir: Path) -> bytes:
+    return b"".join(p.read_bytes() for p in sorted(chunk_dir.glob("*.bin")))
+
+
+@pytest.fixture(scope="module")
+def rendered(tok_path, parquet_dir, tmp_path_factory):
+    out = tmp_path_factory.mktemp("regimee_out")
+    assert run_render(out, tok_path, parquet_dir) == 0
+    return out
+
+
+def test_chunks_manifest_and_merged_index(rendered):
+    with open(rendered / "manifest.json") as fh:
+        manifest = json.load(fh)
+    assert manifest["regime"] == "e"
+    assert len(manifest["chunks"]) == NUM_CHUNKS
+    for chunk in manifest["chunks"]:
+        chunk_dir = rendered / f"chunk-{chunk['id']:05d}"
+        assert (chunk_dir / "index.json").exists()
+        assert Path(str(chunk_dir) + ".done").exists()
+        assert chunk["tokens"] >= CHUNK_TOKENS
+        reader = ShardReader(str(chunk_dir))
+        assert reader.total_tokens == chunk["tokens"]
+        assert chunk["tokens"] == sum(chunk["source_tokens"].values())
+    assert manifest["total_tokens"] == sum(
+        c["tokens"] for c in manifest["chunks"])
+    merged = ShardReader(str(rendered))
+    assert merged.total_tokens == manifest["total_tokens"]
+    first = ShardReader(str(rendered / "chunk-00000"))
+    n = first.total_tokens
+    np.testing.assert_array_equal(
+        merged.get_slice(n - 8, 16)[:8], first.get_slice(n - 8, 8))
+
+
+def test_mix_tracks_targets(rendered):
+    with open(rendered / "manifest.json") as fh:
+        manifest = json.load(fh)
+    total = manifest["total_tokens"]
+    shares = {k: v / total
+              for k, v in manifest["total_source_tokens"].items()}
+    # Segments are coarse relative to these tiny chunks, so the tolerance
+    # is loose; a full size chunk tracks far tighter.
+    assert abs(shares["natural"] - 0.70) < 0.10
+    assert abs(shares["qa"] - 0.15) < 0.10
+    assert abs(shares["worldgen"] - 0.10) < 0.10
+    assert abs(shares["procgen"] - 0.05) < 0.04
+    for chunk in manifest["chunks"]:
+        assert chunk["natural_docs"] > 0
+        assert chunk["qa_traces"] > 0
+        assert chunk["qa_pairs"] >= chunk["qa_traces"]
+        assert chunk["worldgen_episodes"] > 0
+        assert chunk["procgen_examples"] > 0
+
+
+def test_worldgen_index_ranges_disjoint(rendered):
+    with open(rendered / "manifest.json") as fh:
+        manifest = json.load(fh)
+    stride = manifest["episode_stride"]
+    for chunk in manifest["chunks"]:
+        assert chunk["worldgen_index_base"] == chunk["id"] * stride
+        assert chunk["worldgen_episodes"] < stride
+    bases = [c["worldgen_index_base"] for c in manifest["chunks"]]
+    assert len(set(bases)) == len(bases)
+    top = max(bases) + stride
+    assert top <= render_regime_e.HELDOUT_INDEX_BASE
+
+
+def test_stream_contents(rendered, tok_path):
+    tok = load_tokenizer(tok_path)
+    sid = tok.special_ids
+    reader = ShardReader(str(rendered))
+    tokens = reader.get_slice(0, reader.total_tokens)
+    counts = np.bincount(tokens, minlength=tok.vocab_size)
+    # QA and worldgen structure is present.
+    assert counts[sid["<|world|>"]] > 0
+    assert counts[sid["<|doc|>"]] > 0
+    assert counts[sid["<|q|>"]] > 0
+    assert counts[sid["<|a|>"]] > 0
+    # The worldgen share carries retrieval traces.
+    assert counts[sid["<|retrieve|>"]] > 0
+    assert counts[sid["<|result|>"]] > 0
+    # Procgen ids stay inside the reserved range and appear.
+    reserved = counts[PROCGEN_OFFSET:PROCGEN_OFFSET + PROCGEN_SYMBOLS]
+    assert reserved.sum() > 0
+    assert int(tokens.max()) < tok.vocab_size
+
+
+def test_no_unscrubbed_entity_survives(rendered, tok_path):
+    """Scrubber integration: the planted real-world entities from the raw
+    parquet text never reach the rendered stream, in any source."""
+    tok = load_tokenizer(tok_path)
+    reader = ShardReader(str(rendered))
+    text = tok.decode(list(reader.get_slice(0, reader.total_tokens)))
+    for entity in REAL_ENTITIES:
+        assert entity not in text
+    # The QA traces are present with their domain marker.
+    assert "domain: extractive_qa" in text
+
+
+def test_qa_traces_round_trip_from_stream(rendered, tok_path):
+    """Decode the stream, pull out every extractive QA trace, and verify
+    each answer is derivable from its passage by string operations."""
+    tok = load_tokenizer(tok_path)
+    reader = ShardReader(str(rendered))
+    text = tok.decode(list(reader.get_slice(0, reader.total_tokens)))
+    traces = [seg for seg in text.split("<|world|>")
+              if seg.startswith("domain: extractive_qa")]
+    assert traces
+    checked = 0
+    for trace in traces:
+        passage = trace.partition("<|doc|>")[2].partition("<|q|>")[0]
+        assert passage.strip()
+        body = trace.partition("<|q|>")[2]
+        for block in body.split("<|q|>"):
+            q_and_a, _, tail = block.partition("<|a|>")
+            answer = tail.partition("<|eot|>")[0]
+            assert q_and_a.endswith("?")
+            if answer in ("yes", "no"):
+                subject = q_and_a.partition('"')[2].rpartition('"')[0]
+                assert subject
+                assert (subject in passage) == (answer == "yes")
+            else:
+                assert answer in passage
+            checked += 1
+    assert checked > 0
+
+
+def test_deterministic_across_runs(rendered, tok_path, parquet_dir,
+                                   tmp_path_factory):
+    out2 = tmp_path_factory.mktemp("regimee_out2")
+    assert run_render(out2, tok_path, parquet_dir, procs=1) == 0
+    for k in range(NUM_CHUNKS):
+        a = chunk_bytes(rendered / f"chunk-{k:05d}")
+        b = chunk_bytes(out2 / f"chunk-{k:05d}")
+        assert a == b
+
+
+def test_restart_skips_done_and_rerenders_partial(rendered, tok_path,
+                                                  parquet_dir):
+    target = rendered / "chunk-00001"
+    before = chunk_bytes(target)
+    with open(rendered / "chunk-00000.done") as fh:
+        untouched_before = json.load(fh)
+    # Simulate a kill part way through chunk 1: marker gone, files partial.
+    Path(str(target) + ".done").unlink()
+    shutil.rmtree(target)
+    target.mkdir()
+    (target / "shard-00000.bin").write_bytes(b"\x00\x01garbage")
+    assert run_render(rendered, tok_path, parquet_dir) == 0
+    assert chunk_bytes(target) == before
+    with open(rendered / "chunk-00000.done") as fh:
+        assert json.load(fh) == untouched_before
+    merged = ShardReader(str(rendered))
+    with open(rendered / "manifest.json") as fh:
+        assert merged.total_tokens == json.load(fh)["total_tokens"]
+
+
+def test_target_tokens_stops_early(tok_path, parquet_dir, tmp_path_factory):
+    out = tmp_path_factory.mktemp("regimee_early")
+    rc = render_regime_e.main([
+        "--out", str(out),
+        "--tokenizer", tok_path,
+        "--parquet-dir", parquet_dir,
+        "--seed", str(BASE_SEED),
+        "--chunk-tokens", str(CHUNK_TOKENS),
+        "--target-tokens", str(CHUNK_TOKENS),
+        "--natural-window", str(NATURAL_WINDOW),
+        "--qa-per-passage", "4",
+        "--qa-passage-chars", "600",
+        "--procs", "1",
+    ])
+    assert rc == 0
+    with open(out / "manifest.json") as fh:
+        manifest = json.load(fh)
+    assert 1 <= len(manifest["chunks"]) <= 2
+    assert manifest["total_tokens"] >= CHUNK_TOKENS
+
+
+def test_mix_normalization_and_type_mix_parsing():
+    with pytest.raises(ValueError):
+        render_regime_e.normalize_mix({"natural": -1.0, "qa": 0.5})
+    with pytest.raises(ValueError):
+        render_regime_e.normalize_mix({"natural": 0.0, "qa": 0.0})
+    mix = render_regime_e.normalize_mix({"natural": 1.0, "qa": 0.0,
+                                         "worldgen": 1.0})
+    assert set(mix) == {"natural", "worldgen"}
+    assert abs(sum(mix.values()) - 1.0) < 1e-9
+    parsed = render_regime_e.parse_type_mix("span_cloze=1,existence=1")
+    assert parsed == {"span_cloze": 0.5, "existence": 0.5}
+    with pytest.raises(ValueError):
+        render_regime_e.parse_type_mix("bogus=1")
