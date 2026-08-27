@@ -2,7 +2,7 @@
 
 Usage:
   uv run python -m src.train.cli --config configs/smoke.yaml --data DIR \
-      --out RUNDIR [--warmup-bin PATH] [--resume]
+      --out RUNDIR [--warmup-bin PATH] [--resume] [--loops N]
 
 The data directory must hold uint16 shards with an index.json, as produced by
 src.train.data. When --warmup-bin is given and schedule.warmup_phase_steps is
@@ -29,6 +29,12 @@ def build_argparser() -> argparse.ArgumentParser:
     parser.add_argument("--resume", action="store_true", help="resume from OUT/latest.pt")
     parser.add_argument("--device", default=None, help="cuda or cpu, default auto")
     parser.add_argument("--max-steps", type=int, default=None, help="override schedule.max_steps")
+    parser.add_argument(
+        "--loops",
+        type=int,
+        default=None,
+        help="override model.recurrent.loops, the depth dial on a recurrent config",
+    )
     return parser
 
 
@@ -38,11 +44,19 @@ def main(argv: list[str] | None = None) -> int:
         cfg = yaml.safe_load(fh)
     if args.max_steps is not None:
         cfg["schedule"]["max_steps"] = args.max_steps
+    if args.loops is not None:
+        if "recurrent" not in cfg["model"] or cfg["model"]["recurrent"] is None:
+            raise SystemExit("--loops needs a config with a model.recurrent block")
+        cfg["model"]["recurrent"]["loops"] = args.loops
 
     model = TransformerLM(ModelConfig(**cfg["model"]))
     trainer = Trainer(model, cfg, args.out, device=args.device)
     print(f"model params {model.num_params(non_embedding=False):,} "
           f"({model.num_params():,} non embedding), device {trainer.device}")
+    if model.cfg.recurrent is not None:
+        info = model.describe()
+        print(f"recurrence on: {model.cfg.n_layers} unique layers, {info['loops']} loops, "
+              f"effective depth {info['effective_depth']}")
 
     if args.resume:
         latest = Path(args.out) / "latest.pt"

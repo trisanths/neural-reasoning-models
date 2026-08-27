@@ -1,0 +1,50 @@
+# 350M class with looped depth, the test time compute lever.
+#
+# Parameter matched against configs/350m.yaml (375,440,384 total) at
+# 375,087,360 total, 0.09 percent below it, but with 14 unique layers instead
+# of 24 and a core of 11 layers looped 4 times. Effective depth at the default
+# loop count is 1 + 11*4 + 2 = 47 layer applications, against 24 for the
+# standard 350m, so training FLOPs per token are roughly 3.1x while the
+# parameter count is held. train_loop_sampling makes the loop count a dial:
+# every step trains at a depth drawn from 1 to 8 loops, which is 14 to 90
+# effective layers, and generate time can pick any of them.
+#
+# Steps are sized for the same 7.0B token budget as 350m: 26700 steps at
+# 262144 tokens per optimizer step.
+model:
+  vocab_size: 32768
+  d_model: 1280
+  n_layers: 14
+  n_heads: 20
+  d_ff: 3648
+  max_seq_len: 4096
+  rope_theta: 10000.0
+  norm_eps: 1.0e-5
+  recurrent:
+    prelude_layers: 1
+    core_layers: 11
+    coda_layers: 2
+    loops: 4
+    loop_embedding: true
+    train_loop_sampling: [1, 8]
+    backprop_last_k: null
+    grad_checkpoint: true
+    inject_prelude: true
+optimizer:
+  lr: 3.0e-4
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-8
+schedule:
+  warmup_steps: 500
+  max_steps: 26700
+  min_lr_ratio: 0.1
+  warmup_phase_steps: 55
+train:
+  batch_size: 4
+  grad_accum_steps: 16
+  grad_clip: 1.0
+  seed: 1234
+  log_interval: 20
+  ckpt_interval: 1000

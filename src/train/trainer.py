@@ -1,6 +1,11 @@
 """Training loop: AdamW, cosine schedule with warmup, gradient accumulation,
 bf16 autocast on cuda, gradient clipping, periodic checkpoints, jsonl loss
-logging, deterministic seeding, and resume from checkpoint."""
+logging, deterministic seeding, and resume from checkpoint.
+
+When the model config sets model.recurrent.train_loop_sampling, the loop count
+is drawn once per optimizer step from its own generator and held across every
+micro batch of that step, so the sampled depth is reproducible from the train
+seed and independent of the data order."""
 
 import json
 import math
@@ -12,6 +17,10 @@ import numpy as np
 import torch
 
 from src.train.model import TransformerLM
+
+# Offset so the loop count stream never coincides with the global torch stream
+# seeded from the same number.
+LOOP_SEED_OFFSET = 9973
 
 
 def cosine_lr(step: int, base_lr: float, warmup_steps: int, max_steps: int, min_lr_ratio: float) -> float:
@@ -68,6 +77,21 @@ class Trainer:
         self.compile = bool(train_cfg.get("compile", False))
         self.run_model = torch.compile(self.model) if self.compile else self.model
 
+        # Depth recurrence. Sampling the loop count changes the traced graph,
+        # so with compile on dynamo keeps one compiled variant per distinct
+        # loop count; the cache limit is raised to cover the sampling range.
+        recurrent = getattr(self.model.cfg, "recurrent", None)
+        self.loop_sampling = recurrent is not None and recurrent.train_loop_sampling is not None
+        self.loop_generator = torch.Generator()
+        self.loop_generator.manual_seed(self.seed + LOOP_SEED_OFFSET)
+        if self.compile and self.loop_sampling:
+            # Imported as _dynamo rather than torch._dynamo: the latter would
+            # make torch a local name for the whole of __init__.
+            from torch import _dynamo
+
+            span = int(recurrent.train_loop_sampling[1]) - int(recurrent.train_loop_sampling[0]) + 1
+            _dynamo.config.cache_size_limit = max(_dynamo.config.cache_size_limit, 4 * span + 8)
+
         opt_cfg = cfg["optimizer"]
         decay, no_decay = [], []
         for param in self.model.parameters():
@@ -107,6 +131,7 @@ class Trainer:
             "step": self.step,
             "config": self.cfg,
             "torch_rng": torch.get_rng_state(),
+            "loop_rng": self.loop_generator.get_state(),
         }
         if self.device == "cuda":
             state["cuda_rng"] = torch.cuda.get_rng_state_all()
@@ -128,6 +153,9 @@ class Trainer:
         self.optimizer.load_state_dict(state["optimizer"])
         self.step = int(state["step"])
         torch.set_rng_state(state["torch_rng"].cpu())
+        # Checkpoints written before depth recurrence have no loop stream.
+        if "loop_rng" in state:
+            self.loop_generator.set_state(state["loop_rng"].cpu())
         if self.device == "cuda" and "cuda_rng" in state:
             torch.cuda.set_rng_state_all([r.cpu() for r in state["cuda_rng"]])
 
@@ -143,6 +171,7 @@ class Trainer:
             lr = self.lr_at(self.step)
             for group in self.optimizer.param_groups:
                 group["lr"] = lr
+            loops = self.model.sample_loops(self.loop_generator) if self.loop_sampling else None
             self.optimizer.zero_grad(set_to_none=True)
             step_loss = 0.0
             for _ in range(self.grad_accum_steps):
@@ -162,14 +191,15 @@ class Trainer:
             self.step += 1
             losses.append(step_loss)
             if self.step % self.log_interval == 0 or self.step == target:
-                self._log(
-                    {
-                        "step": self.step,
-                        "loss": step_loss,
-                        "lr": lr,
-                        "elapsed_s": round(time.time() - start_time, 3),
-                    }
-                )
+                record = {
+                    "step": self.step,
+                    "loss": step_loss,
+                    "lr": lr,
+                    "elapsed_s": round(time.time() - start_time, 3),
+                }
+                if loops is not None:
+                    record["loops"] = loops
+                self._log(record)
             if self.ckpt_interval > 0 and self.step % self.ckpt_interval == 0:
                 self.save_checkpoint()
         if self.step == target:
