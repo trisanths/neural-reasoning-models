@@ -12,17 +12,19 @@ bigram survival: for the 50 most frequent capitalized bigrams in the
 raw sample, the fraction that still appear intact anywhere after
 scrubbing. The raw baseline is 1.0 by construction.
 
-entity-pair survival: among the most frequent detected entity forms,
-the pairs that co-occur in at least one raw document of the sample; the
-fraction still co-occurring in at least one scrubbed document. The raw
-baseline is 1.0 by construction. Under the shuffle policy a pair can
-survive by chance reassignment, so this is the criterion to watch
-there.
+entity-pair survival: among the most frequent multiword detected entity
+forms, the pairs that co-occur in at least one raw document of the
+sample; the fraction still co-occurring in at least one scrubbed
+document. The raw baseline is 1.0 by construction. Multiword runs are
+name-like and the scrubber replaces them unconditionally, so common
+capitalized sentence starters cannot pollute the measurement. Under the
+shuffle policy a pair can survive by chance reassignment, so this is
+the criterion to watch there.
 
-top-form coverage: the fraction of the most frequent detected entity
-forms appearing anywhere in the scrubbed output. Near zero under
-invent; high under shuffle, which is the policy's purpose: real name
-tokens keep training signal.
+top-form coverage: the fraction of those same multiword name forms
+appearing anywhere in the scrubbed output. Near zero under invent; high
+under shuffle, which is the policy's purpose: real name tokens keep
+training signal.
 
 It also reports single core scrub throughput on the sampled text.
 
@@ -223,7 +225,8 @@ def main():
 
     t0 = time.perf_counter()
     counts = harvest_counts(docs)
-    forms = [f for f, _ in counts.most_common(args.top_forms)]
+    forms = [f for f, _ in counts.most_common() if " " in f]
+    forms = forms[:args.top_forms]
     pool = None
     if args.policy == "shuffle":
         pool = pool_from_counts(counts, max_forms=args.pool_max_forms,
