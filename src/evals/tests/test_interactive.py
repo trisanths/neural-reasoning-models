@@ -286,3 +286,63 @@ def test_retrieval_answer_fn_echoes_served_chunk(tok):
                                          max_rounds=1, max_new_tokens=64)
     for ex in examples:
         assert answer_fn(ex["question"], ex["chunks"]) == ex["answer"]
+
+
+class GrowingFakeIndex:
+    """Injected-index stand-in shaped like the web tier's WebTierIndex:
+    doc_texts starts empty and grows as queries register chunks, and an
+    unanswerable query raises ValueError."""
+
+    def __init__(self, chunks_by_query):
+        self.chunks_by_query = dict(chunks_by_query)
+        self.doc_texts: list[str] = []
+
+    def top(self, query, exclude=()):
+        text = self.chunks_by_query.get(query)
+        if text is None:
+            raise ValueError("every document is excluded")
+        if text not in self.doc_texts:
+            self.doc_texts.append(text)
+        i = self.doc_texts.index(text)
+        if i in set(exclude):
+            raise ValueError("every document is excluded")
+        return i
+
+
+def test_injected_index_serves_growing_doc_texts(tok):
+    sid = tok.special_ids
+    prompt = [sid["<|q|>"], *tok.encode("find gamma delta")]
+    query_ids = tok.encode("gamma delta")
+    done_ids = tok.encode("done")
+    script = ([sid["<|retrieve|>"]] + query_ids + [sid["<|result|>"]]
+              + [sid["<|a|>"]] + done_ids + [sid["<|eot|>"]])
+    step = QueueStepFn(tok.vocab_size, script, filler=tok.encode("x")[0])
+    fake = GrowingFakeIndex({"gamma delta": DOCS[1]})
+
+    out = generate_with_retrieval(step, tok, [], prompt, max_rounds=2,
+                                  max_new_tokens=64, seed=0, index=fake)
+    chunk_ids = tok.encode(DOCS[1])
+    expected = (prompt + [sid["<|retrieve|>"]] + query_ids
+                + [sid["<|result|>"]] + chunk_ids
+                + [sid["<|a|>"]] + done_ids + [sid["<|eot|>"]])
+    assert out["tokens"] == expected
+    assert out["n_rounds"] == 1
+    assert out["rounds"][0]["doc_index"] == 0
+    assert out["rounds"][0]["chunk"] == DOCS[1]
+    assert out["answer_text"] == "done"
+    assert fake.doc_texts == [DOCS[1]]
+
+
+def test_injected_index_empty_result_stops(tok):
+    sid = tok.special_ids
+    prompt = [sid["<|q|>"], *tok.encode("find gamma")]
+    query_ids = tok.encode("gamma")
+    script = [sid["<|retrieve|>"]] + query_ids + [sid["<|result|>"]]
+    step = QueueStepFn(tok.vocab_size, script, filler=tok.encode("x")[0])
+    fake = GrowingFakeIndex({})
+
+    out = generate_with_retrieval(step, tok, [], prompt, max_rounds=2,
+                                  max_new_tokens=64, seed=0, index=fake)
+    assert out["stop_reason"] == "max_rounds"
+    assert out["n_rounds"] == 0
+    assert fake.doc_texts == []

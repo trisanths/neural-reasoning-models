@@ -59,6 +59,7 @@ def generate_with_retrieval(
     max_new_tokens: int = 256,
     seed: int = 0,
     query_max_tokens: int = DEFAULT_QUERY_MAX_TOKENS,
+    index=None,
 ) -> dict:
     """Greedy-decode from prompt_tokens, serving retrieval as the model asks.
 
@@ -72,6 +73,16 @@ def generate_with_retrieval(
     matches the training layout.
     Served chunk tokens and inserted markers never count against
     max_new_tokens; every model emission does.
+
+    By default the serving index is built from episode_docs with the
+    training oracle's BM25. Passing index instead injects a serving
+    surface directly: any object with top(query, exclude) returning an
+    integer position into its own doc_texts list, which may grow as
+    queries arrive (the web tier's WebTierIndex does). With an injected
+    index episode_docs is ignored, the doc-count guard is skipped
+    because doc_texts can grow, and a top call that raises ValueError
+    stops the loop with stop_reason max_rounds, mirroring the built
+    path's exhaustion semantics.
 
     Stop conditions and the stop_reason they report:
       eot              the model emitted <|eot|> (kept in the trace)
@@ -95,8 +106,12 @@ def generate_with_retrieval(
     eot_id = sid["<|eot|>"]
     special_ids = set(sid.values())
 
-    doc_texts = _doc_texts(episode_docs)
-    index = _build_index(episode_docs, doc_texts) if doc_texts else None
+    injected = index is not None
+    if injected:
+        doc_texts = index.doc_texts
+    else:
+        doc_texts = _doc_texts(episode_docs)
+        index = _build_index(episode_docs, doc_texts) if doc_texts else None
 
     tokens = list(prompt_tokens)
     generated: list[int] = []
@@ -123,7 +138,7 @@ def generate_with_retrieval(
             continue
         if nxt == retrieve_id:
             if (index is None or len(rounds) >= max_rounds
-                    or len(rounds) >= len(doc_texts)):
+                    or (not injected and len(rounds) >= len(doc_texts))):
                 stop_reason = "max_rounds"
                 break
             tokens.append(nxt)
@@ -156,7 +171,14 @@ def generate_with_retrieval(
                 generated.append(result_id)
             query_text = tokenizer.decode(query_tokens)
             served = {r["doc_index"] for r in rounds}
-            doc_index = index.top(query_text, exclude=served)
+            try:
+                doc_index = index.top(query_text, exclude=served)
+            except ValueError:
+                # Nothing servable: an injected index found no documents
+                # for this query. The built path never lands here because
+                # the doc-count guard runs first.
+                stop_reason = "max_rounds"
+                break
             chunk_text = doc_texts[doc_index]
             chunk_tokens = tokenizer.encode(chunk_text)
             tokens.extend(chunk_tokens)
