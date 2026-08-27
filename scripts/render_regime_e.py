@@ -10,8 +10,11 @@ Four token sources feed one interleaved uint16 stream:
   qa        extractive QA traces from src/scrub/extractive_qa over scrubbed
             passages of the same parquet text, laid out with the worldgen
             special-token format (<|world|> domain marker, <|doc|> passage,
+            optional recap continuation lines closed by <|eot|>, then
             <|q|> question <|a|> answer <|eot|>) so the C-style elicitation
-            applies,
+            applies; the recap type in --qa-type-mix restates sentences
+            holding specific spans right after the document with no
+            question tokens,
   worldgen  episodes rendered with multi-hop retrieval traces through
             src/train/retrieval.py, the regime C machinery,
   procgen   procedural examples in the reserved vocab range.
@@ -63,8 +66,8 @@ import pyarrow.parquet as pq
 from scripts.render_regime_b import ProcgenSampler, WorldgenSampler
 from src.procgen.cli import DEFAULT_MIX as PROCGEN_DEFAULT_MIX
 from src.procgen.cli import parse_mix as parse_procgen_mix
-from src.scrub.extractive_qa import (DEFAULT_TYPE_MIX, generate_qa,
-                                     render_qa_trace)
+from src.scrub.extractive_qa import (DEFAULT_TYPE_MIX, QUESTION_TYPES,
+                                     generate_qa, render_qa_trace)
 from src.scrub.scrubber import scrub_text
 from src.train.data import INDEX_NAME, ShardReader, ShardWriter
 from src.train.tokenizer import load_tokenizer
@@ -111,7 +114,7 @@ def parse_type_mix(spec: str) -> dict:
             continue
         name, _, value = part.partition("=")
         weights[name.strip()] = float(value)
-    unknown = set(weights) - set(DEFAULT_TYPE_MIX)
+    unknown = set(weights) - set(QUESTION_TYPES)
     if unknown:
         raise ValueError(f"unknown question types {sorted(unknown)}")
     return normalize_mix(weights)
@@ -209,6 +212,11 @@ class QATraceSampler:
         self.attempts = 0
         self.traces = 0
         self.pairs = 0
+        self.recaps = 0
+        # Deficit counters shared across the chunk's passages, so the
+        # realized question type mix tracks the target in aggregate even
+        # at small per-passage counts.
+        self.qa_state: dict = {}
 
     def next_segment(self) -> list[int]:
         while True:
@@ -218,11 +226,14 @@ class QATraceSampler:
             scrubbed = scrub_text(
                 passage, (self.base_seed, self.chunk_id, 13, i)).text
             qas = generate_qa(scrubbed, (self.base_seed, self.chunk_id, 17, i),
-                              self.per_passage, mix=self.type_mix)
+                              self.per_passage, mix=self.type_mix,
+                              state=self.qa_state)
             if not qas:
                 continue
+            recap_items = sum(1 for qa in qas if qa["type"] == "recap")
             self.traces += 1
-            self.pairs += len(qas)
+            self.recaps += recap_items
+            self.pairs += len(qas) - recap_items
             return render_qa_trace(scrubbed, qas, self.tok)
 
 
@@ -286,6 +297,7 @@ def _render_chunk(chunk_id: int) -> dict:
         if "natural" in samplers else 0,
         "qa_traces": samplers["qa"].traces if "qa" in samplers else 0,
         "qa_pairs": samplers["qa"].pairs if "qa" in samplers else 0,
+        "qa_recaps": samplers["qa"].recaps if "qa" in samplers else 0,
         "worldgen_episodes": samplers["worldgen"].episodes
         if "worldgen" in samplers else 0,
         "worldgen_index_base": samplers["worldgen"].index_base
@@ -359,6 +371,7 @@ def write_manifest(out_dir, params, tokenizer_path) -> dict:
         "total_natural_docs": sum(c["natural_docs"] for c in chunks),
         "total_qa_traces": sum(c["qa_traces"] for c in chunks),
         "total_qa_pairs": sum(c["qa_pairs"] for c in chunks),
+        "total_qa_recaps": sum(c.get("qa_recaps", 0) for c in chunks),
         "total_worldgen_episodes": sum(
             c["worldgen_episodes"] for c in chunks),
     }

@@ -2,7 +2,7 @@
 
 Every question is built by string operations on the passage alone, so no
 world knowledge enters the trace and every answer is verifiable by string
-operations. Three question types:
+operations. Four trace item types:
 
   span_cloze       an informative span (a scrubbed entity run, a perturbed
                    number, or a determiner-anchored noun phrase) is cut out
@@ -12,25 +12,44 @@ operations. Three question types:
                    the answer.
   existence        "Does the passage mention X?" answered yes for a present
                    span and no for a generated absent name.
+  recap            a mechanical restatement of the sentence holding a
+                   targeted span, plus an echo sentence repeating the span
+                   ("The passage states that X did Y. The figure given is
+                   N."), built by string operations alone. Recap items are
+                   rendered directly after the document with no question
+                   tokens, so plain next-token prediction on the recap
+                   trains forward copying of specifics.
 
-The type mix is configurable and defaults to 70/15/15. Question type order
-follows the same deficit rule as the renderer source mixes, so the realized
-mix tracks the target deterministically. Candidate spans are required to
-occur exactly once in the passage, which makes cloze reconstruction and
-sentence selection unambiguous.
+The type mix is configurable and defaults to 70/15/15 over the first three
+types (regime E). E2_TYPE_MIX is 60/15/10/15 with recap. Question type
+order follows the same deficit rule as the renderer source mixes, so the
+realized mix tracks the target deterministically; passing a state dict
+carries the deficit counters across passages so the aggregate mix over a
+whole render tracks the target even at small per-passage counts. Candidate
+spans are required to occur exactly once in the passage, which makes cloze
+reconstruction and sentence selection unambiguous.
+
+Span cloze selection is biased toward the specific span kinds a reader
+model fabricates: entity runs and number literals (perturbed years
+included). The bias holds cloze picks at CLOZE_SPECIFIC_SHARE specific at
+every prefix while supply lasts, and recap items draw specific spans
+first, so over a full render well over 60 percent of generated items
+target a number or a name.
 
 check_qa re-derives every answer from the passage with substring operations
-only. generate_qa runs it on every pair before returning, and the tests run
+only. generate_qa runs it on every item before returning, and the tests run
 it again on rendered-and-decoded traces.
 
 Wh-phrase by span type: a multi-word entity asks who, a single-word entity
 after a location preposition asks where and otherwise what, a year-like
 number asks when, any other number asks how many, a noun phrase asks what.
 
-render_qa_trace lays the pair list out with the same special tokens as
+render_qa_trace lays the item list out with the same special tokens as
 worldgen episodes: <|world|> with a domain marker line, <|doc|> with the
-passage, then <|q|> question <|a|> answer <|eot|> per pair, so the C-style
-elicitation format applies unchanged.
+passage, then recap items as plain continuation text closed by <|eot|>,
+then <|q|> question <|a|> answer <|eot|> per pair, so the C-style
+elicitation format applies unchanged and the recap region carries no
+question tokens.
 """
 
 import re
@@ -46,6 +65,32 @@ DEFAULT_TYPE_MIX = {
     "span_cloze": 0.70,
     "sentence_select": 0.15,
     "existence": 0.15,
+}
+
+E2_TYPE_MIX = {
+    "span_cloze": 0.60,
+    "sentence_select": 0.15,
+    "existence": 0.10,
+    "recap": 0.15,
+}
+
+QUESTION_TYPES = ("span_cloze", "sentence_select", "existence", "recap")
+
+# Span kinds that carry a specific: entity runs and number literals
+# (perturbed years included). These are the spans a reader model fabricates.
+SPECIFIC_KINDS = ("entity", "number")
+
+# Floor on the specific share of span cloze picks, held at every prefix.
+# The task floor is 0.60 over generated questions; 0.75 inside the cloze
+# share keeps the aggregate above 0.60 even when the other question types
+# happen to draw noun phrases.
+CLOZE_SPECIFIC_SHARE = 0.75
+
+RECAP_LEAD = "The passage states that "
+_RECAP_ECHO = {
+    "number": "The figure given is ",
+    "entity": "The name given is ",
+    "noun_phrase": "The item given is ",
 }
 
 QA_DOMAIN = "extractive_qa"
@@ -158,6 +203,7 @@ def _make_cloze(text: str, sents: list, span: dict):
         "answer": span["text"],
         "wh": wh,
         "wh_pos": rel,
+        "span_kind": span["kind"],
     }
 
 
@@ -171,15 +217,41 @@ def _make_sentence_select(text: str, sents: list, span: dict):
         "question": f'Which sentence mentions "{span["text"]}"?',
         "answer": text[s:e],
         "subject": span["text"],
+        "span_kind": span["kind"],
     }
 
 
-def _make_existence(subject: str, present: bool):
+def _make_existence(subject: str, present: bool, kind: str):
     return {
         "type": "existence",
         "question": f'Does the passage mention "{subject}"?',
         "answer": "yes" if present else "no",
         "subject": subject,
+        "span_kind": kind,
+    }
+
+
+def _make_recap(text: str, sents: list, span: dict, protected: list):
+    """One recap item: the span's sentence restated behind RECAP_LEAD plus
+    an echo sentence repeating the span, all by string operations. The
+    sentence's first character is lowered only when no candidate span
+    covers it, so every span surface stays verbatim."""
+    i = _sentence_of(sents, span)
+    if i is None:
+        return None
+    s, e = sents[i]
+    sent = text[s:e]
+    core = sent[:-1] if sent and sent[-1] in ".!?" else sent
+    if (core and core[0].isupper() and core[1:2].islower()
+            and not any(ps <= s < pe for ps, pe in protected)):
+        core = core[0].lower() + core[1:]
+    echo = _RECAP_ECHO[span["kind"]]
+    return {
+        "type": "recap",
+        "text": f"{RECAP_LEAD}{core}. {echo}{span['text']}.",
+        "answer": span["text"],
+        "sentence": sent,
+        "span_kind": span["kind"],
     }
 
 
@@ -193,7 +265,7 @@ def _absent_name(text: str, rng) -> str | None:
 
 
 def check_qa(passage: str, qa: dict) -> bool:
-    """Verify one pair against the passage with string operations only."""
+    """Verify one item against the passage with string operations only."""
     kind = qa.get("type")
     if kind == "span_cloze":
         answer = qa["answer"]
@@ -212,18 +284,27 @@ def check_qa(passage: str, qa: dict) -> bool:
         present = qa["subject"] in passage
         return (qa["answer"] == ("yes" if present else "no")
                 and qa["subject"] in qa["question"])
+    if kind == "recap":
+        return (qa["answer"] in passage
+                and qa["sentence"] in passage
+                and qa["answer"] in qa["sentence"]
+                and qa["answer"] in qa["text"]
+                and qa["text"].startswith(RECAP_LEAD)
+                and qa["text"].endswith(qa["answer"] + "."))
     return False
 
 
 def generate_qa(scrubbed_text: str, seed, n: int,
-                mix: dict | None = None) -> list:
-    """Generate up to n verified pairs over one scrubbed passage.
+                mix: dict | None = None, state: dict | None = None) -> list:
+    """Generate up to n verified items over one scrubbed passage.
 
-    Deterministic in (scrubbed_text, seed, n, mix); seed is an int or a
-    tuple of ints. When a type runs out of candidate spans it falls through
-    to the next viable type, ending at existence questions over generated
-    absent names, so a nonempty passage almost always yields exactly n
-    pairs."""
+    Deterministic in (scrubbed_text, seed, n, mix, state); seed is an int
+    or a tuple of ints. When a type runs out of candidate spans it falls
+    through to the next viable type, ending at existence questions over
+    generated absent names, so a nonempty passage almost always yields
+    exactly n items. A caller-held state dict carries the type and cloze
+    deficit counters across passages, so a stream of small per-passage
+    batches still tracks the target mix in aggregate."""
     if mix is None:
         mix = DEFAULT_TYPE_MIX
     if not scrubbed_text.strip() or n <= 0:
@@ -231,46 +312,84 @@ def generate_qa(scrubbed_text: str, seed, n: int,
     weights = {k: float(v) for k, v in mix.items() if float(v) > 0}
     if not weights or any(v < 0 for v in mix.values()):
         raise ValueError(f"bad type mix {mix}")
-    unknown = set(weights) - set(DEFAULT_TYPE_MIX)
+    unknown = set(weights) - set(QUESTION_TYPES)
     if unknown:
         raise ValueError(f"unknown question types {sorted(unknown)}")
     total = sum(weights.values())
     weights = {k: v / total for k, v in weights.items()}
 
+    if state is None:
+        state = {}
+    counts = state.setdefault("types", {})
+    for k in weights:
+        counts.setdefault(k, 0)
+    cloze_counts = state.setdefault("cloze", {"specific": 0, "other": 0})
+
     rng = np.random.default_rng(
         tuple(int(s) for s in seed) if isinstance(seed, (tuple, list))
         else int(seed))
     sents = split_sentences(scrubbed_text)
-    unique = [sp for sp in find_spans(scrubbed_text)
+    all_spans = find_spans(scrubbed_text)
+    protected = [(sp["start"], sp["end"]) for sp in all_spans]
+    unique = [sp for sp in all_spans
               if scrubbed_text.count(sp["text"]) == 1]
     order = list(rng.permutation(len(unique)))
+    shuffled = [unique[i] for i in order]
+    specific = [sp for sp in shuffled if sp["kind"] in SPECIFIC_KINDS]
+    other = [sp for sp in shuffled if sp["kind"] not in SPECIFIC_KINDS]
     pools = {
-        "span_cloze": [unique[i] for i in order],
+        "span_cloze": {"specific": list(specific), "other": list(other)},
+        "recap": specific + other,
         "sentence_select": [unique[i] for i in reversed(order)],
         "existence": [unique[i] for i in order],
     }
 
+    def take_cloze():
+        sub = pools["span_cloze"]
+        while sub["specific"] or sub["other"]:
+            done = cloze_counts["specific"] + cloze_counts["other"]
+            enough = (cloze_counts["specific"]
+                      >= CLOZE_SPECIFIC_SHARE * (done + 1))
+            pick = "other" if enough else "specific"
+            if not sub[pick]:
+                pick = "other" if pick == "specific" else "specific"
+            span = sub[pick].pop(0)
+            qa = _make_cloze(scrubbed_text, sents, span)
+            if qa is not None and check_qa(scrubbed_text, qa):
+                kind = ("specific" if span["kind"] in SPECIFIC_KINDS
+                        else "other")
+                cloze_counts[kind] += 1
+                return qa
+        return None
+
     def take(kind: str):
+        if kind == "span_cloze":
+            return take_cloze()
         if kind == "existence":
             pool = pools[kind]
             if pool and rng.random() < 0.5:
-                return _make_existence(pool.pop(0)["text"], present=True)
+                span = pool.pop(0)
+                return _make_existence(span["text"], True, span["kind"])
             subject = _absent_name(scrubbed_text, rng)
             if subject is None:
                 return None
-            return _make_existence(subject, present=False)
-        makers = {"span_cloze": _make_cloze,
-                  "sentence_select": _make_sentence_select}
+            return _make_existence(subject, False, "absent")
+        makers = {"sentence_select": _make_sentence_select,
+                  "recap": _make_recap}
         pool = pools[kind]
         while pool:
             span = pool.pop(0)
-            qa = makers[kind](scrubbed_text, sents, span)
+            if kind == "recap":
+                qa = _make_recap(scrubbed_text, sents, span, protected)
+            else:
+                qa = makers[kind](scrubbed_text, sents, span)
             if qa is not None and check_qa(scrubbed_text, qa):
                 return qa
         return None
 
     fallback = ["span_cloze", "sentence_select", "existence"]
-    counts = {k: 0 for k in weights}
+    if "recap" in weights:
+        fallback.insert(1, "recap")
     out = []
     while len(out) < n:
         first = min(weights, key=lambda k: (counts[k] / weights[k], k))
@@ -292,14 +411,22 @@ def generate_qa(scrubbed_text: str, seed, n: int,
 def render_qa_trace(passage: str, qas: list, tokenizer,
                     domain: str = QA_DOMAIN) -> list:
     """Token stream for one QA trace, in the worldgen episode layout:
-    <|world|> domain marker, <|doc|> passage, then per pair <|q|> question
-    <|a|> answer <|eot|>."""
+    <|world|> domain marker, <|doc|> passage, recap items (when present) as
+    plain continuation lines closed by one <|eot|>, then per pair <|q|>
+    question <|a|> answer <|eot|>. The recap region carries no question
+    tokens."""
     sid = tokenizer.special_ids
+    recaps = [qa for qa in qas if qa["type"] == "recap"]
+    pairs = [qa for qa in qas if qa["type"] != "recap"]
     tokens = [sid["<|world|>"]]
     tokens.extend(tokenizer.encode(f"domain: {domain}"))
     tokens.append(sid["<|doc|>"])
     tokens.extend(tokenizer.encode(passage))
-    for qa in qas:
+    if recaps:
+        recap_text = "\n" + "\n".join(qa["text"] for qa in recaps)
+        tokens.extend(tokenizer.encode(recap_text))
+        tokens.append(sid["<|eot|>"])
+    for qa in pairs:
         tokens.append(sid["<|q|>"])
         tokens.extend(tokenizer.encode(qa["question"]))
         tokens.append(sid["<|a|>"])

@@ -283,3 +283,70 @@ def test_mix_normalization_and_type_mix_parsing():
     assert parsed == {"span_cloze": 0.5, "existence": 0.5}
     with pytest.raises(ValueError):
         render_regime_e.parse_type_mix("bogus=1")
+    parsed = render_regime_e.parse_type_mix("span_cloze=3,recap=1")
+    assert parsed == {"span_cloze": 0.75, "recap": 0.25}
+
+
+E2_ARGS = [
+    "--mix-natural", "0.55", "--mix-qa", "0.30",
+    "--mix-worldgen", "0.10", "--mix-procgen", "0.05",
+    "--qa-type-mix",
+    "span_cloze=0.60,sentence_select=0.15,existence=0.10,recap=0.15",
+]
+
+RECAP_LEAD = "The passage states that "
+
+
+def test_e2_mix_renders_recap_traces(tok_path, parquet_dir,
+                                     tmp_path_factory):
+    """E2 configuration: rebalanced source mix plus the recap question
+    type. Recap lines land between the document and the first question
+    token, and every echoed span is a verbatim substring of its passage."""
+    out = tmp_path_factory.mktemp("regimee2_out")
+    rc = render_regime_e.main([
+        "--out", str(out),
+        "--tokenizer", tok_path,
+        "--parquet-dir", parquet_dir,
+        "--seed", str(BASE_SEED + 1),
+        "--chunk-tokens", str(CHUNK_TOKENS),
+        "--num-chunks", "2",
+        "--natural-window", str(NATURAL_WINDOW),
+        "--qa-per-passage", "4",
+        "--qa-passage-chars", "600",
+        "--procs", "2",
+    ] + E2_ARGS)
+    assert rc == 0
+    with open(out / "manifest.json") as fh:
+        manifest = json.load(fh)
+    total = manifest["total_tokens"]
+    shares = {k: v / total
+              for k, v in manifest["total_source_tokens"].items()}
+    assert abs(shares["natural"] - 0.55) < 0.10
+    assert abs(shares["qa"] - 0.30) < 0.10
+    assert manifest["total_qa_recaps"] > 0
+    assert manifest["total_qa_pairs"] > 0
+
+    tok = load_tokenizer(tok_path)
+    reader = ShardReader(str(out))
+    text = tok.decode(list(reader.get_slice(0, reader.total_tokens)))
+    traces = [seg for seg in text.split("<|world|>")
+              if seg.startswith("domain: extractive_qa")]
+    assert traces
+    checked = 0
+    for trace in traces:
+        head = trace.partition("<|doc|>")[2].partition("<|q|>")[0]
+        head = head.partition("<|eot|>")[0]
+        if RECAP_LEAD not in head:
+            continue
+        passage = head.split("\n" + RECAP_LEAD)[0]
+        assert passage.strip()
+        for line in head.split("\n"):
+            if not line.startswith(RECAP_LEAD):
+                continue
+            span_txt = line.rpartition(" given is ")[2]
+            if span_txt.endswith("."):
+                span_txt = span_txt[:-1]
+            assert span_txt
+            assert span_txt in passage
+            checked += 1
+    assert checked >= 20
