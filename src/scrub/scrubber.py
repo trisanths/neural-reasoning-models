@@ -3,17 +3,22 @@
 scrub_text(text, seed) is a pure function. It removes three kinds of
 anchor:
 
-  entities  every capitalized token run that reads as a name is replaced
-            by a synthetic name from the worldgen name grammar. A run is a
-            name when it has two or more tokens, or its one token is
-            all-caps, or its one token sits mid-sentence, or its one token
-            starts a sentence but the same word also appears capitalized
-            mid-sentence elsewhere in the document. A lone capitalized
-            frequent common noun or verb, and a lone sentence-starting
-            word never seen mid-sentence, are ordinary words and stay.
-            Replacements keep the shape of the original: word count is
+  entities  every capitalized token run that reads as a name is replaced.
+            A run is a name when it has two or more tokens, or its one
+            token is all-caps, or its one token sits mid-sentence, or its
+            one token starts a sentence but the same word also appears
+            capitalized mid-sentence elsewhere in the document. A lone
+            capitalized frequent common noun or verb, and a lone
+            sentence-starting word never seen mid-sentence, are ordinary
+            words and stay. Two replacement policies exist. invent, the
+            default, writes a synthetic name from the worldgen name
+            grammar. shuffle writes another real entity surface form
+            served by an EntityPool harvested from the corpus itself, so
+            real name tokens keep training signal while the per-document
+            random reassignment still kills the facts. Either way the
+            replacement keeps the shape of the original: word count is
             preserved up to three words, and an all-caps token maps to an
-            all-caps synthetic token.
+            all-caps replacement token.
   numbers   numeric literals are perturbed inside their own digit count,
             so real figures are destroyed but magnitudes and formats
             survive. Year-like numbers shift by a small nonzero delta and
@@ -144,6 +149,23 @@ def _shape_entity(surface: str, base_words: list) -> str:
     out = []
     for i, base in enumerate(base_words):
         orig = orig_words[i] if i < len(orig_words) else orig_words[-1]
+        if len(orig) >= 2 and orig.isupper():
+            out.append(base.upper())
+        else:
+            out.append(base)
+    return " ".join(out)
+
+
+def _shape_pool_entity(surface: str, form: str) -> str:
+    """Shape one pool form onto one occurrence: word count capped at
+    three like the invented policy, and an all-caps original word maps to
+    an all-caps replacement word."""
+    orig_words = surface.split()
+    form_words = form.split()
+    out = []
+    for i in range(min(3, len(orig_words))):
+        base = form_words[i] if i < len(form_words) else form_words[-1]
+        orig = orig_words[i]
         if len(orig) >= 2 and orig.isupper():
             out.append(base.upper())
         else:
@@ -285,10 +307,22 @@ def _token_edits(text: str, covered: list) -> list:
     return edits
 
 
-def scrub_text(text: str, seed) -> ScrubResult:
+def scrub_text(text: str, seed, entity_policy: str = "invent",
+               pool=None) -> ScrubResult:
     """Replace entity runs, perturb numbers, and rewrite web anchors,
     returning the new text with replacement spans. Deterministic in
-    (text, seed); seed is an int or a tuple of ints."""
+    (text, seed, entity_policy, pool); seed is an int or a tuple of ints.
+
+    entity_policy picks the entity replacement. invent, the default,
+    writes synthetic names from the worldgen name grammar. shuffle
+    writes other real entity surface forms served by pool, an
+    EntityPool from src.scrub.name_pool; the same surface maps to one
+    pool form inside a document and to unrelated forms in other
+    documents."""
+    if entity_policy not in ("invent", "shuffle"):
+        raise ValueError(f"unknown entity policy {entity_policy!r}")
+    if entity_policy == "shuffle" and pool is None:
+        raise ValueError("the shuffle entity policy needs a harvested pool")
     material = _seed_material(seed)
     doc_key = _digest(text)
 
@@ -304,13 +338,19 @@ def scrub_text(text: str, seed) -> ScrubResult:
         if key not in cache:
             rng = _keyed_rng(material, doc_key, kind, key[1])
             if kind == "entity":
-                cache[key] = _entity_base_words(key[1], rng)
+                if entity_policy == "shuffle":
+                    cache[key] = pool.pick(surface, rng)
+                else:
+                    cache[key] = _entity_base_words(key[1], rng)
             elif kind == "number":
                 cache[key] = _perturb_number(surface, rng)
             else:
                 cache[key] = _web_replacement(kind, rng)
         if kind == "entity":
-            new = _shape_entity(surface, cache[key])
+            if entity_policy == "shuffle":
+                new = _shape_pool_entity(surface, cache[key])
+            else:
+                new = _shape_entity(surface, cache[key])
         else:
             new = cache[key]
         replacements[key[1]] = new
@@ -336,9 +376,11 @@ def scrub_text(text: str, seed) -> ScrubResult:
                        replacements=replacements)
 
 
-def scrub_document(text: str, seed) -> str:
+def scrub_document(text: str, seed, entity_policy: str = "invent",
+                   pool=None) -> str:
     """Scrubbed text only, for callers that do not need the spans."""
-    return scrub_text(text, seed).text
+    return scrub_text(text, seed, entity_policy=entity_policy,
+                      pool=pool).text
 
 
 def entity_runs(text: str) -> list:

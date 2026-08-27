@@ -287,6 +287,15 @@ def test_mix_normalization_and_type_mix_parsing():
     assert parsed == {"span_cloze": 0.75, "recap": 0.25}
 
 
+def test_webret_mix_validation():
+    with pytest.raises(SystemExit):
+        render_regime_e.main([
+            "--out", "unused", "--tokenizer", "unused",
+            "--parquet-dir", "unused", "--seed", "1", "--num-chunks", "1",
+            "--webret-min-docs", "9", "--webret-max-docs", "4",
+        ])
+
+
 E2_ARGS = [
     "--mix-natural", "0.55", "--mix-qa", "0.30",
     "--mix-worldgen", "0.10", "--mix-procgen", "0.05",
@@ -350,3 +359,119 @@ def test_e2_mix_renders_recap_traces(tok_path, parquet_dir,
             assert span_txt in passage
             checked += 1
     assert checked >= 20
+
+
+# Regime E3: shuffle entity policy plus scrubbed-web retrieval episodes.
+# Bundle knobs are shrunk to the fixture corpus scale; the preset mix and
+# policy stay as shipped.
+E3_EXTRA = [
+    "--webret-min-docs", "6", "--webret-max-docs", "10",
+    "--webret-doc-chars", "500", "--webret-questions", "3",
+    "--webret-context-docs", "2", "--pool-docs", "60",
+]
+
+
+def run_render_e3(out: Path, tok_path: str, parquet_dir: str,
+                  procs: int = 2) -> int:
+    return render_regime_e.main([
+        "--out", str(out),
+        "--tokenizer", tok_path,
+        "--parquet-dir", parquet_dir,
+        "--seed", str(BASE_SEED + 2),
+        "--chunk-tokens", str(CHUNK_TOKENS),
+        "--num-chunks", "2",
+        "--natural-window", str(NATURAL_WINDOW),
+        "--qa-per-passage", "4",
+        "--qa-passage-chars", "600",
+        "--procs", str(procs),
+        "--preset", "e3",
+    ] + E3_EXTRA)
+
+
+@pytest.fixture(scope="module")
+def rendered_e3(tok_path, parquet_dir, tmp_path_factory):
+    out = tmp_path_factory.mktemp("regimee3_out")
+    assert run_render_e3(out, tok_path, parquet_dir) == 0
+    return out
+
+
+def test_e3_manifest_mix_and_policy(rendered_e3):
+    with open(rendered_e3 / "manifest.json") as fh:
+        manifest = json.load(fh)
+    assert manifest["preset"] == "e3"
+    assert manifest["entity_policy"] == "shuffle"
+    assert manifest["mix"] == {"natural": 0.45, "qa": 0.25, "webret": 0.20,
+                               "worldgen": 0.05, "procgen": 0.05}
+    assert "recap" in manifest["qa_type_mix"]
+    total = manifest["total_tokens"]
+    shares = {k: v / total
+              for k, v in manifest["total_source_tokens"].items()}
+    # Whole episodes are coarse against these tiny chunks, so the bounds
+    # are loose; a full size chunk tracks far tighter.
+    assert 0.30 < shares["natural"] < 0.60
+    assert 0.12 < shares["qa"] < 0.40
+    assert 0.08 < shares["webret"] < 0.35
+    assert shares["worldgen"] < 0.20
+    assert shares["procgen"] < 0.10
+    assert manifest["total_webret_episodes"] > 0
+    assert manifest["total_webret_questions"] > 0
+    assert manifest["total_qa_recaps"] > 0
+
+
+def test_e3_query_first_fraction(rendered_e3):
+    with open(rendered_e3 / "manifest.json") as fh:
+        manifest = json.load(fh)
+    episodes = manifest["total_webret_episodes"]
+    query_first = manifest["total_webret_query_first"]
+    assert episodes > 0
+    assert query_first / episodes >= 0.40
+
+
+def test_e3_webret_traces_supported_in_stream(rendered_e3, tok_path):
+    """Stream-level support check: every scrubbed-web answer is a
+    verbatim substring of the last served retrieval result, and the
+    query-first share of traces carries no in-context documents."""
+    tok = load_tokenizer(tok_path)
+    reader = ShardReader(str(rendered_e3))
+    text = tok.decode(list(reader.get_slice(0, reader.total_tokens)))
+    traces = [seg for seg in text.split("<|world|>")
+              if seg.startswith("domain: scrubbed_web")]
+    assert traces
+    checked = 0
+    query_first = 0
+    for trace in traces:
+        head = trace.partition("<|q|>")[0]
+        if "<|doc|>" not in head:
+            query_first += 1
+        for block in trace.split("<|q|>")[1:]:
+            assert "<|retrieve|>" in block
+            assert "<|result|>" in block
+            answer = block.partition("<|a|>")[2].partition("<|eot|>")[0]
+            last_result = block.partition("<|a|>")[0]
+            last_result = last_result.rpartition("<|result|>")[2]
+            assert answer
+            assert answer in last_result
+            checked += 1
+    assert checked > 0
+    assert query_first / len(traces) >= 0.40
+
+
+def test_e3_pool_names_reach_the_stream(rendered_e3, tok_path):
+    """Shuffle policy integration: the planted real entities are pool
+    members, so they keep appearing in the rendered stream as
+    reassigned names instead of vanishing."""
+    tok = load_tokenizer(tok_path)
+    reader = ShardReader(str(rendered_e3))
+    text = tok.decode(list(reader.get_slice(0, reader.total_tokens)))
+    present = sum(1 for entity in REAL_ENTITIES if entity in text)
+    assert present >= 3
+
+
+def test_e3_deterministic_across_procs(rendered_e3, tok_path, parquet_dir,
+                                       tmp_path_factory):
+    out2 = tmp_path_factory.mktemp("regimee3_out2")
+    assert run_render_e3(out2, tok_path, parquet_dir, procs=1) == 0
+    for k in range(2):
+        a = chunk_bytes(rendered_e3 / f"chunk-{k:05d}")
+        b = chunk_bytes(out2 / f"chunk-{k:05d}")
+        assert a == b

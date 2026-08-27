@@ -1,12 +1,12 @@
 """Render regime E training data: scrubbed natural text, extractive QA
-traces over scrubbed passages, worldgen retrieval episodes, and procgen.
+traces, scrubbed-web retrieval episodes, worldgen retrieval episodes,
+and procgen.
 
-Four token sources feed one interleaved uint16 stream:
+Five token sources feed one interleaved uint16 stream:
 
   natural   documents read from the regime A parquet raw text, scrubbed
-            through src/scrub so no real-world entity or figure survives,
-            tokenized fresh, capped at --natural-window tokens, and closed
-            with <|eot|>,
+            through src/scrub, tokenized fresh, capped at
+            --natural-window tokens, and closed with <|eot|>,
   qa        extractive QA traces from src/scrub/extractive_qa over scrubbed
             passages of the same parquet text, laid out with the worldgen
             special-token format (<|world|> domain marker, <|doc|> passage,
@@ -15,22 +15,42 @@ Four token sources feed one interleaved uint16 stream:
             applies; the recap type in --qa-type-mix restates sentences
             holding specific spans right after the document with no
             question tokens,
+  webret    scrubbed-web retrieval episodes from src/scrub/web_retrieval:
+            bundles of --webret-min-docs to --webret-max-docs scrubbed
+            parquet documents with an on-the-fly BM25 index and verified
+            extractive traces in the full retrieval format; the
+            --webret-query-first share of episodes holds no documents in
+            context, so the first evidence arrives through retrieval,
   worldgen  episodes rendered with multi-hop retrieval traces through
             src/train/retrieval.py, the regime C machinery,
   procgen   procedural examples in the reserved vocab range.
 
+--entity-policy picks the scrub replacement for the natural, qa, and
+webret sources. invent, the default, writes synthetic names from the
+worldgen grammar. shuffle replaces each detected entity with another
+real entity surface form from a pool harvested per chunk from the
+corpus itself, so real name tokens keep training signal while the
+per-document random reassignment still kills the facts.
+
+--preset e3 sets the regime E3 configuration in one flag: mix 0.45
+natural, 0.25 qa, 0.20 webret, 0.05 worldgen, 0.05 procgen, the shuffle
+entity policy, and the E2 question type mix with recap.
+
 Default mix by tokens: 70 percent natural, 15 percent qa, 10 percent
-worldgen, 5 percent procgen. Within a chunk the next segment always comes
-from the source furthest below its target share, exactly as in regime B.
+worldgen, 5 percent procgen, no webret. Within a chunk the next segment
+always comes from the source furthest below its target share, exactly as
+in regime B.
 
 Work is split into numbered chunks. Chunk k draws worldgen episode indices
 from [k * episode_stride, (k + 1) * episode_stride) under one base seed, and
 every other source gets rngs seeded by (base_seed, k), so any chunk is
-reproducible in isolation. Natural and qa documents come from seeded random
-parquet row groups read whole and consumed in stored order. Each chunk
-writes shards plus index.json into its own directory, then a .done marker
-holding its stats. A restart skips chunks with markers and wipes partial
-chunk directories, so the pipeline is resumable after a kill at any point.
+reproducible in isolation. Natural, qa, and webret documents come from
+seeded random parquet row groups read whole and consumed in stored order;
+under the shuffle policy each chunk harvests its own replacement pool from
+--pool-docs seeded documents before rendering. Each chunk writes shards
+plus index.json into its own directory, then a .done marker holding its
+stats. A restart skips chunks with markers and wipes partial chunk
+directories, so the pipeline is resumable after a kill at any point.
 Every run ends by writing manifest.json and a merged top level index.json
 over all finished chunks; ShardReader can open the output directory
 directly through that merged index.
@@ -38,10 +58,11 @@ directly through that merged index.
 Usage:
 
     uv run python -m scripts.render_regime_e \
-        --out ~/data/regime_e \
+        --out ~/data/regime_e3 \
         --parquet-dir ~/data/regime_a/parquet \
-        --tokenizer ~/runs/tokenizer_v2/tokenizer_v2.json \
-        --seed 20260826 --target-tokens 7000000000 --procs 4
+        --tokenizer ~/data/tokenizer_v2.json \
+        --preset e3 \
+        --seed 20260827 --target-tokens 10200000000 --procs 4
 
 Stop conditions: all planned chunks done, --target-tokens reached, or
 --max-seconds elapsed. In-flight chunks always finish, so the run always
@@ -66,17 +87,39 @@ import pyarrow.parquet as pq
 from scripts.render_regime_b import ProcgenSampler, WorldgenSampler
 from src.procgen.cli import DEFAULT_MIX as PROCGEN_DEFAULT_MIX
 from src.procgen.cli import parse_mix as parse_procgen_mix
-from src.scrub.extractive_qa import (DEFAULT_TYPE_MIX, QUESTION_TYPES,
-                                     generate_qa, render_qa_trace)
+from src.scrub.extractive_qa import (DEFAULT_TYPE_MIX, E2_TYPE_MIX,
+                                     QUESTION_TYPES, generate_qa,
+                                     render_qa_trace)
+from src.scrub.name_pool import harvest_pool
 from src.scrub.scrubber import scrub_text
+from src.scrub.web_retrieval import (BUNDLE_MAX, BUNDLE_MIN,
+                                     build_web_episode, render_web_episode)
 from src.train.data import INDEX_NAME, ShardReader, ShardWriter
 from src.train.tokenizer import load_tokenizer
 from src.worldgen.domains import DOMAIN_ORDER
 
 MANIFEST_NAME = "manifest.json"
 HELDOUT_INDEX_BASE = 1_000_000_000
-SOURCE_NAMES = ("natural", "qa", "worldgen", "procgen")
+SOURCE_NAMES = ("natural", "qa", "webret", "worldgen", "procgen")
 ENCODE_BATCH = 32
+
+# Consecutive bundle failures before the webret sampler gives up; a corpus
+# whose bundles never verify a single question should fail loudly, not
+# spin.
+WEBRET_MAX_FAILURES = 200
+
+E3_QA_TYPE_MIX = ",".join(f"{k}={v}" for k, v in E2_TYPE_MIX.items())
+
+# The regime E3 configuration, applied by --preset e3.
+E3_PRESET = {
+    "mix_natural": 0.45,
+    "mix_qa": 0.25,
+    "mix_webret": 0.20,
+    "mix_worldgen": 0.05,
+    "mix_procgen": 0.05,
+    "entity_policy": "shuffle",
+    "qa_type_mix": E3_QA_TYPE_MIX,
+}
 
 _G: dict = {}
 
@@ -169,11 +212,14 @@ class ScrubbedNaturalSampler:
     batches for tokenizer throughput."""
 
     def __init__(self, tok, files, row_groups, base_seed: int, chunk_id: int,
-                 window: int, min_chars: int):
+                 window: int, min_chars: int, entity_policy: str = "invent",
+                 pool=None):
         self.tok = tok
         self.base_seed = base_seed
         self.chunk_id = chunk_id
         self.window = window
+        self.entity_policy = entity_policy
+        self.pool = pool
         self.eot = tok.special_ids["<|eot|>"]
         self.stream = ParquetDocStream(
             files, row_groups,
@@ -186,7 +232,9 @@ class ScrubbedNaturalSampler:
             texts = []
             for i in range(ENCODE_BATCH):
                 seed = (self.base_seed, self.chunk_id, 11, self.docs + i)
-                texts.append(scrub_text(self.stream.next_doc(), seed).text)
+                texts.append(scrub_text(
+                    self.stream.next_doc(), seed,
+                    entity_policy=self.entity_policy, pool=self.pool).text)
             self.docs += len(texts)
             for enc in self.tok.tokenizer.encode_batch(texts):
                 self.queue.append(enc.ids[:self.window] + [self.eot])
@@ -199,13 +247,15 @@ class QATraceSampler:
 
     def __init__(self, tok, files, row_groups, base_seed: int, chunk_id: int,
                  per_passage: int, passage_chars: int, type_mix: dict,
-                 min_chars: int):
+                 min_chars: int, entity_policy: str = "invent", pool=None):
         self.tok = tok
         self.base_seed = base_seed
         self.chunk_id = chunk_id
         self.per_passage = per_passage
         self.passage_chars = passage_chars
         self.type_mix = type_mix
+        self.entity_policy = entity_policy
+        self.pool = pool
         self.stream = ParquetDocStream(
             files, row_groups,
             np.random.default_rng((base_seed, chunk_id, 3)), min_chars)
@@ -224,7 +274,8 @@ class QATraceSampler:
             self.attempts += 1
             passage = clip_passage(self.stream.next_doc(), self.passage_chars)
             scrubbed = scrub_text(
-                passage, (self.base_seed, self.chunk_id, 13, i)).text
+                passage, (self.base_seed, self.chunk_id, 13, i),
+                entity_policy=self.entity_policy, pool=self.pool).text
             qas = generate_qa(scrubbed, (self.base_seed, self.chunk_id, 17, i),
                               self.per_passage, mix=self.type_mix,
                               state=self.qa_state)
@@ -235,6 +286,67 @@ class QATraceSampler:
             self.recaps += recap_items
             self.pairs += len(qas) - recap_items
             return render_qa_trace(scrubbed, qas, self.tok)
+
+
+class WebRetrievalSampler:
+    """Scrubbed-web retrieval episodes: bundles of scrubbed parquet
+    documents with verified multi-hop-lite traces, query-first at the
+    configured share via a deficit counter."""
+
+    def __init__(self, tok, files, row_groups, base_seed: int, chunk_id: int,
+                 knobs: dict, min_chars: int, entity_policy: str, pool):
+        self.tok = tok
+        self.base_seed = base_seed
+        self.chunk_id = chunk_id
+        self.knobs = knobs
+        self.entity_policy = entity_policy
+        self.pool = pool
+        self.stream = ParquetDocStream(
+            files, row_groups,
+            np.random.default_rng((base_seed, chunk_id, 7)), min_chars)
+        self.rng = np.random.default_rng((base_seed, chunk_id, 19))
+        self.attempts = 0
+        self.episodes = 0
+        self.query_first = 0
+        self.questions = 0
+        self.dropped = 0
+        self.hops = 0
+        self.qa_state: dict = {}
+
+    def next_segment(self) -> list[int]:
+        k = self.knobs
+        failures = 0
+        while True:
+            i = self.attempts
+            self.attempts += 1
+            n_docs = int(self.rng.integers(k["min_docs"], k["max_docs"] + 1))
+            docs = []
+            for j in range(n_docs):
+                raw = clip_passage(self.stream.next_doc(), k["doc_chars"])
+                docs.append(scrub_text(
+                    raw, (self.base_seed, self.chunk_id, 23, i, j),
+                    entity_policy=self.entity_policy, pool=self.pool).text)
+            qf = self.query_first < k["query_first"] * (self.episodes + 1)
+            episode = build_web_episode(
+                docs, (self.base_seed, self.chunk_id, 29, i),
+                n_questions=k["questions"], two_hop_share=k["two_hop"],
+                query_first=qf, n_context=k["context_docs"],
+                state=self.qa_state)
+            self.dropped += episode["stats"]["dropped"]
+            if not episode["questions"]:
+                failures += 1
+                if failures >= WEBRET_MAX_FAILURES:
+                    raise RuntimeError(
+                        f"webret sampler failed {failures} consecutive "
+                        f"bundles; the corpus may not support verified "
+                        f"retrieval traces")
+                continue
+            self.episodes += 1
+            if qf:
+                self.query_first += 1
+            self.questions += episode["stats"]["questions"]
+            self.hops += episode["stats"]["hops"]
+            return render_web_episode(episode, self.tok)
 
 
 def _init_worker(tokenizer_path: str, params: dict) -> None:
@@ -257,16 +369,30 @@ def _render_chunk(chunk_id: int) -> dict:
     mix = p["mix"]
     files = p["parquet_files"]
     row_groups = p["parquet_row_groups"]
+    pool = None
+    if p["entity_policy"] == "shuffle":
+        pool_stream = ParquetDocStream(
+            files, row_groups,
+            np.random.default_rng((p["base_seed"], chunk_id, 5)),
+            p["min_doc_chars"])
+        pool = harvest_pool(
+            [pool_stream.next_doc() for _ in range(p["pool_docs"])],
+            max_forms=p["pool_max_forms"], min_count=p["pool_min_count"])
     samplers = {}
     if "natural" in mix:
         samplers["natural"] = ScrubbedNaturalSampler(
             tok, files, row_groups, p["base_seed"], chunk_id,
-            p["natural_window"], p["min_doc_chars"])
+            p["natural_window"], p["min_doc_chars"],
+            entity_policy=p["entity_policy"], pool=pool)
     if "qa" in mix:
         samplers["qa"] = QATraceSampler(
             tok, files, row_groups, p["base_seed"], chunk_id,
             p["qa_per_passage"], p["qa_passage_chars"], _G["type_mix"],
-            p["min_doc_chars"])
+            p["min_doc_chars"], entity_policy=p["entity_policy"], pool=pool)
+    if "webret" in mix:
+        samplers["webret"] = WebRetrievalSampler(
+            tok, files, row_groups, p["base_seed"], chunk_id,
+            p["webret"], p["min_doc_chars"], p["entity_policy"], pool)
     if "worldgen" in mix:
         samplers["worldgen"] = WorldgenSampler(
             tok, p["base_seed"], chunk_id, p["episode_stride"],
@@ -298,6 +424,16 @@ def _render_chunk(chunk_id: int) -> dict:
         "qa_traces": samplers["qa"].traces if "qa" in samplers else 0,
         "qa_pairs": samplers["qa"].pairs if "qa" in samplers else 0,
         "qa_recaps": samplers["qa"].recaps if "qa" in samplers else 0,
+        "webret_episodes": samplers["webret"].episodes
+        if "webret" in samplers else 0,
+        "webret_questions": samplers["webret"].questions
+        if "webret" in samplers else 0,
+        "webret_query_first": samplers["webret"].query_first
+        if "webret" in samplers else 0,
+        "webret_dropped": samplers["webret"].dropped
+        if "webret" in samplers else 0,
+        "webret_hops": samplers["webret"].hops
+        if "webret" in samplers else 0,
         "worldgen_episodes": samplers["worldgen"].episodes
         if "worldgen" in samplers else 0,
         "worldgen_index_base": samplers["worldgen"].index_base
@@ -348,14 +484,20 @@ def write_manifest(out_dir, params, tokenizer_path) -> dict:
             totals[name] += n
     manifest = {
         "regime": "e",
+        "preset": params.get("preset"),
         "base_seed": params["base_seed"],
         "mix": params["mix"],
+        "entity_policy": params["entity_policy"],
+        "pool_docs": params["pool_docs"],
+        "pool_max_forms": params["pool_max_forms"],
+        "pool_min_count": params["pool_min_count"],
         "parquet_dir": params["parquet_dir"],
         "natural_window": params["natural_window"],
         "min_doc_chars": params["min_doc_chars"],
         "qa_per_passage": params["qa_per_passage"],
         "qa_passage_chars": params["qa_passage_chars"],
         "qa_type_mix": params["qa_type_mix"],
+        "webret": params["webret"],
         "procgen_mix": params["procgen_mix"],
         "domains": params["domains"],
         "contradiction_rate": params["contradiction_rate"],
@@ -372,6 +514,16 @@ def write_manifest(out_dir, params, tokenizer_path) -> dict:
         "total_qa_traces": sum(c["qa_traces"] for c in chunks),
         "total_qa_pairs": sum(c["qa_pairs"] for c in chunks),
         "total_qa_recaps": sum(c.get("qa_recaps", 0) for c in chunks),
+        "total_webret_episodes": sum(
+            c.get("webret_episodes", 0) for c in chunks),
+        "total_webret_questions": sum(
+            c.get("webret_questions", 0) for c in chunks),
+        "total_webret_query_first": sum(
+            c.get("webret_query_first", 0) for c in chunks),
+        "total_webret_dropped": sum(
+            c.get("webret_dropped", 0) for c in chunks),
+        "total_webret_hops": sum(
+            c.get("webret_hops", 0) for c in chunks),
         "total_worldgen_episodes": sum(
             c["worldgen_episodes"] for c in chunks),
     }
@@ -401,10 +553,24 @@ def main(argv=None):
                         help="stop submitting chunks once completed tokens "
                              "reach this")
     parser.add_argument("--procs", type=int, default=1)
+    parser.add_argument("--preset", choices=("e3",), default=None,
+                        help="named configuration; e3 sets the regime E3 "
+                             "mix, the shuffle entity policy, and the E2 "
+                             "question type mix, overriding those flags")
     parser.add_argument("--mix-natural", type=float, default=0.70)
     parser.add_argument("--mix-qa", type=float, default=0.15)
+    parser.add_argument("--mix-webret", type=float, default=0.0)
     parser.add_argument("--mix-worldgen", type=float, default=0.10)
     parser.add_argument("--mix-procgen", type=float, default=0.05)
+    parser.add_argument("--entity-policy", choices=("invent", "shuffle"),
+                        default="invent",
+                        help="scrub replacement policy for the natural, "
+                             "qa, and webret sources")
+    parser.add_argument("--pool-docs", type=int, default=400,
+                        help="documents harvested per chunk for the "
+                             "shuffle replacement pool")
+    parser.add_argument("--pool-max-forms", type=int, default=20000)
+    parser.add_argument("--pool-min-count", type=int, default=2)
     parser.add_argument("--natural-window", type=int, default=4096,
                         help="token cap per scrubbed natural document")
     parser.add_argument("--min-doc-chars", type=int, default=200,
@@ -415,6 +581,20 @@ def main(argv=None):
                         default=",".join(f"{k}={v}"
                                          for k, v in DEFAULT_TYPE_MIX.items()),
                         help="name=weight,... mix over question types")
+    parser.add_argument("--webret-min-docs", type=int, default=BUNDLE_MIN)
+    parser.add_argument("--webret-max-docs", type=int, default=BUNDLE_MAX)
+    parser.add_argument("--webret-doc-chars", type=int, default=1500,
+                        help="character cap per bundled webret document")
+    parser.add_argument("--webret-questions", type=int, default=4,
+                        help="verified questions attempted per episode")
+    parser.add_argument("--webret-two-hop", type=float, default=0.25,
+                        help="share of questions planned as two hops")
+    parser.add_argument("--webret-query-first", type=float, default=0.45,
+                        help="share of episodes with no documents in "
+                             "context before the question")
+    parser.add_argument("--webret-context-docs", type=int, default=3,
+                        help="in-context documents per non-query-first "
+                             "episode")
     parser.add_argument("--procgen-mix", default=PROCGEN_DEFAULT_MIX,
                         help="name=weight,... mix inside the procgen share")
     parser.add_argument("--episode-stride", type=int, default=100_000,
@@ -433,14 +613,20 @@ def main(argv=None):
 
     if args.num_chunks is None and args.target_tokens is None:
         parser.error("need --num-chunks or --target-tokens")
+    if args.preset == "e3":
+        for name, value in E3_PRESET.items():
+            setattr(args, name, value)
     mix = normalize_mix({
         "natural": args.mix_natural,
         "qa": args.mix_qa,
+        "webret": args.mix_webret,
         "worldgen": args.mix_worldgen,
         "procgen": args.mix_procgen,
     })
     parse_type_mix(args.qa_type_mix)
     parse_procgen_mix(args.procgen_mix)
+    if not 2 <= args.webret_min_docs <= args.webret_max_docs:
+        parser.error("need 2 <= --webret-min-docs <= --webret-max-docs")
     domains = [d.strip() for d in args.domains.split(",") if d.strip()]
     out_dir = Path(os.path.expanduser(args.out))
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -461,6 +647,11 @@ def main(argv=None):
         "out_dir": str(out_dir),
         "base_seed": args.seed,
         "mix": mix,
+        "preset": args.preset,
+        "entity_policy": args.entity_policy,
+        "pool_docs": args.pool_docs,
+        "pool_max_forms": args.pool_max_forms,
+        "pool_min_count": args.pool_min_count,
         "parquet_dir": str(parquet_dir),
         "parquet_files": [str(f) for f in files],
         "parquet_row_groups": row_groups,
@@ -469,6 +660,15 @@ def main(argv=None):
         "qa_per_passage": args.qa_per_passage,
         "qa_passage_chars": args.qa_passage_chars,
         "qa_type_mix": args.qa_type_mix,
+        "webret": {
+            "min_docs": args.webret_min_docs,
+            "max_docs": args.webret_max_docs,
+            "doc_chars": args.webret_doc_chars,
+            "questions": args.webret_questions,
+            "two_hop": args.webret_two_hop,
+            "query_first": args.webret_query_first,
+            "context_docs": args.webret_context_docs,
+        },
         "procgen_mix": args.procgen_mix,
         "domains": domains,
         "contradiction_rate": args.contradiction_rate,
@@ -483,6 +683,7 @@ def main(argv=None):
     done_ids = {c["id"] for c in done}
     total_tokens = sum(c["tokens"] for c in done)
     print(f"render_regime_e start seed {args.seed} mix {mix} "
+          f"preset {args.preset} entity_policy {args.entity_policy} "
           f"chunk_tokens {args.chunk_tokens} num_chunks {max_chunks} "
           f"target_tokens {args.target_tokens} procs {args.procs} "
           f"out {out_dir}", flush=True)
