@@ -290,6 +290,87 @@ def run_problem(problem, chapter, documents: list[dict], reasoner,
     return trace
 
 
+def gap_calibration(problem, chapter, documents: list[dict], reasoner):
+    """Does the detector fire when the model is actually blocked, and stay
+    quiet when it is not?
+
+    Firing rate measured on a cold memory is not an answer to that: the
+    detector is always called with nothing held, so of course it always fires,
+    and a rate of 1.0 there says nothing about calibration. This puts the
+    memory into three states instead and asks the model at each one, so
+    firing can be scored against whether the model was actually stuck.
+
+      empty    nothing held. Blocked unless the model already knows the
+               answer, which for an invented chapter it cannot.
+      partial  every level-0 rule of the chapter held, and nothing above.
+               A level-0 question is now answerable and a level-2 one is not,
+               so this is the state that separates a detector that reads the
+               question's requirements from one that fires on everything.
+      full     the whole chapter held. Nothing is missing.
+
+    Returns one row per state with what fired and what the model got.
+    """
+    rows = []
+    chapter_docs = [d for d in documents if d.get("chapter") == problem.chapter]
+    states = {
+        "empty": [],
+        "partial": [d for d in chapter_docs
+                    if d.get("notion") and d.get("level") == 0],
+        "full": chapter_docs,
+    }
+    requests = []
+    gaps = {}
+    for name, pages in states.items():
+        skill = SkillMemory()
+        for page in pages:
+            skill.absorb(page)
+        skill.focus(chapter.name if chapter is not None else "")
+        gaps[name] = detect(problem.text, skill)
+        requests.append(AnswerRequest(
+            question=problem.text, documents=[], card=skill.render(),
+            tag=f"calib:{name}"))
+    answers = reasoner.answer_batch(requests)
+    for (name, _), answer in zip(states.items(), answers):
+        correct = _matches(answer, problem.answer)
+        rows.append({
+            "state": name, "level": problem.level, "chapter": problem.chapter,
+            "phrasing": problem.phrasing,
+            "fired": gaps[name].fired, "blockage": gaps[name].blockage,
+            "answered_correctly": correct, "blocked": not correct,
+        })
+    return rows
+
+
+def calibration_report(rows: list[dict]) -> dict:
+    """The confusion table, per level and per state. Never pooled over either."""
+    out: dict = {}
+    for row in rows:
+        key = f"L{row['level']}/{row['state']}"
+        cell = out.setdefault(key, {"n": 0, "fired_and_blocked": 0,
+                                    "fired_not_blocked": 0,
+                                    "silent_and_blocked": 0,
+                                    "silent_not_blocked": 0})
+        cell["n"] += 1
+        if row["fired"] and row["blocked"]:
+            cell["fired_and_blocked"] += 1
+        elif row["fired"]:
+            cell["fired_not_blocked"] += 1
+        elif row["blocked"]:
+            cell["silent_and_blocked"] += 1
+        else:
+            cell["silent_not_blocked"] += 1
+    for cell in out.values():
+        blocked = cell["fired_and_blocked"] + cell["silent_and_blocked"]
+        free = cell["fired_not_blocked"] + cell["silent_not_blocked"]
+        cell["recall_on_blocked"] = (cell["fired_and_blocked"] / blocked
+                                     if blocked else None)
+        cell["false_alarm_when_free"] = (cell["fired_not_blocked"] / free
+                                         if free else None)
+        cell["n_blocked"] = blocked
+        cell["n_free"] = free
+    return out
+
+
 def run_universe(universe, reasoner, cfg: LoopConfig | None = None,
                  limit: int | None = None, on_trace=None) -> list[LoopTrace]:
     documents = universe.documents()

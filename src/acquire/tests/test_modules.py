@@ -337,3 +337,45 @@ def test_report_never_pools_levels(uni, docs):
     rep = report(traces)
     assert "accuracy" not in rep
     assert all("n" in cell for cell in rep["by_level"].values())
+
+
+# ------------------------------------------------------- gap calibration
+
+
+def test_gap_calibration_separates_blocked_from_free(uni, docs):
+    """Firing on a cold memory says nothing. The detector has to fall silent
+    once the memory holds what a question needs, and stay loud when it does
+    not, and those are different answers for a level-0 and a level-2 question
+    at the same partial state."""
+    from src.acquire.loop import calibration_report, gap_calibration
+
+    ch = uni.chapters[0]
+    rows = []
+    for p in ch.problems:
+        rows.extend(gap_calibration(p, ch, docs, SymbolicReasoner()))
+    rep = calibration_report(rows)
+
+    for level in (0, 1, 2):
+        assert rep[f"L{level}/empty"]["fired_and_blocked"] == \
+            rep[f"L{level}/empty"]["n"]
+        assert rep[f"L{level}/full"]["fired_not_blocked"] == 0
+        assert rep[f"L{level}/full"]["silent_not_blocked"] == \
+            rep[f"L{level}/full"]["n"]
+    # The partial state is the one that separates them: level 0 is answerable
+    # from the level-0 rules alone, level 2 is not.
+    assert rep["L0/partial"]["silent_not_blocked"] == rep["L0/partial"]["n"]
+    assert rep["L2/partial"]["fired_and_blocked"] == rep["L2/partial"]["n"]
+
+
+def test_calibration_reports_no_false_alarms_for_a_perfect_reader(uni, docs):
+    from src.acquire.loop import calibration_report, gap_calibration
+
+    ch = uni.chapters[0]
+    rows = []
+    for p in ch.problems:
+        rows.extend(gap_calibration(p, ch, docs, SymbolicReasoner()))
+    for cell in calibration_report(rows).values():
+        if cell["n_free"]:
+            assert cell["false_alarm_when_free"] == 0.0
+        if cell["n_blocked"]:
+            assert cell["recall_on_blocked"] == 1.0
