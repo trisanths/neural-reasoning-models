@@ -256,11 +256,11 @@ def _sec_motivation(theory, chapter, nodes, rng, register) -> str:
             f"is {what}."]))
     elif register == "chronicle":
         lines.append(_pick(rng, [
-            f"The results collected here were not found in this order. {what} "
-            f"came first, and the rest was assembled around it once the pattern "
-            f"was visible.",
-            f"What follows was pieced together backwards. The last item, {what}, "
-            f"was noticed before anyone had a reason to expect it."]))
+            f"The results collected here were not found in this order. "
+            f"{what[0].upper() + what[1:]} came first, and the rest was "
+            f"assembled around that once the pattern was visible.",
+            f"What follows was pieced together backwards. The last item of it, "
+            f"{what}, was noticed before anyone had a reason to expect it."]))
     else:
         lines.append(_pick(rng, [
             f"Anyone using this system to keep track of something will meet "
@@ -469,7 +469,10 @@ def _sec_example(theory, chapter, nodes, rng, register) -> tuple:
     records = []
     lines = []
     depth = 2 if chapter % 2 == 0 else 3
-    picks = [rng.choice(s.elements) for _ in range(4)]
+    # Distinct arguments where the carrier allows it, since an example whose
+    # every line reads the same teaches nothing about the notation.
+    picks = (rng.sample(s.elements, 4) if s.size >= 4
+             else [rng.choice(s.elements) for _ in range(4)])
     g0 = s.op_glyphs[0]
     if depth == 2 and s.has_two_ops:
         expr = f"{picks[0]} {g0} {picks[1]} {s.op_glyphs[1]} {picks[2]}"

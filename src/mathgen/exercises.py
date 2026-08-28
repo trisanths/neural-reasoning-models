@@ -582,6 +582,7 @@ def build_exercises(theory: Theory, n_siblings: int = 4,
     s = theory.structure
     rng = random.Random(s.seed ^ 0xE1E1 ^ seed_offset)
     kept: list = []
+    seen_recipes: set = set()
     counter = 0
     for nid in theory.order:
         node = theory.nodes[nid]
@@ -589,6 +590,10 @@ def build_exercises(theory: Theory, n_siblings: int = 4,
                            for p in theory.prerequisites(nid)} | {node.chapter})
         for level, prompt, answer_kind, recipe in _exercises_for_node(
                 theory, node, rng, variants=variants):
+            fingerprint = tuple(sorted(recipe.items()))
+            if fingerprint in seen_recipes:
+                continue
+            seen_recipes.add(fingerprint)
             try:
                 answer = compute(s, recipe)
             except Undefined:
@@ -616,12 +621,18 @@ def rejected_report(theory: Theory, n_siblings: int = 4,
     """
     s = theory.structure
     rng = random.Random(s.seed ^ 0xE1E1)
-    reasons = {"undefined": 0, "copyable": 0, "invariant_under_siblings": 0,
-               "guessable": 0, "kept": 0}
+    reasons = {"duplicate": 0, "undefined": 0, "copyable": 0,
+               "invariant_under_siblings": 0, "guessable": 0, "kept": 0}
+    seen_recipes: set = set()
     for nid in theory.order:
         node = theory.nodes[nid]
         for level, prompt, answer_kind, recipe in _exercises_for_node(
                 theory, node, rng, variants=variants):
+            fingerprint = tuple(sorted(recipe.items()))
+            if fingerprint in seen_recipes:
+                reasons["duplicate"] += 1
+                continue
+            seen_recipes.add(fingerprint)
             try:
                 answer = compute(s, recipe)
             except Undefined:
