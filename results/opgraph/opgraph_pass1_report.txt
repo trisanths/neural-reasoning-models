@@ -1,0 +1,129 @@
+
+=== sequential ===
+condition                d1     d2     d3     d4     d5     d6     d7     d8      fails_after
+base_untrained_direct    0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000  0
+direct_all               0.480 0.227 0.127 0.020 0.020 0.007 0.013 0.013  0
+direct_oracle_page       0.527 0.220 0.167 0.040 0.007 0.007 0.020 0.013  1
+plan_execute             1.000 0.480 0.500 0.020 0.033 0.020 0.007 0.013  1
+oracle_plan              1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000  8
+oracle_ops               1.000 0.480 0.500 0.020 0.033 0.020 0.007 0.013  1
+oracle_both              1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000  8
+direct_all@para          0.187 0.047 0.053 0.033 0.007 0.007 0.000 0.000  0
+direct_oracle_page@para  0.193 0.073 0.053 0.033 0.020 0.007 0.007 0.007  0
+
+=== breadth ===
+condition                d1     d2     d3     d4     d5     d6      fails_after
+base_untrained_direct    0.000 0.000 0.000 0.000 0.000 0.000  0
+direct_all               1.000 1.000 0.987 0.320 0.347 0.173  3
+direct_oracle_page       1.000 1.000 0.987 0.313 0.320 0.147  3
+plan_execute             1.000 1.000 1.000 0.420 0.313 0.113  3
+oracle_plan              1.000 1.000 1.000 0.000 0.000 0.000  3
+oracle_ops               1.000 1.000 1.000 0.000 0.000 0.000  3
+oracle_both              1.000 1.000 1.000 1.000 1.000 1.000  6
+direct_all@para          0.613 0.600 0.520 0.333 0.267 0.173  3
+direct_oracle_page@para  0.680 0.693 0.560 0.287 0.280 0.180  3
+
+=== novel ===
+condition                d2     d3     d4     d5     d6      fails_after
+base_untrained_direct    0.000 0.000 0.000 0.000 0.000  0
+direct_all               0.013 0.020 0.007 0.007 0.027  0
+direct_oracle_page       0.020 0.033 0.007 0.020 0.020  0
+plan_execute             0.013 0.013 0.013 0.020 0.013  0
+oracle_plan              1.000 1.000 1.000 1.000 1.000  6
+oracle_ops               0.013 0.013 0.013 0.020 0.013  0
+oracle_both              1.000 1.000 1.000 1.000 1.000  6
+direct_all@para          0.020 0.013 0.007 0.007 0.013  0
+direct_oracle_page@para  0.007 0.007 0.007 0.000 0.020  0
+
+=== same_page_pair ===
+condition                d2      fails_after
+base_untrained_direct    0.000  0
+direct_all               0.000  0
+direct_oracle_page       0.000  0
+plan_execute             0.000  0
+oracle_plan              1.000  2
+oracle_ops               0.000  0
+oracle_both              1.000  2
+direct_all@para          0.000  0
+direct_oracle_page@para  0.000  0
+
+=== sequential_paren ===
+condition                d2     d3     d4     d5     d6      fails_after
+base_untrained_direct    0.000 0.000 0.000 0.000 0.000  0
+direct_all               0.313 0.213 0.107 0.033 0.020  0
+direct_oracle_page       0.300 0.227 0.107 0.053 0.020  0
+plan_execute             1.000 1.000 0.027 0.040 0.020  3
+oracle_plan              1.000 1.000 1.000 1.000 1.000  6
+oracle_ops               1.000 1.000 0.027 0.040 0.020  3
+oracle_both              1.000 1.000 1.000 1.000 1.000  6
+direct_all@para          0.087 0.060 0.033 0.033 0.007  0
+direct_oracle_page@para  0.093 0.080 0.047 0.033 0.020  0
+
+=== units ===
+condition                d1      fails_after
+base_untrained_direct    0.000  0
+direct_all               1.000  1
+direct_oracle_page       1.000  1
+plan_execute             1.000  1
+oracle_plan              1.000  1
+oracle_ops               1.000  1
+oracle_both              1.000  1
+direct_all@para          0.100  0
+direct_oracle_page@para  0.153  0
+
+=== induction over the eval worlds ===
+pages parsed        6600/6600 = 1.000
+behaviourally right 9444/9897 = 0.954
+exact text          9444/9897 = 0.954
+self verified       9513/9897 = 0.961
+
+=== why the plan path failed, by kind and depth ===
+sequential         d=1  ok=150
+sequential         d=2  ok=72 wrong_value=78
+sequential         d=3  ok=75 wrong_value=75
+sequential         d=4  ok=3 wrong_value=147
+sequential         d=5  ok=5 wrong_value=145
+sequential         d=6  ok=3 wrong_value=147
+sequential         d=7  ok=1 wrong_value=149
+sequential         d=8  ok=2 wrong_value=148
+breadth            d=1  ok=150
+breadth            d=2  ok=150
+breadth            d=3  ok=150
+breadth            d=4  ok=63 wrong_value=87
+breadth            d=5  ok=47 wrong_value=103
+breadth            d=6  execute=62 ok=17 wrong_value=71
+novel              d=2  ok=2 wrong_value=148
+novel              d=3  ok=2 wrong_value=148
+novel              d=4  ok=2 wrong_value=148
+novel              d=5  execute=7 ok=3 wrong_value=140
+novel              d=6  execute=9 ok=2 wrong_value=139
+same_page_pair     d=2  wrong_value=150
+sequential_paren   d=2  ok=150
+sequential_paren   d=3  ok=150
+sequential_paren   d=4  ok=4 wrong_value=146
+sequential_paren   d=5  execute=13 ok=6 wrong_value=131
+sequential_paren   d=6  execute=8 ok=3 wrong_value=139
+units              d=1  ok=150
+
+=== which stage is responsible ===
+sequential         d=1  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
+sequential         d=2  plan_execute=0.480 gold_ops_gain=+0.000 gold_plan_gain=+0.520
+sequential         d=3  plan_execute=0.500 gold_ops_gain=+0.000 gold_plan_gain=+0.500
+sequential         d=4  plan_execute=0.020 gold_ops_gain=+0.000 gold_plan_gain=+0.980
+sequential         d=5  plan_execute=0.033 gold_ops_gain=+0.000 gold_plan_gain=+0.967
+sequential         d=6  plan_execute=0.020 gold_ops_gain=+0.000 gold_plan_gain=+0.980
+sequential         d=7  plan_execute=0.007 gold_ops_gain=+0.000 gold_plan_gain=+0.993
+sequential         d=8  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
+breadth            d=1  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
+breadth            d=2  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
+breadth            d=3  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
+breadth            d=4  plan_execute=0.420 gold_ops_gain=-0.420 gold_plan_gain=-0.420
+breadth            d=5  plan_execute=0.313 gold_ops_gain=-0.313 gold_plan_gain=-0.313
+breadth            d=6  plan_execute=0.113 gold_ops_gain=-0.113 gold_plan_gain=-0.113
+novel              d=2  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
+novel              d=3  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
+novel              d=4  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
+novel              d=5  plan_execute=0.020 gold_ops_gain=+0.000 gold_plan_gain=+0.980
+novel              d=6  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
+
+[written] results/opgraph_pass1_summary.json
