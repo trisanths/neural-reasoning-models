@@ -195,6 +195,14 @@ def cmd_merge(args: argparse.Namespace) -> int:
         patch["notes"] = args.notes
 
     merged = _deep_merge(base, patch)
+    for name in args.clear_metric or []:
+        if name not in merged.get("metrics", {}):
+            raise SystemExit(f"unknown metric {name!r}")
+        merged["metrics"][name] = None
+    for name in args.clear_field or []:
+        if name not in merged:
+            raise SystemExit(f"unknown field {name!r}")
+        merged[name] = None
     if args.append_notes:
         # belief_changed belongs to the run that produced the row and is left
         # alone; a later measurement's verdict goes here instead.
@@ -404,6 +412,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--notes", default=None, help="replace the row's notes")
     p.add_argument("--append-notes", default=None,
                    help="add one line to the row's notes, once")
+    p.add_argument("--clear-metric", action="append", metavar="NAME",
+                   help="set one metric back to null, for a number that was "
+                        "written by mistake")
+    p.add_argument("--clear-field", action="append", metavar="NAME",
+                   help="set one top level field back to null")
     p.set_defaults(func=cmd_merge)
 
     p = subs.add_parser("ingest", help="print what an ingester reads")

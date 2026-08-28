@@ -453,16 +453,13 @@ def training_tokens_or_none(cfg: dict[str, Any],
 # The three-condition sweep
 # ---------------------------------------------------------------------------
 
-# Which registry metric the correct-evidence accuracy also fills. An invented
-# system generated after the checkpoint was trained is by construction a
-# novel-system acquisition score; a held-out world from the pretraining
-# distribution is not, it is plain task accuracy.
-_SUITE_ALIAS = {
-    "simple": "novel_system_acquisition",
-    "arith": "novel_system_acquisition",
-    "procfmt": "novel_system_acquisition",
-    "worldgen": "reasoning",
-}
+# The sweep fills the evidence columns and nothing else. It is tempting to
+# also write acc(correct evidence) into `reasoning`, and wrong: a row's
+# `reasoning` came from the eval battery over 500 episodes, sometimes from an
+# earlier step than the final checkpoint the sweep pulled, and quietly
+# replacing it with a number from a different protocol would break the one
+# rule the registry has, that two numbers on an axis are comparable only when
+# `reasoning_suite` matches. acc_correct_evidence stands on its own.
 
 
 def read_dependency_sweep(path: str | Path) -> dict[str, Any]:
@@ -492,16 +489,14 @@ def read_dependency_sweep(path: str | Path) -> dict[str, Any]:
         "retrieval_dependency": m.get("retrieval_dependency"),
         "evidence_lift": m.get("evidence_lift"),
     }
-    alias = _SUITE_ALIAS.get(suite or "")
-    if alias and metrics["acc_correct_evidence"] is not None:
-        metrics[alias] = metrics["acc_correct_evidence"]
-
     compute = blob.get("compute") or {}
     return {
         "run_id": blob.get("run_id"),
         "checkpoint": blob.get("checkpoint"),
         "suite": suite,
-        "reasoning_suite": f"dependency-sweep/{suite}/{primary}",
+        # Deliberately not offered as reasoning_suite: that field names the
+        # evaluation behind `reasoning`, which this artefact does not touch.
+        "evidence_suite": f"dependency-sweep/{suite}/{primary}",
         "sources": [str(path)],
         "arch": dict(blob.get("arch") or {}),
         "compute": {
@@ -517,6 +512,8 @@ def read_dependency_sweep(path: str | Path) -> dict[str, Any]:
                 "seed": blob.get("seed"),
                 "n_tasks": blob.get("n_tasks"),
                 "step": blob.get("step"),
+                "checkpoint": blob.get("checkpoint"),
+                "evidence_suite": f"dependency-sweep/{suite}/{primary}",
                 "mean_generated_tokens": compute.get("mean_generated_tokens"),
                 "params_effective_non_embedding": compute.get(
                     "params_effective_non_embedding"),
