@@ -305,3 +305,107 @@ whether an oracle rescues it, whether recurrence rescues it, and whether the bre
 is capacity or trainability. That produces a map of the irreducible learner
 rather than a leaderboard, and it produces knowledge whether or not the
 sub-billion-parameter outcome holds.
+
+## Correction, 2026-08-28: the rule-application headline is partly an artifact
+
+A falsification lane re-ran the headline result against the shipped artifacts and
+attacked it four ways. One third of it is a grading artifact, two thirds survive,
+and the "correct page" framing collapses separately. Every number below replaces
+what earlier sections of this document claim.
+
+### The recorded number had no provenance
+
+`scripts/skill_rule_test.py` on `s3://.../runs/final/rlsimple-503-921/` gives
+textbook 0.958, wrong textbook 0.002, blank 0.000 at n=500, and 0.968 / 0.001 /
+0.000 at n=1000. The controls reproduce to the digit. The headline does not: the
+recorded 0.680 is stale and its provenance could not be found. Any statement
+resting on 0.680 should be restated against the re-measured figure.
+
+### The controls are weaker than they look
+
+The invented answer words appear nowhere except the retrieved page, so a model
+that copies any word off that page fails both controls without reading anything.
+The chance floor is 0.401, not 0.000. The 0.958 / 0.002 / 0.000 pattern is
+therefore consistent with copying, and on its own it does not establish reading.
+
+### One family is a pure grading artifact
+
+The environment grader accepts any prediction containing the gold answer within
+six tokens of slack, so naming both candidate words scores correct whichever is
+right. `threshold_rule` does that in 94.3% of its answers, and its first named
+word is the same one 96.1% of the time regardless of the reading in the question,
+which makes it a constant. Fifteen pairs of items were found with byte-identical
+model output and opposite gold answers, and all thirty were graded correct. One
+episode answered "wrenclo xilovi." to both reading 48, gold xilovi, and reading
+12, gold wrenclo, and scored correct on both. Disallowing hedging moves
+`threshold_rule` from 0.985 to 0.009.
+
+`exception_rule` at 0.959 and `substitution_rule` at 0.951 are unaffected and are
+real.
+
+### What survives, with the floor stated
+
+Textbook condition, n=1000, macro over three families:
+
+| Scoring | Value |
+|---|---|
+| Published grader, contains with six token slack | 0.968 |
+| Forced choice, first candidate word named | 0.795 |
+| Naming more than one candidate counts wrong | 0.646 |
+| Non-trivial items only, 416 of 1000 kept | 0.640 |
+| Chance floor for that set | 0.401 |
+| Chance corrected | 0.292 |
+
+About two thirds of the raw score survives as raw score, and 0.292 of the
+headroom above guessing is real rule application.
+
+### The model reads values, and this part held under attack
+
+A page with identical wording and permuted values moves the answer with the page:
+0.938 forced choice toward the page-implied answer against 0.008 toward the
+original for substitution, and 0.961 against 0.012 for exception. The attack
+expected to be decisive failed to falsify and produced the strongest positive
+evidence in the set. Value reading is real.
+
+### The "correct page" framing does not survive
+
+Placing a second system of the same family in the same store, differing only in
+name and values, drops accuracy to 0.463. The model names the twin's candidate
+words 48.8% of the time against its own 47.5%, which is a coin flip. Retitling
+every page to name its own system does not help: 0.486, twin 47.7% against own
+51.2%. A regex baseline reaches 0.993 on those same items.
+
+So the model selects the right line off a rule page but cannot tell which
+system's page it is reading. Claims of the form "with the correct page
+retrievable" describe work the model does not do.
+
+### Generalisation to new relation types fails at chance
+
+Three relation types in the same style, never trained, on balanced scoring:
+inverse_table 0.107 against a chance of 0.251, chain_rule 0.008 against 0.334,
+band_rule 0.313 against 0.334. band_rule's apparent 0.671 under the shipped
+grader is the same hedging artifact at a 94.2% hedge rate. A regex scored 0.993,
+0.981 and 1.000 on the identical items. chain_rule is partly a retrieval failure,
+since the two pages it needs were served together in only 3.6% of rollouts.
+
+### The model loses to a parser
+
+A roughly fifty line regex over the top ranked pages scores 1.000 against the
+model's 0.968 on identical items, and beats it on every untrained family. Generic
+value-blind heuristics are much weaker, the best being nearest invented word to a
+question keyword at 0.387, so the task is not trivially guessable. It is trivially
+programmable. The parser also degrades gracefully where the model collapses.
+
+### Unresolved
+
+On the textbook condition a chunk naming two or more candidates reached the model
+in only 65.6% of rollouts, yet accuracy when no such chunk was served was 0.930.
+Either the retrieval detection heuristic is too strict, since chunking may split
+a rule page, or the model is scoring without the defining page. Not resolved.
+
+### Consequences for the rest of the programme
+
+Every accuracy in this project must now be reported with its chance floor, its
+hedge rate, and a forced-choice score alongside the grader score, and must never
+be pooled across families. A single artifact family inside a three-family macro
+average moved the headline by a third.
