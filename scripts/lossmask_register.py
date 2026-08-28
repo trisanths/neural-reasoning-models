@@ -11,7 +11,8 @@ reach at all.
 Usage:
 
     uv run python -m scripts.lossmask_register \
-        --results ~/results/lossmask/results.json --repo . [--dry-run]
+        --results ~/results/lossmask/results.json --registry registry \
+        --corpus-index ~/data/lossmask/train/index.json [--dry-run]
 """
 
 import argparse
@@ -147,7 +148,12 @@ def default_beliefs(results: list) -> dict:
 def main(argv=None):
     parser = argparse.ArgumentParser(prog="python -m scripts.lossmask_register")
     parser.add_argument("--results", required=True)
-    parser.add_argument("--repo", default=".")
+    parser.add_argument("--registry", default="registry",
+                        help="the registry directory holding runs.jsonl, "
+                             "which is scripts/exp.py's --root")
+    parser.add_argument("--repo", default=".",
+                        help="checkout the arms were trained from, read only "
+                             "to stamp the commit")
     parser.add_argument("--corpus-index", default=None,
                         help="index.json of the tagged corpus, for the tag "
                              "histogram in data_mixture")
@@ -179,7 +185,7 @@ def main(argv=None):
     if args.dry_run:
         print(json.dumps(rows, indent=2))
         return 0
-    store = Store(args.repo)
+    store = Store(args.registry)
     for row in rows:
         blob = store.append(row)
         print(f"appended {blob['run_id']} revision {blob['revision']}")
