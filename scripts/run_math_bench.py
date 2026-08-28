@@ -32,7 +32,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from src.mathgen.battery import battery_report, run_battery, scripted_learner
+from src.mathgen.battery import (battery_report, probes_for, run_battery,
+                                 scripted_learner)
 from src.mathgen.bench import (CONDITIONS, build_problem_set, score,
                                scripted_parrot, scripted_reader)
 from src.mathgen.interface import LEVELS, load_universe, validate_universe
@@ -181,16 +182,22 @@ def main() -> int:
         for s in bseeds:
             u = load_universe(s, module=args.universe_module)
             taker = model
-            if args.fake == "reader":
+            if args.fake == "reader" and probes_for(u):
                 # The reader answers from text in the prompt, and the battery
                 # hides the text, so it would only ever score zero. The
-                # learner is the taker that exercises the grading.
+                # learner is the taker that exercises the grading, and it
+                # exists only for universes that have probes.
                 taker = scripted_learner(u, competence=args.competence,
                                          seed=args.seed)
             rows.extend(run_battery(taker, u, seed=args.seed + s))
         battery = battery_report(rows)
-        print_block("acquisition battery per test", battery["per_test"])
-        print(f"  acquired per item: {json.dumps(battery['acquired'])}")
+        if not rows:
+            print("\nacquisition battery: no probes for this universe, so no "
+                  "battery was run. A probe fits a reconstructed rule back "
+                  "onto a reference implementation and is written per family.")
+        else:
+            print_block("acquisition battery per test", battery["per_test"])
+            print(f"  acquired per item: {json.dumps(battery['acquired'])}")
 
     payload = {
         "model": model_name,
