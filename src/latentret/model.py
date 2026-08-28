@@ -54,6 +54,22 @@ class LatentRetConfig:
     distribution that biases the injection. both mixes them, log(p_lm + p_copy)
     up to a constant, and is the default because it can fall back to either.
     """
+    gate_copy: bool = False
+    """Whether the gate multiplies the copy path as well as the injection.
+
+    It does not by default, and that is a hole rather than a preference. With it
+    off the copy readout reaches the store through the retrieval distribution
+    but around the gate, so a model whose gate is shut can still answer. The
+    latent_notask arm does exactly that: gate shut, noisy-or at 13.8, and task
+    accuracy above the supervised arm's. The gate is then load bearing for the
+    injection alone, which is less than the claim this experiment wants to make.
+
+    With it on, log g is added to the copy scores, so the copy path fades as the
+    gate closes and no answer is reachable through a shut gate. That is the
+    arrangement the charter describes. It is off by default only so the
+    committed code still describes the conditions already in results/latentret,
+    which were run before the hole was found; latent_gated turns it on.
+    """
 
 
 @dataclass
@@ -154,6 +170,8 @@ class LatentRetrievalLM(TransformerLM):
                 copy_logits = self.copy_head(
                     self._at(h, ans_pos), doc_emb, docs, doc_mask, log_p,
                     self.cfg.vocab_size)
+                if self.ret_cfg.gate_copy:
+                    copy_logits = copy_logits + g.clamp_min(1e-6).log().unsqueeze(-1)
                 if self.ret_cfg.readout == "copy":
                     step_logits = copy_logits
                 else:
@@ -180,4 +198,5 @@ class LatentRetrievalLM(TransformerLM):
         base["latentret_params"] = extra
         base["d_ret"] = self.ret_cfg.d_ret
         base["readout"] = self.ret_cfg.readout
+        base["gate_copy"] = self.ret_cfg.gate_copy
         return base

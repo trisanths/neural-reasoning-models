@@ -27,6 +27,14 @@ The conditions, and what each one is there to rule out:
                   invented words, so this is the arm that says whether a
                   failure to answer is a failure to retrieve or a failure to
                   say what was retrieved.
+    latent_gated  the gate multiplies the copy path too, so no answer is
+                  reachable through a shut gate. Without this the copy readout
+                  reaches the store through the retrieval distribution but
+                  around the gate, and latent_notask exploits exactly that.
+    latent_gated_notask
+                  the above with the retrieval term removed as well, which is
+                  the arm that says whether the gate learns to fire from task
+                  utility alone once shutting it actually costs an answer.
 """
 
 from __future__ import annotations
@@ -53,6 +61,9 @@ CONDITIONS = {
     "latent_notask": dict(query_mode="latent", weights=LossWeights(alpha=0.0)),
     "latent_easy": dict(query_mode="latent", hard=False),
     "latent_lm": dict(query_mode="latent", readout="lm"),
+    "latent_gated": dict(query_mode="latent", gate_copy=True),
+    "latent_gated_notask": dict(query_mode="latent", gate_copy=True,
+                                weights=LossWeights(alpha=0.0, gamma=0.25)),
 }
 
 

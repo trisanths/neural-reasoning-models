@@ -296,6 +296,31 @@ def test_copy_readout_respects_the_retrieval_distribution():
     assert (gain[unique] > 5.0).all(), gain.tolist()
 
 
+def test_gate_copy_closes_the_route_around_the_gate():
+    """With gate_copy on, a shut gate must cost the copy path its answer."""
+    batch = EpisodeStream(0, 1000, 4, pool_size=100).batch()
+    scores = {}
+    for gated in (False, True):
+        cfg = RunConfig(steps=1, batch_size=4, loops=2, readout="copy",
+                        gate_copy=gated)
+        model = build_model(cfg)
+        with torch.no_grad():
+            shut = model.episode_forward(
+                batch.prompt, batch.ans_pos, batch.docs, batch.doc_mask,
+                batch.question, batch.question_mask, gate_override=1e-6)
+            open_ = model.episode_forward(
+                batch.prompt, batch.ans_pos, batch.docs, batch.doc_mask,
+                batch.question, batch.question_mask, gate_override=1.0)
+        b = torch.arange(4)
+        scores[gated] = (open_.logits[:, -1][b, batch.answer]
+                         - shut.logits[:, -1][b, batch.answer])
+    # Ungated, shutting the gate still reaches the answer, but only through the
+    # injection changing the state the copy head queries with: hundredths of a
+    # logit at init. Gated, it costs the copy path outright.
+    assert scores[False].abs().max() < 0.5, scores[False].tolist()
+    assert (scores[True] > 5.0).all(), scores[True].tolist()
+
+
 def test_retrieval_heads_are_a_small_share_of_the_model():
     model = build_model(RunConfig())
     d = model.describe_latentret()

@@ -52,6 +52,7 @@ class RunConfig:
     coda: int = 1
     d_ret: int = 64
     readout: str = "both"
+    gate_copy: bool = False
     inject: bool = True
     eval_every: int = 250
     eval_batches: int = 8
@@ -80,7 +81,8 @@ def build_model(cfg: RunConfig) -> LatentRetrievalLM:
         },
     )
     return LatentRetrievalLM(
-        mcfg, LatentRetConfig(d_ret=cfg.d_ret, readout=cfg.readout))
+        mcfg, LatentRetConfig(d_ret=cfg.d_ret, readout=cfg.readout,
+                        gate_copy=cfg.gate_copy))
 
 
 def _lr_at(step: int, cfg: RunConfig) -> float:
