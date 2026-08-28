@@ -137,3 +137,31 @@ def test_the_index_records_the_tag_histogram(tmp_path):
     index = json.loads((tmp_path / "index.json").read_text())
     assert index["tag_histogram"] == {"0": 15, "1": 5}
     assert index["tag_names"]["1"] == "entity"
+
+
+def test_next_batch_with_tags_returns_the_tags_behind_the_weights(tmp_path):
+    tokens = list(range(200))
+    tags = [(i % 5) for i in range(200)]
+    build(tmp_path, tokens, tags, shard_size=64)
+    table = weight_table({"entity": 0.0, "number": 0.25})
+    loader = WeightedBatchLoader(
+        TaggedShardReader(tmp_path), 3, 8, table, seed=11)
+    inputs, targets, weights, drawn = loader.next_batch_with_tags()
+    assert drawn.shape == targets.shape
+    assert drawn.dtype == torch.int64
+    assert torch.equal(weights, torch.from_numpy(table)[drawn])
+    # The tags belong to the targets: every drawn tag is the tag of the token
+    # in that position of targets, which for this corpus is its value mod 5.
+    assert torch.equal(drawn, targets % 5)
+
+
+def test_next_batch_and_next_batch_with_tags_draw_the_same_offsets(tmp_path):
+    build(tmp_path, list(range(200)), [0] * 200, shard_size=64)
+    plain = WeightedBatchLoader(
+        TaggedShardReader(tmp_path), 2, 8, weight_table(None), seed=4)
+    both = WeightedBatchLoader(
+        TaggedShardReader(tmp_path), 2, 8, weight_table(None), seed=4)
+    a_in, a_tgt, a_w = plain.next_batch()
+    b_in, b_tgt, b_w, _ = both.next_batch_with_tags()
+    assert torch.equal(a_in, b_in) and torch.equal(a_tgt, b_tgt)
+    assert torch.equal(a_w, b_w)

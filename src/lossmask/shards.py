@@ -181,6 +181,16 @@ class WeightedBatchLoader(BatchLoader):
         self.weight_table = np.asarray(weight_table, dtype=np.float32)
 
     def next_batch(self):
+        inputs, targets, weights, _ = self.next_batch_with_tags()
+        return inputs, targets, weights
+
+    def next_batch_with_tags(self):
+        """The batch plus the integer tags of its targets.
+
+        Training wants only the weights; an evaluation that reports loss per
+        tag wants the tags themselves, and asking for them here costs nothing
+        because the loader has just read them.
+        """
         import torch
 
         starts = self.region_start + self.rng.integers(
@@ -195,4 +205,5 @@ class WeightedBatchLoader(BatchLoader):
         batch = torch.from_numpy(rows)
         weights = torch.from_numpy(self.weight_table[tags])
         return (batch[:, :-1].contiguous(), batch[:, 1:].contiguous(),
-                weights.contiguous())
+                weights.contiguous(),
+                torch.from_numpy(tags.astype(np.int64)))

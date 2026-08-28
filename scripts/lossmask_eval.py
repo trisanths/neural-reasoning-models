@@ -11,12 +11,15 @@ question and the third keeps the second honest.
                 elicitation scripts/eval_battery.py uses for models trained
                 on raw natural text. This is the language competence corpus
                 scrubbing destroyed, so higher is the goal.
-  heldout loss  mean cross entropy over natural text from parquet files no
-                arm trained on, every token weighted one in every arm. The
-                naturalized suite is a few hundred greedy decodes and moves
-                in visible steps; this is millions of tokens and moves in
-                thousandths, so it says whether an arm reads worse when the
-                suite is too blunt to tell.
+  heldout loss  cross entropy over natural text from parquet rows no arm
+                trained on, every token counted once in every arm, reported
+                whole and split by tag. The naturalized suite is a few
+                hundred greedy decodes and at this scale most of them come
+                back empty; held out loss is millions of tokens and moves in
+                thousandths. The split is what actually tests the
+                hypothesis: masking should cost an arm its grip on the
+                entity, number and date tokens it was never paid to predict
+                and leave the plain tokens, which are the language, alone.
 
 Usage:
 
@@ -32,6 +35,7 @@ import math
 import time
 from pathlib import Path
 
+import numpy as np
 import torch
 
 
@@ -50,36 +54,60 @@ def resolve_checkpoint(path: str) -> str:
 
 def heldout_loss(model, shard_dir: str, device: str, seq_len: int,
                  batch_size: int, n_batches: int, seed: int) -> dict:
-    """Uniform mean cross entropy over held out natural text.
+    """Cross entropy over held out natural text, whole and split by tag.
 
-    Every arm is scored with the same offsets under the same seed, and with
-    every weight at one whatever the arm trained with, so the number is one
-    yardstick rather than four.
+    Every arm is scored with the same offsets under the same seed and with
+    every token counted once whatever the arm trained with, so the number is
+    one yardstick rather than four.
+
+    The split by tag is the sharp instrument. The hypothesis says masking
+    costs a model its grip on the names, numbers and dates it never had to
+    predict, and leaves the rest of the language alone. That is a claim about
+    two different columns of this table, and the naturalized suite, a few
+    hundred greedy decodes at a scale where small models answer almost
+    nothing, cannot see either of them.
     """
-    from src.train.data import BatchLoader, ShardReader
-
     from contextlib import nullcontext
 
-    loader = BatchLoader(ShardReader(shard_dir), batch_size, seq_len, seed=seed)
+    from src.lossmask.shards import TaggedShardReader, WeightedBatchLoader
+    from src.lossmask.tags import N_TAGS, TAG_NAMES
+
+    reader = TaggedShardReader(shard_dir)
+    # The weight table is all ones: the loader is here for the tag stream,
+    # not to reweight anything.
+    loader = WeightedBatchLoader(reader, batch_size, seq_len,
+                                 np.ones(N_TAGS, dtype=np.float32), seed=seed)
     autocast = (torch.autocast(device_type="cuda", dtype=torch.bfloat16)
                 if device.startswith("cuda") else nullcontext())
-    total = 0.0
-    tokens = 0
+    sums = torch.zeros(N_TAGS, dtype=torch.float64, device=device)
+    counts = torch.zeros(N_TAGS, dtype=torch.float64, device=device)
     model.eval()
     for _ in range(n_batches):
-        inputs, targets = loader.next_batch()
+        inputs, targets, _, tags = loader.next_batch_with_tags()
         inputs = inputs.to(device)
         targets = targets.to(device)
+        tags = tags.to(device)
         with torch.no_grad(), autocast:
             logits, _ = model(inputs)
-            loss = torch.nn.functional.cross_entropy(
+            per_token = torch.nn.functional.cross_entropy(
                 logits.float().view(-1, logits.shape[-1]), targets.reshape(-1),
-                reduction="sum")
-        total += float(loss)
-        tokens += int(targets.numel())
-    mean = total / max(1, tokens)
+                reduction="none")
+        flat = tags.reshape(-1)
+        sums.index_add_(0, flat, per_token.double())
+        counts.index_add_(0, flat, torch.ones_like(per_token, dtype=torch.float64))
+
+    total_sum = float(sums.sum())
+    total_count = float(counts.sum())
+    mean = total_sum / max(1.0, total_count)
+    per_tag = {}
+    for tag, name in sorted(TAG_NAMES.items()):
+        n = float(counts[tag])
+        if n == 0:
+            continue
+        value = float(sums[tag]) / n
+        per_tag[name] = {"loss": round(value, 5), "tokens": int(n)}
     return {"loss": round(mean, 5), "perplexity": round(math.exp(mean), 4),
-            "tokens": tokens}
+            "tokens": int(total_count), "per_tag": per_tag}
 
 
 def evaluate(run: str, tokenizer, args) -> dict:
