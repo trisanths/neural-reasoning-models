@@ -1,0 +1,56 @@
+# 1B class, the first size meant to be trained across GPUs rather than on one.
+#
+# 1,146,177,536 parameters total, 1,011,959,808 outside the embedding and the
+# head. Twenty layers of d_model 2048, 16 heads of 128, SwiGLU width 5504,
+# which is 8/3 of d_model rounded to a multiple of 256. It sits between
+# configs/700m.yaml and configs/1300m.yaml and shares their vocabulary and
+# 4096 token context.
+#
+# Steps are sized for 20 tokens per parameter: 23.0B tokens at 262144 tokens
+# per optimizer step is 87700 steps.
+#
+# Memory. On an 80GB H100 in bf16 autocast with fp32 master weights, AdamW
+# state is about 18.3 GB before a single activation. The micro batch below is
+# set from the measurement in scripts/bench_ddp.py rather than from a rule of
+# thumb. The model has no full network activation checkpointing, only the per
+# iteration recompute inside the recurrent core, so the micro batch is what
+# holds activations down.
+model:
+  vocab_size: 32768
+  d_model: 2048
+  n_layers: 20
+  n_heads: 16
+  d_ff: 5504
+  max_seq_len: 4096
+  rope_theta: 10000.0
+  norm_eps: 1.0e-5
+optimizer:
+  lr: 2.0e-4
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-8
+schedule:
+  warmup_steps: 900
+  max_steps: 87700
+  min_lr_ratio: 0.1
+  warmup_phase_steps: 175
+# Batch convention, enforced by src/train/distributed.py at startup:
+#
+#   global_batch_size == batch_size * grad_accum_steps * world_size
+#
+# global_batch_size is sequences per optimizer step summed over every rank and
+# is the number to hold fixed. batch_size is the per rank micro batch. The
+# accumulation is derived from the world size, so adding GPUs shortens the
+# accumulation and leaves the tokens per step alone; it never multiplies the
+# batch. grad_accum_steps below is the world size one value and is checked
+# against the other two. A world size that does not divide the global batch
+# fails before the first step.
+train:
+  batch_size: 2
+  global_batch_size: 64
+  grad_accum_steps: 32
+  grad_clip: 1.0
+  seed: 1234
+  log_interval: 20
+  ckpt_interval: 2000

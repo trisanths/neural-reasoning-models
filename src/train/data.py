@@ -207,24 +207,100 @@ class BatchLoader:
     The source is anything with total_tokens and get_slice, so shard
     directories and in memory procgen streams load the same way. Sampling is
     deterministic for a given seed.
+
+    Data parallel sharding. The stream is cut into world_size contiguous
+    regions and a rank only ever samples inside its own region, so two ranks
+    never read the same token and the regions together cover the whole stream
+    apart from the last seq_len + 1 tokens of each region, which no legal
+    start position can reach. Any leftover from an uneven division rides with
+    the last rank. Rank zero of a world of one owns the whole stream and draws
+    exactly the offsets the single GPU loader has always drawn, so nothing
+    about single GPU training moves.
+
+    Resuming. The draw stream is a plain counter based fast forward: the
+    checkpoint records how many batches this loader has produced, and
+    load_state_dict reseeds and replays that many draws, which puts every rank
+    back on the offset it would have reached without the interruption.
     """
 
-    def __init__(self, source, batch_size: int, seq_len: int, seed: int = 0):
-        if source.total_tokens < seq_len + 2:
-            raise ValueError("token source is shorter than one training sequence")
+    # Spacing between per rank seeds. Prime, and far larger than any run
+    # length, so no two ranks land on overlapping stretches of the stream.
+    RANK_SEED_STRIDE = 1_000_003
+
+    def __init__(
+        self,
+        source,
+        batch_size: int,
+        seq_len: int,
+        seed: int = 0,
+        rank: int = 0,
+        world_size: int = 1,
+    ):
+        if world_size < 1:
+            raise ValueError(f"world_size must be at least 1, got {world_size}")
+        if not 0 <= rank < world_size:
+            raise ValueError(f"rank {rank} outside a world of {world_size}")
+        span = source.total_tokens // world_size
+        self.region_start = rank * span
+        self.region_end = source.total_tokens if rank == world_size - 1 else self.region_start + span
+        region_tokens = self.region_end - self.region_start
+        if region_tokens < seq_len + 2:
+            if world_size == 1:
+                raise ValueError("token source is shorter than one training sequence")
+            raise ValueError(
+                f"rank {rank} of {world_size} gets {region_tokens} tokens, which is "
+                f"shorter than one training sequence of {seq_len + 1}; use fewer ranks "
+                "or more data"
+            )
         self.source = source
         self.batch_size = batch_size
         self.seq_len = seq_len
-        self.rng = np.random.default_rng(seed)
+        self.seed = seed
+        self.rank = rank
+        self.world_size = world_size
+        self.rank_seed = seed + rank * self.RANK_SEED_STRIDE
+        # Largest offset inside this region that still leaves a full sequence.
+        self.high = region_tokens - seq_len - 1
+        self.rng = np.random.default_rng(self.rank_seed)
+        self.batches_drawn = 0
 
     def next_batch(self) -> tuple[torch.Tensor, torch.Tensor]:
-        high = self.source.total_tokens - self.seq_len - 1
-        starts = self.rng.integers(0, high, size=self.batch_size, endpoint=True)
+        starts = self.region_start + self.rng.integers(
+            0, self.high, size=self.batch_size, endpoint=True
+        )
+        self.batches_drawn += 1
         rows = np.stack(
             [self.source.get_slice(int(s), self.seq_len + 1).astype(np.int64) for s in starts]
         )
         batch = torch.from_numpy(rows)
         return batch[:, :-1].contiguous(), batch[:, 1:].contiguous()
+
+    def skip(self, batches: int) -> None:
+        """Advance the draw stream without touching the token source. Drawing
+        n batches worth of offsets in one call leaves the generator in the same
+        state as n separate calls."""
+        if batches <= 0:
+            return
+        self.rng.integers(0, self.high, size=batches * self.batch_size, endpoint=True)
+        self.batches_drawn += batches
+
+    def state_dict(self) -> dict:
+        return {
+            "batches_drawn": int(self.batches_drawn),
+            "batch_size": int(self.batch_size),
+            "seq_len": int(self.seq_len),
+            "seed": int(self.seed),
+            "rank": int(self.rank),
+            "world_size": int(self.world_size),
+        }
+
+    def load_state_dict(self, state: dict) -> None:
+        """Put this loader back where the saved one was. The saved position is
+        a batch count, which every rank shares, so one rank's record restores
+        the whole world."""
+        self.rng = np.random.default_rng(self.rank_seed)
+        self.batches_drawn = 0
+        self.skip(int(state["batches_drawn"]))
 
     def __iter__(self):
         while True:

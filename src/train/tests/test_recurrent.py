@@ -466,6 +466,8 @@ def test_350m_loop_trains_20_steps_on_cuda(tmp_path):
     cfg["schedule"]["warmup_steps"] = 4
     cfg["train"]["batch_size"] = 1
     cfg["train"]["grad_accum_steps"] = 1
+    # One micro batch of one sequence is the whole optimizer step here.
+    cfg["train"]["global_batch_size"] = 1
     cfg["train"]["ckpt_interval"] = 0
     cfg["train"]["log_interval"] = 1
 

@@ -20,8 +20,20 @@ schedule:
   max_steps: 26700
   min_lr_ratio: 0.1
   warmup_phase_steps: 55
+# Batch convention, enforced by src/train/distributed.py at startup:
+#
+#   global_batch_size == batch_size * grad_accum_steps * world_size
+#
+# global_batch_size is sequences per optimizer step summed over every rank and
+# is the number to hold fixed. batch_size is the per rank micro batch. The
+# accumulation is derived from the world size, so adding GPUs shortens the
+# accumulation and leaves the tokens per step alone; it never multiplies the
+# batch. grad_accum_steps below is the world size one value and is checked
+# against the other two. A world size that does not divide the global batch
+# fails before the first step.
 train:
   batch_size: 4
+  global_batch_size: 64
   grad_accum_steps: 16
   grad_clip: 1.0
   seed: 1234

@@ -51,6 +51,9 @@ def main() -> int:
         cfg["schedule"]["max_steps"] = args.max_steps
 
     new_global = cfg["train"]["batch_size"] * cfg["train"]["grad_accum_steps"]
+    # The generated config has to state its own global batch, because that
+    # is what a multi GPU run divides across ranks.
+    cfg["train"]["global_batch_size"] = new_global
     if new_global != base_global and not args.allow_global_change:
         raise SystemExit(
             f"global batch changed: base {base_global}, new {new_global}; "
