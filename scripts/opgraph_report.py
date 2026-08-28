@@ -6,9 +6,15 @@ as the largest depth d such that accuracy is at or above the threshold at every
 depth up to and including d. A condition that is already below threshold at the
 smallest depth measured gets 0.
 
-It also reports which stage is responsible, by comparing the plan path against
-its two oracle rescues: if oracle_ops is much higher than plan_execute the
-induction is at fault, and if oracle_plan is much higher the composition is.
+It also reports which stage is responsible. The two oracle rescues do most of
+that work: if oracle_ops is much higher than plan_execute the induction is at
+fault, and if oracle_plan is much higher the composition is. One case needs the
+failure reasons rather than the accuracies. When the gold plan cannot even run
+against the induced operators, the reason counter for oracle_plan fills with
+`execute` rather than `wrong_value`, which means the induced operator does not
+have the signature the page states. That is an induction failure that would
+otherwise be read off the accuracies as a planning failure, because both oracle
+rescues drop together.
 """
 
 from __future__ import annotations
@@ -47,6 +53,37 @@ def breakdown_depth(row: dict, threshold: float) -> int:
     return best
 
 
+def signature_broken(cell: dict) -> bool:
+    """True when this cell failed by refusing to run, not by running wrong.
+
+    A plan that carries the right operator symbol but the wrong number of
+    arguments cannot execute at all, so it lands in `execute` rather than in
+    `wrong_value`. Half the cell is enough to call it.
+    """
+    reasons = cell.get("reasons") or {}
+    total = sum(reasons.values())
+    return total > 0 and reasons.get("execute", 0) >= 0.5 * total
+
+
+def blame(pe, oo, op, ob, op_cell, threshold, margin=0.2):
+    """Name the stage responsible for one cell, or '-' when nothing is."""
+    if ob is not None and ob < threshold:
+        return "executor"
+    if pe >= threshold:
+        return "-"
+    if op_cell is not None and signature_broken(op_cell):
+        return "induction/arity"
+    ind_gain = (oo - pe) if oo is not None else float("-inf")
+    plan_gain = (op - pe) if op is not None else float("-inf")
+    if plan_gain >= margin and plan_gain > ind_gain:
+        return "scheduler"
+    if ind_gain >= margin:
+        return "induction"
+    if op is not None and oo is not None and max(ind_gain, plan_gain) < margin:
+        return "both"
+    return "unresolved"
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", required=True,
@@ -78,7 +115,8 @@ def main() -> int:
     kinds = [k for k in HEADLINE if any(k in res.get(c, {}) for c in ORDER)]
     extra = sorted({k for c in ORDER for k in res.get(c, {}) if k not in kinds})
     summary: dict = {"threshold": args.threshold, "breakdown_depth": {},
-                     "accuracy": {}, "induction": res.get("induction", {})}
+                     "accuracy": {}, "blame": {},
+                     "induction": res.get("induction", {})}
 
     for kind in kinds + extra:
         print(f"\n=== {kind} ===")
@@ -118,26 +156,35 @@ def main() -> int:
         print(f"self verified       {ind.get('self_verified', 0)}/{o} "
               f"= {ind.get('self_verified', 0) / o:.3f}")
 
-    print("\n=== why the plan path failed, by kind and depth ===")
+    print("\n=== how the plan path failed, by kind and depth ===")
+    print(f"{'kind':18s} {'d':>2s}  {'condition':13s} reasons")
     for kind in kinds + extra:
-        row = res.get("plan_execute", {}).get(kind, {})
-        for d in sorted(row, key=int):
-            r = row[d].get("reasons")
-            if r:
-                print(f"{kind:18s} d={d:2s} " +
-                      " ".join(f"{k}={v}" for k, v in sorted(r.items())))
+        for cond in ("plan_execute", "oracle_plan"):
+            row = res.get(cond, {}).get(kind, {})
+            for d in sorted(row, key=int):
+                r = row[d].get("reasons")
+                if r:
+                    print(f"{kind:18s} {d:>2s}  {cond:13s} " +
+                          " ".join(f"{k}={v}" for k, v in sorted(r.items())))
 
     print("\n=== which stage is responsible ===")
-    for kind in kinds:
+    print(f"{'kind':18s} {'d':>2s}  {'plan_exec':>9s} {'gold_ops':>9s} "
+          f"{'gold_plan':>9s}  stage")
+    for kind in kinds + extra:
         row_pe = res.get("plan_execute", {}).get(kind, {})
         row_op = res.get("oracle_plan", {}).get(kind, {})
         row_oo = res.get("oracle_ops", {}).get(kind, {})
+        row_ob = res.get("oracle_both", {}).get(kind, {})
         for d in sorted(row_pe, key=int):
             pe = row_pe[d]["acc"]
-            ind_gain = row_oo.get(d, {}).get("acc", float("nan")) - pe
-            plan_gain = row_op.get(d, {}).get("acc", float("nan")) - pe
-            print(f"{kind:18s} d={d:2s} plan_execute={pe:.3f} "
-                  f"gold_ops_gain={ind_gain:+.3f} gold_plan_gain={plan_gain:+.3f}")
+            oo = row_oo.get(d, {}).get("acc")
+            op = row_op.get(d, {}).get("acc")
+            ob = row_ob.get(d, {}).get("acc")
+            who = blame(pe, oo, op, ob, row_op.get(d), args.threshold)
+            summary["blame"].setdefault(kind, {})[d] = who
+            gi = "     .   " if oo is None else f"{oo - pe:+9.3f}"
+            gp = "     .   " if op is None else f"{op - pe:+9.3f}"
+            print(f"{kind:18s} {d:>2s}  {pe:9.3f} {gi} {gp}  {who}")
 
     if args.out:
         with open(args.out, "w") as fh:
