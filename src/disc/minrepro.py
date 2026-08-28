@@ -430,7 +430,7 @@ def hits_target(answer: str, target: str, slack: int = 6) -> bool:
 
 
 def classify(answer: str, q: dict, alphabet: list[str]) -> str:
-    """Which token the answer actually names. correct is the final stage;
+    """Which token the answer names. correct is the final stage;
     stopped_at_k means the answer names the k-th intermediate, which is the
     signature of a chain that ran and then halted early."""
     stages = q["stages"]
