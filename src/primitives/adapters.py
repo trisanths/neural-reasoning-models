@@ -36,8 +36,16 @@ def build_prompt_ids(question: str, chunks, tokenizer, max_len: int,
                      reserve: int) -> list[int]:
     """World preamble, chunks as documents, question, answer marker.
 
-    Chunks are packed until the budget runs out, and the question is
-    always kept, so a long archive costs context rather than the ask.
+    Most items in this suite carry their material inside the question and
+    hand the same text over as chunks, so an adapter can use whichever
+    channel its model was trained on. Rendering both would state the
+    archive twice, which on the longest items pushes the prompt into the
+    context limit and truncates the brief the question depends on. A chunk
+    whose text is already in the question is therefore dropped.
+
+    Chunks that do add something are packed until the budget runs out, and
+    the question is always kept, so a long archive costs context rather
+    than the ask.
     """
     sid = tokenizer.special_ids
     head = [sid["<|world|>"], *tokenizer.encode(
@@ -47,6 +55,8 @@ def build_prompt_ids(question: str, chunks, tokenizer, max_len: int,
     body: list[int] = []
     for chunk in chunks or []:
         text = chunk["text"] if isinstance(chunk, dict) else str(chunk)
+        if text in question:
+            continue
         ids = [sid["<|doc|>"], *tokenizer.encode(text)]
         if len(ids) > budget:
             continue
