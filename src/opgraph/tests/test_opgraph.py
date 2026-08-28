@@ -173,3 +173,32 @@ def test_operator_symbol_is_never_the_equals_sign():
     for seed in range(200):
         w = invent.make_world(seed, breadth=2)
         assert "=" not in [p.glyph for p in w.pages if p.key.startswith("binop:")]
+
+
+@pytest.mark.parametrize("seed", range(20))
+def test_paraphrased_pages_define_the_same_operators(seed):
+    from src.opgraph.opdef import serialize_expr
+    a = invent.make_world(seed, breadth=3, style=0)
+    b = invent.make_world(seed, breadth=3, style=1)
+    assert sorted(a.ops) == sorted(b.ops)
+    for sym in a.ops:
+        assert a.ops[sym].params == b.ops[sym].params
+        assert serialize_expr(a.ops[sym].body) == serialize_expr(b.ops[sym].body)
+    assert [p.text for p in a.pages] != [p.text for p in b.pages]
+
+
+@pytest.mark.parametrize("seed", range(12))
+def test_paraphrased_pages_still_verify_their_worked_examples(seed):
+    w = invent.make_world(seed, breadth=3, style=1)
+    for page in w.pages:
+        for op in page.ops:
+            if op.examples:
+                assert verify(op)[0], (page.key, op.symbol)
+
+
+@pytest.mark.parametrize("seed", range(12))
+def test_paraphrased_worlds_answer_the_same_questions(seed):
+    a = data.eval_items("sequential", 3, 4, style=0)
+    b = data.eval_items("sequential", 3, 4, style=1)
+    assert [x.text for x in a] == [x.text for x in b]
+    assert [x.gold for x in a] == [x.gold for x in b]

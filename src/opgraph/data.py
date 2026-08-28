@@ -110,10 +110,14 @@ KIND_OFFSET = {"sequential": 0, "sequential_paren": 1, "breadth": 2,
                "novel": 3, "same_page_pair": 4, "units": 5}
 
 
-def eval_worlds(kind: str, n: int, breadth: int = 3):
-    """`n` fresh worlds for one kind, keyed so no two kinds share a world."""
+def eval_worlds(kind: str, n: int, breadth: int = 3, style: int = 0):
+    """`n` fresh worlds for one kind, keyed so no two kinds share a world.
+
+    style 1 returns the same worlds with every page rewritten in different
+    prose. Same seeds, same operators, different wording.
+    """
     base = EVAL_SEED0 + 1_000_000 * KIND_OFFSET[kind] + 10_000 * breadth
-    return [make_world(base + i, breadth=breadth) for i in range(n)]
+    return [make_world(base + i, breadth=breadth, style=style) for i in range(n)]
 
 
 def make_item(kind: str, world, depth: int, index: int):
@@ -133,8 +137,8 @@ def make_item(kind: str, world, depth: int, index: int):
     raise ValueError(kind)
 
 
-def eval_items(kind: str, depth: int, n: int):
+def eval_items(kind: str, depth: int, n: int, style: int = 0):
     """One question per world, at the given depth."""
     breadth = depth if kind == "breadth" else 3
-    ws = eval_worlds(kind, n, breadth=breadth)
+    ws = eval_worlds(kind, n, breadth=breadth, style=style)
     return [make_item(kind, w, depth, i) for i, w in enumerate(ws)]

@@ -76,7 +76,7 @@ class Page:
     ops: list[Operator] = field(default_factory=list)
 
 
-def _binop_page(rng: random.Random, glyph: str) -> Page:
+def _binop_page(rng: random.Random, glyph: str, style: int = 0) -> Page:
     name = _word(rng).capitalize()
     a = rng.choice([2, 3, 4, 5])
     b = rng.choice([2, 3, 6, 7])
@@ -102,35 +102,69 @@ def _binop_page(rng: random.Random, glyph: str) -> Page:
     body = Call("%", (inner, m))
     op = Operator(glyph, ("x", "y"), body)
     right = rng.random() < 0.5
-    ex = [((7, 4), op(7, 4)), ((12, 5), op(12, 5))]
-    op = Operator(glyph, ("x", "y"), body, examples=tuple(ex))
-    text = "\n".join([
-        f"The {name} System.",
-        "",
-        f"The {name} system introduces an operator written {glyph}. It combines "
-        f"two whole numbers and produces a whole number.",
-        rule,
-        f"Every result in this system is reduced modulo {m}. After computing a "
-        f"value, divide it by {m} and keep only the remainder.",
-        f"When an expression contains more than one {glyph} and no parentheses, "
-        f"{glyph} associates {'right to left' if right else 'left to right'}. "
-        f"Parentheses, where written, are evaluated first.",
-        f"Worked example: 7 {glyph} 4 = {op(7, 4)}.",
-        f"Worked example: 12 {glyph} 5 = {op(12, 5)}.",
-    ])
+    pair = ((7, 4), (12, 5)) if style == 0 else ((5, 9), (8, 3))
+    op = Operator(glyph, ("x", "y"), body,
+                  examples=tuple((a, op(*a)) for a in pair))
+    assoc = "right to left" if right else "left to right"
+    if style == 0:
+        text = "\n".join([
+            f"The {name} System.",
+            "",
+            f"The {name} system introduces an operator written {glyph}. It combines "
+            f"two whole numbers and produces a whole number.",
+            rule,
+            f"Every result in this system is reduced modulo {m}. After computing a "
+            f"value, divide it by {m} and keep only the remainder.",
+            f"When an expression contains more than one {glyph} and no parentheses, "
+            f"{glyph} associates {assoc}. "
+            f"Parentheses, where written, are evaluated first.",
+            f"Worked example: 7 {glyph} 4 = {op(7, 4)}.",
+            f"Worked example: 12 {glyph} 5 = {op(12, 5)}.",
+        ])
+    else:
+        text = "\n".join([
+            f"Notes on {name} arithmetic.",
+            "",
+            f"Bracketing binds first. A run of {glyph} with no brackets is read "
+            f"{assoc}.",
+            f"Take the remainder on division by {m} at the end, so the value "
+            f"reported always lies below {m}.",
+            f"Here {glyph} is a sign for a rule on pairs of whole numbers, and the "
+            f"rule is this. {rule[len('To evaluate '):].capitalize()}",
+            f"For instance {pair[0][0]} {glyph} {pair[0][1]} comes to {op(*pair[0])}.",
+            f"For instance {pair[1][0]} {glyph} {pair[1][1]} comes to {op(*pair[1])}.",
+        ])
     p = Page(f"binop:{glyph}", text, [op])
     p.right_assoc = right  # type: ignore[attr-defined]
     p.glyph = glyph  # type: ignore[attr-defined]
     return p
 
 
-def _units_page(rng: random.Random) -> Page:
+def _units_page(rng: random.Random, style: int = 0) -> Page:
     name = _word(rng).capitalize()
     base, mid, big = _word(rng), _word(rng), _word(rng)
     k1 = rng.choice([4, 5, 8, 12, 16])
     k2 = rng.choice([3, 6, 10, 20])
-    mid_op = Operator(mid, ("n",), Call("*", (N, k1)), examples=(((3,), 3 * k1),))
-    big_op = Operator(big, ("n",), Call("*", (N, k1 * k2)), examples=(((2,), 2 * k1 * k2),))
+    e1, e2 = (3, 2) if style == 0 else (6, 4)
+    mid_op = Operator(mid, ("n",), Call("*", (N, k1)), examples=(((e1,), e1 * k1),))
+    big_op = Operator(big, ("n",), Call("*", (N, k1 * k2)),
+                      examples=(((e2,), e2 * k1 * k2),))
+    if style == 1:
+        text = "\n".join([
+            f"{name}: a note on length.",
+            "",
+            f"Multiply by {k1} to turn a {mid} count into {base}; multiply by "
+            f"{k1 * k2} to turn a {big} count into {base}.",
+            f"Three units are in use. {base} is the small one, {mid} the middle "
+            f"one, {big} the large one.",
+            f"The middle unit is {k1} of the small. The large unit is {k2} of the "
+            f"middle.",
+            f"So {e1} {mid} comes to {e1 * k1} {base}.",
+            f"So {e2} {big} comes to {e2 * k1 * k2} {base}.",
+        ])
+        p = Page("units", text, [mid_op, big_op])
+        p.base, p.mid, p.big = base, mid, big  # type: ignore[attr-defined]
+        return p
     text = "\n".join([
         f"Measures in the {name} convention.",
         "",
@@ -140,15 +174,15 @@ def _units_page(rng: random.Random) -> Page:
         f"which is {k1 * k2} {base}.",
         f"To reduce a quantity to {base}, multiply a {mid} count by {k1}, "
         f"and a {big} count by {k1 * k2}.",
-        f"Worked example: 3 {mid} = {3 * k1} {base}.",
-        f"Worked example: 2 {big} = {2 * k1 * k2} {base}.",
+        f"Worked example: {e1} {mid} = {e1 * k1} {base}.",
+        f"Worked example: {e2} {big} = {e2 * k1 * k2} {base}.",
     ])
     p = Page("units", text, [mid_op, big_op])
     p.base, p.mid, p.big = base, mid, big  # type: ignore[attr-defined]
     return p
 
 
-def _procedure_page(rng: random.Random, breadth: int) -> Page:
+def _procedure_page(rng: random.Random, breadth: int, style: int = 0) -> Page:
     name = _word(rng).capitalize()
     attr = _word(rng)
     flags = []
@@ -164,31 +198,52 @@ def _procedure_page(rng: random.Random, breadth: int) -> Page:
     terms = [V] + [Call("if", (Var(f"f{i + 1}"), d, 0)) for i, (_, d) in enumerate(flags)]
     score_body = Call("+", tuple(terms)) if len(terms) > 1 else V
     score = Operator("score", params, score_body)
-    ex_flags = tuple(bool((i % 2) == 0) for i in range(breadth))
+    ex_flags = tuple(bool((i % 2) == (0 if style == 0 else 1))
+                     for i in range(breadth))
+    ex_base = 50 if style == 0 else 42
     score = Operator("score", params, score_body,
-                     examples=(((50,) + ex_flags, score(50, *ex_flags)),))
+                     examples=(((ex_base,) + ex_flags,
+                                score(ex_base, *ex_flags)),))
     decide = Operator("decide", ("s",),
                       Call("if", (Call(">=", (S, cutoff)), "accepted", "refused")),
                       examples=(((cutoff,), "accepted"), ((cutoff - 1,), "refused")))
     cond_lines = []
     for w, d in flags:
         verb = "add" if d > 0 else "subtract"
-        cond_lines.append(f"If the application is marked {w}, {verb} {abs(d)}.")
+        if style == 0:
+            cond_lines.append(f"If the application is marked {w}, {verb} {abs(d)}.")
+        else:
+            cond_lines.append(f"Marked {w}? Then {verb} {abs(d)}.")
     ex_desc = ", ".join(("marked " if f else "not marked ") + flags[i][0]
                         for i, f in enumerate(ex_flags))
-    text = "\n".join([
-        f"The {name} assessment.",
-        "",
-        f"Each application carries a {attr} value, a whole number. The assessment "
-        f"starts from that value and adjusts it.",
-        f"The adjustments are applied in the order written here, and every one "
-        f"whose condition holds is applied.",
-        *cond_lines,
-        f"An application is accepted when its adjusted value is at least "
-        f"{cutoff}, and refused otherwise.",
-        f"Worked example: a {attr} value of 50, {ex_desc}, "
-        f"adjusts to {score(50, *ex_flags)}.",
-    ])
+    if style == 0:
+        text = "\n".join([
+            f"The {name} assessment.",
+            "",
+            f"Each application carries a {attr} value, a whole number. The "
+            f"assessment starts from that value and adjusts it.",
+            f"The adjustments are applied in the order written here, and every one "
+            f"whose condition holds is applied.",
+            *cond_lines,
+            f"An application is accepted when its adjusted value is at least "
+            f"{cutoff}, and refused otherwise.",
+            f"Worked example: a {attr} value of {ex_base}, {ex_desc}, "
+            f"adjusts to {score(ex_base, *ex_flags)}.",
+        ])
+    else:
+        text = "\n".join([
+            f"{name}: how an application is judged.",
+            "",
+            f"Work down the list below. Apply every line whose condition is met, "
+            f"in the order printed.",
+            *cond_lines,
+            f"The starting number is the {attr} value on the application, which is "
+            f"a whole number.",
+            f"Refuse the application if the number you end on is under {cutoff}. "
+            f"Otherwise accept it.",
+            f"Say the {attr} value is {ex_base} and the application is {ex_desc}. "
+            f"The number you end on is {score(ex_base, *ex_flags)}.",
+        ])
     p = Page("procedure", text, [score, decide])
     p.attr, p.flags, p.cutoff = attr, flags, cutoff  # type: ignore[attr-defined]
     return p
@@ -220,11 +275,17 @@ class World:
         return "".join(" <|doc|> " + p.text for p in pages)
 
 
-def make_world(seed: int, breadth: int = 3) -> World:
+def make_world(seed: int, breadth: int = 3, style: int = 0) -> World:
+    """One invented world. style 1 rewrites every page in different prose.
+
+    The two styles state exactly the same rules and imply exactly the same
+    operators. Training only ever sees style 0, so induction on style 1 asks
+    whether the induction step reads a page or matches a template.
+    """
     rng = random.Random(seed * 7919 + 13)
     g1, g2 = rng.sample(OP_GLYPHS, 2)
-    pages = [_binop_page(rng, g1), _binop_page(rng, g2),
-             _units_page(rng), _procedure_page(rng, breadth)]
+    pages = [_binop_page(rng, g1, style), _binop_page(rng, g2, style),
+             _units_page(rng, style), _procedure_page(rng, breadth, style)]
     order = list(range(len(pages)))
     rng.shuffle(order)
     return World(seed, pages, order)
