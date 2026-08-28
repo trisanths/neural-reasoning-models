@@ -447,3 +447,97 @@ def training_tokens_or_none(cfg: dict[str, Any],
     if not model_cfg.get("max_seq_len"):
         return None
     return flops.training_tokens(schedule, train, model_cfg)
+
+
+# ---------------------------------------------------------------------------
+# The three-condition sweep
+# ---------------------------------------------------------------------------
+
+# Which registry metric the correct-evidence accuracy also fills. An invented
+# system generated after the checkpoint was trained is by construction a
+# novel-system acquisition score; a held-out world from the pretraining
+# distribution is not, it is plain task accuracy.
+_SUITE_ALIAS = {
+    "simple": "novel_system_acquisition",
+    "arith": "novel_system_acquisition",
+    "procfmt": "novel_system_acquisition",
+    "worldgen": "reasoning",
+}
+
+
+def read_dependency_sweep(path: str | Path) -> dict[str, Any]:
+    """Read one scripts/dependency_sweep.py artefact.
+
+    The file already carries its own metrics block, its per-family splits and
+    the decode cost of the answers it generated, so this reader only decides
+    which registry columns those facts belong in and leaves the rest in
+    detail, where a row can be argued with later.
+    """
+    path = Path(path)
+    with open(path, "r", encoding="utf-8") as handle:
+        blob = json.load(handle)
+
+    conditions = blob.get("conditions") or {}
+    correct = conditions.get("correct") or {}
+    wrong = conditions.get("wrong_textbook") or {}
+    blank = conditions.get("no_documents") or {}
+    m = dict(blob.get("metrics") or {})
+    suite = blob.get("suite")
+    primary = blob.get("primary_protocol") or "gen"
+
+    metrics: dict[str, Any] = {
+        "acc_correct_evidence": m.get("acc_correct_evidence"),
+        "acc_wrong_evidence": m.get("acc_wrong_evidence"),
+        "acc_no_evidence": m.get("acc_no_evidence"),
+        "retrieval_dependency": m.get("retrieval_dependency"),
+        "evidence_lift": m.get("evidence_lift"),
+    }
+    alias = _SUITE_ALIAS.get(suite or "")
+    if alias and metrics["acc_correct_evidence"] is not None:
+        metrics[alias] = metrics["acc_correct_evidence"]
+
+    compute = blob.get("compute") or {}
+    return {
+        "run_id": blob.get("run_id"),
+        "checkpoint": blob.get("checkpoint"),
+        "suite": suite,
+        "reasoning_suite": f"dependency-sweep/{suite}/{primary}",
+        "sources": [str(path)],
+        "arch": dict(blob.get("arch") or {}),
+        "compute": {
+            "decode_flops_per_answer": compute.get("decode_flops_per_answer"),
+        },
+        "metrics": metrics,
+        "detail": {
+            "dependency_sweep": {
+                "suite": suite,
+                "primary_protocol": primary,
+                "protocol_metrics": blob.get("protocol_metrics"),
+                "temperature": blob.get("temperature"),
+                "seed": blob.get("seed"),
+                "n_tasks": blob.get("n_tasks"),
+                "step": blob.get("step"),
+                "mean_generated_tokens": compute.get("mean_generated_tokens"),
+                "params_effective_non_embedding": compute.get(
+                    "params_effective_non_embedding"),
+                "any_retrieval": {
+                    "correct": correct.get("any_retrieval"),
+                    "wrong": wrong.get("any_retrieval"),
+                    "blank": blank.get("any_retrieval"),
+                },
+                "accuracy_noncopyable": {
+                    "correct": correct.get("accuracy_noncopyable"),
+                    "wrong": wrong.get("accuracy_noncopyable"),
+                    "blank": blank.get("accuracy_noncopyable"),
+                },
+                "n_copyable": correct.get("n_copyable"),
+                "well_formed": {
+                    "correct": correct.get("well_formed"),
+                    "wrong": wrong.get("well_formed"),
+                    "blank": blank.get("well_formed"),
+                },
+                "per_family": blob.get("per_family"),
+                "env": blob.get("env"),
+            }
+        },
+    }

@@ -117,17 +117,99 @@ def cmd_add(args: argparse.Namespace) -> int:
     return 0
 
 
+INGEST_READERS = {
+    "rl": lambda p: ingest.rl_run_facts(p),
+    "battery": ingest.read_eval_battery,
+    "ablation": ingest.read_ablation,
+    "dependency": ingest.read_dependency_sweep,
+    "nrm": ingest.read_nrm_bench,
+    "webdemo": ingest.read_web_demo,
+    "config": ingest.read_train_config,
+}
+
+
 def cmd_ingest(args: argparse.Namespace) -> int:
     """Print what an ingester reads, so a row can be checked before it lands."""
-    readers = {
-        "rl": lambda p: ingest.rl_run_facts(p),
-        "battery": ingest.read_eval_battery,
-        "ablation": ingest.read_ablation,
-        "nrm": ingest.read_nrm_bench,
-        "webdemo": ingest.read_web_demo,
-        "config": ingest.read_train_config,
+    print(json.dumps(INGEST_READERS[args.kind](args.path), indent=2, default=str))
+    return 0
+
+
+def _deep_merge(base: dict[str, Any], patch: dict[str, Any]) -> dict[str, Any]:
+    """Patch wins leaf by leaf; a None in the patch leaves the base alone."""
+    out = dict(base)
+    for key, value in patch.items():
+        if value is None:
+            continue
+        if isinstance(value, dict) and isinstance(out.get(key), dict):
+            out[key] = _deep_merge(out[key], value)
+        else:
+            out[key] = value
+    return out
+
+
+def cmd_merge(args: argparse.Namespace) -> int:
+    """Fold an artefact's facts into an existing row as a new revision.
+
+    ``add`` replaces a row wholesale, which means correcting one metric on a
+    row that took a backfill and three hand edits to assemble either repeats
+    every field or silently nulls the ones left out. This reads the highest
+    revision of the row, overlays only the fields the artefact actually
+    measured, and appends the result. A run_id with no row yet is created,
+    which is why lane and belief-changed are accepted here too.
+    """
+    store = Store(args.root)
+    facts = INGEST_READERS[args.kind](args.path)
+    if isinstance(facts, list):
+        raise SystemExit(f"{args.kind} reads many rows; merge takes one")
+
+    run_id = args.run_id or facts.get("run_id")
+    if not run_id:
+        raise SystemExit("no --run-id and the artefact names none")
+
+    existing = store.get(run_id)
+    if existing is None:
+        if not args.lane or not args.belief_changed:
+            raise SystemExit(
+                f"{run_id} is a new row; --lane and --belief-changed are required")
+        base = RunRecord(run_id=run_id, lane=args.lane,
+                         belief_changed=args.belief_changed).to_dict()
+    else:
+        base = {k: v for k, v in existing.items()
+                if k not in ("_line", "revision", "recorded_at")}
+
+    patch: dict[str, Any] = {
+        "arch": facts.get("arch") or {},
+        "compute": facts.get("compute") or {},
+        "metrics": facts.get("metrics") or {},
+        "detail": facts.get("detail") or {},
     }
-    print(json.dumps(readers[args.kind](args.path), indent=2, default=str))
+    for field_name in ("family", "branch", "reasoning_suite", "objective"):
+        value = getattr(args, field_name.replace("-", "_"), None) or facts.get(field_name)
+        if value:
+            patch[field_name] = value
+    if args.lane:
+        patch["lane"] = args.lane
+    if args.belief_changed:
+        patch["belief_changed"] = args.belief_changed
+    if args.notes:
+        patch["notes"] = args.notes
+
+    merged = _deep_merge(base, patch)
+    merged["sources"] = sorted(set(base.get("sources") or [])
+                               | set(facts.get("sources") or [])
+                               | set(args.source or []))
+    merged["git_commit"] = args.git_commit or _head_commit() or base.get("git_commit")
+    # The three evidence accuracies and the two differences derived from them
+    # move together or not at all; a half-updated row would fail validation
+    # against a stale derived value.
+    new_metrics = facts.get("metrics") or {}
+    if "acc_correct_evidence" in new_metrics:
+        for name in ("retrieval_dependency", "evidence_lift"):
+            merged["metrics"][name] = new_metrics.get(name)
+
+    blob = store.append(merged)
+    print(f"merged {blob['run_id']} revision {blob['revision']} "
+          f"retdep {merged['metrics'].get('retrieval_dependency')}")
     return 0
 
 
@@ -299,8 +381,25 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--notes", default=None)
     p.set_defaults(func=cmd_add)
 
+    p = subs.add_parser("merge", help="fold an artefact into a row, keeping the rest")
+    p.add_argument("kind", choices=sorted(INGEST_READERS))
+    p.add_argument("path")
+    p.add_argument("--run-id", default=None,
+                   help="defaults to the run_id the artefact names")
+    p.add_argument("--lane", default=None,
+                   choices=["exploit", "explore", "falsify"])
+    p.add_argument("--belief-changed", default=None)
+    p.add_argument("--branch", default=None)
+    p.add_argument("--family", default=None)
+    p.add_argument("--reasoning-suite", default=None)
+    p.add_argument("--objective", default=None)
+    p.add_argument("--git-commit", default=None)
+    p.add_argument("--source", action="append")
+    p.add_argument("--notes", default=None)
+    p.set_defaults(func=cmd_merge)
+
     p = subs.add_parser("ingest", help="print what an ingester reads")
-    p.add_argument("kind", choices=["rl", "battery", "ablation", "nrm",
+    p.add_argument("kind", choices=["rl", "battery", "ablation", "dependency", "nrm",
                                     "webdemo", "config"])
     p.add_argument("path")
     p.set_defaults(func=cmd_ingest)
