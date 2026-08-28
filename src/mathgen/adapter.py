@@ -47,12 +47,18 @@ def _chapter_id(number: int) -> str:
 class MathgenUniverse:
     """One of the mathgen agent's universes, wearing the harness's contract."""
 
-    def __init__(self, seed: int, n_siblings: int = 4, variants: int = 3):
+    def __init__(self, seed: int, n_siblings: int = 4, variants: int = 3,
+                 exclude_section_kinds: tuple = ("exercises",)):
         from src.mathgen.exercises import build_exercises
         from src.mathgen.textbook import build_textbook
         from src.mathgen.theory import build
 
         self.seed = seed
+        # The textbook prints its own exercise prompts, so leaving those
+        # sections in the retrievable library would hand a term-overlap
+        # retriever the target chapter for free on every problem. They are
+        # dropped from what a model can read; nothing else changes.
+        self.excluded = tuple(exclude_section_kinds)
         self.theory = build(seed)
         self.exercises = build_exercises(self.theory, n_siblings=n_siblings,
                                          variants=variants)
@@ -87,7 +93,7 @@ class MathgenUniverse:
                 chapter_id=_chapter_id(ch.number),
                 index=ch.number + 1,
                 title=ch.title,
-                pages=tuple(s.text for s in ch.sections),
+                pages=tuple(s.text for _, s in self._sections(ch)),
                 item_ids=tuple(by_chapter.get(ch.number, [])),
                 prereqs=tuple(sorted(deps)),
             ))
@@ -117,10 +123,14 @@ class MathgenUniverse:
                   "recipe": ex.recipe, "necessity": ex.necessity},
         )
 
+    def _sections(self, ch):
+        return [(j, s) for j, s in enumerate(ch.sections)
+                if s.kind not in self.excluded]
+
     def library(self) -> list[dict]:
         out = []
         for ch in self.textbook.chapters:
-            for j, section in enumerate(ch.sections):
+            for j, section in self._sections(ch):
                 out.append({
                     "chunk_id": f"ch{ch.number}-s{j}",
                     "chapter_id": _chapter_id(ch.number),
@@ -133,8 +143,12 @@ class MathgenUniverse:
         wanted = set(chapter_ids)
         parts = []
         for ch in self.textbook.chapters:
-            if _chapter_id(ch.number) in wanted:
-                parts.append(ch.to_markdown())
+            if _chapter_id(ch.number) not in wanted:
+                continue
+            body = [f"# Chapter {ch.number + 1}. {ch.title}", ""]
+            for _, section in self._sections(ch):
+                body += [f"## {section.title}", "", section.text, ""]
+            parts.append("\n".join(body))
         return "\n\n".join(parts)
 
     def theory_graph(self) -> dict:

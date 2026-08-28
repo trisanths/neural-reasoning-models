@@ -11,11 +11,15 @@ answer could be copied out of the question:
 
   closed_derivation   required_items already contains every dependency, so
                       the ablation below tests what it claims to test
+  prompt_in_corpus    the question itself is not printed in the library, so
+                      retrieval cannot be handed the target chapter for free
   answer_not_copyable the answer does not stand alone in the question
   not_corpus_mode     the answer is not the most frequent answer-shaped token
                       in the retrievable library
-  keyword_nearest     a term-overlap retriever's top chunks do not contain
-                      the answer in answer-shaped position
+  keyword_nearest     a term-overlap retriever followed by "say the token
+                      the retrieved text repeats most" does not land the
+                      answer, and a composite answer does not appear whole in
+                      what it retrieved
   ablation            the reference implementation returns nothing when the
                       target chapter is removed, once per target chapter
   level7_no_single_chunk  no chunk carries the answer next to the question's
@@ -110,6 +114,32 @@ def shaped_tokens(text: str, shape: str) -> set[str]:
     return {t.lower() for t in _WORD_RE.findall(text)}
 
 
+def keyword_nearest_guess(chunks: list[dict], shape: str):
+    """What a term-overlap baseline would answer from these chunks.
+
+    Retrieve, then say the answer-shaped token the retrieved text repeats
+    most, breaking ties by first appearance. This is the heuristic a problem
+    has to beat: if it lands the answer, the problem is measuring retrieval
+    and not understanding, and the guard throws it out. Returns the guess and
+    the joined text the guess came from.
+    """
+    joined = "\n".join(c["text"] for c in chunks)
+    if shape == "list":
+        found = _LIST_RE.findall(re.sub(r"\s*([,:])\s*", r"\1", joined))
+    elif shape == "int":
+        found = _INT_RE.findall(joined)
+    else:
+        found = [t.lower() for t in _WORD_RE.findall(joined)]
+    if not found:
+        return None, joined
+    counts = Counter(found)
+    first = {}
+    for i, tok in enumerate(found):
+        first.setdefault(tok, i)
+    best = max(counts, key=lambda t: (counts[t], -first[t]))
+    return best, joined
+
+
 def normalize(s: str) -> str:
     s = s.strip().lower()
     s = s.split("\n")[0].strip()
@@ -150,6 +180,7 @@ def is_correct(raw: str, answer: str) -> bool:
 # --------------------------------------------------------------------------
 GUARD_CHECKS = (
     "closed_derivation",
+    "prompt_in_corpus",
     "answer_not_copyable",
     "not_corpus_mode",
     "keyword_nearest",
@@ -176,6 +207,7 @@ class Guard:
         self.keyword_k = keyword_k
         self.all_chapters = [c.chapter_id for c in universe.chapters]
         self.corpus_text = "\n".join(c["text"] for c in self.library)
+        self.corpus_flat = " ".join(self.corpus_text.split())
         self._mode: dict[str, str | None] = {}
 
     def corpus_mode(self, shape: str) -> str | None:
@@ -191,6 +223,12 @@ class Guard:
         if not p.closed_over(items):
             return GuardVerdict(False, "closed_derivation")
 
+        # A corpus that prints the question hands retrieval the target
+        # chapter without the model understanding anything, which empties out
+        # the retrieval and agent conditions and level five in particular.
+        if " ".join(p.text.split()) in self.corpus_flat:
+            return GuardVerdict(False, "prompt_in_corpus")
+
         shape = answer_shape(p.answer)
         parts = [q for q in re.split(r"[,:]", p.answer) if q]
         in_q = shaped_tokens(p.text, shape)
@@ -205,12 +243,18 @@ class Guard:
             return GuardVerdict(False, "not_corpus_mode")
 
         near = self.index.top(p.text, self.keyword_k)
-        near_tokens: set[str] = set()
-        for chunk in near:
-            near_tokens |= shaped_tokens(chunk["text"], shape)
-        if normalize(p.answer) in {normalize(t) for t in near_tokens}:
+        guess, joined = keyword_nearest_guess(near, shape)
+        if guess is not None and normalize(guess) == normalize(p.answer):
             return GuardVerdict(False, "keyword_nearest",
-                                {"chunks": [c["chunk_id"] for c in near]})
+                                {"chunks": [c["chunk_id"] for c in near],
+                                 "guess": guess})
+        # A composite answer appearing whole in a retrieved chunk is leakage
+        # whether or not the baseline would have picked it out.
+        if shape == "list" and normalize(p.answer) in {
+                normalize(t) for t in shaped_tokens(joined, shape)}:
+            return GuardVerdict(False, "keyword_nearest",
+                                {"chunks": [c["chunk_id"] for c in near],
+                                 "verbatim": True})
 
         for target in p.target_chapters:
             allowed = [c for c in self.all_chapters if c != target]
@@ -514,7 +558,12 @@ def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> M
     lookup = {}
     for p in ps.problems:
         u = ps.universes[p.universe_id]
-        needed = [(cid, u.by_id[cid].title) for cid in required_chapters(p, u)]
+        # The query is the chapter's title together with the names of what it
+        # states, because a title alone does not always retrieve its own
+        # chapter out of a library written in invented words.
+        needed = [(cid, " ".join([u.by_id[cid].title] +
+                                 [u.items[i].name for i in u.by_id[cid].item_ids][:4]))
+                  for cid in required_chapters(p, u)]
         lookup[p.text.strip()] = (p, needed)
     pool = [normalize(p.answer) for p in ps.problems]
 

@@ -583,6 +583,38 @@ def _exercises_for_node(theory: Theory, node, rng: random.Random,
         make(4, f"Name the {nm['floor']} of the system.", "object_list",
              {"kind": "extension", "which": "floor"})
 
+    # Results phrased about a defined collection are asked about by naming that
+    # collection. The question sits in the result's own chapter rather than the
+    # definition's, which is the point: a reader who has only the definition can
+    # compute the collection, but the chapter that states the result is where a
+    # reader is asked to.
+    result_extensions = {
+        "thm:core_is_everything": "core", "thm:core_sealed": "core",
+        "thm:anchor_in_core": "core", "thm:span_inside_core": "core",
+        "thm:second_op_preserves_core": "core", "thm:ridge_sealed": "ridge",
+        "thm:ridge_is_everything": "ridge", "thm:tight_empty": "tight",
+        "thm:relation_symmetric": "tight", "thm:floor_unique": "floor",
+    }
+    if node.kind in ("theorem", "refutation") and key in result_extensions:
+        which = result_extensions[key]
+        make(4, _phrase(rng, [
+                f"This result is about the {nm[which]}. List every {obj} in it.",
+                f"Name the {objs} that make up the {nm[which]}, which is what "
+                f"the result above is a claim about."]),
+             "object_list", {"kind": "extension", "which": which})
+
+    if key in ("thm:shadow_nested", "thm:shadow_compatible"):
+        for x in s.elements[:variants]:
+            make(4, (f"The result above concerns {nm['shadow']}s. List the "
+                     f"{nm['shadow']} of {x}."),
+                 "object_list", {"kind": "shadow", "element": x})
+
+    if key == "def:sealed":
+        for x in s.elements[:variants]:
+            make(3, (f"How many {objs} lie in the smallest {nm['sealed']} "
+                     f"collection containing {x}?"),
+                 "count", {"kind": "reach", "element": x})
+
     if node.kind == "refutation" and key in FAILURE_WITNESSES:
         if first_failing_element(s, key) is not None:
             claim_text = node.statement.replace("It is not the case that: ", "")
@@ -608,7 +640,10 @@ def build_exercises(theory: Theory, n_siblings: int = 4,
                            for p in theory.prerequisites(nid)} | {node.chapter})
         for level, prompt, answer_kind, recipe in _exercises_for_node(
                 theory, node, rng, variants=variants):
-            fingerprint = tuple(sorted(recipe.items()))
+            # Keyed by chapter, not globally. The same question may be worth
+            # asking in the chapter that defines a notion and again in the
+            # chapter that proves something about it, but never twice in one.
+            fingerprint = (node.chapter,) + tuple(sorted(recipe.items()))
             if fingerprint in seen_recipes:
                 continue
             seen_recipes.add(fingerprint)
@@ -646,7 +681,7 @@ def rejected_report(theory: Theory, n_siblings: int = 4,
         node = theory.nodes[nid]
         for level, prompt, answer_kind, recipe in _exercises_for_node(
                 theory, node, rng, variants=variants):
-            fingerprint = tuple(sorted(recipe.items()))
+            fingerprint = (node.chapter,) + tuple(sorted(recipe.items()))
             if fingerprint in seen_recipes:
                 reasons["duplicate"] += 1
                 continue
