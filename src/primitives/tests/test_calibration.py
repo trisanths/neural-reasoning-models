@@ -168,6 +168,25 @@ def test_the_forced_choice_rescue_matrix_locates_the_same_faculty(key):
     assert m["largest_rescue"] == "oracle_composition"
 
 
+def test_a_hedging_model_is_caught_by_the_strict_rule(key):
+    """The policy the shared environment grader rewards must score zero here.
+
+    A reply naming the gold answer and one decoy is accepted by any
+    grader that tests for containment. This suite counts naming more than
+    one candidate as wrong, so the same reply scores zero strict, scores
+    under the lenient rule, and reports a hedge rate of one. If this test
+    ever passes with a nonzero strict score, the suite has grown the same
+    hole.
+    """
+    model = fakes.HedgingModel(key, seed=3)
+    bundle = runner.run_suite(model, primitives=["memory"], n=8, seed=SEED)
+    h = bundle["report"]["hedging"]["memory"]
+    assert h["strict"]["acc"] == 0.0
+    assert h["lenient"]["acc"] == 1.0
+    assert h["hedge_rate"]["acc"] == 1.0
+    assert h["leniency_gap"] == 1.0
+
+
 def test_a_silent_model_scores_zero_and_not_chance(key):
     """Saying nothing is not the same as guessing, and must not look like it.
 

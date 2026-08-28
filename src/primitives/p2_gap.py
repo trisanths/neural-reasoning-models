@@ -56,8 +56,7 @@ from __future__ import annotations
 import random
 
 from src.primitives.common import (
-    Item, field_or_whole, invented_words, parse_binary, parse_fields,
-    parse_one_label, proportion,
+    Item, binary_verdict, field_or_whole, invented_words, parse_binary, parse_fields, parse_one_label, proportion,
 )
 
 PRIMITIVE = "gap"
@@ -248,9 +247,13 @@ def grade(item: Item, response: str) -> dict:
     g = item.gold
     detected = status == g["status"]
     hv = g["hidden_value"]
+    v = binary_verdict(field_or_whole(f, "STATUS", response), STATUS_CUES,
+                       g["status"])
     return {
         "parsed": "STATUS" in f,
         "detected": float(detected),
+        "lenient_correct": v["lenient"], "hedged": v["hedged"],
+        "chance": 0.5,
         "false_alarm": float(g["status"] == "SOLVABLE" and status == "BLOCKED"),
         "miss": float(g["status"] == "BLOCKED" and status != "BLOCKED"),
         "gap": float(detected and gap == g["gap"]),

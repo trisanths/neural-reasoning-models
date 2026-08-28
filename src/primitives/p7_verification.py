@@ -58,8 +58,7 @@ from __future__ import annotations
 import random
 
 from src.primitives.common import (
-    Item, field_or_whole, invented_words, parse_binary, parse_fields,
-    parse_one_label, proportion,
+    Item, binary_verdict, field_or_whole, invented_words, parse_binary, parse_fields, parse_one_label, proportion,
 )
 
 CHECK_CUES = {
@@ -192,9 +191,13 @@ def grade(item: Item, response: str) -> dict:
                           item.gold["labels"])
     g = item.gold
     detected = check == g["check"]
+    v = binary_verdict(field_or_whole(f, "CHECK", response), CHECK_CUES,
+                       g["check"])
     return {
         "parsed": "CHECK" in f,
         "detected": float(detected),
+        "lenient_correct": v["lenient"], "hedged": v["hedged"],
+        "chance": 0.5,
         "false_alarm": float(not g["trap"] and check == "FAIL"),
         "miss": float(g["trap"] and check != "FAIL"),
         "corrected": float(ans == g["answer"]),

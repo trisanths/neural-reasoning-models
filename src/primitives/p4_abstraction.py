@@ -55,7 +55,7 @@ from __future__ import annotations
 import random
 
 from src.primitives.common import (
-    Item, invented_words, overlap, parse_one_label, proportion,
+    Item, invented_words, label_verdict, overlap, parse_one_label, proportion,
 )
 
 PRIMITIVE = "abstraction"
@@ -226,8 +226,11 @@ def generate_many(n: int, seed: int = 0, mode: str = "isolated",
 
 def grade(item: Item, response: str) -> dict:
     pick = parse_one_label(response, item.gold["labels"])
+    v = label_verdict(response, item.gold["labels"], item.gold["answer"])
     return {"parsed": pick is not None,
             "correct": float(pick == item.gold["answer"]),
+            "lenient_correct": v["lenient"], "hedged": v["hedged"],
+            "chance": 1.0 / max(2, len(item.gold["labels"])),
             "structure": item.meta["structure"],
             "copy_correct": float(item.meta["copy_correct"]),
             "majority_correct": float(item.meta["majority_correct"])}

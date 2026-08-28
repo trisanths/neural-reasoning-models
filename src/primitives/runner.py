@@ -245,6 +245,66 @@ def collect_choices(primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
     return out
 
 
+HEADLINE_FIELD = {
+    "intent": "goal", "gap": "detection", "acquisition": "source selection",
+    "abstraction": "answer", "composition": "answer", "memory": "answer",
+    "verification": "trap detection",
+}
+
+
+def hedging_report(records) -> dict:
+    """Strict against lenient on each primitive's single-choice field.
+
+    The shared environment grader accepts any reply containing the gold
+    answer, so a policy that names two candidates is scored correct
+    whenever either is right. This suite grades strictly instead, and
+    reports the pair so the strictness is auditable rather than asserted:
+    where lenient sits well above strict, that primitive was carried by
+    hedging and only the strict column means anything. Fields with no
+    label namespace to hedge across report no hedge rate rather than a
+    zero they never measured.
+
+    Never pooled. Every primitive keeps its own row, because one family
+    scoring on the grader is exactly what a pooled mean would hide.
+    """
+    by: dict = {}
+    for r in records:
+        g = r.get("grade") or {}
+        if "lenient_correct" not in g:
+            continue
+        if str(r.get("variant", "")).startswith("probe"):
+            continue
+        by.setdefault(r["primitive"], []).append(g)
+    strict_key = {"gap": "detected", "verification": "detected",
+                  "acquisition": "source", "intent": "goal"}
+    out: dict = {}
+    for name, rows in sorted(by.items()):
+        key = strict_key.get(name, "correct")
+        rows = [g for g in rows if key in g]
+        if not rows:
+            continue
+        n = len(rows)
+        measurable = [g for g in rows if "hedged" in g]
+        # The chance floor travels on the item, because the option count
+        # is not the same on every item of every primitive and a floor
+        # quoted from the module constant would be wrong wherever it varies.
+        chance = sum(g.get("chance", 0.0) for g in rows) / n
+        out[name] = {
+            "field": HEADLINE_FIELD.get(name, key), "n": n,
+            "chance": round(chance, 4),
+            "strict": proportion(sum(int(g[key]) for g in rows), n, chance,
+                                 f"{name}/strict"),
+            "lenient": proportion(sum(int(g["lenient_correct"]) for g in rows),
+                                  n, chance, f"{name}/lenient"),
+            "hedge_rate": (proportion(sum(int(g["hedged"]) for g in measurable),
+                                      len(measurable), 0.0, f"{name}/hedge")
+                           if measurable else None),
+        }
+        out[name]["leniency_gap"] = round(
+            out[name]["lenient"]["acc"] - out[name]["strict"]["acc"], 4)
+    return out
+
+
 def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
                       mode="isolated", ks=DEFAULT_KS, rescue_n=0,
                       progress=None) -> dict:
@@ -420,6 +480,7 @@ def run_suite(predict, primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
             rescue_n=rescue_n, progress=progress)
     # The contamination argument travels with the numbers. A profile read
     # without it is a table of scores whose independence nobody can check.
+    reports["hedging"] = hedging_report(records)
     reports["contamination"] = {
         name: (MODULES[name].CONTAMINATION or "").split(
             "CONTAMINATION CONTROL, faculty by faculty.")[-1].strip()

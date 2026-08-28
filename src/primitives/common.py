@@ -186,6 +186,46 @@ def parse_one_label(value: str, allowed) -> str | None:
     return labs[0] if len(labs) == 1 else None
 
 
+def label_verdict(value, allowed, gold) -> dict:
+    """One single-choice field under both grading rules, with the hedge flag.
+
+    A grader that accepts a reply merely containing the gold answer scores
+    a model that names every option as correct on every item. The two
+    rules differ only in how they treat a hedge: strict counts naming more
+    than one candidate as wrong, lenient takes the first candidate named.
+    Reporting the pair and the hedge rate together is what makes a score
+    that lives on the leniency visible instead of quietly banked.
+    """
+    labs = parse_labels(value, allowed)
+    return {"strict": float(len(labs) == 1 and labs[0] == gold),
+            "lenient": float(bool(labs) and labs[0] == gold),
+            "hedged": float(len(labs) > 1),
+            "named": float(len(labs))}
+
+
+def binary_verdict(text, mapping: dict, gold) -> dict:
+    """The same pair of rules for a two-way field read through cue words.
+
+    A reply carrying cues for both sides is a hedge here too, even though
+    the cue lists are generous about wording.
+    """
+    low = str(text).lower()
+    hits = []
+    for label, cues in mapping.items():
+        for cue in cues:
+            m = re.search(rf"(?<![a-z]){re.escape(cue)}(?![a-z])", low)
+            if m:
+                hits.append((m.start(), label))
+                break
+    hits.sort()
+    sides = {lab for _, lab in hits}
+    first = hits[0][1] if hits else None
+    return {"strict": float(len(sides) == 1 and first == gold),
+            "lenient": float(first is not None and first == gold),
+            "hedged": float(len(sides) > 1),
+            "named": float(len(sides))}
+
+
 def parse_binary(text: str, mapping: dict) -> str | None:
     """A two-way choice read generously, or None when it is not there.
 

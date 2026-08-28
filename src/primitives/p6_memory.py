@@ -64,7 +64,9 @@ from __future__ import annotations
 
 import random
 
-from src.primitives.common import Item, invented_words, parse_one_label, proportion
+from src.primitives.common import (
+    Item, invented_words, label_verdict, parse_one_label, proportion,
+)
 
 PRIMITIVE = "memory"
 VARIANTS = ("retain_near", "retain_far", "interfere", "update", "absent")
@@ -211,8 +213,11 @@ def generate_many(n: int, seed: int = 0, mode: str = "isolated",
 def grade(item: Item, response: str) -> dict:
     pick = parse_one_label(response, item.gold["labels"])
     g = item.gold
+    v = label_verdict(response, g["labels"], g["answer"])
     return {"parsed": pick is not None,
             "correct": float(pick == g["answer"]),
+            "lenient_correct": v["lenient"], "hedged": v["hedged"],
+            "chance": 1.0 / max(2, len(g["labels"])),
             "intrusion": float(g["intrusion"] is not None
                                and pick == g["intrusion"]
                                and item.variant == "interfere"),

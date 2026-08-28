@@ -64,7 +64,8 @@ from __future__ import annotations
 import random
 
 from src.primitives.common import (
-    Item, field_or_whole, invented_words, parse_fields, proportion,
+    Item, field_or_whole, invented_words, label_verdict, parse_fields,
+    parse_labels, proportion,
 )
 from src.train.retrieval import BM25Index
 
@@ -278,13 +279,18 @@ def _query_of(response: str) -> tuple[str | None, str]:
     The strict parse rate is reported separately.
     """
     f = parse_fields(response)
-    src_text = field_or_whole(f, "SOURCE", response).lower()
-    src = None
-    for name in TIER_NAMES:
-        if name.lower() in src_text:
-            src = name
-            break
+    named = parse_labels(_source_span(response), TIER_NAMES)
+    # Exactly one tier, or none. Scanning the tier list in its own order
+    # and taking the first name that appears anywhere would score a reply
+    # naming every tier as correct on every item, which measures the
+    # grader and not the faculty.
+    src = named[0] if len(named) == 1 else None
     return src, field_or_whole(f, "QUERY", response).strip()
+
+
+def _source_span(response: str) -> str:
+    """The text the source field is read from, headers or not."""
+    return field_or_whole(parse_fields(response), "SOURCE", response)
 
 
 def grade(item: Item, response: str, followup: str | None = None) -> dict:
@@ -297,9 +303,12 @@ def grade(item: Item, response: str, followup: str | None = None) -> dict:
     want_tier = g["first_tier"] if hop else g["tier"]
 
     rank = _rank(index, query, 3) if query else []
+    v = label_verdict(_source_span(response), TIER_NAMES, want_tier)
     out = {
         "parsed": "QUERY" in parse_fields(response),
         "source": float(src == want_tier),
+        "lenient_correct": v["lenient"], "hedged": v["hedged"],
+        "chance": 1.0 / len(TIER_NAMES),
         "hit1": float(bool(rank) and rank[0] == want_first),
         "hit3": float(want_first in rank),
         "empty_query": float(not query),

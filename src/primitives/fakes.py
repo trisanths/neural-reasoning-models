@@ -338,3 +338,36 @@ def copy_model(key: dict, seed: int = 0) -> ScriptedModel:
 def partial_model(key: dict, name: str, level: float,
                   seed: int = 0) -> ScriptedModel:
     return ScriptedModel(key, competent=[name], seed=seed, level=level)
+
+
+class HedgingModel:
+    """A stand-in that names the gold answer and one decoy, every time.
+
+    This is the policy the shared environment grader rewards: a reply
+    containing the gold answer is accepted, so naming two candidates wins
+    whenever either is right. It exists here so the suite is shown to
+    catch that policy rather than asserted to. Against the strict rule it
+    scores zero; against the lenient rule it scores whatever the decoy
+    ordering gives it; its hedge rate is one.
+    """
+
+    def __init__(self, key, seed: int = 0):
+        self.key = key
+        self.rng = random.Random(seed)
+        self.misses = 0
+
+    def __call__(self, question, chunks=None) -> str:
+        found = self.key.get(_tail(str(question)))
+        if found is None:
+            self.misses += 1
+            return "ANSWER: unknown"
+        item, _role = found
+        labels = list((item.gold or {}).get("labels") or [])
+        gold = (item.gold or {}).get("answer")
+        if not labels or gold not in labels:
+            return _gold_label(item)
+        decoy = next((l for l in labels if l != gold), gold)
+        # Gold first, so the lenient rule scores this correct and the
+        # strict rule does not. The gap between the two columns is the
+        # whole measurement.
+        return f"ANSWER: {gold} or {decoy}"

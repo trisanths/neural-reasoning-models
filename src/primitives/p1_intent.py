@@ -52,7 +52,8 @@ import random
 
 from src.primitives.common import (
     Item, field_or_whole, guard_report, invented_words, jaccard, mean_stat,
-    parse_fields, parse_labels, parse_one_label, proportion, render_menu,
+    label_verdict, parse_fields, parse_labels, parse_one_label, proportion,
+    render_menu,
     token_set,
 )
 
@@ -374,6 +375,9 @@ def grade(item: Item, response: str) -> dict:
     out = {"parsed": parsed, "fields_present": sum(1 for k in FIELDS if k in f)}
 
     if g["form"] == "menu":
+        v = label_verdict(got["GOAL"], g["goal_labels"], g["goal"])
+        out["lenient_correct"], out["hedged"] = v["lenient"], v["hedged"]
+        out["chance"] = 1.0 / max(2, len(g["goal_labels"]))
         out["goal"] = float(parse_one_label(got["GOAL"], g["goal_labels"]) == g["goal"])
         out["conflict"] = float(
             parse_one_label(got["CONFLICT"], g["conflict_labels"]) == g["conflict"])
@@ -406,6 +410,11 @@ def grade(item: Item, response: str) -> dict:
             out["conflict"] = float(g["conflict_key"] in xt)
         st = token_set(got["SUCCESS"])
         out["success"] = float(all(t in st for t in g["success_need"]))
+        # The free-form grader has no label namespace to hedge across, so
+        # the hedge flag is not defined here and is reported as absent
+        # rather than as a zero it did not measure.
+        out["lenient_correct"], out["hedged"] = out["goal"], None
+        out["chance"] = 0.0
     return out
 
 

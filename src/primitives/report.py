@@ -92,8 +92,8 @@ def render_markdown(report: dict) -> str:
         "",
         "## Headline, one line per faculty",
         "",
-        "| faculty | generation | forced choice | reading |",
-        "|---|---|---|---|",
+        "| faculty | chance | generation | hedge rate | forced choice | "
+        "reading |", "|---|---|---|---|---|---|",
     ]
     readings = {
         "intent": "mean chance-adjusted score over the five extracted fields",
@@ -105,6 +105,7 @@ def render_markdown(report: dict) -> str:
         "verification": "chance-adjusted trap detection",
     }
     fc = report.get("forced_choice") or {}
+    hedge = report.get("hedging") or {}
     for name, reading in readings.items():
         rep = report.get(name)
         if not rep:
@@ -112,12 +113,16 @@ def render_markdown(report: dict) -> str:
         h = rep.get("headline")
         h = (", ".join(f"{k}={v}" for k, v in h.items())
              if isinstance(h, dict) else f"{h:+.3f}")
+        hg = hedge.get(name) or {}
+        ch = f"{hg['chance']:.3f}" if "chance" in hg else "-"
+        hr = (f"{hg['hedge_rate']['acc']:.3f}"
+              if hg.get("hedge_rate") else "not defined")
         fields = fc.get(name) or {}
         fields = {k: v for k, v in fields.items() if not k.startswith("_")}
         if name == "composition" and fc.get("composition_k_star"):
             d = fc["composition_k_star"]
             pick = ", ".join(f"{k}={v}" for k, v in d.items())
-            out.append(f"| {name} | {h} | {pick} | {reading} |")
+            out.append(f"| {name} | {ch} | {h} | {hr} | {pick} | {reading} |")
             continue
         if fields:
             adj = sum(s["adjusted"] for s in fields.values()) / len(fields)
@@ -125,7 +130,7 @@ def render_markdown(report: dict) -> str:
             pick = f"{adj:+.3f} ({clears}/{len(fields)} above chance)"
         else:
             pick = "not offered"
-        out.append(f"| {name} | {h} | {pick} | {reading} |")
+        out.append(f"| {name} | {ch} | {h} | {hr} | {pick} | {reading} |")
 
     if "intent" in report:
         r = report["intent"]
@@ -259,6 +264,33 @@ def render_markdown(report: dict) -> str:
         for sh, v in sorted(r["per_shape"].items()):
             out.append(f"| {sh} | {_pct(v['detection'])} | "
                        f"{_pct(v['correction'])} |")
+
+    if report.get("hedging"):
+        out += ["", "## Hedging, and the two grading rules", "",
+                "A grader that accepts any reply containing the gold answer",
+                "scores a policy naming two candidates as correct whenever",
+                "either one is right. This suite grades strictly: naming more",
+                "than one candidate on a single-choice field counts as wrong.",
+                "Both rules are reported so the strictness is auditable. Where",
+                "lenient sits well above strict, that primitive was carried by",
+                "hedging and only the strict column means anything.", "",
+                "| faculty | field | chance | strict | lenient | gap | "
+                "hedge rate |", "|---|---|---|---|---|---|---|"]
+        for name, r in sorted(report["hedging"].items()):
+            hr = r.get("hedge_rate")
+            out.append(
+                f"| {name} | {r['field']} | {r['chance']:.3f} | "
+                f"{_pct(r['strict'])} | {_pct(r['lenient'])} | "
+                f"{r['leniency_gap']:+.3f} | "
+                + (f"{hr['acc']:.3f} [{hr['lo']:.3f}, {hr['hi']:.3f}]"
+                   if hr else "not defined") + " |")
+        worst = max(report["hedging"].values(),
+                    key=lambda r: r["leniency_gap"], default=None)
+        if worst is not None:
+            out += ["", f"Largest leniency gap: {worst['field']} at "
+                    f"{worst['leniency_gap']:+.3f}. A gap near zero means the "
+                    f"strict rule cost this model nothing, because it was not "
+                    f"hedging in the first place."]
 
     if report.get("forced_choice"):
         out += ["", "## Forced choice, the same items scored by preference", "",

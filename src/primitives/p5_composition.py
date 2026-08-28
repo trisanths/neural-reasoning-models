@@ -65,7 +65,8 @@ from __future__ import annotations
 
 import random
 
-from src.primitives.common import Item, invented_words, parse_one_label, proportion
+from src.primitives.common import (Item, invented_words, label_verdict,
+                                   parse_one_label, proportion)
 
 PRIMITIVE = "composition"
 KINDS = ("sequential", "relational", "novel")
@@ -360,8 +361,10 @@ def probe_items(items: list[Item]) -> list[Item]:
 
 def grade(item: Item, response: str) -> dict:
     pick = parse_one_label(response, item.gold["labels"])
+    v = label_verdict(response, item.gold["labels"], item.gold["answer"])
     return {"parsed": pick is not None,
             "correct": float(pick == item.gold["answer"]),
+            "lenient_correct": v["lenient"], "hedged": v["hedged"],
             "k": item.meta.get("k", 0),
             "kind": item.meta.get("kind", "probe"),
             "chance": 1.0 / max(2, len(item.gold["labels"]))}
