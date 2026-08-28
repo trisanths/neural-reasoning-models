@@ -20,10 +20,11 @@ import pytest
 from src.mathgen.battery import (PROBES, battery_report, run_battery,
                                  scripted_learner)
 from src.mathgen.bench import (BM25, Guard, build_problem_set, extract_answer,
-                               is_correct, prompt_closed_book, prompt_oracle,
-                               score, scripted_parrot, scripted_reader,
-                               to_rl_episodes)
-from src.mathgen.interface import LEVELS, closure, load_universe
+                               is_correct, keyword_nearest_guess,
+                               prompt_closed_book, prompt_oracle, score,
+                               scripted_parrot, scripted_reader, to_rl_episodes)
+from src.mathgen.interface import (LEVELS, closure, load_universe,
+                                   validate_universe)
 
 SEEDS = range(500, 504)
 
@@ -229,3 +230,77 @@ def test_rl_export_carries_every_problem_and_its_level(problem_set):
             assert q["target_chapters"]
             seen += 1
     assert seen == len(problem_set.problems)
+
+
+def test_guard_refuses_a_problem_the_corpus_prints(universe):
+    """A library that carries the question hands retrieval the chapter."""
+    rng = random.Random(2)
+    p = universe.problems(2, 1, rng)[0]
+    guard = Guard(universe)
+    assert guard.check(p).ok
+    guard.corpus_flat = guard.corpus_flat + " " + " ".join(p.text.split())
+    assert guard.check(p).failed == "prompt_in_corpus"
+
+
+def test_keyword_baseline_answers_when_the_corpus_repeats_the_answer():
+    chunks = [{"text": "the value is 7 and again 7 and again 7, also 3"}]
+    guess, _ = keyword_nearest_guess(chunks, "int")
+    assert guess == "7"
+
+
+# ---------------------------------------------------------------------------
+# the mathgen agent's own universes, through the adapter
+# ---------------------------------------------------------------------------
+MATHGEN = "src.mathgen.adapter"
+
+
+@pytest.fixture(scope="module")
+def mathgen_universe():
+    return load_universe(11, module=MATHGEN)
+
+
+def test_adapter_meets_the_contract_on_the_levels_it_emits(mathgen_universe):
+    report = validate_universe(mathgen_universe)
+    live = [lv for lv, entry in report["levels"].items() if entry["ok"]]
+    assert live, "the adapter emitted nothing at any level"
+    for lv in live:
+        assert report["levels"][lv]["ok"]
+
+
+def test_adapter_keeps_the_textbook_from_printing_its_own_questions(mathgen_universe):
+    corpus = " ".join(" ".join(c["text"] for c in mathgen_universe.library()).split())
+    rng = random.Random(0)
+    for lv in (2, 3, 4, 5):
+        for p in mathgen_universe.problems(lv, 50, rng):
+            assert " ".join(p.text.split()) not in corpus
+
+
+def test_adapter_problems_survive_ablation_of_each_required_chapter(mathgen_universe):
+    rng = random.Random(1)
+    seen = 0
+    for lv in (2, 3, 4, 5):
+        for p in mathgen_universe.problems(lv, 10, rng):
+            seen += 1
+            allowed = [c.chapter_id for c in mathgen_universe.chapters]
+            assert mathgen_universe.reference_solve(p, allowed) == p.answer
+            for target in p.target_chapters:
+                rest = [c for c in allowed if c != target]
+                assert mathgen_universe.reference_solve(p, rest) is None
+    assert seen
+
+
+def test_controls_behave_on_the_mathgen_universes():
+    ps = build_problem_set(range(11, 15), per_level=2, levels=(2, 3, 4, 5),
+                           universe_module=MATHGEN)
+    assert ps.problems
+    reader = score(scripted_reader(ps), ps, conditions=("closed_book", "oracle"))
+    for name, entry in reader["per_level"]["oracle"].items():
+        assert entry["accuracy"] == 1.0, name
+    parrot = score(scripted_parrot(ps), ps)
+    for cond, levels in parrot["per_level"].items():
+        for name, entry in levels.items():
+            assert entry["accuracy"] == 0.0, (cond, name)
+
+
+def test_battery_reports_no_probes_for_a_universe_without_any(mathgen_universe):
+    assert run_battery(lambda prompt: "Answer: 0", mathgen_universe) == []
