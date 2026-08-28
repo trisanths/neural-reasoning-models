@@ -64,6 +64,11 @@ preamble and the worked example. The worked example on the page set is itself
 a depth-two referral on a reserved starting type that no question uses, so
 failure cannot be explained by the composition format never having been shown.
 
+The closed-alphabet control has weaker but still sub-chance baselines over its
+178 surviving questions: most frequent token 0.096, keyword-nearest 0.011, no
+violations. Its rejection filters discard more problems, which is why it yields
+178 rather than 200.
+
 ## 2. The depth curve
 
 Checkpoint `s3://decoupled-reasoner-009398924577/runs/final/rlsimple-503-921/final.pt`,
@@ -154,16 +159,30 @@ depth-two referral, on a starting type reserved so that no question uses it.
 It is not evidence length or prompt shape. The page set and the prompt are
 constant along the curve except for one referral clause per step.
 
-Template sensitivity is real and worth recording separately. The first version
-of this task used a fresh notation ("the Fexharv map sends x to y", "Which
-token results?") rather than the routing idiom, and scored 0.06 at depth one
-under the most favourable condition available: typed levels, gold pages only,
-232-token prompt, greedy decoding. Rewriting the same task into the
-`substitution_rule` surface form moved depth one from 0.06 to 0.84 without
-changing the underlying computation at all. The acquisition result generalises
-across invented systems within a template and collapses across templates. That
-bounds how much the 0.680 headline means, and it is the reason section 8
-recommends repeating the curve on the pre-RL checkpoint.
+Template sensitivity is large, and the measurement of it here is confounded.
+The first version of this task stated the same computation in a fresh notation
+("the Fexharv map sends x to y", "Which token results?") instead of the routing
+idiom. Every variant of that version scored at or below 0.19 at depth one:
+0.078, 0.063 and 0.078 at alphabet sizes 4, 6 and 8 in the retrieval
+presentation, and 0.19 with typed levels and gold pages in context, all greedy.
+The routing version reaches 0.84 greedy. Building the task out of the
+`substitution_rule` surface form was what made depth one work at all.
+
+The confound is that the two idioms were not measured under one matched
+condition; presentation moved as well. So the honest claim is that the effect
+is large and its size is not yet pinned. A clean ablation is one renderer swap
+away and should be run, because if template alone accounts for most of a
+0.19-to-0.84 gap, the 0.680 headline generalises across invented systems within
+a template and not across templates, which is a much narrower result than it
+reads as. That is also why section 8 asks for the curve on the pre-RL
+checkpoint.
+
+The in-context presentation cannot serve as a control here. It scores 0.07 at
+depth one against 0.5375 for retrieval, because the RL stage only ever saw
+retrieval-shaped prompts, so there is no headroom in which a depth-two zero
+would mean anything. Removing the retrieval-control confound therefore has to
+be done inside the retrieval channel, by having the environment splice the
+intermediate. That is exactly rungs R1 and R2 of the rank-1 experiment.
 
 ## 4. Map of the empty space
 
