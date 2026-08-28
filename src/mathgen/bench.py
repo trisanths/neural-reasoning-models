@@ -129,7 +129,9 @@ def extract_answer(raw: str, shape: str) -> str:
         text = m.group(1)
     text = text.split("\n")[0]
     if shape == "list":
-        found = _LIST_RE.findall(text)
+        # A model that writes "17, 44" means the same list as "17,44", so the
+        # spacing is closed up before the list pattern is looked for.
+        found = _LIST_RE.findall(re.sub(r"\s*([,:])\s*", r"\1", text))
         if found:
             return normalize(found[0])
     if shape == "int":

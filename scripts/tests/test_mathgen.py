@@ -175,6 +175,8 @@ def test_extract_answer_handles_the_shapes_the_levels_use():
     assert extract_answer("the answer is 17, obviously", "int") == "17"
     assert extract_answer("Answer: 12,45", "list") == "12,45"
     assert extract_answer("Answer: 43:12", "list") == "43:12"
+    assert extract_answer("Answer: 17, 44", "list") == "17,44"
+    assert extract_answer("the census is 3, 91 and nothing else", "list") == "3,91"
     assert is_correct("Answer: 7", "7")
     assert not is_correct("Answer: 8", "7")
 

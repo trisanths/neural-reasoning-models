@@ -32,7 +32,7 @@ REGISTERS = ["lecture", "treatise", "workbook", "chronicle", "applied"]
 
 SECTION_ORDER = ["motivation", "definitions", "intuition", "derivation",
                  "example", "counterexample", "scope", "related", "proof",
-                 "exercises"]
+                 "summary", "exercises"]
 
 SECTION_TITLES = {
     "motivation": "Why this chapter",
@@ -44,6 +44,7 @@ SECTION_TITLES = {
     "scope": "Reach and limits",
     "related": "Neighbouring results",
     "proof": "Proofs",
+    "summary": "What to carry forward",
     "exercises": "Exercises",
 }
 
@@ -118,8 +119,33 @@ def _join(items: list) -> str:
 
 
 def _wrap(text: str) -> str:
-    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
-    return "\n\n".join(textwrap.fill(p, width=88) for p in paragraphs)
+    """Fill prose to a readable width, leaving indented lines exactly as written.
+
+    Worked examples and tables are laid out one step to a line and mean nothing
+    once reflowed, so any line that starts indented passes through untouched.
+    """
+    out: list[str] = []
+    buffer: list[str] = []
+
+    def flush():
+        if buffer:
+            out.append(textwrap.fill(" ".join(buffer), width=88))
+            buffer.clear()
+
+    for line in text.split("\n"):
+        if not line.strip():
+            flush()
+            if out and out[-1] != "":
+                out.append("")
+        elif line.startswith("    "):
+            flush()
+            out.append(line.rstrip())
+        else:
+            buffer.append(line.strip())
+    flush()
+    while out and out[-1] == "":
+        out.pop()
+    return "\n".join(out)
 
 
 # ---------------------------------------------------------------------------
@@ -252,6 +278,20 @@ def _sec_motivation(theory, chapter, nodes, rng, register) -> str:
             f"{'chapter' if len(incoming) == 1 else 'chapters'} "
             f"{_join([c + 1 for c in incoming])} supply the notions the "
             f"statements below are phrased in."]))
+    lines.append(_pick(rng, [
+        f"A note on method before starting. Everything asserted below was "
+        f"checked against every case the statement quantifies over, not argued "
+        f"from a pattern in a few examples. With {s.size} {s.object_plural} "
+        f"that is cheap, and it means a claim in this book is either settled or "
+        f"absent.",
+        f"The standard of proof here is exhaustion. A universal claim about "
+        f"{s.object_plural} covers at most a few hundred cases, so it is run "
+        f"over all of them. Nothing below rests on an argument from analogy "
+        f"with a system the reader already knows.",
+        f"One habit to adopt: when a statement below quantifies over "
+        f"{s.object_plural}, check two or three cases by hand before reading "
+        f"on. The tables are short and the checking is fast, and it is the only "
+        f"way to build the intuition this system does not share with any other."]))
     if "refutation" in kinds:
         lines.append(_pick(rng, [
             "Some of what follows is negative. A claim that fails is set out "
@@ -379,6 +419,17 @@ def _sec_intuition(theory, chapter, nodes, rng, register) -> str:
             "There is no geometry to lean on in a system this small. The "
             "intuition has to come from the tables, read as a whole rather than "
             "cell by cell."]))
+    lines.append(_pick(rng, [
+        f"The honest caveat on all of this: a picture is a way of remembering a "
+        f"table, not a substitute for one. Where the picture and the table "
+        f"disagree the table wins, and in a system with {s.size} "
+        f"{s.object_plural} the table is short enough to consult every time.",
+        f"None of these images are load bearing. They are here because a reader "
+        f"who can see the shape makes fewer lookups, not because any argument "
+        f"below depends on seeing it. Every proof goes through the tables.",
+        f"Treat the above as scaffolding. It is the fastest route into a system "
+        f"nobody has intuitions about yet, and it should be discarded the moment "
+        f"it disagrees with a computation."]))
     return _wrap("\n\n".join(lines))
 
 
@@ -442,6 +493,44 @@ def _sec_example(theory, chapter, nodes, rng, register) -> tuple:
         f"That leaves {value}, and no other reading of the notation gives "
         f"anything else."]))
     lines.append("\n".join(body))
+
+    second = f"{picks[1]} {g0} ({picks[2]} {g0} {picks[0]})"
+    trace2 = s.eval_trace(second)
+    value2 = s.evaluate(second)
+    records.append({"kind": "evaluate", "expression": second, "value": value2,
+                    "steps": trace2})
+    body2 = [_pick(rng, [
+        f"Bracketing is not cosmetic, so here is {second} for contrast.",
+        f"Move the brackets and the work changes. Take {second}.",
+        f"A companion case, {second}, to show what the brackets are doing."])]
+    for step in trace2:
+        body2.append(f"    {step['expression']} = {step['value']}   ({step['reason']})")
+    body2.append(_pick(rng, [
+        f"That gives {value2}"
+        + (", the same value the first reading gave, which is a fact about these "
+           "particular arguments and not a law."
+           if value2 == value else ", against " + value + " above."),
+        f"The value is {value2}"
+        + (". It agrees with the first case here, and a reader should resist "
+           "reading anything general into that."
+           if value2 == value else f", not {value}.")]))
+    lines.append("\n".join(body2))
+
+    a_rel, b_rel = rng.choice(s.elements), rng.choice(s.elements)
+    holds = s.decide(s.index[a_rel], s.index[b_rel])
+    sh = names(s, shadow_of(s, s.index[a_rel]))
+    records.append({"kind": "relation", "left": a_rel, "right": b_rel,
+                    "value": "holds" if holds else "fails"})
+    lines.append(_pick(rng, [
+        f"One decision about the relation, since deciding is as much a skill as "
+        f"computing. Does {a_rel} {s.rel_glyph} {b_rel} hold? Read off what "
+        f"{a_rel} stands over: {_join(sh) if sh else 'nothing at all'}. "
+        + (f"{b_rel} is among them, so it holds." if holds
+           else f"{b_rel} is not among them, so it fails."),
+        f"Test {a_rel} {s.rel_glyph} {b_rel}. The {nm['shadow']} of {a_rel} is "
+        f"{_join(sh) if sh else 'empty'}, and "
+        + (f"{b_rel} lies inside it, so the relation holds."
+           if holds else f"{b_rel} lies outside it, so the relation fails.")]))
 
     span_nodes = [n for n in nodes if n.key in ("def:span", "def:reach")]
     if span_nodes:
@@ -539,9 +628,8 @@ def _sec_related(theory, chapter, nodes, rng, register) -> str:
             continue
         if ids & set(n.depends_on):
             downstream.append(n)
-    upstream = sorted({theory.nodes[d] for n in nodes for d in n.depends_on
-                       if theory.nodes[d].node_id not in ids},
-                      key=lambda n: n.node_id)
+    upstream_ids = sorted({d for n in nodes for d in n.depends_on if d not in ids})
+    upstream = [theory.nodes[d] for d in upstream_ids]
     lines = []
     if upstream:
         lines.append(_pick(rng, [
@@ -580,6 +668,41 @@ def _sec_proof(theory, chapter, nodes, rng, register) -> str:
                 f"settled rather than supported.")
         blocks.append(head + "\n\n" + "\n".join(steps) + "\n\n" + tail)
     return "\n\n".join(blocks)
+
+
+def _sec_summary(theory, chapter, nodes, rng, register) -> str:
+    kept = [n for n in nodes if n.kind == "theorem"]
+    lost = [n for n in nodes if n.kind == "refutation"]
+    defs = [n for n in nodes if n.kind == "definition"]
+    lines = []
+    if defs:
+        lines.append(_pick(rng, [
+            "New vocabulary from this chapter: "
+            + _join([d.title for d in defs])
+            + ". Each of these is used by name later, so the names are worth "
+              "learning rather than looking up.",
+            "Carry forward " + _join([d.title for d in defs])
+            + ". Later chapters state their results in these terms and do not "
+              "restate the definitions."]))
+    if kept:
+        lines.append(_pick(rng, [
+            "Established here and safe to use: "
+            + _join([f"{n.node_id}" for n in kept]) + ".",
+            "The results now available are " + _join([n.node_id for n in kept])
+            + ", each settled by exhaustive check rather than by argument from "
+              "analogy."]))
+    if lost:
+        lines.append(_pick(rng, [
+            "Explicitly not available: " + _join([n.node_id for n in lost])
+            + ". A later argument that quietly assumes one of these is wrong, "
+              "and the counterexamples above say exactly where.",
+            "Do not carry forward " + _join([n.node_id for n in lost])
+            + ". These were tested and failed, and the failing cases are "
+              "recorded above."]))
+    if not lines:
+        lines.append("Nothing in this chapter needs carrying forward on its "
+                     "own; it is scaffolding for what follows.")
+    return _wrap("\n\n".join(lines))
 
 
 def _sec_exercises(theory, chapter, exercises, rng, register) -> str:
@@ -650,7 +773,8 @@ def build_textbook(theory: Theory, exercises: list | None = None) -> Textbook:
         nodes = chapters_map[number]
         register = REGISTERS[(s.seed + number) % len(REGISTERS)]
         themes = [n.theme for n in nodes]
-        theme = max(set(themes), key=themes.count)
+        theme = "signature" if number == 0 else max(set(themes),
+                                                    key=themes.count)
         title = THEME_TITLES.get(theme, "Further results")
         seen_before = sum(1 for c in chapters if c.title.split(" (")[0] == title)
         if seen_before:
@@ -668,6 +792,7 @@ def build_textbook(theory: Theory, exercises: list | None = None) -> Textbook:
             "scope": lambda: _sec_scope(theory, number, nodes, rng, register, sib),
             "related": lambda: _sec_related(theory, number, nodes, rng, register),
             "proof": lambda: _sec_proof(theory, number, nodes, rng, register),
+            "summary": lambda: _sec_summary(theory, number, nodes, rng, register),
             "exercises": lambda: _sec_exercises(theory, number,
                                                 by_chapter_ex.get(number, []),
                                                 rng, register),
