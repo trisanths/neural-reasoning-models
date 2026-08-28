@@ -168,6 +168,11 @@ def main() -> int:
     for cond in conditions:
         print_block(f"accuracy per target chapter, condition {cond}",
                     result["per_chapter"][cond])
+    if "acquisition" in conditions:
+        rates = result["acquisition_search_rate"]
+        print("\nfraction of agent rollouts that issued a query")
+        for name, rate in rates.items():
+            print(f"  {name:<28} {rate:.4f}")
 
     battery: dict = {}
     if not args.skip_battery:
