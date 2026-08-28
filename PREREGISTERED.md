@@ -369,3 +369,89 @@ the substrate does not have.
 Both outcomes narrow the programme. The probe must be fitted on held-out worlds,
 must report its chance level, and must report a control probe on shuffled labels,
 because a probe with enough capacity will otherwise manufacture the result.
+
+## H11, the vocabulary bottleneck between reasoning steps, registered 2026-08-28 before running
+
+Every condition measured so far that dies near depth four passes its reasoning
+state through the vocabulary between steps: hidden state, projection to logits,
+selection of one symbol, re-embedding of that symbol. The one condition that runs
+flat to depth eight, oracle_plan, does not construct the composition through that
+channel at all.
+
+H11 states the composition horizon is partly created by the projection into the
+vocabulary between recurrent computations, and that removing it while holding the
+substrate fixed extends the horizon.
+
+The test is a latent recurrence in the style of Coconut: feed the hidden state
+back rather than emitting and re-embedding a token. Its loss does not require the
+continuous state to reconstruct a deleted linguistic step, only to support the
+reasoning that follows, so the latent state is free to hold something the
+vocabulary cannot express compactly, including several live alternatives rather
+than one committed symbol.
+
+### The conditions, with A, B, C and G already measured
+
+A direct. B trace. C plan_execute. D latent recurrence. E latent recurrence
+feeding an opcode plan. F masked iterative opcode planner, running separately.
+G oracle_plan.
+
+All non-oracle conditions train on plans through depth three only. Evaluation
+runs to depth thirty two. Latent steps R sweep over 1, 2, 4, 8, 16, 32, 64.
+
+### The prediction, which is about shape
+
+What matters is not whether latent recurrence gains ten points at depth four. It
+is whether the curve stops being a cliff. A condition that moves the cliff from
+four to ten has found a second bottleneck underneath and is a different finding
+from one that goes flat, and the report must distinguish them.
+
+### The surface that matters most to the thesis
+
+Sweep permanent parameters against latent recurrent steps and read composition
+depth off the surface. The claim worth testing is that parameters mostly set the
+computation available per iteration while recurrence sets the total attainable
+reasoning depth. If that holds, a small substrate does not need a large parameter
+count, it needs a transition function expressive enough to apply repeatedly,
+which is much closer to this project's thesis than making a small transformer
+unusually good.
+
+### Boundary condition already measured, which cuts against the optimistic reading
+
+Weight-tied recurrence does not automatically turn a memory-bound model into a
+compute-bound one. The optimization lab measured a recurrent trunk running near
+ten percent utilization, overhead-bound rather than compute-bound. So R=64 is not
+free in wall clock, and the surface needs a measured time axis beside the
+accuracy axis or it will recommend a configuration that does not deploy.
+
+### Two ways this experiment produces a false negative
+
+Latent recurrence is known to be hard to train without a curriculum that
+progressively replaces written steps with latent ones. "Latent recurrence does
+not work" and "latent recurrence did not train" are different findings and the
+second is easy to mistake for the first. Whether a curriculum was needed must be
+reported either way.
+
+R latent steps cost R forward passes, so any gain must be checked against an
+autoregressive arm given the same forward-pass budget. Without that arm the
+result is test-time compute rather than the removal of the vocabulary bottleneck.
+
+### The handoff, as a rescue instrument and not an architecture
+
+Project the small model's hidden state into a larger frozen model's residual
+space, run latent steps there, project back, and let the small model answer. If
+the small model fails at a depth where the handoff succeeds, the information
+needed was present in the small model's state and what is missing is machinery to
+transform it. If the handoff also fails, the small model's state discarded
+information that even a larger transformer cannot recover. These are different
+architectural conclusions and no experiment in this project currently separates
+them.
+
+This is not a candidate architecture for Y. A 500M model paired with a 32B latent
+reasoner is a 32.5B system, and intelligence per permanent parameter has to count
+the whole thing. Its value is diagnostic.
+
+The stronger use is computational distillation: rather than imitating the large
+model's answer, train a tiny operator to imitate the transformation the large
+model performs on a reasoning state, then shrink that operator until the
+transformation stops being reproducible. The size at which it stops is a direct
+measurement of the irreducible substrate this project is trying to find.
