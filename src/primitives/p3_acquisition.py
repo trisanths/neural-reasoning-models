@@ -173,11 +173,17 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
                 + "\n\nIndexing note.\n" + note
                 + "\n\nWhat is needed.\n" + need)
 
+    # The first turn is always scored against the ledger page, which the
+    # handling code reaches. The recursive variant's answer lives one page
+    # further on, behind the protocol name only that ledger page carries,
+    # so its oracle first query is the same code and its hop query is the
+    # protocol. Both are checked below.
     texts = [d["text"] for d in docs]
     index = BM25Index(texts)
     copy_rank = _rank(index, need, 3)
-    oracle_query = v["code"] if variant == "direct" else v["proto"]
-    oracle_rank = _rank(index, oracle_query, 1)
+    first_query = v["code"]
+    first_rank = _rank(index, first_query, 1)
+    hop_rank = _rank(index, v["proto"], 1)
 
     return Item(
         item_id=f"p3-{mode}-{variant}-{seed:07d}",
@@ -185,15 +191,16 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
         question=question, chunks=[],
         gold={"doc": gold_doc, "tier": gold_tier,
               "first_doc": direct, "first_tier": docs[direct]["tier"],
-              "oracle_query": oracle_query,
+              "first_query": first_query, "oracle_query": first_query,
               "hop_query": v["proto"], "hop_doc": hop,
               "hop_tier": docs[hop]["tier"]},
         meta={"seed": seed, "docs": texts,
               "followup": FOLLOWUP.format(tiers=", ".join(TIER_NAMES)),
               "served_text": texts[direct],
-              "copy_hits": copy_rank[0] == gold_doc,
-              "copy_top3": gold_doc in copy_rank,
-              "oracle_hits": oracle_rank[0] == gold_doc},
+              "copy_hits": copy_rank[0] == direct,
+              "copy_top3": direct in copy_rank,
+              "oracle_hits": (first_rank[0] == direct
+                              and hop_rank[0] == hop)},
     )
 
 

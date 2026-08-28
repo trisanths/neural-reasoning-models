@@ -137,15 +137,28 @@ def _plan(v: dict) -> str:
             f"  5. Report the {v['out']}.")
 
 
-def generate(seed: int, mode: str = "isolated") -> Item:
+def generate(seed: int, mode: str = "isolated",
+             blocked: bool | None = None) -> Item:
+    """One manual and one problem.
+
+    Every draw that shapes the problem statement happens before the arm is
+    decided, so generate(seed, blocked=True) and generate(seed,
+    blocked=False) produce the same vocabulary and the same problem text.
+    Nothing in the question predicts whether a page has been removed.
+    """
     rng = random.Random(seed * 7919 + 13)
     w = invented_words(rng, 9)
     v = {"sys": w[0].capitalize() + " scheme", "inp": w[1], "out": w[2],
          "small": w[3], "big": w[4], "const": w[5], "flag": w[6],
          "adj1": w[7], "adj2": w[8],
          "kval": rng.randrange(3, 40), "conv": rng.randrange(4, 25)}
+    quantity = rng.randrange(2, 12)
+    problem = (f"A consignment has been marked {v['flag']} and its {v['inp']} "
+               f"is {quantity} {v['big']}. The {v['adj1']} and {v['adj2']} "
+               f"adjustments both apply. What is its {v['out']}?")
 
-    blocked = (seed % 2 == 0)
+    if blocked is None:
+        blocked = (seed % 2 == 0)
     gap = GAP_MENU[(seed // 2) % len(GAP_MENU)][0]
 
     pages = _pages(v)
@@ -156,11 +169,6 @@ def generate(seed: int, mode: str = "isolated") -> Item:
     if blocked:
         docs.append(_filler(v, 1))
     rng.shuffle(docs)
-
-    quantity = rng.randrange(2, 12)
-    problem = (f"A consignment has been marked {v['flag']} and its {v['inp']} "
-               f"is {quantity} {v['big']}. The {v['adj1']} and {v['adj2']} "
-               f"adjustments both apply. What is its {v['out']}?")
 
     if mode == "isolated":
         head = (INSTRUCTIONS.format(

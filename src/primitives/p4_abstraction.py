@@ -134,7 +134,16 @@ def generate(seed: int, mode: str = "isolated", condition: str = "transfer") -> 
         for a, b, c, lab in taught)
 
     if condition == "transfer":
-        rw = invented_words(random.Random(seed ^ 0x7A5F), 6)
+        # Drawn disjoint from the lesson's vocabulary, so the test case
+        # shares no content word with any lesson case and a copier has
+        # nothing to match on.
+        used = set(w)
+        trng = random.Random(seed ^ 0x7A5F)
+        rw: list[str] = []
+        while len(rw) < 6:
+            cand = invented_words(trng, 12)
+            rw.extend(x for x in cand if x not in used and x not in rw)
+        rw = rw[:6]
         t = {"thing": rw[0], "attr1": rw[1], "attr2": rw[2],
              "lab0": rw[3], "lab1": rw[4], "sys": rw[5].capitalize()}
         legend = (

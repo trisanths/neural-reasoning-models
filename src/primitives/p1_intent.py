@@ -83,12 +83,14 @@ def _kinds(v: dict, rng: random.Random) -> list[dict]:
              option is ever a verbatim lift out of the request
     true     the canonical constraint, used as the correct option
     flip     the polarity-flipped twin, used as a near-identical distractor
-    key      the token that must appear in a free-form answer
+    key      the single word that must appear in a free-form answer. One
+             word, never a phrase, because the free-form grader works over
+             word types and a phrase would never match.
     """
     day, budget, keep, route, count = (
         v["day"], v["budget"], v["keep"], v["route"], v["count"])
     return [
-        {"name": "deadline", "key": day,
+        {"name": "deadline", "key": day.split()[-1].lower(),
          "said": f"it has to be done by {day}, that is the hard part",
          "flipsaid": f"nothing may land before {day} after all",
          "true": f"completion no later than {day}",
@@ -335,8 +337,8 @@ def grade(item: Item, response: str) -> dict:
         clean = not any(t in gt for t in g["goal_avoid"])
         out["goal"] = float(hit and clean)
         ct = token_set(got["CONSTRAINTS"])
-        found = {k for k in g["constraint_keys"] if k in ct}
-        spur = {k for k in g["constraint_absent"] if k in ct}
+        found = {k for k in g["constraint_keys"] if k.lower() in ct}
+        spur = {k for k in g["constraint_absent"] if k.lower() in ct}
         out["constraints"] = _f1(found | spur, set(g["constraint_keys"]))
         out["constraints_exact"] = float(
             found == set(g["constraint_keys"]) and not spur)

@@ -208,7 +208,12 @@ def _relational(seed: int, k: int, mode: str) -> Item:
         question=body, chunks=[{"text": "Roster.\n" + roster}],
         gold={"answer": target, "labels": names},
         meta={"seed": seed, "kind": "relational", "k": k, "names": names,
-              "steps": probes},
+              "steps": probes,
+              # The structure behind the roster, so the property that makes
+              # the item a breadth test (every clue load bearing) can be
+              # checked directly rather than reparsed out of the prose.
+              "rows": {n: list(rows[n]) for n in names},
+              "clues": [(ai, values[ai][0]) for ai in clue_attrs]},
     )
 
 
@@ -278,7 +283,9 @@ def _novel(seed: int, k: int, mode: str) -> Item:
         question=body, chunks=[{"text": lesson_text}],
         gold={"answer": cur, "labels": names},
         meta={"seed": seed, "kind": "novel", "k": k, "names": names,
-              "n_unused_procs": 2, "steps": probes},
+              "n_unused_procs": 2, "steps": probes,
+              "proc_names": proc_names, "lessons": lessons,
+              "start": start},
     )
 
 

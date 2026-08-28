@@ -1,0 +1,276 @@
+"""Model-agnostic runner for the primitive suite.
+
+The model enters through one callable:
+
+    predict(question: str, chunks: list) -> str
+
+which is the answer_fn shape src.evals.interactive.make_retrieval_answer_fn
+returns, so a checkpoint already wired for the interactive loop can be
+handed straight to this runner, and so can a scripted stand-in, an API
+client, or a heuristic baseline. Nothing below imports torch.
+
+chunks are the documents an item makes available. Most primitives put
+their material in the question as well and pass the same text as chunks,
+so an adapter is free to use whichever channel its model was trained on.
+The acquisition primitive passes an empty chunk list on purpose: its whole
+point is that the corpus is not visible and only the query is scored.
+
+Two modes throughout. In isolated mode the other six faculties are
+supplied by oracle around the one under test. In integrated mode those
+oracles are withdrawn. Both are runnable at every size, which is what the
+substrate sweep needs to produce the two curves the pre-registration asks
+for.
+"""
+
+from __future__ import annotations
+
+import time
+
+from src.primitives import episode as ep
+from src.primitives import (
+    p1_intent, p2_gap, p3_acquisition, p4_abstraction, p5_composition,
+    p6_memory, p7_verification,
+)
+
+DEFAULT_N = 40
+DEFAULT_KS = (1, 2, 3, 4, 5)
+
+
+def followup_question(item) -> str:
+    """The second turn of a recursive acquisition item.
+
+    Built here so the runner and the scripted stand-ins agree on it byte
+    for byte, rather than each assembling its own version.
+    """
+    return (item.question + "\n\n" + item.meta["followup"]
+            + "\n\nReturned page.\n" + item.meta["served_text"])
+
+
+def _call(predict, item, on_error="") -> str:
+    try:
+        return str(predict(item.question, list(item.chunks)))
+    except Exception as exc:  # a model that crashes scores zero, loudly
+        return f"{on_error}<<predict raised {type(exc).__name__}: {exc}>>"
+
+
+def _run_items(predict, items, grade_fn, progress=None) -> tuple[list, list]:
+    grades, records = [], []
+    for i, item in enumerate(items):
+        text = _call(predict, item)
+        g = grade_fn(item, text)
+        grades.append(g)
+        records.append({"item_id": item.item_id, "primitive": item.primitive,
+                        "variant": item.variant, "mode": item.mode,
+                        "response": text[:2000],
+                        "grade": {k: v for k, v in g.items()
+                                  if isinstance(v, (int, float, bool, str))
+                                  or v is None}})
+        if progress and (i + 1) % 25 == 0:
+            progress(f"    {i + 1}/{len(items)}")
+    return grades, records
+
+
+# ------------------------------------------------------------ per primitive
+
+def run_intent(predict, n=DEFAULT_N, seed=0, mode="isolated", progress=None):
+    items = p1_intent.generate_many(n, seed=seed, mode=mode)
+    grades, rec = _run_items(predict, items, p1_intent.grade, progress)
+    return p1_intent.aggregate(items, grades), rec
+
+
+def run_gap(predict, n=DEFAULT_N, seed=0, mode="isolated", progress=None):
+    items = p2_gap.generate_many(n, seed=seed, mode=mode)
+    grades, rec = _run_items(predict, items, p2_gap.grade, progress)
+    return p2_gap.aggregate(items, grades), rec
+
+
+def run_acquisition(predict, n=DEFAULT_N, seed=0, mode="isolated",
+                    progress=None):
+    """Both variants. The recursive one costs a second call per item."""
+    out, rec = {}, []
+    for variant in ("direct", "recursive"):
+        items = p3_acquisition.generate_many(n, seed=seed, mode=mode,
+                                             variant=variant)
+        grades = []
+        for item in items:
+            first = _call(predict, item)
+            follow = None
+            if variant == "recursive":
+                follow = str(predict(followup_question(item), []))
+            g = p3_acquisition.grade(item, first, followup=follow)
+            grades.append(g)
+            rec.append({"item_id": item.item_id, "primitive": item.primitive,
+                        "variant": item.variant, "mode": item.mode,
+                        "response": first[:2000],
+                        "followup": (follow or "")[:2000],
+                        "grade": {k: v for k, v in g.items()
+                                  if isinstance(v, (int, float, bool))}})
+        out[variant] = p3_acquisition.aggregate(items, grades)
+        if progress:
+            progress(f"    acquisition/{variant} done")
+    out["headline"] = out["direct"]["headline"]
+    out["primitive"] = "acquisition"
+    out["mode"] = mode
+    out["n"] = sum(out[v]["n"] for v in ("direct", "recursive"))
+    return out, rec
+
+
+def run_abstraction(predict, n=DEFAULT_N, seed=0, mode="isolated",
+                    progress=None):
+    """Transfer is the headline; same-surface is the control beside it."""
+    out, rec = {}, []
+    for condition in ("same_surface", "transfer"):
+        items = p4_abstraction.generate_many(n, seed=seed, mode=mode,
+                                             condition=condition)
+        grades, r = _run_items(predict, items, p4_abstraction.grade, progress)
+        out[condition] = p4_abstraction.aggregate(items, grades)
+        rec.extend(r)
+    out["primitive"] = "abstraction"
+    out["mode"] = mode
+    out["headline"] = out["transfer"]["headline"]
+    out["transfer_cost"] = (out["same_surface"]["accuracy"]["acc"]
+                            - out["transfer"]["accuracy"]["acc"])
+    out["n"] = sum(out[c]["n"] for c in ("same_surface", "transfer"))
+    return out, rec
+
+
+def run_composition(predict, n=DEFAULT_N, seed=0, mode="isolated",
+                    ks=DEFAULT_KS, progress=None, with_probes=True):
+    """Three curves, never pooled, each raw and step-conditioned."""
+    out, rec = {}, []
+    for kind in p5_composition.KINDS:
+        items = p5_composition.generate_curve(n, kind, ks, seed=seed, mode=mode)
+        grades, r = _run_items(predict, items, p5_composition.grade, progress)
+        rec.extend(r)
+        probes, pgrades = None, None
+        if with_probes:
+            probes = p5_composition.probe_items(items)
+            pgrades, pr = _run_items(predict, probes, p5_composition.grade,
+                                     progress)
+            rec.extend(pr)
+        out[kind] = p5_composition.aggregate_curve(items, grades, probes,
+                                                   pgrades)
+        if progress:
+            progress(f"    composition/{kind} k*={out[kind]['k_star']}")
+    out["primitive"] = "composition"
+    out["mode"] = mode
+    out["headline"] = {k: out[k]["k_star"] for k in p5_composition.KINDS}
+    out["n"] = sum(out[k]["n"] for k in p5_composition.KINDS)
+    return out, rec
+
+
+def run_memory(predict, n=DEFAULT_N, seed=0, mode="isolated", progress=None):
+    items = p6_memory.generate_many(n, seed=seed, mode=mode)
+    grades, rec = _run_items(predict, items, p6_memory.grade, progress)
+    return p6_memory.aggregate(items, grades), rec
+
+
+def run_verification(predict, n=DEFAULT_N, seed=0, mode="isolated",
+                     progress=None):
+    items = p7_verification.generate_many(n, seed=seed, mode=mode)
+    grades, rec = _run_items(predict, items, p7_verification.grade, progress)
+    return p7_verification.aggregate(items, grades), rec
+
+
+def run_rescue_matrix(predict, n=20, seed=0, progress=None,
+                      conditions=ep.CONDITIONS):
+    """One episode per seed rendered under every intervention."""
+    items = ep.generate_matrix(n, seed=seed, conditions=conditions)
+    grades, rec = _run_items(predict, items, ep.grade, progress)
+    return ep.aggregate(items, grades), rec
+
+
+def plan_pairs(primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
+               ks=DEFAULT_KS, rescue_n=0) -> list[tuple]:
+    """Every (question, chunks) the suite will ask for, in one list.
+
+    Generation is seeded, so this reproduces exactly what run_suite will
+    put to the model. A batched adapter can decode all of it up front and
+    then serve the runner's one-at-a-time calls from cache, which keeps
+    the runner free of any batching concern.
+    """
+    names = list(primitives or RUNNERS)
+    pairs: list[tuple] = []
+
+    def add(items):
+        for it in items:
+            pairs.append((it.question, list(it.chunks)))
+
+    if "intent" in names:
+        add(p1_intent.generate_many(n, seed=seed, mode=mode))
+    if "gap" in names:
+        add(p2_gap.generate_many(n, seed=seed, mode=mode))
+    if "acquisition" in names:
+        for variant in ("direct", "recursive"):
+            items = p3_acquisition.generate_many(n, seed=seed, mode=mode,
+                                                 variant=variant)
+            add(items)
+            if variant == "recursive":
+                pairs.extend((followup_question(i), []) for i in items)
+    if "abstraction" in names:
+        for condition in ("same_surface", "transfer"):
+            add(p4_abstraction.generate_many(n, seed=seed, mode=mode,
+                                             condition=condition))
+    if "composition" in names:
+        for kind in p5_composition.KINDS:
+            items = p5_composition.generate_curve(n, kind, ks, seed=seed,
+                                                  mode=mode)
+            add(items)
+            add(p5_composition.probe_items(items))
+    if "memory" in names:
+        add(p6_memory.generate_many(n, seed=seed, mode=mode))
+    if "verification" in names:
+        add(p7_verification.generate_many(n, seed=seed, mode=mode))
+    if rescue_n:
+        add(ep.generate_matrix(rescue_n, seed=seed))
+    return pairs
+
+
+RUNNERS = {
+    "intent": run_intent,
+    "gap": run_gap,
+    "acquisition": run_acquisition,
+    "abstraction": run_abstraction,
+    "composition": run_composition,
+    "memory": run_memory,
+    "verification": run_verification,
+}
+
+
+def run_suite(predict, primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
+              ks=DEFAULT_KS, rescue_n=0, progress=None,
+              keep_records=True) -> dict:
+    """Every requested primitive, plus the rescue matrix when asked for.
+
+    Returns a report dict keyed by primitive, with a meta block. Records
+    are the raw responses, kept for auditing and written by the CLI to a
+    jsonl beside the report.
+    """
+    names = list(primitives or RUNNERS)
+    reports, records = {}, []
+    t0 = time.time()
+    for name in names:
+        if progress:
+            progress(f"  {name} ({mode})")
+        kwargs = {"n": n, "seed": seed, "mode": mode, "progress": progress}
+        if name == "composition":
+            kwargs["ks"] = ks
+        rep, rec = RUNNERS[name](predict, **kwargs)
+        reports[name] = rep
+        if keep_records:
+            records.extend(rec)
+    if rescue_n:
+        if progress:
+            progress("  rescue matrix")
+        rep, rec = run_rescue_matrix(predict, n=rescue_n, seed=seed,
+                                     progress=progress)
+        reports["rescue_matrix"] = rep
+        if keep_records:
+            records.extend(rec)
+    reports["meta"] = {
+        "mode": mode, "n_per_primitive": n, "seed": seed, "ks": list(ks),
+        "rescue_episodes": rescue_n, "primitives": names,
+        "seconds": round(time.time() - t0, 1),
+        "n_items": len(records),
+    }
+    return {"report": reports, "records": records}
