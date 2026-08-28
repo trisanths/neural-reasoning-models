@@ -12,6 +12,16 @@ decouples from parameter count. Recurrence is off unless model.recurrent is
 set in the config, and with it off this file builds exactly the same modules
 in exactly the same order as before, so old checkpoints load and produce
 bit identical logits.
+
+The model also supports a pointer-generator output head, described in
+src/train/pointer.py, which mixes the vocabulary distribution with a copy
+distribution over an evidence region so an answer that exists verbatim in the
+evidence can be selected rather than regenerated. It is off unless
+model.pointer is set in the config, and it is built after every other
+parameter has been drawn, so with it off no module is constructed, the init
+RNG stream is untouched, and the state dict keys and the logits are the same
+as before. src/train/tests/test_pointer_model.py holds that to a reference
+produced by the pre-pointer model.py out of git.
 """
 
 from contextlib import contextmanager
@@ -21,6 +31,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.utils.checkpoint
+
+from src.train.pointer import PointerConfig, PointerHead, pointer_cross_entropy
 
 
 @dataclass
@@ -98,12 +110,16 @@ class ModelConfig:
     rope_theta: float = 10000.0
     norm_eps: float = 1e-5
     recurrent: RecurrentConfig | dict | None = None
+    # Last field, so nothing that builds a ModelConfig positionally moves.
+    pointer: PointerConfig | dict | None = None
 
     def __post_init__(self):
         if self.d_model % self.n_heads != 0:
             raise ValueError("d_model must be divisible by n_heads")
         if isinstance(self.recurrent, dict):
             self.recurrent = RecurrentConfig(**self.recurrent)
+        if isinstance(self.pointer, dict):
+            self.pointer = PointerConfig(**self.pointer)
         if self.recurrent is not None and self.recurrent.unique_layers != self.n_layers:
             raise ValueError(
                 "prelude_layers + core_layers + coda_layers must equal n_layers, got "
@@ -258,6 +274,14 @@ class TransformerLM(nn.Module):
             self.prelude_blocks = [self.blocks[i] for i in range(start)]
             self.core_blocks = [self.blocks[i] for i in range(start, stop)]
             self.coda_blocks = [self.blocks[i] for i in range(stop, cfg.n_layers)]
+        # The pointer head is built last, after every pre-existing parameter
+        # has already been drawn from the generator, so switching it on cannot
+        # shift the values of anything that was there before it. With
+        # model.pointer absent nothing is built at all: no state dict keys, no
+        # draws from the RNG, no change to the forward pass.
+        self.pointer: PointerHead | None = None
+        if cfg.pointer is not None:
+            self.pointer = PointerHead(cfg.d_model, cfg.vocab_size, cfg.pointer)
 
     @staticmethod
     def _init_weights(module: nn.Module):
@@ -354,7 +378,13 @@ class TransformerLM(nn.Module):
             x = block(x, cos, sin)
         return x
 
-    def forward(self, idx: torch.Tensor, targets: torch.Tensor | None = None, loops: int | None = None):
+    def trunk(self, idx: torch.Tensor, loops: int | None = None) -> torch.Tensor:
+        """Token embeddings through the final norm: the states the lm_head reads.
+
+        Split out of forward so the pointer head can read the same states
+        without a second pass, and so a caller that only needs a few supervised
+        positions can slice before paying for a vocabulary sized projection.
+        """
         seq_len = idx.shape[1]
         if seq_len > self.cfg.max_seq_len:
             raise ValueError(f"sequence length {seq_len} exceeds max_seq_len {self.cfg.max_seq_len}")
@@ -364,7 +394,93 @@ class TransformerLM(nn.Module):
                 x = block(x, self.rope_cos, self.rope_sin)
         else:
             x = self._run_recurrent(x, self.rope_cos, self.rope_sin, self.resolve_loops(loops))
-        x = self.final_norm(x)
+        return self.final_norm(x)
+
+    def _resolve_evidence(self, x, idx, evidence_positions, evidence_states,
+                          evidence_ids, evidence_mask):
+        """Evidence states, ids and mask, from explicit tensors or from the
+        working sequence itself.
+
+        When only evidence_positions is given, the evidence lives inside the
+        context and its states are the decoder's own states at those positions.
+        A position of -1 marks padding, which is also where the mask comes from,
+        so a caller supplies one tensor and not three.
+        """
+        if evidence_states is None:
+            if evidence_positions is None:
+                return None, None, None
+            if evidence_mask is None:
+                evidence_mask = evidence_positions >= 0
+            safe = evidence_positions.clamp(min=0)
+            width = x.shape[-1]
+            evidence_states = x.gather(1, safe[..., None].expand(-1, -1, width))
+            if evidence_ids is None:
+                evidence_ids = idx.gather(1, safe)
+        elif evidence_ids is None:
+            raise ValueError("explicit evidence_states need explicit evidence_ids")
+        return evidence_states, evidence_ids, evidence_mask
+
+    def pointer_forward(self, idx: torch.Tensor, targets: torch.Tensor | None = None,
+                        loops: int | None = None, *, evidence_positions=None,
+                        evidence_states=None, evidence_ids=None, evidence_mask=None,
+                        gate_override: float | None = None,
+                        select: torch.Tensor | None = None):
+        """The pointer path with its internals exposed: (PointerOutput, loss).
+
+        select is a (B, K) index of decoder positions to evaluate. Under the
+        partitioned objective only the authored positions are supervised, so
+        passing them keeps the (B, K, V) mixture off the full sequence; targets
+        are then the (B, K) targets at those positions.
+        """
+        if self.pointer is None:
+            raise ValueError("model.pointer is not configured on this model")
+        x = self.trunk(idx, loops)
+        states, ids, mask = self._resolve_evidence(
+            x, idx, evidence_positions, evidence_states, evidence_ids, evidence_mask
+        )
+        if states is None:
+            raise ValueError("pointer_forward needs evidence_positions or evidence_states")
+        hidden = x
+        if select is not None:
+            hidden = x.gather(1, select[..., None].expand(-1, -1, x.shape[-1]))
+        logits = self.lm_head(hidden)
+        out = self.pointer(hidden, states, ids, mask, vocab_logits=logits,
+                           gate_override=gate_override)
+        loss = None
+        if targets is not None:
+            loss = pointer_cross_entropy(out.log_probs, targets)
+        return out, loss
+
+    def forward(self, idx: torch.Tensor, targets: torch.Tensor | None = None,
+                loops: int | None = None, *, evidence_positions=None,
+                evidence_states=None, evidence_ids=None, evidence_mask=None,
+                gate_override: float | None = None,
+                select: torch.Tensor | None = None):
+        """Logits and loss.
+
+        With model.pointer absent, or with it present but no evidence supplied,
+        this is the plain model: the first return value is the vocabulary logits
+        and the loss is the usual cross entropy. With the pointer head active
+        and evidence supplied, the first return value is the log of the mixture
+        distribution rather than unnormalized logits, because the mixture is
+        what the model actually predicts. Greedy decoding is unchanged by that;
+        anything that applies its own softmax should use pointer_forward and
+        read PointerOutput instead.
+        """
+        pointer_on = self.pointer is not None and (
+            evidence_positions is not None or evidence_states is not None
+        )
+        if pointer_on:
+            out, loss = self.pointer_forward(
+                idx, targets, loops, evidence_positions=evidence_positions,
+                evidence_states=evidence_states, evidence_ids=evidence_ids,
+                evidence_mask=evidence_mask, gate_override=gate_override,
+                select=select,
+            )
+            return out.log_probs, loss
+        x = self.trunk(idx, loops)
+        if select is not None:
+            x = x.gather(1, select[..., None].expand(-1, -1, x.shape[-1]))
         logits = self.lm_head(x)
         loss = None
         if targets is not None:
@@ -393,4 +509,8 @@ class TransformerLM(nn.Module):
             "loops": n,
             "effective_depth": self.cfg.effective_depth(n),
             "recurrent": asdict(rec) if rec is not None else None,
+            "pointer": (
+                {**asdict(self.cfg.pointer), "params": self.pointer.num_params()}
+                if self.pointer is not None else None
+            ),
         }
