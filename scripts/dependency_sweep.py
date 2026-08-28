@@ -6,14 +6,18 @@ the model retrieved produce the answer, or would any page have done? This
 script answers that for one checkpoint, on the evaluation family the
 checkpoint was trained for.
 
-Three conditions over identical items. Only the document store changes; the
-prompt is byte-identical across conditions, because every suite here keeps
-n_context at zero and every fact has to arrive through the retriever.
+Three conditions over identical questions. Only the evidence changes.
 
     correct   the episode's own documents
     wrong     a different episode's (or a different invented system's)
               documents: as many pages, as long, as retrievable
-    blank     one page that says it is blank
+    blank     pages that say they are blank
+
+Four of the five suites keep n_context at zero, so every fact arrives through
+the retriever and the prompt is byte-identical across the three conditions.
+The web suite is the exception: scrubbed-web episodes carry a document prefix
+in the prompt and were trained that way, so the prefix is swapped along with
+the retrievable pages rather than removed.
 
 The blank condition uses a real page rather than an empty document list on
 purpose. An empty list makes make_service return None, the rollout never
@@ -39,7 +43,7 @@ Two protocols, because the project's runs were never graded under one.
 
 Running only gen would have written twenty-odd rows of 0.000/0.000/0.000 and
 called them measurements. Both protocols run on every worldgen checkpoint;
-mc needs a distractor pool and a world, so it is worldgen only.
+mc needs a per-domain distractor pool and a world, so it is worldgen only.
 
 Two numbers come out of each, both defined in src/registry/schema.py:
 
@@ -81,7 +85,10 @@ BLANK_PAGE = "This page is intentionally blank."
 # Grading an arithmetic policy on rule application, or a pretrained model on
 # invented systems it never met, measures the transfer question rather than
 # this one.
-SUITES = ("worldgen", "simple", "arith", "procfmt")
+SUITES = ("worldgen", "web", "simple", "arith", "procfmt")
+
+# Suites whose episodes come from a file rather than a generator.
+FILE_SUITES = ("worldgen", "web")
 
 
 # ---------------------------------------------------------------------------
@@ -126,7 +133,7 @@ def _wrong_documents(suite: str, rec: dict, i: int, start: int,
     document set, which is the same shape of evidence about a different
     world.
     """
-    if suite == "worldgen":
+    if suite in FILE_SUITES:
         other = pool[(i + len(pool) // 2 + 1) % len(pool)]
         if other is rec:
             other = pool[(i + 1) % len(pool)]
@@ -149,15 +156,24 @@ def _wrong_documents(suite: str, rec: dict, i: int, start: int,
 
 
 def build_conditions(out_dir: Path, suite: str, *, start: int, count: int,
-                     n_problems: int, heldout: str | None) -> dict[str, str]:
-    """Write one jsonl per condition. The questions are identical in all three."""
-    if suite == "worldgen":
+                     n_problems: int, heldout: str | None,
+                     skip: int = 0) -> dict[str, str]:
+    """Write one jsonl per condition. The questions are identical in all three.
+
+    ``skip`` drops the first N lines of a file-backed suite. regime_c's
+    held-out worlds are already disjoint from training, but the scrubbed-web
+    episodes file is the one the web RL lane trained from, and its first few
+    thousand episodes are exactly what that lane saw.
+    """
+    if suite in FILE_SUITES:
         if not heldout:
-            raise SystemExit("--heldout is required for the worldgen suite")
+            raise SystemExit(f"--heldout is required for the {suite} suite")
         base = []
         with open(heldout) as fh:
             for line_no, line in enumerate(fh):
-                if line_no >= count:
+                if line_no < skip:
+                    continue
+                if line_no >= skip + count:
                     break
                 line = line.strip()
                 if line:
@@ -174,7 +190,12 @@ def build_conditions(out_dir: Path, suite: str, *, start: int, count: int,
     try:
         for i, rec in enumerate(base):
             clean = {k: v for k, v in rec.items() if not k.startswith("_")}
-            clean["n_context"] = 0
+            # Scrubbed-web episodes keep a document prefix in the prompt and
+            # were trained that way, so the web suite keeps it and swaps that
+            # prefix along with the retrievable pages. Everywhere else every
+            # fact already arrives through the retriever.
+            n_context = int(clean.get("n_context", 0)) if suite == "web" else 0
+            clean["n_context"] = n_context
             handles["correct"].write(json.dumps(clean) + "\n")
 
             wrong = dict(clean)
@@ -183,7 +204,9 @@ def build_conditions(out_dir: Path, suite: str, *, start: int, count: int,
             handles["wrong"].write(json.dumps(wrong) + "\n")
 
             blank = dict(clean)
-            blank["documents"] = [{"text": BLANK_PAGE}]
+            # Enough blank pages that the in-context prefix keeps its shape
+            # and one is still left for the retriever to serve.
+            blank["documents"] = [{"text": BLANK_PAGE}] * max(1, n_context + 1)
             handles["blank"].write(json.dumps(blank) + "\n")
     finally:
         for h in handles.values():
@@ -254,7 +277,14 @@ def main() -> int:
     ap.add_argument("--tokenizer", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--heldout", default=None,
-                    help="worldgen held-out episodes jsonl")
+                    help="episodes jsonl for the file-backed suites: held-out "
+                         "worlds for worldgen, scrubbed web for web")
+    ap.add_argument("--skip", type=int, default=0,
+                    help="drop the first N episodes of a file-backed suite, "
+                         "to stay clear of what the run trained on")
+    ap.add_argument("--max-prompt-tokens", type=int, default=None,
+                    help="override the config; web prompts carry a document "
+                         "prefix and do not fit the default")
     ap.add_argument("--start", type=int, default=4100000)
     ap.add_argument("--count", type=int, default=250,
                     help="episodes per condition")
@@ -291,6 +321,9 @@ def main() -> int:
     env_cfg = EnvConfig(**cfg.get("env", {}))
     task_cfg = cfg.get("tasks", {})
 
+    max_prompt_tokens = int(args.max_prompt_tokens
+                            or task_cfg.get("max_prompt_tokens", 1024))
+
     tok = load_tokenizer(args.tokenizer)
     device = args.device if torch.cuda.is_available() else "cpu"
     model, state = load_checkpoint_model(args.checkpoint, device)
@@ -307,7 +340,7 @@ def main() -> int:
 
     paths = build_conditions(out_dir, args.suite, start=args.start,
                              count=args.count, n_problems=args.n_problems,
-                             heldout=args.heldout)
+                             heldout=args.heldout, skip=args.skip)
 
     conditions: dict[str, dict] = {}
     per_family: dict[str, dict] = {}
@@ -318,7 +351,7 @@ def main() -> int:
             paths[name], tok,
             questions_per_episode=int(task_cfg.get("questions_per_episode", 2)),
             min_hops=int(task_cfg.get("min_hops", 1)),
-            max_prompt_tokens=int(task_cfg.get("max_prompt_tokens", 1024)),
+            max_prompt_tokens=max_prompt_tokens,
             limit_episodes=None, seed=0)
         if n_tasks_seen is None:
             n_tasks_seen = len(tasks)
@@ -448,7 +481,9 @@ def main() -> int:
             "mean_generated_tokens": gen,
         },
         "env": env_cfg.to_dict(),
-        "tasks_cfg": dict(task_cfg),
+        "tasks_cfg": {**dict(task_cfg), "max_prompt_tokens": max_prompt_tokens},
+        "episodes_source": args.heldout,
+        "episodes_skip": args.skip,
         "step": state.get("step"),
     }
     dest = out_dir / "dependency.json"

@@ -96,8 +96,12 @@ def main() -> int:
             "--batch", str(args.batch),
             "--temperature", str(args.temperature),
         ]
-        if entry["suite"] == "worldgen":
-            cmd += ["--heldout", args.heldout]
+        if entry["suite"] in ("worldgen", "web"):
+            cmd += ["--heldout", entry.get("episodes") or args.heldout]
+        for flag, key in (("--skip", "skip"),
+                          ("--max-prompt-tokens", "max_prompt_tokens")):
+            if entry.get(key):
+                cmd += [flag, str(entry[key])]
         cmd += ["--protocols", entry.get("protocols", "gen")]
         if entry.get("primary"):
             cmd += ["--primary", entry["primary"]]
