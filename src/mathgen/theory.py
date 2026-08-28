@@ -586,6 +586,62 @@ def _chk_tight_is_empty(s):
     return len(t) == 0, {"tight": names(s, t)}, _cases_pairs(s.size), "every ordered pair"
 
 
+# Every candidate keyed by its schema name, so verification can re-run a claim
+# from the emitted graph alone without reconstructing the builder's control flow.
+THEOREM_CHECKERS = {
+    "thm:anchor_unique": _chk_anchor_unique,
+    "thm:partner_unique": _chk_partner_unique,
+    "thm:regular_own_partner": _chk_regular_is_own_partner,
+    "thm:anchor_in_core": _chk_anchor_in_core,
+    "thm:core_sealed": _chk_core_sealed,
+    "thm:span_sealed": _chk_span_sealed,
+    "thm:span_smallest": _chk_span_is_smallest,
+    "thm:steady_iff_reach_one": _chk_steady_iff_reach_one,
+    "thm:reach_divides_size": _chk_reach_divides_size,
+    "thm:span_inside_core": _chk_span_inside_core,
+    "thm:ridge_sealed": _chk_ridge_sealed,
+    "thm:translation_injective": _chk_translation_injective,
+    "thm:shadow_nested": _chk_shadow_nested,
+    "thm:floor_unique": _chk_floor_unique,
+    "thm:floor_exists": _chk_floor_exists,
+    "thm:shadow_compatible": _chk_shadow_closed_under_op,
+    "thm:tight_empty": _chk_tight_is_empty,
+    "thm:core_is_everything": _chk_core_is_everything,
+    "thm:ridge_is_everything": _chk_ridge_is_everything,
+    "thm:some_object_spans_all": _chk_some_object_spans_all,
+    "thm:relation_symmetric": _chk_relation_symmetric,
+    "thm:anchor_is_absorbing": _chk_anchor_is_absorbing,
+    "thm:absorption_idempotence": _chk_absorption_forces_idempotence,
+    "thm:distributive_absorbing": _chk_distributive_absorbing,
+    "thm:second_op_preserves_core": _chk_second_op_preserves_core,
+}
+
+# How to recompute the extension a definition claims, keyed the same way.
+DEFINITION_EXTENSIONS = {
+    "def:steady": lambda s: {"extension": names(s, ext_steady(s))},
+    "def:core": lambda s: {"extension": names(s, ext_core(s))},
+    "def:ridge": lambda s: {"extension": names(s, ext_steady(s))},
+    "def:regular": lambda s: {"extension": names(s, ext_regular(s))},
+    "def:floor": lambda s: {"extension": names(s, ext_floor(s))},
+    "def:tight": lambda s: {"extension": names(s, ext_tight(s))},
+    "def:span": lambda s: {"map": {s.name(i): names(s, span_of(s, i))
+                                   for i in range(s.size)}},
+    "def:reach": lambda s: {"map": {s.name(i): reach_of(s, i)
+                                    for i in range(s.size)}},
+    "def:shadow": lambda s: {"map": {s.name(i): names(s, shadow_of(s, i))
+                                     for i in range(s.size)}},
+    "def:partner": lambda s: {"map": {s.name(i): s.name(s.inverse_of(i, 0))
+                                      for i in range(s.size)}},
+    "def:anchor": lambda s: {"element": s.name(s.identity_of(0))},
+    "def:crest": lambda s: {"extension": names(s, frozenset(
+        i for i in range(s.size)
+        if reach_of(s, i) == max(reach_of(s, j) for j in range(s.size))))},
+    "def:agree": lambda s: {"pairs": [[s.name(i), s.name(j)]
+                                      for i in range(s.size) for j in range(s.size)
+                                      if s.op(0, i, j) == s.op(0, j, i)]},
+}
+
+
 # ---------------------------------------------------------------------------
 # Building the theory
 # ---------------------------------------------------------------------------
