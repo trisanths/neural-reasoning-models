@@ -33,7 +33,8 @@ import time
 
 import torch
 
-from src.acquire.loop import LoopConfig, report, run_problem
+from src.acquire.loop import (LoopConfig, calibration_report, gap_calibration,
+                              report, run_problem)
 from src.acquire.reasoner import AnswerRequest, ConstantReasoner, SymbolicReasoner
 from src.acquire.universe import build_universe
 from src.evals.mc import load_checkpoint_model
@@ -241,6 +242,13 @@ def main() -> int:
         if (i + 1) % 5 == 0:
             print(f"  {i + 1}/{len(problems)} "
                   f"{time.time() - t0:.0f}s", flush=True)
+    calib = []
+    for problem in problems:
+        calib.extend(gap_calibration(problem, by_id[problem.chapter],
+                                     universe.documents(), reasoner))
+    results["gap_calibration"] = calibration_report(calib)
+    print("gap calibration:", json.dumps(results["gap_calibration"], indent=2),
+          flush=True)
     results["loop"] = report(traces)
     results["wall_seconds"] = round(time.time() - t0, 1)
 

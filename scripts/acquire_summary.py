@@ -73,6 +73,14 @@ def main() -> int:
                           f"textbook={_fmt(v['textbook'], 3)} "
                           f"wrong_chapter={_fmt(v['wrong_chapter'], 3)} "
                           f"blank={_fmt(v['blank'], 3)}")
+            cal = data.get("gap_calibration")
+            if cal:
+                print("gap calibration (fires when blocked, quiet when not):")
+                for k, v in sorted(cal.items()):
+                    print(f"  {k:<14} n={v['n']:>3} blocked={v['n_blocked']:>3} "
+                          f"recall_on_blocked={_fmt(v['recall_on_blocked'], 2)} "
+                          f"free={v['n_free']:>3} "
+                          f"false_alarm={_fmt(v['false_alarm_when_free'], 2)}")
             print_report(data["loop"], path)
         elif "per_seed" in data:
             print(f"\n########## {path}")
