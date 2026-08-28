@@ -195,6 +195,12 @@ def cmd_merge(args: argparse.Namespace) -> int:
         patch["notes"] = args.notes
 
     merged = _deep_merge(base, patch)
+    if args.append_notes:
+        # belief_changed belongs to the run that produced the row and is left
+        # alone; a later measurement's verdict goes here instead.
+        existing_notes = merged.get("notes") or ""
+        if args.append_notes not in existing_notes:
+            merged["notes"] = (existing_notes + "\n" + args.append_notes).strip()
     merged["sources"] = sorted(set(base.get("sources") or [])
                                | set(facts.get("sources") or [])
                                | set(args.source or []))
@@ -395,7 +401,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--objective", default=None)
     p.add_argument("--git-commit", default=None)
     p.add_argument("--source", action="append")
-    p.add_argument("--notes", default=None)
+    p.add_argument("--notes", default=None, help="replace the row's notes")
+    p.add_argument("--append-notes", default=None,
+                   help="add one line to the row's notes, once")
     p.set_defaults(func=cmd_merge)
 
     p = subs.add_parser("ingest", help="print what an ingester reads")
