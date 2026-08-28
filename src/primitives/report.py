@@ -92,8 +92,8 @@ def render_markdown(report: dict) -> str:
         "",
         "## Headline, one line per faculty",
         "",
-        "| faculty | headline | reading |",
-        "|---|---|---|",
+        "| faculty | generation | forced choice | reading |",
+        "|---|---|---|---|",
     ]
     readings = {
         "intent": "mean chance-adjusted score over the five extracted fields",
@@ -104,6 +104,7 @@ def render_markdown(report: dict) -> str:
         "memory": "mean chance-adjusted score over retain-far, interfere, update",
         "verification": "chance-adjusted trap detection",
     }
+    fc = report.get("forced_choice") or {}
     for name, reading in readings.items():
         rep = report.get(name)
         if not rep:
@@ -111,7 +112,15 @@ def render_markdown(report: dict) -> str:
         h = rep.get("headline")
         h = (", ".join(f"{k}={v}" for k, v in h.items())
              if isinstance(h, dict) else f"{h:+.3f}")
-        out.append(f"| {name} | {h} | {reading} |")
+        fields = fc.get(name) or {}
+        fields = {k: v for k, v in fields.items() if not k.startswith("_")}
+        if fields:
+            adj = sum(s["adjusted"] for s in fields.values()) / len(fields)
+            clears = sum(1 for s in fields.values() if s["above_chance"])
+            pick = f"{adj:+.3f} ({clears}/{len(fields)} above chance)"
+        else:
+            pick = "not offered"
+        out.append(f"| {name} | {h} | {pick} | {reading} |")
 
     if "intent" in report:
         r = report["intent"]
@@ -256,9 +265,20 @@ def render_markdown(report: dict) -> str:
                 "generation channel and never instead of it.", "",
                 "| faculty | field | accuracy | adjusted |",
                 "|---|---|---|---|"]
-        for prim in sorted(report["forced_choice"]):
+        raw = report["forced_choice"].get("_unnormalised", {})
+        for prim in sorted(k for k in report["forced_choice"]
+                           if not k.startswith("_")):
             for field, stat in sorted(report["forced_choice"][prim].items()):
                 out.append(f"| {prim} | {field} | {_pct(stat)} | {_adj(stat)} |")
+        if raw:
+            out += ["", "Scores are length normalised, the option's summed "
+                    "negative log likelihood divided by its token count,",
+                    "because several fields here have a correct option that "
+                    "is systematically the longest and an unnormalised",
+                    "score picks the shortest option nearly every time. The "
+                    "unnormalised numbers are kept in the JSON under",
+                    "forced_choice._unnormalised; where the two disagree "
+                    "sharply, option length is doing the work."]
 
     if "rescue_matrix" in report:
         r = report["rescue_matrix"]

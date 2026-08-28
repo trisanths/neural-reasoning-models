@@ -251,11 +251,15 @@ def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
     """Score every forced choice with model.choose, grouped and never pooled."""
     pairs = collect_choices(primitives, n=n, seed=seed, mode=mode, ks=ks,
                             rescue_n=rescue_n)
+    both = hasattr(model, "choose_both")
     buckets: dict = {}
+    raw: dict = {}
     for i, (item, choice) in enumerate(pairs):
-        pick = int(model.choose(choice["question"], list(item.chunks),
-                                choice["options"]))
-        hit = int(pick == choice["gold"])
+        args = (choice["question"], list(item.chunks), choice["options"])
+        if both:
+            pick, pick_sum = model.choose_both(*args)
+        else:
+            pick = pick_sum = model.choose(*args)
         chance = 1.0 / max(2, len(choice["options"]))
         key = item.primitive
         field = choice["field"]
@@ -268,15 +272,25 @@ def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
         elif item.primitive in ("acquisition", "abstraction"):
             field = f"{item.variant}/{choice['field']}"
         b = buckets.setdefault((key, field), [0, 0, chance])
-        b[0] += hit
+        b[0] += int(int(pick) == choice["gold"])
         b[1] += 1
+        r = raw.setdefault((key, field), [0, 0, chance])
+        r[0] += int(int(pick_sum) == choice["gold"])
+        r[1] += 1
         if progress and (i + 1) % 400 == 0:
             progress(f"    forced choice {i + 1}/{len(pairs)}")
-    report: dict = {}
-    for (prim, field), (hits, total, chance) in sorted(buckets.items()):
-        report.setdefault(prim, {})[field] = proportion(hits, total, chance,
-                                                        f"{prim}/{field}")
-    return report
+
+    def _fold(src):
+        rep: dict = {}
+        for (prim, field), (hits, total, chance) in sorted(src.items()):
+            rep.setdefault(prim, {})[field] = proportion(
+                hits, total, chance, f"{prim}/{field}")
+        return rep
+
+    out = _fold(buckets)
+    if both:
+        out["_unnormalised"] = _fold(raw)
+    return out
 
 
 def plan_choices(primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
@@ -380,6 +394,13 @@ def run_suite(predict, primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
         reports["forced_choice"] = run_forced_choice(
             predict, primitives=names, n=n, seed=seed, mode=mode, ks=ks,
             rescue_n=rescue_n, progress=progress)
+    # The contamination argument travels with the numbers. A profile read
+    # without it is a table of scores whose independence nobody can check.
+    reports["contamination"] = {
+        name: (MODULES[name].CONTAMINATION or "").split(
+            "CONTAMINATION CONTROL, faculty by faculty.")[-1].strip()
+        for name in names
+    }
     reports["meta"] = {
         "mode": mode, "n_per_primitive": n, "seed": seed, "ks": list(ks),
         "rescue_episodes": rescue_n, "primitives": names,

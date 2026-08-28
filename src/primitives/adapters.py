@@ -151,13 +151,20 @@ class CheckpointPredictor:
     def __call__(self, question: str, chunks=None) -> str:
         return self.predict_many([(question, chunks)])[0]
 
-    def _option_nlls(self, ctx_ids, options) -> list[float]:
-        """Summed negative log likelihood of each option after ctx_ids.
+    def _option_nlls(self, ctx_ids, options) -> list[tuple]:
+        """(summed negative log likelihood, token count) for each option.
 
-        The same quantity src/evals/mc.option_nll computes, batched across
-        the options of one prompt. Padding goes on the right: attention is
-        causal, so nothing after an option can influence it, and every
-        sequence still starts at rotary position zero.
+        The sum is the quantity src/evals/mc.option_nll computes, batched
+        across the options of one prompt. Padding goes on the right:
+        attention is causal, so nothing after an option can influence it,
+        and every sequence still starts at rotary position zero.
+
+        The token count comes back because the sum is not comparable
+        across options of different lengths. Where an item's correct
+        option is systematically the longest, and several here are, a
+        summed score picks the shortest option almost every time and the
+        result reads as a faculty of zero when it is an artefact of
+        length. The caller divides.
         """
         cap = self.max_len
         seqs, lens = [], []
@@ -183,28 +190,34 @@ class CheckpointPredictor:
             n, end = lens[i], len(s)
             tgt = x[i, end - n:end]
             got = logprobs[i, end - n - 1:end - 1].gather(1, tgt.unsqueeze(1))
-            out.append(float(-got.sum().item()))
+            out.append((float(-got.sum().item()), max(1, n)))
         return out
 
-    def choose_many(self, triples) -> list[int]:
-        """Forced choice over option texts, lowest negative log likelihood.
+    def choose_both(self, question: str, chunks=None, options=()) -> tuple:
+        """(length-normalised pick, summed pick) over the option texts.
 
         The prompt ends at the answer marker and each option is scored as
-        the continuation, which is what the held-out suite already does for
-        multiple choice. Ties break toward the earliest option, so the
-        channel is deterministic whatever the decoding temperature is.
+        the continuation, which is what the held-out suite already does
+        for multiple choice. The normalised pick is the reported one and
+        the summed pick is carried beside it, so a reader can see when the
+        two disagree and how much of a score is option length. Ties break
+        toward the earliest option, so both channels are deterministic
+        whatever the decoding temperature is.
         """
-        out: list[int] = []
-        for question, chunks, options in triples:
-            ids = build_prompt_ids(question, chunks, self.tokenizer,
-                                   self.max_len, 32)
-            nlls = self._option_nlls(ids, list(options))
-            self.choices += 1
-            out.append(min(range(len(nlls)), key=lambda i: (nlls[i], i)))
-        return out
+        ids = build_prompt_ids(question, chunks, self.tokenizer,
+                               self.max_len, 32)
+        scored = self._option_nlls(ids, list(options))
+        self.choices += 1
+        norm = min(range(len(scored)),
+                   key=lambda i: (scored[i][0] / scored[i][1], i))
+        total = min(range(len(scored)), key=lambda i: (scored[i][0], i))
+        return norm, total
+
+    def choose_many(self, triples) -> list[int]:
+        return [self.choose_both(q, c, o)[0] for q, c, o in triples]
 
     def choose(self, question: str, chunks=None, options=()) -> int:
-        return self.choose_many([(question, chunks, list(options))])[0]
+        return self.choose_both(question, chunks, options)[0]
 
 
 class BatchedPredictor:
@@ -285,3 +298,6 @@ class BatchedPredictor:
 
     def choose(self, question: str, chunks=None, options=()) -> int:
         return self.predictor.choose(question, chunks, options)
+
+    def choose_both(self, question: str, chunks=None, options=()) -> tuple:
+        return self.predictor.choose_both(question, chunks, options)

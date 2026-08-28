@@ -278,9 +278,11 @@ def choices(item: Item) -> list[dict]:
     because writing a query is production and cannot be faked as a pick."""
     want = (item.gold["first_tier"] if item.variant == "recursive"
             else item.gold["tier"])
+    # Bare tier names, so the four options are the same shape and the
+    # pick cannot be decided by how long an option happens to be.
     return [{"field": "source",
              "question": item.question + "\n\nWhich tier holds the page?",
-             "options": [f"the {name} tier, {desc}" for name, desc in TIERS],
+             "options": list(TIER_NAMES),
              "gold": TIER_NAMES.index(want)}]
 
 

@@ -282,6 +282,10 @@ class ChoosingModel(ScriptedModel):
                              tuple(choice["options"]))] = (
                 choice["gold"], item.primitive, item.meta.get("k"))
 
+    def choose_both(self, question: str, chunks=None, options=()) -> tuple:
+        pick = self.choose(question, chunks, options)
+        return pick, pick
+
     def choose(self, question: str, chunks=None, options=()) -> int:
         options = list(options)
         found = self.choice_key.get((_tail(str(question)), tuple(options)))
