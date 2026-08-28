@@ -419,18 +419,26 @@ def _build_pages(ch: Chapter, rng: random.Random) -> list[Page]:
             body=notion.definition_body(),
             cites=notion.deps, defines=notion.outputs))
 
-        case = _sample_case(ch, rng)
-        case.update(notion.example_case(rng))
-        value, _ = ch.evaluate(notion.name, case)
+        lines = []
+        seen_values = set()
+        for _ in range(60):
+            if len(lines) >= 3:
+                break
+            case = _sample_case(ch, rng)
+            case.update(notion.example_case(rng))
+            value, _ = ch.evaluate(notion.name, case)
+            if value in seen_values and len(seen_values) < len(set(notion.outputs)):
+                continue
+            seen_values.add(value)
+            lines.append(f"{_describe_case(ch, case)} Its {notion.name} value "
+                         f"is {value}.")
         pages.append(Page(
             page_id=f"{ch.chapter_id}/{notion.name}/ex", chapter=ch.chapter_id,
             notion=notion.name, level=notion.level, kind="worked_example",
-            title=f"A worked example for the {notion.name} value.",
-            body=(f"Consider a record with a {ch.attr_words['reading']} reading "
-                  f"of {case['reading']}, a {ch.attr_words['type']} of "
-                  f"{case['type']}, and a {ch.attr_words['count']} count of "
-                  f"{case['count']}. Working through the definition, its "
-                  f"{notion.name} value is {value}."),
+            title=f"Worked examples for the {notion.name} value.",
+            body=("The examples below are worked through from the definition. "
+                  "They state a record and the value it takes.\n"
+                  + "\n".join(lines)),
             cites=(notion.name,)))
 
         pages.append(Page(
@@ -503,6 +511,9 @@ def make_problems(ch: Chapter, n_per_level: int = 4, seed: int = 0,
                               for n in required_notions]
             if unnamed:
                 required_pages.append(ch.preamble_page().page_id)
+            case_sentence = _describe_case(ch, case)
+            if any(case_sentence in pg.text for pg in ch.pages):
+                continue
             prob = Problem(
                 qid=f"{ch.chapter_id}-l{level}-{kept}", chapter=ch.chapter_id,
                 level=level, notion=notion,
