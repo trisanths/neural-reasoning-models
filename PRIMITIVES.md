@@ -31,9 +31,9 @@ the summary of how each one is kept clean.
 
 | test | how the other faculties are kept out |
 |---|---|
-| intent | every field is a one-step restatement of one span; the menu is supplied, so nothing is induced; the chunk list is empty, so nothing is retrieved; contradictions are textual with both sides present, which is a different object from a gap in the model's own procedure |
+| intent | every field is a one-step restatement of one span; the menu is supplied, so nothing is induced; the chunk list is empty, so nothing is retrieved; contradictions are textual with both sides present, which is a different object from a gap in the model's own procedure; the two conflict arms are balanced exactly, so always reporting no contradiction scores the option count and not the arm split |
 | gap | the plan is supplied and numbered; nothing is applied or computed; every page is in context; the problem stem is byte-identical between the blocked and unblocked version of a seed; page count is held at six in both arms |
-| acquisition | the score reads the query, not an answer, so reading cannot inflate it; the headline variant is one hop; the two-hop variant is reported apart and flagged as contaminated by reading |
+| acquisition | the score reads the query, not an answer, so reading cannot inflate it; the headline variant is one hop; the two-hop variant is reported apart and flagged as contaminated by reading; which tier holds the answer rotates over three of the four, so a constant reply wins a third of the items at most |
 | abstraction | one comparison and one label, never arithmetic; the transfer condition adds exactly one renaming through an explicit legend, and the same-surface condition is printed beside it so that step's cost is visible |
 | composition | every constituent step is probed on its own over the same tables, and the curve is reported both raw and restricted to items whose every step that model answered correctly alone |
 | memory | one stated value retrieved by one lookup; filler segments carry the decoy options so the answer is never the only number present; all five answer options appear in every arm |
@@ -53,6 +53,32 @@ carries only the code; a decoy page repeats the common name at length.
 Issuing the request verbatim ranks the decoy first, which generation checks
 on every item, and the surviving copy baseline is printed next to the model's
 score.
+
+## Two channels, and why both are needed
+
+Producing an answer and preferring the right one are different abilities, and
+a small checkpoint can lose the first while keeping some of the second. The
+suite scores both and never merges them.
+
+The generation channel reads what the model writes. Graders fall back to
+reading the whole reply when no field headers appear, and binary verdicts go
+through a synonym list, so a model trained to emit a bare answer after the
+answer marker is not scored zero for format. Strict field presence is still
+counted and printed as the parse rate.
+
+The forced-choice channel scores each item's single-choice fields by
+likelihood over the option texts, the way the held-out suite already scores
+multiple choice. Picks use the summed negative log likelihood divided by the
+option's token count. Without that division several fields here have a
+correct option that is systematically the longest, and the pick goes to the
+shortest option almost every time: the first run put two fields at exactly
+zero out of forty for that reason alone. The unnormalised picks come from the
+same forward pass and are kept in the JSON under
+`forced_choice._unnormalised`, so a reader can see where length is doing the
+work.
+
+The query half of information acquisition stays generation only. Writing a
+search string is production and cannot be posed as a pick.
 
 ## Two modes at every size
 
@@ -78,6 +104,13 @@ Novel composition applies k procedures each taught in its own lesson and
 never shown combined. A model can memorise every part and fail the whole,
 which is why this is the acquisition test proper.
 
+The depth a curve is credited with is the last k whose chance-adjusted
+interval clears a margin fixed at 0.15 in `p5_composition.DEPTH_MARGIN`, not
+merely the last k that clears chance. A ninety-five percent interval fires on
+one cell in forty by luck, and across three kinds, five depths and eight
+stand-ins that is a depth of one reported for a stand-in with no composition
+at all.
+
 ## The causal rescue matrix
 
 Independent tests are necessary and not sufficient. A failed integrated
@@ -90,6 +123,10 @@ results, and generation asserts that the final answer appears in no injected
 block. Lifts are paired across identical items, and the matrix reports how
 many episodes each oracle flipped in each direction rather than a difference
 of means.
+
+The matrix runs on both channels. A model that writes nothing produces an
+all-zero generation matrix, which locates nothing, and that is exactly the
+model the forced-choice matrix exists for.
 
 ## Calibration
 
@@ -117,6 +154,29 @@ zero for format rather than for faculty. Strict field presence is still
 counted and printed as the parse rate, and the report opens with a format
 warning when that rate is low, saying plainly that the profile is a floor
 rather than an estimate.
+
+## Known limits
+
+Source selection on the recursive acquisition variant has a constant gold
+tier, because a two-hop chase always starts at the ledger. Read that cell as
+whether the model names the ledger, and take the direct variant, whose gold
+tier rotates, as the source-selection measurement.
+
+Second-hop retrieval requires reading the served page, so it is contaminated
+by reading ability. It is reported on its own line and never folded into the
+acquisition headline.
+
+The intent free-form grader used in integrated mode checks for key tokens in
+each field, which a model can satisfy by copying spans of the request. The
+menu form used in isolated mode has no such hole. The two modes are therefore
+not directly comparable on that primitive, and only the isolated column
+should be read as a clean measurement of extraction.
+
+Chance rates are analytic where the answer is a pick from an enumerated set.
+Where a score is a set overlap or a query, there is no analytic chance, and
+the reference printed beside it is a measured baseline instead: the copy
+baseline for acquisition, and the copy and majority baselines for
+abstraction.
 
 ## Running it
 

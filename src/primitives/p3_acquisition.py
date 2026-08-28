@@ -51,10 +51,12 @@ recursive one, with the served page supplied verbatim.
 
 Verification and action: no computation and no trap.
 
-Chance control: source selection is one of four tiers, so chance is a
-quarter and a constant reply is visible. Retrieval chance is measured
-rather than assumed, by scoring a query drawn at random from the prompt's
-own vocabulary over the same index.
+Chance control: source selection offers four tiers, so chance is a
+quarter, and which tier holds the answer rotates over three of them, so a
+constant reply wins a third of the items at most. Retrieval has no chance
+rate worth quoting, since a query is not a pick from a menu; the reference
+it is read against is the verbatim-copy baseline, measured on the same
+items and printed next to the model's score.
 """
 
 from __future__ import annotations
@@ -187,9 +189,16 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
         gold_doc, gold_tier = hop, docs[hop]["tier"]
 
     if mode == "integrated":
+        # The same need, said the way a person says it. The prefix strip is
+        # guarded because the glossary target does not open with it.
+        core = need
+        for lead in ("Find the page that gives ", "Find the page that "):
+            if core.startswith(lead):
+                core = core[len(lead):]
+                break
         need = (f"Someone in the office wants to know about the {v['common']} "
                 f"consignment. They were vague. What they need in the end is "
-                + need[len("Find the page that gives "):].rstrip(".")
+                + core.rstrip(".")
                 + ", and they do not know where it is filed.")
 
     question = (INSTRUCTIONS.format(tiers=", ".join(TIER_NAMES))
@@ -354,7 +363,12 @@ def aggregate(items: list[Item], grades: list[dict]) -> dict:
             1.0 / len(TIER_NAMES), "hop_source")
         out["note"] = ("hop scores require reading the served page and are "
                        "therefore contaminated by reading ability; they are "
-                       "never folded into the headline")
+                       "never folded into the headline. Source selection on "
+                       "this variant has a constant gold tier by "
+                       "construction, since a two-hop chase always starts at "
+                       "the ledger, so read it as whether the model names "
+                       "the ledger and take the rotating direct variant as "
+                       "the source-selection measurement")
     return out
 
 

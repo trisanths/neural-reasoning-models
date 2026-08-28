@@ -281,7 +281,8 @@ class ChoosingModel(ScriptedModel):
         for item, choice in pairs:
             self.choice_key[(_tail(choice["question"]),
                              tuple(choice["options"]))] = (
-                choice["gold"], item.primitive, item.meta.get("k"))
+                choice["gold"], item.primitive, item.meta.get("k"),
+                tuple(item.meta.get("oracles", ())))
 
     def choose_both(self, question: str, chunks=None, options=()) -> tuple:
         pick = self.choose(question, chunks, options)
@@ -293,12 +294,16 @@ class ChoosingModel(ScriptedModel):
         if found is None:
             self.misses += 1
             return 0
-        gold, primitive, k = found
+        gold, primitive, k, oracles = found
         able = primitive in self.competent and self.rng.random() < self.level
         if primitive == "composition" and self.max_depth is not None:
             able = able and (k is None or k <= self.max_depth)
         if primitive == "episode":
-            able = set(ep.FACULTIES) <= self.competent
+            # Same reading as the generation channel: the episode goes
+            # through when every faculty the stand-in lacks has been
+            # oracled away for that condition, so the forced-choice rescue
+            # matrix locates a missing faculty the same way.
+            able = set(ep.FACULTIES) <= (self.competent | set(oracles))
         if able:
             return gold
         # The blind pick is drawn from a stream keyed by the prompt rather

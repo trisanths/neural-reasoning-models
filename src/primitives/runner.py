@@ -254,6 +254,7 @@ def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
     both = hasattr(model, "choose_both")
     buckets: dict = {}
     raw: dict = {}
+    episode_hits: list[dict] = []
     for i, (item, choice) in enumerate(pairs):
         args = (choice["question"], list(item.chunks), choice["options"])
         if both:
@@ -269,6 +270,10 @@ def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
                 field = f"{item.meta.get('kind')}/probe"
         elif item.primitive == "episode":
             field = item.meta["condition"]
+            episode_hits.append({
+                "condition": field, "seed": item.meta["seed"],
+                "correct": float(int(pick) == choice["gold"]),
+                "took_candidate": 0.0, "parsed": True})
         elif item.primitive in ("acquisition", "abstraction"):
             field = f"{item.variant}/{choice['field']}"
         b = buckets.setdefault((key, field), [0, 0, chance])
@@ -288,6 +293,25 @@ def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
         return rep
 
     out = _fold(buckets)
+    if "composition" in out:
+        # The same depth rule the generation curve uses, so the two channels
+        # are read off the same threshold rather than eyeballed against each
+        # other.
+        depths = {}
+        for kind in p5_composition.KINDS:
+            best = 0
+            for k in sorted(ks):
+                stat = out["composition"].get(f"{kind}/k{k}")
+                if stat and stat["adjusted_ci_lo"] > p5_composition.DEPTH_MARGIN:
+                    best = k
+                else:
+                    break
+            depths[kind] = best
+        out["composition_k_star"] = depths
+    if episode_hits:
+        # The rescue matrix again, on the channel a model that cannot write
+        # can actually answer. Same paired reading, same aggregator.
+        out["rescue_matrix"] = ep.aggregate([], episode_hits)
     if both:
         out["_unnormalised"] = _fold(raw)
     return out

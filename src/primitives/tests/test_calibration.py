@@ -146,6 +146,28 @@ def test_the_rescue_matrix_locates_a_single_missing_faculty(key):
         assert rep["rows"][cond]["accuracy"]["acc"] < 0.4, cond
 
 
+def test_the_forced_choice_rescue_matrix_locates_the_same_faculty(key):
+    """The rescue reading survives the move to the forced-choice channel.
+
+    The generation rescue matrix is useless for a model that writes
+    nothing, which is exactly the model the channel exists for, so the
+    matrix has to work there too.
+    """
+    from src.primitives import episode as ep
+
+    pairs = runner.collect_choices(primitives=["memory"], n=2, seed=SEED,
+                                   ks=(1,), rescue_n=6)
+    have = [f for f in ep.FACULTIES if f != "composition"]
+    model = fakes.ChoosingModel(key, competent=have, seed=23)
+    model.learn_choices(pairs)
+    rep = runner.run_forced_choice(model, primitives=["memory"], n=2,
+                                   seed=SEED, ks=(1,), rescue_n=6)
+    m = rep["rescue_matrix"]
+    assert m["baseline"]["acc"] < 0.4
+    assert m["rows"]["oracle_composition"]["accuracy"]["acc"] == 1.0
+    assert m["largest_rescue"] == "oracle_composition"
+
+
 def test_a_silent_model_scores_zero_and_not_chance(key):
     """Saying nothing is not the same as guessing, and must not look like it.
 

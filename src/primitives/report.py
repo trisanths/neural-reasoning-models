@@ -114,6 +114,11 @@ def render_markdown(report: dict) -> str:
              if isinstance(h, dict) else f"{h:+.3f}")
         fields = fc.get(name) or {}
         fields = {k: v for k, v in fields.items() if not k.startswith("_")}
+        if name == "composition" and fc.get("composition_k_star"):
+            d = fc["composition_k_star"]
+            pick = ", ".join(f"{k}={v}" for k, v in d.items())
+            out.append(f"| {name} | {h} | {pick} | {reading} |")
+            continue
         if fields:
             adj = sum(s["adjusted"] for s in fields.values()) / len(fields)
             clears = sum(1 for s in fields.values() if s["above_chance"])
@@ -267,7 +272,9 @@ def render_markdown(report: dict) -> str:
                 "|---|---|---|---|"]
         raw = report["forced_choice"].get("_unnormalised", {})
         for prim in sorted(k for k in report["forced_choice"]
-                           if not k.startswith("_")):
+                           if not k.startswith("_")
+                           and k not in ("composition_k_star",
+                                         "rescue_matrix")):
             for field, stat in sorted(report["forced_choice"][prim].items()):
                 out.append(f"| {prim} | {field} | {_pct(stat)} | {_adj(stat)} |")
         if raw:
@@ -280,9 +287,14 @@ def render_markdown(report: dict) -> str:
                     "forced_choice._unnormalised; where the two disagree "
                     "sharply, option length is doing the work."]
 
-    if "rescue_matrix" in report:
-        r = report["rescue_matrix"]
-        out += ["", "## Causal rescue matrix", "",
+    for source, title in (("rescue_matrix", "## Causal rescue matrix"),
+                          ("forced_choice", "## Causal rescue matrix, "
+                                            "forced choice")):
+        r = (report.get(source) if source == "rescue_matrix"
+             else (report.get("forced_choice") or {}).get("rescue_matrix"))
+        if not r:
+            continue
+        out += ["", title, "",
                 f"{r['n_episodes']} integrated episodes, each rendered under "
                 f"every intervention, so every lift is paired.",
                 f"No oracle: {_pct(r['baseline'])}. Every oracle: "
