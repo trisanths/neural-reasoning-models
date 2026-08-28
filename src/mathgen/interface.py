@@ -137,6 +137,68 @@ class UniverseLike(Protocol):
     def reference_solve(self, problem, allowed_chapter_ids) -> str | None: ...
 
 
+def validate_universe(universe, levels=LEVELS) -> dict:
+    """Check a universe against the contract before benchmarking it.
+
+    Written for the handoff: point this at the mathgen agent's generator and
+    it says which parts of the contract are missing rather than failing deep
+    inside the harness. Returns a report; ok is False when anything is wrong.
+    """
+    problems: list[str] = []
+    for attr in ("universe_id", "chapters", "items"):
+        if not hasattr(universe, attr):
+            problems.append(f"missing attribute {attr}")
+    for method in ("theory_graph", "problems", "reference_solve", "library",
+                   "chapter_text"):
+        if not callable(getattr(universe, method, None)):
+            problems.append(f"missing method {method}")
+    if problems:
+        return {"ok": False, "problems": problems, "levels": {}}
+
+    items = universe.items
+    chapter_ids = {c.chapter_id for c in universe.chapters}
+    for iid, item in items.items():
+        if item.kind not in ITEM_KINDS:
+            problems.append(f"item {iid} has kind {item.kind}")
+        if item.chapter_id not in chapter_ids:
+            problems.append(f"item {iid} names chapter {item.chapter_id}")
+        for dep in item.deps:
+            if dep not in items:
+                problems.append(f"item {iid} depends on unknown {dep}")
+
+    import random as _random
+
+    per_level = {}
+    rng = _random.Random(0)
+    for lv in levels:
+        try:
+            batch = universe.problems(lv, 2, rng)
+        except Exception as exc:                     # noqa: BLE001
+            per_level[lv] = {"ok": False, "reason": f"{type(exc).__name__}: {exc}"}
+            problems.append(f"level {lv} raised")
+            continue
+        if not batch:
+            per_level[lv] = {"ok": False, "reason": "emitted nothing"}
+            problems.append(f"level {lv} emitted nothing")
+            continue
+        bad = []
+        for p in batch:
+            if not p.closed_over(items):
+                bad.append("required_items not closed over deps")
+            if not p.target_chapters:
+                bad.append("no target chapters")
+            if universe.reference_solve(p, sorted(chapter_ids)) != p.answer:
+                bad.append("reference_solve disagrees with the stated answer")
+            for target in p.target_chapters:
+                rest = [c for c in chapter_ids if c != target]
+                if universe.reference_solve(p, rest) is not None:
+                    bad.append(f"answers without {target}")
+        per_level[lv] = {"ok": not bad, "n": len(batch), "problems": sorted(set(bad))}
+        problems.extend(f"level {lv}: {b}" for b in sorted(set(bad)))
+
+    return {"ok": not problems, "problems": problems, "levels": per_level}
+
+
 def load_universe(seed: int, module: str | None = None, **kwargs):
     """Build a universe from the mathgen generator, or from the reference one.
 

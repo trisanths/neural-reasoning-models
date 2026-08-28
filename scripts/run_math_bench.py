@@ -35,7 +35,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from src.mathgen.battery import battery_report, run_battery, scripted_learner
 from src.mathgen.bench import (CONDITIONS, build_problem_set, score,
                                scripted_parrot, scripted_reader)
-from src.mathgen.interface import LEVELS, load_universe
+from src.mathgen.interface import LEVELS, load_universe, validate_universe
 
 
 def parse_seeds(spec: str) -> list[int]:
@@ -111,6 +111,8 @@ def main() -> int:
     ap.add_argument("--battery-seeds", default=None,
                     help="universe seeds for the battery, defaults to the first")
     ap.add_argument("--skip-battery", action="store_true")
+    ap.add_argument("--require-valid", action="store_true",
+                    help="stop when the universe fails the contract check")
     ap.add_argument("--out", required=True)
     ap.add_argument("--seed", type=int, default=0)
     args = ap.parse_args()
@@ -119,6 +121,14 @@ def main() -> int:
     seeds = parse_seeds(args.seeds)
     levels = tuple(int(v) for v in args.levels.split(","))
     conditions = tuple(c for c in args.conditions.split(",") if c)
+
+    probe = load_universe(seeds[0], module=args.universe_module)
+    report = validate_universe(probe, levels=levels)
+    print(f"universe {probe.universe_id} contract ok {report['ok']}")
+    for line in report["problems"]:
+        print(f"  contract: {line}")
+    if args.require_valid and not report["ok"]:
+        raise SystemExit("universe does not satisfy the contract")
 
     ps = build_problem_set(seeds, per_level=args.per_level, levels=levels,
                            universe_module=args.universe_module,
@@ -184,6 +194,7 @@ def main() -> int:
         "conditions": list(conditions),
         "universe_module": args.universe_module or "src.mathgen.refuniverse",
         "n_problems": len(ps.problems),
+        "contract": report,
         "results": result,
         "battery": battery,
     }
