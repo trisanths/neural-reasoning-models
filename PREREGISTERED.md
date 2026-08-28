@@ -88,3 +88,74 @@ eight-level benchmark. How small the learner can get, from the substrate sweep.
 
 Every failure yields the next architectural question, so the programme produces
 knowledge whether or not the sub-billion-parameter outcome holds.
+
+## H7, registered 2026-08-28, before the rescue ladder was run
+
+The minimal repro (`src/disc/minrepro.py`) puts a wall between depth one and
+depth two that is total, and locates it in the control signal rather than in
+any computation.
+
+Depth one scores 0.5375 pass@1 and 0.950 pass@4. Depths two, three and four
+score 0.0000 on both, over 1200 rollouts, on a task whose depth-one form the
+same checkpoint answers at 0.969 greedy.
+
+Two facts move the reading away from capacity.
+
+Error compounding is dead. Independent lookups at the measured depth-one rate
+predict 0.289 at depth two. Observed is zero in 400, and pass@4 is also zero.
+Under a compounding model the chance of that is around 10^-59. Depth two is not
+two copies of depth one.
+
+The chain runs exactly one step and halts. A quarter of depth-two rollouts emit
+the correct answer to the depth-one question embedded inside the depth-two
+question, and the classes for later intermediates never appear once in 800
+rollouts. Mean retrieval rounds falls as the problem deepens: 0.99, 0.73, 0.56,
+0.54. The policy issues fewer queries exactly when more evidence is needed, so
+the second table is never fetched at all.
+
+H7 states the failure is the continuation decision: the substrate has no
+representation of being unfinished, and the halting choice sits on a token
+policy that makes it wrongly.
+
+Two supporting boundaries. Referent ambiguity is not the cause; the closed
+alphabet variant, where every token is both a key and a value, leaves depth one
+at 0.545 and depth two at 0.000 with the same stop-after-one signature. Page
+clutter is separable and expensive but is not the cause either; going from two
+gold pages to six costs depth one 0.5375 to 0.125 without touching depth two.
+
+With both tables already in the prompt there is no cliff: 0.070, 0.0175, 0.0150
+at depths one to three. Depth two yields 7 correct in 400 where retrieval yields
+0 in 400, from a depth-one rate 7.7 times higher. Removing the halting problem
+moves depth two off zero, and does not by itself produce composition.
+
+### E0, the re-keying rescue ladder, predictions on record
+
+R0 is depth d as generated. R1 splices the gold intermediate back in after each
+round, making a depth-d problem into d depth-one problems. R2 splices the
+model's own previous answer instead. R3 asks the model to write the intermediate
+unaided.
+
+Predicted: R1 recovers to about p1^d, near 0.29 at depth two and 0.16 at depth
+three from the sampled rate, or 0.71 and 0.59 from the greedy rate. R2 recovers
+less. R3 recovers nothing.
+
+If R1 rescues, the substrate executes a lookup keyed by a value it was handed
+but cannot route its own output back in as a key. The failure is control, H2 and
+H3 die, and the work goes to where the continuation decision lives.
+
+If R1 does not rescue, the substrate cannot execute a lookup keyed by anything
+it was not handed in the question, H7 is downstream of a representation failure
+rather than its cause, and the work goes to making the acquired rule executable.
+
+Either outcome eliminates about half the mechanism slate in `src/disc/SLATE.md`
+for a day of work and no training.
+
+### A caveat that bounds the headline result
+
+The repro's first notation scored at or below 0.19 at depth one where the
+routing idiom reaches 0.84, and the two were never measured under one matched
+condition because presentation moved as well. If surface form accounts for most
+of that gap, the 0.680 rule-application result generalises across invented
+systems within a template and not across templates. The renderer swap that
+settles this is running; until it reports, the headline is stated with this
+bound attached.
