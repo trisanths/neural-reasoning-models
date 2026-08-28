@@ -34,12 +34,50 @@ def verdict(blob: dict) -> str:
             f"dependency {dep:+.3f}")
     if c <= 0.02:
         return head + "; the checkpoint answers nothing under this protocol, so the controls say nothing either"
+
+    # A policy that never asks for a page cannot be affected by which page it
+    # would have been served. Its three conditions are the same prompt, so the
+    # zero below is structural and says the accuracy is closed book, not that
+    # the evidence was unhelpful. Worth one clause, because the two readings
+    # of a 0.000 point in opposite directions.
+    gen_correct = (blob.get("gen_conditions") or {}).get("correct") or {}
+    retr = gen_correct.get("any_retrieval")
+    if proto == "gen" and retr is not None and retr <= 0.01:
+        return head + ("; the policy never emitted a retrieval request, so all "
+                       "three conditions ran the same prompt and the accuracy "
+                       "is closed book rather than evidence driven")
+
     share = w / c if c else 0.0
     if share >= 0.75:
-        return head + f"; {share:.0%} of the accuracy survives a different episode's evidence"
-    if share >= 0.35:
-        return head + f"; {share:.0%} of the accuracy survives a different episode's evidence, so the number is part evidence and part prior"
-    return head + f"; only {share:.0%} of the accuracy survives a different episode's evidence"
+        body = f"; {share:.0%} of the accuracy survives a different episode's evidence"
+    elif share >= 0.35:
+        body = f"; {share:.0%} of the accuracy survives a different episode's evidence, so the number is part evidence and part prior"
+    else:
+        body = f"; only {share:.0%} of the accuracy survives a different episode's evidence"
+    return head + body + _other_protocol(blob, proto)
+
+
+def _other_protocol(blob: dict, proto: str) -> str:
+    """The dependency under the protocol the row does not quote.
+
+    A pretraining checkpoint is graded here under multiple choice, because
+    that is what its logged accuracy meant, and under multiple choice it keeps
+    almost all of its accuracy when the evidence is swapped. The same weights
+    under the generative rollout lose most of theirs. Quoting one number
+    without the other invites the reading that the model cannot use evidence,
+    when what the pair actually says is that the forced choice does not
+    require any.
+    """
+    pm = blob.get("protocol_metrics") or {}
+    other = "mc" if proto == "gen" else "gen"
+    if proto not in pm or other not in pm:
+        return ""
+    o = pm[other]
+    if o.get("acc_correct_evidence") is None:
+        return ""
+    return (f"; under {other} the same weights read "
+            f"correct {o['acc_correct_evidence']:.3f} "
+            f"dependency {o['retrieval_dependency']:+.3f}")
 
 
 def main() -> int:
