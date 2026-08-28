@@ -1,0 +1,431 @@
+{
+ "config": {
+  "ckpt": "runs/ladder/trial_goal.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "rep": null,
+  "out": "results/ladder/trial_goal.json",
+  "n": 4,
+  "batch_size": 8,
+  "slot_batch_size": 8,
+  "rounds": 3,
+  "kinds": "sequential",
+  "styles": "0",
+  "temperature": 0.0,
+  "max_new": 192,
+  "conditions": "plan_execute,oracle_ops"
+ },
+ "rep": "goalstack",
+ "checkpoint": {
+  "arm": "ladder_goalstack",
+  "rep": "goalstack",
+  "step": 40,
+  "tokens": 54608,
+  "supervised_tokens": 13205,
+  "examples": 3200,
+  "reinit_tokens": 146,
+  "rounds": 3
+ },
+ "induction": {
+  "pages": 16,
+  "pages_parsed": 7,
+  "gold_ops": 24,
+  "induced_ops": 13,
+  "self_verified": 8,
+  "exact_text": 5,
+  "behavioural": 5
+ },
+ "plan_execute": {
+  "sequential": {
+   "1": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 2,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 1.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg30|> <|pg28|> <|pg143|> <|pg138|> <|pg138|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg30|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>"
+    ]
+   },
+   "2": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 2,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 2.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg31|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg30|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg31|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "3": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 2,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 3.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg138|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg31|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "4": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 2,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 4.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "5": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 1,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 5.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "6": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 6.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "7": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 7.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "8": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 1,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 0.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 8.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   }
+  }
+ },
+ "oracle_ops": {
+  "sequential": {
+   "1": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 1.0,
+     "mean_gold_steps": 1.0
+    },
+    "samples": [
+     "<|pg142|> <|pg29|> <|pg30|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg30|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "2": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 2.0,
+     "mean_gold_steps": 2.0
+    },
+    "samples": [
+     "<|pg142|> <|pg30|> <|pg31|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg30|> <|pg30|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg30|> <|pg31|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "3": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 3.0,
+     "mean_gold_steps": 3.0
+    },
+    "samples": [
+     "<|pg142|> <|pg31|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg31|> <|pg31|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg31|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "4": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.25,
+     "constraint_bind_events": 1,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 4.0,
+     "mean_gold_steps": 4.0
+    },
+    "samples": [
+     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>",
+     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "5": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 5.0,
+     "mean_gold_steps": 5.0
+    },
+    "samples": [
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "6": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 6.0,
+     "mean_gold_steps": 6.0
+    },
+    "samples": [
+     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg34|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> <|pg141|>"
+    ]
+   },
+   "7": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 7.0,
+     "mean_gold_steps": 7.0
+    },
+    "samples": [
+     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   },
+   "8": {
+    "n": 4,
+    "acc": 0.0,
+    "plan_parses": 0.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "plan_parse": 4
+    },
+    "extra": {
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
+     "constraint_released_rate": 1.0,
+     "obligation_tight_rate": 1.0,
+     "mean_required": 8.0,
+     "mean_gold_steps": 8.0
+    },
+    "samples": [
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg129|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg135|> <|pg12|> <|pg141|>"
+    ]
+   }
+  }
+ },
+ "oracle_both_all_one": true,
+ "oracle_both_failures": []
+}

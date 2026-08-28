@@ -95,53 +95,88 @@ behaviourally right 5969/9897 = 0.603
 exact text          5857/9897 = 0.592
 self verified       1435/8367 = 0.172
 
-=== why the plan path failed, by kind and depth ===
-sequential         d=1  ok=150
-sequential         d=2  ok=72 wrong_value=78
-sequential         d=3  ok=75 wrong_value=75
-sequential         d=4  ok=3 wrong_value=147
-sequential         d=5  ok=5 wrong_value=145
-sequential         d=6  ok=3 wrong_value=147
-sequential         d=7  ok=1 wrong_value=149
-sequential         d=8  ok=2 wrong_value=148
-breadth            d=1  ok=150
-breadth            d=2  ok=150
-breadth            d=3  ok=150
-breadth            d=4  ok=63 wrong_value=87
-breadth            d=5  ok=47 wrong_value=103
-breadth            d=6  execute=62 ok=17 wrong_value=71
-novel              d=2  ok=2 wrong_value=148
-novel              d=3  ok=2 wrong_value=148
-novel              d=4  ok=2 wrong_value=148
-novel              d=5  execute=7 ok=3 wrong_value=140
-novel              d=6  execute=9 ok=2 wrong_value=139
-same_page_pair     d=2  wrong_value=150
-sequential_paren   d=2  ok=150
-sequential_paren   d=3  ok=150
-sequential_paren   d=4  ok=4 wrong_value=146
-sequential_paren   d=5  execute=13 ok=6 wrong_value=131
-sequential_paren   d=6  execute=8 ok=3 wrong_value=139
-units              d=1  ok=150
+=== how the plan path failed, by kind and depth ===
+kind                d  condition     reasons
+sequential          1  plan_execute  ok=150
+sequential          2  plan_execute  ok=72 wrong_value=78
+sequential          3  plan_execute  ok=75 wrong_value=75
+sequential          4  plan_execute  ok=3 wrong_value=147
+sequential          5  plan_execute  ok=5 wrong_value=145
+sequential          6  plan_execute  ok=3 wrong_value=147
+sequential          7  plan_execute  ok=1 wrong_value=149
+sequential          8  plan_execute  ok=2 wrong_value=148
+sequential          1  oracle_plan   ok=150
+sequential          2  oracle_plan   ok=150
+sequential          3  oracle_plan   ok=150
+sequential          4  oracle_plan   ok=150
+sequential          5  oracle_plan   ok=150
+sequential          6  oracle_plan   ok=150
+sequential          7  oracle_plan   ok=150
+sequential          8  oracle_plan   ok=150
+breadth             1  plan_execute  ok=150
+breadth             2  plan_execute  ok=150
+breadth             3  plan_execute  ok=150
+breadth             4  plan_execute  ok=63 wrong_value=87
+breadth             5  plan_execute  ok=47 wrong_value=103
+breadth             6  plan_execute  execute=62 ok=17 wrong_value=71
+breadth             1  oracle_plan   ok=150
+breadth             2  oracle_plan   ok=150
+breadth             3  oracle_plan   ok=150
+breadth             4  oracle_plan   execute=150
+breadth             5  oracle_plan   execute=150
+breadth             6  oracle_plan   execute=150
+novel               2  plan_execute  ok=2 wrong_value=148
+novel               3  plan_execute  ok=2 wrong_value=148
+novel               4  plan_execute  ok=2 wrong_value=148
+novel               5  plan_execute  execute=7 ok=3 wrong_value=140
+novel               6  plan_execute  execute=9 ok=2 wrong_value=139
+novel               2  oracle_plan   ok=150
+novel               3  oracle_plan   ok=150
+novel               4  oracle_plan   ok=150
+novel               5  oracle_plan   ok=150
+novel               6  oracle_plan   ok=150
+same_page_pair      2  plan_execute  wrong_value=150
+same_page_pair      2  oracle_plan   ok=150
+sequential_paren    2  plan_execute  ok=150
+sequential_paren    3  plan_execute  ok=150
+sequential_paren    4  plan_execute  ok=4 wrong_value=146
+sequential_paren    5  plan_execute  execute=13 ok=6 wrong_value=131
+sequential_paren    6  plan_execute  execute=8 ok=3 wrong_value=139
+sequential_paren    2  oracle_plan   ok=150
+sequential_paren    3  oracle_plan   ok=150
+sequential_paren    4  oracle_plan   ok=150
+sequential_paren    5  oracle_plan   ok=150
+sequential_paren    6  oracle_plan   ok=150
+units               1  plan_execute  ok=150
+units               1  oracle_plan   ok=150
 
 === which stage is responsible ===
-sequential         d=1  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
-sequential         d=2  plan_execute=0.480 gold_ops_gain=+0.000 gold_plan_gain=+0.520
-sequential         d=3  plan_execute=0.500 gold_ops_gain=+0.000 gold_plan_gain=+0.500
-sequential         d=4  plan_execute=0.020 gold_ops_gain=+0.000 gold_plan_gain=+0.980
-sequential         d=5  plan_execute=0.033 gold_ops_gain=+0.000 gold_plan_gain=+0.967
-sequential         d=6  plan_execute=0.020 gold_ops_gain=+0.000 gold_plan_gain=+0.980
-sequential         d=7  plan_execute=0.007 gold_ops_gain=+0.000 gold_plan_gain=+0.993
-sequential         d=8  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
-breadth            d=1  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
-breadth            d=2  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
-breadth            d=3  plan_execute=1.000 gold_ops_gain=+0.000 gold_plan_gain=+0.000
-breadth            d=4  plan_execute=0.420 gold_ops_gain=-0.420 gold_plan_gain=-0.420
-breadth            d=5  plan_execute=0.313 gold_ops_gain=-0.313 gold_plan_gain=-0.313
-breadth            d=6  plan_execute=0.113 gold_ops_gain=-0.113 gold_plan_gain=-0.113
-novel              d=2  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
-novel              d=3  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
-novel              d=4  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
-novel              d=5  plan_execute=0.020 gold_ops_gain=+0.000 gold_plan_gain=+0.980
-novel              d=6  plan_execute=0.013 gold_ops_gain=+0.000 gold_plan_gain=+0.987
+kind                d  plan_exec  gold_ops gold_plan  stage
+sequential          1      1.000    +0.000    +0.000  -
+sequential          2      0.480    +0.000    +0.520  scheduler
+sequential          3      0.500    +0.000    +0.500  -
+sequential          4      0.020    +0.000    +0.980  scheduler
+sequential          5      0.033    +0.000    +0.967  scheduler
+sequential          6      0.020    +0.000    +0.980  scheduler
+sequential          7      0.007    +0.000    +0.993  scheduler
+sequential          8      0.013    +0.000    +0.987  scheduler
+breadth             1      1.000    +0.000    +0.000  -
+breadth             2      1.000    +0.000    +0.000  -
+breadth             3      1.000    +0.000    +0.000  -
+breadth             4      0.420    -0.420    -0.420  induction/arity
+breadth             5      0.313    -0.313    -0.313  induction/arity
+breadth             6      0.113    -0.113    -0.113  induction/arity
+novel               2      0.013    +0.000    +0.987  scheduler
+novel               3      0.013    +0.000    +0.987  scheduler
+novel               4      0.013    +0.000    +0.987  scheduler
+novel               5      0.020    +0.000    +0.980  scheduler
+novel               6      0.013    +0.000    +0.987  scheduler
+same_page_pair      2      0.000    +0.000    +1.000  scheduler
+sequential_paren    2      1.000    +0.000    +0.000  -
+sequential_paren    3      1.000    +0.000    +0.000  -
+sequential_paren    4      0.027    +0.000    +0.973  scheduler
+sequential_paren    5      0.040    +0.000    +0.960  scheduler
+sequential_paren    6      0.020    +0.000    +0.980  scheduler
+units               1      1.000    +0.000    +0.000  -
 
 [written] results/opgraph_pass1_summary.json
