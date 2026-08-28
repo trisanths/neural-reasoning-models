@@ -432,39 +432,48 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
 # scripted models, for wiring the harness up before a checkpoint is involved
 # --------------------------------------------------------------------------
 def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> ModelFn:
-    """A fake model that answers when the text it needs is in front of it.
+    """A fake model that answers when the statements it needs are in front of it.
 
-    It reads the prompt for the statements its answer depends on, and answers
-    only when all of them are present. With nothing in the prompt it guesses
-    from the answer format. This is the plumbing check: oracle near one,
-    closed book near chance.
+    It looks in the part of the prompt above the problem for every statement
+    the problem's derivation depends on, and answers only when all of them are
+    there. In the agent condition it searches for what is still missing. With
+    nothing supplied it guesses from the pool of answers. This is the plumbing
+    check: oracle near one, closed book near the majority baseline, and the
+    agent condition somewhere between depending on what its queries surface.
     """
     rng = random.Random(seed)
     lookup = {}
     for p in ps.problems:
         u = ps.universes[p.universe_id]
-        needed = [u.items[i].name for i in closure(p.required_items, u.items)]
-        lookup[p.text] = (p, needed, u)
+        needed = [(u.items[i].name, u.items[i].statement)
+                  for i in closure(p.required_items, u.items)]
+        lookup[p.text] = (p, needed)
     pool = [normalize(p.answer) for p in ps.problems]
 
+    def present(statement: str, supplied: str) -> bool:
+        head = " ".join(statement.split()[:8]).lower()
+        return head in " ".join(supplied.split()).lower()
+
     def model(prompt: str) -> str:
-        body = prompt
-        target = None
-        for text, entry in lookup.items():
-            if text in body:
-                target = entry
+        entry = None
+        for text, candidate in lookup.items():
+            if text in prompt:
+                entry = candidate
                 break
-        if target is None:
+        if entry is None:
             return "Answer: 0"
-        p, needed, u = target
-        reference = body.split("Problem.")[0]
-        have = all(name.lower() in reference.lower() for name in needed)
-        if have and rng.random() < competence:
+        p, needed = entry
+        # Everything except the problem statement itself counts as supplied,
+        # which keeps the reader from scoring off the question and works the
+        # same whether the text arrived above the problem or below it.
+        supplied = prompt.replace(p.text, " ")
+        missing = [name for name, stmt in needed if not present(stmt, supplied)]
+        if not missing and rng.random() < competence:
             return f"Answer: {p.answer}"
-        if "SEARCH:" not in body and "Library." not in body and \
-                body.startswith(ACQUISITION_PREAMBLE):
-            names = " ".join(needed[:3])
-            return f"SEARCH: {names}"
+        if prompt.lstrip().startswith(ACQUISITION_PREAMBLE):
+            fresh = [name for name in missing if f"SEARCH: {name}" not in prompt]
+            if fresh:
+                return f"SEARCH: {fresh[0]}"
         return f"Answer: {rng.choice(pool)}"
 
     return model
