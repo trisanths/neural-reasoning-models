@@ -87,24 +87,57 @@ optimisation problem after capability is proven: cache acquired skills,
 parallelise search, speculate retrieval, compile a book once, run recurrence
 efficiently.
 
-## Prior evidence that the conventional curve is a property of X
+## Prior evidence, checked, and what it actually supports
 
-Three independent results point the same way, and none of them is sufficient
-alone. RETRO showed a 7B retrieval-native model reaching language-modelling
-performance comparable to models an order of magnitude larger, though later
-analysis attributed part of that to overlap between the retrieval set and the
-test data. Atlas showed an 11B retrieval model beating a 540B model on Natural
-Questions in its evaluated few-shot setting. Recurrent-depth work showed a 3.5B
-model continuing to improve as its computation was increased toward the FLOP load
-of a much larger fixed-depth model, reusing the same parameters rather than
-adding any. Work on continuous-query knowledge externalisation reports a 360M
-model scoring competitively on a factual benchmark against far larger models.
+Four results are commonly cited in support of this direction. All four were
+verified, and they support something weaker than they are usually taken to mean.
 
-Taken together: scaling non-parametric memory substitutes for weights on some
-capabilities, scaling computation substitutes for weights on others, and scaling
-external knowledge access can produce capability disproportionate to resident
-parameters. The conventional parameter-capability curve is therefore a property
-of X, and should not be inherited as a law governing Y.
+RETRO reported a 7.5B retrieval-native model matching models 25x larger on the
+Pile. Norlund et al. (EACL 2023 Findings) reproduced it at 425M and bucketed the
+loss by token overlap: the gains come almost entirely from tokens overlapping
+retrieved text, with a small net negative effect on non-overlapping tokens. Their
+conclusion is that the improvement is verbatim copying. This is the only careful
+separation anyone has published between "retrieved the answer and copied it" and
+"integrated retrieved content into a computation", and it came out on the wrong
+side for us. RETRO's own downstream numbers agree: 45.5 exact match on Natural
+Questions against FiD's 51.4 from a far smaller model.
+
+Atlas reported an 11B model beating PaLM-540B on Natural Questions 64-shot. Atlas
+was gradient fine-tuned on those 64 examples, reader and retriever both, with a
+387M-passage index of the exact domain the questions came from. PaLM was prompted,
+with no gradients and no retrieval. The authors footnote this. It is not evidence
+about the parameter-capability curve.
+
+Co-LMLM externalises facts through dense queries at 360M and scores 21.7 on
+SimpleQA Verified. That benchmark is explicitly designed to measure parametric
+knowledge, and its own paper notes that enabling tools yields near-perfect scores.
+The comparison models had no retrieval; Co-LMLM had a 240M-entry index of
+Wikipedia fact spans. It evaluates no mathematical, procedural or multi-hop task,
+and retrieves single atomic facts top-1.
+
+Recurrent-depth work (Huginn, 3.5B) showed continued improvement with more
+iterations up to the FLOP load of a 50B model. The authors are explicit that this
+is compute equivalence, not capability equivalence, and their tables show it does
+not reach a 50B model's scores. Usefully for us, gains saturate near eight
+iterations on knowledge and commonsense tasks and keep accruing on math, code and
+multi-step reasoning. Recurrence deepens computation in a model that already has
+the machinery; it does not add machinery.
+
+What this set actually establishes: factual capacity can be decoupled from
+parameter count, and computational depth can be decoupled from parameter count.
+What it leaves untouched, and in RETRO's case actively discourages, is whether
+PROCEDURAL capability can be externalised. Three of the four compare a
+retrieval-equipped model against models denied retrieval, so the counterargument
+writes itself: give the large model the index and the comparison reverses.
+
+That hole is where this project sits, and it is why the invented-mathematics
+benchmark matters more than another factual evaluation. Our own strongest result
+is a procedure-retrieval result: a model reads a page stating a rule it has never
+seen and applies it, 0.680 against 0.002 with a different page. And our pointer
+head independently reproduced the Norlund split without knowing it, lifting
+copy-heavy accuracy from 0.021 to 0.514 while being slightly worse where
+arithmetic was required. The literature and our own measurements agree on where
+the line falls. The open question is whether anything crosses it.
 
 ## What our own evidence says so far
 
