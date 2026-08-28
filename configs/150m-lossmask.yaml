@@ -1,0 +1,48 @@
+# 150M class trained on natural text with the factual spans weighted out of
+# the loss, the src/lossmask arm of branch C.
+#
+# The four arms of the experiment share this file and differ only in the
+# lossmask.weights block, which the launcher overwrites per arm:
+#
+#   a  entity, number, date, web at 0.0     factual spans carry no gradient
+#   b  number and date at 0.0               times and quantities only
+#   c  entity, number, date, web at 0.1     factual spans discounted
+#   d  no weights at all                    the control, every token at one
+#
+# Same shards, same seed, same sampled offsets in all four. The weight is a
+# multiplier on each target token's cross entropy and the step normalizes by
+# the weight sum, so the arms do not differ in effective learning rate.
+model:
+  vocab_size: 32768
+  d_model: 768
+  n_layers: 12
+  n_heads: 12
+  d_ff: 2048
+  max_seq_len: 2048
+  rope_theta: 10000.0
+  norm_eps: 1.0e-5
+optimizer:
+  lr: 6.0e-4
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-8
+schedule:
+  warmup_steps: 150
+  max_steps: 4000
+  min_lr_ratio: 0.1
+  warmup_phase_steps: 0
+train:
+  batch_size: 16
+  global_batch_size: 64
+  grad_accum_steps: 4
+  grad_clip: 1.0
+  seed: 1234
+  log_interval: 20
+  ckpt_interval: 1000
+lossmask:
+  weights:
+    entity: 0.0
+    number: 0.0
+    date: 0.0
+    web: 0.0

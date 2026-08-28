@@ -15,7 +15,13 @@ the mean over ranks, and only rank zero writes checkpoints and loss.jsonl. The
 loop count generator is seeded from the train seed alone, never from the rank,
 so every rank runs the same depth on the same step. Checkpoints hold the state
 dict of the unwrapped module, so a distributed run and a single GPU run write
-and read the same file."""
+and read the same file.
+
+Loss masking. A batch iterator may yield a third tensor, a per token weight
+over the targets, and the step then multiplies the per token cross entropy by
+it and normalizes by the weight sum. src/lossmask writes those weights and
+explains what they are for. Nothing here turns the path on: a two tensor batch
+takes the model's own mean cross entropy, which is every existing caller."""
 
 import inspect
 import json
@@ -197,6 +203,19 @@ class Trainer:
         # signature. A caller that stubs out save_checkpoint stays working.
         self._loader = None
 
+    def _loss(self, inputs, targets, weights):
+        """The step's loss. A two tensor batch takes the model's own mean
+        cross entropy and nothing about the existing path moves. A three
+        tensor batch, which only src.lossmask's loader produces, asks the
+        model for logits alone and weights the per token loss itself."""
+        if weights is None:
+            _, loss = self.run_model(inputs, targets)
+            return loss
+        from src.lossmask.loss import weighted_cross_entropy
+
+        logits, _ = self.run_model(inputs)
+        return weighted_cross_entropy(logits, targets, weights)
+
     def lr_at(self, step: int) -> float:
         return cosine_lr(step, self.base_lr, self.warmup_steps, self.max_steps, self.min_lr_ratio)
 
@@ -302,7 +321,13 @@ class Trainer:
             self.optimizer.zero_grad(set_to_none=True)
             step_loss = 0.0
             for micro in range(self.grad_accum_steps):
-                inputs, targets = next(batch_iter)
+                batch = next(batch_iter)
+                weights = None
+                if len(batch) == 3:
+                    inputs, targets, weights = batch
+                    weights = weights.to(self.device, non_blocking=True)
+                else:
+                    inputs, targets = batch
                 inputs = inputs.to(self.device, non_blocking=True)
                 targets = targets.to(self.device, non_blocking=True)
                 # Hold the all reduce back until the last micro batch, so the
@@ -312,9 +337,9 @@ class Trainer:
                 with nullcontext() if sync else self.ddp.no_sync():
                     if self.use_autocast:
                         with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
-                            _, loss = self.run_model(inputs, targets)
+                            loss = self._loss(inputs, targets, weights)
                     else:
-                        _, loss = self.run_model(inputs, targets)
+                        loss = self._loss(inputs, targets, weights)
                     (loss / self.grad_accum_steps).backward()
                 step_loss += loss.item() / self.grad_accum_steps
             if self.grad_clip > 0:

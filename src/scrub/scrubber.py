@@ -383,6 +383,22 @@ def scrub_document(text: str, seed, entity_policy: str = "invent",
                       pool=pool).text
 
 
+def anchor_spans(text: str) -> list:
+    """(start, end, kind) for every anchor scrub_text would replace, in
+    document order and never overlapping.
+
+    kind is "entity", "number", "url", "email", or "handle". This is the
+    detection half of scrubbing with the rewriting left out, for callers
+    that want to know where the anchors are without destroying them.
+    src/lossmask uses it to weight factual spans out of the training loss
+    while the text itself stays natural.
+    """
+    web = _web_edits(text)
+    covered = [(s, e) for s, e, _, _ in web]
+    return [(s, e, kind)
+            for s, e, kind, _ in sorted(web + _token_edits(text, covered))]
+
+
 def entity_runs(text: str) -> list:
     """(start, end) pairs of the entity runs scrub_text would replace,
     ignoring web ranges. Used by the extractive QA span finder."""

@@ -16,8 +16,8 @@ from src.scrub.extractive_qa import (DEFAULT_TYPE_MIX, E2_TYPE_MIX, check_qa,
                                      render_qa_trace, split_sentences)
 from src.scrub.name_pool import (EntityPool, harvest_counts, harvest_pool,
                                  pool_from_counts)
-from src.scrub.scrubber import (FUNCTION_WORDS, ScrubResult, scrub_document,
-                                scrub_text)
+from src.scrub.scrubber import (FUNCTION_WORDS, ScrubResult, anchor_spans,
+                                scrub_document, scrub_text)
 from src.scrub.web_retrieval import (build_web_episode, render_web_episode,
                                      verify_web_episode)
 
@@ -28,6 +28,7 @@ __all__ = [
     "EntityPool",
     "FUNCTION_WORDS",
     "ScrubResult",
+    "anchor_spans",
     "build_web_episode",
     "check_qa",
     "find_spans",

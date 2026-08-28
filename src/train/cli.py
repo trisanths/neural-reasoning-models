@@ -17,6 +17,12 @@ the global generator before the model is built so every rank starts from the
 same weights and a run is reproducible from train.seed alone. The global batch
 in train.global_batch_size is sequences per optimizer step summed over ranks,
 so adding ranks shortens each rank's accumulation instead of growing the batch.
+
+A config with a lossmask section switches the main phase loader to the
+weighted one in src/lossmask, which reads the tag stream beside the tokens and
+hands the trainer a per token loss weight. The token stream, the seed, and the
+sampled offsets are unchanged by that, so two runs differing only in
+lossmask.weights read the same tokens in the same order.
 """
 
 import argparse
@@ -134,10 +140,28 @@ def _run(args, info: dict) -> int:
         log(f"warm up phase to step {warmup_phase_steps} on {args.warmup_bin}")
         trainer.train(loader, until_step=warmup_phase_steps)
 
-    reader = ShardReader(args.data)
-    loader = BatchLoader(
-        reader, batch_size, seq_len, seed=seed + 1, rank=rank, world_size=world_size
-    )
+    # Opt in by config. Without a lossmask section this is the plain loader
+    # it has always been, and a lossmask section on untagged data trains the
+    # control arm rather than failing.
+    lossmask_cfg = cfg.get("lossmask")
+    if lossmask_cfg is None:
+        reader = ShardReader(args.data)
+        loader = BatchLoader(
+            reader, batch_size, seq_len, seed=seed + 1, rank=rank, world_size=world_size
+        )
+    else:
+        from src.lossmask.shards import TaggedShardReader, WeightedBatchLoader
+        from src.lossmask.tags import describe_weights, weight_table
+
+        table = weight_table(lossmask_cfg.get("weights"))
+        reader = TaggedShardReader(args.data)
+        loader = WeightedBatchLoader(
+            reader, batch_size, seq_len, table,
+            seed=seed + 1, rank=rank, world_size=world_size
+        )
+        log(f"loss masking on, weights {describe_weights(table)}"
+            + ("" if reader.tagged else "; data carries no tags, so every "
+                                        "token weighs one"))
     log(f"main phase on {reader.total_tokens:,} tokens from {args.data}, "
         f"rank {rank} reads [{loader.region_start:,}, {loader.region_end:,})")
     trainer.train(loader)
