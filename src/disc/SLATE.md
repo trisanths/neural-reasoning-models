@@ -35,10 +35,12 @@ budget of the RL stage, and it is worse everywhere.
 Levels are typed. A token is a source on exactly one page and a target on at
 most one other, so each individual lookup is as unambiguous as the family the
 model already answers. The closed-alphabet variant, where one alphabet is
-shared and every map is a derangement of it, is kept behind `--untyped`
-because it fails at depth one for a different reason. That measurement is
-reported below, since separating referent ambiguity from depth turned out to
-be necessary.
+shared and every map is a derangement of it so that every token is both a key
+and a value, is kept behind `--untyped` as the referent-ambiguity control. It
+was built because the first version of the task failed at depth one and
+closure looked like the reason. It was not the reason, and the control is
+reported in section 2 because a negative control that was believed is worth
+more than one that was assumed.
 
 ### What the audit checks
 
@@ -87,7 +89,36 @@ code path: `substitution_rule` 0.969 greedy and 0.828 at temperature one;
 
 Zero correct answers in 1200 rollouts across depths two, three and four.
 
-Evidence-ablation and referent-ambiguity controls: pending.
+### Controls
+
+Temperature 1.0, 2 samples per question.
+
+| Condition | Depth | pass@1 | pass@2 | Answers the depth-one question |
+|---|---|---|---|---|
+| Gold pages only | 1 | 0.5375 | 0.950 (4 samples) | n/a |
+| A different system's pages | 1 | 0.000 | 0.000 | n/a |
+| A blank page | 1 | 0.000 | 0.000 | n/a |
+| Full page set, 6 pages with a distractor office | 1 | 0.125 | 0.210 | n/a |
+| Full page set | 2 | 0.000 | 0.000 | 0.125 |
+| Closed alphabet, gold pages only | 1 | 0.545 | 0.770 | n/a |
+| Closed alphabet, gold pages only | 2 | 0.000 | 0.000 | 0.212 |
+
+Three things come out of this.
+
+The pages are load-bearing at depth one, reproducing the project's own
+0.680 against 0.002 against 0.000 pattern in a second family: 0.5375 with the
+right pages, 0.000 with another system's, 0.000 with a blank one.
+
+Retrieval selection is expensive and separable. Going from the two gold pages
+to the full six-page set costs depth one 0.5375 to 0.125, without touching the
+computation. The depth curve is therefore run on the gold-pages condition, so
+that the zero at depth two cannot be blamed on page clutter.
+
+The closed alphabet costs nothing. Making every token both a key and a value
+leaves depth one at 0.545 and depth two at 0.000, with the same
+stop-after-one-step signature at 0.212. Referent ambiguity was the first
+explanation offered for the early depth-one failures and it is wrong; the
+template was the reason. Both variants show the identical wall.
 
 ## 3. What the curve rules out
 
@@ -305,6 +336,14 @@ prompt token stream; the retrieved evidence line is injected; a learned write
 gate overwrites the same slice with the retrieved target's representation. One
 loop iteration is one composition step, and the loop count is a runtime knob.
 
+More of this exists than expected. `src/train/model.py` already samples the
+loop count per example during training through `train_loop_sampling` and
+carries a per-iteration FiLM loop embedding, and `src/latentret/gate.py`
+already has `halting_distribution` and `ponder_kl`. Since H7 is a halting
+failure, that machinery is the part to point at it: the halting decision moves
+off the token policy, which demonstrably makes it wrongly, and onto a gate
+reading the recurrent state.
+
 Prediction: a plateau then a cliff, with the cliff located at the loop budget
 rather than at depth two. For d at or below `n_loops`, accuracy within noise of
 depth one; above it, chance.
@@ -401,8 +440,8 @@ carries. THESIS.md assumes the weights hold variable binding, so symbols can
 carry local meaning. Nobody has checked.
 
 Prediction: if H2 is right, depth two under register binding rises to roughly
-the square of depth-one accuracy, so near 0.7 from a depth-one figure around
-0.84. If H3 is right, it stays at zero.
+the square of depth-one accuracy, so about 0.29 sampled and 0.71 greedy. If H3
+is right, it stays at zero.
 
 To be wrong: register tokens decode as noise and nothing moves, which rules out
 the whole class of interventions that give the model a name for an
@@ -415,6 +454,12 @@ cheapest item here that can change a belief.
 
 Ranked by hypotheses eliminated per experiment, in either outcome, not by
 probability of success.
+
+The curve moved two things in this ranking. Killing H4 removed the reason to
+treat composition as an accuracy problem, which is what pushes M4 to last.
+Adding H7 raised M2, since it is the only mechanism that takes the halting
+decision away from the token policy, and the token policy is measurably the
+part making it wrongly. M2 still sits below M6 because M6 costs nothing.
 
 ### Rank 1. E0, the re-keying rescue ladder
 
