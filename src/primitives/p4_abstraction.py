@@ -7,12 +7,12 @@ case arrives in a vocabulary that shares no content word with the lesson,
 joined to it only by an explicit legend, so a model that matched text
 cannot produce the label at all while a model that built the rule can.
 
-The rules are comparisons, never arithmetic: one label when the first
-reading exceeds the second, one label when the case's category falls in a
-set the examples reveal, one label when both readings have the same
-parity. Nothing here needs a calculator and nothing needs two chained
-inferences, so a model that fails at composition depth two can still score
-one.
+The rules are comparisons, never arithmetic: the first reading exceeds the
+second, the first reading falls below the second, or the two readings have
+the same parity. The first two are complements, so a model that assumes a
+filing convention instead of inducing one scores one half across the pair.
+Nothing here needs a calculator and nothing needs two chained inferences,
+so a model that fails at composition depth two can still score one.
 
 Two baselines are computed on every item at generation time and printed
 next to the model's score. The copy baseline files the case the way the
@@ -231,6 +231,12 @@ def grade(item: Item, response: str) -> dict:
             "structure": item.meta["structure"],
             "copy_correct": float(item.meta["copy_correct"]),
             "majority_correct": float(item.meta["majority_correct"])}
+
+
+def choices(item: Item) -> list[dict]:
+    return [{"field": "answer", "question": item.question,
+             "options": list(item.gold["labels"]),
+             "gold": item.gold["index"]}]
 
 
 def aggregate(items: list[Item], grades: list[dict]) -> dict:

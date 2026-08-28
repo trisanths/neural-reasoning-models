@@ -55,7 +55,8 @@ def _build_checkpoint(args):
         args.ckpt, args.tokenizer, device=args.device,
         temperature=args.temperature, top_k=args.top_k,
         max_new_tokens=args.max_new_tokens, seed=args.decode_seed)
-    batched = BatchedPredictor(pred, batch=args.batch)
+    batched = BatchedPredictor(pred, batch=args.batch,
+                               char_budget=args.char_budget)
     pairs = runner.plan_pairs(primitives=args.primitives, n=args.n,
                               seed=args.seed, mode=args.mode,
                               ks=tuple(args.ks), rescue_n=args.rescue_n)
@@ -138,6 +139,9 @@ def main(argv=None) -> int:
     ap.add_argument("--max-new-tokens", type=int, default=48)
     ap.add_argument("--decode-seed", type=int, default=1234)
     ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--char-budget", type=int, default=None,
+                    help="prompt characters per decode batch; long prompts "
+                         "therefore batch smaller. Default 1200 per slot.")
     ap.add_argument("--device", default=None)
     args = ap.parse_args(argv)
     args.ks = [int(x) for x in str(args.ks).split(",") if x.strip()]
@@ -174,6 +178,7 @@ def main(argv=None) -> int:
         bundle["report"]["meta"]["stand_in_misses"] = model.misses
     if not args.fake and args.ckpt:
         bundle["report"]["meta"]["decoding"] = pred.meta()
+        bundle["report"]["meta"]["oom_retries"] = model.retries
     jp, mp, rp = rep.write_report(bundle, args.out, stem=args.stem)
     print(rep.render_markdown(bundle["report"]))
     print(f"\nwrote {jp}\nwrote {mp}\nwrote {rp}")

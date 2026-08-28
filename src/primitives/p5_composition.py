@@ -360,6 +360,12 @@ def grade(item: Item, response: str) -> dict:
             "chance": 1.0 / max(2, len(item.gold["labels"]))}
 
 
+def choices(item: Item) -> list[dict]:
+    labels = list(item.gold["labels"])
+    return [{"field": "answer", "question": item.question,
+             "options": labels, "gold": labels.index(item.gold["answer"])}]
+
+
 def aggregate_curve(items: list[Item], grades: list[dict],
                     probes: list[Item] | None = None,
                     probe_grades: list[dict] | None = None) -> dict:

@@ -260,6 +260,12 @@ def grade(item: Item, response: str) -> dict:
             "seed": item.meta["seed"]}
 
 
+def choices(item: Item) -> list[dict]:
+    labels = list(item.gold["labels"])
+    return [{"field": "answer", "question": item.question,
+             "options": labels, "gold": labels.index(item.gold["answer"])}]
+
+
 def aggregate(items: list[Item], grades: list[dict]) -> dict:
     """The rescue matrix: accuracy under each oracle and its paired lift."""
     by_cond: dict[str, list[dict]] = {}

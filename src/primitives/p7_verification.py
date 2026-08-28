@@ -207,6 +207,23 @@ def grade(item: Item, response: str) -> dict:
     }
 
 
+CHECK_OPTIONS = ["the written candidate answer is correct",
+                 "the written candidate answer is wrong"]
+
+
+def choices(item: Item) -> list[dict]:
+    labels = list(item.gold["labels"])
+    stem = item.question.split("\n\nManual.")[0]
+    body = "\n\nManual." + item.question.split("\n\nManual.")[1]
+    return [
+        {"field": "check", "question": stem + body +
+         "\n\nHas the candidate survived the check?",
+         "options": CHECK_OPTIONS, "gold": 1 if item.gold["trap"] else 0},
+        {"field": "answer", "question": item.question,
+         "options": labels, "gold": labels.index(item.gold["answer"])},
+    ]
+
+
 def aggregate(items: list[Item], grades: list[dict]) -> dict:
     if not items:
         return {"primitive": PRIMITIVE, "n": 0}

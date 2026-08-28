@@ -31,6 +31,7 @@ from src.primitives import (
     p1_intent, p2_gap, p3_acquisition, p4_abstraction, p5_composition,
     p6_memory, p7_verification,
 )
+from src.primitives.common import proportion
 
 DEFAULT_N = 40
 DEFAULT_KS = (1, 2, 3, 4, 5)
@@ -180,6 +181,112 @@ def run_rescue_matrix(predict, n=20, seed=0, progress=None,
     return ep.aggregate(items, grades), rec
 
 
+MODULES = {
+    "intent": p1_intent, "gap": p2_gap, "acquisition": p3_acquisition,
+    "abstraction": p4_abstraction, "composition": p5_composition,
+    "memory": p6_memory, "verification": p7_verification,
+}
+
+
+def build_items(name: str, n=DEFAULT_N, seed=0, mode="isolated",
+                ks=DEFAULT_KS) -> list:
+    """Every item one primitive contributes, variants and probes included."""
+    if name == "intent":
+        return p1_intent.generate_many(n, seed=seed, mode=mode)
+    if name == "gap":
+        return p2_gap.generate_many(n, seed=seed, mode=mode)
+    if name == "acquisition":
+        return [i for v in ("direct", "recursive")
+                for i in p3_acquisition.generate_many(n, seed=seed, mode=mode,
+                                                      variant=v)]
+    if name == "abstraction":
+        return [i for c in ("same_surface", "transfer")
+                for i in p4_abstraction.generate_many(n, seed=seed, mode=mode,
+                                                      condition=c)]
+    if name == "composition":
+        out = []
+        for kind in p5_composition.KINDS:
+            items = p5_composition.generate_curve(n, kind, ks, seed=seed,
+                                                  mode=mode)
+            out.extend(items)
+            out.extend(p5_composition.probe_items(items))
+        return out
+    if name == "memory":
+        return p6_memory.generate_many(n, seed=seed, mode=mode)
+    if name == "verification":
+        return p7_verification.generate_many(n, seed=seed, mode=mode)
+    raise KeyError(name)
+
+
+def collect_choices(primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
+                    ks=DEFAULT_KS, rescue_n=0) -> list[tuple]:
+    """(item, choice) pairs for every primitive that offers a forced choice.
+
+    A checkpoint trained to emit a bare answer after the answer marker can
+    fail every field format and still prefer the right reading. Scoring
+    the option texts by likelihood asks the same question without asking
+    the model to produce a format it never learned, which is the
+    convention src/evals/heldout.py already uses. It is reported beside
+    the generation channel and never instead of it: producing an answer
+    and preferring one are different abilities, and the two columns say
+    which one a size has lost.
+    """
+    names = list(primitives or RUNNERS)
+    out: list[tuple] = []
+    for name in names:
+        mod = MODULES[name]
+        for item in build_items(name, n=n, seed=seed, mode=mode, ks=ks):
+            for choice in mod.choices(item):
+                out.append((item, choice))
+    if rescue_n:
+        for item in ep.generate_matrix(rescue_n, seed=seed):
+            for choice in ep.choices(item):
+                out.append((item, choice))
+    return out
+
+
+def run_forced_choice(model, primitives=None, n=DEFAULT_N, seed=0,
+                      mode="isolated", ks=DEFAULT_KS, rescue_n=0,
+                      progress=None) -> dict:
+    """Score every forced choice with model.choose, grouped and never pooled."""
+    pairs = collect_choices(primitives, n=n, seed=seed, mode=mode, ks=ks,
+                            rescue_n=rescue_n)
+    buckets: dict = {}
+    for i, (item, choice) in enumerate(pairs):
+        pick = int(model.choose(choice["question"], list(item.chunks),
+                                choice["options"]))
+        hit = int(pick == choice["gold"])
+        chance = 1.0 / max(2, len(choice["options"]))
+        key = item.primitive
+        field = choice["field"]
+        if item.primitive == "composition":
+            field = f"{item.meta.get('kind', 'probe')}/k{item.meta.get('k', 0)}"
+            if item.variant.startswith("probe"):
+                field = f"{item.meta.get('kind')}/probe"
+        elif item.primitive == "episode":
+            field = item.meta["condition"]
+        elif item.primitive in ("acquisition", "abstraction"):
+            field = f"{item.variant}/{choice['field']}"
+        b = buckets.setdefault((key, field), [0, 0, chance])
+        b[0] += hit
+        b[1] += 1
+        if progress and (i + 1) % 400 == 0:
+            progress(f"    forced choice {i + 1}/{len(pairs)}")
+    report: dict = {}
+    for (prim, field), (hits, total, chance) in sorted(buckets.items()):
+        report.setdefault(prim, {})[field] = proportion(hits, total, chance,
+                                                        f"{prim}/{field}")
+    return report
+
+
+def plan_choices(primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
+                 ks=DEFAULT_KS, rescue_n=0) -> list[tuple]:
+    """Every (question, chunks, options) the forced-choice channel needs."""
+    return [(c["question"], list(i.chunks), c["options"])
+            for i, c in collect_choices(primitives, n=n, seed=seed, mode=mode,
+                                        ks=ks, rescue_n=rescue_n)]
+
+
 def plan_pairs(primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
                ks=DEFAULT_KS, rescue_n=0) -> list[tuple]:
     """Every (question, chunks) the suite will ask for, in one list.
@@ -267,6 +374,12 @@ def run_suite(predict, primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
         reports["rescue_matrix"] = rep
         if keep_records:
             records.extend(rec)
+    if hasattr(predict, "choose"):
+        if progress:
+            progress("  forced choice channel")
+        reports["forced_choice"] = run_forced_choice(
+            predict, primitives=names, n=n, seed=seed, mode=mode, ks=ks,
+            rescue_n=rescue_n, progress=progress)
     reports["meta"] = {
         "mode": mode, "n_per_primitive": n, "seed": seed, "ks": list(ks),
         "rescue_episodes": rescue_n, "primitives": names,

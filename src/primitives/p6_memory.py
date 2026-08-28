@@ -221,6 +221,12 @@ def grade(item: Item, response: str) -> dict:
             "variant": item.variant}
 
 
+def choices(item: Item) -> list[dict]:
+    labels = list(item.gold["labels"])
+    return [{"field": "answer", "question": item.question,
+             "options": labels, "gold": labels.index(item.gold["answer"])}]
+
+
 def aggregate(items: list[Item], grades: list[dict]) -> dict:
     if not items:
         return {"primitive": PRIMITIVE, "n": 0}

@@ -94,6 +94,7 @@ class CheckpointPredictor:
         cap = self.model.cfg.max_seq_len
         self.max_len = min(int(max_len or cap), cap)
         self.calls = 0
+        self.choices = 0
         self.truncated = 0
 
     def meta(self) -> dict:
@@ -101,7 +102,9 @@ class CheckpointPredictor:
                 "max_new_tokens": self.max_new_tokens,
                 "max_seq_len": self.max_len, "seed": self.seed,
                 "step": int(self.state.get("step", -1)),
-                "calls": self.calls, "truncated_prompts": self.truncated}
+                "calls": self.calls, "forced_choices": self.choices,
+                "truncated_prompts": self.truncated,
+                "greedy": self.temperature <= 0.0}
 
     def predict_many(self, pairs) -> list[str]:
         """pairs is a sequence of (question, chunks). One batched decode."""
@@ -114,7 +117,13 @@ class CheckpointPredictor:
                 self.truncated += 1
             prompts.append(ids)
         self.calls += len(prompts)
-        policy = CachedPolicy(self.model, self.device, max_len=self.max_len,
+        # The key and value cache is allocated for max_len positions on
+        # every layer, which at a 4096 window and a 24 layer model is
+        # gigabytes the batch will never touch. Size it to what this batch
+        # actually needs.
+        need = max(len(p) for p in prompts) + self.max_new_tokens + 2
+        policy = CachedPolicy(self.model, self.device,
+                              max_len=min(self.max_len, need),
                               temperature=self.temperature, top_k=self.top_k,
                               seed=self.seed)
         eot = self.tokenizer.special_ids["<|eot|>"]
@@ -142,6 +151,61 @@ class CheckpointPredictor:
     def __call__(self, question: str, chunks=None) -> str:
         return self.predict_many([(question, chunks)])[0]
 
+    def _option_nlls(self, ctx_ids, options) -> list[float]:
+        """Summed negative log likelihood of each option after ctx_ids.
+
+        The same quantity src/evals/mc.option_nll computes, batched across
+        the options of one prompt. Padding goes on the right: attention is
+        causal, so nothing after an option can influence it, and every
+        sequence still starts at rotary position zero.
+        """
+        cap = self.max_len
+        seqs, lens = [], []
+        for opt in options:
+            oid = (self.tokenizer.encode(opt)
+                   or self.tokenizer.encode(" " + opt))
+            seq = list(ctx_ids) + oid
+            if len(seq) > cap:
+                seq = seq[-cap:]
+            seqs.append(seq)
+            lens.append(min(len(oid), len(seq) - 1))
+        width = max(len(s) for s in seqs)
+        x = torch.full((len(seqs), width), 0, dtype=torch.long,
+                       device=self.device)
+        for i, s in enumerate(seqs):
+            x[i, :len(s)] = torch.tensor(s, dtype=torch.long,
+                                         device=self.device)
+        with torch.no_grad():
+            logits, _ = self.model(x)
+            logprobs = torch.log_softmax(logits[:, :-1].float(), dim=-1)
+        out = []
+        for i, s in enumerate(seqs):
+            n, end = lens[i], len(s)
+            tgt = x[i, end - n:end]
+            got = logprobs[i, end - n - 1:end - 1].gather(1, tgt.unsqueeze(1))
+            out.append(float(-got.sum().item()))
+        return out
+
+    def choose_many(self, triples) -> list[int]:
+        """Forced choice over option texts, lowest negative log likelihood.
+
+        The prompt ends at the answer marker and each option is scored as
+        the continuation, which is what the held-out suite already does for
+        multiple choice. Ties break toward the earliest option, so the
+        channel is deterministic whatever the decoding temperature is.
+        """
+        out: list[int] = []
+        for question, chunks, options in triples:
+            ids = build_prompt_ids(question, chunks, self.tokenizer,
+                                   self.max_len, 32)
+            nlls = self._option_nlls(ids, list(options))
+            self.choices += 1
+            out.append(min(range(len(nlls)), key=lambda i: (nlls[i], i)))
+        return out
+
+    def choose(self, question: str, chunks=None, options=()) -> int:
+        return self.choose_many([(question, chunks, list(options))])[0]
+
 
 class BatchedPredictor:
     """Wraps a CheckpointPredictor so the single-item runner still batches.
@@ -150,22 +214,66 @@ class BatchedPredictor:
     running the whole item list through predict_many first, then serving
     the answers back from a cache keyed by the prompt. Nothing about the
     runner changes; it simply finds every answer already computed.
+
+    Batches are formed against a token budget rather than a fixed count,
+    because a batch of long prompts costs far more cache than the same
+    count of short ones, and this project's boxes share their GPUs.
+    A batch that runs out of memory anyway is halved and retried down to
+    one prompt, so a crowded card costs time and not a run.
     """
 
-    def __init__(self, predictor: CheckpointPredictor, batch: int = 16):
+    def __init__(self, predictor: CheckpointPredictor, batch: int = 16,
+                 char_budget: int | None = None):
         self.predictor = predictor
         self.batch = int(batch)
+        self.char_budget = int(char_budget or self.batch * 1200)
         self.cache: dict[str, str] = {}
+        self.retries = 0
+
+    def _blocks(self, pairs):
+        block: list = []
+        widest = 0
+        for pair in pairs:
+            width = max(widest, len(pair[0]))
+            if block and (len(block) + 1 > self.batch
+                          or width * (len(block) + 1) > self.char_budget):
+                yield block
+                block, widest = [pair], len(pair[0])
+                continue
+            block.append(pair)
+            widest = width
+        if block:
+            yield block
+
+    def _decode(self, block) -> None:
+        try:
+            for (q, _), text in zip(block, self.predictor.predict_many(block)):
+                self.cache[q] = text
+            return
+        except torch.OutOfMemoryError:
+            if len(block) == 1:
+                raise
+            self.retries += 1
+            torch.cuda.empty_cache()
+        half = max(1, len(block) // 2)
+        self._decode(block[:half])
+        self._decode(block[half:])
 
     def warm(self, pairs, progress=None) -> None:
-        pairs = list(pairs)
-        for start in range(0, len(pairs), self.batch):
-            block = pairs[start:start + self.batch]
-            for (q, c), text in zip(block, self.predictor.predict_many(block)):
-                self.cache[q] = text
+        """Decode everything the suite will ask for, shortest prompts first.
+
+        Mixing lengths in one batch wastes the whole batch's cache on its
+        longest member, so prompts are grouped by size. The cache is keyed
+        by prompt, so the order they were decoded in is invisible to the
+        runner.
+        """
+        pairs = sorted(pairs, key=lambda qc: len(qc[0]))
+        done = 0
+        for block in self._blocks(pairs):
+            self._decode(block)
+            done += len(block)
             if progress:
-                progress(f"    decoded {min(start + self.batch, len(pairs))}"
-                         f"/{len(pairs)}")
+                progress(f"    decoded {done}/{len(pairs)}")
 
     def __call__(self, question: str, chunks=None) -> str:
         hit = self.cache.get(question)
@@ -174,3 +282,6 @@ class BatchedPredictor:
         text = self.predictor(question, chunks)
         self.cache[question] = text
         return text
+
+    def choose(self, question: str, chunks=None, options=()) -> int:
+        return self.predictor.choose(question, chunks, options)

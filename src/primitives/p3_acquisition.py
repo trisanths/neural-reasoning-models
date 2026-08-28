@@ -273,6 +273,17 @@ def grade(item: Item, response: str, followup: str | None = None) -> dict:
     return out
 
 
+def choices(item: Item) -> list[dict]:
+    """Source selection as a forced choice. The query stays generative,
+    because writing a query is production and cannot be faked as a pick."""
+    want = (item.gold["first_tier"] if item.variant == "recursive"
+            else item.gold["tier"])
+    return [{"field": "source",
+             "question": item.question + "\n\nWhich tier holds the page?",
+             "options": [f"the {name} tier, {desc}" for name, desc in TIERS],
+             "gold": TIER_NAMES.index(want)}]
+
+
 def aggregate(items: list[Item], grades: list[dict]) -> dict:
     if not items:
         return {"primitive": PRIMITIVE, "n": 0}

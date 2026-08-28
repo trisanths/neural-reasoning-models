@@ -272,7 +272,20 @@ def generate(seed: int, mode: str = "isolated") -> Item:
         }
         menus = {"n_goal": len(gl), "n_conflict": len(xl) + 1,
                  "n_success": len(sl), "n_constraint": len(cl),
-                 "n_uncertain": len(ul)}
+                 "n_uncertain": len(ul),
+                 # Option texts, for the forced-choice channel: a model is
+                 # asked which reading it prefers rather than to write a
+                 # label it was never trained to write.
+                 "options": {
+                     "goal": goal_opts,
+                     "conflict": cf_opts + ["the request contains no "
+                                            "contradiction"],
+                     "success": suc_opts},
+                 "gold_index": {
+                     "goal": goal_gold,
+                     "conflict": (cf_opts.index(cf_true) if cf_true
+                                  else len(cf_opts)),
+                     "success": suc_gold}}
 
     return Item(
         item_id=f"p1-{mode}-{seed:07d}",
@@ -299,6 +312,29 @@ def generate_many(n: int, seed: int = 0, mode: str = "isolated") -> list[Item]:
     if len(out) < n:
         raise RuntimeError(f"only {len(out)} of {n} intent items passed the guard")
     return out
+
+
+def choices(item: Item) -> list[dict]:
+    """The forced-choice form of this item's single-choice fields.
+
+    Writing a menu label is a production skill this project's checkpoints
+    were never trained for. Scoring which reading the model prefers over
+    the option texts asks the same question without that requirement, and
+    is the convention src/evals/heldout.py already uses.
+    """
+    if item.gold.get("form") != "menu":
+        return []
+    opts = item.meta["options"]
+    gold = item.meta["gold_index"]
+    stem = item.question.split("\n\nGoal menu.")[0]
+    asks = {
+        "goal": "Which of these is the goal the request states?",
+        "conflict": "Which contradiction does the request contain?",
+        "success": "Under which condition is the request satisfied?",
+    }
+    return [{"field": field, "question": f"{stem}\n\n{asks[field]}",
+             "options": opts[field], "gold": gold[field]}
+            for field in ("goal", "conflict", "success")]
 
 
 def _f1(found: set, gold: set) -> float:

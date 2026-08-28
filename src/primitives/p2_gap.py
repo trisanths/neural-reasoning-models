@@ -260,6 +260,37 @@ def grade(item: Item, response: str) -> dict:
     }
 
 
+STATUS_OPTIONS = ["everything the problem needs is stated in the manual",
+                  "something the problem needs is missing from the manual"]
+
+
+def choices(item: Item) -> list[dict]:
+    """The forced-choice form: which reading of the manual is preferred.
+
+    The three fields are asked separately over natural phrasings rather
+    than over the T-labels, so a model that never learned to write a menu
+    label is still asked the same question.
+    """
+    stem = item.question.split("\n\nGap menu.")[0] + "\n\nProblem.\n" + \
+        item.question.split("Problem.\n")[1]
+    out = [{"field": "status", "question": stem +
+            "\n\nIs the manual complete for this problem?",
+            "options": STATUS_OPTIONS,
+            "gold": 1 if item.gold["status"] == "BLOCKED" else 0}]
+    if item.gold["status"] == "BLOCKED":
+        out.append({"field": "gap_type",
+                    "question": stem + "\n\nWhat kind of thing is missing?",
+                    "options": [t[1] for t in GAP_MENU],
+                    "gold": [t[0] for t in GAP_MENU].index(item.gold["gap"])})
+        if item.meta.get("graded_step"):
+            out.append({"field": "step",
+                        "question": item.question +
+                        "\n\nWhich plan step cannot be carried out?",
+                        "options": [f"step {i}" for i in range(1, 6)],
+                        "gold": int(item.gold["step"]) - 1})
+    return out
+
+
 def aggregate(items: list[Item], grades: list[dict]) -> dict:
     if not items:
         return {"primitive": PRIMITIVE, "n": 0}

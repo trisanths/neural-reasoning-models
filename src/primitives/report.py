@@ -246,6 +246,20 @@ def render_markdown(report: dict) -> str:
             out.append(f"| {sh} | {_pct(v['detection'])} | "
                        f"{_pct(v['correction'])} |")
 
+    if report.get("forced_choice"):
+        out += ["", "## Forced choice, the same items scored by preference", "",
+                "Producing an answer and preferring the right one are",
+                "different abilities. This channel scores the option texts by",
+                "likelihood, the way the held-out suite scores multiple",
+                "choice, so a model that cannot write the requested format is",
+                "still asked the same question. It is reported beside the",
+                "generation channel and never instead of it.", "",
+                "| faculty | field | accuracy | adjusted |",
+                "|---|---|---|---|"]
+        for prim in sorted(report["forced_choice"]):
+            for field, stat in sorted(report["forced_choice"][prim].items()):
+                out.append(f"| {prim} | {field} | {_pct(stat)} | {_adj(stat)} |")
+
     if "rescue_matrix" in report:
         r = report["rescue_matrix"]
         out += ["", "## Causal rescue matrix", "",

@@ -263,6 +263,40 @@ class ScriptedModel:
         return "ANSWER: unknown"
 
 
+class ChoosingModel(ScriptedModel):
+    """A stand-in that also answers the forced-choice channel.
+
+    Competence carries across both channels, so the calibration matrix can
+    be run on the channel a real checkpoint is actually measurable on.
+    Choices are indexed by the option list rather than the prompt, since
+    the forced-choice prompts are rewritten per field.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.choice_key: dict[tuple, int] = {}
+
+    def learn_choices(self, pairs) -> None:
+        for item, choice in pairs:
+            self.choice_key[(_tail(choice["question"]),
+                             tuple(choice["options"]))] = (
+                choice["gold"], item.primitive, item.meta.get("k"))
+
+    def choose(self, question: str, chunks=None, options=()) -> int:
+        options = list(options)
+        found = self.choice_key.get((_tail(str(question)), tuple(options)))
+        if found is None:
+            self.misses += 1
+            return 0
+        gold, primitive, k = found
+        able = primitive in self.competent and self.rng.random() < self.level
+        if primitive == "composition" and self.max_depth is not None:
+            able = able and (k is None or k <= self.max_depth)
+        if primitive == "episode":
+            able = set(ep.FACULTIES) <= self.competent
+        return gold if able else self.rng.randrange(len(options))
+
+
 def faculty_model(key: dict, name: str, seed: int = 0) -> ScriptedModel:
     return ScriptedModel(key, competent=[name], seed=seed)
 

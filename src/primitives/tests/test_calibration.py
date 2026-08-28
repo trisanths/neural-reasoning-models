@@ -189,6 +189,45 @@ def test_naming_every_candidate_is_not_an_answer(key):
     assert not any(g["parsed"] for g in listy)
 
 
+def test_the_forced_choice_channel_tracks_the_same_faculties(key):
+    """Preferring the right reading is measured, and stays specific.
+
+    The channel exists so a checkpoint that cannot write a menu label is
+    still asked which reading it prefers. It has to respond to the same
+    faculty as the generation channel and to no other, or it is a second
+    measurement of something else.
+    """
+    pairs = runner.collect_choices(n=12, seed=SEED, mode="isolated",
+                                   ks=(1, 2), rescue_n=0)
+    for target in ("gap", "memory", "verification"):
+        model = fakes.ChoosingModel(key, competent=[target], seed=5)
+        model.learn_choices(pairs)
+        rep = runner.run_forced_choice(model, n=12, seed=SEED,
+                                       mode="isolated", ks=(1, 2))
+        assert model.misses == 0
+        own = [s["acc"] for s in rep[target].values()]
+        assert min(own) == 1.0, (target, rep[target])
+        for other in ("gap", "memory", "verification"):
+            if other == target:
+                continue
+            for stat in rep[other].values():
+                assert not stat["above_chance"], (target, other, stat)
+
+
+def test_the_forced_choice_channel_has_a_working_depth_curve(key):
+    pairs = runner.collect_choices(primitives=["composition"], n=12, seed=SEED,
+                                   mode="isolated", ks=(1, 2, 3))
+    model = fakes.ChoosingModel(key, competent=["composition"], seed=5,
+                                max_depth=2)
+    model.learn_choices(pairs)
+    rep = runner.run_forced_choice(model, primitives=["composition"], n=12,
+                                   seed=SEED, mode="isolated", ks=(1, 2, 3))
+    comp = rep["composition"]
+    assert comp["sequential/k1"]["acc"] == 1.0
+    assert comp["sequential/k2"]["acc"] == 1.0
+    assert not comp["sequential/k3"]["above_chance"]
+
+
 def test_integrated_mode_runs_every_primitive(key):
     """Both modes have to work at every size for the substrate sweep."""
     k2 = fakes.build_answer_key(n=6, seed=1, mode="integrated", ks=(1, 2),
