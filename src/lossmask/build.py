@@ -90,12 +90,14 @@ def _render_chunk(job: dict) -> dict:
 
 
 def plan_jobs(parquet_files, out_dir: Path, groups_per_chunk: int,
-              shard_size: int) -> list:
+              shard_size: int, max_row_groups: int | None = None) -> list:
     import pyarrow.parquet as pq
 
     jobs = []
     for path in parquet_files:
         n_groups = pq.ParquetFile(path).metadata.num_row_groups
+        if max_row_groups is not None:
+            n_groups = min(n_groups, max_row_groups)
         for start in range(0, n_groups, groups_per_chunk):
             groups = list(range(start, min(start + groups_per_chunk, n_groups)))
             chunk = len(jobs)
@@ -111,10 +113,12 @@ def plan_jobs(parquet_files, out_dir: Path, groups_per_chunk: int,
 
 def build(parquet_files, tokenizer_path: str, out_dir: str, procs: int = 8,
           groups_per_chunk: int = 4, shard_size: int = 1 << 24,
-          max_tokens: int | None = None, log=print) -> dict:
+          max_tokens: int | None = None, max_row_groups: int | None = None,
+          log=print) -> dict:
     out = Path(os.path.expanduser(out_dir))
     (out / CHUNKS_SUBDIR).mkdir(parents=True, exist_ok=True)
-    jobs = plan_jobs(parquet_files, out, groups_per_chunk, shard_size)
+    jobs = plan_jobs(parquet_files, out, groups_per_chunk, shard_size,
+                     max_row_groups=max_row_groups)
     log(f"{len(jobs)} chunks over {len(parquet_files)} parquet files, "
         f"{procs} workers")
 
@@ -175,6 +179,9 @@ def main(argv=None):
                              "a held out build reads rows the training build "
                              "never saw")
     parser.add_argument("--limit-files", type=int, default=None)
+    parser.add_argument("--max-row-groups", type=int, default=None,
+                        help="read only this many row groups per file, for "
+                             "building a small held out set")
     args = parser.parse_args(argv)
 
     parquet_dir = Path(os.path.expanduser(args.parquet_dir))
@@ -186,7 +193,8 @@ def main(argv=None):
 
     index = build(files, os.path.expanduser(args.tokenizer), args.out,
                   procs=args.procs, groups_per_chunk=args.groups_per_chunk,
-                  shard_size=args.shard_size, max_tokens=args.max_tokens)
+                  shard_size=args.shard_size, max_tokens=args.max_tokens,
+                  max_row_groups=args.max_row_groups)
     total = index["total_tokens"]
     from src.lossmask.tags import TAG_NAMES
 
