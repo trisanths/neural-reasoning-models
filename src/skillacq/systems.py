@@ -281,12 +281,21 @@ FAMILIES = {
 }
 
 
+def _all_families() -> dict:
+    """Arithmetic families plus the computation-free rule families."""
+    from src.skillacq.simple import SIMPLE_FAMILIES
+    merged = dict(FAMILIES)
+    merged.update(SIMPLE_FAMILIES)
+    return merged
+
+
 def generate_episode(seed: int, family: str | None = None,
                      n_problems: int = 8, distractor: bool = True) -> Episode:
     """Build one episode: a novel system, its textbook, and verified problems."""
     rng = random.Random(seed)
-    fam = family or rng.choice(sorted(FAMILIES))
-    system = FAMILIES[fam](rng)
+    pool = _all_families()
+    fam = family or rng.choice(sorted(pool))
+    system = pool[fam](rng)
     pages = system.describe()
     # Reject problems whose answer is copyable straight out of the question,
     # so a model cannot score by echoing a number it was handed.
@@ -301,8 +310,8 @@ def generate_episode(seed: int, family: str | None = None,
     for i, p in enumerate(kept):
         p["qid"] = f"p{i}"
     if distractor:
-        other_fam = rng.choice([f for f in sorted(FAMILIES) if f != fam])
-        other = FAMILIES[other_fam](random.Random(seed ^ 0x5EED))
+        other_fam = rng.choice([f for f in sorted(pool) if f != fam])
+        other = pool[other_fam](random.Random(seed ^ 0x5EED))
         pages = pages + other.describe()
         rng.shuffle(pages)
     return Episode(

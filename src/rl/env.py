@@ -63,6 +63,19 @@ class EnvConfig:
     # longer than the gold answer, so a rollout cannot win by listing
     # every candidate. yes/no answers require exact match.
     contains_slack_tokens: int = 6
+    # Token-overlap credit for structured answers. Exact match is an
+    # all-or-nothing cliff, and a policy that has never produced the target
+    # shape gets no gradient from it. F1 over answer tokens gives a slope to
+    # climb without ever paying as much as a correct answer.
+    partial_credit: float = 0.0
+    # Multi-attempt revision. After a wrong answer the environment says so and
+    # lets the policy try again inside the same rollout, so the objective pays
+    # for using feedback. An external checker alone is known to give no gain;
+    # the checker plus a trained revision loop is what helps.
+    revision_attempts: int = 1
+    # When true an arithmetic query is answered by an exact calculator
+    # through the same channel the model already uses for retrieval.
+    calculator: bool = False
 
     def to_dict(self) -> dict:
         return dict(self.__dict__)
@@ -184,16 +197,27 @@ class RetrievalService:
     training oracle and the eval loop both hold.
     """
 
-    def __init__(self, index: BM25Index, doc_texts: list[str]):
+    def __init__(self, index: BM25Index, doc_texts: list[str],
+                 calculator: bool = False):
         self.index = index
         self.doc_texts = doc_texts
         self.served: set[int] = set()
+        self.calculator = calculator
 
     def exhausted(self) -> bool:
         return len(self.served) >= len(self.doc_texts)
 
     def top(self, query: str):
-        """Serve the best unserved document, or None when nothing is left."""
+        """Serve a computed value for an arithmetic query, else the best
+        unserved document, or None when nothing is left."""
+        if self.calculator:
+            try:
+                from src.skillacq.calc import evaluate
+                value = evaluate(query)
+            except Exception:
+                value = None
+            if value is not None:
+                return -1, f"The value of {query.strip()} is {value}."
         if self.exhausted():
             return None
         try:
@@ -204,7 +228,7 @@ class RetrievalService:
         return idx, self.doc_texts[idx]
 
 
-def make_service(documents: list[dict]) -> RetrievalService | None:
+def make_service(documents: list[dict], calculator: bool = False) -> RetrievalService | None:
     """Index one episode's documents the way the training oracle does."""
     if not documents:
         return None
@@ -213,7 +237,8 @@ def make_service(documents: list[dict]) -> RetrievalService | None:
         float(d.get("reliability", 1.0)) if isinstance(d, dict) else 1.0
         for d in documents
     ]
-    return RetrievalService(BM25Index(texts, reliabilities=reliabilities), texts)
+    return RetrievalService(BM25Index(texts, reliabilities=reliabilities), texts,
+                            calculator=calculator)
 
 
 class _SeqState:
@@ -222,7 +247,7 @@ class _SeqState:
     __slots__ = ("task", "service", "tokens", "mask", "prompt_len", "mode",
                  "forced", "query_tokens", "rounds", "in_answer",
                  "answer_start", "n_generated", "done", "stop_reason",
-                 "query_lens")
+                 "query_lens", "attempts")
 
     def __init__(self, task: Task, service, prompt: list[int]):
         self.task = task
@@ -239,6 +264,7 @@ class _SeqState:
         self.n_generated = 0
         self.done = False
         self.stop_reason = "max_new_tokens"
+        self.attempts = 0
         self.query_lens: list[int] = []
 
     def append(self, token: int, generated: bool) -> None:
@@ -271,6 +297,7 @@ class EpisodeEnv:
         self.retrieve_id = sid["<|retrieve|>"]
         self.result_id = sid["<|result|>"]
         self.answer_id = sid["<|a|>"]
+        self.question_id = sid["<|q|>"]
         self.eot_id = sid["<|eot|>"]
         self.special_ids = set(sid.values())
 
@@ -285,7 +312,8 @@ class EpisodeEnv:
         task.
         """
         if services is None:
-            services = [make_service(t.documents) for t in tasks]
+            services = [make_service(t.documents, calculator=self.cfg.calculator)
+                        for t in tasks]
         states = [_SeqState(t, s, t.prompt) for t, s in zip(tasks, services)]
 
         proposals = policy.begin([s.tokens for s in states])
@@ -317,6 +345,8 @@ class EpisodeEnv:
 
         token = int(proposed)
 
+        if token == self.eot_id and self._maybe_revise(st):
+            return token
         if token == self.eot_id:
             st.append(token, True)
             st.finish("eot")
@@ -402,6 +432,33 @@ class EpisodeEnv:
         st.query_tokens = []
         self._check_caps(st)
 
+    def _maybe_revise(self, st: _SeqState) -> bool:
+        """Judge the answer just written; on a wrong one, invite another try.
+
+        Returns True when the rollout should continue instead of ending. The
+        verdict is the same programmatic check that scores the rollout, so no
+        model judgement enters the loop.
+        """
+        if self.cfg.revision_attempts <= 1 or not st.in_answer:
+            return False
+        st.attempts += 1
+        if st.attempts >= self.cfg.revision_attempts:
+            return False
+        end = len(st.tokens)
+        answer = self.tokenizer.decode(st.tokens[st.answer_start:end])
+        if self.is_correct(answer, st.task.gold):
+            return False
+        st.append(self.result_id, False)
+        for t in self.tokenizer.encode(
+                f"That answer was rejected. Attempt {st.attempts + 1}."):
+            st.forced.append((t, False))
+        st.forced.append((self.question_id, False))
+        st.in_answer = False
+        st.answer_start = len(st.tokens)
+        st.mode = "ingest" if st.forced else "free"
+        self._check_caps(st)
+        return True
+
     def _check_caps(self, st: _SeqState) -> None:
         """Stop the rollout when a budget runs out.
 
@@ -461,6 +518,8 @@ class EpisodeEnv:
         cfg = self.cfg
         correct = self.is_correct(roll.answer_text, roll.task.gold)
         reward = cfg.correct_reward if correct else 0.0
+        if not correct and cfg.partial_credit > 0.0:
+            reward += cfg.partial_credit * _token_f1(roll.answer_text, roll.task.gold)
 
         well_formed = (roll.stop_reason == "eot"
                        and bool(roll.answer_text.strip()))
@@ -507,6 +566,27 @@ class EpisodeEnv:
                         "chunk": r["chunk"]} for r in roll.rounds],
             "text": self.tokenizer.decode(roll.tokens[roll.prompt_len:]),
         }
+
+
+def _token_f1(prediction: str, gold: str) -> float:
+    """Token overlap between prediction and gold, order independent."""
+    pred = normalize(prediction).split()
+    want = normalize(gold).split()
+    if not pred or not want:
+        return 0.0
+    counts: dict[str, int] = {}
+    for t in want:
+        counts[t] = counts.get(t, 0) + 1
+    hits = 0
+    for t in pred:
+        if counts.get(t, 0) > 0:
+            counts[t] -= 1
+            hits += 1
+    if hits == 0:
+        return 0.0
+    precision = hits / len(pred)
+    recall = hits / len(want)
+    return 2 * precision * recall / (precision + recall)
 
 
 def rollout_stats(rolls: list[Rollout]) -> dict:
