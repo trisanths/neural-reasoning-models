@@ -194,7 +194,8 @@ def detect(question: str, skill: SkillMemory,
             fired=True, blockage="missing_definition",
             transformation=f"produce {asked} for a record of this chapter",
             preserve="the chapter's own vocabulary",
-            query=_structural_query(chapter, asked, in_hand, []),
+            query=(_structural_query(chapter, asked, in_hand, [])
+                   or question.strip()),
             rationale="nothing about this chapter is held and the target is "
                       "not named in the question",
             **base)
@@ -203,7 +204,8 @@ def detect(question: str, skill: SkillMemory,
         transformation=(f"turn the values now in hand into {asked}"),
         preserve="the chapter's own vocabulary and its stated rule order",
         missing_terms=[],
-        query=_structural_query(chapter, asked, in_hand, []),
+        query=(_structural_query(chapter, asked, in_hand, [])
+               or question.strip()),
         rationale="values are held but nothing held maps them to what is asked",
         **base)
 
@@ -340,7 +342,14 @@ def _structural_query(chapter: str, asked: str, in_hand: list[str],
     for prop in in_hand[:4]:
         parts.append(prop.replace("its ", "whose "))
     parts.append("determined by")
-    return " ".join(parts)
+    query = " ".join(parts)
+    if not chapter and not in_hand and not missing:
+        # Nothing structural was recoverable from this question, which happens
+        # when the corpus is not the one this module's patterns were written
+        # for. Saying so and falling back to the question's own words is
+        # better than emitting a two word query and calling it a search.
+        return ""
+    return query
 
 
 def summarize(gaps: list[StructuralGap]) -> dict:

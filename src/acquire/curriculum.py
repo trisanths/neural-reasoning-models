@@ -67,7 +67,8 @@ class Curriculum:
 
 def build(seed_query: str, index: LessonIndex, skill: SkillMemory,
           known_test=None, max_nodes: int = 8, max_rounds: int = 12,
-          chapter: str = "") -> Curriculum:
+          chapter: str = "", lexicon=None,
+          query_for=None) -> Curriculum:
     """Search from a structural query and recurse into the unknown frontier.
 
     known_test(term) -> bool decides whether a cited notion needs opening.
@@ -78,6 +79,9 @@ def build(seed_query: str, index: LessonIndex, skill: SkillMemory,
     if known_test is None:
         def known_test(term: str) -> bool:
             return skill.covers(term)
+    if query_for is None:
+        def query_for(term: str) -> str:
+            return f"Definition of the {term} value {chapter}".strip()
 
     curriculum = Curriculum()
     queue: list[tuple[str, int, str, str]] = [(seed_query, 0, "", "")]
@@ -98,7 +102,7 @@ def build(seed_query: str, index: LessonIndex, skill: SkillMemory,
         pages = section.documents()
         for page in pages:
             used_pages.add(page.get("page_id", ""))
-        compiled = [skill.absorb(p) for p in pages]
+        compiled = [skill.absorb(p, lexicon=lexicon) for p in pages]
         head = compiled[0]
         curriculum.queries.append({
             "query": query, "depth": depth, "hit": section.page_id,
@@ -114,8 +118,8 @@ def build(seed_query: str, index: LessonIndex, skill: SkillMemory,
             # The preamble is the hop from what a question can say in English
             # to what the chapter calls it. Follow it and keep going.
             if head.top_term and not known_test(head.top_term):
-                queue.append((f"Definition of the {head.top_term} value "
-                              f"{chapter}", depth + 1, "", head.top_term))
+                queue.append((query_for(head.top_term), depth + 1, "",
+                              head.top_term))
             continue
 
         term = head.term
@@ -139,8 +143,7 @@ def build(seed_query: str, index: LessonIndex, skill: SkillMemory,
                         if d in skill.concepts else (),
                         status="already_known", requested_by=term))
                 continue
-            queue.append((f"Definition of the {d} value {chapter}",
-                          depth + 1, term, d))
+            queue.append((query_for(d), depth + 1, term, d))
 
     curriculum.order = teaching_order(curriculum)
     return curriculum

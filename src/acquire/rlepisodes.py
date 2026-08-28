@@ -88,6 +88,65 @@ def write_jsonl(path: str, seeds, n_per_level: int = 6, n_context: int = 0,
             "by_level": counts}
 
 
+def write_incontext_jsonl(path: str, seeds, n_per_level: int = 8,
+                          levels: tuple[int, ...] = (0,),
+                          n_distractors: int = 2, seed: int = 0) -> dict:
+    """One episode per problem, with its pages in the prompt and nothing to
+    retrieve.
+
+    Two attempts at teaching the retrieve-then-answer loop from cold stalled,
+    each on a different saturated shaping term, and neither produced a single
+    correct answer to learn from. This export removes the exploration problem
+    instead of tuning around it: the pages the problem needs are already in
+    context, alongside distractor pages from another notion, so the only thing
+    left to learn is to read the right rule and say the word it gives.
+
+    That is also exactly how src/acquire/loop.py calls the policy. The loop's
+    searching is done in Python, and what it asks the model for is an answer
+    given a card and a question. Training the ability the loop actually uses
+    is the point; teaching the policy to drive its own search is a different
+    experiment.
+    """
+    import random as _random
+
+    rng = _random.Random(seed)
+    n_eps = 0
+    counts: dict = {}
+    with open(path, "w") as fh:
+        for s in seeds:
+            uni = build_universe(s, n_chapters=2, n_per_level=n_per_level)
+            pages = {p.page_id: p for p in uni.pages}
+            for ch in uni.chapters:
+                for prob in ch.problems:
+                    if prob.level not in levels:
+                        continue
+                    needed = [pages[pid] for pid in prob.required_pages
+                              if pid in pages]
+                    pool = [p for p in uni.pages
+                            if p.page_id not in prob.required_pages
+                            and p.kind == "definition"]
+                    extra = rng.sample(pool, min(n_distractors, len(pool)))
+                    docs = needed + extra
+                    rng.shuffle(docs)
+                    fh.write(json.dumps({
+                        "episode_id": f"{prob.qid}",
+                        "seed": ch.seed,
+                        "world": {"domain": "acquire_incontext"},
+                        "n_context": len(docs),
+                        "documents": [{"text": p.text, "reliability": 1.0}
+                                      for p in docs],
+                        "questions": [{
+                            "qid": prob.qid, "text": prob.text,
+                            "answer": prob.answer,
+                            "plan": list(prob.required_notions),
+                            "type": f"level{prob.level}_{prob.phrasing}",
+                        }],
+                    }) + "\n")
+                    n_eps += 1
+                    counts[prob.level] = counts.get(prob.level, 0) + 1
+    return {"episodes": n_eps, "path": path, "by_level": counts}
+
+
 def main() -> int:
     import argparse
 
@@ -100,9 +159,17 @@ def main() -> int:
     ap.add_argument("--chapters-per-universe", type=int, default=2)
     ap.add_argument("--levels", default="",
                     help="comma separated levels to keep, e.g. 0,1")
+    ap.add_argument("--incontext", action="store_true",
+                    help="one episode per problem with its pages in the prompt")
     args = ap.parse_args()
     levels = (tuple(int(x) for x in args.levels.split(","))
               if args.levels else None)
+    if args.incontext:
+        stats = write_incontext_jsonl(
+            args.out, range(args.start, args.start + args.count),
+            n_per_level=args.per_level, levels=levels or (0,))
+        print(json.dumps(stats))
+        return 0
     stats = write_jsonl(args.out, range(args.start, args.start + args.count),
                         n_per_level=args.per_level, n_context=args.n_context,
                         chapters_per_universe=args.chapters_per_universe,

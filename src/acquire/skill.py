@@ -175,6 +175,33 @@ def compile_section(page: dict) -> CompiledSection | None:
     return None
 
 
+def compile_by_mention(page: dict, lexicon) -> CompiledSection | None:
+    """Compile a page whose prose this module cannot parse sentence by sentence.
+
+    A corpus written by a different generator states its rules in its own
+    grammar, and a reader tuned to one grammar reads nothing in another. What
+    survives the change is coarser and still useful: the page introduces one
+    term, and it mentions others it does not introduce, and those mentions are
+    the prerequisites. The term the page introduces comes from the structured
+    field the textbook emits; the mentions come from the text. The generator's
+    own dependency list is never read.
+    """
+    term = page.get("notion")
+    if not term:
+        return None
+    text = page["text"]
+    deps = tuple(name for name in lexicon
+                 if name != term
+                 and re.search(rf"(?<!\w){re.escape(name)}(?!\w)", text))
+    body = page.get("body") or text.split("\n\n", 1)[-1]
+    rules = [ln.strip() for ln in body.split("\n") if ln.strip()]
+    return CompiledSection(
+        term=term, kind=page.get("kind", "definition"),
+        page_id=page.get("page_id", ""), rules=rules, outputs=(),
+        depends_on=deps, reads_attribute="", examples=[],
+        chapter_name=page.get("chapter", ""))
+
+
 class SkillMemory:
     """The compact object carried forward, and thrown away at the end."""
 
@@ -195,10 +222,16 @@ class SkillMemory:
 
     # ------------------------------------------------------------- building
 
-    def absorb(self, page: dict) -> CompiledSection | None:
+    def absorb(self, page: dict, lexicon=None) -> CompiledSection | None:
         """Fold one page into the memory. A fragment that states no rule and
-        no example changes nothing, which is why lesson ranking matters."""
+        no example changes nothing, which is why lesson ranking matters.
+
+        lexicon, when given, enables the coarse mention-based reader for a
+        corpus this module's sentence grammar does not fit.
+        """
         sec = compile_section(page)
+        if lexicon is not None and (sec is None or not sec.rules):
+            sec = compile_by_mention(page, lexicon) or sec
         self.raw_chars += len(page["text"])
         self.absorbed_pages.append(page.get("page_id", ""))
         if sec is None:

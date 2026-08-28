@@ -149,7 +149,8 @@ def _retrieval_probe(index: LessonIndex, query: str, required_pages,
 
 
 def run_problem(problem, chapter, documents: list[dict], reasoner,
-                cfg: LoopConfig | None = None) -> LoopTrace:
+                cfg: LoopConfig | None = None, lexicon=None,
+                query_for=None) -> LoopTrace:
     """One problem, start to finish. chapter supplies only its display name;
     nothing here reads the generator's answers or its cites field."""
     cfg = cfg or LoopConfig()
@@ -204,7 +205,8 @@ def run_problem(problem, chapter, documents: list[dict], reasoner,
     chapter_name = chapter.name if chapter is not None else ""
     curr = curriculum_mod.build(
         gap.query, index, skill, max_nodes=cfg.max_nodes,
-        max_rounds=cfg.max_search_rounds, chapter=chapter_name)
+        max_rounds=cfg.max_search_rounds, chapter=chapter_name,
+        lexicon=lexicon, query_for=query_for)
     skill.focus(chapter_name)
     trace.curriculum = curr.to_dict()
     trace.curriculum_score = curriculum_mod.score_against(
@@ -236,7 +238,7 @@ def run_problem(problem, chapter, documents: list[dict], reasoner,
             if not hits:
                 break
             for page in hits[0].documents():
-                skill.absorb(page)
+                skill.absorb(page, lexicon=lexicon)
                 absorbed_pages.add(page.get("page_id", ""))
             need = _closure(skill, term)
             card = skill.render(only=need)
