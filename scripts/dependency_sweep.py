@@ -85,7 +85,7 @@ BLANK_PAGE = "This page is intentionally blank."
 # Grading an arithmetic policy on rule application, or a pretrained model on
 # invented systems it never met, measures the transfer question rather than
 # this one.
-SUITES = ("worldgen", "web", "simple", "arith", "procfmt")
+SUITES = ("worldgen", "web", "systems", "simple", "arith", "procfmt")
 
 # Suites whose episodes come from a file rather than a generator.
 FILE_SUITES = ("worldgen", "web")
@@ -95,17 +95,30 @@ FILE_SUITES = ("worldgen", "web")
 # building the three conditions
 # ---------------------------------------------------------------------------
 
+def _families_for(suite: str) -> list[str]:
+    """The generator families one suite draws from.
+
+    These names are not decoration. The registry records what each RL lane
+    trained on: rlsimple took the three computation-free rule families,
+    rlskill and rlskill2 took the union of those with the three arithmetic
+    ones, rlarith took the arithmetic three, rlproc took the format
+    conventions. Scoring a lane on a different union changes the question.
+    """
+    if suite == "simple":
+        return sorted(SIMPLE_FAMILIES)
+    if suite == "arith":
+        return sorted(ARITH_FAMILIES)
+    if suite == "systems":
+        return sorted({**ARITH_FAMILIES, **SIMPLE_FAMILIES})
+    if suite == "procfmt":
+        return sorted(PROCEDURE_FAMILIES)
+    raise ValueError(suite)
+
+
 def _invented_episodes(suite: str, start: int, count: int,
                        n_problems: int) -> list[dict]:
     """Correct-condition episodes for one of the invented-system suites."""
-    if suite == "simple":
-        fams = sorted(SIMPLE_FAMILIES)
-    elif suite == "arith":
-        fams = sorted(ARITH_FAMILIES)
-    elif suite == "procfmt":
-        fams = sorted(PROCEDURE_FAMILIES)
-    else:
-        raise ValueError(suite)
+    fams = _families_for(suite)
 
     out = []
     for i in range(count):
@@ -139,12 +152,7 @@ def _wrong_documents(suite: str, rec: dict, i: int, start: int,
             other = pool[(i + 1) % len(pool)]
         return list(other.get("documents", []))
 
-    if suite == "simple":
-        fams = sorted(SIMPLE_FAMILIES)
-    elif suite == "arith":
-        fams = sorted(ARITH_FAMILIES)
-    else:
-        fams = sorted(PROCEDURE_FAMILIES)
+    fams = _families_for(suite)
     other_fam = fams[(i + 1) % len(fams)]
     other_seed = start + i + 777000
     if suite == "procfmt":
