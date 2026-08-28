@@ -31,7 +31,7 @@ import torch
 import torch.nn as nn
 
 from src.latentret.gate import RetrievalGate, halting_distribution
-from src.latentret.retriever import LatentRetriever, LoopInjector
+from src.latentret.retriever import CopyReadout, LatentRetriever, LoopInjector
 from src.train.model import ModelConfig, TransformerLM
 
 QUERY_MODES = ("latent", "decoded", "question", "none")
@@ -45,6 +45,15 @@ class LatentRetConfig:
     halt_bias: float = -2.0
     retrieve_bias: float = 0.0
     inject_init_std: float = 0.02
+    readout: str = "both"
+    """lm, copy, or both.
+
+    lm is generation: the answer has to come out of the vocabulary head, which
+    for an invented word the model has never emitted is the hard version. copy
+    is selection: point at a token in the store, through the same retrieval
+    distribution that biases the injection. both mixes them, log(p_lm + p_copy)
+    up to a constant, and is the default because it can fall back to either.
+    """
 
 
 @dataclass
@@ -71,6 +80,8 @@ class LatentRetrievalLM(TransformerLM):
             self.ret_cfg.halt_bias, self.ret_cfg.retrieve_bias,
         )
         self.injector = LoopInjector(cfg.d_model, cfg.n_heads, cfg.norm_eps)
+        self.copy_head = (CopyReadout(cfg.d_model, cfg.norm_eps)
+                          if self.ret_cfg.readout in ("copy", "both") else None)
         # The injection starts near zero, so iteration one runs as it would
         # without retrieval and the loop does not begin from a shove.
         with torch.no_grad():
@@ -138,7 +149,16 @@ class LatentRetrievalLM(TransformerLM):
                 delta = self.injector(h, doc_emb, doc_mask, log_p)
                 h = h + g.view(-1, 1, 1) * delta
 
-            logits.append(self._readout(h, ans_pos))
+            step_logits = self._readout(h, ans_pos)
+            if self.copy_head is not None:
+                copy_logits = self.copy_head(
+                    self._at(h, ans_pos), doc_emb, docs, doc_mask, log_p,
+                    self.cfg.vocab_size)
+                if self.ret_cfg.readout == "copy":
+                    step_logits = copy_logits
+                else:
+                    step_logits = torch.logaddexp(step_logits.float(), copy_logits)
+            logits.append(step_logits)
             halt_logits.append(halt_logit)
             gates.append(g)
             doc_logps.append(log_p)
@@ -153,8 +173,11 @@ class LatentRetrievalLM(TransformerLM):
 
     def describe_latentret(self) -> dict:
         base = self.describe()
-        extra = sum(p.numel() for m in (self.retriever, self.gate, self.injector)
-                    for p in m.parameters())
+        heads = [self.retriever, self.gate, self.injector]
+        if self.copy_head is not None:
+            heads.append(self.copy_head)
+        extra = sum(p.numel() for m in heads for p in m.parameters())
         base["latentret_params"] = extra
         base["d_ret"] = self.ret_cfg.d_ret
+        base["readout"] = self.ret_cfg.readout
         return base

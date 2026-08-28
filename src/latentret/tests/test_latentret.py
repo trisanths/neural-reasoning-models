@@ -35,12 +35,30 @@ def test_vocab_covers_every_episode():
 
 
 def test_gold_page_carries_the_answer():
-    """The answer word is on the gold page and the gold page is the right one."""
-    vocab = get_vocab()
     for seed in range(400):
         ep = make_episode(seed, False)
-        gold_tokens = ep.docs[ep.gold_doc]
-        assert ep.answer in gold_tokens, f"seed {seed} family {ep.family}"
+        assert ep.answer in ep.docs[ep.gold_doc], f"seed {seed} family {ep.family}"
+
+
+# threshold_rule ends with a worked example that names the upper label, so
+# whenever the answer is that label it is readable off a second page. Measured
+# over 3000 episodes: 0.511 in threshold_rule, 0.018 and 0.022 in the other two
+# families, 0.183 overall. It is a property of the family in src/skillacq, not
+# of the episode builder, and it is the reason measure() reports per family.
+ANSWER_LEAK_RATE = {"threshold_rule": 0.55, "substitution_rule": 0.06,
+                    "exception_rule": 0.06}
+
+
+def test_answer_leak_rate_is_where_it_is_expected():
+    """Only threshold_rule lets the answer be read off a page that is not gold."""
+    seen = {f: [0, 0] for f in ANSWER_LEAK_RATE}
+    for seed in range(1500):
+        ep = make_episode(seed, False)
+        seen[ep.family][0] += 1
+        seen[ep.family][1] += any(ep.answer in d for i, d in enumerate(ep.docs)
+                                  if i != ep.gold_doc)
+    for family, (total, leaked) in seen.items():
+        assert leaked / total < ANSWER_LEAK_RATE[family], (family, leaked, total)
 
 
 # The families draw invented words independently from a pool of 400, so a
@@ -56,6 +74,20 @@ def test_answer_is_rarely_copyable_from_the_question():
     bad = sum(make_episode(s, False).answer in make_episode(s, False).question
               for s in range(400))
     assert bad / 400 < COLLISION_SLACK
+
+
+def test_foil_is_a_real_alternative():
+    """The foil is in the store, not in the prompt, and is not the answer."""
+    differs, on_gold, in_prompt = 0, 0, 0
+    for seed in range(400):
+        ep = make_episode(seed, True)
+        differs += ep.foil != ep.answer
+        on_gold += ep.foil in ep.docs[ep.gold_doc]
+        in_prompt += ep.foil in ep.prompt
+        assert any(ep.foil in doc for doc in ep.docs), f"seed {seed}"
+    assert differs / 400 > 1 - COLLISION_SLACK
+    assert on_gold / 400 < COLLISION_SLACK
+    assert in_prompt / 400 < COLLISION_SLACK
 
 
 def test_the_name_is_not_on_the_gold_page():
@@ -210,6 +242,58 @@ def test_injection_off_changes_nothing_downstream_of_the_gate():
                                      batch.question_mask, gate_override=0.0)
     assert not torch.allclose(on.logits, off.logits)
     assert torch.allclose(off.logits, zero.logits, atol=1e-5)
+
+
+def test_copy_readout_can_only_reach_the_store():
+    """No token outside the six documents may get a finite copy score."""
+    cfg = RunConfig(steps=1, batch_size=4, loops=2, readout="copy")
+    model = build_model(cfg)
+    batch = EpisodeStream(0, 1000, 4, pool_size=100).batch()
+    with torch.no_grad():
+        out = model.episode_forward(batch.prompt, batch.ans_pos, batch.docs,
+                                    batch.doc_mask, batch.question,
+                                    batch.question_mask)
+    logits = out.logits[:, -1]
+    for row in range(4):
+        present = set(batch.docs[row][batch.doc_mask[row]].tolist())
+        finite = set((logits[row] > torch.finfo(logits.dtype).min / 2)
+                     .nonzero().flatten().tolist())
+        assert finite <= present, sorted(finite - present)[:5]
+        assert int(batch.answer[row]) in present
+
+
+def test_copy_readout_respects_the_retrieval_distribution():
+    """A page the retriever gave no mass to cannot win the copy readout.
+
+    Without this the copy head would read all six documents directly and the
+    gate would stop mattering to the task.
+    """
+    cfg = RunConfig(steps=1, batch_size=4, loops=1, readout="copy")
+    model = build_model(cfg)
+    batch = EpisodeStream(0, 1000, 4, pool_size=100).batch()
+    doc_emb = model.tok_emb(batch.docs)
+    state = torch.randn(4, cfg.d_model)
+    b = torch.arange(4)
+    sharp = torch.full((4, 6), -30.0)
+    sharp[b, batch.gold] = 0.0
+    away = torch.full((4, 6), 0.0)
+    away[b, batch.gold] = -30.0
+    with torch.no_grad():
+        on = model.copy_head(state, doc_emb, batch.docs, batch.doc_mask, sharp,
+                             model.cfg.vocab_size)
+        off = model.copy_head(state, doc_emb, batch.docs, batch.doc_mask, away,
+                              model.cfg.vocab_size)
+    # Only where the answer word is on the gold page and nowhere else. In
+    # threshold_rule the worked example repeats the upper label, so half of
+    # that family's answers are reachable from a second page and their score
+    # cannot depend on the gold page alone. See ANSWER_LEAK_RATE.
+    unique = torch.tensor([
+        not any(int(batch.answer[r]) in batch.docs[r][d][batch.doc_mask[r][d]]
+                for d in range(6) if d != int(batch.gold[r]))
+        for r in range(4)])
+    gain = on[b, batch.answer] - off[b, batch.answer]
+    assert unique.any(), "no clean row in this batch"
+    assert (gain[unique] > 5.0).all(), gain.tolist()
 
 
 def test_retrieval_heads_are_a_small_share_of_the_model():

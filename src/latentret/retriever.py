@@ -121,3 +121,48 @@ class LoopInjector(nn.Module):
         out = F.scaled_dot_product_attention(q, k, v, attn_mask=bias)
         out = out.transpose(1, 2).reshape(bsz, seq_len, dim)
         return self.wo(out)
+
+
+class CopyReadout(nn.Module):
+    """Answer by pointing at a token in the store, not by generating it.
+
+    The pointer result in src/train/pointer.py says selection over evidence
+    beats generation when the answer is present, and the answers here are
+    invented words the model has no reason to have learned to spell. So the
+    readout scores every document token against the recurrent state and folds
+    those scores into the vocabulary logits.
+
+    The retrieval log probabilities bias the copy scores exactly as they bias
+    the injection, which is the part that keeps this honest: the copy head
+    cannot reach a page the retriever gave no mass to, so pointing at the right
+    word still requires having found the right page. Without that bias the head
+    would read all six documents directly and the gate would stop mattering to
+    the task at all.
+    """
+
+    def __init__(self, d_model: int, norm_eps: float = 1e-5):
+        super().__init__()
+        self.norm = RMSNorm(d_model, norm_eps)
+        self.wq = nn.Linear(d_model, d_model, bias=False)
+        self.wk = nn.Linear(d_model, d_model, bias=False)
+        self.scale = 1.0 / math.sqrt(d_model)
+
+    def forward(self, state: torch.Tensor, doc_states: torch.Tensor,
+                doc_ids: torch.Tensor, doc_mask: torch.Tensor,
+                doc_log_probs: torch.Tensor, vocab_size: int) -> torch.Tensor:
+        """(B, D) state to (B, V) logits, -inf on every type not in the store."""
+        bsz, n_docs, doc_len, dim = doc_states.shape
+        q = self.wq(self.norm(state))                                # (B, D)
+        k = self.wk(doc_states.reshape(bsz, n_docs * doc_len, dim))  # (B, P, D)
+        scores = torch.einsum("bd,bpd->bp", q, k).float() * self.scale
+        scores = scores + doc_log_probs.unsqueeze(-1).expand(
+            bsz, n_docs, doc_len).reshape(bsz, -1).float()
+        neg = torch.finfo(scores.dtype).min
+        scores = scores.masked_fill(~doc_mask.reshape(bsz, -1), neg)
+        # Several positions can carry the same type. The type's score is the
+        # best of them rather than the sum, so a word that happens to be
+        # repeated does not outscore one that is stated once.
+        out = torch.full((bsz, vocab_size), neg, device=scores.device,
+                         dtype=scores.dtype)
+        return out.scatter_reduce(1, doc_ids.reshape(bsz, -1), scores,
+                                  reduce="amax", include_self=True)

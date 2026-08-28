@@ -87,6 +87,18 @@ class LatentRetEpisode:
     answer: int
     in_context: bool
     question: list[int]
+    foil: int
+    """The answer to the same question asked of the distractor system.
+
+    A tiny model may retrieve the right page and still not manage to say a word
+    it has never emitted before, and full vocabulary accuracy cannot tell that
+    apart from retrieving nothing: both read zero against a chance rate of
+    1/701. The foil gives a second readout with a chance rate of one half. It is
+    the same kind of word, drawn from the same pool, sitting on the distractor's
+    matching page inside the same document store, so preferring the answer over
+    it means the content of the right page reached the output and not merely
+    that something did.
+    """
 
 
 def _usable(family: str, system, problem: dict) -> bool:
@@ -126,6 +138,8 @@ def make_episode(seed: int, in_context: bool, hard: bool = True) -> LatentRetEpi
     docs = [vocab.encode(pages[i]) for i in order]
     gold_doc = order.index(gold_local)
 
+    foil_problem = _draw_problem(family, other, random.Random(seed ^ 0xF011))
+
     question = vocab.encode(problem["text"])
     prompt = [vocab.q_id] + question + [vocab.a_id]
     if in_context:
@@ -138,6 +152,7 @@ def make_episode(seed: int, in_context: bool, hard: bool = True) -> LatentRetEpi
         answer=vocab.encode_word(problem["answer"]),
         in_context=in_context,
         question=question,
+        foil=vocab.encode_word(foil_problem["answer"]),
     )
 
 
@@ -155,6 +170,7 @@ class Batch:
     docs: torch.Tensor         # (B, N, Ld)
     doc_mask: torch.Tensor     # (B, N, Ld) True on real tokens
     gold: torch.Tensor         # (B,)
+    foil: torch.Tensor         # (B,) the distractor system's answer word
     in_context: torch.Tensor   # (B,) bool
     family: torch.Tensor       # (B,) index into sorted(SIMPLE_FAMILIES)
 
@@ -169,8 +185,8 @@ def collate(episodes: list[LatentRetEpisode], prompt_len: int, doc_len: int,
     fams = sorted(SIMPLE_FAMILIES)
     cols: dict[str, list] = {k: [] for k in
                              ("prompt", "ans_pos", "answer", "docs", "doc_mask",
-                              "gold", "in_context", "question", "question_mask",
-                              "family")}
+                              "gold", "foil", "in_context", "question",
+                              "question_mask", "family")}
     for ep in episodes:
         p = ep.prompt[:prompt_len]
         cols["ans_pos"].append(len(p) - 1)
@@ -181,13 +197,15 @@ def collate(episodes: list[LatentRetEpisode], prompt_len: int, doc_len: int,
             [[1] * min(len(d), doc_len) + [0] * max(0, doc_len - len(d))
              for d in ep.docs])
         cols["gold"].append(ep.gold_doc)
+        cols["foil"].append(ep.foil)
         cols["in_context"].append(ep.in_context)
         cols["question"].append(_pad(ep.question, question_len, pad))
         cols["question_mask"].append(
             [1] * min(len(ep.question), question_len)
             + [0] * max(0, question_len - len(ep.question)))
         cols["family"].append(fams.index(ep.family))
-    long = ("prompt", "ans_pos", "answer", "question", "docs", "gold", "family")
+    long = ("prompt", "ans_pos", "answer", "question", "docs", "gold", "foil",
+            "family")
     out = {k: torch.tensor(v, dtype=torch.long if k in long else torch.bool)
            for k, v in cols.items()}
     return Batch(**out)

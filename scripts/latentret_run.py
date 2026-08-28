@@ -19,9 +19,14 @@ The conditions, and what each one is there to rule out:
                   query are driven by the task loss alone. If retrieval only
                   works when it is directly supervised, that is worth knowing
                   and is the honest way to find out.
-    latent_easy   distractors keep their own system name, so name matching
-                  alone scores 0.333. The gap to the hard run is how much of
-                  the hit rate was name matching.
+    latent_easy   distractors keep their own invented name instead of the gold
+                  system's, so the name in the question picks out exactly one
+                  page. The gap to the hard run is what the name was worth.
+    latent_lm     generation instead of selection: the answer has to come out
+                  of the vocabulary head with no copy path. The answers are
+                  invented words, so this is the arm that says whether a
+                  failure to answer is a failure to retrieve or a failure to
+                  say what was retrieved.
 """
 
 from __future__ import annotations
@@ -47,6 +52,7 @@ CONDITIONS = {
     "uniform": dict(query_mode="none"),
     "latent_notask": dict(query_mode="latent", weights=LossWeights(alpha=0.0)),
     "latent_easy": dict(query_mode="latent", hard=False),
+    "latent_lm": dict(query_mode="latent", readout="lm"),
 }
 
 
@@ -56,6 +62,15 @@ def main() -> None:
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--seed", type=int, default=1234)
     ap.add_argument("--batch-size", type=int, default=48)
+    ap.add_argument("--gamma", type=float, default=None,
+                    help="retrieval budget weight, overrides the condition default")
+    ap.add_argument("--alpha", type=float, default=None)
+    ap.add_argument("--d-model", type=int, default=None)
+    ap.add_argument("--core", type=int, default=None)
+    ap.add_argument("--loops", type=int, default=None)
+    ap.add_argument("--lr", type=float, default=None)
+    ap.add_argument("--readout", default=None, choices=["lm", "copy", "both"])
+    ap.add_argument("--tag", default="")
     ap.add_argument("--conditions", default=",".join(CONDITIONS))
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     args = ap.parse_args()
@@ -66,9 +81,23 @@ def main() -> None:
         name = name.strip()
         if not name:
             continue
+        overrides = dict(CONDITIONS[name])
+        if args.gamma is not None or args.alpha is not None:
+            w = overrides.get("weights", LossWeights())
+            w = LossWeights(alpha=args.alpha if args.alpha is not None else w.alpha,
+                            beta=w.beta,
+                            gamma=args.gamma if args.gamma is not None else w.gamma,
+                            lam_prior=w.lam_prior)
+            overrides["weights"] = w
+        for flag, field in (("d_model", "d_model"), ("core", "core"),
+                            ("loops", "loops"), ("lr", "lr"),
+                            ("readout", "readout")):
+            value = getattr(args, flag)
+            if value is not None:
+                overrides[field] = value
         cfg = RunConfig(name=name, steps=args.steps, seed=args.seed,
-                        batch_size=args.batch_size, **CONDITIONS[name])
-        path = os.path.join(args.out, f"{name}_seed{args.seed}.json")
+                        batch_size=args.batch_size, **overrides)
+        path = os.path.join(args.out, f"{name}{args.tag}_seed{args.seed}.json")
         if os.path.exists(path):
             print(f"skip {name}, {path} exists", flush=True)
             continue

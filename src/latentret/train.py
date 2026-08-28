@@ -51,10 +51,11 @@ class RunConfig:
     core: int = 2
     coda: int = 1
     d_ret: int = 64
+    readout: str = "both"
     inject: bool = True
     eval_every: int = 250
     eval_batches: int = 8
-    weights: LossWeights = field(default_factory=LossWeights)
+    weights: LossWeights = field(default_factory=lambda: LossWeights(gamma=0.25))
 
 
 def build_model(cfg: RunConfig) -> LatentRetrievalLM:
@@ -78,7 +79,8 @@ def build_model(cfg: RunConfig) -> LatentRetrievalLM:
             "inject_prelude": True,
         },
     )
-    return LatentRetrievalLM(mcfg, LatentRetConfig(d_ret=cfg.d_ret))
+    return LatentRetrievalLM(
+        mcfg, LatentRetConfig(d_ret=cfg.d_ret, readout=cfg.readout))
 
 
 def _lr_at(step: int, cfg: RunConfig) -> float:
@@ -120,7 +122,8 @@ def train_one(cfg: RunConfig, device: str = "cuda") -> dict:
             curve.append({"step": step, **stats, **m})
             print(f"[{cfg.name}] step {step:5d} loss {stats['loss']:.3f} "
                   f"task {stats['task']:.3f} ret {stats['retrieval']:.3f} "
-                  f"acc {m['acc_final']:.3f} hit {m['hit_any']:.3f} "
+                  f"acc {m['acc_final']:.3f} foil {m['acc_vs_foil']:.3f} "
+                  f"hit {m['hit_gate']:.3f} "
                   f"gate_auc {m['gate_auc']:.3f} gap {m['gate_gap']:+.3f}",
                   flush=True)
 
