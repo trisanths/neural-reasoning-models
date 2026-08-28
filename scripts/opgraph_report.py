@@ -18,7 +18,8 @@ import json
 
 BASE_ORDER = ["base_untrained_direct", "direct_all", "direct_oracle_page",
               "trace_all", "trace_oracle_page", "plan_execute", "oracle_plan",
-              "oracle_ops", "oracle_both"]
+              "oracle_ops", "step_plan_execute", "step_oracle_ops",
+              "oracle_both"]
 ORDER = BASE_ORDER + [c + "@para" for c in BASE_ORDER
                       if c != "base_untrained_direct"]
 HEADLINE = ["sequential", "breadth", "novel"]
@@ -80,7 +81,8 @@ def main() -> int:
                                       row[str(d)]["n"])}
                 for d in widths if str(d) in row}
 
-    for style_key in ("induction", "induction@para"):
+    for style_key in ("induction", "induction@para", "induction_step",
+                      "induction_step@para"):
         ind = res.get(style_key)
         if not ind:
             continue

@@ -202,3 +202,53 @@ def test_paraphrased_worlds_answer_the_same_questions(seed):
     b = data.eval_items("sequential", 3, 4, style=1)
     assert [x.text for x in a] == [x.text for x in b]
     assert [x.gold for x in a] == [x.gold for x in b]
+
+
+def test_associativity_round_trips_and_reaches_the_scheduler():
+    from src.opgraph.plan import signature_line
+    text = "(defop @ (x y) (+ x y) (assoc right) (ex (7 4) 11))"
+    op = parse_operator(text)
+    assert op.assoc == "right"
+    assert serialize(op) == text
+    assert signature_line({"@": op}) == "@/2/right"
+    plain = parse_operator("(defop score (v) v)")
+    assert signature_line({"score": plain}) == "score/1"
+    with pytest.raises(OpError):
+        parse_operator("(defop @ (x y) (+ x y) (assoc sideways))")
+
+
+@pytest.mark.parametrize("seed", range(15))
+def test_binary_operators_carry_the_associativity_their_page_states(seed):
+    w = invent.make_world(seed, breadth=2)
+    for page in w.pages:
+        if not page.key.startswith("binop:"):
+            continue
+        op = page.ops[0]
+        assert op.assoc in ("left", "right")
+        stated = "right to left" if page.right_assoc else "left to right"
+        assert stated in page.text
+        assert op.assoc == ("right" if page.right_assoc else "left")
+
+
+def test_stepwise_examples_reconstruct_the_whole_plan():
+    from src.opgraph.data import step_examples
+    from src.opgraph.plan import parse_plan
+    rng = random.Random(4)
+    w = invent.make_world(31, breadth=2)
+    for it in [invent.seq_flat(w, rng, 5), invent.novel(w, rng, 4),
+               invent.breadth_item(w, rng, 2)]:
+        ex = step_examples(w.ops, it.text, it.plan)
+        assert len(ex) == it.plan.depth + 1
+        rebuilt = " ; ".join(t for _, t in ex)
+        assert parse_plan(rebuilt) == it.plan
+        assert ex[-1][1].startswith("ans")
+        # every prompt carries exactly the steps emitted before it
+        for k, (prompt, _) in enumerate(ex):
+            assert prompt.count("=") == k
+
+
+def test_stepwise_arm_and_plan_arm_share_their_induction_examples():
+    for seed in range(15):
+        a = [e for e in data.training_examples(seed, "opgraph") if "induce" in e[0]]
+        b = [e for e in data.training_examples(seed, "opgraph_step") if "induce" in e[0]]
+        assert a == b

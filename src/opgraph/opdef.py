@@ -14,7 +14,13 @@ state fits inside it, and nothing else does.
 
 The text form is what the language model reads and writes:
 
-    (defop @ (x y) (% (+ (* 3 x) (* 7 y) 2) 100) (ex (7 4) 51) (ex (12 5) 73))
+    (defop @ (x y) (% (+ (* 3 x) (* 7 y) 2) 100) (assoc left) (ex (7 4) 51))
+
+The assoc clause is the one piece of notation, rather than semantics, that the
+operator object carries. A page that introduces an infix operator states which
+way a run of it associates, and a scheduler that never sees the page has no
+other way to know. Leaving it off the object costs exactly what you would
+expect: a coin flip on every chain of two or more.
 
 Round tripping that string through parse_operator and serialize is exact, which
 is what lets a model's induction be compared against the truth by string
@@ -209,6 +215,7 @@ class Operator:
     pre: tuple = field(default=())
     post: tuple = field(default=())
     examples: tuple = field(default=())
+    assoc: str | None = None
 
     @property
     def arity(self) -> int:
@@ -232,6 +239,8 @@ class Operator:
 
 def serialize(op: Operator) -> str:
     parts = [f"(defop {op.symbol} ({' '.join(op.params)}) {serialize_expr(op.body)}"]
+    if op.assoc:
+        parts.append(f"(assoc {op.assoc})")
     for c in op.pre:
         parts.append(f"(pre {serialize_expr(c)})")
     for c in op.post:
@@ -267,6 +276,7 @@ def parse_operator(text: str) -> Operator:
     pre: list = []
     post: list = []
     examples: list = []
+    assoc: str | None = None
     while i < len(toks) and toks[i] != ")":
         if toks[i] != "(":
             raise OpError("expected a clause")
@@ -286,6 +296,13 @@ def parse_operator(text: str) -> Operator:
                 raise OpError("missing ) after ex")
             examples.append((tuple(args), res))
             i = j + 1
+        elif kind == "assoc":
+            if toks[i + 3] != ")":
+                raise OpError("assoc takes one word")
+            if toks[i + 2] not in ("left", "right"):
+                raise OpError(f"assoc must be left or right, got {toks[i + 2]!r}")
+            assoc = toks[i + 2]
+            i = i + 4
         elif kind in ("pre", "post"):
             c, j = _parse_expr(toks, i + 2)
             if j >= len(toks) or toks[j] != ")":
@@ -302,7 +319,8 @@ def parse_operator(text: str) -> Operator:
     unknown = free - set(params)
     if unknown:
         raise OpError(f"body mentions unbound {sorted(unknown)}")
-    return Operator(symbol, tuple(params), body, tuple(pre), tuple(post), tuple(examples))
+    return Operator(symbol, tuple(params), body, tuple(pre), tuple(post),
+                    tuple(examples), assoc)
 
 
 def parse_operators(text: str) -> list[Operator]:

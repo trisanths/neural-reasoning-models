@@ -46,6 +46,33 @@ def plan_prompt(ops, question: str) -> str:
             f"<|q|> plan {question} <|a|>")
 
 
+def step_prompt(ops, question: str, prefix: str) -> str:
+    """The scheduler asked for one step at a time, given the plan so far.
+
+    Writing a whole plan in one generation makes the length of the plan
+    something the decoder has to get right, and a decoder trained on plans of
+    at most three steps has learned to stop at three. Asking for one step at a
+    time removes that: a plan of any length is the same short decision, taken
+    repeatedly, and the length prior has nothing to attach to.
+    """
+    return (f"<|world|> opgraph <|doc|> ops {signature_line(ops)} "
+            f"<|q|> plan {question} <|result|> {prefix} <|a|>")
+
+
+def plan_steps(plan) -> list[str]:
+    """A plan as the chunks a stepwise scheduler emits, in order."""
+    return [c.strip() for c in serialize_plan(plan).split(";")]
+
+
+def step_examples(ops, question: str, plan) -> list[tuple[str, str]]:
+    chunks = plan_steps(plan)
+    out = []
+    for k in range(len(chunks)):
+        prefix = " ; ".join(chunks[:k]) + (" ;" if k else "")
+        out.append((step_prompt(ops, question, prefix), chunks[k]))
+    return out
+
+
 def training_examples(seed: int, arm: str) -> list[tuple[str, str]]:
     """(prompt, target) pairs from one world, for the given arm.
 
@@ -71,11 +98,14 @@ def training_examples(seed: int, arm: str) -> list[tuple[str, str]]:
             keys = None if rng.random() < 0.5 else set(it.pages)
             out.append((trace_prompt(w, it.text, keys), trace_text(it.plan, w.ops)))
         return out
-    if arm == "opgraph":
+    if arm in ("opgraph", "opgraph_step"):
         for p in w.shuffled_pages():
             out.append((induce_prompt(p.text), serialize_all(p.ops)))
         for it in items:
-            out.append((plan_prompt(w.ops, it.text), serialize_plan(it.plan)))
+            if arm == "opgraph":
+                out.append((plan_prompt(w.ops, it.text), serialize_plan(it.plan)))
+            else:
+                out.extend(step_examples(w.ops, it.text, it.plan))
         return out
     raise ValueError(arm)
 

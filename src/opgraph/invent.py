@@ -104,7 +104,8 @@ def _binop_page(rng: random.Random, glyph: str, style: int = 0) -> Page:
     right = rng.random() < 0.5
     pair = ((7, 4), (12, 5)) if style == 0 else ((5, 9), (8, 3))
     op = Operator(glyph, ("x", "y"), body,
-                  examples=tuple((a, op(*a)) for a in pair))
+                  examples=tuple((a, op(*a)) for a in pair),
+                  assoc="right" if right else "left")
     assoc = "right to left" if right else "left to right"
     if style == 0:
         text = "\n".join([

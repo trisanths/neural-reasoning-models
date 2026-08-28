@@ -7,6 +7,7 @@ steps, same batch size in sequences.
   trace     write the decomposition out in tokens, computing each step, from
             the pages
   opgraph   induce an operator from each page, and write a plan for the question
+  opgraph_step  the same, with the plan asked for one step at a time
 
 The direct arm sees strictly more tokens per step, because its prompts carry
 the pages while half the opgraph arm's prompts carry only an operator
@@ -60,7 +61,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", required=True)
     ap.add_argument("--tokenizer", required=True)
-    ap.add_argument("--arm", required=True, choices=["direct", "trace", "opgraph"])
+    ap.add_argument("--arm", required=True, choices=["direct", "trace", "opgraph", "opgraph_step"])
     ap.add_argument("--out", required=True)
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--batch-size", type=int, default=16)

@@ -233,7 +233,13 @@ def signature_line(ops: dict[str, Operator]) -> str:
     """The operator table as the scheduler sees it: symbols and arities only.
 
     The scheduler is never shown a body. It plans over what the operators are
-    called and how many arguments they take, which is what makes the planning
+    called, how many arguments they take, and, for an infix operator, which way
+    a run of it associates, which is the one notational fact a plan cannot be
+    written without. Semantics stay hidden, which is what makes the planning
     failure separable from the induction failure.
     """
-    return " ".join(f"{s}/{ops[s].arity}" for s in sorted(ops))
+    out = []
+    for k in sorted(ops):
+        op = ops[k]
+        out.append(f"{k}/{op.arity}/{op.assoc}" if op.assoc else f"{k}/{op.arity}")
+    return " ".join(out)

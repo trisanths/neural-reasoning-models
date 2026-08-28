@@ -26,7 +26,7 @@ from dataclasses import dataclass, field
 import torch
 
 from src.opgraph.data import (direct_prompt, induce_prompt, plan_prompt,
-                              trace_prompt)
+                              step_prompt, trace_prompt)
 from src.opgraph.opdef import OpError, Operator, parse_operators, verify
 from src.opgraph.plan import (PlanError, answer_text, parse_plan, run_plan,
                               trace_answer)
@@ -156,11 +156,12 @@ def induce_worlds(gen: Generator, worlds: dict, max_new: int = 288,
 def _same_text(a: Operator, b: Operator) -> bool:
     from src.opgraph.opdef import serialize_expr
     return (a.symbol == b.symbol and a.params == b.params
+            and a.assoc == b.assoc
             and serialize_expr(a.body) == serialize_expr(b.body))
 
 
 def _same_behaviour(a: Operator, b: Operator) -> bool:
-    if a.symbol != b.symbol or a.arity != b.arity:
+    if a.symbol != b.symbol or a.arity != b.arity or a.assoc != b.assoc:
         return False
     for args in _probes(a.arity):
         try:
@@ -195,12 +196,52 @@ def score_trace(gen: Generator, items, oracle_page: bool, max_new: int = 256):
     return [_norm(trace_answer(o)) == _norm(it.gold) for o, it in zip(outs, items)], outs
 
 
+MAX_PLAN_STEPS = 24
+
+
+def stepwise_plans(gen: Generator, items, ops_by_world: dict, use_gold_ops: bool,
+                   max_new: int = 32) -> list[str]:
+    """Ask the scheduler for one step at a time until it writes an ans chunk.
+
+    Every live item advances by exactly one step per round, so the rounds stay
+    batched. An item that never writes ans inside the cap keeps whatever it
+    wrote, and the strict plan parser rejects it downstream.
+    """
+    prefixes = [""] * len(items)
+    live = list(range(len(items)))
+    for _ in range(MAX_PLAN_STEPS):
+        if not live:
+            break
+        prompts = []
+        for i in live:
+            it = items[i]
+            ops = it.world.ops if use_gold_ops else ops_by_world[it.world.seed].ops
+            prompts.append(step_prompt(ops, it.text, prefixes[i]))
+        outs = gen.generate(prompts, max_new=max_new)
+        still: list[int] = []
+        for i, chunk in zip(live, outs):
+            chunk = chunk.strip()
+            if not chunk:
+                continue
+            prefixes[i] = (prefixes[i] + " " + chunk).strip() if prefixes[i] else chunk
+            if chunk.startswith("ans"):
+                continue
+            prefixes[i] = prefixes[i] + " ;"
+            still.append(i)
+        live = still
+    return prefixes
+
+
 def score_planned(gen: Generator, items, ops_by_world: dict,
-                  use_gold_plan: bool, use_gold_ops: bool, max_new: int = 144):
+                  use_gold_plan: bool, use_gold_ops: bool, max_new: int = 144,
+                  stepwise: bool = False):
     """Run the plan path. Returns correctness, raw plans, and failure reasons."""
     need = [it for it in items if not use_gold_plan]
     plans: dict[int, str] = {}
-    if need:
+    if need and stepwise:
+        for it, o in zip(need, stepwise_plans(gen, need, ops_by_world, use_gold_ops)):
+            plans[id(it)] = o
+    elif need:
         prompts = []
         for it in need:
             ops = it.world.ops if use_gold_ops else ops_by_world[it.world.seed].ops

@@ -24,6 +24,8 @@ Conditions, in the order they localise the failure:
   oracle_plan            gold plan, induced operators, execute
   oracle_ops             gold operators, model plan, execute
   oracle_both            execution alone, which must come out at 1.000
+  step_plan_execute      the scheduler asked for one step at a time
+  step_oracle_ops        the same, with gold operators
 
 Everything is run twice: once on the page wording every arm trained on, and
 once on the same worlds with every page rewritten in different prose. The
@@ -75,6 +77,7 @@ def main() -> int:
     ap.add_argument("--direct-ckpt", required=True)
     ap.add_argument("--opgraph-ckpt", required=True)
     ap.add_argument("--trace-ckpt", default=None)
+    ap.add_argument("--step-ckpt", default=None)
     ap.add_argument("--base-ckpt", default=None)
     ap.add_argument("--tokenizer", required=True)
     ap.add_argument("--out", required=True)
@@ -160,6 +163,39 @@ def main() -> int:
                         reasons=dict(Counter(reasons)))
         with open(args.out, "w") as fh:
             json.dump(results, fh, indent=1)
+
+    del opg, gen
+    torch.cuda.empty_cache()
+
+    if args.step_ckpt:
+        stp, _ = load_model(args.step_ckpt, device)
+        gen = Generator(stp, tok, device, batch_size=args.batch_size)
+        for st in styles:
+            worlds = {it.world.seed: it.world
+                      for items in sets[st].values() for it in items}
+            induced = induce_worlds(gen, worlds, progress=1)
+            ind_stats = Counter()
+            for ind in induced.values():
+                ind_stats["pages"] += ind.pages
+                ind_stats["pages_parsed"] += ind.parsed
+                ind_stats["gold_ops"] += ind.gold_count
+                ind_stats["induced_ops"] += len(ind.ops)
+                ind_stats["self_verified"] += ind.self_verified
+                ind_stats["exact_text"] += ind.exact
+                ind_stats["behavioural"] += ind.behavioural
+            results[tag("induction_step", st)] = dict(ind_stats)
+            for key, items in sets[st].items():
+                for name, gold_ops in (("step_plan_execute", False),
+                                       ("step_oracle_ops", True)):
+                    if st != 0 and gold_ops:
+                        continue
+                    ok, texts, reasons = score_planned(
+                        gen, items, induced, use_gold_plan=False,
+                        use_gold_ops=gold_ops, stepwise=True)
+                    _record(results, tag(name, st), key, ok, samples=texts[:3],
+                            reasons=dict(Counter(reasons)))
+            with open(args.out, "w") as fh:
+                json.dump(results, fh, indent=1)
 
     with open(args.out, "w") as fh:
         json.dump(results, fh, indent=1)
