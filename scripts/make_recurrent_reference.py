@@ -5,11 +5,15 @@ of git, so they are a genuine "old code" artifact rather than something the new
 code wrote about itself. src/train/tests/test_recurrent.py then loads them with
 the new model.py, recurrence disabled, and demands bit identical logits.
 
-  uv run python scripts/make_recurrent_reference.py --ref-rev HEAD
+  uv run python scripts/make_recurrent_reference.py --ref-rev d24d348
 
 Writes src/train/tests/data/ref_disabled_tiny.pt (small, lives in the repo) and,
 with --with-350m, a full 350m checkpoint under the path given by --large-out,
 which is about 1.5 GiB and is not meant to be committed.
+
+The revision has to predate recurrence, or the reference is the new code
+grading its own homework. d24d348 is the last such revision and is the default.
+Anything newer is refused unless --allow-recurrent-ref says otherwise.
 """
 
 import argparse
@@ -32,6 +36,7 @@ TINY = {
     "d_ff": 176,
     "max_seq_len": 64,
 }
+PRE_RECURRENCE_REV = "d24d348"
 TINY_SEED = 1234
 TINY_INPUT_SEED = 99
 LARGE_SEED = 4321
@@ -76,14 +81,30 @@ def build_reference(module, model_cfg: dict, seed: int, input_seed: int, batch, 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--ref-rev", default="HEAD", help="git revision holding the old model.py")
+    parser.add_argument(
+        "--ref-rev",
+        default=PRE_RECURRENCE_REV,
+        help="git revision holding the old model.py, which must predate recurrence",
+    )
+    parser.add_argument(
+        "--allow-recurrent-ref",
+        action="store_true",
+        help="build against a revision that already has recurrence, for debugging only",
+    )
     parser.add_argument("--with-350m", action="store_true")
     parser.add_argument("--large-out", default=str(Path.home() / "runs" / "ref350" / "ref_350m.pt"))
     args = parser.parse_args(argv)
 
     module = load_reference_module(args.ref_rev)
-    if getattr(module.ModelConfig, "recurrent", None) is not None:
-        print("warning: the reference revision already knows about recurrence")
+    # ModelConfig.recurrent is a dataclass field that defaults to None, so the
+    # class attribute is None on the new code as well and reading it says
+    # nothing. The field list is what actually distinguishes the revisions.
+    if "recurrent" in module.ModelConfig.__dataclass_fields__ and not args.allow_recurrent_ref:
+        raise SystemExit(
+            f"revision {args.ref_rev} already knows about recurrence, so a reference built "
+            f"from it would be the new code checking itself. Pass a revision at or before "
+            f"{PRE_RECURRENCE_REV}, or --allow-recurrent-ref to override."
+        )
 
     tiny = build_reference(module, TINY, TINY_SEED, TINY_INPUT_SEED, batch=2, seq_len=24)
     tiny_path = REPO_ROOT / "src" / "train" / "tests" / "data" / "ref_disabled_tiny.pt"

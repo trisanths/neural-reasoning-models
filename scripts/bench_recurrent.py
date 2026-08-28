@@ -162,6 +162,18 @@ def main(argv=None) -> int:
     loop_counts = [int(v) for v in args.loops.split(",") if v]
     ckpt_modes = {"on": [True], "off": [False], "both": [True, False]}[args.grad_checkpoint]
 
+    if args.compile:
+        # Every case is a distinct traced graph, and they all share the forward
+        # code object, so a sweep of more than a handful of cases exhausts the
+        # default recompile limit of 8. Past it dynamo silently runs eager, and
+        # the later cases in the sweep get timed as if they were compiled. The
+        # limit is raised to cover the whole sweep with room to spare.
+        from torch import _dynamo
+
+        cases = len(ckpt_modes) * len(loop_counts) + len(args.backprop_last_k.split(",")) + 2
+        _dynamo.config.cache_size_limit = max(_dynamo.config.cache_size_limit, 4 * cases + 8)
+        print(f"dynamo recompile limit: {_dynamo.config.recompile_limit}")
+
     results = []
     if args.baseline:
         with open(REPO_ROOT / args.baseline) as fh:
