@@ -244,6 +244,62 @@ def test_real_web_suite_loads_authored_questions():
                        for g in item.golds)
 
 
+# ------------------------------------------------------------ subsample
+
+
+def test_subsample_keeps_every_task_and_the_unanswerable_items():
+    items = nb.load_real_web_suite()
+    cut = nb.subsample(items, 30, seed=0)
+    assert len(cut) == 30
+    assert {i.task for i in cut} == {i.task for i in items}
+    assert {i.meta["category"] for i in cut} == {i.meta["category"]
+                                                for i in items}
+    # The authored file keeps its unanswerable questions last, so this is
+    # exactly what a head slice of the same size loses.
+    assert any(i.unanswerable for i in cut)
+    assert not any(i.unanswerable for i in items[:30])
+
+
+def test_subsample_is_seeded_and_order_preserving():
+    items = nb.load_real_web_suite()
+    first = nb.subsample(items, 24, seed=5)
+    assert [i.item_id for i in first] == \
+        [i.item_id for i in nb.subsample(items, 24, seed=5)]
+    assert [i.item_id for i in first] != \
+        [i.item_id for i in nb.subsample(items, 24, seed=6)]
+    order = [i.item_id for i in items]
+    assert [i.item_id for i in first] == \
+        [q for q in order if q in {i.item_id for i in first}]
+
+
+def test_subsample_passes_through_when_n_is_zero_or_large(synthetic_items):
+    assert nb.subsample(synthetic_items, 0) == synthetic_items
+    assert nb.subsample(synthetic_items, len(synthetic_items) + 5) == \
+        synthetic_items
+
+
+def test_subsample_with_more_strata_than_slots_takes_the_biggest(
+        synthetic_items):
+    strata = {nb.stratum_key(i) for i in synthetic_items}
+    assert len(strata) > 3
+    cut = nb.subsample(synthetic_items, 3, seed=0)
+    assert len(cut) == 3
+    assert len({nb.stratum_key(i) for i in cut}) == 3
+    sizes = {s: sum(nb.stratum_key(i) == s for i in synthetic_items)
+             for s in strata}
+    biggest = sorted(sizes, key=lambda s: (-sizes[s], s))[:3]
+    assert {nb.stratum_key(i) for i in cut} == set(biggest)
+
+
+def test_subsample_holds_suite_proportions(synthetic_items):
+    cut = nb.subsample(synthetic_items, 20, seed=1)
+    assert len(cut) == 20
+    share = sum(i.task == "single_hop" for i in synthetic_items) \
+        / len(synthetic_items)
+    got = sum(i.task == "single_hop" for i in cut) / len(cut)
+    assert abs(got - share) < 0.2
+
+
 # --------------------------------------------------------- single items
 
 
@@ -272,12 +328,76 @@ def test_no_retrieval_condition_serves_nothing(tok, synthetic_items):
     step = PlannedStepFn(tok, item.question, item.golds[0], n_rounds=1)
     record = nb.score_record(item, nb.run_item(
         item, ctx_for(tok, step), "no_retrieval"))
-    assert record["stop_reason"] == "max_rounds"
     assert record["n_rounds"] == 0
     assert record["n_queries"] == 1
-    assert record["unserved_retrieve"]
+    assert record["n_empty_results"] == 1
+    assert record["evidence_tokens"] == 0
+    assert not record["gold_in_evidence"]
+    assert not record["answer_in_evidence"]
+
+
+def test_control_still_reaches_an_answer_after_the_miss(tok, synthetic_items):
+    """A model that always retrieves first must still get to answer.
+
+    Without a served miss the decode loop stops at the <|retrieve|> and the
+    control scores zero for every model whatever it knows, which is the
+    failure this index exists to prevent.
+    """
+    item = episode_item(synthetic_items, "single_hop")
+    step = PlannedStepFn(tok, item.question, item.golds[0], n_rounds=1)
+    for condition in ("no_retrieval", "oracle_context"):
+        record = nb.score_record(item, nb.run_item(
+            item, ctx_for(tok, step), condition))
+        assert record["answer"].strip(), condition
+        assert record["correct"], condition
+        assert record["n_queries"] == 1, condition
+
+
+def test_control_miss_text_never_grounds_an_answer(tok, synthetic_items):
+    """Answering with the miss text itself is unsupported, not grounded."""
+    item = episode_item(synthetic_items, "single_hop")
+    step = PlannedStepFn(tok, item.question, nb.NO_RESULTS_TEXT, n_rounds=1)
+    record = nb.score_record(item, nb.run_item(
+        item, ctx_for(tok, step), "no_retrieval"))
+    assert nb.NO_RESULTS_TEXT in record["answer"]
     assert record["evidence_tokens"] == 0
     assert not record["answer_in_evidence"]
+
+
+def test_empty_results_are_counted_apart_from_served_rounds(
+        tok, synthetic_items):
+    """The controls' query habit shows up without inflating rounds served."""
+    item = episode_item(synthetic_items, "single_hop")
+    step = PlannedStepFn(tok, item.question, item.golds[0], n_rounds=1)
+    served = nb.aggregate([nb.score_record(item, nb.run_item(
+        item, ctx_for(tok, step), "retrieval"))])
+    control = nb.aggregate([nb.score_record(item, nb.run_item(
+        item, ctx_for(tok, step), "no_retrieval"))])
+    assert served["mean_rounds"] == 1 and served["mean_empty_results"] == 0
+    assert control["mean_rounds"] == 0 and control["mean_empty_results"] == 1
+    assert control["mean_queries"] == 1
+
+
+def test_reaggregate_rebuilds_blocks_from_records(tok, synthetic_items):
+    """Metrics are a pure function of the records, so they can be rebuilt."""
+    items = synthetic_items[:4]
+    step = PlannedStepFn(tok, None, items[0].golds[0], n_rounds=1)
+    results = nb.run_bench(items, ctx_for(tok, step))
+    assert nb.reaggregate(results)["by_condition"] == results["by_condition"]
+
+    flipped = json.loads(json.dumps(results))
+    for record in flipped["records"]:
+        record["correct"] = False
+    rebuilt = nb.reaggregate(flipped)
+    assert rebuilt["by_condition"]["retrieval"]["pooled"]["accuracy"] == 0.0
+    assert rebuilt["records"] == flipped["records"]
+
+
+def test_empty_result_index_answers_every_query():
+    index = nb.EmptyResultIndex()
+    assert index.top("anything") == 0
+    assert index.top("anything", exclude={0}) == 0
+    assert index.doc_texts == [nb.NO_RESULTS_TEXT]
 
 
 def test_oracle_context_puts_the_gold_document_in_the_prompt(

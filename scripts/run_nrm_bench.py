@@ -31,7 +31,7 @@ from src.evals.nrm_bench import (BudgetedSearchClient, RunnerContext,
                                  build_scrubbed_web_suite,
                                  build_synthetic_suite, format_report,
                                  load_real_web_suite, make_web_index_factory,
-                                 run_bench)
+                                 reaggregate, run_bench, subsample)
 
 HELDOUT_WORLDGEN_SEED = 20260901
 HELDOUT_SCRUB_SEED = 20260901
@@ -101,30 +101,40 @@ def prior_live_calls(usage_path: Path) -> int:
 
 
 def build_items(args, tokenizer) -> list:
+    """The three suites, each cut to its requested size.
+
+    Caps go through subsample rather than a head slice so a smaller run
+    still holds every task family and category the full suite has, the
+    unanswerable items included.
+    """
     from src.worldgen.engine import generate_episodes
 
     items = []
     if "synthetic" in args.suites:
         episodes = list(generate_episodes(args.worldgen_seed,
                                           args.n_episodes))
-        suite = build_synthetic_suite(episodes)
-        items.extend(suite[:args.n_synthetic] if args.n_synthetic else suite)
+        items.extend(subsample(build_synthetic_suite(episodes),
+                               args.n_synthetic, seed=args.seed))
     if "scrubbed" in args.suites:
         bundles = parquet_bundles(args.parquet_dir, args.n_bundles,
                                   args.scrub_seed)
-        suite = build_scrubbed_web_suite(bundles, seed=args.scrub_seed)
-        items.extend(suite[:args.n_scrubbed] if args.n_scrubbed else suite)
+        items.extend(subsample(
+            build_scrubbed_web_suite(bundles, seed=args.scrub_seed),
+            args.n_scrubbed, seed=args.seed))
     if "real" in args.suites:
-        suite = load_real_web_suite(args.real_web_path)
-        items.extend(suite[:args.n_real] if args.n_real else suite)
+        items.extend(subsample(load_real_web_suite(args.real_web_path),
+                               args.n_real, seed=args.seed))
     return items
 
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="python -m scripts.run_nrm_bench")
-    parser.add_argument("--ckpt", required=True)
-    parser.add_argument("--tokenizer", required=True)
+    parser.add_argument("--ckpt")
+    parser.add_argument("--tokenizer")
     parser.add_argument("--out-dir", required=True)
+    parser.add_argument("--rescore-from", default=None,
+                        help="rebuild the metric blocks and the report from "
+                             "an existing results json, no model needed")
     parser.add_argument("--model-name", default="model")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--suites", nargs="+",
@@ -152,11 +162,25 @@ def main(argv=None) -> int:
     parser.add_argument("--seed", type=int, default=0)
     args = parser.parse_args(argv)
 
-    if "scrubbed" in args.suites and not args.parquet_dir:
-        raise SystemExit("--parquet-dir is required for the scrubbed suite")
-
     out_dir = Path(args.out_dir).expanduser()
     out_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.rescore_from:
+        with open(Path(args.rescore_from).expanduser()) as fh:
+            results = reaggregate(json.load(fh), tuple(args.conditions))
+        name = results.get("model", args.model_name)
+        with open(out_dir / f"results-{name}.json", "w") as fh:
+            json.dump(results, fh, indent=1)
+        report = format_report(results)
+        with open(out_dir / f"report-{name}.txt", "w") as fh:
+            fh.write(report + "\n")
+        print(report)
+        return 0
+
+    if not args.ckpt or not args.tokenizer:
+        raise SystemExit("--ckpt and --tokenizer are required to run a model")
+    if "scrubbed" in args.suites and not args.parquet_dir:
+        raise SystemExit("--parquet-dir is required for the scrubbed suite")
     rows_path = out_dir / f"rows-{args.model_name}.jsonl"
     usage_path = out_dir / "exa-usage.jsonl"
     cache_path = out_dir / "exa-cache.json"

@@ -64,10 +64,16 @@ Conditions
 All three run through one interface, run_item(item, runner_ctx, condition):
 
 retrieval       the knowledge source is reachable only through the loop
-no_retrieval    same prompt, no knowledge source; a <|retrieve|> stops the
-                loop unserved, so the answer comes from the weights alone
+no_retrieval    same prompt, no knowledge source; a query is answered with
+                an explicit miss, so the answer comes from the weights
 oracle_context  the gold documents are pasted into the context before the
-                question and no retrieval is served
+                question, and queries again come back empty
+
+The controls answer a query rather than refusing it because the decode
+loop ends the moment a <|retrieve|> arrives with nothing behind it, and
+these checkpoints are trained to retrieve before answering. An unserved
+control would therefore score zero for every model whatever it knows, and
+both diagnostic gaps would collapse. See EmptyResultIndex.
 
 Determinism: decoding is greedy, suite construction is seeded, and the web
 tier is disk-cached and budget-capped, so a rerun over a warm cache issues
@@ -76,6 +82,7 @@ no live searches and reproduces the previous numbers exactly.
 
 import json
 import os
+import random
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -198,6 +205,105 @@ def number_forms(n: int) -> list:
     if 0 <= n < len(NUMBER_WORDS):
         forms.append(NUMBER_WORDS[n])
     return forms
+
+
+def stratum_key(item: BenchItem) -> tuple:
+    """The split a subsample has to keep proportional: suite and task.
+
+    These are the buckets the metric tables report, so a slice that
+    distorts them reports numbers that do not stand for the full suite.
+    """
+    return (item.suite, item.task)
+
+
+def facet_key(item: BenchItem) -> str:
+    """The generator's own label for what an item is about.
+
+    A category for the authored real-web questions, a world domain for the
+    episode suites. Subject spread inside a task, not a reported split.
+    """
+    return item.meta.get("category") or item.meta.get("domain") or ""
+
+
+def _allocate(sizes: dict, n: int) -> dict:
+    """Largest-remainder split of n slots over strata, floored at one each.
+
+    Every stratum that fits gets a slot before proportionality is served,
+    so a small slice still covers every task. With more strata than slots
+    the largest strata take them.
+    """
+    names = sorted(sizes)
+    if len(names) >= n:
+        return {s: 1 for s in sorted(names, key=lambda s: (-sizes[s], s))[:n]}
+    total = sum(sizes.values())
+    exact = {s: sizes[s] * n / total for s in names}
+    alloc = {s: min(sizes[s], max(1, int(exact[s]))) for s in names}
+    while sum(alloc.values()) < n:
+        room = [s for s in names if alloc[s] < sizes[s]]
+        if not room:
+            break
+        alloc[max(room, key=lambda s: (exact[s] - alloc[s], s))] += 1
+    while sum(alloc.values()) > n:
+        room = [s for s in names if alloc[s] > 1]
+        if not room:
+            break
+        alloc[min(room, key=lambda s: (exact[s] - alloc[s], s))] -= 1
+    return alloc
+
+
+def subsample(items, n: int, seed: int = 0, key=stratum_key,
+              facet=facet_key) -> list:
+    """At most n items, cut so the slice still stands for the full suite.
+
+    A head slice is the wrong way to shrink a suite. Items arrive grouped
+    by generator, so the first n of them cover a few domains and drop whole
+    task families. The authored real-web file keeps its unanswerable
+    questions last, so any head slice shorter than the file scores
+    abstention on nothing at all.
+
+    Two levels. Slots go to (suite, task) strata by largest remainder with
+    one slot floored per stratum, which holds the reported splits near
+    their true proportions and still covers every task. Inside a stratum
+    the quota is dealt round-robin across facets, so categories and world
+    domains spread as evenly as the quota allows instead of clumping.
+    Selection is a seeded shuffle and the result keeps the input order, so
+    a slice is reproducible and reads in suite order.
+    """
+    items = list(items)
+    if not n or n >= len(items):
+        return items
+
+    groups: dict = {}
+    for index, item in enumerate(items):
+        groups.setdefault(key(item), []).append(index)
+    alloc = _allocate({s: len(v) for s, v in groups.items()}, n)
+
+    rng = random.Random(seed)
+    chosen: set = set()
+    for name in sorted(alloc):
+        by_facet: dict = {}
+        for index in groups[name]:
+            by_facet.setdefault(facet(items[index]), []).append(index)
+        queues = []
+        for label in sorted(by_facet):
+            queue = list(by_facet[label])
+            rng.shuffle(queue)
+            queues.append(queue)
+        rng.shuffle(queues)
+        taken = 0
+        while taken < alloc[name]:
+            progressed = False
+            for queue in queues:
+                if not queue:
+                    continue
+                chosen.add(queue.pop())
+                taken += 1
+                progressed = True
+                if taken == alloc[name]:
+                    break
+            if not progressed:
+                break
+    return [item for i, item in enumerate(items) if i in chosen]
 
 
 # ------------------------------------------------- synthetic world suite
@@ -604,6 +710,37 @@ def load_real_web_suite(path=None, limit: int | None = None) -> list:
 # ------------------------------------------------------- web plumbing
 
 
+NO_RESULTS_TEXT = "no results"
+
+
+class EmptyResultIndex:
+    """Serving surface for the controls: every query comes back empty.
+
+    The controls have no knowledge source, but they still have to let the
+    model finish. src/evals/interactive.py ends the decode the moment a
+    <|retrieve|> arrives with nothing behind it, and these checkpoints are
+    trained to retrieve before answering, so an unserved control scores
+    zero for every model whatever it knows: the answer slot is never
+    reached. That measures the retrieve habit, not extraction or memory,
+    and it would flatten both diagnostic gaps to nothing.
+
+    Answering the query with an explicit miss is the honest version of no
+    knowledge source. The model asks, is told there is nothing, and then
+    has to answer or decline from what it already holds, which under
+    oracle_context is the gold document sitting in its context. The miss
+    text is never counted as evidence, so grounding for a control stays
+    zero by construction rather than by accident.
+    """
+
+    def __init__(self, text: str = NO_RESULTS_TEXT):
+        self.doc_texts = [text]
+
+    def top(self, query: str, exclude=()) -> int:
+        # exclude is ignored on purpose: the miss is the answer to every
+        # query, and max_rounds is what bounds the loop.
+        return 0
+
+
 class ExaBudgetExhausted(RuntimeError):
     """Raised before a live search would exceed the run's budget."""
 
@@ -718,10 +855,16 @@ def build_prompt(item: BenchItem, tokenizer, condition: str) -> list:
 def run_item(item: BenchItem, ctx: RunnerContext, condition: str) -> dict:
     """Answer one item under one condition and return the raw record.
 
-    retrieval binds the knowledge source (episode documents through the
-    training BM25 oracle, or the web tier index for web items).
-    no_retrieval and oracle_context bind nothing, so a <|retrieve|> stops
-    the loop unserved and the stop_reason records the attempt.
+    retrieval binds the knowledge source: the episode documents through the
+    training BM25 oracle, or the web tier index for web items. The two
+    controls bind an EmptyResultIndex instead, so a query is answered with
+    an explicit miss and the model still reaches its answer; nothing that
+    index serves counts as evidence.
+
+    n_queries counts what the model asked for under any condition, which is
+    the retrieve habit. n_rounds counts only the rounds that returned real
+    evidence, so it is zero for a control by construction and the retrieval
+    efficiency metrics stay about retrieval.
     """
     if condition not in CONDITIONS:
         raise ValueError(f"unknown condition {condition!r}")
@@ -730,13 +873,16 @@ def run_item(item: BenchItem, ctx: RunnerContext, condition: str) -> dict:
 
     documents = []
     index = None
-    if condition == "retrieval":
+    serving = condition == "retrieval"
+    if serving:
         if item.web:
             if ctx.web_index_factory is None:
                 raise ValueError("web items need a web_index_factory")
             index = ctx.web_index_factory()
         else:
             documents = item.documents
+    else:
+        index = EmptyResultIndex()
 
     start = time.monotonic()
     out = generate_with_retrieval(
@@ -748,7 +894,7 @@ def run_item(item: BenchItem, ctx: RunnerContext, condition: str) -> dict:
     rounds = []
     for served in out["rounds"]:
         meta = {}
-        if index is not None:
+        if serving and index is not None:
             meta = index.doc_meta[served["doc_index"]]
         rounds.append({
             "query": served["query"],
@@ -757,6 +903,7 @@ def run_item(item: BenchItem, ctx: RunnerContext, condition: str) -> dict:
             "n_chunk_tokens": served["n_chunk_tokens"],
             "url": meta.get("url", ""),
             "title": meta.get("title", ""),
+            "served": bool(serving),
             "chunk": served["chunk"][:CHUNK_PREVIEW_CHARS],
             "chunk_full": served["chunk"],
         })
@@ -765,19 +912,24 @@ def run_item(item: BenchItem, ctx: RunnerContext, condition: str) -> dict:
         evidence_texts = list(item.oracle_docs)
         evidence_tokens = sum(len(tokenizer.encode(t))
                               for t in item.oracle_docs)
-    else:
+    elif serving:
         evidence_texts = [r["chunk_full"] for r in rounds]
         evidence_tokens = sum(r["n_chunk_tokens"] for r in rounds)
+    else:
+        # The miss text is not evidence and must never ground an answer.
+        evidence_texts = []
+        evidence_tokens = 0
 
-    unserved = int(out["stop_reason"] == "max_rounds")
+    n_queries = out["n_rounds"] + int(out["stop_reason"] == "max_rounds")
     return {
         "item_id": item.item_id, "suite": item.suite, "task": item.task,
         "condition": condition, "question": item.question,
         "golds": list(item.golds), "answer": out["answer_text"],
         "stop_reason": out["stop_reason"],
-        "n_rounds": out["n_rounds"],
-        "n_queries": out["n_rounds"] + unserved,
-        "unserved_retrieve": bool(unserved),
+        "n_rounds": out["n_rounds"] if serving else 0,
+        "n_queries": n_queries,
+        "n_empty_results": 0 if serving else out["n_rounds"],
+        "unserved_retrieve": bool(out["stop_reason"] == "max_rounds"),
         "evidence_tokens": evidence_tokens,
         "evidence_texts": evidence_texts,
         "n_generated": out["n_generated"],
@@ -878,6 +1030,8 @@ def aggregate(records) -> dict:
                                      for r in answerable),
         "mean_rounds": _mean(r["n_rounds"] for r in records),
         "mean_queries": _mean(r["n_queries"] for r in records),
+        "mean_empty_results": _mean(r.get("n_empty_results", 0)
+                                    for r in records),
         "share_any_round": _mean(bool(r["n_rounds"]) for r in records),
         "share_unserved_retrieve": _mean(r["unserved_retrieve"]
                                          for r in records),
@@ -988,13 +1142,15 @@ _REPORT_ROWS = [
     ("answer in evidence", "answer_in_evidence", "{:.3f}"),
     ("grounded accuracy", "grounded_accuracy", "{:.3f}"),
     ("unsupported correct", "unsupported_correct", "{:.3f}"),
-    ("mean rounds", "mean_rounds", "{:.2f}"),
-    ("mean queries", "mean_queries", "{:.2f}"),
+    ("mean rounds served", "mean_rounds", "{:.2f}"),
+    ("mean queries issued", "mean_queries", "{:.2f}"),
+    ("empty results served", "mean_empty_results", "{:.2f}"),
     ("evidence tokens", "mean_evidence_tokens", "{:.1f}"),
     ("ev tokens per correct", "evidence_tokens_per_correct", "{:.1f}"),
     ("abstention (unans)", "abstention_rate_unanswerable", "{:.3f}"),
     ("explicit abstention", "explicit_abstention_unanswerable", "{:.3f}"),
     ("confabulation", "confabulation_rate", "{:.3f}"),
+    ("withheld answer given", "trap_rate_unanswerable", "{:.3f}"),
     ("empty answers", "empty_answer_rate", "{:.3f}"),
     ("over-abstention", "over_abstention_answerable", "{:.3f}"),
     ("seconds per item", "mean_seconds", "{:.2f}"),
@@ -1107,6 +1263,30 @@ def _condition_gaps(results: dict) -> dict:
         "oracle_minus_no_retrieval":
             round(acc["oracle_context"] - acc["no_retrieval"], 4),
     }
+
+
+def reaggregate(results: dict, conditions=CONDITIONS) -> dict:
+    """Recompute every metric block from the records already in results.
+
+    Aggregation is a pure function of the scored records, so a run's
+    numbers can be rebuilt after a metric is added or a rate is redefined
+    without paying for the decode again. Only the blocks are replaced; the
+    records, items, and provenance fields are left alone.
+    """
+    out = dict(results)
+    records = out.get("records", [])
+    out["by_condition"] = {}
+    for condition in conditions:
+        subset = [r for r in records if r["condition"] == condition]
+        if not subset:
+            continue
+        out["by_condition"][condition] = {
+            "pooled": aggregate(subset),
+            "by_suite": by_key(subset, "suite"),
+            "by_task": by_key(subset, "task"),
+        }
+    out["gaps"] = _condition_gaps(out)
+    return out
 
 
 def strip_records(results: dict, keep: int = 0) -> dict:
