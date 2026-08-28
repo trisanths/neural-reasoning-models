@@ -1,0 +1,545 @@
+{
+  "seed": 101,
+  "reasoner": "policy",
+  "checkpoint": "/home/ec2-user/rlckpt/rlsimple-503-921-final.pt",
+  "temperature": 0.7,
+  "proofs": {
+    "n": 24,
+    "all_proofs_pass": true,
+    "mean_required_notions": 3.1666666666666665,
+    "min_choices": 3
+  },
+  "rule_test": {
+    "L0": {
+      "n": 8,
+      "textbook": 0.0,
+      "wrong_chapter": 0.0,
+      "blank": 0.0
+    },
+    "L1": {
+      "n": 8,
+      "textbook": 0.125,
+      "wrong_chapter": 0.0,
+      "blank": 0.0
+    },
+    "L2": {
+      "n": 8,
+      "textbook": 0.0,
+      "wrong_chapter": 0.0,
+      "blank": 0.0
+    },
+    "ch-0101000": {
+      "n": 12,
+      "textbook": 0.08333333333333333,
+      "wrong_chapter": 0.0,
+      "blank": 0.0
+    },
+    "ch-0101001": {
+      "n": 12,
+      "textbook": 0.0,
+      "wrong_chapter": 0.0,
+      "blank": 0.0
+    }
+  },
+  "gap_calibration": {
+    "L0/empty": {
+      "n": 8,
+      "fired_and_blocked": 8,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 0,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 1.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L0/partial": {
+      "n": 8,
+      "fired_and_blocked": 0,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 7,
+      "silent_not_blocked": 1,
+      "recall_on_blocked": 0.0,
+      "false_alarm_when_free": 0.0,
+      "n_blocked": 7,
+      "n_free": 1
+    },
+    "L0/full": {
+      "n": 8,
+      "fired_and_blocked": 0,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 8,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 0.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L1/empty": {
+      "n": 8,
+      "fired_and_blocked": 8,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 0,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 1.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L1/partial": {
+      "n": 8,
+      "fired_and_blocked": 8,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 0,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 1.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L1/full": {
+      "n": 8,
+      "fired_and_blocked": 0,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 8,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 0.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L2/empty": {
+      "n": 8,
+      "fired_and_blocked": 8,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 0,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 1.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L2/partial": {
+      "n": 8,
+      "fired_and_blocked": 8,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 0,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 1.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    },
+    "L2/full": {
+      "n": 8,
+      "fired_and_blocked": 0,
+      "fired_not_blocked": 0,
+      "silent_and_blocked": 8,
+      "silent_not_blocked": 0,
+      "recall_on_blocked": 0.0,
+      "false_alarm_when_free": null,
+      "n_blocked": 8,
+      "n_free": 0
+    }
+  },
+  "loop": {
+    "n_traces": 24,
+    "by_level": {
+      "0": {
+        "n": 8,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.125,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 0.875,
+        "gate_withheld_a_right_answer": 0.125,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 8,
+          "node_recall": 1.0,
+          "node_precision": 1.0,
+          "edge_recall": 1.0,
+          "edge_precision": 1.0,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.0,
+          "n_found": 1.0,
+          "n_required": 1.0,
+          "n_queries": 1.0,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 0.875,
+            "top1_required": 0.25,
+            "reached_target": 0.875,
+            "mean_steps_to_target": 2.2857142857142856
+          },
+          "structural": {
+            "bulk_hit_rate": 1.0,
+            "top1_required": 1.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          }
+        },
+        "card_chars": 294.875,
+        "raw_chars": 1907.125,
+        "model_calls": 5.0
+      },
+      "1": {
+        "n": 8,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.0,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 1.0,
+        "gate_withheld_a_right_answer": 0.0,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 8,
+          "node_recall": 1.0,
+          "node_precision": 0.9166666666666666,
+          "edge_recall": 1.0,
+          "edge_precision": 0.875,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 1.0,
+          "n_found": 3.0,
+          "n_required": 2.75,
+          "n_queries": 3.0,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 0.7083333333333333,
+            "top1_required": 0.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          },
+          "structural": {
+            "bulk_hit_rate": 0.7083333333333333,
+            "top1_required": 1.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          }
+        },
+        "card_chars": 872.0,
+        "raw_chars": 5868.0,
+        "model_calls": 16.0
+      },
+      "2": {
+        "n": 8,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.0,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 1.0,
+        "gate_withheld_a_right_answer": 0.0,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 8,
+          "node_recall": 1.0,
+          "node_precision": 0.8928571428571428,
+          "edge_recall": 1.0,
+          "edge_precision": 0.9375,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.8452380952380952,
+          "n_found": 6.5,
+          "n_required": 5.75,
+          "n_queries": 7.5,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 1.0,
+            "top1_required": 0.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 2.125
+          },
+          "structural": {
+            "bulk_hit_rate": 0.7214285714285714,
+            "top1_required": 1.0,
+            "reached_target": 0.75,
+            "mean_steps_to_target": 3.3333333333333335
+          }
+        },
+        "card_chars": 1860.5,
+        "raw_chars": 12156.0,
+        "model_calls": 33.0
+      }
+    },
+    "by_chapter": {
+      "ch-0101000": {
+        "n": 12,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.08333333333333333,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 0.9166666666666666,
+        "gate_withheld_a_right_answer": 0.08333333333333333,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 12,
+          "node_recall": 1.0,
+          "node_precision": 0.9484126984126985,
+          "edge_recall": 1.0,
+          "edge_precision": 0.9583333333333334,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.6150793650793651,
+          "n_found": 3.5,
+          "n_required": 3.25,
+          "n_queries": 3.8333333333333335,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 0.8472222222222222,
+            "top1_required": 0.08333333333333333,
+            "reached_target": 0.9166666666666666,
+            "mean_steps_to_target": 1.5454545454545454
+          },
+          "structural": {
+            "bulk_hit_rate": 0.8591269841269842,
+            "top1_required": 1.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 2.1666666666666665
+          }
+        },
+        "card_chars": 1014.9166666666666,
+        "raw_chars": 6644.166666666667,
+        "model_calls": 18.0
+      },
+      "ch-0101001": {
+        "n": 12,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.0,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 1.0,
+        "gate_withheld_a_right_answer": 0.0,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 12,
+          "node_recall": 1.0,
+          "node_precision": 0.9246031746031745,
+          "edge_recall": 1.0,
+          "edge_precision": 0.9166666666666666,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.6150793650793651,
+          "n_found": 3.5,
+          "n_required": 3.0833333333333335,
+          "n_queries": 3.8333333333333335,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 0.875,
+            "top1_required": 0.08333333333333333,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 2.0
+          },
+          "structural": {
+            "bulk_hit_rate": 0.7607142857142857,
+            "top1_required": 1.0,
+            "reached_target": 0.8333333333333334,
+            "mean_steps_to_target": 1.0
+          }
+        },
+        "card_chars": 1003.3333333333334,
+        "raw_chars": 6643.25,
+        "model_calls": 18.0
+      }
+    },
+    "by_level_and_phrasing": {
+      "L0/named": {
+        "n": 8,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.125,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 0.875,
+        "gate_withheld_a_right_answer": 0.125,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 8,
+          "node_recall": 1.0,
+          "node_precision": 1.0,
+          "edge_recall": 1.0,
+          "edge_precision": 1.0,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.0,
+          "n_found": 1.0,
+          "n_required": 1.0,
+          "n_queries": 1.0,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 0.875,
+            "top1_required": 0.25,
+            "reached_target": 0.875,
+            "mean_steps_to_target": 2.2857142857142856
+          },
+          "structural": {
+            "bulk_hit_rate": 1.0,
+            "top1_required": 1.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          }
+        },
+        "card_chars": 294.875,
+        "raw_chars": 1907.125,
+        "model_calls": 5.0
+      },
+      "L1/named": {
+        "n": 8,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.0,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 1.0,
+        "gate_withheld_a_right_answer": 0.0,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 8,
+          "node_recall": 1.0,
+          "node_precision": 0.9166666666666666,
+          "edge_recall": 1.0,
+          "edge_precision": 0.875,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 1.0,
+          "n_found": 3.0,
+          "n_required": 2.75,
+          "n_queries": 3.0,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 0.7083333333333333,
+            "top1_required": 0.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          },
+          "structural": {
+            "bulk_hit_rate": 0.7083333333333333,
+            "top1_required": 1.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          }
+        },
+        "card_chars": 872.0,
+        "raw_chars": 5868.0,
+        "model_calls": 16.0
+      },
+      "L2/named": {
+        "n": 4,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.0,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 1.0,
+        "gate_withheld_a_right_answer": 0.0,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 4,
+          "node_recall": 1.0,
+          "node_precision": 1.0,
+          "edge_recall": 1.0,
+          "edge_precision": 1.0,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.8333333333333334,
+          "n_found": 6.0,
+          "n_required": 6.0,
+          "n_queries": 7.0,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 1.0,
+            "top1_required": 0.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          },
+          "structural": {
+            "bulk_hit_rate": 1.0,
+            "top1_required": 1.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 1.0
+          }
+        },
+        "card_chars": 1860.5,
+        "raw_chars": 11029.5,
+        "model_calls": 30.0
+      },
+      "L2/unnamed": {
+        "n": 4,
+        "baseline_accuracy": 0.0,
+        "after_acquisition_accuracy": 0.0,
+        "gated_accuracy": 0.0,
+        "abstain_rate": 1.0,
+        "gap_fire_rate": 1.0,
+        "gap_fire_rate_when_blocked": 1.0,
+        "gap_fire_rate_when_not_blocked": null,
+        "gate_saved_a_wrong_answer": 1.0,
+        "gate_withheld_a_right_answer": 0.0,
+        "gate_pass_rate": 0.0,
+        "curriculum": {
+          "n": 4,
+          "node_recall": 1.0,
+          "node_precision": 0.7857142857142857,
+          "edge_recall": 1.0,
+          "edge_precision": 0.875,
+          "order_valid": 1.0,
+          "targeted_query_hit_rate": 0.8571428571428571,
+          "n_found": 7.0,
+          "n_required": 5.5,
+          "n_queries": 8.0,
+          "n_misses": 0.0
+        },
+        "retrieval": {
+          "naive": {
+            "bulk_hit_rate": 1.0,
+            "top1_required": 0.0,
+            "reached_target": 1.0,
+            "mean_steps_to_target": 3.25
+          },
+          "structural": {
+            "bulk_hit_rate": 0.44285714285714284,
+            "top1_required": 1.0,
+            "reached_target": 0.5,
+            "mean_steps_to_target": 8.0
+          }
+        },
+        "card_chars": 1860.5,
+        "raw_chars": 13282.5,
+        "model_calls": 36.0
+      }
+    },
+    "blockage_counts": {
+      "missing_definition": 24
+    }
+  },
+  "wall_seconds": 315.7
+}

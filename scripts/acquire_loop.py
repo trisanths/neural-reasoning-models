@@ -183,6 +183,8 @@ def main() -> int:
     ap.add_argument("--per-level", type=int, default=6)
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--max-new-tokens", type=int, default=64)
+    ap.add_argument("--max-rounds", type=int, default=4)
+    ap.add_argument("--max-len", type=int, default=1024)
     ap.add_argument("--batch-size", type=int, default=32)
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--reasoner", default="policy",
@@ -211,7 +213,8 @@ def main() -> int:
     if args.reasoner == "policy":
         reasoner = PolicyReasoner(
             args.checkpoint, args.tokenizer, temperature=args.temperature,
-            max_new_tokens=args.max_new_tokens, batch_size=args.batch_size)
+            max_new_tokens=args.max_new_tokens, batch_size=args.batch_size,
+            max_rounds=args.max_rounds, max_len=args.max_len)
         reasoner.keep_transcripts = args.transcripts
     elif args.reasoner == "symbolic":
         reasoner = SymbolicReasoner()
