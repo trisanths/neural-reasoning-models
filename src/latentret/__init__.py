@@ -59,6 +59,18 @@ Four pieces, in the order they run.
    i + 1 of the core. Nothing is appended to the token stream: the retrieved
    material exists only as a change to the recurrent state.
 
+5. The readout. Two of them, and the difference turned out to matter more than
+   anything else here. The vocabulary head has to generate the answer, which for
+   an invented word the model has never emitted is the hard version, and at this
+   scale it never learns it: accuracy stays at 0.003 while retrieval is already
+   well above chance. CopyReadout instead scores every token in the store
+   against the recurrent state and folds those scores into the vocabulary
+   logits, which is selection rather than generation and is what the pointer
+   head in src/train/pointer.py found works. It is biased by the same log p_i(d)
+   that biases the injection, so it cannot reach a page the retriever gave no
+   mass to, and under gate_copy it is multiplied by the gate as well, so no
+   answer survives a shut gate.
+
 The objective, on supervised episodes from src/skillacq where the page that
 answers the question is known:
 
@@ -78,9 +90,19 @@ then *detect* that condition from the latent state is the thing being measured,
 and there is an ablation with the retrieval term removed entirely so the gate is
 driven by the task loss alone.
 
-Scale is deliberately tiny: a ~1.5M parameter model, a closed word level
-vocabulary, and the three computation-free rule families from
+gamma is not a tidiness term and its value is not a detail. The noisy-or over
+six iterations saturates within a couple of hundred steps, after which it has no
+gradient left, so everything that happens to the gate afterwards is the budget
+acting against a term that has stopped pushing. At gamma 0.02 nothing happens
+and the gate does not discriminate at all. At gamma 0.25 the same run separates
+the two conditions completely. The asymmetry is the mechanism; gamma is what
+gives it force.
+
+Scale is deliberately tiny: a 1.4M parameter model, a closed word level
+vocabulary of 701 types, and the three computation-free rule families from
 src/skillacq/simple.py, where reading the rule is the entire task and no
 arithmetic stands between reading and answering. This is a mechanism existence
 experiment. It is not competitive with anything and is not meant to be.
+
+Run it with scripts/latentret_run.py and read it with scripts/latentret_report.py.
 """
