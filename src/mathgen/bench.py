@@ -386,6 +386,9 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
     indexes = {uid: BM25(u.library()) for uid, u in ps.universes.items()}
     hits: dict = {c: defaultdict(list) for c in conditions}
     chap: dict = {c: defaultdict(list) for c in conditions}
+    # A zero in the agent condition means one of two different things, so the
+    # report says whether the model ever issued a query at all.
+    searched: dict = defaultdict(list)
 
     for p in ps.problems:
         u = ps.universes[p.universe_id]
@@ -405,6 +408,8 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
                 extra = {"queries": queries}
             ok = is_correct(raw, p.answer)
             hits[cond][p.level].append(ok)
+            if cond == "acquisition":
+                searched[p.level].append(bool(extra.get("queries")))
             for cid in p.target_chapters:
                 chap[cond][cid].append(ok)
             if record is not None:
@@ -419,6 +424,9 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
 
     return {
         "per_level": {c: block(hits[c]) for c in conditions},
+        "acquisition_search_rate": {
+            LEVEL_NAMES[lv]: sum(v) / len(v) if v else 0.0
+            for lv, v in sorted(searched.items())},
         "per_chapter": {c: {cid: {"n": len(v),
                                   "accuracy": sum(v) / len(v) if v else 0.0}
                             for cid, v in sorted(chap[c].items())}

@@ -134,9 +134,16 @@ def _klein_four():
     return table
 
 
-def _divisor_lattice_6():
-    """Divisors of 6 under gcd and lcm, a distributive lattice on four points."""
-    els = [1, 2, 3, 6]
+def _divisor_lattice(n: int):
+    """Divisors of n under gcd and lcm, a distributive lattice.
+
+    Unlike a chain, a lattice on the divisors of 6 or 12 can send a pair to a
+    third element: the meet of 2 and 3 is 1. That matters, because an operation
+    that always returns one of its own arguments makes every evaluation
+    exercise answerable by copying, and the necessity filter throws all of them
+    away. Chain meets and joins are kept as second operations only.
+    """
+    els = [d for d in range(1, n + 1) if n % d == 0]
     idx = {v: k for k, v in enumerate(els)}
 
     def gcd(a, b):
@@ -163,56 +170,52 @@ def build_catalogue() -> list[dict]:
     An explicit catalogue rather than rejection sampling, because the sibling
     construction has to ask for every model of a given carrier size and
     operation count and must never come up empty.
+
+    Two families are deliberately barred from the first operation: chain meets
+    and joins, and the two projections. Each of them always returns one of its
+    own arguments, so every evaluation over them is answerable by copying and
+    the necessity filter in `exercises` discards the lot. They appear as second
+    operations, where they still carry absorption, order compatibility and the
+    rest of their structure.
     """
     out: list[dict] = []
+
+    def add(size, primary, secondary, tag):
+        out.append({"size": size, "primary": primary, "secondary": secondary,
+                    "tag": tag})
+
     for n in (3, 4, 5, 6):
-        out.append({"size": n, "primary": _cyclic(n), "secondary": None,
-                    "tag": f"cyclic_{n}"})
-        out.append({"size": n, "primary": _chain_meet(n), "secondary": None,
-                    "tag": f"chain_meet_{n}"})
-        out.append({"size": n, "primary": _chain_join(n), "secondary": None,
-                    "tag": f"chain_join_{n}"})
-        out.append({"size": n, "primary": _chain_meet(n), "secondary": _chain_join(n),
-                    "tag": f"chain_meet_join_{n}"})
-        out.append({"size": n, "primary": _chain_join(n), "secondary": _chain_meet(n),
-                    "tag": f"chain_join_meet_{n}"})
-        out.append({"size": n, "primary": _left_projection(n),
-                    "secondary": _chain_join(n), "tag": f"left_projection_{n}"})
-        out.append({"size": n, "primary": _right_projection(n),
-                    "secondary": _chain_meet(n), "tag": f"right_projection_{n}"})
-        out.append({"size": n, "primary": _left_projection(n), "secondary": None,
-                    "tag": f"left_projection_bare_{n}"})
-        out.append({"size": n, "primary": _right_projection(n), "secondary": None,
-                    "tag": f"right_projection_bare_{n}"})
-    for n in (4, 5, 6):
-        out.append({"size": n, "primary": _cyclic(n), "secondary": _mult_mod(n),
-                    "tag": f"ring_mod_{n}"})
-        out.append({"size": n, "primary": _mult_mod(n), "secondary": None,
-                    "tag": f"mult_mod_{n}"})
-        out.append({"size": n, "primary": _mult_mod(n), "secondary": _cyclic(n),
-                    "tag": f"mult_add_mod_{n}"})
-        out.append({"size": n, "primary": _truncated_difference(n),
-                    "secondary": _chain_join(n),
-                    "tag": f"truncated_difference_{n}"})
-        out.append({"size": n, "primary": _truncated_difference(n), "secondary": None,
-                    "tag": f"truncated_difference_bare_{n}"})
-        out.append({"size": n, "primary": _bounded_sum(n), "secondary": None,
-                    "tag": f"bounded_sum_{n}"})
-        out.append({"size": n, "primary": _bounded_sum(n), "secondary": _chain_meet(n),
-                    "tag": f"bounded_sum_meet_{n}"})
-    out.append({"size": 6, "primary": _symmetric_group_3(), "secondary": None,
-                "tag": "symmetric_3"})
-    out.append({"size": 4, "primary": _klein_four(), "secondary": None,
-                "tag": "klein_four"})
-    meet, join = _divisor_lattice_6()
-    out.append({"size": 4, "primary": meet, "secondary": join,
-                "tag": "divisor_lattice_6"})
-    out.append({"size": 4, "primary": join, "secondary": meet,
-                "tag": "divisor_lattice_6_dual"})
+        add(n, _cyclic(n), None, f"cyclic_{n}")
+        add(n, _mult_mod(n), None, f"mult_mod_{n}")
+        add(n, _bounded_sum(n), None, f"bounded_sum_{n}")
+        add(n, _truncated_difference(n), None, f"truncated_difference_{n}")
+        add(n, _cyclic(n), _mult_mod(n), f"ring_mod_{n}")
+        add(n, _mult_mod(n), _cyclic(n), f"mult_over_add_mod_{n}")
+        add(n, _cyclic(n), _chain_join(n), f"cyclic_with_join_{n}")
+        add(n, _mult_mod(n), _chain_meet(n), f"mult_with_meet_{n}")
+        add(n, _bounded_sum(n), _chain_meet(n), f"bounded_sum_with_meet_{n}")
+        add(n, _truncated_difference(n), _chain_join(n),
+            f"truncated_difference_with_join_{n}")
+        add(n, _cyclic(n), _left_projection(n), f"cyclic_with_left_{n}")
+        add(n, _bounded_sum(n), _right_projection(n), f"bounded_sum_with_right_{n}")
+
+    add(6, _symmetric_group_3(), None, "symmetric_3")
+    add(6, _symmetric_group_3(), _chain_join(6), "symmetric_3_with_join")
+    add(4, _klein_four(), None, "klein_four")
+    add(4, _klein_four(), _chain_meet(4), "klein_four_with_meet")
+
+    for n, size in ((6, 4), (12, 6)):
+        meet, join = _divisor_lattice(n)
+        add(size, meet, None, f"divisor_meet_{n}")
+        add(size, join, None, f"divisor_join_{n}")
+        add(size, meet, join, f"divisor_lattice_{n}")
+        add(size, join, meet, f"divisor_lattice_{n}_dual")
+
     meet, join = _powerset_lattice(2)
-    out.append({"size": 4, "primary": meet, "secondary": join, "tag": "powerset_2"})
-    out.append({"size": 4, "primary": join, "secondary": meet,
-                "tag": "powerset_2_dual"})
+    add(4, meet, None, "powerset_2_meet")
+    add(4, join, None, "powerset_2_join")
+    add(4, meet, join, "powerset_2")
+    add(4, join, meet, "powerset_2_dual")
     return out
 
 
