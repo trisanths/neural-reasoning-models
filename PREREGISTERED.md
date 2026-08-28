@@ -159,3 +159,47 @@ of that gap, the 0.680 rule-application result generalises across invented
 systems within a template and not across templates. The renderer swap that
 settles this is running; until it reports, the headline is stated with this
 bound attached.
+
+## H8, registered 2026-08-28, before the mathgen evaluation was run
+
+The invented-mathematics generator in `src/mathgen/` measures a property of its
+own exercises that this project had not been separating, and the separation is a
+direct test of the headline result.
+
+An exercise is labelled `stated_in_a_chapter` when the textbook prints its answer
+somewhere, and `derived_by_computation` when it does not. The label is measured
+rather than asserted: the generator renders the string the textbook would print
+if it stated this answer, and searches the prose for it. Over 100 universes the
+split is 2329 stated against 2061 derived. Both families pass an identical
+necessity check, because asking for the extension of a definition is retrieval
+while asking for the value of a nested expression is not.
+
+On this project those two families have already been measured far apart. The
+pointer head reached 0.514 on copy-heavy items against 0.021 for generation, and
+computing over an acquired rule scored 0.000 under six separate objectives.
+
+H8 predicts `stated_in_a_chapter` lands near 0.514 and `derived_by_computation`
+lands near 0.000.
+
+If instead the two families score close together and high, the 0.680
+rule-application result was measuring retrieval rather than rule application, and
+the project's headline claim is much weaker than it has been stated. If they
+score close together and low, the instrument is harder than the skillacq families
+in some way that is not the answer source, and the harness gate on
+`substitution_rule` and `threshold_rule` is what distinguishes those two cases.
+
+The evaluation is required to report the gate first, to split every figure by
+answer source, and never to report a number pooled across it. Pooling is the
+error the instrument exists to expose.
+
+### The dependency axis
+
+Each universe carries a theory graph whose longest path is six edges, and every
+exercise carries the chapters it requires. Serving only chapters 1..k and scoring
+exercises that need more than k measures whether a result can be carried across a
+dependency edge that cannot be looked up.
+
+If that curve shows the same total wall between one and two that the minimal
+composition repro found, the wall has appeared in a second, independently built
+instrument, which is much stronger than one repro. If it decays gradually
+instead, the two instruments disagree, and the disagreement is the finding.
