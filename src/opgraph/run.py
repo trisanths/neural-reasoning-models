@@ -106,7 +106,7 @@ def _probes(arity: int):
     return out
 
 
-def induce_worlds(gen: Generator, worlds: dict, max_new: int = 200,
+def induce_worlds(gen: Generator, worlds: dict, max_new: int = 288,
                   progress: int = 0) -> dict:
     """Induce every page of every world in one batched pass.
 
@@ -186,7 +186,7 @@ def score_direct(gen: Generator, items, oracle_page: bool, max_new: int = 24):
     return [_norm(o) == _norm(it.gold) for o, it in zip(outs, items)], outs
 
 
-def score_trace(gen: Generator, items, oracle_page: bool, max_new: int = 200):
+def score_trace(gen: Generator, items, oracle_page: bool, max_new: int = 256):
     """The written out baseline: same decomposition, no external executor."""
     prompts = [trace_prompt(it.world, it.text,
                             set(it.pages) if oracle_page else None)
@@ -196,7 +196,7 @@ def score_trace(gen: Generator, items, oracle_page: bool, max_new: int = 200):
 
 
 def score_planned(gen: Generator, items, ops_by_world: dict,
-                  use_gold_plan: bool, use_gold_ops: bool, max_new: int = 96):
+                  use_gold_plan: bool, use_gold_ops: bool, max_new: int = 144):
     """Run the plan path. Returns correctness, raw plans, and failure reasons."""
     need = [it for it in items if not use_gold_plan]
     plans: dict[int, str] = {}

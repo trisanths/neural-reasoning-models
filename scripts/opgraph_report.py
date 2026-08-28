@@ -24,6 +24,17 @@ ORDER = BASE_ORDER + [c + "@para" for c in BASE_ORDER
 HEADLINE = ["sequential", "breadth", "novel"]
 
 
+def wilson(k: int, n: int, z: float = 1.96):
+    """Wilson score interval, so a 150 item cell carries its own error bar."""
+    if n == 0:
+        return (0.0, 0.0)
+    p = k / n
+    d = 1 + z * z / n
+    c = p + z * z / (2 * n)
+    half = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5)
+    return (round((c - half) / d, 4), round((c + half) / d, 4))
+
+
 def breakdown_depth(row: dict, threshold: float) -> int:
     depths = sorted((int(d) for d in row), key=int)
     best = 0
@@ -64,7 +75,10 @@ def main() -> int:
             print(f"{c:24s} {cells}  {bd}")
             summary["breakdown_depth"].setdefault(kind, {})[c] = bd
             summary["accuracy"].setdefault(kind, {})[c] = {
-                str(d): row[str(d)]["acc"] for d in widths if str(d) in row}
+                str(d): {"acc": row[str(d)]["acc"], "n": row[str(d)]["n"],
+                         "ci": wilson(round(row[str(d)]["acc"] * row[str(d)]["n"]),
+                                      row[str(d)]["n"])}
+                for d in widths if str(d) in row}
 
     for style_key in ("induction", "induction@para"):
         ind = res.get(style_key)

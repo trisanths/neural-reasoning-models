@@ -129,8 +129,8 @@ def _binop_page(rng: random.Random, glyph: str, style: int = 0) -> Page:
             f"{assoc}.",
             f"Take the remainder on division by {m} at the end, so the value "
             f"reported always lies below {m}.",
-            f"Here {glyph} is a sign for a rule on pairs of whole numbers, and the "
-            f"rule is this. {rule[len('To evaluate '):].capitalize()}",
+            f"Here {glyph} is a sign for a rule on pairs of whole numbers, and "
+            f"the rule is this. Given {rule[len('To evaluate '):]}",
             f"For instance {pair[0][0]} {glyph} {pair[0][1]} comes to {op(*pair[0])}.",
             f"For instance {pair[1][0]} {glyph} {pair[1][1]} comes to {op(*pair[1])}.",
         ])
@@ -155,8 +155,8 @@ def _units_page(rng: random.Random, style: int = 0) -> Page:
             "",
             f"Multiply by {k1} to turn a {mid} count into {base}; multiply by "
             f"{k1 * k2} to turn a {big} count into {base}.",
-            f"Three units are in use. {base} is the small one, {mid} the middle "
-            f"one, {big} the large one.",
+            f"Three units are in use. The small one is the {base}, the middle "
+            f"one the {mid}, the large one the {big}.",
             f"The middle unit is {k1} of the small. The large unit is {k2} of the "
             f"middle.",
             f"So {e1} {mid} comes to {e1 * k1} {base}.",
