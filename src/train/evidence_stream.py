@@ -62,31 +62,62 @@ _END = object()
 def _prefetched(source, depth: int):
     """Yield from `source` with up to `depth` items built ahead on a thread.
 
-    The thread is a daemon and the queue is bounded, so a consumer that stops
-    early leaves at most `depth` built batches behind and nothing to join. An
-    exception in the producer is re-raised in the consumer at the point it
+    An exception in the producer is re-raised in the consumer at the point it
     would have been raised without prefetching.
+
+    The producer is shut down explicitly rather than left to the daemon flag.
+    A consumer that stops early (the CLI's --dry-run takes a fixed number of
+    batches and returns) drops the last reference to this generator, which
+    raises GeneratorExit at the yield and runs the finally. Without that the
+    producer would still be inside a torch tensor fill when the interpreter
+    tore down, and the process aborted with "terminate called without an
+    active exception" after printing its results. That exit code is what
+    bootstrap4.sh reads to decide whether the lane may run, so the abort cost
+    the lane, not just a tidy shutdown.
     """
     q: queue.Queue = queue.Queue(maxsize=depth)
+    stop = threading.Event()
+
+    def offer(item) -> bool:
+        """Put with a timeout so a stopped producer never blocks forever."""
+        while not stop.is_set():
+            try:
+                q.put(item, timeout=0.1)
+                return True
+            except queue.Full:
+                continue
+        return False
 
     def produce():
         try:
             for item in source:
-                q.put(item)
+                if not offer(item):
+                    return
         except BaseException as exc:  # re-raised on the consumer side
-            q.put((_END, exc))
+            offer((_END, exc))
             return
-        q.put((_END, None))
+        offer((_END, None))
 
-    thread = threading.Thread(target=produce, daemon=True)
+    thread = threading.Thread(target=produce, name="evidence-prefetch", daemon=True)
     thread.start()
-    while True:
-        item = q.get()
-        if isinstance(item, tuple) and len(item) == 2 and item[0] is _END:
-            if item[1] is not None:
-                raise item[1]
-            return
-        yield item
+    try:
+        while True:
+            item = q.get()
+            if isinstance(item, tuple) and len(item) == 2 and item[0] is _END:
+                if item[1] is not None:
+                    raise item[1]
+                return
+            yield item
+    finally:
+        stop.set()
+        # Drain so a producer parked on a full queue wakes, sees the flag,
+        # and returns instead of being killed mid-op at interpreter exit.
+        while True:
+            try:
+                q.get_nowait()
+            except queue.Empty:
+                break
+        thread.join(timeout=10.0)
 
 
 @dataclass

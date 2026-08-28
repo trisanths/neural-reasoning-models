@@ -312,6 +312,56 @@ def test_prefetch_terminates_on_a_finite_source():
     assert list(_prefetched(iter([1, 2, 3]), 2)) == [1, 2, 3]
 
 
+def test_closing_the_consumer_stops_the_producer_thread():
+    """A producer left running into interpreter shutdown aborts the process.
+
+    That is not a tidiness point. The CLI's --dry-run takes a fixed number of
+    batches and returns, and bootstrap4.sh reads its exit code to decide
+    whether the evidence lane may run at all, so a producer still inside a
+    torch op at teardown costs the lane.
+    """
+    import itertools
+    import threading
+    import time
+
+    def endless():
+        for i in itertools.count():
+            yield i
+
+    from src.train.evidence_stream import _prefetched
+
+    before = {t.name for t in threading.enumerate()}
+    it = _prefetched(endless(), 2)
+    assert next(it) == 0
+    assert any(t.name == "evidence-prefetch" for t in threading.enumerate())
+    it.close()
+    deadline = time.time() + 10
+    while time.time() < deadline:
+        if not any(t.name == "evidence-prefetch" for t in threading.enumerate()):
+            break
+        time.sleep(0.05)
+    assert not any(t.name == "evidence-prefetch" for t in threading.enumerate())
+    assert {t.name for t in threading.enumerate()} <= before | {"evidence-prefetch"}
+
+
+def test_closing_a_stream_batch_iterator_stops_its_thread():
+    import threading
+    import time
+
+    tok = StubTokenizer()
+    cfg = small_cfg(prefetch=2)
+    collator = EvidenceCollator(tok, cfg.bank_size, cfg.chunk_len, TINY.max_seq_len)
+    it = EvidenceStream(tok, cfg).batches(2, collator)
+    next(it)
+    it.close()
+    deadline = time.time() + 10
+    while time.time() < deadline:
+        if not any(t.name == "evidence-prefetch" for t in threading.enumerate()):
+            break
+        time.sleep(0.05)
+    assert not any(t.name == "evidence-prefetch" for t in threading.enumerate())
+
+
 # ---- config plumbing ----
 
 

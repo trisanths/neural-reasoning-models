@@ -122,6 +122,10 @@ def main(argv: list[str] | None = None) -> int:
         for _ in range(n):
             batches.append(next(it))
         seconds = time.time() - t0
+        # Shut the prefetch thread down here rather than leaving it to
+        # collection: a producer still inside a torch op at interpreter exit
+        # aborts the process, and this path exists to be read by a shell.
+        it.close()
         report = stream.bank_report(n=min(64, batch_size * n))
         print("bank report " + json.dumps(report))
         answer = sum(b.n_answer_tokens for b in batches)
@@ -147,7 +151,10 @@ def main(argv: list[str] | None = None) -> int:
     print(f"stream starts at global example {start_index:,} "
           f"(step {trainer.step} x accum {grad_accum} x micro {batch_size})")
     loader = stream.batches(batch_size, collator, start=start_index)
-    trainer.train(loader)
+    try:
+        trainer.train(loader)
+    finally:
+        loader.close()
     print(f"done at step {trainer.step}, "
           f"{trainer.tokens_seen:,} answer tokens, "
           f"{trainer.evidence_tokens_seen:,} evidence tokens")
