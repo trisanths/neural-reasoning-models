@@ -123,10 +123,13 @@ def evaluate(run: str, tokenizer, args) -> dict:
     started = time.time()
 
     probes = run_probes(model, tokenizer, args.device)
-    step_fn = make_model_step_fn(model, args.device)
-    nat = score_naturalized(
-        args.nat_items,
-        make_prose_predict_fn(step_fn, tokenizer, args.nat_max_new))
+    if args.skip_naturalized:
+        nat = {"n": 0, "em": 0.0, "contains": 0.0, "skipped": True}
+    else:
+        step_fn = make_model_step_fn(model, args.device)
+        nat = score_naturalized(
+            args.nat_items,
+            make_prose_predict_fn(step_fn, tokenizer, args.nat_max_new))
     held = heldout_loss(model, args.heldout, args.device,
                         int(cfg["model"]["max_seq_len"]), args.heldout_batch,
                         args.heldout_batches, args.heldout_seed)
@@ -170,6 +173,11 @@ def main(argv=None):
     parser.add_argument("--heldout-batch", type=int, default=8)
     parser.add_argument("--heldout-batches", type=int, default=64)
     parser.add_argument("--heldout-seed", type=int, default=777)
+    parser.add_argument("--skip-naturalized", action="store_true",
+                        help="probes and held out loss only; the greedy "
+                             "decodes are most of the cost, so a trajectory "
+                             "over every checkpoint leaves them out")
+    parser.add_argument("--results-name", default="results.json")
     args = parser.parse_args(argv)
 
     from src.evals.naturalized import load_suite
@@ -190,7 +198,10 @@ def main(argv=None):
     for run in args.runs:
         row = evaluate(run, tokenizer, args)
         results.append(row)
-        with open(out / f"{Path(run).name}.json", "w") as fh:
+        stem = Path(run)
+        name = (f"{stem.parent.name}-{stem.stem}" if stem.suffix == ".pt"
+                else stem.name)
+        with open(out / f"{name}.json", "w") as fh:
             json.dump(row, fh, indent=2)
         print(f"{Path(run).name}: probe {row['probe_accuracy']:.4f} "
               f"(chance {row['probe_chance']:.2f})  "
@@ -198,9 +209,9 @@ def main(argv=None):
               f"nat_em {row['naturalized_em']:.4f}  "
               f"heldout_loss {row['heldout']['loss']:.4f}", flush=True)
 
-    with open(out / "results.json", "w") as fh:
+    with open(out / args.results_name, "w") as fh:
         json.dump({"results": results}, fh, indent=2)
-    print(f"wrote {out / 'results.json'}")
+    print(f"wrote {out / args.results_name}")
     return 0
 
 
