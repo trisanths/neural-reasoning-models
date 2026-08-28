@@ -184,6 +184,27 @@ def test_prerequisites_are_transitive():
             assert th.prerequisites(p) <= pre
 
 
+def test_an_axiom_poor_system_still_yields_a_full_theory():
+    """Seed 23 satisfies one menu axiom. It should still be a usable universe.
+
+    A system where almost nothing familiar holds is the interesting case, not a
+    degenerate one: the content moves into the counterexamples. What must not
+    happen is the chapter structure thinning out with it.
+    """
+    from src.mathgen import exercises, textbook
+    th = theory.build(23)
+    counts = th.to_graph()["counts"]
+    assert counts["axiom"] == 1
+    assert counts["refutation"] >= 10
+    assert counts["definition"] >= 10
+    assert counts["theorem"] >= 5
+    assert th.depth() >= 4
+    exs = exercises.build_exercises(th)
+    book = textbook.build_textbook(th, exs)
+    assert len(exs) >= 20
+    assert 20 <= book.pages() <= 60
+
+
 def test_two_operation_systems_reach_the_second_operation_theme():
     seen = False
     for th in _theories():

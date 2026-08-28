@@ -604,18 +604,27 @@ def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> M
 
 
 def scripted_parrot(ps: ProblemSet, seed: int = 0) -> ModelFn:
-    """A fake model that answers with the library's most frequent number.
+    """A fake model that answers with the most frequent number in the library.
 
-    If the guard is doing its job this model scores zero everywhere, which is
-    the check that the benchmark is not solvable by echoing the corpus.
+    It answers per universe, using the same corpus mode the guard rejects
+    against, so this is the sharpest form of the check: if the guard is doing
+    its job this model scores zero at every level in every condition, and the
+    benchmark is not solvable by echoing the corpus.
     """
-    counts: Counter = Counter()
-    for u in ps.universes.values():
+    modes: dict[str, str] = {}
+    for uid, u in ps.universes.items():
+        counts: Counter = Counter()
         for chunk in u.library():
             counts.update(shaped_tokens(chunk["text"], "int"))
-    mode = counts.most_common(1)[0][0] if counts else "0"
+        modes[uid] = counts.most_common(1)[0][0] if counts else "0"
+    lookup = {p.text.strip(): p.universe_id for p in ps.problems}
+    fallback = Counter(modes.values()).most_common(1)[0][0] if modes else "0"
 
     def model(prompt: str) -> str:
-        return f"Answer: {mode}"
+        for segment in prompt.split("Problem.\n")[1:]:
+            key = segment.split("\n\n")[0].strip()
+            if key in lookup:
+                return f"Answer: {modes[lookup[key]]}"
+        return f"Answer: {fallback}"
 
     return model
