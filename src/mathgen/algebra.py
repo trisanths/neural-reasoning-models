@@ -483,6 +483,69 @@ class Structure:
         """Evaluate a written expression and return the element name it denotes."""
         return self.name(self.eval_tree(self.parse(text)))
 
+    def render_tree(self, node) -> str:
+        """Write a parse tree back out in this system's notation."""
+        kind = node[0]
+        if kind == "el":
+            return self.name(node[1])
+        if kind == "op":
+            _, k, a, b = node
+            return f"({self.render_tree(a)} {self.op_glyphs[k]} {self.render_tree(b)})"
+        if kind == "inv":
+            return f"{self.render_tree(node[1])}'"
+        if kind == "pow":
+            return f"{self.render_tree(node[1])}^{node[2]}"
+        raise ParseError(f"bad node {node!r}")
+
+    def eval_trace(self, text: str) -> list[dict]:
+        """Every intermediate step of an evaluation, innermost first.
+
+        Worked examples in the textbook are built from this and re-derived from
+        it during verification, so a printed example can never drift away from
+        what the operation tables actually say.
+        """
+        steps: list[dict] = []
+
+        def walk(node) -> int:
+            kind = node[0]
+            if kind == "el":
+                return node[1]
+            if kind == "op":
+                _, k, a, b = node
+                left, right = walk(a), walk(b)
+                value = self.op(k, left, right)
+                steps.append({
+                    "expression": f"{self.name(left)} {self.op_glyphs[k]} {self.name(right)}",
+                    "value": self.name(value),
+                    "reason": f"the table for {self.op_glyphs[k]}",
+                })
+                return value
+            if kind == "inv":
+                inner = walk(node[1])
+                value = self.inverse_of(inner, 0)
+                if value is None:
+                    raise ParseError(f"{self.name(inner)} has no inverse")
+                steps.append({"expression": f"{self.name(inner)}'",
+                              "value": self.name(value),
+                              "reason": "reversal under the first operation"})
+                return value
+            if kind == "pow":
+                _, a, k = node
+                base = walk(a)
+                acc = base
+                for _ in range(k - 1):
+                    nxt = self.op(0, acc, base)
+                    steps.append({
+                        "expression": f"{self.name(acc)} {self.op_glyphs[0]} {self.name(base)}",
+                        "value": self.name(nxt),
+                        "reason": f"the table for {self.op_glyphs[0]}"})
+                    acc = nxt
+                return acc
+            raise ParseError(f"bad node {node!r}")
+
+        walk(self.parse(text))
+        return steps
+
     def decide_written(self, text: str) -> bool:
         """Decide a written relation statement of the form 'lhs REL rhs'."""
         parts = text.split(self.rel_glyph)

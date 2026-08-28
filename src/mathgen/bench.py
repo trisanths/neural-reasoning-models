@@ -437,6 +437,52 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
 
 
 # --------------------------------------------------------------------------
+# handing the problems to the RL environment
+# --------------------------------------------------------------------------
+def to_rl_episodes(ps: ProblemSet, n_context: int = 0) -> list[dict]:
+    """Shape a problem set the way src/rl/env.py loads tasks.
+
+    Same record shape src/skillacq/episodes.py produces, so the levels can be
+    trained against as well as evaluated. One episode per universe, its pages
+    the documents and its problems the questions. With n_context zero the
+    pages arrive only through retrieval, which is the presentation the RL
+    rollout already serves.
+    """
+    grouped: dict[str, list[Problem]] = defaultdict(list)
+    for p in ps.problems:
+        grouped[p.universe_id].append(p)
+    out = []
+    for uid, problems in grouped.items():
+        u = ps.universes[uid]
+        out.append({
+            "episode_id": uid,
+            "seed": u.seed,
+            "world": {"domain": "mathgen_levels"},
+            "n_context": n_context,
+            "documents": [{"text": c["text"]} for c in u.library()],
+            "questions": [
+                {"qid": p.problem_id, "text": p.text, "answer": p.answer,
+                 "plan": [p.problem_id], "type": LEVEL_NAMES[p.level],
+                 "level": p.level, "target_chapters": list(p.target_chapters)}
+                for p in problems
+            ],
+        })
+    return out
+
+
+def write_rl_jsonl(path: str, ps: ProblemSet, n_context: int = 0) -> dict:
+    import json
+
+    episodes = to_rl_episodes(ps, n_context=n_context)
+    with open(path, "w") as fh:
+        for rec in episodes:
+            fh.write(json.dumps(rec) + "\n")
+    return {"episodes": len(episodes),
+            "questions": sum(len(e["questions"]) for e in episodes),
+            "path": path}
+
+
+# --------------------------------------------------------------------------
 # scripted models, for wiring the harness up before a checkpoint is involved
 # --------------------------------------------------------------------------
 def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> ModelFn:

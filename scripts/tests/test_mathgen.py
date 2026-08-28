@@ -21,7 +21,8 @@ from src.mathgen.battery import (PROBES, battery_report, run_battery,
                                  scripted_learner)
 from src.mathgen.bench import (BM25, Guard, build_problem_set, extract_answer,
                                is_correct, prompt_closed_book, prompt_oracle,
-                               score, scripted_parrot, scripted_reader)
+                               score, scripted_parrot, scripted_reader,
+                               to_rl_episodes)
 from src.mathgen.interface import LEVELS, closure, load_universe
 
 SEEDS = range(500, 504)
@@ -213,3 +214,16 @@ def test_battery_hides_the_source(universe):
             if test == "recognition":
                 continue      # the options are meant to contain a paraphrase
             assert head not in prompt, (iid, test)
+
+
+def test_rl_export_carries_every_problem_and_its_level(problem_set):
+    episodes = to_rl_episodes(problem_set)
+    assert len(episodes) == len(problem_set.universes)
+    seen = 0
+    for ep in episodes:
+        assert ep["documents"] and ep["n_context"] == 0
+        for q in ep["questions"]:
+            assert q["answer"] and q["level"] in LEVELS
+            assert q["target_chapters"]
+            seen += 1
+    assert seen == len(problem_set.problems)
