@@ -166,3 +166,104 @@ acquired machinery to solve the target, with no weight update?
 
 Closed-book at chance, high accuracy after autonomous study. That result would
 show the intelligence was in the parameters and the mathematics was not.
+
+## The falsifiable target
+
+Build the highest-intelligence-per-permanent-parameter general-purpose model,
+while remaining competitive with substantially larger frontier systems at the
+system level.
+
+Stated as a target rather than a prediction. The denominator is permanent neural
+parameters. Books, indices, the web and any other environmental information are
+excluded from it, because they are information the world already contains rather
+than learned computation. A person is not credited with the parameters of a
+library.
+
+The reference point is Qwen3.8-27B: a dense 27B with a hybrid Gated DeltaNet and
+attention design, 64 layers, multi-token prediction, 262K native context
+extensible to a million, positioned by its authors around intelligence density.
+It is not a strawman. Note that "Max" in its family is a reasoning-effort setting
+rather than a model name.
+
+Against it: a 7B system at parity is a 4x parameter-efficiency result, 4B is
+nearly 7x, and under 1B is more than 27x. If a sub-1B system approaches
+frontier-class system capability, the conventional parameter-efficiency curve has
+been broken rather than improved.
+
+## Three efficiencies, reported separately
+
+Intelligence per permanent parameter is the metric the thesis is about, and the
+denominator counts only weights.
+
+Intelligence per unit of inference compute prevents winning by running a small
+model fifty thousand times. That may still be useful, but it is a different
+result and must be reported as one.
+
+Intelligence per dollar and per joule, counting inference, retrieval, search,
+context processing, tool execution and temporary memory, is what decides whether
+this replaces anything in practice.
+
+Y does not have to win all three at once. A system with better capability, seven
+times the parameter efficiency, lower cost and worse latency is already a
+significant result, and latency then becomes an engineering problem.
+
+## Two axes of intelligence
+
+Static intelligence asks whether the model already knows something. Conventional
+benchmarks measure this, and they structurally favour the conventional system,
+because that is what its parameters were spent on.
+
+Acquisitional intelligence asks whether the model can become competent at
+something it did not know five minutes ago. That is this system's intended
+advantage, and it is measured on unseen mathematical systems, newly released
+interfaces, invented programming languages, synthetic scientific domains,
+literature published after training, unfamiliar codebases, novel tools, and
+problems requiring autonomous prerequisite learning.
+
+Conventional benchmarks then become a second question rather than the primary
+one: can the system recover a conventional model's capabilities through
+acquisition rather than through memory?
+
+The aggregate capability score weights novel reasoning, mathematics, coding,
+agentic execution, learning and acquisition, tool use, and general problem
+solving. Intelligence density is that aggregate over permanent parameters; system
+efficiency is that aggregate over total serving cost.
+
+## Milestones
+
+A. A model between 350M and 1B demonstrates genuine acquisition of an unseen
+   skill, with controls that rule out memorisation.
+B. A model at or under 1B beats ordinary models of the same size by a wide margin
+   under system evaluation.
+C. A model at or under 1B becomes competitive with 4 to 8B frontier models.
+D. A 4B system beats Qwen3.8-27B on intelligence per parameter and approaches it
+   in absolute capability.
+E. A 4 to 7B system beats it broadly at the system level.
+F. Push the substrate down again until the smallest size preserving the behaviour
+   is found.
+
+Endgame: a sub-1B system that converts additional retrieval, learning and
+reasoning compute into capability, climbing toward the contemporary frontier.
+
+The real target is not parity at some parameter count. It is that capability
+becomes weakly coupled to permanent parameter count, so knowledge scales by
+adding information, reasoning scales by adding test-time computation, skill
+scales through online acquisition, memory scales externally, and the neural core
+only grows when a cognitive operation is discovered that the substrate cannot
+perform.
+
+## Where we stand
+
+Milestone A is provisionally met and under active attack. A fact-free 350M model
+reads a page defining a system invented after its training and applies it, at
+0.680 against 0.002 with a different system's page and 0.000 with a blank page,
+retrieving and answering well-formed in all three conditions. The falsification
+lane is currently attempting to destroy this result with a heuristic baseline, a
+shortcut audit, a same-family control and an unseen-family transfer test. Until
+that returns, the milestone is provisional.
+
+Nothing beyond A has been attempted. The known obstacle is composition: six
+independent objectives have failed to teach computation over an acquired rule,
+and a controlled comparison of a 4B against a 27B of the same generation shows
+factual knowledge retaining 92 percent under a 6.75x parameter cut while search
+depth retains 30 to 69 percent. Acquisition is demonstrated; composition is not.
