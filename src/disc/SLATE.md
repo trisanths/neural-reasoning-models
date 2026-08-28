@@ -108,8 +108,6 @@ Temperature 1.0, 2 samples per question.
 | Closed alphabet, gold pages only | 1 | 0.545 | 0.770 | n/a |
 | Closed alphabet, gold pages only | 2 | 0.000 | 0.000 | 0.212 |
 
-Three things come out of this.
-
 The pages are load-bearing at depth one, reproducing the project's own
 0.680 against 0.002 against 0.000 pattern in a second family: 0.5375 with the
 right pages, 0.000 with another system's, 0.000 with a blank one.
@@ -150,14 +148,14 @@ depth-two answer needs. So this is not a case of fetching the second table and
 misreading it. The second table is never fetched. The failure is visible in the
 control signal, whether to keep going, before it is visible in any computation.
 
-It is not degeneration. Well-formed trace rates stay between 0.82 and 0.91 at
+The traces do not degenerate. Well-formed rates stay between 0.82 and 0.91 at
 every depth, and the answers remain fluent sentences in the family's idiom.
 
-It is not a missing demonstration of the format. The page set carries a worked
-depth-two referral, on a starting type reserved so that no question uses it.
+The format was demonstrated. The page set carries a worked depth-two referral,
+on a starting type reserved so that no question uses it.
 
-It is not evidence length or prompt shape. The page set and the prompt are
-constant along the curve except for one referral clause per step.
+Evidence length and prompt shape are held fixed. The page set and the prompt
+are constant along the curve except for one referral clause per step.
 
 Template sensitivity is large, and the measurement of it here is confounded.
 The first version of this task stated the same computation in a fresh notation
@@ -177,12 +175,33 @@ a template and not across templates, which is a much narrower result than it
 reads as. That is also why section 8 asks for the curve on the pre-RL
 checkpoint.
 
-The in-context presentation cannot serve as a control here. It scores 0.07 at
-depth one against 0.5375 for retrieval, because the RL stage only ever saw
-retrieval-shaped prompts, so there is no headroom in which a depth-two zero
-would mean anything. Removing the retrieval-control confound therefore has to
-be done inside the retrieval channel, by having the environment splice the
-intermediate. That is exactly rungs R1 and R2 of the rank-1 experiment.
+The in-context presentation was run to remove the retrieval-control confound,
+since both tables sit in the prompt and no second query is needed. It cannot
+serve as a clean control, because the RL stage only ever saw retrieval-shaped
+prompts and depth one collapses to 0.070. The curve it gives is still worth
+recording, because its shape differs.
+
+| Depth | pass@1 | pass@4 |
+|---|---|---|
+| 1 | 0.070 | 0.220 |
+| 2 | 0.0175 | 0.060 |
+| 3 | 0.0150 | 0.030 |
+
+There is no cliff. Accuracy declines from 0.070 to 0.0175 to 0.015, all close
+to the floor. The contrast that matters is with the retrieval condition: with
+the pages already in the prompt, depth two produces 7 correct answers in 400
+and depth three produces 6, while under retrieval both are exactly 0 in 400
+despite a depth-one rate 7.7 times higher.
+
+Read carefully, that is support for H7 rather than proof of it. A large part of
+the retrieval cliff is the policy never issuing the second query. What remains
+is that the in-context numbers are near zero anyway, so removing the halting
+problem does not by itself produce composition. Both halves of that need to be
+true for the rank-1 experiment to be worth running, and both are.
+
+Removing the retrieval-control confound without leaving the training
+distribution therefore has to happen inside the retrieval channel, by having
+the environment splice the intermediate. That is rungs R1 and R2 below.
 
 ## 4. Map of the empty space
 
@@ -311,11 +330,13 @@ Everything below is ranked by how much of this table an experiment removes.
 | H4 | Error compounding. Each step is fine and accuracy is p^d, with no qualitative wall. | Dead. 0 of 400 at depth two against 0.289 expected |
 | H5 | Substrate capacity. 350M lacks the serial depth. | Alive |
 | H6 | Distribution. The failure is an artefact of prompt shape and RL overfitting. | Partly addressed; see section 3 |
-| H7 | Halting. The policy has no representation of being partway through a chain, so it stops after one step and reduces its own retrieval effort. | Alive, and the curve's strongest positive evidence |
+| H7 | Halting. The policy has no representation of being partway through a chain, so it stops after one step and reduces its own retrieval effort. | Alive, partly supported, not sufficient on its own |
 
 H7 was not on the list before the curve ran. The falling retrieval-round count
-put it there, and it is the one hypothesis the measured trace shape actively
-supports rather than merely permits.
+put it there, and it is the one hypothesis the trace shape actively supports
+rather than merely permits. The in-context condition then showed it is not the
+whole story: removing the need for a second query moves depth two off exactly
+zero, and leaves it at 0.0175.
 
 ## 6. Six invented mechanisms
 
