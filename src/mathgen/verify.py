@@ -313,7 +313,9 @@ def _answer_overlap(theory_a, theory_b) -> float:
         try:
             if ex_mod.compute(theory_b.structure, ex.recipe) == ex.answer:
                 same += 1
-        except (ex_mod.Undefined, KeyError):
+        except (ex_mod.Undefined, KeyError, IndexError, ValueError):
+            # A recipe the other universe cannot even run is as far from a
+            # matching answer as it is possible to be, so it counts as a miss.
             continue
     return same / len(exs)
 

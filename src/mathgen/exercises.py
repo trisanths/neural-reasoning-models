@@ -162,16 +162,27 @@ def compute(s: Structure, recipe: dict) -> str:
 # failure. Each predicate below says what it means for one object to be that
 # witness.
 
+def _has_op(s, k) -> bool:
+    """A recipe can be run against a system with fewer operations than it needs."""
+    return k < len(s.tables)
+
+
 def _fails_commutativity(s, i, k=0):
+    if not _has_op(s, k):
+        return False
     return any(s.op(k, i, j) != s.op(k, j, i) for j in range(s.size))
 
 
 def _fails_associativity(s, i, k=0):
+    if not _has_op(s, k):
+        return False
     return any(s.op(k, s.op(k, i, j), m) != s.op(k, i, s.op(k, j, m))
                for j in range(s.size) for m in range(s.size))
 
 
 def _fails_idempotence(s, i, k=0):
+    if not _has_op(s, k):
+        return False
     return s.op(k, i, i) != i
 
 
@@ -207,6 +218,8 @@ def _fails_total(s, i):
 
 
 def _fails_compatible(s, i, k=0):
+    if not _has_op(s, k):
+        return False
     for j in range(s.size):
         if not s.decide(i, j):
             continue
@@ -298,7 +311,12 @@ FAILURE_WITNESSES = {
 
 
 def first_failing_element(s: Structure, claim: str):
-    """Earliest object, in the order the textbook lists them, witnessing failure."""
+    """Earliest object, in the order the textbook lists them, witnessing failure.
+
+    Callable against any structure, including one with a different carrier size
+    or fewer operations than the claim assumes, because the necessity check and
+    the novelty audit both run recipes across systems.
+    """
     pred = FAILURE_WITNESSES.get(claim)
     if pred is None:
         return None
@@ -306,7 +324,7 @@ def first_failing_element(s: Structure, claim: str):
         try:
             if pred(s, i):
                 return i
-        except Undefined:
+        except (Undefined, IndexError, KeyError):
             continue
     return None
 

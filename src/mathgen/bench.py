@@ -335,18 +335,28 @@ def prompt_closed_book(p: Problem) -> str:
     return f"Problem.\n{p.text}\n\n{INSTRUCTION}\nAnswer:"
 
 
-def prompt_oracle(p: Problem, universe) -> str:
-    chaps = sorted(
+def required_chapters(p: Problem, universe) -> list[str]:
+    """The chapters the derivation touches, in reading order."""
+    return sorted(
         {universe.items[i].chapter_id for i in closure(p.required_items,
                                                        universe.items)},
         key=lambda cid: universe.by_id[cid].index)
-    body = universe.chapter_text(chaps)
+
+
+def prompt_oracle(p: Problem, universe) -> str:
+    # Each supplied chapter is labelled with its id, the same way a retrieved
+    # chunk is, so a reader can tell what it has been given and the scripted
+    # control can measure coverage the same way in every condition.
+    parts = [f"[{cid}] {universe.chapter_text([cid])}"
+             for cid in required_chapters(p, universe)]
+    body = "\n\n".join(parts)
     return (f"Reference.\n{body}\n\nProblem.\n{p.text}\n\n{INSTRUCTION}\nAnswer:")
 
 
 def prompt_rag(p: Problem, index: BM25, k: int = 4) -> str:
     chunks = index.top(p.text, k)
-    body = "\n\n".join(f"[{c['chunk_id']}] {c['text']}" for c in chunks)
+    body = "\n\n".join(f"[{c['chapter_id']}] [{c['chunk_id']}] {c['text']}"
+                        for c in chunks)
     return (f"Retrieved.\n{body}\n\nProblem.\n{p.text}\n\n{INSTRUCTION}\nAnswer:")
 
 
@@ -369,7 +379,8 @@ def run_acquisition(model: ModelFn, p: Problem, index: BM25,
             q = m.group(1).strip()
             queries.append(q)
             chunks = index.top(q, k)
-            served = "\n".join(f"[{c['chunk_id']}] {c['text']}" for c in chunks)
+            served = "\n".join(f"[{c['chapter_id']}] [{c['chunk_id']}] {c['text']}"
+                               for c in chunks)
             transcript.append(f"SEARCH: {q}")
             transcript.append(f"Library.\n{served}")
             continue
@@ -488,34 +499,40 @@ def write_rl_jsonl(path: str, ps: ProblemSet, n_context: int = 0) -> dict:
 # scripted models, for wiring the harness up before a checkpoint is involved
 # --------------------------------------------------------------------------
 def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> ModelFn:
-    """A fake model that answers when the statements it needs are in front of it.
+    """A fake model that answers when the chapters it needs are in front of it.
 
-    It looks in the part of the prompt above the problem for every statement
-    the problem's derivation depends on, and answers only when all of them are
-    there. In the agent condition it searches for what is still missing. With
-    nothing supplied it guesses from the pool of answers. This is the plumbing
-    check: oracle near one, closed book near the majority baseline, and the
-    agent condition somewhere between depending on what its queries surface.
+    Every supplied chapter and every served chunk is labelled with its
+    chapter id, so the reader can tell exactly what it has been given without
+    reading it. It answers when the derivation's chapters are all present, and
+    in the agent condition it searches by the title of a chapter it is still
+    missing. With nothing supplied it guesses from the pool of answers. This is
+    the plumbing check: oracle near one, closed book near the majority
+    baseline, and the agent condition somewhere between depending on what its
+    queries surface.
     """
     rng = random.Random(seed)
     lookup = {}
     for p in ps.problems:
         u = ps.universes[p.universe_id]
-        needed = [(u.items[i].name, u.items[i].statement)
-                  for i in closure(p.required_items, u.items)]
-        lookup[p.text] = (p, needed)
+        needed = [(cid, u.by_id[cid].title) for cid in required_chapters(p, u)]
+        lookup[p.text.strip()] = (p, needed)
     pool = [normalize(p.answer) for p in ps.problems]
 
-    def present(statement: str, supplied: str) -> bool:
-        head = " ".join(statement.split()[:8]).lower()
-        return head in " ".join(supplied.split()).lower()
+    def present(chapter_id: str, supplied: str) -> bool:
+        return f"[{chapter_id}]" in supplied
+
+    def find(prompt: str):
+        # A textbook can print its own exercises, so a problem's words can
+        # turn up inside supplied chapter text. Only the segment that follows
+        # the Problem marker counts as the question being asked.
+        for segment in prompt.split("Problem.\n")[1:]:
+            key = segment.split("\n\n")[0].strip()
+            if key in lookup:
+                return lookup[key]
+        return None
 
     def model(prompt: str) -> str:
-        entry = None
-        for text, candidate in lookup.items():
-            if text in prompt:
-                entry = candidate
-                break
+        entry = find(prompt)
         if entry is None:
             return "Answer: 0"
         p, needed = entry
@@ -523,11 +540,13 @@ def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> M
         # which keeps the reader from scoring off the question and works the
         # same whether the text arrived above the problem or below it.
         supplied = prompt.replace(p.text, " ")
-        missing = [name for name, stmt in needed if not present(stmt, supplied)]
+        missing = [(cid, title) for cid, title in needed
+                   if not present(cid, supplied)]
         if not missing and rng.random() < competence:
             return f"Answer: {p.answer}"
         if prompt.lstrip().startswith(ACQUISITION_PREAMBLE):
-            fresh = [name for name in missing if f"SEARCH: {name}" not in prompt]
+            fresh = [title for _, title in missing
+                     if f"SEARCH: {title}" not in prompt]
             if fresh:
                 return f"SEARCH: {fresh[0]}"
         return f"Answer: {rng.choice(pool)}"

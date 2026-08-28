@@ -389,13 +389,30 @@ PROBES: dict[str, Callable] = {
 # --------------------------------------------------------------------------
 # running the battery
 # --------------------------------------------------------------------------
+def probes_for(universe) -> dict:
+    """The probes that can grade this universe, which may be none.
+
+    A probe has to know how to fit a reconstructed rule back onto a reference
+    implementation, so probes are written per family. A universe with none
+    returns an empty battery rather than a battery scored on token overlap,
+    because a token-overlap pass is not evidence of acquisition.
+    """
+    explicit = getattr(universe, "acquisition_probes", None)
+    if explicit is not None:
+        return explicit
+    from src.mathgen.refuniverse import ReferenceUniverse
+
+    return PROBES if isinstance(universe, ReferenceUniverse) else {}
+
+
 def run_battery(model: ModelFn, universe, item_ids=None,
                 seed: int = 0) -> list[TestResult]:
     """Six tests per item, source hidden, one row each."""
     rng = random.Random(seed)
+    probes = probes_for(universe)
     out: list[TestResult] = []
-    for iid in (item_ids or sorted(PROBES)):
-        probe = PROBES[iid](universe, rng)
+    for iid in (item_ids or sorted(probes)):
+        probe = probes[iid](universe, rng)
         for test in TESTS:
             prompt = probe.prompts[test]
             raw = model(prompt)
