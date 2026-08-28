@@ -10,6 +10,8 @@ oracle_ops               1.000 0.480 0.500 0.020 0.033 0.020 0.007 0.013  1
 oracle_both              1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000  8
 direct_all@para          0.187 0.047 0.053 0.033 0.007 0.007 0.000 0.000  0
 direct_oracle_page@para  0.193 0.073 0.053 0.033 0.020 0.007 0.007 0.007  0
+plan_execute@para        0.600 0.313 0.293 0.007 0.027 0.020 0.007 0.007  1
+oracle_plan@para         0.600 0.640 0.580 0.587 0.600 0.633 0.573 0.580  8
 
 === breadth ===
 condition                d1     d2     d3     d4     d5     d6      fails_after
@@ -22,6 +24,8 @@ oracle_ops               1.000 1.000 1.000 0.000 0.000 0.000  3
 oracle_both              1.000 1.000 1.000 1.000 1.000 1.000  6
 direct_all@para          0.613 0.600 0.520 0.333 0.267 0.173  3
 direct_oracle_page@para  0.680 0.693 0.560 0.287 0.280 0.180  3
+plan_execute@para        0.000 0.960 0.740 0.407 0.293 0.147  0
+oracle_plan@para         0.000 0.960 0.740 0.000 0.000 0.000  0
 
 === novel ===
 condition                d2     d3     d4     d5     d6      fails_after
@@ -34,6 +38,8 @@ oracle_ops               0.013 0.013 0.013 0.020 0.013  0
 oracle_both              1.000 1.000 1.000 1.000 1.000  6
 direct_all@para          0.020 0.013 0.007 0.007 0.013  0
 direct_oracle_page@para  0.007 0.007 0.007 0.000 0.020  0
+plan_execute@para        0.013 0.007 0.007 0.013 0.007  0
+oracle_plan@para         0.347 0.347 0.333 0.347 0.340  0
 
 === same_page_pair ===
 condition                d2      fails_after
@@ -46,6 +52,8 @@ oracle_ops               0.000  0
 oracle_both              1.000  2
 direct_all@para          0.000  0
 direct_oracle_page@para  0.000  0
+plan_execute@para        0.000  0
+oracle_plan@para         0.913  2
 
 === sequential_paren ===
 condition                d2     d3     d4     d5     d6      fails_after
@@ -58,6 +66,8 @@ oracle_ops               1.000 1.000 0.027 0.040 0.020  3
 oracle_both              1.000 1.000 1.000 1.000 1.000  6
 direct_all@para          0.087 0.060 0.033 0.033 0.007  0
 direct_oracle_page@para  0.093 0.080 0.047 0.033 0.020  0
+plan_execute@para        0.567 0.547 0.013 0.013 0.013  3
+oracle_plan@para         0.567 0.547 0.560 0.567 0.560  6
 
 === units ===
 condition                d1      fails_after
@@ -70,12 +80,20 @@ oracle_ops               1.000  1
 oracle_both              1.000  1
 direct_all@para          0.100  0
 direct_oracle_page@para  0.153  0
+plan_execute@para        0.540  1
+oracle_plan@para         0.540  1
 
 === induction over the eval worlds ===
 pages parsed        6600/6600 = 1.000
 behaviourally right 9444/9897 = 0.954
 exact text          9444/9897 = 0.954
 self verified       9513/9897 = 0.961
+
+=== induction@para over the eval worlds ===
+pages parsed        5261/6600 = 0.797
+behaviourally right 5969/9897 = 0.603
+exact text          5857/9897 = 0.592
+self verified       1435/8367 = 0.172
 
 === why the plan path failed, by kind and depth ===
 sequential         d=1  ok=150
