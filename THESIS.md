@@ -130,7 +130,22 @@ PROCEDURAL capability can be externalised. Three of the four compare a
 retrieval-equipped model against models denied retrieval, so the counterargument
 writes itself: give the large model the index and the comparison reverses.
 
-That hole is where this project sits, and it is why the invented-mathematics
+One paper comes closer than the rest and the claim must be precise about it.
+Yang et al. (Findings of EMNLP 2025) retrieve proofs and proof techniques from
+raw textbooks and papers and show models transferring a retrieved technique to a
+novel theorem. So it is wrong to say nobody has tested retrieving a procedure.
+Their own limitation section draws the sharper boundary: no significant gain when
+the needed proof strategy is fundamentally novel and encoded neither in the model
+nor in the retrieved context. That boundary, not the absence of prior work, is
+what this project targets.
+
+The precise claim is therefore: existing retrieval systems can expose a model to
+facts and to reusable solution patterns. The open question is whether a
+deliberately knowledge-limited substrate can convert external instruction into
+new executable abstractions, compose those abstractions beyond the demonstrated
+patterns, and thereby acquire capabilities absent from its weights.
+
+That is where this project sits, and it is why the invented-mathematics
 benchmark matters more than another factual evaluation. Our own strongest result
 is a procedure-retrieval result: a model reads a page stating a rule it has never
 seen and applies it, 0.680 against 0.002 with a different page. And our pointer
@@ -267,3 +282,26 @@ independent objectives have failed to teach computation over an acquired rule,
 and a controlled comparison of a 4B against a 27B of the same generation shows
 factual knowledge retaining 92 percent under a 6.75x parameter cut while search
 depth retains 30 to 69 percent. Acquisition is demonstrated; composition is not.
+
+
+## Capacity floor is not trainability floor
+
+Every primitive is measured twice: integrated capability as a function of
+substrate size, and oracle-isolated capability as a function of substrate size.
+The distance between those curves is the architecture and training gap. The point
+where even the oracle-isolated version fails is evidence of a capacity gap.
+
+This distinction decides what to build next. If a 350M model scores 8 percent on
+composition depth three inside an integrated acquisition episode but 91 percent
+when trained directly on isolated composition, then the substrate has the
+machinery and the failure lives in representation, skill compilation, credit
+assignment, curriculum, state interface or orchestration. If instead the model is
+given gold intent, gold gap, gold retrieval, gold abstractions, a structured
+skill state and direct composition training, and still falls off a cliff at depth
+five while a 1B survives to depth eleven, that is a substrate bottleneck.
+
+The programme therefore never asks whether a size works. It asks what breaks,
+whether an oracle rescues it, whether recurrence rescues it, and whether the break
+is capacity or trainability. That produces a map of the irreducible learner
+rather than a leaderboard, and it produces knowledge whether or not the
+sub-billion-parameter outcome holds.
