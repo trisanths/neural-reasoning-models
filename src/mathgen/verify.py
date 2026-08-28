@@ -176,6 +176,32 @@ def verify_necessity(theory, exercises) -> Check:
     return check
 
 
+def verify_answer_sources(theory, exercises, book) -> Check:
+    """Re-derive the stated versus derived label from the chapters themselves.
+
+    An exercise can be unanswerable without its chapter and still be answerable
+    by copying out of it, and those are different tests. The label is decided by
+    searching the rendered prose for the exact shape the textbook would print
+    this answer in, so it is a measurement rather than an assumption, and this
+    check repeats the measurement.
+    """
+    check = Check("answer_source_labels")
+    prose = tb_mod.to_markdown(book)
+    for ex in exercises:
+        expected = ex_mod.answer_source(ex, prose)
+        check.record(ex.answer_source == expected,
+                     f"{ex.exercise_id}: labelled {ex.answer_source}, the "
+                     f"chapters say {expected}")
+        if ex.answer_source == ex_mod.STATED:
+            check.record(any(p in prose for p in ex_mod.statement_patterns(ex)),
+                         f"{ex.exercise_id}: labelled stated but not printed")
+        else:
+            check.record(not any(p in prose
+                                 for p in ex_mod.statement_patterns(ex)),
+                         f"{ex.exercise_id}: labelled derived but printed")
+    return check
+
+
 def verify_consistency(theory) -> Check:
     """No two axioms conflict, and the declaration matches the model."""
     check = Check("axiom_consistency")
@@ -227,6 +253,7 @@ def verify_universe(theory, exercises, book) -> dict:
         verify_worked_examples(book),
         verify_exercises(theory, exercises),
         verify_necessity(theory, exercises),
+        verify_answer_sources(theory, exercises, book),
     ]
     total_passed = sum(c.passed for c in checks)
     total = sum(c.total for c in checks)

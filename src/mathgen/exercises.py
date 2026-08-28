@@ -20,6 +20,20 @@ has passed three automatic checks.
 
 Levels run one to five and are reported separately, as is every chapter. There
 is no pooled number in the output of this module by design.
+
+One further split matters more than the level, and it is the reason this
+project exists. An exercise can be unanswerable without its chapter and still
+be answerable by copying out of it. Asking for the extension of a definition is
+a retrieval task: the chapter prints the list. Asking for the value of a nested
+expression is not: the chapter prints the tables and the reader has to run them.
+We already measured what that difference is worth here, with a span selecting
+pointer head reaching 0.514 on copy tasks and plain generation 0.021, while
+every attempt at computing over an acquired rule sat at 0.000. A benchmark that
+averages the two families reports a number that is mostly the first one.
+
+So every exercise carries an `answer_source`, either stated_in_a_chapter or
+derived_by_computation, and the breakdown crosses it with the level. Never pool
+across it.
 """
 
 from __future__ import annotations
@@ -345,6 +359,7 @@ class Exercise:
     answer: str
     answer_kind: str        # object, object_list, count
     recipe: dict
+    answer_source: str = "derived_by_computation"   # set by label_answer_sources
     necessity: dict = field(default_factory=dict)
 
     def to_dict(self) -> dict:
@@ -354,8 +369,63 @@ class Exercise:
             "required_chapters": list(self.required_chapters),
             "prompt": self.prompt, "answer": self.answer,
             "answer_kind": self.answer_kind, "recipe": self.recipe,
-            "necessity": self.necessity,
+            "answer_source": self.answer_source, "necessity": self.necessity,
         }
+
+
+# Whether an exercise is a lookup or a computation is decided by looking, not by
+# assuming. The recipe kinds below are the ones whose answers the chapters
+# render in full, so they are the candidates; but a candidate only counts as
+# stated once the answer is found in the prose in the exact shape the textbook
+# would print it. Anything else is a computation, including a case the book
+# happens not to have printed.
+LOOKUP_CANDIDATES = {"extension", "anchor", "span", "reach", "shadow",
+                     "partner", "counterexample"}
+
+STATED = "stated_in_a_chapter"
+DERIVED = "derived_by_computation"
+
+
+def _render_like_textbook(answer: str) -> str:
+    """The comma form an answer is keyed in, rewritten as the prose renders it."""
+    parts = [p.strip() for p in answer.split(",")]
+    if len(parts) == 1:
+        return parts[0]
+    return ", ".join(parts[:-1]) + " and " + parts[-1]
+
+
+def statement_patterns(exercise) -> list:
+    """Exact strings the chapters would contain if they stated this answer."""
+    rendered = _render_like_textbook(exercise.answer)
+    kind = exercise.recipe["kind"]
+    if kind == "extension":
+        return [f"picks out {rendered}", f"leaves {rendered}",
+                f"that is {rendered}"]
+    if kind == "anchor":
+        return [f"Here that is {rendered}."]
+    if kind in ("span", "shadow", "reach", "partner"):
+        subject = exercise.recipe["element"]
+        return [f"{subject} to {rendered}"]
+    if kind == "counterexample":
+        return [f"x = {rendered}", f"= {rendered},"]
+    return []
+
+
+def answer_source(exercise, prose: str) -> str:
+    """Decide from the rendered chapters whether the answer is printed there."""
+    if exercise.recipe["kind"] not in LOOKUP_CANDIDATES:
+        return DERIVED
+    patterns = statement_patterns(exercise)
+    return STATED if any(p in prose for p in patterns) else DERIVED
+
+
+def label_answer_sources(theory: Theory, exercises: list) -> list:
+    """Set answer_source on each exercise from this universe's own prose."""
+    from src.mathgen import textbook as tb_mod
+    prose = tb_mod.to_markdown(tb_mod.build_textbook(theory))
+    for ex in exercises:
+        ex.answer_source = answer_source(ex, prose)
+    return exercises
 
 
 GUESS_SPACE = {
@@ -661,7 +731,7 @@ def build_exercises(theory: Theory, n_siblings: int = 4,
                 kept.append(ex)
     for i, ex in enumerate(kept):
         ex.exercise_id = f"x{i + 1:03d}"
-    return kept
+    return label_answer_sources(theory, kept)
 
 
 def rejected_report(theory: Theory, n_siblings: int = 4,
@@ -706,22 +776,32 @@ def rejected_report(theory: Theory, n_siblings: int = 4,
 
 
 def breakdown(exercises: list) -> dict:
-    """Counts by level and by chapter, never pooled into one number."""
-    by_level: dict = {}
-    by_chapter: dict = {}
+    """Counts by level, by chapter and by answer source, never pooled into one."""
+    def tally(key):
+        out: dict = {}
+        for ex in exercises:
+            k = str(key(ex))
+            out[k] = out.get(k, 0) + 1
+        return {k: out[k] for k in sorted(out)}
+
+    cross: dict = {}
     for ex in exercises:
-        by_level.setdefault(ex.level, 0)
-        by_level[ex.level] += 1
-        by_chapter.setdefault(ex.chapter, 0)
-        by_chapter[ex.chapter] += 1
+        row = cross.setdefault(ex.answer_source, {})
+        k = str(ex.level)
+        row[k] = row.get(k, 0) + 1
     return {
-        "by_level": {str(k): by_level[k] for k in sorted(by_level)},
-        "by_chapter": {str(k): by_chapter[k] for k in sorted(by_chapter)},
-        "by_answer_kind": {
-            k: sum(1 for e in exercises if e.answer_kind == k)
-            for k in sorted({e.answer_kind for e in exercises})},
+        "by_level": tally(lambda e: e.level),
+        "by_chapter": tally(lambda e: e.chapter),
+        "by_answer_kind": tally(lambda e: e.answer_kind),
+        "by_answer_source": tally(lambda e: e.answer_source),
+        "by_answer_source_and_level": {k: {kk: cross[k][kk] for kk in sorted(cross[k])}
+                                       for k in sorted(cross)},
         "total": len(exercises),
-        "note": ("Report scores against by_level and by_chapter separately. A "
-                 "single pooled number over these exercises hides a family at "
-                 "zero, which is the failure this generator was built to avoid."),
+        "note": ("Report scores against by_level, by_chapter and above all "
+                 "by_answer_source separately. A single pooled number hides a "
+                 "family at zero, which is the failure this generator was built "
+                 "to avoid. The stated_in_a_chapter family is answerable by "
+                 "copying from a retrieved page and the "
+                 "derived_by_computation family is not, and on this project "
+                 "those two have historically differed by half a point."),
     }

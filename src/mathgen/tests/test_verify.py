@@ -27,7 +27,8 @@ def test_verification_actually_checks_a_lot():
     names = {c["name"] for c in report["checks"]}
     assert names == {"axiom_consistency", "axioms", "definition_extensions",
                      "theorems_and_refutations", "dependency_graph",
-                     "worked_examples", "exercise_answers", "exercise_necessity"}
+                     "worked_examples", "exercise_answers", "exercise_necessity",
+                     "answer_source_labels"}
     for check in report["checks"]:
         assert check["total"] > 0, f"{check['name']} checked nothing"
 
@@ -105,3 +106,11 @@ def test_novelty_sweep_covers_every_pair():
     assert sweep["answers_overlap"]["max"] <= 0.15
     for key in ("symbol_overlap", "phrase_overlap", "vocabulary_overlap"):
         assert sweep[key]["min"] <= sweep[key]["mean"] <= sweep[key]["max"]
+
+
+def test_a_mislabelled_answer_source_is_caught():
+    th, exs, book = _universe(9)
+    derived = next(e for e in exs
+                   if e.answer_source == "derived_by_computation")
+    derived.answer_source = "stated_in_a_chapter"
+    assert verify.verify_answer_sources(th, exs, book).failed > 0

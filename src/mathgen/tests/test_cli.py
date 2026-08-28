@@ -43,12 +43,28 @@ def test_manifest_reports_per_level_and_per_chapter_and_no_pooled_score(tmp_path
     assert man["node_counts"]["theorem"] >= 4
     assert man["exercise_breakdown"]["by_level"]
     assert man["exercise_breakdown"]["by_chapter"]
+    assert len(man["exercise_breakdown"]["by_answer_source"]) == 2
+    assert man["exercise_breakdown"]["by_answer_source_and_level"]
     assert "pooled" in man["exercise_breakdown"]["note"]
     assert man["verification"]["all_passed"] is True
     assert man["verification"]["pass_rate"] == 1.0
     assert man["candidates_rejected"]["copyable"] >= 0
     assert sum(man["exercise_breakdown"]["by_level"].values()) == \
         man["exercise_breakdown"]["total"]
+
+
+def test_answer_source_filter_keeps_only_the_computed_family(tmp_path):
+    out = str(tmp_path / "u")
+    cli.main(["--seed", "18", "--out", out, "--answer-source", "derived",
+              "--strict"])
+    key = _read(os.path.join(out, "answer_key.json"))
+    assert key["exercises"]
+    assert all(e["answer_source"] == "derived_by_computation"
+               for e in key["exercises"])
+    man = _read(os.path.join(out, "manifest.json"))
+    assert set(man["exercise_breakdown"]["by_answer_source"]) == \
+        {"derived_by_computation"}
+    assert "answer_source" in key["reporting_rule"]
 
 
 def test_theory_graph_is_machine_readable_and_complete(tmp_path):

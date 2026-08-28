@@ -191,3 +191,52 @@ def test_undefined_recipes_raise_rather_than_returning_a_wrong_answer():
         exercises.compute(s, {"kind": "partner", "element": "notanobject"})
     with pytest.raises(exercises.Undefined):
         exercises.compute(s, {"kind": "evaluate", "expr": "notanobject"})
+
+
+def test_every_exercise_declares_where_its_answer_comes_from():
+    from src.mathgen import textbook
+    for th, exs in _pairs():
+        prose = textbook.to_markdown(textbook.build_textbook(th))
+        for ex in exs:
+            assert ex.answer_source in (exercises.STATED, exercises.DERIVED)
+            assert ex.answer_source == exercises.answer_source(ex, prose)
+
+
+def test_the_stated_label_means_the_chapters_really_print_the_answer():
+    from src.mathgen import textbook
+    for th, exs in _pairs():
+        prose = textbook.to_markdown(textbook.build_textbook(th))
+        for ex in exs:
+            printed = any(p in prose for p in exercises.statement_patterns(ex))
+            assert printed == (ex.answer_source == exercises.STATED), \
+                f"{ex.exercise_id} ({ex.recipe['kind']})"
+
+
+def test_a_recipe_that_cannot_be_printed_is_never_labelled_stated():
+    """Evaluating, solving and composing are not precomputed anywhere."""
+    for _th, exs in _pairs():
+        for ex in exs:
+            if ex.recipe["kind"] not in exercises.LOOKUP_CANDIDATES:
+                assert ex.answer_source == exercises.DERIVED
+
+
+def test_both_answer_source_families_are_present_and_neither_is_marginal():
+    """Pooling these two would reproduce the failure this project already hit."""
+    counts = {exercises.STATED: 0, exercises.DERIVED: 0}
+    for _th, exs in _pairs():
+        for ex in exs:
+            counts[ex.answer_source] += 1
+    total = sum(counts.values())
+    for name, n in counts.items():
+        assert n / total >= 0.20, f"{name} is only {n / total:.2f} of the set"
+
+
+def test_breakdown_crosses_answer_source_with_level():
+    th = theory.build(4)
+    exs = exercises.build_exercises(th)
+    b = exercises.breakdown(exs)
+    assert sum(b["by_answer_source"].values()) == len(exs)
+    crossed = sum(v for row in b["by_answer_source_and_level"].values()
+                  for v in row.values())
+    assert crossed == len(exs)
+    assert "answer_source" in b["note"]

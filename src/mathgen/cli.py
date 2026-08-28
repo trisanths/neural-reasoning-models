@@ -18,8 +18,12 @@ rebuilt rather than stored. What lands on disk:
     manifest.json            counts, page total, per level and per chapter
                              breakdowns, and the verification summary
 
-Scores against these exercises must be reported per level and per chapter. The
-manifest gives the breakdown and deliberately gives no pooled number.
+Scores against these exercises must be reported per level, per chapter and, above
+all, per answer source. An exercise can be unanswerable without its chapter and
+still be answerable by copying out of it, and those two families have differed
+by half a point on this project before. The manifest gives all three breakdowns
+and deliberately gives no pooled number. --answer-source derived keeps only the
+exercises the chapters do not state the answer to.
 """
 
 from __future__ import annotations
@@ -40,11 +44,18 @@ def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:48]
 
 
-def build_universe(seed: int, n_siblings: int = 4, variants: int = 3) -> dict:
+def build_universe(seed: int, n_siblings: int = 4, variants: int = 3,
+                   answer_source: str = "all") -> dict:
     """Theory, exercises and textbook for one seed, plus its verification."""
     theory = th_mod.build(seed)
     exercises = ex_mod.build_exercises(theory, n_siblings=n_siblings,
                                        variants=variants)
+    if answer_source == "derived":
+        exercises = [e for e in exercises
+                     if e.answer_source == "derived_by_computation"]
+    elif answer_source == "stated":
+        exercises = [e for e in exercises
+                     if e.answer_source == "stated_in_a_chapter"]
     book = tb_mod.build_textbook(theory, exercises)
     report = verify_mod.verify_universe(theory, exercises, book)
     return {"theory": theory, "exercises": exercises, "book": book,
@@ -123,9 +134,12 @@ def write_universe(universe: dict, out_dir: str, elapsed: float) -> dict:
         "seed": theory.structure.seed,
         "system": theory.structure.system_name,
         "reporting_rule": (
-            "Report accuracy per level and per chapter. A pooled number over "
-            "these exercises can hide a whole family sitting at zero, which is "
-            "the failure this generator exists to prevent."),
+            "Report accuracy per level, per chapter and per answer_source. A "
+            "pooled number over these exercises can hide a whole family sitting "
+            "at zero, which is the failure this generator exists to prevent. "
+            "The answer_source split is the sharpest of the three: a "
+            "stated_in_a_chapter exercise is answerable by copying from a "
+            "retrieved page and a derived_by_computation one is not."),
         "exercises": [e.to_dict() for e in exercises],
     }
     with open(os.path.join(out_dir, "answer_key.json"), "w", encoding="utf-8") as fh:
@@ -176,6 +190,10 @@ def main(argv=None) -> int:
                         help="rival systems each exercise is tested against")
     parser.add_argument("--variants", type=int, default=3,
                         help="how many candidate exercises each node proposes")
+    parser.add_argument("--answer-source", choices=["all", "derived", "stated"],
+                        default="all",
+                        help="keep only exercises whose answer must be computed, "
+                             "or only those the chapters state outright")
     parser.add_argument("--novelty", action="store_true",
                         help="run the novelty audit over every pair of seeds")
     parser.add_argument("--strict", action="store_true",
@@ -190,7 +208,8 @@ def main(argv=None) -> int:
     for seed in seeds:
         started = time.time()
         universe = build_universe(seed, n_siblings=args.siblings,
-                                  variants=args.variants)
+                                  variants=args.variants,
+                                  answer_source=args.answer_source)
         elapsed = time.time() - started
         target = args.out if len(seeds) == 1 else os.path.join(args.out, f"u{seed:04d}")
         os.makedirs(target, exist_ok=True)
@@ -202,7 +221,8 @@ def main(argv=None) -> int:
               f"{man['pages']:>5} pages  {man['chapters']:>3} chapters  "
               f"depth {man['dependency_depth']}  "
               f"{man['node_counts']['theorem']:>3} theorems  "
-              f"{man['exercise_breakdown']['total']:>3} exercises  "
+              f"{man['exercise_breakdown']['total']:>3} exercises "
+              f"({man['exercise_breakdown']['by_answer_source'].get('derived_by_computation', 0):>3} derived)  "
               f"verified {man['verification']['pass_rate']:.4f}  "
               f"{elapsed:.2f}s")
 
@@ -225,6 +245,8 @@ def main(argv=None) -> int:
                 [m["generation_seconds"] for m in manifests]),
             "exercises_by_level": _merge(
                 [m["exercise_breakdown"]["by_level"] for m in manifests]),
+            "exercises_by_answer_source": _merge(
+                [m["exercise_breakdown"]["by_answer_source"] for m in manifests]),
         }
         if args.novelty:
             summary["novelty"] = verify_mod.novelty_sweep(seeds[:8])
