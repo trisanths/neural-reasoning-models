@@ -49,13 +49,31 @@ def breakdown_depth(row: dict, threshold: float) -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--results", required=True)
+    ap.add_argument("--results", required=True,
+                    help="one path, or several separated by commas, merged in order")
     ap.add_argument("--threshold", type=float, default=0.5)
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
-    with open(args.results) as fh:
-        res = json.load(fh)
+    res: dict = {}
+    for path in args.results.split(","):
+        path = path.strip()
+        with open(path) as fh:
+            part = json.load(fh)
+        for name, body in part.items():
+            if name == "config":
+                res.setdefault("config", {})[path] = body
+            elif name.startswith("induction"):
+                # counts, so halves of one grid add up
+                slot = res.setdefault(name, {})
+                for k, v in body.items():
+                    slot[k] = slot.get(k, 0) + v
+            elif isinstance(body, dict):
+                slot = res.setdefault(name, {})
+                for kind, cells in body.items():
+                    slot.setdefault(kind, {}).update(cells)
+            else:
+                res[name] = body
 
     kinds = [k for k in HEADLINE if any(k in res.get(c, {}) for c in ORDER)]
     extra = sorted({k for c in ORDER for k in res.get(c, {}) if k not in kinds})
