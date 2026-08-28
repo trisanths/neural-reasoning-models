@@ -1,0 +1,46 @@
+# A wider, longer GRPO run for the same 350M policy: twice the prompts per
+# step, twice the learning rate, and four hundred steps. This is the per-GPU
+# shape recommended for a block lane, measured on one L40S so that eight
+# H100 lanes can be sized from it.
+env:
+  max_rounds: 4
+  max_new_tokens: 96
+  query_max_tokens: 24
+  max_len: 640
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.05
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+grpo:
+  group_size: 8
+  prompts_per_step: 8
+  inner_epochs: 1
+  micro_batch_size: 8
+  clip_eps: 0.2
+  kl_coef: 0.02
+  ent_coef: 0.0
+  normalize_advantage: true
+  drop_zero_variance_groups: true
+  lr: 2.0e-6
+  weight_decay: 0.0
+  grad_clip: 1.0
+  warmup_steps: 20
+  max_steps: 400
+  min_lr_ratio: 1.0
+  seed: 1234
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 384
+  limit_episodes: 1500
+run:
+  temperature: 1.0
+  top_k: 0
+  eval_tasks: 96
+  eval_batch: 32
+  eval_every: 100
+  sample_every: 50
+  sample_n: 4
+  ckpt_every: 200
+  log_every: 1

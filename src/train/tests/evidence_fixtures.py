@@ -110,33 +110,51 @@ def marker_examples(n_examples: int, bank_size: int, chunk_len: int,
     Every example carries the identical question, so nothing in the working
     sequence distinguishes them. The answer token appears exactly once, in
     one gold chunk, alongside a shared marker token. With the gold chunk in
-    the bank the answer is a copy; without it the best possible prediction
-    is the uniform marginal over the answer set.
+    the bank the answer is a copy.
+
+    Without it the examples must be indistinguishable, or the blind control
+    is not blind: a per-example random distractor bank is itself a unique
+    key, and a two layer model learns to read the answer off that key
+    instead of off the evidence, driving the blind loss to zero and hiding
+    the very failure the control exists to catch. So distractors_only draws
+    one distractor bank, in one order, and gives every example that same
+    bank. Then the input really is constant across examples and the best
+    possible prediction is the uniform marginal over the answer set.
     """
     rng = np.random.default_rng(seed)
     marker = 8
     answer_ids = [20 + 3 * i for i in range(n_examples)]
     banned = set(answer_ids) | {marker}
     question_ids = [9, 10, 11]
+
+    def draw_distractor(index: int) -> Chunk:
+        ids = []
+        while len(ids) < chunk_len:
+            v = int(rng.integers(12, vocab_size))
+            if v not in banned:
+                ids.append(v)
+        return Chunk(token_ids=ids, text=f"distractor {index}",
+                     reliability=0.5, source="distractor", doc_index=index)
+
+    shared_blind_bank = None
+    if distractors_only:
+        bank = [draw_distractor(j) for j in range(bank_size)]
+        order = rng.permutation(len(bank))
+        shared_blind_bank = [bank[k] for k in order]
+
     examples = []
     for i in range(n_examples):
-        chunks = []
-        if not distractors_only:
-            chunks.append(Chunk(
+        if shared_blind_bank is not None:
+            chunks = list(shared_blind_bank)
+        else:
+            chunks = [Chunk(
                 token_ids=[marker, answer_ids[i]], text=f"gold {i}",
                 reliability=1.0, source="gold", doc_index=0, supports=("f0",),
-            ))
-        while len(chunks) < bank_size:
-            ids = []
-            while len(ids) < chunk_len:
-                v = int(rng.integers(12, vocab_size))
-                if v not in banned:
-                    ids.append(v)
-            chunks.append(Chunk(token_ids=ids, text=f"distractor {len(chunks)}",
-                                reliability=0.5, source="distractor",
-                                doc_index=len(chunks)))
-        order = rng.permutation(len(chunks))
-        chunks = [chunks[k] for k in order]
+            )]
+            while len(chunks) < bank_size:
+                chunks.append(draw_distractor(len(chunks)))
+            order = rng.permutation(len(chunks))
+            chunks = [chunks[k] for k in order]
         gold = tuple(p for p, c in enumerate(chunks) if c.source == "gold")
         examples.append(EvidenceExample(
             question_ids=question_ids,

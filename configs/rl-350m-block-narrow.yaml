@@ -1,0 +1,50 @@
+# Memory fallback for configs/rl-350m-block.yaml. Identical except that
+# prompts_per_step and micro_batch_size are halved, so a step is 128 rollouts
+# instead of 256 and the update runs at 8 sequences per micro batch. Group
+# size stays at 16, which is the change that actually buys gradient signal.
+#
+# The block-4 RL launcher probes the full config with one step before it
+# commits a lane. If that probe dies out of memory the lane runs this file
+# instead, which halves the largest two memory terms.
+env:
+  max_rounds: 4
+  max_new_tokens: 96
+  query_max_tokens: 24
+  max_len: 640
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.05
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+grpo:
+  group_size: 16
+  prompts_per_step: 8
+  inner_epochs: 1
+  micro_batch_size: 8
+  clip_eps: 0.2
+  kl_coef: 0.05
+  ent_coef: 0.0
+  normalize_advantage: true
+  drop_zero_variance_groups: true
+  lr: 2.0e-6
+  weight_decay: 0.0
+  grad_clip: 1.0
+  warmup_steps: 20
+  max_steps: 3000
+  min_lr_ratio: 1.0
+  seed: 1234
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 384
+  limit_episodes: 4000
+run:
+  temperature: 1.0
+  top_k: 0
+  eval_tasks: 192
+  eval_batch: 32
+  eval_every: 100
+  sample_every: 100
+  sample_n: 8
+  ckpt_every: 250
+  log_every: 1
