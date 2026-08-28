@@ -203,3 +203,85 @@ If that curve shows the same total wall between one and two that the minimal
 composition repro found, the wall has appeared in a second, independently built
 instrument, which is much stronger than one repro. If it decays gradually
 instead, the two instruments disagree, and the disagreement is the finding.
+
+## H9, the representation-horizon hypothesis, registered 2026-08-28 before running
+
+The composition cliff is partly a representation-horizon failure. Ordinary
+text-token autoregression turns a short computational decision into many poorly
+aligned stochastic decisions. Reparameterizing planning into a compact
+executable vocabulary should increase composition depth disproportionately at a
+fixed substrate size.
+
+### Why this is now the leading reading
+
+The operator-graph experiment separates induction, composition and execution.
+With the plan supplied and operator induction still the model's own job,
+sequential accuracy is flat at 1.000 from depth one through depth eight, and
+flat at 0.573 to 0.640 on page wordings never seen in training. With the model
+writing the plan, the same quantity falls from 1.000 to 0.013. Handing the model
+gold operators instead changes nothing: plan_execute and oracle_ops agree to
+three decimals at every depth.
+
+So the substrate reads the page, induces the operator, and an executor chains it
+to depth eight without loss. The loss is concentrated in emitting the plan.
+
+The halting evidence points the same way. In the retrieval repro mean retrieval
+rounds fall as depth rises, 0.99, 0.73, 0.56, 0.54, so the policy issues fewer
+queries exactly when more evidence is required. Termination is being predicted as
+a linguistic event rather than derived from an unmet obligation.
+
+### The measured ceiling, which bounds every claim below
+
+At depth eight, plan_execute is 0.013 and oracle_plan is 1.000. The 0.987 between
+them is the representation gap on this task. Every condition is scored as the
+fraction of that gap it recovers, at each depth, rather than as a raw accuracy.
+
+### The ladder, and predictions on record
+
+Same 350M checkpoint, same operators, same worlds, same seeds, same optimizer
+steps. Only the plan representation changes.
+
+A, an English plan. B, a symbolic plan in existing tokens. C, dedicated static
+opcode tokens. D, typed opcode tokens with registers. E, D plus an externally
+enforced goal stack that cannot terminate while an obligation is unresolved.
+F, a non-autoregressive plan over graph slots.
+
+Predicted ordering: A at the plan_execute baseline, B a modest gain, C a
+substantial gain, D above C, E the largest on sequential depth because it is the
+only condition addressing the measured halting failure, F the highest variance
+and least predictable.
+
+The quantity that matters is the shape in depth, not the value at any one depth.
+A condition that lifts depth two but still collapses by depth eight has not
+addressed the horizon; a condition that is flatter in depth has, even at a lower
+absolute level.
+
+### What would falsify it
+
+If C through F all land at the plan_execute baseline, the plan vocabulary is not
+the binding constraint and the planning failure is intrinsic to the substrate.
+That would move the weight onto capacity readings this result currently argues
+against.
+
+If E does not beat D on sequential depth, then the halting failure is not
+separable from the plan representation, and the goal stack is unnecessary
+machinery.
+
+### A bound this hypothesis must respect
+
+Relational breadth has the opposite bottleneck. There oracle_plan collapses to
+0.000 at breadth four and above while oracle_both stays at 1.000, so what fails
+is the model's induction of a wide operator, not the plan. A plan vocabulary
+cannot repair an operator induced wrongly. H9 therefore predicts movement on
+sequential depth and novel composition and no movement on breadth. If breadth
+moves as well, the localisation above is wrong and should be re-derived.
+
+### The version that is not in the literature
+
+Static opcodes still assume the operation existed during training. The test that
+matters for this project is dynamic opcode induction: generate a universe after
+training, give the model prose defining an unseen operation, have a compiler head
+emit an episode-scoped symbol with its arity, types and latent implementation
+state, insert that symbol into a temporary vocabulary, and let the planner emit
+only the symbol while the executor interprets its episode-specific state. Text
+becomes a new vocabulary item, which becomes new computation, at inference time.
