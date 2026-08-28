@@ -51,8 +51,9 @@ from __future__ import annotations
 import random
 
 from src.primitives.common import (
-    Item, guard_report, invented_words, jaccard, mean_stat, parse_fields,
-    parse_labels, parse_one_label, proportion, render_menu, token_set,
+    Item, field_or_whole, guard_report, invented_words, jaccard, mean_stat,
+    parse_fields, parse_labels, parse_one_label, proportion, render_menu,
+    token_set,
 )
 
 PRIMITIVE = "intent"
@@ -315,8 +316,14 @@ def _f1(found: set, gold: set) -> float:
 def grade(item: Item, response: str) -> dict:
     """Per-field scores for one response. Never a single pass or fail."""
     f = parse_fields(response)
-    got = {k: f.get(k, "") for k in FIELDS}
     parsed = all(k in f for k in FIELDS)
+    # A model that writes no field headers at all is read as if the whole
+    # reply were every field. The five label namespaces are disjoint, so a
+    # goal label can never be mistaken for a constraint label, and the
+    # strict parse rate above is reported on its own.
+    menu = item.gold["form"] == "menu"
+    got = {k: (field_or_whole(f, k, response) if menu else f.get(k, ""))
+           for k in FIELDS}
     g = item.gold
     out = {"parsed": parsed, "fields_present": sum(1 for k in FIELDS if k in f)}
 

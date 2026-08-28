@@ -56,7 +56,8 @@ from __future__ import annotations
 import random
 
 from src.primitives.common import (
-    Item, invented_words, parse_fields, parse_one_label, proportion,
+    Item, field_or_whole, invented_words, parse_binary, parse_fields,
+    parse_one_label, proportion,
 )
 
 PRIMITIVE = "gap"
@@ -224,10 +225,25 @@ def generate_many(n: int, seed: int = 0, mode: str = "isolated") -> list[Item]:
     return items
 
 
+STATUS_CUES = {
+    "BLOCKED": ["blocked", "missing", "absent", "incomplete", "insufficient",
+                "cannot", "not enough", "no"],
+    "SOLVABLE": ["solvable", "complete", "sufficient", "enough", "answerable",
+                 "can", "yes"],
+}
+
+
 def grade(item: Item, response: str) -> dict:
+    """Read the answer generously and report the strict parse rate apart.
+
+    A model that never learned to write STATUS still says something when
+    it writes "no". Scoring that as a miss would turn a format failure
+    into a faculty reading, which is the whole thing this suite is built
+    to prevent.
+    """
     f = parse_fields(response)
-    status = parse_one_label(f.get("STATUS", ""), ["BLOCKED", "SOLVABLE"])
-    gap = parse_one_label(f.get("GAP", ""), GAP_LABELS)
+    status = parse_binary(field_or_whole(f, "STATUS", response), STATUS_CUES)
+    gap = parse_one_label(field_or_whole(f, "GAP", response), GAP_LABELS)
     step = parse_one_label(f.get("STEP", ""), STEP_LABELS)
     g = item.gold
     detected = status == g["status"]

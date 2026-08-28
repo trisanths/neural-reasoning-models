@@ -41,7 +41,7 @@ __all__ = [
     "GLYPHS", "Item", "invented_word", "invented_words", "parse_fields",
     "parse_labels", "parse_one_label", "normalize", "token_set", "overlap",
     "wilson", "proportion", "mean_stat", "guard_report", "guard_ok",
-    "render_menu", "LETTERS", "jaccard",
+    "render_menu", "LETTERS", "jaccard", "parse_binary", "field_or_whole",
 ]
 
 LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -184,6 +184,43 @@ def parse_one_label(value: str, allowed) -> str | None:
     """
     labs = parse_labels(value, allowed)
     return labs[0] if len(labs) == 1 else None
+
+
+def parse_binary(text: str, mapping: dict) -> str | None:
+    """A two-way choice read generously, or None when it is not there.
+
+    A model that was never trained to write PASS still means something
+    when it writes "no". Scoring that as a miss would measure format
+    compliance and call the result a faculty, which is the failure mode
+    this suite exists to avoid. The earliest cue in the text wins, and a
+    text carrying cues for both sides at the same position is None.
+    Strict field presence is reported separately as the parse rate, so
+    nothing is hidden by the leniency.
+    """
+    low = str(text).lower()
+    hits = []
+    for label, cues in mapping.items():
+        for cue in cues:
+            m = re.search(rf"(?<![a-z]){re.escape(cue)}(?![a-z])", low)
+            if m:
+                hits.append((m.start(), label))
+                break
+    if not hits:
+        return None
+    hits.sort()
+    if len(hits) > 1 and hits[0][0] == hits[1][0]:
+        return None
+    return hits[0][1]
+
+
+def field_or_whole(fields: dict, key: str, response: str) -> str:
+    """The named field, or the whole reply when the model wrote no fields.
+
+    The label namespaces in this suite do not overlap, so scanning a
+    formatless reply for one field's labels cannot pick up another's.
+    """
+    got = fields.get(key)
+    return got if got else str(response)
 
 
 def render_menu(options: list[str], prefix: str) -> tuple[str, list[str]]:

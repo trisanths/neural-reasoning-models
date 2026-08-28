@@ -146,6 +146,49 @@ def test_the_rescue_matrix_locates_a_single_missing_faculty(key):
         assert rep["rows"][cond]["accuracy"]["acc"] < 0.4, cond
 
 
+def test_a_silent_model_scores_zero_and_not_chance(key):
+    """Saying nothing is not the same as guessing, and must not look like it.
+
+    A model that emits nothing expresses no verdict, so it is scored as
+    wrong everywhere rather than credited with the chance rate. The parse
+    rate goes to zero at the same time, which is what the report's format
+    warning keys off.
+    """
+    silent = lambda q, c=None: ""
+    rep, _ = runner.run_verification(silent, n=20, seed=SEED)
+    assert rep["detection"]["acc"] == 0.0
+    assert rep["parse_rate"]["acc"] == 0.0
+    g, _ = runner.run_gap(silent, n=20, seed=SEED)
+    assert g["detection"]["acc"] == 0.0
+
+
+def test_a_model_that_always_says_no_shows_a_false_alarm_rate_of_one(key):
+    """The generous reading must not hand a degenerate reply a faculty.
+
+    Answering "no" to everything is read as claiming a gap and as failing
+    the candidate, which is exactly half right by construction, and the
+    false-alarm rate is one. Both are visible; neither looks like skill.
+    """
+    always_no = lambda q, c=None: "no"
+    g, _ = runner.run_gap(always_no, n=40, seed=SEED)
+    assert abs(g["detection"]["acc"] - 0.5) < 1e-9
+    assert g["false_alarm"]["acc"] == 1.0
+    assert not g["detection"]["above_chance"]
+    v, _ = runner.run_verification(always_no, n=40, seed=SEED)
+    assert abs(v["detection"]["acc"] - 0.5) < 1e-9
+    assert v["false_alarm"]["acc"] == 1.0
+
+
+def test_naming_every_candidate_is_not_an_answer(key):
+    """A reply that lists all the options counts as no choice at all."""
+    from src.primitives import p5_composition as C
+
+    items = C.generate_curve(10, "sequential", [2], seed=SEED)
+    listy = [C.grade(i, ", ".join(i.gold["labels"])) for i in items]
+    assert sum(g["correct"] for g in listy) == 0.0
+    assert not any(g["parsed"] for g in listy)
+
+
 def test_integrated_mode_runs_every_primitive(key):
     """Both modes have to work at every size for the substrate sweep."""
     k2 = fakes.build_answer_key(n=6, seed=1, mode="integrated", ks=(1, 2),

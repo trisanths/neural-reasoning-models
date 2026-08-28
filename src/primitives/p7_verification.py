@@ -57,7 +57,17 @@ from __future__ import annotations
 
 import random
 
-from src.primitives.common import Item, invented_words, parse_fields, parse_one_label, proportion
+from src.primitives.common import (
+    Item, field_or_whole, invented_words, parse_binary, parse_fields,
+    parse_one_label, proportion,
+)
+
+CHECK_CUES = {
+    "PASS": ["pass", "correct", "right", "yes", "valid", "accept", "accepted",
+             "agree", "stands"],
+    "FAIL": ["fail", "wrong", "incorrect", "no", "not", "invalid", "reject",
+             "rejected", "disagree"],
+}
 
 PRIMITIVE = "verification"
 SHAPES = ("exception", "constraint")
@@ -170,9 +180,16 @@ def generate_many(n: int, seed: int = 0, mode: str = "isolated") -> list[Item]:
 
 
 def grade(item: Item, response: str) -> dict:
+    """Detection read generously, correction read from the whole reply.
+
+    The strict parse rate is reported separately, so a model that cannot
+    write the two-line format is visible as a format failure and not as a
+    faculty of zero.
+    """
     f = parse_fields(response)
-    check = parse_one_label(f.get("CHECK", response), ["PASS", "FAIL"])
-    ans = parse_one_label(f.get("ANSWER", ""), item.gold["labels"])
+    check = parse_binary(field_or_whole(f, "CHECK", response), CHECK_CUES)
+    ans = parse_one_label(field_or_whole(f, "ANSWER", response),
+                          item.gold["labels"])
     g = item.gold
     detected = check == g["check"]
     return {

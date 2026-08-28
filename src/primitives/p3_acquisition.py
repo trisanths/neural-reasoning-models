@@ -61,7 +61,9 @@ from __future__ import annotations
 
 import random
 
-from src.primitives.common import Item, invented_words, parse_fields, proportion
+from src.primitives.common import (
+    Item, field_or_whole, invented_words, parse_fields, proportion,
+)
 from src.train.retrieval import BM25Index
 
 PRIMITIVE = "acquisition"
@@ -223,13 +225,21 @@ def generate_many(n: int, seed: int = 0, mode: str = "isolated",
 
 
 def _query_of(response: str) -> tuple[str | None, str]:
+    """The tier and the query, read generously.
+
+    A model that writes no field headers has its whole reply treated as
+    the query and scanned for a tier name, so the score reflects what the
+    model asked for rather than whether it could write two labelled lines.
+    The strict parse rate is reported separately.
+    """
     f = parse_fields(response)
+    src_text = field_or_whole(f, "SOURCE", response).lower()
     src = None
     for name in TIER_NAMES:
-        if name.lower() in f.get("SOURCE", "").lower():
+        if name.lower() in src_text:
             src = name
             break
-    return src, f.get("QUERY", "").strip()
+    return src, field_or_whole(f, "QUERY", response).strip()
 
 
 def grade(item: Item, response: str, followup: str | None = None) -> dict:
@@ -243,7 +253,7 @@ def grade(item: Item, response: str, followup: str | None = None) -> dict:
 
     rank = _rank(index, query, 3) if query else []
     out = {
-        "parsed": bool(query),
+        "parsed": "QUERY" in parse_fields(response),
         "source": float(src == want_tier),
         "hit1": float(bool(rank) and rank[0] == want_first),
         "hit3": float(want_first in rank),

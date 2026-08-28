@@ -29,6 +29,52 @@ def _line(label, stat) -> str:
     return f"| {label} | {_pct(stat)} | {_adj(stat)} |"
 
 
+def _parse_rates(report: dict) -> dict:
+    out = {}
+    for name, rep in report.items():
+        if not isinstance(rep, dict):
+            continue
+        pr = rep.get("parse_rate")
+        if isinstance(pr, dict):
+            out[name] = pr["acc"]
+        else:
+            for sub in rep.values():
+                if isinstance(sub, dict) and isinstance(
+                        sub.get("parse_rate"), dict):
+                    out[name] = sub["parse_rate"]["acc"]
+                    break
+    return out
+
+
+def _expressibility_note(report: dict) -> str:
+    """Say plainly when the profile is bounded by expression, not faculty.
+
+    Graders here read a formatless reply generously, so a low score is not
+    automatically a format failure. But a model that writes the requested
+    fields on almost no item is a model whose faculties this instrument
+    cannot see, and that has to be stated in the report rather than left
+    for a reader to infer from a table of zeros.
+    """
+    rates = _parse_rates(report)
+    if not rates:
+        return ""
+    worst = sorted(rates.items(), key=lambda kv: kv[1])
+    mean = sum(rates.values()) / len(rates)
+    if mean >= 0.5:
+        return (f"Requested answer format produced on {mean:.0%} of items on "
+                f"average. Scores below read as faculty.")
+    low = ", ".join(f"{k} {v:.0%}" for k, v in worst[:4])
+    return (
+        f"Format warning. The requested answer format was produced on only "
+        f"{mean:.0%} of items on average ({low}). Every grader here falls "
+        f"back to reading the whole reply, and binary fields are read "
+        f"through a synonym list, so these numbers are not pure format "
+        f"failures. They are still an upper bound on what this instrument "
+        f"can see of this model: a faculty the model cannot express is a "
+        f"faculty this suite cannot measure, and the profile below should "
+        f"be read as a floor rather than an estimate.")
+
+
 def render_markdown(report: dict) -> str:
     meta = report.get("meta", {})
     out = [
@@ -41,6 +87,8 @@ def render_markdown(report: dict) -> str:
         "",
         "Never pooled. Every faculty carries its own sample size, its own",
         "chance rate and its own Wilson interval.",
+        "",
+        _expressibility_note(report),
         "",
         "## Headline, one line per faculty",
         "",
