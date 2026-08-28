@@ -1,0 +1,59 @@
+# RL on the layered acquisition universe, levels 0 and 1.
+#
+# The 503 pretrain drives the retrieve-result loop on worldgen questions and
+# falls silent on these: at the end of an acquisition question it puts 0.67 on
+# <|eot|> and 0.008 on <|retrieve|>. Nothing about the loop can be measured
+# through a policy that never asks for a page, so this run teaches the
+# behaviour on training chapters whose seeds are disjoint from every chapter
+# the loop is later evaluated on. Chapters regenerate their notion names and
+# their answer words from their own seed, so what transfers is reading a page
+# and applying it, never a particular answer.
+#
+# Levels 0 and 1 only. A level-2 problem consults six notions and max_rounds
+# is 4, so it is not solvable inside one rollout and would contribute reward
+# variance without a gradient toward anything learnable.
+#
+# retrieval_bonus stays at the block config's 0.35: the failure to fix is a
+# policy that does not retrieve at all.
+env:
+  max_rounds: 4
+  max_new_tokens: 64
+  query_max_tokens: 24
+  max_len: 1536
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.35
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+grpo:
+  group_size: 8
+  prompts_per_step: 8
+  inner_epochs: 1
+  micro_batch_size: 8
+  clip_eps: 0.2
+  kl_coef: 0.02
+  ent_coef: 0.0
+  normalize_advantage: true
+  drop_zero_variance_groups: true
+  lr: 6.0e-6
+  weight_decay: 0.0
+  grad_clip: 1.0
+  warmup_steps: 20
+  max_steps: 800
+  min_lr_ratio: 1.0
+  seed: 1234
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 1280
+  limit_episodes: 4000
+run:
+  temperature: 1.25
+  top_k: 0
+  eval_tasks: 96
+  eval_batch: 32
+  eval_every: 50
+  sample_every: 50
+  sample_n: 8
+  ckpt_every: 100
+  log_every: 1
