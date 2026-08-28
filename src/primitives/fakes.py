@@ -275,6 +275,7 @@ class ChoosingModel(ScriptedModel):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.choice_key: dict[tuple, int] = {}
+        self.blind_seed = kwargs.get("seed", 0)
 
     def learn_choices(self, pairs) -> None:
         for item, choice in pairs:
@@ -298,7 +299,14 @@ class ChoosingModel(ScriptedModel):
             able = able and (k is None or k <= self.max_depth)
         if primitive == "episode":
             able = set(ep.FACULTIES) <= self.competent
-        return gold if able else self.rng.randrange(len(options))
+        if able:
+            return gold
+        # The blind pick is drawn from a stream keyed by the prompt rather
+        # than from the shared one, so it cannot pick up the order items
+        # happen to be scored in. The alternative left a stand-in blind at
+        # a faculty scoring twenty of twenty-four on a two-way field.
+        return random.Random(f"{self.blind_seed}|{question}").randrange(
+            len(options))
 
 
 def faculty_model(key: dict, name: str, seed: int = 0) -> ScriptedModel:

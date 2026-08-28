@@ -143,6 +143,8 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
          "proto": f"{w[3][:3].upper()}-{rng.randrange(10, 99)}",
          "steps": rng.randrange(3, 9)}
     docs, direct, hop = _corpus(v, rng)
+    glossary = next(i for i, d in enumerate(docs)
+                    if d["text"].startswith("GLOSSARY. " + v["attr"]))
 
     others = invented_words(rng, 6)
     mappings = [(v["common"], v["code"])]
@@ -156,9 +158,29 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
 
     catalogue = "\n".join(f"  {name}: {desc}" for name, desc in TIERS)
     if variant == "direct":
-        need = (f"Find the page that gives the {v['attr']} of the "
-                f"{v['common']} consignment.")
-        gold_doc, gold_tier = direct, docs[direct]["tier"]
+        # Which tier holds the answer rotates, so source selection is a real
+        # four-way choice. With a constant gold tier the field would only
+        # ever measure whether a model likes that one word.
+        target = seed % 3
+        if target == 0:
+            need = (f"Find the page that gives the {v['attr']} of the "
+                    f"{v['common']} consignment.")
+            gold_doc = direct
+        elif target == 1:
+            # The need never names the term, so echoing it cannot reach the
+            # glossary. The term is in the note, one selection away.
+            note += (f" The number kept against each consignment goes by "
+                     f"the term {v['attr']}.")
+            need = ("The indexing note names one term. Find the page that "
+                    "defines that term.")
+            gold_doc = glossary
+        else:
+            note += (f" The {v['common']} consignment is handled under "
+                     f"protocol {v['proto']}.")
+            need = (f"Find the page that gives the number of inspection "
+                    f"stages used for the {v['common']} consignment.")
+            gold_doc = hop
+        gold_tier = docs[gold_doc]["tier"]
     else:
         need = (f"Find the page that gives the number of inspection stages "
                 f"used for the {v['common']} consignment.")
@@ -175,15 +197,24 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
                 + "\n\nIndexing note.\n" + note
                 + "\n\nWhat is needed.\n" + need)
 
-    # The first turn is always scored against the ledger page, which the
-    # handling code reaches. The recursive variant's answer lives one page
-    # further on, behind the protocol name only that ledger page carries,
-    # so its oracle first query is the same code and its hop query is the
-    # protocol. Both are checked below.
+    # The first turn is scored against the page the need points at. Every
+    # target is reached by a key the prompt states but the need does not,
+    # so echoing the need never wins. The recursive variant's answer lives
+    # one page further on, behind a protocol name only the ledger page
+    # carries, so its first query is the handling code and its hop query is
+    # the protocol. All of that is checked below.
+    if variant == "recursive":
+        first_doc, first_query = direct, v["code"]
+    elif gold_doc == glossary:
+        first_doc, first_query = glossary, v["attr"]
+    elif gold_doc == hop:
+        first_doc, first_query = hop, v["proto"]
+    else:
+        first_doc, first_query = direct, v["code"]
+
     texts = [d["text"] for d in docs]
     index = BM25Index(texts)
     copy_rank = _rank(index, need, 3)
-    first_query = v["code"]
     first_rank = _rank(index, first_query, 1)
     hop_rank = _rank(index, v["proto"], 1)
 
@@ -192,23 +223,28 @@ def generate(seed: int, mode: str = "isolated", variant: str = "direct") -> Item
         primitive=PRIMITIVE, variant=variant, mode=mode,
         question=question, chunks=[],
         gold={"doc": gold_doc, "tier": gold_tier,
-              "first_doc": direct, "first_tier": docs[direct]["tier"],
+              "first_doc": first_doc, "first_tier": docs[first_doc]["tier"],
               "first_query": first_query, "oracle_query": first_query,
               "hop_query": v["proto"], "hop_doc": hop,
               "hop_tier": docs[hop]["tier"]},
         meta={"seed": seed, "docs": texts,
               "followup": FOLLOWUP.format(tiers=", ".join(TIER_NAMES)),
               "served_text": texts[direct],
-              "copy_hits": copy_rank[0] == direct,
-              "copy_top3": direct in copy_rank,
-              "oracle_hits": (first_rank[0] == direct
+              "target_tier": docs[first_doc]["tier"],
+              "copy_hits": copy_rank[0] == first_doc,
+              "copy_top3": first_doc in copy_rank,
+              "oracle_hits": (first_rank[0] == first_doc
                               and hop_rank[0] == hop)},
     )
 
 
 def generate_many(n: int, seed: int = 0, mode: str = "isolated",
                   variant: str = "direct") -> list[Item]:
-    """n items where the verbatim-copy heuristic fails and the oracle query wins."""
+    """n items where the verbatim-copy heuristic fails and the oracle query wins.
+
+    The direct variant rotates which tier holds the answer, so a model that
+    always names the same tier cannot score source selection.
+    """
     out: list[Item] = []
     s = seed
     tried = 0

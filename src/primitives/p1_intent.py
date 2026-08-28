@@ -298,17 +298,27 @@ def generate(seed: int, mode: str = "isolated") -> Item:
 
 
 def generate_many(n: int, seed: int = 0, mode: str = "isolated") -> list[Item]:
-    """n items, rejecting any a shortcut heuristic would solve."""
+    """n items, guard-clean and balanced between the two conflict arms.
+
+    Balance is enforced rather than left to the seed parity, because the
+    guard rejects the two arms at different rates and an unbalanced set
+    would let a model that always reports "no contradiction" score the
+    majority share instead of the one-in-four the option count implies.
+    """
     out: list[Item] = []
     s = seed
     tried = 0
-    while len(out) < n and tried < n * 40:
+    want_conflict = True
+    while len(out) < n and tried < n * 80:
         tried += 1
         item = generate(s, mode=mode)
         s += 1
         if any(g["any"] for g in item.meta["guards"].values()):
             continue
+        if item.meta["has_conflict"] != want_conflict:
+            continue
         out.append(item)
+        want_conflict = not want_conflict
     if len(out) < n:
         raise RuntimeError(f"only {len(out)} of {n} intent items passed the guard")
     return out

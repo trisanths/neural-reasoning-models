@@ -172,10 +172,24 @@ def test_acquisition_gold_query_is_scored_correct():
                 assert g["hop_hit1"] == 1.0
 
 
-def test_acquisition_gold_page_avoids_the_common_name():
+def test_acquisition_gold_page_is_reached_by_a_key_only_the_note_gives():
     for item in p3_acquisition.generate_many(15, seed=13):
         page = item.meta["docs"][item.gold["first_doc"]]
         assert item.gold["first_query"] in page
+        need = item.question.split("What is needed.\n")[-1]
+        assert item.gold["first_query"] not in need
+
+
+def test_acquisition_gold_tier_rotates():
+    """A constant gold tier would make source selection meaningless."""
+    tiers = {i.meta["target_tier"]
+             for i in p3_acquisition.generate_many(30, seed=21)}
+    assert len(tiers) >= 3, tiers
+
+
+def test_intent_conflict_arms_are_balanced_exactly():
+    items = p1_intent.generate_many(40, seed=500)
+    assert sum(1 for i in items if i.meta["has_conflict"]) == 20
 
 
 def test_acquisition_echoing_the_request_scores_at_or_below_copy():

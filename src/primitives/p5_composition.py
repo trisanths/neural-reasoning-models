@@ -72,6 +72,13 @@ KINDS = ("sequential", "relational", "novel")
 N_NAMES = 8
 CHANCE = 1.0 / N_NAMES
 
+# The depth a curve is credited with is the last k whose chance-adjusted
+# interval clears this margin, not merely the last k that clears chance.
+# A ninety-five percent interval fires on one cell in forty by luck, and a
+# curve read off single cells would report a depth of one for a model with
+# no ability at all. The margin is fixed here rather than chosen per run.
+DEPTH_MARGIN = 0.15
+
 ANSWER_LINE = "Answer with exactly this line:\nANSWER: one of the names listed above"
 
 
@@ -395,7 +402,7 @@ def aggregate_curve(items: list[Item], grades: list[dict],
     def depth(c):
         best = 0
         for k in sorted(c):
-            if c[k]["above_chance"]:
+            if c[k]["adjusted_ci_lo"] > DEPTH_MARGIN:
                 best = k
             else:
                 break
@@ -403,7 +410,7 @@ def aggregate_curve(items: list[Item], grades: list[dict],
 
     out = {
         "primitive": PRIMITIVE, "kind": kind, "mode": mode, "n": len(items),
-        "chance": CHANCE,
+        "chance": CHANCE, "depth_margin": DEPTH_MARGIN,
         "curve": {str(k): v for k, v in curve.items()},
         "k_star": depth(curve),
         "headline": depth(curve),

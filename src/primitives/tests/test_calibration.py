@@ -211,7 +211,11 @@ def test_the_forced_choice_channel_tracks_the_same_faculties(key):
             if other == target:
                 continue
             for stat in rep[other].values():
-                assert not stat["above_chance"], (target, other, stat)
+                # A margin rather than a bare interval test: at these sample
+                # sizes a ninety-five percent interval clears chance on one
+                # cell in forty by luck, and the claim being made is that the
+                # metric does not move, not that it never wobbles.
+                assert stat["adjusted_ci_lo"] <= 0.25, (target, other, stat)
 
 
 def test_the_forced_choice_channel_has_a_working_depth_curve(key):
