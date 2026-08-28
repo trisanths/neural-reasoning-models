@@ -24,7 +24,7 @@ import random
 from src.opgraph.invent import (breadth_item, decide_item, make_world, novel,
                                 seq_flat, seq_paren, units_item)
 from src.opgraph.opdef import serialize_all
-from src.opgraph.plan import serialize_plan, signature_line
+from src.opgraph.plan import serialize_plan, signature_line, trace_text
 
 IGNORE = -100
 
@@ -35,6 +35,10 @@ def direct_prompt(world, question: str, keys=None) -> str:
 
 def induce_prompt(page_text: str) -> str:
     return f"<|world|> opgraph <|doc|> {page_text} <|q|> induce <|a|>"
+
+
+def trace_prompt(world, question: str, keys=None) -> str:
+    return f"<|world|> opgraph{world.context(keys)} <|q|> trace {question} <|a|>"
 
 
 def plan_prompt(ops, question: str) -> str:
@@ -61,6 +65,11 @@ def training_examples(seed: int, arm: str) -> list[tuple[str, str]]:
         for it in items:
             keys = None if rng.random() < 0.5 else set(it.pages)
             out.append((direct_prompt(w, it.text, keys), it.gold))
+        return out
+    if arm == "trace":
+        for it in items:
+            keys = None if rng.random() < 0.5 else set(it.pages)
+            out.append((trace_prompt(w, it.text, keys), trace_text(it.plan, w.ops)))
         return out
     if arm == "opgraph":
         for p in w.shuffled_pages():

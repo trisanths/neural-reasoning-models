@@ -170,6 +170,58 @@ def run_plan(plan: Plan, ops: dict[str, Operator]):
     return a
 
 
+def run_plan_trace(plan: Plan, ops: dict[str, Operator]):
+    """Run a plan and also return the value each step produced.
+
+    This is what the written out baseline is trained to imitate: the same
+    decomposition, the same order, but with every intermediate value spelled
+    in tokens instead of computed by the executor.
+    """
+    env: dict[str, object] = {}
+    trace = []
+    for s in plan.steps:
+        args = []
+        for a in s.args:
+            if isinstance(a, str) and _TEMP_RE.match(a):
+                args.append(env[a])
+            elif isinstance(a, tuple) and a and a[0] == "lit":
+                args.append(a[1])
+            else:
+                args.append(a)
+        if s.symbol in BUILTIN_STEPS:
+            n, fn = BUILTIN_STEPS[s.symbol]
+            v = fn(*args)
+        else:
+            op = ops.get(s.symbol)
+            if op is None:
+                raise PlanError(f"unknown operator {s.symbol!r}")
+            v = op(*args)
+        env[s.target] = v
+        trace.append((s, v))
+    a = plan.answer
+    final = env[a] if _TEMP_RE.match(a) else a
+    return final, trace
+
+
+def trace_text(plan: Plan, ops: dict[str, Operator]) -> str:
+    """The written out form: every step, then the value it produced."""
+    final, trace = run_plan_trace(plan, ops)
+    parts = []
+    for s, v in trace:
+        args = " ".join(_arg_text(x) for x in s.args)
+        parts.append(f"{s.target} = {s.symbol} {args} -> {answer_text(v)}")
+    parts.append(f"ans {answer_text(final)}")
+    return " ; ".join(parts)
+
+
+def trace_answer(text: str) -> str:
+    """The value a written out trace ends on, or the empty string."""
+    idx = text.rfind("ans ")
+    if idx < 0:
+        return ""
+    return text[idx + 4:].strip().split(";")[0].strip()
+
+
 def answer_text(value) -> str:
     """How an executed value is written down for comparison against gold."""
     if isinstance(value, bool):

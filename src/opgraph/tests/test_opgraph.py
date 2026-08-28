@@ -146,3 +146,30 @@ def test_breadth_worlds_track_the_breadth():
         items = data.eval_items("breadth", b, 4)
         for it in items:
             assert it.world.ops["score"].arity == b + 1
+
+
+def test_written_out_trace_matches_the_executed_answer():
+    from src.opgraph.plan import trace_answer, trace_text
+    rng = random.Random(9)
+    w = invent.make_world(77, breadth=3)
+    for it in [invent.seq_flat(w, rng, 5), invent.novel(w, rng, 4),
+               invent.breadth_item(w, rng, 3), invent.decide_item(w, rng)]:
+        text = trace_text(it.plan, w.ops)
+        assert trace_answer(text) == it.gold, it.kind
+        assert text.count("->") == it.plan.depth
+
+
+def test_trace_arm_sees_the_same_questions_as_the_direct_arm():
+    for seed in range(20):
+        d = data.training_examples(seed, "direct")
+        t = data.training_examples(seed, "trace")
+        qd = sorted(p.split("<|q|>")[1].split("<|a|>")[0].strip() for p, _ in d)
+        qt = sorted(p.split("<|q|>")[1].replace("trace", "", 1).split("<|a|>")[0].strip()
+                    for p, _ in t)
+        assert qd == qt
+
+
+def test_operator_symbol_is_never_the_equals_sign():
+    for seed in range(200):
+        w = invent.make_world(seed, breadth=2)
+        assert "=" not in [p.glyph for p in w.pages if p.key.startswith("binop:")]

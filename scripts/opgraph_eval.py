@@ -17,6 +17,9 @@ Conditions, in the order they localise the failure:
   base_untrained_direct  the pretrained checkpoint, no fine tuning
   direct_all             fine tuned to answer, all four pages in context
   direct_oracle_page     fine tuned to answer, only the pages the question needs
+  trace_all              fine tuned to write the same decomposition out in
+                         tokens and compute every step itself, all pages
+  trace_oracle_page      the same, only the pages the question needs
   plan_execute           induce, plan, execute
   oracle_plan            gold plan, induced operators, execute
   oracle_ops             gold operators, model plan, execute
@@ -38,7 +41,7 @@ import torch
 
 from src.opgraph.data import eval_worlds, make_item
 from src.opgraph.run import (Generator, induce_worlds, load_model, score_direct,
-                             score_planned)
+                             score_planned, score_trace)
 from src.train.tokenizer import load_tokenizer
 
 GRID = {
@@ -71,6 +74,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--direct-ckpt", required=True)
     ap.add_argument("--opgraph-ckpt", required=True)
+    ap.add_argument("--trace-ckpt", default=None)
     ap.add_argument("--base-ckpt", default=None)
     ap.add_argument("--tokenizer", required=True)
     ap.add_argument("--out", required=True)
@@ -94,6 +98,16 @@ def main() -> int:
             _record(results, name, key, ok, samples=outs[:3])
     del direct, gen
     torch.cuda.empty_cache()
+
+    if args.trace_ckpt:
+        tr, _ = load_model(args.trace_ckpt, device)
+        gt = Generator(tr, tok, device, batch_size=args.batch_size)
+        for key, items in sets.items():
+            for name, oracle in (("trace_all", False), ("trace_oracle_page", True)):
+                ok, outs = score_trace(gt, items, oracle)
+                _record(results, name, key, ok, samples=outs[:3])
+        del tr, gt
+        torch.cuda.empty_cache()
 
     if args.base_ckpt:
         base, _ = load_model(args.base_ckpt, device)

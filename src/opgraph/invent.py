@@ -32,6 +32,11 @@ from src.opgraph.opdef import Call, Operator, Var, serialize_all
 from src.opgraph.plan import Plan, Step, serialize_plan
 from src.skillacq.systems import GLYPHS, NAME_SYLLABLES
 
+# The equals sign is dropped from the glyph pool because a worked example is
+# written "7 @ 4 = 51", and an operator also written = would make that line
+# ambiguous to a reader and to the model.
+OP_GLYPHS = [g for g in GLYPHS if g != "="]
+
 X, Y, N, V, S = Var("x"), Var("y"), Var("n"), Var("v"), Var("s")
 
 
@@ -217,7 +222,7 @@ class World:
 
 def make_world(seed: int, breadth: int = 3) -> World:
     rng = random.Random(seed * 7919 + 13)
-    g1, g2 = rng.sample(GLYPHS, 2)
+    g1, g2 = rng.sample(OP_GLYPHS, 2)
     pages = [_binop_page(rng, g1), _binop_page(rng, g2),
              _units_page(rng), _procedure_page(rng, breadth)]
     order = list(range(len(pages)))

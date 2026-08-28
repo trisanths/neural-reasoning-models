@@ -25,9 +25,11 @@ from dataclasses import dataclass, field
 
 import torch
 
-from src.opgraph.data import direct_prompt, induce_prompt, plan_prompt
+from src.opgraph.data import (direct_prompt, induce_prompt, plan_prompt,
+                              trace_prompt)
 from src.opgraph.opdef import OpError, Operator, parse_operators, verify
-from src.opgraph.plan import PlanError, answer_text, parse_plan, run_plan
+from src.opgraph.plan import (PlanError, answer_text, parse_plan, run_plan,
+                              trace_answer)
 from src.rl.sampler import CachedPolicy
 
 EOT = "<|eot|>"
@@ -182,6 +184,15 @@ def score_direct(gen: Generator, items, oracle_page: bool, max_new: int = 24):
                for it in items]
     outs = gen.generate(prompts, max_new=max_new)
     return [_norm(o) == _norm(it.gold) for o, it in zip(outs, items)], outs
+
+
+def score_trace(gen: Generator, items, oracle_page: bool, max_new: int = 200):
+    """The written out baseline: same decomposition, no external executor."""
+    prompts = [trace_prompt(it.world, it.text,
+                            set(it.pages) if oracle_page else None)
+               for it in items]
+    outs = gen.generate(prompts, max_new=max_new)
+    return [_norm(trace_answer(o)) == _norm(it.gold) for o, it in zip(outs, items)], outs
 
 
 def score_planned(gen: Generator, items, ops_by_world: dict,
