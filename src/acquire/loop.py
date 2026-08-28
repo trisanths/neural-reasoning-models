@@ -19,6 +19,14 @@ One pass over one problem:
 
 Every trace keeps the problem's level, chapter and phrasing, so report()
 breaks every number out by both and never pools them.
+
+One measurement in here is worth reading carefully. The retrieval cell
+compares the question's own words against the structural query by repeating
+each one k times. That is a fair test of the first hop and an unfair test of
+the rest: the structural query is the seed of a multi-hop search that renames
+its target as soon as the preamble arrives, and repeating the seed instead of
+following the search understates it. The end-to-end number for the search is
+the curriculum score, not this cell.
 """
 
 from __future__ import annotations
@@ -101,26 +109,43 @@ def _closure(skill: SkillMemory, term: str) -> list[str]:
 
 
 def _retrieval_probe(index: LessonIndex, query: str, required_pages,
-                     k: int) -> dict:
-    """How much of the required material one repeated query can reach.
+                     k: int, target_page: str = "") -> dict:
+    """What one repeated query reaches, measured three ways.
 
-    A page is counted once. This is the measurement behind the claim that a
-    structural description finds what the question's own words cannot.
+    Bulk coverage says how much of the required material shows up inside a
+    budget of k retrievals. It is the friendliest measure, and in a corpus
+    where every page of a chapter shares the chapter's attribute words it
+    flatters any query that mentions them.
+
+    The first hop and the steps to the target are the sharp measures. A query
+    that eventually sweeps the whole chapter is not the same as a query that
+    lands on the page that names what is missing, and the cost of a search is
+    how many retrievals it takes to get there.
     """
     got: list[str] = []
     used: set[str] = set()
-    for _ in range(k):
+    top1 = {"page_id": "", "kind": ""}
+    steps_to_target = None
+    for step in range(k):
         hits = index.retrieve(query, k=1, exclude=used)
         if not hits:
             break
+        if step == 0:
+            top1 = {"page_id": hits[0].page_id, "kind": hits[0].kind}
         for page in hits[0].documents():
             pid = page.get("page_id", "")
             used.add(pid)
+            if target_page and pid == target_page and steps_to_target is None:
+                steps_to_target = step + 1
             if pid in required_pages and pid not in got:
                 got.append(pid)
     need = set(required_pages)
     return {"query": query, "n_required": len(need), "n_hit": len(got),
-            "hit_rate": len(got) / len(need) if need else 0.0}
+            "hit_rate": len(got) / len(need) if need else 0.0,
+            "top1_page": top1["page_id"], "top1_kind": top1["kind"],
+            "top1_required": top1["page_id"] in need,
+            "steps_to_target": steps_to_target,
+            "reached_target": steps_to_target is not None}
 
 
 def run_problem(problem, chapter, documents: list[dict], reasoner,
@@ -150,11 +175,15 @@ def run_problem(problem, chapter, documents: list[dict], reasoner,
 
     # The two retrieval probes, model-free, for the structural-query claim.
     n_req = max(1, len(problem.required_pages))
+    target_page = (chapter.definition_page(problem.notion).page_id
+                   if chapter is not None else "")
     trace.retrieval = {
         "naive": _retrieval_probe(index, gap.naive_query,
-                                  problem.required_pages, n_req + 2),
+                                  problem.required_pages, n_req + 2,
+                                  target_page),
         "structural": _retrieval_probe(index, gap.query or gap.naive_query,
-                                       problem.required_pages, n_req + 2),
+                                       problem.required_pages, n_req + 2,
+                                       target_page),
     }
 
     if not gap.fired:
@@ -279,6 +308,26 @@ def run_universe(universe, reasoner, cfg: LoopConfig | None = None,
 # ------------------------------------------------------------------ reporting
 
 
+def _retrieval_cell(traces: list[LoopTrace]) -> dict:
+    """Naive against structural, on all three measures, side by side."""
+    have = [t for t in traces if t.retrieval]
+    if not have:
+        return {}
+    out = {}
+    for which in ("naive", "structural"):
+        rows = [t.retrieval[which] for t in have]
+        reached = [r for r in rows if r["reached_target"]]
+        out[which] = {
+            "bulk_hit_rate": sum(r["hit_rate"] for r in rows) / len(rows),
+            "top1_required": sum(r["top1_required"] for r in rows) / len(rows),
+            "reached_target": len(reached) / len(rows),
+            "mean_steps_to_target": (
+                sum(r["steps_to_target"] for r in reached) / len(reached)
+                if reached else None),
+        }
+    return out
+
+
 def _cell(traces: list[LoopTrace]) -> dict:
     n = len(traces)
     if not n:
@@ -307,12 +356,7 @@ def _cell(traces: list[LoopTrace]) -> dict:
         "gate_withheld_a_right_answer": len(cost) / n,
         "gate_pass_rate": sum(t.gate_passed for t in traces) / n,
         "curriculum": curriculum_mod.aggregate(curr),
-        "retrieval_naive_hit_rate": sum(
-            t.retrieval.get("naive", {}).get("hit_rate", 0.0)
-            for t in traces if t.retrieval) / max(1, sum(1 for t in traces if t.retrieval)),
-        "retrieval_structural_hit_rate": sum(
-            t.retrieval.get("structural", {}).get("hit_rate", 0.0)
-            for t in traces if t.retrieval) / max(1, sum(1 for t in traces if t.retrieval)),
+        "retrieval": _retrieval_cell(traces),
         "card_chars": sum(t.card_chars for t in traces) / n,
         "raw_chars": sum(t.raw_chars for t in traces) / n,
         "model_calls": sum(t.n_model_calls for t in traces) / n,
