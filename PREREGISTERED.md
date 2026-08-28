@@ -285,3 +285,87 @@ emit an episode-scoped symbol with its arity, types and latent implementation
 state, insert that symbol into a temporary vocabulary, and let the planner emit
 only the symbol while the executor interprets its episode-specific state. Text
 becomes a new vocabulary item, which becomes new computation, at inference time.
+
+## H10, the autoregressive planning horizon, registered 2026-08-28 before running
+
+The trace control removes the convenient explanation. Trace writes the same
+decomposition in tokens, computes every step itself and has explicit
+intermediate supervision, and it still dies where everything else dies.
+
+Sequential depth, original wording, n=150 per cell:
+
+| depth | direct | trace | plan_execute | oracle_plan |
+|---|---|---|---|---|
+| 1 | 0.480 | 0.827 | 1.000 | 1.000 |
+| 2 | 0.227 | 0.493 | 0.480 | 1.000 |
+| 3 | 0.127 | 0.260 | 0.500 | 1.000 |
+| 4 | 0.020 | 0.007 | 0.020 | 1.000 |
+| 5 | 0.020 | 0.000 | 0.033 | 1.000 |
+| 8 | 0.013 | 0.000 | 0.013 | 1.000 |
+
+The recorded statement: sequential composition through the autoregressive token
+channel has a hard horizon near three steps in this substrate, and increasing
+supervision inside that channel improves the constant factor without extending
+the horizon.
+
+Two further facts constrain the reading. Under paraphrased wordings trace scores
+0.187 at depth one, identical to direct at 0.187, so the whole trace advantage is
+template bound, while oracle_plan stays flat near 0.59 across all eight depths.
+And the shapes differ: trace decays smoothly before dying, while plan_execute
+holds a plateau at 0.48 to 0.50 and then falls off a cliff. A plateau then cliff
+is the signature of a fixed decision budget; a smooth decay is the signature of
+accumulating per-step error.
+
+What is licensed, stated exactly. Conditional on a correct externally supplied
+plan, the model induces and executes individual operators with no observed
+sequential-depth degradation through depth eight. When the model must express the
+sequential composition itself through an autoregressive token stream, accuracy
+collapses by about four steps even under explicit intermediate supervision. It is
+NOT licensed to say that a 350M substrate composes to arbitrary depth.
+
+### H10, stated so it can lose
+
+The three-step wall belongs to the number of sequential discrete planning
+decisions rather than to semantic composition depth.
+
+Semantic depth and generation length are currently confounded, because a depth-d
+plan is emitted in d decisions. The factorial separates them. Macro symbols let a
+plan of semantic depth 8 be emitted in 8, 4, 2 or 1 decisions with identical
+executor semantics, so accuracy can be plotted against autoregressive decision
+depth rather than against composition depth.
+
+H10a, the horizon reading: accuracy depends mostly on the number of plan
+emissions. Semantic depth 8 emitted in one decision approaches oracle_plan.
+H10b, the capacity reading: accuracy depends mostly on semantic depth, and macro
+symbols do not help. This is the falsification of H10.
+H10c: both axes carry independent slopes, and the surface separates them.
+
+### Gold prefix and gold suffix
+
+At semantic depth 8, supply the first k gold plan operations for k from 0 to 7
+and require the model to finish. If the constraint is a fixed remaining planning
+horizon, success should begin when about three decisions remain, near k=5, rather
+than improving smoothly with k.
+
+The gold suffix is the mirror: supply the last k operations and require the
+beginning. If only remaining generation length matters, prefix and suffix should
+behave differently in a predictable way. If uncertainty accumulates over semantic
+state instead, the pattern differs.
+
+### The plan probe, which separates cannot-plan from cannot-serialize
+
+A remaining possibility is that the intended program is present in the latent
+state before generation and is destroyed by serialization. Take the final prompt
+hidden state and fit frozen probes to predict the operator at each plan position
+one through eight, then repeat after each emitted token.
+
+If positions four through eight read out above chance before generation while
+behavior still dies at four, the substrate already holds a deeper plan than it
+can serialize, and the work goes to a readout that does not pass through the
+causal language channel. If future-position probes are at chance from the start,
+long-range planning is genuinely absent and oracle_plan is bypassing a planner
+the substrate does not have.
+
+Both outcomes narrow the programme. The probe must be fitted on held-out worlds,
+must report its chance level, and must report a control probe on shuffled labels,
+because a probe with enough capacity will otherwise manufacture the result.
