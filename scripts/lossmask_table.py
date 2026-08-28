@@ -5,6 +5,13 @@ Two derived numbers carry the argument.
   probe suppression   how far the arm moved from the control toward chance,
                       as a fraction of the distance the control had to fall.
                       1.0 is chance, 0.0 is the control.
+  probe split         the same accuracy again, split by whether the probe's
+                      gold answer is a span the tagger would have masked.
+                      Only 74 percent of the probes answer with a name, a
+                      number or a date; the rest answer with an ordinary word
+                      like oxygen or seven, which no masking of factual spans
+                      can reach. The split separates what the method failed
+                      to suppress from what it was never able to.
   reading retained    the arm's naturalized contains rate over the control's.
                       Regime E, which destroyed the corpus, never got past
                       0.83 here. That is the number to beat.
@@ -42,6 +49,47 @@ def wilson(successes: int, n: int, z: float = 1.96) -> tuple:
 def fmt_ci(rate: float, n: int) -> str:
     lo, hi = wilson(round(rate * n), n)
     return f"{rate:.3f} [{lo:.3f}, {hi:.3f}]"
+
+
+def probe_answer_tags() -> list:
+    """For each probe in src/evals/probes.py, whether its gold answer is a
+    span the tagger would have masked.
+
+    This is the ceiling on what loss masking can suppress. Of the 244 probes,
+    74 percent answer with a name, a number or a date, and 26 percent answer
+    with an ordinary word: oxygen, seven, dollar. Nothing in this method
+    touches the second group, so a masked arm sitting above chance overall is
+    the expected result rather than a failure, and the split says which.
+    """
+    from src.evals.probes import PROBES
+    from src.lossmask.tagger import factual_spans
+
+    out = []
+    for probe in PROBES:
+        text = probe["text"].rstrip()
+        gold = probe["options"][probe["answer_idx"]]
+        start = len(text) + 1
+        spans = factual_spans(f"{text} {gold}")
+        out.append(any(s < start + len(gold) and start < e
+                       for s, e, _ in spans))
+    return out
+
+
+def probe_split(row: dict) -> dict:
+    """Probe accuracy split by whether the answer sits in a masked span."""
+    results = (row.get("probes_detail") or {}).get("results")
+    if not results:
+        return {}
+    flags = probe_answer_tags()
+    if len(flags) != len(results):
+        return {}
+    buckets = {"masked": [0, 0], "unmaskable": [0, 0]}
+    for flag, result in zip(flags, results):
+        cell = buckets["masked" if flag else "unmaskable"]
+        cell[0] += int(bool(result["correct"]))
+        cell[1] += 1
+    return {name: {"n": n, "accuracy": round(hits / n, 4)}
+            for name, (hits, n) in buckets.items() if n}
 
 
 def factual_loss(per_tag: dict):
@@ -122,6 +170,8 @@ def verdict(results: list) -> dict:
         "heldout_factual_loss_gap": round(
             factual_loss(masked["heldout"]["per_tag"])
             - factual_loss(control["heldout"]["per_tag"]), 4),
+        "probe_split_control": probe_split(control),
+        "probe_split_masked": probe_split(masked),
         "regime_e_reading_bar": 0.83,
         "beats_regime_e_reading": retained > 0.83,
     }
