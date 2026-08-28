@@ -4,6 +4,8 @@ Two arms, same base checkpoint, same worlds, same questions, same optimizer
 steps, same batch size in sequences.
 
   direct    answer the question from the pages
+  trace     write the decomposition out in tokens, computing each step, from
+            the pages
   opgraph   induce an operator from each page, and write a plan for the question
 
 The direct arm sees strictly more tokens per step, because its prompts carry
@@ -58,7 +60,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", required=True)
     ap.add_argument("--tokenizer", required=True)
-    ap.add_argument("--arm", required=True, choices=["direct", "opgraph"])
+    ap.add_argument("--arm", required=True, choices=["direct", "trace", "opgraph"])
     ap.add_argument("--out", required=True)
     ap.add_argument("--steps", type=int, default=3000)
     ap.add_argument("--batch-size", type=int, default=16)

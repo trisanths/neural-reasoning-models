@@ -25,6 +25,9 @@ run () {  # run <gpu> <arm>
 case "${1:-all}" in
   lane5) run 5 direct ;;
   lane7) run 7 opgraph; run 7 trace ;;
+  direct) run "${2:-5}" direct ;;
+  opgraph) run "${2:-7}" opgraph ;;
+  trace) run "${2:-7}" trace ;;
   all)
     setsid nohup bash "$ROOT/scripts/opgraph_launch.sh" lane5 > logs/lane5.log 2>&1 < /dev/null &
     setsid nohup bash "$ROOT/scripts/opgraph_launch.sh" lane7 > logs/lane7.log 2>&1 < /dev/null &
