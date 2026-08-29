@@ -1,6 +1,6 @@
 # Capability primitive profile
 
-Mode: integrated. 40 items per primitive, seed 0, 2920 model calls, 456.2s.
+Mode: integrated. 40 items per primitive, seed 0, 2920 model calls, 243.5s.
 
 Never pooled. Every faculty carries its own sample size, its own
 chance rate and its own Wilson interval.
@@ -9,15 +9,15 @@ Format warning. The requested answer format was produced on only 5% of items on 
 
 ## Headline, one line per faculty
 
-| faculty | generation | forced choice | reading |
-|---|---|---|---|
-| intent | +0.000 | not offered | mean chance-adjusted score over the five extracted fields |
-| gap | -0.900 | +0.000 (0/2 above chance) | chance-adjusted blocked against solvable detection |
-| acquisition | +0.000 | -0.117 (0/2 above chance) | query recall at 1 minus the verbatim-copy baseline |
-| abstraction | -0.632 | -0.014 (0/6 above chance) | transfer accuracy minus the copy baseline, per structure |
-| composition | sequential=0, relational=0, novel=0 | -0.020 (0/18 above chance) | greatest depth still above chance, per kind |
-| memory | -0.250 | -0.056 (0/1 above chance) | mean chance-adjusted score over retain-far, interfere, update |
-| verification | -0.850 | +0.042 (0/2 above chance) | chance-adjusted trap detection |
+| faculty | chance | generation | hedge rate | forced choice | reading |
+|---|---|---|---|---|---|
+| intent | 0.000 | +0.000 | not defined | not offered | mean chance-adjusted score over the five extracted fields |
+| gap | 0.500 | -0.900 | 0.000 | +0.000 (0/2 above chance) | chance-adjusted blocked against solvable detection |
+| acquisition | 0.250 | +0.000 | 0.000 | -0.117 (0/2 above chance) | query recall at 1 minus the verbatim-copy baseline |
+| abstraction | 0.500 | -0.632 | 0.000 | -0.014 (0/6 above chance) | transfer accuracy minus the copy baseline, per structure |
+| composition | 0.125 | sequential=0, relational=0, novel=0 | 0.025 | sequential=0, relational=0, novel=0 | greatest depth still above chance, per kind |
+| memory | 0.200 | -0.250 | 0.000 | -0.056 (0/1 above chance) | mean chance-adjusted score over retain-far, interfere, update |
+| verification | 0.500 | -0.850 | 0.000 | +0.042 (0/2 above chance) | chance-adjusted trap detection |
 
 ## Intent understanding
 
@@ -167,6 +167,61 @@ Detection and correction are scored apart.
 |---|---|---|
 | constraint | 0.050 [0.014, 0.165] n=40 | 0.000 [0.000, 0.088] n=40 |
 | exception | 0.100 [0.040, 0.231] n=40 | 0.125 [0.055, 0.261] n=40 |
+
+## Hedging, and the two grading rules
+
+A grader that accepts any reply containing the gold answer
+scores a policy naming two candidates as correct whenever
+either one is right. This suite grades strictly: naming more
+than one candidate on a single-choice field counts as wrong.
+Both rules are reported so the strictness is auditable. Where
+lenient sits well above strict, that primitive was carried by
+hedging and only the strict column means anything.
+
+| faculty | field | chance | strict | lenient | gap | hedge rate |
+|---|---|---|---|---|---|---|
+| abstraction/same_surface/greater | answer | 0.500 | 0.000 [0.000, 0.243] n=12 | 0.000 [0.000, 0.243] n=12 | +0.000 | 0.000 [0.000, 0.243] |
+| abstraction/same_surface/lesser | answer | 0.500 | 0.000 [0.000, 0.243] n=12 | 0.000 [0.000, 0.243] n=12 | +0.000 | 0.000 [0.000, 0.243] |
+| abstraction/same_surface/parity | answer | 0.500 | 0.000 [0.000, 0.194] n=16 | 0.000 [0.000, 0.194] n=16 | +0.000 | 0.000 [0.000, 0.194] |
+| abstraction/transfer/greater | answer | 0.500 | 0.000 [0.000, 0.243] n=12 | 0.000 [0.000, 0.243] n=12 | +0.000 | 0.000 [0.000, 0.243] |
+| abstraction/transfer/lesser | answer | 0.500 | 0.000 [0.000, 0.243] n=12 | 0.000 [0.000, 0.243] n=12 | +0.000 | 0.000 [0.000, 0.243] |
+| abstraction/transfer/parity | answer | 0.500 | 0.000 [0.000, 0.194] n=16 | 0.000 [0.000, 0.194] n=16 | +0.000 | 0.000 [0.000, 0.194] |
+| acquisition/direct | source selection | 0.250 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| acquisition/recursive | source selection | 0.250 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/novel/k1 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/novel/k2 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/novel/k3 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/novel/k4 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/novel/k5 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/relational/k1 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/relational/k2 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/relational/k3 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/relational/k4 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/relational/k5 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/sequential/k1 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/sequential/k2 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.025 [0.004, 0.129] |
+| composition/sequential/k3 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/sequential/k4 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| composition/sequential/k5 | answer | 0.125 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| gap/T1 | detection | 0.500 | 0.000 [0.000, 0.490] n=4 | 0.000 [0.000, 0.490] n=4 | +0.000 | 0.000 [0.000, 0.490] |
+| gap/T2 | detection | 0.500 | 0.000 [0.000, 0.490] n=4 | 0.000 [0.000, 0.490] n=4 | +0.000 | 0.000 [0.000, 0.490] |
+| gap/T3 | detection | 0.500 | 0.000 [0.000, 0.490] n=4 | 0.000 [0.000, 0.490] n=4 | +0.000 | 0.000 [0.000, 0.490] |
+| gap/T4 | detection | 0.500 | 0.000 [0.000, 0.490] n=4 | 0.000 [0.000, 0.490] n=4 | +0.000 | 0.000 [0.000, 0.490] |
+| gap/T5 | detection | 0.500 | 0.000 [0.000, 0.490] n=4 | 0.000 [0.000, 0.490] n=4 | +0.000 | 0.000 [0.000, 0.490] |
+| gap/solvable | detection | 0.500 | 0.100 [0.028, 0.301] n=20 | 0.100 [0.028, 0.301] n=20 | +0.000 | 0.000 [0.000, 0.161] |
+| intent/conflict | goal | 0.000 | 0.000 [0.000, 0.161] n=20 | 0.000 [0.000, 0.161] n=20 | +0.000 | not defined |
+| intent/consistent | goal | 0.000 | 0.000 [0.000, 0.161] n=20 | 0.000 [0.000, 0.161] n=20 | +0.000 | not defined |
+| memory/absent | answer | 0.200 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| memory/interfere | answer | 0.200 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| memory/retain_far | answer | 0.200 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| memory/retain_near | answer | 0.200 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| memory/update | answer | 0.200 | 0.000 [0.000, 0.088] n=40 | 0.000 [0.000, 0.088] n=40 | +0.000 | 0.000 [0.000, 0.088] |
+| verification/constraint/control | trap detection | 0.500 | 0.100 [0.028, 0.301] n=20 | 0.100 [0.028, 0.301] n=20 | +0.000 | 0.000 [0.000, 0.161] |
+| verification/constraint/trap | trap detection | 0.500 | 0.000 [0.000, 0.161] n=20 | 0.000 [0.000, 0.161] n=20 | +0.000 | 0.000 [0.000, 0.161] |
+| verification/exception/control | trap detection | 0.500 | 0.100 [0.028, 0.301] n=20 | 0.100 [0.028, 0.301] n=20 | +0.000 | 0.000 [0.000, 0.161] |
+| verification/exception/trap | trap detection | 0.500 | 0.100 [0.028, 0.301] n=20 | 0.100 [0.028, 0.301] n=20 | +0.000 | 0.000 [0.000, 0.161] |
+
+Largest leniency gap: abstraction/same_surface/greater at +0.000. A gap near zero means the strict rule cost this model nothing, because it was not hedging in the first place. Rows are per family and never pooled, since one family scoring on the grader is what a pooled mean hides.
 
 ## Forced choice, the same items scored by preference
 
