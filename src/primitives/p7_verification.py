@@ -197,6 +197,7 @@ def grade(item: Item, response: str) -> dict:
         "parsed": "CHECK" in f,
         "detected": float(detected),
         "strict_correct": v["strict"],
+        "no_candidate": float(v["named"] == 0),
         "lenient_correct": v["lenient"], "hedged": v["hedged"],
         "chance": 0.5,
         "false_alarm": float(not g["trap"] and check == "FAIL"),

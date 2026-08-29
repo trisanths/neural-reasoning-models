@@ -189,6 +189,42 @@ def test_every_mode_renders_end_to_end(key):
         assert bundle["report"]["hedging"], mode
 
 
+def test_the_native_frame_renderer_is_solvable(key):
+    """Every native-frame faculty is answerable from its own pages.
+
+    A row of zeros in the native-frame column has to mean the checkpoint
+    failed, not that the renderer posed something unanswerable. Each
+    faculty is checked against an oracle reading only what the pages say,
+    and the option set is checked to carry the gold exactly once so the
+    chance floor printed beside it is the real one.
+    """
+    from src.primitives import p8_nativeframe as nf
+
+    every = []
+    for fac in runner.NATIVE_FACULTIES:
+        kw = {"k": 2} if fac == "composition" else {}
+        every += nf.generate_many(fac, 6, seed=SEED, **kw)
+    oracle = fakes.NativeOracle(every)
+    rep = runner.run_native_frame(oracle, n=6, seed=SEED, ks=(2,))
+    assert oracle.misses == 0
+
+    for fac in runner.NATIVE_FACULTIES:
+        kw = {"k": 2} if fac == "composition" else {}
+        items = nf.generate_many(fac, 6, seed=SEED, **kw)
+        r = rep[fac]
+        assert r["strict"]["acc"] == 1.0, (fac, r["strict"])
+        assert r["no_candidate"]["acc"] == 0.0, fac
+        assert r["forced_choice"]["acc"] == 1.0, fac
+        for it in items:
+            labels = it.gold["labels"]
+            assert len(set(labels)) == len(labels), fac
+            assert it.gold["answer"] in labels, fac
+            # The answer must not be readable off the question wording
+            # alone, or the faculty is not being tested at all.
+            head = it.question.split("Which desk handles it?")[-1]
+            assert it.gold["answer"] not in head, fac
+
+
 def test_a_hedging_model_is_caught_by_the_strict_rule(key):
     """The policy the shared environment grader rewards must score zero here.
 

@@ -281,15 +281,18 @@ def render_markdown(report: dict) -> str:
                 "lenient sits well above strict, that primitive was carried by",
                 "hedging and only the strict column means anything.", "",
                 "| faculty | field | chance | strict | lenient | gap | "
-                "hedge rate |", "|---|---|---|---|---|---|---|"]
+                "hedge rate | named nothing |",
+                "|---|---|---|---|---|---|---|---|"]
         for name, r in sorted(report["hedging"].items()):
             hr = r.get("hedge_rate")
+            nc = r.get("no_candidate")
             out.append(
                 f"| {name} | {r['field']} | {r['chance']:.3f} | "
                 f"{_pct(r['strict'])} | {_pct(r['lenient'])} | "
                 f"{r['leniency_gap']:+.3f} | "
                 + (f"{hr['acc']:.3f} [{hr['ci_lo']:.3f}, {hr['ci_hi']:.3f}]"
-                   if hr else "not defined") + " |")
+                   if hr else "not defined") + " | "
+                + (f"{nc['acc']:.3f}" if nc else "not defined") + " |")
         worst = max(report["hedging"].items(),
                     key=lambda kv: kv[1]["leniency_gap"], default=None)
         if worst is not None:

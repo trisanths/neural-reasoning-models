@@ -230,6 +230,7 @@ def grade(item: Item, response: str) -> dict:
     return {"parsed": pick is not None,
             "correct": float(pick == item.gold["answer"]),
             "strict_correct": v["strict"],
+        "no_candidate": float(v["named"] == 0),
         "lenient_correct": v["lenient"], "hedged": v["hedged"],
             "chance": 1.0 / max(2, len(item.gold["labels"])),
             "structure": item.meta["structure"],

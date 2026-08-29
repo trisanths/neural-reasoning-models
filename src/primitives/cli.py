@@ -116,12 +116,50 @@ def render_calibration(rows: dict) -> str:
     return "\n".join(out)
 
 
+def rep_native(rep: dict) -> str:
+    """The native-frame table. Deviations print beside the numbers."""
+    out = ["# Native-frame profile", "",
+           f"Mode: native. {rep['meta']['n_per_primitive']} items per "
+           f"faculty, seed {rep['meta']['seed']}, "
+           f"{rep['meta']['n_items']} model calls.", "",
+           "The same seven faculties posed in the surface form the RL stage "
+           "trained on. Read beside the suite-frame profile, never instead "
+           "of it.", "",
+           "| faculty | chance | strict | lenient | hedge | named nothing | "
+           "parse rate | forced choice |",
+           "|---|---|---|---|---|---|---|---|"]
+    for fac in runner.NATIVE_FACULTIES:
+        r = rep.get(fac)
+        if not r:
+            continue
+        fc = r.get("forced_choice")
+        out.append(
+            f"| {fac} | {r['chance']:.3f} | "
+            f"{r['strict']['acc']:.3f} [{r['strict']['ci_lo']:.3f}, "
+            f"{r['strict']['ci_hi']:.3f}] n={r['n']} | "
+            f"{r['lenient']['acc']:.3f} | {r['hedge_rate']['acc']:.3f} | "
+            f"{r['no_candidate']['acc']:.3f} | {r['parse_rate']['acc']:.3f} | "
+            + (f"{fc['acc']:.3f} [{fc['ci_lo']:.3f}, {fc['ci_hi']:.3f}]"
+               + ("" if fc["above_chance"] else " (at chance)")
+               if fc else "-") + " |")
+    out += ["", "## What each faculty had to give up", ""]
+    for fac in runner.NATIVE_FACULTIES:
+        r = rep.get(fac)
+        if r:
+            out.append(f"- {fac}: {r['deviation']}.")
+    out.append("")
+    return "\n".join(out)
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="python -m src.primitives.cli")
     ap.add_argument("--ckpt")
     ap.add_argument("--tokenizer")
     ap.add_argument("--fake", help="blind, oracle, copy, depthN, or a "
                                    "faculty name")
+    ap.add_argument("--native-frame", action="store_true",
+                    help="re-render the seven faculties in the checkpoint's "
+                         "trained surface form and measure both channels")
     ap.add_argument("--rescore", metavar="STEM",
                     help="recompute the grading blocks from a finished run's "
                          "records and re-render its report, no model needed")
@@ -211,6 +249,25 @@ def main(argv=None) -> int:
     else:
         ap.error("give either --fake, or both --ckpt and --tokenizer")
         return 2
+
+    if args.native_frame:
+        rep = runner.run_native_frame(model, n=args.n, seed=args.seed,
+                                      ks=tuple(args.ks), progress=_progress)
+        recs = [r for f in rep.values() for r in f.pop("records", [])]
+        rep["meta"] = {"mode": "native", "n_per_primitive": args.n,
+                       "seed": args.seed, "n_items": len(recs),
+                       "checkpoint": args.ckpt}
+        out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
+        (out / f"{args.stem}.json").write_text(
+            json.dumps(rep, indent=2, default=str))
+        with open(out / f"{args.stem}_records.jsonl", "w") as fh:
+            for r in recs:
+                fh.write(json.dumps(r, default=str) + "\n")
+        text = rep_native(rep)
+        (out / f"{args.stem}.md").write_text(text)
+        print(text)
+        print(f"\nwrote {out}/{args.stem}.json and .md")
+        return 0
 
     bundle = runner.run_suite(model, primitives=args.primitives, n=args.n,
                               seed=args.seed, mode=args.mode,

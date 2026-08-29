@@ -29,7 +29,7 @@ import time
 from src.primitives import episode as ep
 from src.primitives import (
     p1_intent, p2_gap, p3_acquisition, p4_abstraction, p5_composition,
-    p6_memory, p7_verification,
+    p6_memory, p7_verification, p8_nativeframe,
 )
 from src.primitives.common import proportion
 
@@ -305,6 +305,7 @@ def hedging_report(records) -> dict:
         # that None survives into the records depends on which runner
         # built them, so test the value rather than the key.
         measurable = [g for g in rows if g.get("hedged") is not None]
+        nameable = [g for g in rows if g.get("no_candidate") is not None]
         # The chance floor travels on the item, because the option count
         # is not the same on every item of every primitive and a floor
         # quoted from the module constant would be wrong wherever it varies.
@@ -319,6 +320,14 @@ def hedging_report(records) -> dict:
             "hedge_rate": (proportion(sum(int(g["hedged"]) for g in measurable),
                                       len(measurable), 0.0, f"{name}/hedge")
                            if measurable else None),
+            # The share of replies naming no candidate at all. The wording
+            # ablation found 0.53 to 0.94 of answers in distant renderers
+            # naming nothing, so this is the column that says whether a
+            # zero here is refusal to answer or a wrong answer.
+            "no_candidate": (proportion(
+                sum(int(g["no_candidate"]) for g in nameable),
+                len(nameable), 0.0, f"{name}/no_candidate")
+                if nameable else None),
         }
         out[name]["leniency_gap"] = round(
             out[name]["lenient"]["acc"] - out[name]["strict"]["acc"], 4)
@@ -513,3 +522,52 @@ def run_suite(predict, primitives=None, n=DEFAULT_N, seed=0, mode="isolated",
         "n_items": len(records),
     }
     return {"report": reports, "records": records}
+
+
+NATIVE_FACULTIES = ("intent", "gap", "acquisition", "abstraction",
+                    "composition", "memory", "verification")
+
+
+def run_native_frame(predict, n=DEFAULT_N, seed=0, ks=(2,), progress=None,
+                     want_choice=True) -> dict:
+    """Every faculty again, in the frame the checkpoint was trained on.
+
+    Reported beside the suite-frame profile and never instead of it. The
+    two differ in exactly one thing, the surface the task is posed in, so
+    a faculty that appears here and not there exists but is frame-locked,
+    and one that is absent in both is absent.
+
+    Both channels, because the suite-frame column has both and a
+    comparison across channels would confound the very thing being
+    measured.
+    """
+    out: dict = {}
+    for fac in NATIVE_FACULTIES:
+        if progress:
+            progress(f"  {fac} (native frame)")
+        kw = {"k": ks[0]} if fac == "composition" else {}
+        items = p8_nativeframe.generate_many(fac, n, seed=seed, **kw)
+        grades, recs = [], []
+        for item in items:
+            resp = str(predict(item.question, list(item.chunks)))
+            g = p8_nativeframe.grade(item, resp)
+            grades.append(g)
+            recs.append({"item_id": item.item_id, "primitive": fac,
+                         "variant": item.variant, "mode": "native",
+                         "response": resp[:2000],
+                         "grade": {k: v for k, v in g.items()
+                                   if isinstance(v, (int, float, bool))}})
+        rep = p8_nativeframe.aggregate(items, grades)
+        rep["records"] = recs
+        if want_choice and hasattr(predict, "choose"):
+            hits = tot = 0
+            for item in items:
+                for ch in p8_nativeframe.choices(item):
+                    pick = predict.choose(ch["question"], list(item.chunks),
+                                          ch["options"])
+                    hits += int(int(pick) == ch["gold"])
+                    tot += 1
+            rep["forced_choice"] = proportion(hits, tot, rep["chance"],
+                                              f"{fac}/native/forced")
+        out[fac] = rep
+    return out

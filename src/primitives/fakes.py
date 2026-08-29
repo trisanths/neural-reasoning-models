@@ -371,3 +371,31 @@ class HedgingModel:
         # strict rule does not. The gap between the two columns is the
         # whole measurement.
         return f"ANSWER: {gold} or {decoy}"
+
+
+class NativeOracle:
+    """Answers every native-frame item correctly, in both channels.
+
+    Without this the native-frame column is uninterpretable in the same
+    way the suite column was: a row of zeros could mean the faculty is
+    absent or the renderer is broken. This pins the ceiling, so a zero
+    from a real checkpoint is a reading.
+    """
+
+    def __init__(self, items):
+        self.key = {it.question: it for it in items}
+        self.misses = 0
+
+    def _find(self, question):
+        it = self.key.get(str(question))
+        if it is None:
+            self.misses += 1
+        return it
+
+    def __call__(self, question, chunks=None) -> str:
+        it = self._find(question)
+        return f"ANSWER: {it.gold['answer']}" if it else "ANSWER: unknown"
+
+    def choose(self, question, chunks=None, options=()) -> int:
+        it = self._find(question)
+        return it.gold["index"] if it else 0
