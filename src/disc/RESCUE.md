@@ -24,12 +24,18 @@ back as the key to a fresh sub-question.
 That is 82 correct chains out of 400 against 0 out of 400, on the same
 questions, the same pages, the same retriever and the same grader.
 
-Chance floors, which no accuracy here should be read without. The universe is
-six desks, so a guesser that always names one desk scores 0.1667 on a single
-step and 0.1667 to the power d on a chain of d steps: 0.0278 at depth two,
-0.0046 at depth three, 0.0008 at depth four. R1's 0.2050 at depth two is
-against a chain floor of 0.0278, and its step rate of 0.4575 is against a step
-floor of 0.1667.
+Chance floors, which no accuracy here should be read without. Each office's
+table maps six keys to six desks, so `alphabet_size` is 6 and a guesser that
+commits to one desk per step scores 0.1667 on a step and 0.1667 to the power d
+on a chain: 0.0278 at depth two, 0.0046 at depth three, 0.0008 at depth four.
+A guesser drawing uniformly from the whole 36-token notation family, which is
+the set the answer extractor scans, would score 0.0278 per step instead. The
+higher floor is the one used here.
+
+Against that, R1 at depth two is 0.2050 on a chain floor of 0.0278, and its
+step rate is 0.4575 on a step floor of 0.1667. R0 at depth two is 0.0000, which
+is below its own chance floor, because the policy usually emits no desk name at
+all rather than a wrong one.
 
 We are in the first branch. The substrate can execute a lookup keyed by a
 value it was handed. It cannot route its own output back in as a key. The
@@ -49,9 +55,42 @@ counts naming more than one as wrong. The hedge rate is the fraction of
 answers naming more than one desk, which is the quantity that would make the
 two columns diverge.
 
-The ladder below was rolled out under the shipped grader only. The driver now
-records both, and the regrade is running. Until the forced-choice column lands
-in the next commit, read every accuracy here as an upper bound.
+The rescue is not hedging. On a fresh roll-out of every rung at depths one and
+two under both graders, the two columns agree to within half a percentage
+point everywhere, and the depth-two rescue is identical under both.
+
+| rung, depth two | shipped | forced choice | hedge rate |
+|---|---|---|---|
+| R0 | 0.0000 | 0.0000 | 0.0025 |
+| R1 | 0.2050 | 0.2050 | 0.0050 |
+| R1o | 0.1875 | 0.1875 | 0.0050 |
+| R1w | 0.0025 | 0.0025 | 0.0000 |
+| R2 | 0.2150 | 0.2200 | 0.0025 |
+| R2w | 0.0025 | 0.0025 | 0.0000 |
+| R3 | 0.0000 | 0.0000 | 0.0000 |
+
+At depth one the largest gap on any rung is 0.005, in both directions: R0 loses
+0.0050 and R2w gains 0.0050. The highest hedge rate anywhere in the ladder is
+0.0100, on R0 at depth one, where 4 answers in 400 named two desks.
+
+The counts behind that are the reason. Answers name zero or one desk almost
+always: R1 at depth two step one splits 200 answers naming one desk, 198
+naming none, and 2 naming two. There is no hedging population to inflate.
+
+This task cannot hedge the way `threshold_rule` does. Its answer is a single
+desk name emitted at the end of a stretch of word salad, and the question form
+admits no if-then phrasing that would name two candidates. The grader's slack
+is real and it is worth removing, but on this instrument it moves nothing.
+
+The dual-graded run is an independent roll-out, not a regrade of the stored
+chains, so it doubles as a reproducibility check on the ladder. R1 at depth two
+came back at 0.2050 both times. R1o's step one came back at 0.3825 both times
+against R1w's 0.0050, so the page-position effect reproduces exactly. R2 at
+depth two moved from 0.2450 to 0.2150, which is the one cell that shifted by
+more than sampling noise would comfortably cover, and it is the rung whose
+chains break on the model's own output.
+
+Depths three and four are re-rolling under both graders now.
 
 ## The rungs
 
