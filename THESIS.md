@@ -409,3 +409,88 @@ Every accuracy in this project must now be reported with its chance floor, its
 hedge rate, and a forced-choice score alongside the grader score, and must never
 be pooled across families. A single artifact family inside a three-family macro
 average moved the headline by a third.
+
+## Correction 2, 2026-08-28: the acquisition result is frame matching
+
+An independently built renderer swap answers the confound flagged in
+`src/disc/SLATE.md` section 3. The result does not survive.
+
+The independent harness cross-checks the first one: its native renderer gives
+0.966 pooled against the falsification lane's 0.958 at n=500 and 0.968 at n=1000,
+and it reproduced the hedging artifact from scratch, with native
+`threshold_rule` naming both labels in 100 percent of greedy answers and 1.000
+shipped becoming 0.000 forced. `exception_rule` and `substitution_rule` never
+hedge in any renderer, so they carry the conclusion.
+
+### Forced choice, greedy, per family, n=66 to 68 per cell
+
+| Family | native | personnel | abstract | inventory | chance |
+|---|---|---|---|---|---|
+| substitution_rule | 0.970 | 0.045 | 0.045 | 0.015 | 0.200 |
+| exception_rule | 1.000 | 0.606 | 0.258 | 0.106 | 0.500 |
+| threshold_rule, artifact | 0.000 | 0.191 | 0.191 | 0.132 | 0.500 |
+
+Three of four renderers on substitution fall below chance. The failures are not
+near misses: 0.53 to 0.94 of answers in the distant renderers name no candidate
+at all. exception discriminates poorly against a 0.500 floor and a 0.750
+page-word floor, so substitution carries the weight.
+
+### The mechanism, isolated
+
+The chain task with a single document in the store removes page identification
+entirely. Forced choice, chance 0.028:
+
+routing 0.970, processing 0.840, routing_postvalue 0.830, routing_keyphrase
+0.820, reaction 0.090, routing_frameb 0.030, inventory and abstract 0.010,
+personnel 0.000.
+
+`processing` shares no content word with the native idiom and scores 0.840.
+`routing_frameb` keeps every content word and changes only the sentence frame,
+scoring 0.030. Nouns cost 0.13. Sentence shape costs 0.94.
+
+The sentence frame carries the result. The vocabulary does not.
+
+### The escape that was closed
+
+Under the twin control, native `substitution_rule` holds at 0.939 with the twin's
+words named in 4.5 percent of answers, while native `exception_rule` falls from
+1.000 to 0.682 with 28.8 percent twin naming. The family carrying the renderer
+conclusion is the one that does identify its page, so the template effect is not
+a page-identification confound.
+
+### What this replaces
+
+Under matched presentation the routing-to-abstract gap is 0.960, wider than the
+0.19 to 0.84 that SLATE section 3 recorded with presentation confounded.
+Template accounts for the whole gap and nothing remains for presentation.
+
+### The statement that survives
+
+This checkpoint binds new values into a sentence frame it already knows, and does
+essentially nothing with a frame it does not know. That is consistent with the
+untrained relation types scoring at or below chance, with the twin-system coin
+flip on source identity, and with a fifty line parser outscoring the model.
+
+Claims of inference-time skill acquisition are not supported. What is supported is
+frame-conditioned value binding.
+
+### The one axis pointing the other way
+
+Under paraphrase, direct answering falls from 0.480 to 0.187 while oracle_plan
+holds flat near 0.59 across all eight depths. The operator and plan interface is
+markedly more frame-robust than direct answering, which is the single place the
+architecture direction currently earns its keep.
+
+### What this implies for the programme
+
+If the sentence frame is the unit of generalisation, the intervention is frame
+diversity in training rather than a better plan head. That is a data decision.
+Any architecture result measured only inside the native frame should be read as
+within-frame until it is rerun across renderers.
+
+### Caveats carried
+
+One checkpoint, rlsimple-503-921. Renderers are hand written rather than sampled.
+A temperature 0.7 run lost 150 of 250 episodes in one arm to the 384 token prompt
+cap, so the greedy tables above, where all four renderers keep exactly 200
+questions, are the unfiltered ones and should be preferred.
