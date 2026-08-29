@@ -157,7 +157,7 @@ def part_a(style: int = 0) -> dict:
             breadth = d if kind == "breadth" else 3
             ws = eval_worlds(kind, N, breadth=breadth, style=style)
             items = [make_item(kind, w, d, i) for i, w in enumerate(ws)]
-            hit_full = hit_noassoc = ans_full = 0
+            hit_full = hit_noassoc = ans_full = ans_noassoc = 0
             for it in items:
                 sig = signature_line(it.world.ops)
                 gold = serialize_plan(it.plan)
@@ -170,11 +170,17 @@ def part_a(style: int = 0) -> dict:
                     ans_full += str(v).strip().lower() == it.gold.strip().lower()
                 except Exception:
                     pass
+                try:
+                    v = run_plan(_reparse(p0), it.world.ops)
+                    ans_noassoc += str(v).strip().lower() == it.gold.strip().lower()
+                except Exception:
+                    pass
             out[f"{kind}/{d}"] = {
                 "n": len(items),
                 "plan_exact_surface": round(hit_full / len(items), 4),
                 "plan_exact_surface_no_assoc": round(hit_noassoc / len(items), 4),
                 "answer_acc_surface_plan_gold_ops": round(ans_full / len(items), 4),
+                "answer_acc_no_assoc_always_left": round(ans_noassoc / len(items), 4),
             }
     return out
 
