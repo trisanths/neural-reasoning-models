@@ -274,6 +274,17 @@ the same family, and 0.975 shipped against the published 0.985. The seed range
 is the same, though every seed is used for every family here rather than every
 third, so the item sets are not identical.
 
+That the published number reproduces here is worth one line, because commit
+7e353d5 reports a harness that cannot reproduce it: it reads 0.250 native
+against the published 0.970 and cannot separate the native wording from a
+distant one. That commit names two divergences from the trained condition,
+single-shot prompting into answer position instead of the retrieval rollout,
+and likelihood scoring instead of a generation grader requiring exactly one
+candidate named. This lane has neither divergence: it drives
+`scripts.template_ablation.evaluate`, which is the published rollout, and
+grades generations under the exact-single-choice rule. The agreement here is
+therefore evidence about the harness rather than about the checkpoint.
+
 Three things go beyond reproduction.
 
 Retrieval is not the explanation on the frames where it can be ruled out.
@@ -306,7 +317,8 @@ failure without the retrieval counters.
 Sampled decoding does not rescue any distant frame, and it changes one near
 one. `routing__postvalue` goes from 0.600 greedy to 0.830 sampled, because
 greedy hedged on 0.245 of its answers and sampling hedges on 0.060. Of the
-cells at or below their chance floor under greedy, two cross it under sampling
+cells at or below their chance floor under greedy on the two load-bearing
+families, two cross it under sampling
 and neither goes far: `registry__native` on `substitution_rule`, 0.145 to
 0.260 against a 0.200 floor, and `routing__active` on `exception_rule`, 0.475
 to 0.505 against 0.500.
