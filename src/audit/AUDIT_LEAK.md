@@ -10,7 +10,16 @@ runs the model's own induced operator object and nothing else, the gold plan
 carries no operand values that make induction unnecessary, no intermediate value
 reaches the model, and corrupting the induced operator drives accuracy to zero.
 Check 5 passes on the channels it names: no packaging feature predicts the plan.
-Both checks pass, and two of the three supporting internal claims do not.
+
+Both checks pass, and one of the three supporting internal claims dies with them.
+`plan_execute` does not equal `oracle_ops` to three decimals; it differs in 5 of
+26 cells and by as much as 0.420, in the direction where induced operators beat
+gold ones. Two further things turned up that change what the headline row means
+rather than what it measures: the plan target is a syntactic transduction that a
+60-line parser solves exactly at every depth, and the induction step deletes the
+associativity annotation on 300 of 300 binary operators, so the two conditions
+whose agreement was offered as evidence differ only by a field the scheduler does
+not read.
 
 Everything below is measured on the shipped checkpoint `runs/opgraph.pt` with the
 shipped tokenizer, through the shipped code path in `src/opgraph/run.py`, with a
@@ -177,6 +186,38 @@ condition. The reported 0.599 for `oracle_plan@para` is (712 + 7) / 1200.
 
 Check 6 passes on every part.
 
+### 6f. There is a no-op family, and it is in `plan_execute` on breadth
+
+The gold-plan path is clean. The model-plan path is not, on the one kind where
+the operator's shape changes with the cell.
+
+The procedure page defines `score` over one number and `b` flags, so gold arity is
+`b + 1`. Training saw breadth 1 to 3 only. At breadth 4, 5 and 6, over 150 worlds
+each:
+
+| breadth | gold arity | induced arity | plan writes `score` with | plans that drop arguments | `plan_execute` correct | of those, every dropped flag was false | `oracle_ops` |
+|---|---|---|---|---|---|---|---|
+| 4 | 5 | 4 in 150/150 | 4 args in 150/150 | 150/150 | 63/150 = 0.420 | 47/63 | 0.000 |
+| 5 | 6 | 4 in 150/150 | 4 args in 150/150 | 150/150 | 47/150 = 0.313 | 30/47 | 0.000 |
+| 6 | 7 | 4 in 88, 3 in 26, 2 in 36 | 4 args in 150/150 | 150/150 | 17/150 = 0.113 | 4/17 | 0.000 |
+
+Every correct item in those three cells, 127 of 127, comes from a plan that hands
+the operator fewer arguments than the question has conditions, and 81 of those 127
+are items where every dropped condition was a no-op, a flag that was not set and
+therefore contributes zero. `oracle_ops` is 0.000 in the same cells because the
+gold operator has the right arity and refuses a four-argument call.
+
+So the 0.420, 0.313 and 0.113 in the breadth row of `plan_execute` are not partial
+competence at breadth 4 to 6. They are a truncated plan meeting a truncated
+operator on items where the truncation did not matter. This is the pattern the
+falsification lane found before, an ablation reporting a real-looking number that
+is carried by items where the missing work was zero.
+
+One instrumentation caveat: the recording proxy logs a call after it returns, so
+calls that raise are counted only through the per-execution marker. That is why
+`oracle_plan` on breadth 6 shows 150 executions and zero completed operator calls,
+which is the arity refusal, and it does not affect any accuracy number.
+
 ## What did not survive
 
 ### Dead: "plan_execute equals oracle_ops to three decimals at every depth"
@@ -193,7 +234,15 @@ It differs in 5 of the 26 cells of the grid, and the largest gap is 0.420.
 
 The sign is the part that matters. On breadth the condition with model-induced
 operators beats the condition with gold operators by up to 0.420. Gold operators
-do not merely fail to help there, they hurt.
+do not merely fail to help there, they hurt, and section 6f says why: the model's
+plan is written for a four-argument operator, the induced operator happens to take
+four arguments, and the gold operator does not.
+
+The remaining claim, that `oracle_plan` and `oracle_both` diverge on relational
+breadth at 0.000 against 1.000, is confirmed: the divergence is in the results
+file and my rerun reproduces it. The inference drawn from it, that `oracle_plan`
+therefore runs model-induced operators, is also correct, and section 6a now
+establishes it directly rather than by inference.
 
 ### Dead: the reading of why the two conditions match on sequential
 
