@@ -201,7 +201,7 @@ def render(rep: dict) -> str:
              "| renderer | this harness | published | delta |",
              "|---|---|---|---|"]
     for name, s in rep.items():
-        if name == "verdict":
+        if not isinstance(s, dict):
             continue
         pub = s.get("published")
         lines.append(
@@ -210,6 +210,79 @@ def render(rep: dict) -> str:
             + " | " + (f"{s['delta_vs_published']:+.3f}"
                        if s.get("delta_vs_published") is not None else "-")
             + " |")
+    if rep.get("mean_retrieval_rounds") is not None:
+        lines += ["", f"Mean retrieval rounds per item: "
+                  f"{rep['mean_retrieval_rounds']}."]
     if "verdict" in rep:
         lines += ["", f"Verdict: {rep['verdict']}."]
     return "\n".join(lines) + "\n"
+
+
+def make_trained_answer_fn(ckpt: str, tokenizer_path: str, device: str = "cuda",
+                           max_rounds: int = 4, max_new_tokens: int = 256,
+                           seed: int = 0):
+    """predict(question, chunks) in the condition the checkpoint was trained in.
+
+    src.evals.interactive.make_retrieval_answer_fn builds its prompt as
+    <|q|> question, with no world header. Every training prompt starts
+    <|world|> preamble, and on this checkpoint the header is not cosmetic:
+    without it the policy issues no retrieval at all, never emits <|a|>,
+    and runs to the token cap emitting degenerate filler. With it, the
+    same item retrieves once, stops at <|eot|>, and names the gold. So the
+    header is restored here, matching src.rl.env.build_prompt.
+    """
+    from src.evals.interactive import (make_checkpoint_step_fn,
+                                       generate_with_retrieval)
+    from src.train.data import render_world_preamble
+    from src.train.tokenizer import load_tokenizer
+
+    tok = load_tokenizer(tokenizer_path)
+    step_fn, _model, _state = make_checkpoint_step_fn(ckpt, device)
+    sid = tok.special_ids
+    head = [sid["<|world|>"], *tok.encode(render_world_preamble({}))]
+
+    def answer_fn(question: str, chunks) -> str:
+        prompt = head + [sid["<|q|>"], *tok.encode(str(question))]
+        out = generate_with_retrieval(step_fn, tok, list(chunks), prompt,
+                                      max_rounds=max_rounds,
+                                      max_new_tokens=max_new_tokens, seed=seed)
+        answer_fn.rounds.append(out["n_rounds"])
+        return out["answer_text"]
+
+    answer_fn.rounds = []
+    return answer_fn
+
+
+def main(argv=None) -> int:
+    import argparse
+    import json
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--ckpt", required=True)
+    ap.add_argument("--tokenizer", required=True)
+    ap.add_argument("--device", default="cuda")
+    ap.add_argument("--out")
+    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--systems", type=int, default=12)
+    ap.add_argument("--max-new-tokens", type=int, default=256)
+    a = ap.parse_args(argv)
+
+    afn = make_trained_answer_fn(a.ckpt, a.tokenizer, a.device,
+                                 max_new_tokens=a.max_new_tokens,
+                                 seed=a.seed)
+    rep = run_generation(afn, n_systems=a.systems, per_system=4, seed=a.seed)
+    rep["mean_retrieval_rounds"] = (
+        round(sum(afn.rounds) / len(afn.rounds), 3) if afn.rounds else None)
+    text = render(rep)
+    print(text)
+    if a.out:
+        from pathlib import Path
+        o = Path(a.out); o.parent.mkdir(parents=True, exist_ok=True)
+        o.with_suffix(".md").write_text(text)
+        o.with_suffix(".json").write_text(json.dumps(rep, indent=2,
+                                                     default=str))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
