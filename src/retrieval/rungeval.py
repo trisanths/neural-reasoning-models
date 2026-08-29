@@ -221,7 +221,7 @@ def main() -> int:
                               seed=args.seed,
                               max_prompt_tokens=args.max_prompt_tokens)
         cell["episodes_path"] = args.episodes
-        cell["tie_break"] = RETRIEVAL_TIE_BREAK
+        cell["tie_break"] = rlenv.RETRIEVAL_TIE_BREAK
         report["cells"].append(cell)
         print(json.dumps(cell), flush=True)
         if rows_fh:
