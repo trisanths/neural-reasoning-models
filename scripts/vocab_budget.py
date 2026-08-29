@@ -55,10 +55,17 @@ def main() -> int:
                         if n > cur[0]:
                             worst[rep] = (n, p, f"{kind}/{depth}/style{style}")
     for rep, (n, p, where) in worst.items():
+        # The slot form is not decoded left to right. Its rows are a fixed
+        # width written into the sequence by the decoder, so the token budget
+        # does not apply to it and is not checked against it.
+        applies = rep != "slots"
         out[rep] = {"longest_target_tokens": n, "prompt_tokens_there": p,
-                    "where": where, "fits_budget": n <= args.budget}
+                    "where": where,
+                    "fits_budget": (n <= args.budget) if applies else None,
+                    "budget_applies": applies}
+        verdict = str(n <= args.budget) if applies else "not autoregressive"
         print(f"{rep:10s} longest target {n:4d} tokens, prompt {p:4d}, "
-              f"at {where}, fits {args.budget}: {n <= args.budget}")
+              f"at {where}, fits {args.budget}: {verdict}")
     if args.out:
         with open(args.out, "w") as fh:
             json.dump(out, fh, indent=1)
