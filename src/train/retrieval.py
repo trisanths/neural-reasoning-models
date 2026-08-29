@@ -41,6 +41,7 @@ document must rank top-1. A question is dropped from rendering, and counted,
 when any of its hops cannot be made to verify. Everything is deterministic.
 """
 
+import hashlib
 import json
 import math
 import re
@@ -98,6 +99,44 @@ def norm_terms(text: str) -> list[str]:
     """Normalized terms of a text, the unit BM25 scores over and the unit the
     no-clairvoyance containment is defined under."""
     return [norm_term(t) for t in terms(text)]
+
+
+# How the serving gate chooses among documents BM25 scores exactly equally.
+#
+# "first" takes the lowest document index. That is what Lucene does with its
+# internal ids and it is what this gate did through the depth curve and the E0
+# ladder. It has one property that matters for measurement: which page gets
+# served depends on the order the pages were written down. Two pages built from
+# one template, with the same length, tie exactly under any query naming no
+# term unique to either, and the earlier page wins every such tie in every
+# rollout of every question.
+#
+# "content" hashes the query together with each tied page's own text and takes
+# the smallest digest. The choice stays a pure function of the query and the
+# pages, so a run reproduces exactly, but it carries no information about
+# position. Over a spread of queries a page tied k ways is served about one
+# time in k instead of never.
+#
+# This names a policy; it does not rank. BM25 is untouched under either value,
+# and a query that separates the documents at all never reaches break_tie.
+# Both serving loops, src/rl/env.py and src/evals/interactive.py, read this
+# setting through the module so one assignment moves both.
+RETRIEVAL_TIE_BREAK = "first"
+
+
+def break_tie(query: str, texts: list[str], tied: list[int],
+              policy: str) -> int:
+    """Pick one document from a group BM25 left exactly level."""
+    if len(tied) == 1:
+        return tied[0]
+    if policy == "first":
+        return tied[0]
+    if policy == "content":
+        return min(tied, key=lambda i: (hashlib.blake2b(
+            query.encode("utf-8", "replace") + b"\x00"
+            + texts[i].encode("utf-8", "replace"),
+            digest_size=8).digest(), i))
+    raise ValueError(f"unknown retrieval tie break {policy!r}")
 
 
 class BM25Index:

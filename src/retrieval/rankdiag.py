@@ -118,6 +118,16 @@ def summarise(rows: list[dict]) -> dict:
     for k in (1, 2, 3):
         out[f"hit_at_{k}"] = sum(
             1 for r in rows if r.get("gold_rank") and r["gold_rank"] <= k) / n
+    # What the same queries would serve if the tie were broken without
+    # reference to document order: a needed page in a group of k tied
+    # documents is served one time in k instead of always or never.
+    expected = 0.0
+    for r in rows:
+        if r.get("verdict") == "hit" and r.get("tie_group") == 1:
+            expected += 1.0
+        elif r.get("tie_group", 0) > 1 and r.get("gold_in_tie"):
+            expected += r["gold_in_tie"] / r["tie_group"]
+    out["expected_served_position_blind"] = expected / n
     return out
 
 

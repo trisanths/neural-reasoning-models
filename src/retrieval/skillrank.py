@@ -102,7 +102,7 @@ def main() -> None:
     res = {"seed0": args.seed0, "n_seeds": args.seeds, "families": []}
     print(f"{'family':20s} {'eps':>4s} {'probs':>6s} {'hit@1':>6s} "
           f"{'hit@2':>6s} {'tie':>6s} {'score':>6s} {'tieshr':>7s} "
-          f"{'rank':>5s} {'tiegrp':>6s} {'shrd@1':>7s} {'shrdtie':>7s}")
+          f"{'rank':>5s} {'blind':>6s} {'shrd@1':>7s} {'shrdblind':>9s}")
     for fam in args.families.split(","):
         cell = run_family(fam, seeds)
         res["families"].append(cell)
@@ -111,8 +111,9 @@ def main() -> None:
               f"{p['hit_at_1']:6.3f} {p['hit_at_2']:6.3f} {p['tie_loss']:6.3f} "
               f"{p['score_loss']:6.3f} {p['tie_share_of_misses']:7.3f} "
               f"{(p['mean_gold_rank'] or 0):5.2f} "
-              f"{(p['mean_tie_group'] or 0):6.2f} {s['hit_at_1']:7.3f} "
-              f"{s['tie_loss']:7.3f}")
+              f"{p['expected_served_position_blind']:6.3f} "
+              f"{s['hit_at_1']:7.3f} "
+              f"{s['expected_served_position_blind']:9.3f}")
     with open(args.out, "w") as fh:
         json.dump(res, fh, indent=1)
     print(f"wrote {args.out}")

@@ -31,7 +31,6 @@ sampler's key/value cache needs only a scalar position, which is what makes
 the batched GPU path in src/rl/sampler.py simple.
 """
 
-import hashlib
 import json
 import random
 from collections import deque
@@ -40,6 +39,7 @@ from dataclasses import dataclass, field
 import numpy as np
 
 from src.evals.naturalized import contains_answer, exact_match, normalize
+from src.train import retrieval as _retrieval
 from src.train.data import render_world_preamble
 from src.train.retrieval import BM25Index
 
@@ -244,7 +244,7 @@ class RetrievalService:
         self.doc_texts = doc_texts
         self.served: set[int] = set()
         self.calculator = calculator
-        self.tie_break = tie_break or RETRIEVAL_TIE_BREAK
+        self.tie_break = tie_break or _retrieval.RETRIEVAL_TIE_BREAK
         self.last_tie_group = 0
 
     def exhausted(self) -> bool:
@@ -268,7 +268,8 @@ class RetrievalService:
         except ValueError:
             return None
         self.last_tie_group = len(tied)
-        idx = break_tie(query, self.doc_texts, tied, self.tie_break)
+        idx = _retrieval.break_tie(query, self.doc_texts, tied,
+                                   self.tie_break)
         self.served.add(idx)
         return idx, self.doc_texts[idx]
 

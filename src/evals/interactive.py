@@ -24,6 +24,7 @@ result for provenance and reserved for sampling variants.
 
 import numpy as np
 
+from src.train import retrieval as _retrieval
 from src.train.retrieval import BM25Index
 
 DEFAULT_QUERY_MAX_TOKENS = 64
@@ -172,7 +173,16 @@ def generate_with_retrieval(
             query_text = tokenizer.decode(query_tokens)
             served = {r["doc_index"] for r in rounds}
             try:
-                doc_index = index.top(query_text, exclude=served)
+                # An injected serving surface promises only top(); the built
+                # BM25 index also reports the group it left level, and that
+                # group is resolved by the same policy the RL loop uses.
+                if hasattr(index, "top_group"):
+                    tied, _ = index.top_group(query_text, exclude=served)
+                    doc_index = _retrieval.break_tie(
+                        query_text, doc_texts, tied,
+                        _retrieval.RETRIEVAL_TIE_BREAK)
+                else:
+                    doc_index = index.top(query_text, exclude=served)
             except ValueError:
                 # Nothing servable: an injected index found no documents
                 # for this query. The built path never lands here because
