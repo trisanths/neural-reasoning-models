@@ -1,0 +1,113 @@
+## R0 with the page order permuted
+
+Artifact `results/retrieval/r0_order.json`. Lenient / forced.
+
+| page order | d2 | d3 | d4 |
+|---|---|---|---|
+| chain | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0000 / 0.0000 |
+| reverse | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0075 / 0.0075 |
+| goldfirst | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0075 / 0.0075 |
+| rand1 | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0075 / 0.0075 |
+| rand2 | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0000 / 0.0000 |
+| rand3 | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0075 / 0.0075 |
+
+Served final table, mean rounds, hedge rate.
+
+| page order | depth | served final table | mean rounds | hedge | n |
+|---|---|---|---|---|---|
+| chain | 2 | 0.0025 | 0.693 | 0.0025 | 400 |
+| chain | 3 | 0.0075 | 0.585 | 0.0000 | 400 |
+| chain | 4 | 0.0125 | 0.530 | 0.0025 | 400 |
+| reverse | 2 | 0.0825 | 0.693 | 0.0000 | 400 |
+| reverse | 3 | 0.0825 | 0.552 | 0.0050 | 400 |
+| reverse | 4 | 0.0850 | 0.575 | 0.0000 | 400 |
+| goldfirst | 2 | 0.0825 | 0.693 | 0.0000 | 400 |
+| goldfirst | 3 | 0.0825 | 0.552 | 0.0050 | 400 |
+| goldfirst | 4 | 0.0850 | 0.575 | 0.0000 | 400 |
+| rand1 | 2 | 0.0825 | 0.693 | 0.0000 | 400 |
+| rand1 | 3 | 0.0025 | 0.583 | 0.0000 | 400 |
+| rand1 | 4 | 0.0850 | 0.575 | 0.0000 | 400 |
+| rand2 | 2 | 0.0825 | 0.693 | 0.0000 | 400 |
+| rand2 | 3 | 0.0025 | 0.583 | 0.0000 | 400 |
+| rand2 | 4 | 0.0075 | 0.573 | 0.0025 | 400 |
+| rand3 | 2 | 0.0825 | 0.693 | 0.0000 | 400 |
+| rand3 | 3 | 0.0025 | 0.583 | 0.0000 | 400 |
+| rand3 | 4 | 0.0850 | 0.575 | 0.0000 | 400 |
+
+
+## The rescue rungs, before and after the tie break
+
+Depth 2. Artifacts `results/retrieval/d2_before.json` and `results/retrieval/d2_after.json`.
+
+| rung | tie break | chain pass@1 | 95 pct | forced | pass@4 | hedge | n |
+|---|---|---|---|---|---|---|---|
+| R1W | first | 0.0025 | 0.0004 to 0.0140 | 0.0025 | 0.010 | 0.0025 | 400 |
+| R1O | first | 0.1875 | 0.1523 to 0.2287 | 0.1875 | 0.590 | 0.0050 | 400 |
+| R1 | first | 0.2050 | 0.1683 to 0.2473 | 0.2050 | 0.560 | 0.0050 | 400 |
+| R1W | content | 0.0925 | 0.0679 to 0.1249 | 0.0925 | 0.340 | 0.0075 | 400 |
+| R1O | content | 0.0550 | 0.0366 to 0.0819 | 0.0575 | 0.200 | 0.0100 | 400 |
+| R1 | content | 0.2075 | 0.1706 to 0.2499 | 0.2075 | 0.560 | 0.0050 | 400 |
+
+Per step, served needed page and the ranking behind it.
+
+| rung | tie break | step | acc | forced | served page | acc given page | miss on tie | miss on score | n |
+|---|---|---|---|---|---|---|---|---|---|
+| R1W | first | 0 | 0.4500 | 0.4500 | 0.4775 | 0.942 | 0.005 | 0.499 | 400 |
+| R1W | first | 1 | 0.0050 | 0.0050 | 0.0075 | 0.667 | 0.437 | 0.556 | 400 |
+| R1O | first | 0 | 0.4425 | 0.4425 | 0.4725 | 0.937 | 0.023 | 0.490 | 400 |
+| R1O | first | 1 | 0.3825 | 0.3825 | 0.4175 | 0.916 | 0.010 | 0.562 | 400 |
+| R1 | first | 0 | 0.4850 | 0.4850 | 0.5350 | 0.907 | 0.013 | 0.443 | 400 |
+| R1 | first | 1 | 0.4575 | 0.4575 | 0.5000 | 0.915 | 0.016 | 0.468 | 400 |
+| R1W | content | 0 | 0.4125 | 0.4075 | 0.4425 | 0.932 | 0.005 | 0.503 | 400 |
+| R1W | content | 1 | 0.2000 | 0.2025 | 0.2175 | 0.920 | 0.424 | 0.574 | 400 |
+| R1O | content | 0 | 0.4100 | 0.4125 | 0.4325 | 0.948 | 0.005 | 0.513 | 400 |
+| R1O | content | 1 | 0.1750 | 0.1775 | 0.1900 | 0.921 | 0.005 | 0.557 | 400 |
+| R1 | content | 0 | 0.4850 | 0.4850 | 0.5375 | 0.902 | 0.013 | 0.443 | 400 |
+| R1 | content | 1 | 0.4625 | 0.4625 | 0.5075 | 0.911 | 0.016 | 0.468 | 400 |
+
+
+Depth 3. Artifacts `results/retrieval/d3_before.json` and `results/retrieval/d3_after.json`.
+
+| rung | tie break | chain pass@1 | 95 pct | forced | pass@4 | hedge | n |
+|---|---|---|---|---|---|---|---|
+| R1W | first | 0.0000 | 0.0000 to 0.0095 | 0.0000 | 0.000 | 0.0075 | 400 |
+| R1W | content | 0.0100 | 0.0039 to 0.0254 | 0.0100 | 0.040 | 0.0100 | 400 |
+
+Per step, served needed page and the ranking behind it.
+
+| rung | tie break | step | acc | forced | served page | acc given page | miss on tie | miss on score | n |
+|---|---|---|---|---|---|---|---|---|---|
+| R1W | first | 0 | 0.4300 | 0.4300 | 0.4575 | 0.940 | 0.005 | 0.519 | 400 |
+| R1W | first | 1 | 0.0050 | 0.0050 | 0.0075 | 0.667 | 0.442 | 0.551 | 400 |
+| R1W | first | 2 | 0.0075 | 0.0050 | 0.0075 | 1.000 | 0.427 | 0.565 | 400 |
+| R1W | content | 0 | 0.3800 | 0.3850 | 0.4050 | 0.932 | 0.015 | 0.505 | 400 |
+| R1W | content | 1 | 0.1725 | 0.1750 | 0.1900 | 0.908 | 0.429 | 0.568 | 400 |
+| R1W | content | 2 | 0.1650 | 0.1675 | 0.1850 | 0.892 | 0.420 | 0.565 | 400 |
+
+
+
+## skillacq families
+
+Artifact `results/retrieval/skillrank_before.json`.
+
+| family | episodes | problems | hit@1 problem query | 95 pct | miss on tie | miss on score | mean rank | hit@1 shared query | miss on tie, shared |
+|---|---|---|---|---|---|---|---|---|---|
+| units | 200 | 1600 | 0.992 | 0.986 to 0.995 | 0.000 | 0.008 | 1.01 | 0.465 | 0.535 |
+| procedure | 200 | 1600 | 1.000 | 0.998 to 1.000 | 0.000 | 0.000 | 1.00 | 0.520 | 0.480 |
+| binary_op | 200 | 1600 | 0.951 | 0.940 to 0.961 | 0.000 | 0.049 | 1.05 | 0.270 | 0.330 |
+| threshold_rule | 200 | 1600 | 1.000 | 0.998 to 1.000 | 0.000 | 0.000 | 1.00 | 0.460 | 0.535 |
+| substitution_rule | 200 | 1600 | 1.000 | 0.998 to 1.000 | 0.000 | 0.000 | 1.00 | 0.460 | 0.360 |
+| exception_rule | 200 | 1600 | 1.000 | 0.998 to 1.000 | 0.000 | 0.000 | 1.00 | 0.710 | 0.290 |
+
+
+## Page sets under the policy's own queries
+
+Artifact `results/retrieval/pagesets.json`.
+
+| episodes file | pages | serves needed page | miss on tie | miss on score | mean rank | tied at all | position blind |
+|---|---|---|---|---|---|---|---|
+| ta6-d1-minimal-ret.jsonl | 2 | 0.293 | 0.082 | 0.625 | 1.71 | 0.082 | 0.334 |
+| ta6-d1-correct-ret.jsonl | 7 | 0.038 | 0.224 | 0.738 | 4.14 | 0.266 | 0.051 |
+| ta6-d2-minimal-ret.jsonl | 3 | 0.007 | 0.340 | 0.653 | 2.72 | 0.340 | 0.163 |
+| ta6-d2-correct-ret.jsonl | 7 | 0.067 | 0.195 | 0.738 | 4.54 | 0.266 | 0.051 |
+

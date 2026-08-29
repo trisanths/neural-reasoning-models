@@ -142,8 +142,15 @@ def main() -> None:
     print(f"Artifact `{d}/r0_order.json`. Lenient / forced.\n")
     print(order_table(load(f"{d}/r0_order.json")))
     print("\n## The rescue rungs, before and after the tie break\n")
-    print(f"Artifacts `{d}/d2_before.json` and `{d}/d2_after.json`.\n")
-    print(rung_table(load(f"{d}/d2_before.json"), load(f"{d}/d2_after.json")))
+    for depth in (2, 3):
+        b = load(f"{d}/d{depth}_before.json")
+        a = load(f"{d}/d{depth}_after.json")
+        if not b:
+            continue
+        print(f"Depth {depth}. Artifacts `{d}/d{depth}_before.json` and "
+              f"`{d}/d{depth}_after.json`.\n")
+        print(rung_table(b, a))
+        print()
     print("\n## skillacq families\n")
     print(f"Artifact `{d}/skillrank_before.json`.\n")
     print(skill_table(load(f"{d}/skillrank_before.json")))
