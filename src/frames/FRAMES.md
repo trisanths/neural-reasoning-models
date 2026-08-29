@@ -323,6 +323,46 @@ and neither goes far: `registry__native` on `substitution_rule`, 0.145 to
 0.260 against a 0.200 floor, and `routing__active` on `exception_rule`, 0.475
 to 0.505 against 0.500.
 
+### Where the wrong answers go
+
+On the frames that fail while still naming a candidate, the errors are not
+spread over the table. `substitution_rule`, greedy, as a share of all 200
+rollouts in each cell:
+
+| frame | correct | named the fallback value | named another table value | named nothing | hedged |
+|---|---|---|---|---|---|
+| routing__native | 0.940 | 0.000 | 0.000 | 0.025 | 0.035 |
+| routing__keyphrase | 0.890 | 0.025 | 0.010 | 0.005 | 0.070 |
+| routing__postvalue | 0.600 | 0.060 | 0.005 | 0.090 | 0.245 |
+| depot__native | 0.100 | 0.390 | 0.005 | 0.445 | 0.060 |
+| registry__native | 0.145 | 0.575 | 0.010 | 0.105 | 0.165 |
+| routing__relative | 0.170 | 0.740 | 0.020 | 0.015 | 0.055 |
+| routing__active | 0.040 | 0.525 | 0.000 | 0.420 | 0.015 |
+| panel__active | 0.025 | 0.730 | 0.010 | 0.230 | 0.005 |
+| routing__tablecolon | 0.005 | 0.090 | 0.000 | 0.895 | 0.010 |
+| abstract__tablepipe | 0.000 | 0.000 | 0.000 | 1.000 | 0.000 |
+| kitchen__condthen | 0.050 | 0.310 | 0.010 | 0.630 | 0.000 |
+
+The four table rows are named wrongly on at most 0.020 of rollouts in any
+frame. What the model names instead is the fallback clause, the one sentence
+on the page saying where an unlisted key goes: 0.740 on `routing__relative`,
+0.730 on `panel__active`, 0.575 on `registry__native`, 0.525 on
+`routing__active`.
+
+`routing__relative` is the clearest case. Its mapping row reads "A request
+whose type is kk goes to the vv desk", and the fallback on the same page reads
+"Any request whose type is not listed goes to the D desk". Moving the row into
+that geometry makes the two sentences near neighbours, and the model reports
+the fallback. It is not confusing one table row with another. It has stopped
+reading the table and is reporting the sentence whose shape it still
+recognises.
+
+The native-tuned parser of section 7 fails the same way, by construction: its
+row regex matches nothing, it falls through to the fallback sentence, and it
+returns that value on every item. A regex with one surface compiled into it
+and this checkpoint produce the same error on the same frame for the same
+reason, which is the strongest form the trivial-program comparison takes here.
+
 ## 7. The trivial-program baselines
 
 Two hand-written parsers read the same pages (`src/frames/parsers.py`). Both
@@ -469,6 +509,7 @@ Every number above comes from one of these files. They live on the dev box at
 | `/home/ec2-user/frames/dump_greedy/`, `dump_t07/` | per-rollout dumps, 39 files each |
 | `/home/ec2-user/frames/score_greedy.json`, `score_t07.json` | the scored records behind every table |
 | `/home/ec2-user/frames/analysis.json` | correlations and the pooled-macro demonstration |
+| `/home/ec2-user/frames/error_modes.json` | where the wrong answers go, both decodes |
 | `/home/ec2-user/frames/parsers.log` | the parser table as printed |
 | `/home/ec2-user/frames/frames.log` | the sweep log |
 
