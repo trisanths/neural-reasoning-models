@@ -295,6 +295,10 @@ Everything a number here came from, on the p5 box:
     ~/mg3/strict_trivial.json
     ~/mg3/main.log, gate.log     run logs
 
+The p5 box is ephemeral, so the same tree is mirrored to
+`s3://decoupled-reasoner-009398924577/results/mathgen-h8/`, keeping the paths
+above under that prefix.
+
 Code: `scripts/mg_threeway_eval.py` runs the rollouts,
 `scripts/mg_strict_rescore.py` grades and aggregates,
 `scripts/mg_trivial_baseline.py` is the parser,
