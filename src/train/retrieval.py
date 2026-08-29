@@ -166,6 +166,35 @@ class BM25Index:
             raise ValueError("every document is excluded")
         return best_idx
 
+    def top_group(self, query: str, exclude=()) -> tuple[list[int], float]:
+        """Every document outside exclude holding the best score, and that
+        score. In document order, and of length one whenever the best score is
+        held alone.
+
+        `top` collapses this to its first element, which is the answer the
+        training planner wants: that code asks whether the query it is
+        building already isolates one document, and a query that leaves two
+        documents level has isolated nothing. The eval gate wants the group
+        itself. A group of size k says BM25 does not distinguish those k
+        documents under this query, so whatever picks one of them is not BM25
+        and should not be document order.
+        """
+        excluded = set(exclude)
+        best: list[int] = []
+        best_score = float("-inf")
+        for i in range(self.n_docs):
+            if i in excluded:
+                continue
+            s = self.score(query, i)
+            if s > best_score:
+                best_score = s
+                best = [i]
+            elif s == best_score:
+                best.append(i)
+        if not best:
+            raise ValueError("every document is excluded")
+        return best, best_score
+
 
 def _margin(index: BM25Index, query_terms: list[str], target: int,
             exclude: set) -> float:

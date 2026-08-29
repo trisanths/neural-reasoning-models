@@ -31,6 +31,7 @@ sampler's key/value cache needs only a scalar position, which is what makes
 the batched GPU path in src/rl/sampler.py simple.
 """
 
+import hashlib
 import json
 import random
 from collections import deque
@@ -189,20 +190,62 @@ def load_tasks(path: str, tokenizer, limit_episodes: int | None = None,
     return tasks
 
 
+# How the gate chooses among documents BM25 scores exactly equally.
+#
+# "first" takes the lowest document index. That is what Lucene does with its
+# internal ids and it is what this gate did through the depth curve and the E0
+# ladder. It has one property that matters for measurement: which page is
+# served depends on the order the pages were written down. Two pages built from
+# one template, with the same length, tie exactly under any query naming no
+# term unique to either, and the earlier page wins every such tie in every
+# rollout.
+#
+# "content" hashes the query together with each tied page's own text and takes
+# the smallest digest. The choice stays a pure function of the query and the
+# pages, so a run reproduces exactly, but it carries no information about
+# position. Over a spread of queries a page tied k ways is served about one
+# time in k instead of never.
+#
+# This names a policy; it does not rank. BM25 is untouched either way.
+RETRIEVAL_TIE_BREAK = "first"
+
+
+def break_tie(query: str, texts: list[str], tied: list[int],
+              policy: str) -> int:
+    """Pick one document from a group BM25 left exactly level."""
+    if len(tied) == 1:
+        return tied[0]
+    if policy == "first":
+        return tied[0]
+    if policy == "content":
+        return min(tied, key=lambda i: (hashlib.blake2b(
+            query.encode("utf-8", "replace") + b"\x00"
+            + texts[i].encode("utf-8", "replace"),
+            digest_size=8).digest(), i))
+    raise ValueError(f"unknown retrieval tie break {policy!r}")
+
+
 class RetrievalService:
     """Per-rollout view of one episode's retriever.
 
     Wraps a shared BM25Index and remembers which documents this rollout has
     already been served, which is the without-replacement contract the
     training oracle and the eval loop both hold.
+
+    Documents BM25 leaves exactly level are resolved by tie_break, which
+    defaults to the module setting. last_tie_group holds how many documents
+    were level on the most recent call, so a trace records whether a served
+    page won on score or on a coin the gate tossed.
     """
 
     def __init__(self, index: BM25Index, doc_texts: list[str],
-                 calculator: bool = False):
+                 calculator: bool = False, tie_break: str | None = None):
         self.index = index
         self.doc_texts = doc_texts
         self.served: set[int] = set()
         self.calculator = calculator
+        self.tie_break = tie_break or RETRIEVAL_TIE_BREAK
+        self.last_tie_group = 0
 
     def exhausted(self) -> bool:
         return len(self.served) >= len(self.doc_texts)
@@ -221,14 +264,17 @@ class RetrievalService:
         if self.exhausted():
             return None
         try:
-            idx = self.index.top(query, exclude=self.served)
+            tied, _ = self.index.top_group(query, exclude=self.served)
         except ValueError:
             return None
+        self.last_tie_group = len(tied)
+        idx = break_tie(query, self.doc_texts, tied, self.tie_break)
         self.served.add(idx)
         return idx, self.doc_texts[idx]
 
 
-def make_service(documents: list[dict], calculator: bool = False) -> RetrievalService | None:
+def make_service(documents: list[dict], calculator: bool = False,
+                 tie_break: str | None = None) -> RetrievalService | None:
     """Index one episode's documents the way the training oracle does."""
     if not documents:
         return None
@@ -238,7 +284,7 @@ def make_service(documents: list[dict], calculator: bool = False) -> RetrievalSe
         for d in documents
     ]
     return RetrievalService(BM25Index(texts, reliabilities=reliabilities), texts,
-                            calculator=calculator)
+                            calculator=calculator, tie_break=tie_break)
 
 
 class _SeqState:
@@ -427,6 +473,10 @@ class EpisodeEnv:
             "doc_index": int(doc_index),
             "chunk": chunk_text,
             "n_chunk_tokens": len(chunk_tokens),
+            # how many documents BM25 left exactly level on this query, so a
+            # trace shows whether the served page won on score or on the tie
+            # break
+            "n_tied": int(getattr(st.service, "last_tie_group", 0)),
         })
         st.mode = "ingest" if st.forced else "free"
         st.query_tokens = []
