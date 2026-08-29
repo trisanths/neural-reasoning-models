@@ -146,42 +146,94 @@ def per_frame_vocabulary(frames, encode, n_frames=32, seed=300_000_200) -> dict:
             "examples": bad[:4], "passes": not bad}
 
 
-def shortcut_floors(frames, encode, families, n_frames=8, n_seeds=24,
+def shortcut_floors(frames, encode, families, n_frames=8, n_seeds=120,
                     seed0=300_000_300) -> dict:
-    """Every value blind reader against the chance floor, per family."""
+    """Every value blind reader against the chance floor, per family.
+
+    Scored over independent items. The same seed rendered in eight frames is
+    eight copies of one item as far as a value blind reader is concerned,
+    because none of those readers looks at the wording; counting them eight
+    times would shrink the interval eightfold and turn ordinary sampling noise
+    into a finding. Items are therefore deduplicated by seed and question id
+    before the interval is taken, and a reader is called above chance only when
+    its Wilson lower bound clears the floor.
+    """
     step = max(1, len(frames) // n_frames)
     picked = frames[::step][:n_frames]
     rng = random.Random(7)
     out = {}
     for fam in families:
         depths = DEPTH_SCHEDULE.get(fam, (1,))
-        hits, n, chances = Counter(), 0, []
+        seen = {}
+        chances = []
         for f in picked:
             for r in range(n_seeds):
                 ep = build.build_relation_episode(
                     seed0 + r, fam, f, encode, depth=depths[r % len(depths)],
                     global_reserved=GR)
                 rep = build.audit_relation_episode(ep, f, rng)
-                n += rep["shortcuts"]["n_questions"]
-                for k, v in rep["shortcuts"]["hits"].items():
-                    hits[k] += v
+                # Value blind readers do not look at the wording, so one seed
+                # is one item however many frames render it. The first frame
+                # to produce a seed owns it.
+                if ep["seed"] in seen:
+                    continue
+                seen[ep["seed"]] = rep["shortcuts"]
                 for q in ep["questions"]:
                     if q["chance"]:
                         chances.append(q["chance"])
+        n = sum(v["n_questions"] for v in seen.values())
+        hits = Counter()
+        for v in seen.values():
+            for k, x in v["hits"].items():
+                hits[k] += x
         chance = sum(chances) / len(chances) if chances else 0.0
-        rates = {k: round(v / n, 4) for k, v in hits.items()} if n else {}
-        blind = {k: rates.get(k, 0.0) for k in audit.BLIND_READERS}
+        blind = {}
+        worst = None
+        for k in audit.BLIND_READERS:
+            p, lo, hi = audit.wilson(hits.get(k, 0), n)
+            blind[k] = {"rate": round(p, 4), "lo": round(lo, 4),
+                        "hi": round(hi, 4), "above_chance": lo > chance}
+            if worst is None or p > blind[worst]["rate"]:
+                worst = k
+        page = {}
+        for k in audit.PAGE_READERS:
+            p, lo, hi = audit.wilson(hits.get(k, 0), n)
+            page[k] = round(p, 4)
         out[fam] = {
+            "n_independent_seeds": len(seen),
             "n_questions": n,
             "chance": round(chance, 4),
             "blind_readers": blind,
-            "worst_blind_reader": max(blind, key=blind.get) if blind else None,
-            "worst_blind_rate": max(blind.values()) if blind else 0.0,
-            "blind_at_or_below_chance": all(
-                v <= chance + 1e-9 for v in blind.values()) if chance else None,
-            "page_readers": {k: rates.get(k, 0.0) for k in audit.PAGE_READERS},
+            "worst_blind_reader": worst,
+            "worst_blind_rate": blind[worst]["rate"] if worst else 0.0,
+            "n_blind_readers_above_chance": sum(
+                1 for v in blind.values() if v["above_chance"]),
+            "blind_at_or_below_chance": not any(
+                v["above_chance"] for v in blind.values()),
+            "page_readers": page,
         }
     return out
+
+
+def lookup_regex_check(frames) -> dict:
+    """The shortcut reader's pattern must match its own frame's rule line.
+
+    A frame whose pattern did not match would show a keyword reader at zero and
+    look safe for a reason that has nothing to do with the frame, which is the
+    mistake the audit exists to avoid.
+    """
+    import re
+
+    from src.corpus.relations import Fact
+    bad = []
+    for f in frames:
+        line = f.fact_line(Fact("assoc", "Scope", "kayvor", "milzel"))
+        m = re.search(f.lookup_regex("kayvor"), line)
+        if not m or m.group(1) != "milzel":
+            bad.append({"frame": f.fid, "line": line,
+                        "pattern": f.lookup_regex("kayvor")})
+    return {"frames_checked": len(frames), "n_failing": len(bad),
+            "examples": bad[:5], "passes": not bad}
 
 
 def plan_axis(n=4) -> dict:
@@ -236,6 +288,7 @@ def main(argv=None) -> int:
         "heldout_families": list(HELDOUT_FAMILIES),
         "families_smoke": families_smoke(frames, encode),
         "per_frame_vocabulary": per_frame_vocabulary(frames, encode),
+        "lookup_regex_check": lookup_regex_check(frames),
     }
     if not args.quick:
         rep["cross_frame_gold_agreement"] = cross_frame_agreement(

@@ -230,7 +230,7 @@ def keep_relation_episode(ep, rep) -> tuple:
 # ---------------------------------------------------------------- plan arm
 
 def build_plan_records(seed: int, n_steps: int, n_symbols: int, qframe: str,
-                       rng: random.Random) -> tuple:
+                       rng: random.Random, band: str = "train") -> tuple:
     """The whole plan target and the stepwise targets for one item.
 
     Both arms are emitted. The whole plan arm is what saturated at three steps;
@@ -262,8 +262,8 @@ def build_plan_records(seed: int, n_steps: int, n_symbols: int, qframe: str,
         "rejects": item["rejects"],
     }
     steps = [{"record": "plan_step", "seed": seed, "component": "plan",
-              "n_steps": n_steps, "n_symbols": n_symbols, "qframe": qframe,
-              "step_index": i, "prompt": p, "target": t}
+              "band": band, "n_steps": n_steps, "n_symbols": n_symbols,
+              "qframe": qframe, "step_index": i, "prompt": p, "target": t}
              for i, (p, t) in enumerate(step_examples(w.ops, item["text"],
                                                       item["plan"]))]
     return (whole, steps), None
@@ -271,7 +271,7 @@ def build_plan_records(seed: int, n_steps: int, n_symbols: int, qframe: str,
 
 # ------------------------------------------------------------- mathgen arm
 
-def build_mathgen_episode(seed: int) -> dict:
+def build_mathgen_episode(seed: int, answer_source: str = "all") -> dict:
     """One invented formal system, in the shared episode shape.
 
     `src/mathgen/cli.py:build_universe` runs its own verification, so the
@@ -283,7 +283,7 @@ def build_mathgen_episode(seed: int) -> dict:
     from src.mathgen.cli import build_universe
     from src.mathgen.textbook import chunks
 
-    u = build_universe(seed)
+    u = build_universe(seed, answer_source=answer_source)
     ch = [c for c in chunks(u["book"])
           if c.get("section_kind") != "exercises"]
     docs = [{"text": c["text"], "chapter": c["chapter"],
@@ -315,7 +315,7 @@ def build_mathgen_episode(seed: int) -> dict:
         "episode_id": f"cm-{seed:09d}",
         "seed": seed,
         "component": "mathgen",
-        "family": "mathgen",
+        "family": f"mathgen_{answer_source}",
         "frame": "mathgen.native",
         "world": {"domain": "mathgen"},
         "n_context": 0,

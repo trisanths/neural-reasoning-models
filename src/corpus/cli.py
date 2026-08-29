@@ -3,6 +3,7 @@
     python -m src.corpus.cli relation --out DIR --procs 64
     python -m src.corpus.cli plan     --out DIR --procs 64
     python -m src.corpus.cli mathgen  --out DIR --procs 64
+    python -m src.corpus.cli external --out DIR --procs 64
     python -m src.corpus.cli parity   --out DIR --tokenizer PATH
     python -m src.corpus.cli agree    --out DIR
     python -m src.corpus.cli manifest --out DIR
@@ -20,7 +21,7 @@ import random
 import time
 from collections import Counter, defaultdict
 
-from src.corpus import audit, build, relations
+from src.corpus import audit, build, external_frames, relations
 from src.corpus.frames import load_frames
 
 # Structures held out of training so that a relation type generalisation test
@@ -49,6 +50,21 @@ DEPTH_SCHEDULE = {
 
 PLAN_STEPS = (1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48)
 PLAN_SYMBOLS = (1, 2, 3, 4, 5)
+
+# Seed allocation inside the two corpus bands. Each component gets its own
+# sub range so a seed identifies its component as well as its item, and so a
+# component can be regenerated without disturbing another. Every value below
+# lies inside [CORPUS_TRAIN_SEED0, CORPUS_TRAIN_SEED1) or inside
+# [CORPUS_HELDOUT_SEED0, CORPUS_HELDOUT_SEED1), which the manifest's seed check
+# re-verifies over the seeds actually written.
+TRAIN_BASE = {"relation": audit.CORPUS_TRAIN_SEED0,
+              "plan": audit.CORPUS_TRAIN_SEED0 + 15_000_000,
+              "mathgen": audit.CORPUS_TRAIN_SEED0 + 20_000_000,
+              "external": audit.CORPUS_TRAIN_SEED0 + 30_000_000}
+HELDOUT_BASE = {"relation": audit.CORPUS_HELDOUT_SEED0,
+                "plan": audit.CORPUS_HELDOUT_SEED0 + 300_000,
+                "mathgen": audit.CORPUS_HELDOUT_SEED0 + 400_000,
+                "external": audit.CORPUS_HELDOUT_SEED0 + 500_000}
 
 _STATE: dict = {}
 
@@ -120,7 +136,7 @@ def _plan_cell(job):
         qf = qframes[r % len(qframes)]
         try:
             res, why = build.build_plan_records(seed, n_steps, n_symbols, qf,
-                                                rng)
+                                                rng, band=band)
         except Exception as exc:  # noqa: BLE001
             rejects["generator_error:" + type(exc).__name__] += 1
             continue
@@ -147,11 +163,12 @@ def _plan_cell(job):
 
 
 def _mathgen_cell(job):
-    seed0, n_seeds, band = job
+    seed0, n_seeds, band, answer_source = job
     out, rejects = [], Counter()
     for r in range(n_seeds):
         try:
-            ep = build.build_mathgen_episode(seed0 + r)
+            ep = build.build_mathgen_episode(seed0 + r,
+                                             answer_source=answer_source)
         except Exception as exc:  # noqa: BLE001
             rejects["generator_error:" + type(exc).__name__] += 1
             continue
@@ -162,6 +179,7 @@ def _mathgen_cell(job):
             rejects["verification_failed"] += 1
             continue
         ep["band"] = band
+        ep["answer_source_filter"] = answer_source
         out.append(ep)
         rejects["kept"] += 1
     return out, dict(rejects)
@@ -188,15 +206,30 @@ def cmd_relation(args) -> int:
     os.makedirs(args.out, exist_ok=True)
     jobs = []
     cell = 0
-    for band, (s0, n) in (("train", (audit.CORPUS_TRAIN_SEED0,
+    for band, (s0, n) in (("train", (TRAIN_BASE["relation"],
                                      args.seeds_per_cell)),
-                          ("heldout", (audit.CORPUS_HELDOUT_SEED0,
+                          ("heldout", (HELDOUT_BASE["relation"],
                                        args.heldout_per_cell))):
         fams = TRAIN_FAMILIES if band == "train" else sorted(
             relations.STRUCTURES)
+        # The held-out band spans the frame bank rather than filling it: it is
+        # an evaluation set, and one that used every frame at every family
+        # would be larger than it needs to be to measure a frame effect.
+        idx = (range(len(frames)) if band == "train"
+               else range(0, len(frames), args.heldout_frame_stride))
         for family in fams:
-            for fi in range(len(frames)):
-                jobs.append((family, fi, s0 + cell * 1000, n, band))
+            # The two numeric structures are the only relation families whose
+            # answer is not written on a page, so they are the only source of
+            # derived items here. Left at one seed block each they would be a
+            # sixth of the component and the corpus would be four fifths
+            # stated, which is the pooling that hid a result before. The boost
+            # is applied to the seed count, not to the frames, so every family
+            # still spans the whole frame bank.
+            mult = (args.derived_boost
+                    if family in relations.NUMERIC_STRUCTURES else 1)
+            for fi in idx:
+                stride = 1000 if band == "train" else 100
+                jobs.append((family, fi, s0 + cell * stride, n * mult, band))
                 cell += 1
     t0 = time.time()
     per_family_frame = defaultdict(Counter)
@@ -245,9 +278,9 @@ def cmd_plan(args) -> int:
     os.makedirs(args.out, exist_ok=True)
     jobs = []
     cell = 0
-    for band, (s0, n) in (("train", (audit.CORPUS_TRAIN_SEED0 + 50_000_000,
+    for band, (s0, n) in (("train", (TRAIN_BASE["plan"],
                                      args.seeds_per_cell)),
-                          ("heldout", (audit.CORPUS_HELDOUT_SEED0 + 500_000,
+                          ("heldout", (HELDOUT_BASE["plan"],
                                        args.heldout_per_cell))):
         for ns in PLAN_STEPS:
             for k in PLAN_SYMBOLS:
@@ -273,8 +306,7 @@ def cmd_plan(args) -> int:
                 counts[f"{w['band']}:steps_{ns}"] += 1
                 counts[f"{w['band']}:symbols_{k}"] += 1
             for s in steps:
-                b = "train" if s["seed"] < audit.CORPUS_HELDOUT_SEED0 else \
-                    "heldout"
+                b = s["band"]
                 fh[(b, "step")].write(json.dumps(s) + "\n")
                 counts[f"{b}:step_examples"] += 1
             for kk, v in rej.items():
@@ -296,13 +328,19 @@ def cmd_plan(args) -> int:
 def cmd_mathgen(args) -> int:
     os.makedirs(args.out, exist_ok=True)
     jobs = []
-    for band, s0, total in (("train", audit.CORPUS_TRAIN_SEED0 + 60_000_000,
-                             args.universes),
-                            ("heldout", audit.CORPUS_HELDOUT_SEED0 + 700_000,
+    for band, s0, total in (("train", TRAIN_BASE["mathgen"], args.universes),
+                            ("heldout", HELDOUT_BASE["mathgen"],
                              args.heldout_universes)):
+        # Half the universes keep every exercise and half keep only the ones
+        # whose answer is not written on any page. mathgen's own mix is about
+        # four fifths stated, and a corpus that inherited it would be reporting
+        # a stated number with a derived tail rather than two families.
         per = 25
-        for i in range(0, total, per):
-            jobs.append((s0 + i, min(per, total - i), band))
+        half = total // 2
+        for i in range(0, half, per):
+            jobs.append((s0 + i, min(per, half - i), band, "all"))
+        for i in range(half, total, per):
+            jobs.append((s0 + i, min(per, total - i), band, "derived"))
     t0 = time.time()
     counts = Counter()
     rejects = Counter()
@@ -321,6 +359,7 @@ def cmd_mathgen(args) -> int:
                 for q in ep["questions"]:
                     counts[f"{ep['band']}:src:{q['answer_source']}"] += 1
                     counts[f"{ep['band']}:level:{q['level']}"] += 1
+                counts[f"{ep['band']}:filter:{ep['answer_source_filter']}"] += 1
                 fh[ep["band"]].write(json.dumps(ep) + "\n")
             for k, v in rej.items():
                 rejects[k] += v
@@ -335,10 +374,69 @@ def cmd_mathgen(args) -> int:
     return 0
 
 
+def cmd_external(args) -> int:
+    """The src/frames component: its train side frames only.
+
+    Its own `split_frames` partition decides which frames may be trained on.
+    Writing its test frames into the training band would destroy that split,
+    so they go to the corpus held-out band and are named in the summary.
+    """
+    if not external_frames.available():
+        print(json.dumps({"component": "external_frames",
+                          "status": "src.frames not importable"}))
+        return 0
+    split = external_frames.frame_split("both")
+    from src.frames.generate import FAMILIES
+    jobs, cell = [], 0
+    for band, names, n in (("train", split["train"], args.seeds_per_cell),
+                           ("heldout", split["test"] + split["bridge"],
+                            args.heldout_per_cell)):
+        s0 = TRAIN_BASE["external"] if band == "train" \
+            else HELDOUT_BASE["external"]
+        for fname in names:
+            for fam in FAMILIES:
+                jobs.append((fname, fam, s0 + cell * 200, n, band))
+                cell += 1
+    os.makedirs(args.out, exist_ok=True)
+    t0 = time.time()
+    counts, rejects = Counter(), defaultdict(Counter)
+    fh = {b: open(os.path.join(args.out, f"external_{b}.jsonl"), "w")
+          for b in ("train", "heldout")}
+    with _pool(args.procs, args.tokenizer) as pool:
+        for fname, fam, kept, rej in pool.imap_unordered(external_frames.cell,
+                                                         jobs, chunksize=1):
+            for ep in kept:
+                fh[ep["band"]].write(json.dumps(ep) + "\n")
+                counts[f"{ep['band']}:episodes"] += 1
+                counts[f"{ep['band']}:questions"] += len(ep["questions"])
+                counts[f"{ep['band']}:fam:{fam}"] += len(ep["questions"])
+            for k, v in rej.items():
+                rejects[fam][k] += v
+    for f in fh.values():
+        f.close()
+    summary = {"component": "external_frames", "source": "src.frames",
+               "split_policy": split["policy"], "split_seed": split["seed"],
+               "n_train_frames": len(split["train"]),
+               "n_test_frames": len(split["test"]),
+               "n_bridge_frames": len(split["bridge"]),
+               "test_lexicons": split["test_lexicons"],
+               "test_shapes": split["test_shapes"],
+               "heldout_frame_names": sorted(split["test"]),
+               "counts": dict(counts),
+               "rejects_by_family": {k: dict(v) for k, v in rejects.items()},
+               "elapsed_s": round(time.time() - t0, 1)}
+    with open(os.path.join(args.out, "external_summary.json"), "w") as f:
+        json.dump(summary, f, indent=2)
+    print(json.dumps({k: summary[k] for k in
+                      ("component", "n_train_frames", "n_test_frames",
+                       "n_bridge_frames", "counts", "elapsed_s")}, indent=2))
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("relation", "plan", "mathgen"):
+    for name in ("relation", "plan", "mathgen", "external"):
         p = sub.add_parser(name)
         p.add_argument("--out", required=True)
         p.add_argument("--procs", type=int, default=32)
@@ -349,9 +447,11 @@ def main(argv=None) -> int:
         else:
             p.add_argument("--seeds-per-cell", type=int, default=48)
             p.add_argument("--heldout-per-cell", type=int, default=2)
+            p.add_argument("--heldout-frame-stride", type=int, default=8)
+            p.add_argument("--derived-boost", type=int, default=4)
     args = ap.parse_args(argv)
     return {"relation": cmd_relation, "plan": cmd_plan,
-            "mathgen": cmd_mathgen}[args.cmd](args)
+            "mathgen": cmd_mathgen, "external": cmd_external}[args.cmd](args)
 
 
 if __name__ == "__main__":

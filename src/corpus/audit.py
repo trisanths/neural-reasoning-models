@@ -163,6 +163,23 @@ def shortcut_hits(episode, frame, reserved, rng) -> dict:
     return {"n_questions": n, "hits": dict(hits)}
 
 
+def wilson(k: int, n: int, z: float = 1.96) -> tuple:
+    """A Wilson interval, as `src/primitives/common.py:wilson` computes it.
+
+    A blind reader is called above chance only when the lower bound clears the
+    floor. Reporting a point estimate against the floor would flag every reader
+    that happened to land a fraction high, and with a few hundred items that is
+    most of them.
+    """
+    if n <= 0:
+        return 0.0, 0.0, 0.0
+    p = k / n
+    d = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / d
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return p, max(0.0, centre - half), min(1.0, centre + half)
+
+
 def chance_floor(question) -> float:
     cands = question.get("candidates") or []
     if cands:

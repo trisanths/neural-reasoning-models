@@ -147,27 +147,37 @@ def band_rule(rng, lex, n_problems=6, n_bands=3):
 
 
 def _bands(rng, lex, n_bands, n_problems, family):
+    """Bands whose labels are equally likely.
+
+    The band index is drawn uniformly and the reading is then drawn inside that
+    band, rather than the reading being drawn uniformly over the whole range.
+    The two differ: the bands are not equally wide, so a uniform reading makes
+    the widest band's label the modal answer and a constant predictor beats the
+    uniform floor. That would put a value blind reader above chance for a
+    reason that has nothing to do with the task.
+    """
     name = lex.name()
     attr = lex.word()
     labels = lex.words(n_bands)
     cuts = []
-    v = rng.choice([15, 20, 25, 30])
+    v = rng.choice([25, 30, 35, 40])
     for _ in range(n_bands - 1):
         cuts.append(v)
-        v += rng.choice([20, 25, 30, 35])
-    top = cuts[-1] + rng.choice([25, 30, 40])
+        v += rng.choice([25, 30, 35])
+    top = cuts[-1] + rng.choice([25, 30, 35])
     facts = []
     edges = [None] + cuts + [None]
     for i, label in enumerate(labels):
         facts.append(Fact("band", name, attr=attr, lo=edges[i], hi=edges[i + 1],
                           value=label, rank=i))
+    lows = [1] + [c + 3 for c in cuts]
+    highs = [c - 3 for c in cuts] + [top]
     qs = []
     for i in range(n_problems):
-        while True:
-            reading = rng.randint(1, top)
-            if all(abs(reading - c) >= 3 for c in cuts):
-                break
-        idx = sum(1 for c in cuts if reading >= c)
+        idx = rng.randrange(n_bands)
+        if highs[idx] < lows[idx]:
+            continue
+        reading = rng.randint(lows[idx], highs[idx])
         a = labels[idx]
         qs.append(Question(f"q{i}", "classify", [name], reading, a,
                            [reading, a],
@@ -349,18 +359,31 @@ def exclusion(rng, lex, n_keys=4, n_problems=6):
     return Instance("exclusion", name, [(name, facts)], qs, list(keys))
 
 
-def lookup_then_band(rng, lex, n_keys=4, n_bands=3, n_problems=6):
+def lookup_then_band(rng, lex, n_keys=6, n_bands=3, n_problems=6):
     """A key gives a number; the number is then classified by stated bands.
 
-    Two distinct operations in one plan, which is the two symbol case.
+    Two distinct operations in one plan, which is the two symbol case. The keys
+    are spread evenly over the bands so that drawing a key uniformly draws a
+    label uniformly, for the same reason `_bands` draws the band first.
     """
     name = lex.name()
     scope_a = lex.name()
     scope_b = lex.name()
     keys = lex.words(n_keys)
-    weights = rng.sample(range(5, 96), n_keys)
     labels = lex.words(n_bands)
-    cuts = sorted(rng.sample(range(20, 85), n_bands - 1))
+    cuts = []
+    v = rng.choice([25, 30, 35, 40])
+    for _ in range(n_bands - 1):
+        cuts.append(v)
+        v += rng.choice([25, 30, 35])
+    top = cuts[-1] + rng.choice([25, 30, 35])
+    lows = [1] + [c + 3 for c in cuts]
+    highs = [c - 3 for c in cuts] + [top]
+    weights, bands = [], []
+    for j in range(n_keys):
+        idx = j % n_bands
+        bands.append(idx)
+        weights.append(rng.randint(lows[idx], max(lows[idx], highs[idx])))
     facts_a = [Fact("weight", scope_a, k, w) for k, w in zip(keys, weights)]
     edges = [None] + cuts + [None]
     facts_b = [Fact("band", scope_b, attr=scope_a, lo=edges[i], hi=edges[i + 1],
@@ -368,11 +391,7 @@ def lookup_then_band(rng, lex, n_keys=4, n_bands=3, n_problems=6):
     qs = []
     for i in range(n_problems):
         j = rng.randrange(n_keys)
-        k, w = keys[j], weights[j]
-        if any(abs(w - c) < 3 for c in cuts):
-            continue
-        idx = sum(1 for c in cuts if w >= c)
-        a = labels[idx]
+        k, w, a = keys[j], weights[j], labels[bands[j]]
         qs.append(Question(f"q{i}", "lookup_then_band", [scope_a, scope_b], k,
                            a, [k, w, a],
                            [_step("weigh", scope_a, k, w),
@@ -382,25 +401,34 @@ def lookup_then_band(rng, lex, n_keys=4, n_bands=3, n_problems=6):
 
 
 def band_then_lookup(rng, lex, n_bands=3, n_problems=6):
-    """A reading gives a label; the label is then looked up in a second table."""
+    """A reading gives a label; the label is then looked up in a second table.
+
+    The band index is drawn uniformly, as in `_bands`.
+    """
     name = lex.name()
     scope_a = lex.name()
     scope_b = lex.name()
     attr = lex.word()
     labels = lex.words(n_bands)
     values = lex.words(n_bands)
-    cuts = sorted(rng.sample(range(20, 85), n_bands - 1))
+    cuts = []
+    v = rng.choice([25, 30, 35, 40])
+    for _ in range(n_bands - 1):
+        cuts.append(v)
+        v += rng.choice([25, 30, 35])
+    top = cuts[-1] + rng.choice([25, 30, 35])
+    lows = [1] + [c + 3 for c in cuts]
+    highs = [c - 3 for c in cuts] + [top]
     edges = [None] + cuts + [None]
     facts_a = [Fact("band", scope_a, attr=attr, lo=edges[i], hi=edges[i + 1],
                     value=labels[i], rank=i) for i in range(n_bands)]
     facts_b = [Fact("assoc", scope_b, l, v) for l, v in zip(labels, values)]
     qs = []
     for i in range(n_problems):
-        while True:
-            reading = rng.randint(1, cuts[-1] + 30)
-            if all(abs(reading - c) >= 3 for c in cuts):
-                break
-        idx = sum(1 for c in cuts if reading >= c)
+        idx = rng.randrange(n_bands)
+        if highs[idx] < lows[idx]:
+            continue
+        reading = rng.randint(lows[idx], highs[idx])
         lab, a = labels[idx], values[idx]
         qs.append(Question(f"q{i}", "band_then_lookup", [scope_a, scope_b],
                            reading, a, [reading, lab, a],
