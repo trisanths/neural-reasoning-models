@@ -100,3 +100,72 @@ structured translation than to open ended reading. The paraphrase pass is the
 only evidence here about how far induction generalises, and it is a weak
 paraphrase: different prose, same underlying grammar. Nothing in this package
 supports a claim about inducing operators from arbitrary text.
+
+## What the run found
+
+Execution is free and induction is nearly free. The wall is the plan.
+
+With the plan supplied, sequential accuracy is 1.000 at every depth from one to
+eight, and novel composition is 1.000 at every depth. Supplying gold operators
+instead changes nothing: `plan_execute` and `oracle_ops` agree to three decimals
+in every cell. So the executor chains an induced operator to depth eight without
+loss, and the model's own induced operators are good enough to do it with.
+
+With the model writing the plan, sequential holds 1.000 through depth three and
+falls to 0.020 at depth four. That is not a decay. It is a cliff at the exact
+depth training stopped.
+
+Reading the plans the model actually wrote says why, and it is narrower than a
+failure to compose. The number of steps it emits tracks the question exactly to
+three and then saturates: depth four, five, six, seven and eight all get three
+step plans. Asking for the plan one step at a time does not change this, and
+sometimes returns fewer steps rather than more.
+
+Novel composition fails a second way, at a depth where length is not the issue.
+Gold at depth two is `t1 = > 7 6 ; t2 = ^ 5 t1`. The model writes
+`t1 = ^ 7 6 ; t2 = ^ 5 t1`. Operands, order, register wiring and answer line are
+all correct; the second distinct operator symbol is replaced by the first.
+Training never showed a plan using two distinct symbols, and the model never
+writes one.
+
+Both failures are the same shape. Every content-dependent slot is filled
+correctly, and the two structural parameters of the plan, its length and how
+many distinct symbols it names, are pinned to the largest values training
+showed. The scheduler is not failing to reason about the question. It is failing
+to emit a structure outside the support the training distribution gave it.
+
+## What the ladder adds
+
+Six spellings of the same plan, changing nothing else: english sentences,
+registers in ordinary text, dedicated opcode tokens, a typed instruction stream,
+a goal stack, and a slot graph. Every rung holds through depth three and every
+rung is at or near zero by depth four. The horizon is not a property of the
+notation.
+
+These rungs are smoke sized, eight items a cell, so the only claim they carry is
+the one they make unanimously. The slot rung also sees two and a half times the
+supervised tokens per step at matched optimizer steps, so its lower numbers
+could be budget rather than representation, and nothing here separates the two.
+
+## Two things a reader will otherwise over-read
+
+Breadth above three is not a clean composition test. Training draws the wide
+procedure's condition count from one, two and three, and evaluation sets it to
+the depth, so a breadth six page defines an arity seven operator the model has
+never had to induce. Induction breaks there rather than planning: `oracle_plan`
+is 0.000 at breadth four to six while `oracle_both` is 1.000, because the gold
+plan calls an arity the induced operator does not have. Essentially all 453 of
+the induction failures across the eval fall on those pages; the other half of
+the grid induces 2700 of 2700 operators exactly. `plan_execute` scoring 0.380 at
+breadth four is the model writing a plan that matches its own wrong-arity
+operator and sometimes landing on the right number, not evidence of composition.
+
+The gold plan is close to free information. A surface-only transducer that reads
+the operator order off the question reproduces the gold plan exactly, 1.000 in
+every kind and depth in both wordings. Strip the associativity bit and it drops
+to about 0.49 on flat chains, a coin flip, and a decision tree over page surface
+statistics predicts that bit at chance on held-out pages, so the bit has to be
+read from the page's words. `oracle_plan` at 1.000 to depth eight therefore
+proves the executor works; it does not prove the plan was hard to produce. What
+it sharpens is the negative: the scheduler cannot produce a plan that a surface
+transducer plus one bit produces perfectly.
