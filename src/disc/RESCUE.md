@@ -55,23 +55,29 @@ counts naming more than one as wrong. The hedge rate is the fraction of
 answers naming more than one desk, which is the quantity that would make the
 two columns diverge.
 
-The rescue is not hedging. On a fresh roll-out of every rung at depths one and
-two under both graders, the two columns agree to within half a percentage
-point everywhere, and the depth-two rescue is identical under both.
+The rescue is not hedging. Every rung at every depth was rolled out again and
+graded both ways. Chain pass@1, shipped then forced choice, with the fraction
+of last answers that named more than one desk:
 
-| rung, depth two | shipped | forced choice | hedge rate |
-|---|---|---|---|
-| R0 | 0.0000 | 0.0000 | 0.0025 |
-| R1 | 0.2050 | 0.2050 | 0.0050 |
-| R1o | 0.1875 | 0.1875 | 0.0050 |
-| R1w | 0.0025 | 0.0025 | 0.0000 |
-| R2 | 0.2150 | 0.2200 | 0.0025 |
-| R2w | 0.0025 | 0.0025 | 0.0000 |
-| R3 | 0.0000 | 0.0000 | 0.0000 |
+| rung | d1 | d2 | d3 | d4 |
+|---|---|---|---|---|
+| R0 | 0.4850 / 0.4800 | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0000 / 0.0000 |
+| R1 | 0.4850 / 0.4850 | 0.2050 / 0.2050 | 0.1050 / 0.1050 | 0.0475 / 0.0475 |
+| R1o | 0.4625 / 0.4625 | 0.1875 / 0.1875 | | |
+| R1w | 0.4625 / 0.4625 | 0.0025 / 0.0025 | 0.0000 / 0.0000 | 0.0000 / 0.0000 |
+| R2 | 0.4700 / 0.4725 | 0.2150 / 0.2200 | 0.1175 / 0.1300 | 0.0525 / 0.0550 |
+| R2w | 0.4425 / 0.4475 | 0.0025 / 0.0025 | 0.0000 / 0.0000 | 0.0000 / 0.0000 |
+| R3 | 0.0025 / 0.0025 | 0.0000 / 0.0000 | 0.0000 / 0.0000 | 0.0000 / 0.0000 |
 
-At depth one the largest gap on any rung is 0.005, in both directions: R0 loses
-0.0050 and R2w gains 0.0050. The highest hedge rate anywhere in the ladder is
-0.0100, on R0 at depth one, where 4 answers in 400 named two desks.
+R1 is identical under both graders at all four depths. The largest gap anywhere
+in the ladder is 0.0125, on R2 at depth three, and the gaps run in both
+directions: R0 at depth one loses 0.0050 under forced choice, R2 gains. The
+two rules differ in both senses, because `hits_target` also requires the gold
+to land inside a six-token window while forced choice does not, so a late
+mention can pass one and fail the other.
+
+The highest hedge rate anywhere is 0.0100, which is four answers in four
+hundred, on R0 and on R1 at depth four.
 
 The counts behind that are the reason. Answers name zero or one desk almost
 always: R1 at depth two step one splits 200 answers naming one desk, 198
@@ -80,17 +86,15 @@ naming none, and 2 naming two. There is no hedging population to inflate.
 This task cannot hedge the way `threshold_rule` does. Its answer is a single
 desk name emitted at the end of a stretch of word salad, and the question form
 admits no if-then phrasing that would name two candidates. The grader's slack
-is real and it is worth removing, but on this instrument it moves nothing.
+is real and worth removing, and on this instrument it moves nothing.
 
-The dual-graded run is an independent roll-out, not a regrade of the stored
-chains, so it doubles as a reproducibility check on the ladder. R1 at depth two
-came back at 0.2050 both times. R1o's step one came back at 0.3825 both times
-against R1w's 0.0050, so the page-position effect reproduces exactly. R2 at
-depth two moved from 0.2450 to 0.2150, which is the one cell that shifted by
-more than sampling noise would comfortably cover, and it is the rung whose
-chains break on the model's own output.
-
-Depths three and four are re-rolling under both graders now.
+The dual-graded run is an independent roll-out rather than a regrade of stored
+chains, so it doubles as a reproducibility check. R1 came back at 0.2050,
+0.1050 and 0.0475 at depths two, three and four, matching the first ladder to
+the digit. R1o's step one came back at 0.3825 against R1w's 0.0050 both times,
+so the page-position effect reproduces exactly. R2 is the one rung that moved,
+from 0.2450 to 0.2150 at depth two and 0.1075 to 0.1175 at depth three, and it
+is the rung whose chains break on the model's own output.
 
 ## The rungs
 
@@ -122,6 +126,10 @@ environment does nothing. That is the whole difference from R0: R0 never asks
 for the intermediate, R3 asks for it and supplies nothing. R3n appends a
 sentence of the same length that asks for nothing, so the cost of appending a
 sentence is separable from the cost of the instruction it carries.
+
+Every rung is scored twice, under `hits_target` and under forced choice. The
+ladder tables below carry the shipped grader; the section on grading carries
+both columns side by side and the hedge rates that would separate them.
 
 Two accuracies are kept apart on every rung and never merged. chain is every
 step of the chain right, which is what `p1^d` predicts and the only number
@@ -251,15 +259,27 @@ R1o settles what about the page set does the damage. It keeps every page R1w
 has and moves the table the step needs to position one behind the preamble.
 Page count is held fixed and only position moves.
 
-| depth two | step 0 | step 1 | chain pass@1 | chain pass@4 |
-|---|---|---|---|---|
-| R1w, tables in chain order | 0.4500 | 0.0050 | 0.0025 | 0.010 |
-| R1o, the step's table first | 0.4425 | 0.3825 | 0.1875 | 0.590 |
-| R1, only the step's table | 0.4850 | 0.4575 | 0.2050 | 0.560 |
+Chain pass@1 at each depth:
+
+| rung | d2 | d3 | d4 |
+|---|---|---|---|
+| R1w, tables in chain order | 0.0025 | 0.0000 | 0.0000 |
+| R1o, the step's table first | 0.1875 | 0.0650 | 0.0250 |
+| R1, only the step's table | 0.2050 | 0.1050 | 0.0475 |
+
+And at depth two, step by step:
+
+| depth two | step 0 | step 1 |
+|---|---|---|
+| R1w | 0.4500 | 0.0050 |
+| R1o | 0.4425 | 0.3825 |
+| R1 | 0.4850 | 0.4575 |
 
 Step one goes from 0.0050 to 0.3825 by reordering three pages. The gold page is
 served on 0.417 of R1o's step-one rollouts against 0.007 of R1w's, and the
-accuracy given the page is 0.916 either way.
+accuracy given the page is 0.916 either way. R1o's last-step rate holds at
+0.3675 and 0.3875 at depths three and four, so the effect is not particular to
+depth two.
 
 So the mechanism is document position. The policy's query carries almost no
 information, every page shares the generic vocabulary of the family, the BM25
@@ -293,15 +313,33 @@ actually handed, which is its own previous output: 0.4625, 0.5344, 0.4423,
 0.3542 down the four steps. The substrate executes a lookup on its own output
 about as well as on a gold value.
 
-## R3, and why its null carries little
+## R3, and why its null carries nothing
 
 R3 recovers nothing, as predicted. It also destroys the protocol. Mean
 retrieval rounds falls from 0.98 to 0.01 at every depth: appending the
 instruction stops the policy emitting `<|retrieve|>` at all, and a policy that
 never retrieves cannot answer a question whose answer is only on a page.
 
-R3 is therefore not a clean test of asking for the intermediate. It is a
-measurement of how narrow the surface form this checkpoint was trained on is.
+R3n is the control that says which half of R3 did that. It appends a sentence
+of the same length that asks for nothing, "The offices are part of the referral
+system described above." It scores 0.0050 at depth one and 0.0000 below, and
+its mean round count is the same 0.01.
+
+| rung | d1 | d2 | d3 | d4 | mean rounds |
+|---|---|---|---|---|---|
+| R0 | 0.4850 | 0.0000 | 0.0000 | 0.0000 | 0.98 at d1 |
+| R3, asks for the intermediate | 0.0050 | 0.0000 | 0.0000 | 0.0000 | 0.01 |
+| R3n, asks for nothing | 0.0050 | 0.0000 | 0.0000 | 0.0000 | 0.01 |
+
+R3 and R3n are the same number. Appending any sentence at all is what breaks
+the policy, not the instruction the sentence carries. So R3 measures nothing
+about whether asking for an intermediate helps. It measures how narrow the
+surface form this checkpoint was trained on is, and the answer is that one
+extra clause anywhere in the question is enough to stop it retrieving.
+
+That is worth carrying forward on its own. Any future intervention phrased as
+extra words in the question is untestable on this checkpoint until the policy
+tolerates a question it has not seen the exact shape of before.
 
 ## Which branch, and what it eliminates
 
@@ -337,12 +375,19 @@ is real and it is on record again here. It is not sufficient: R1w restores full
 retrieval effort at every step and still scores 0.0000, because effort spent on
 a retriever that returns the wrong page buys nothing.
 
-The consequence for the slate is that the failure is now split in two and both
+The consequence for the slate is that the failure is now split in two, and both
 halves are addressable without a new representation. One half is the
 continuation decision, which is where M2's runtime loop count sits. The other
 half is that the query the policy writes carries almost no information, so
-selecting among more than two pages fails. That second half is not composition
-at all, and it was inside every depth-two number on record.
+selecting among more than two pages fails, and R1o shows that half is settled
+by document order alone.
+
+That second half is not composition at all, and it was inside every depth-two
+number on record. It also means the depth curve in `SLATE.md` measures two
+things at once. How much of the published wall is retrieval position rather
+than composition is not answerable from these runs, because R0's page order was
+never varied. That is the obvious next experiment and it is cheap: re-run the
+depth sweep with the tables shuffled, or with the last table first.
 
 ## Integrity
 
