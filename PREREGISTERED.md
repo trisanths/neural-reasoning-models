@@ -526,3 +526,82 @@ training stopped says nothing about the mechanism under test.
 Relational breadth fails at induction, where oracle_plan collapses at breadth four
 while oracle_both holds at 1.000. Raising a plan-length ceiling should not move
 breadth. If it does, the induction reading of breadth is wrong.
+
+## H12 result, 2026-08-29: the composition wall was the training ceiling
+
+Eight arms from the same 350M base, same worlds, same seeds, 8000 steps at batch
+32, varying only the maximum plan depth in training. The d3s1 arm reproduces the
+published opgraph arm and its data stream is asserted byte-identical before
+training starts.
+
+Mean emitted plan steps and accuracy, sequential chains, gold operators, greedy,
+n=100 per cell, chance floor 0.04 to 0.06:
+
+| arm | 3 | 4 | 6 | 8 | 16 | 32 |
+|---|---|---|---|---|---|---|
+| d1s1 | 1.0/0.00 | 1.0/0.01 | 1.0/0.01 | 1.0/0.02 | 1.0/0.00 | 1.0/0.00 |
+| d3s1 | 3.0/1.00 | 3.0/0.01 | 2.7/0.03 | 3.0/0.02 | 3.0/0.02 | 3.0/0.02 |
+| d6s1 | 3.0/1.00 | 4.0/1.00 | 6.0/1.00 | 6.0/0.04 | 6.0/0.03 | 6.0/0.01 |
+| d8s1 | 3.0/1.00 | 4.0/1.00 | 6.0/1.00 | 8.0/0.99 | 8.4/0.04 | 8.6/0.01 |
+
+Emitted length follows the diagonal to each arm's training ceiling and then
+flattens on it exactly. Accuracy is a step function: 1.00 at and below the
+ceiling, chance above. The depth-eight arm scores 0.99 on depth-eight chains
+where the published arm scores 0.02.
+
+The extrapolation constant is zero rather than small. No arm generalises one step
+past its training maximum.
+
+H10 is dead. There is no three-step autoregressive horizon; there was a
+three-step training set. Every conclusion that treated the wall near three or
+four as evidence about a mechanism was reading the training distribution.
+
+### Checks
+
+oracle_both 1.000 in all 272 cells. Truncation 0.000 and hedge 0.000 everywhere,
+so no emitted length is a decoding artifact. Sampled decoding at 0.8 reproduces
+greedy cell for cell. Under paraphrase the emitted length is unchanged, so the
+ceiling is wording-independent, while accuracy falls purely through induction
+(3077 to 4303 of 4400 pages parsed against 4400 of 4400 on the trained wording).
+
+### No horizon located
+
+Nothing in range saturates, so the true horizon has no number yet. Largest plan
+ever written across arms: 1, 2, 3, 4, 10, 10. Locating a horizon needs arms
+deeper than eight. The corpus at s3://decoupled-reasoner-009398924577/data/corpus/v1/
+carries plans to 48, and src/opgraph/plan.py caps the parser at 32 steps, which
+must be raised first or long plans score as parse failures.
+
+### What did not move, and is now the real problem
+
+Novel composition. Every arm emits about 1.0 distinct symbols where two are
+needed, at chance, including the arms trained with more symbols. Caveat on the
+record: those arms taught cross-page chains rather than two interchangeable
+binary operators, so the stronger form of the manipulation is untested.
+
+Relational breadth. Identical across all arms, 1.00 at breadth one to three and
+0.00 at four to six. The induction reading survives the manipulation that moved
+sequential depth, which is the cleanest evidence yet that breadth is a different
+failure.
+
+A trap worth recording: plan_execute reads 0.24 to 0.42 at breadth four to six,
+above both oracles. It is two matched errors cancelling, since the model writes
+three flags, the induced operator carries three flags, arities agree, and it is
+correct whenever the dropped conditions did not matter. It is not a breadth curve
+and must not be read as one.
+
+### The first measured trade-off
+
+The depth-eight arm has the worst paraphrase induction of any arm and about a
+third of the shallower arms' paraphrase accuracy. Depth is bought against
+induction robustness at a fixed step budget.
+
+### Consequences
+
+Any depth curve that stops near three is measuring the training distribution
+rather than the mechanism under test. The plan-head comparison, the vocabulary
+ladder and the latent-recurrence sweep all train through depth three and evaluate
+past it, so each would produce a wall at three regardless of its mechanism.
+
+Where an architecture claim still has something to measure: symbol selection, and
+paraphrase induction robustness, especially the trade-off above.
