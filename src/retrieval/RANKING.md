@@ -1,6 +1,7 @@
 # The retrieval gate's tie break, and what page order does and does not explain
 
-Run 2026-08-29 on the g6e dev box. Checkpoint
+Run 2026-08-29 UTC on the g6e dev box, which is the stamp on every artifact
+below. Checkpoint
 `/home/ec2-user/minrepro/ckpt/final.pt`, which is
 `rlsimple-503-921-final.pt`, tokenizer_v2, temperature 1.0, four samples per
 question, the same episode files the depth curve and the E0 ladder were
