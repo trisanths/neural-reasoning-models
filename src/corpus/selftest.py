@@ -47,7 +47,7 @@ def families_smoke(frames, encode, seed=300_000_001) -> dict:
     return {"rows": rows}
 
 
-def cross_frame_agreement(frames, encode, families, n_frames=24, n_seeds=6,
+def cross_frame_agreement(frames, encode, families, n_frames=48, n_seeds=6,
                           seed0=300_000_100) -> dict:
     """The parity check: same seed, every frame, one gold answer.
 
@@ -121,7 +121,8 @@ def parity(frames, encode, families, n_frames=24, n_seeds=6,
     return out
 
 
-def per_frame_vocabulary(frames, encode, n_frames=32, seed=300_000_200) -> dict:
+def per_frame_vocabulary(frames, encode, n_frames=10_000,
+                         seed=300_000_200) -> dict:
     """The vocabulary is drawn per frame, and no invented word is a frame's English."""
     step = max(1, len(frames) // n_frames)
     picked = frames[::step][:n_frames]
@@ -274,6 +275,7 @@ def main(argv=None) -> int:
     ap.add_argument("--tokenizer", default="")
     ap.add_argument("--out", default="")
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--frames", type=int, default=48)
     args = ap.parse_args(argv)
     from src.corpus.cli import _make_encode
     frames, source = _lf()
@@ -292,7 +294,7 @@ def main(argv=None) -> int:
     }
     if not args.quick:
         rep["cross_frame_gold_agreement"] = cross_frame_agreement(
-            frames, encode, fams)
+            frames, encode, fams, n_frames=args.frames)
         rep["token_parity"] = parity(frames, encode, fams)
         rep["shortcut_floors"] = shortcut_floors(frames, encode, fams)
         rep["plan_axis"] = plan_axis()
