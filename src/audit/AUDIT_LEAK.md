@@ -121,13 +121,16 @@ Across 1200 gold plans at depths 1 to 8, holding 5400 steps:
 - 5400 steps invoke an induced operator, 0 steps use a builtin (`add`, `sub`, `mul`)
 - 1200 of 1200 plans end on a temporary; none ends on a literal
 - 0 of 1200 plans contain an integer literal that does not appear in the question text
-- at depth 8 a plan holds 9 literal arguments and 7 temporaries, which is exactly
-  the 9 operands the question states and the 7 intermediates the executor must
-  produce
+- the argument census is 6600 literals and 4200 temporaries, which is exactly the
+  `d + 1` operands each question states and the `d - 1` intermediates the executor
+  must produce, summed over the grid
 
 The gold plan therefore supplies the tree shape and the operands the question
 already gives in plain sight. It supplies no value the executor would otherwise
-have to compute.
+have to compute. The one residue is that in 6 plans of 1200 the gold answer string
+happens to coincide with an operand token, which is a coincidence in the operand
+draw and not a channel, since the plan is fed to the executor rather than graded
+as text.
 
 ### 6c. No intermediate value reaches the model
 
@@ -169,6 +172,10 @@ zero-step plans. The escape hatch the grammar allows, a plan of the form
 never taken. Every non-zero cell of `plan_execute` at depths 4 to 8 (3, 5, 3, 1
 and 2 items out of 150) is a three-step plan that lands on the gold value by
 coincidence, 14 items out of 750, which is the whole of those five cells.
+
+The plan length census over all 1200 `plan_execute` items is 159 one-step plans,
+150 two-step, 891 three-step and nothing longer. The scheduler never writes a
+fourth step, at any depth, on any item.
 
 Wrong operators, on the paraphrase pass where induction actually fails, 1200
 sequential items:
@@ -293,6 +300,12 @@ exactly three steps whatever the question says: 150 of 150 plans at depths 4, 5,
 7 and 8 have three steps, and 141 of 150 at depth 6. That is the training length
 prior, not a composition limit, and a parser with no length prior scores 1.000 on
 the same items.
+
+Nothing here says the depth curve is fabricated. My instrumented rerun reproduces
+it. It says the curve measures induction quality and a length prior, and that the
+one place where composition could have been measured, the scheduler's choice of
+association order, is a coin flip that stays a coin flip when the answer is
+written into the prompt.
 
 ## Reproduction
 
