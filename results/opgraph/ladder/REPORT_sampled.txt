@@ -96,46 +96,85 @@
   oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
   oracle_ops             1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
   oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  plan_execute@para      1:1.000 2:0.375 3:0.375 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_plan@para       1:1.000 2:0.625 3:0.625 4:0.500 5:0.625 6:0.625 7:0.625 8:0.750
   -- sequential plan parses
   plan_execute           1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
   oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
   oracle_ops             1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
   oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  plan_execute@para      1:1.000 2:1.000 3:0.875 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_plan@para       1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
   -- sequential exactly the gold plan
   plan_execute           1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
   oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
   oracle_ops             1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
   oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  plan_execute@para      1:1.000 2:0.625 3:0.625 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_plan@para       1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
   -- breadth accuracy
   plan_execute           1:1.000 2:1.000 3:1.000 4:0.250 5:0.125 6:0.125
   oracle_plan            1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
   oracle_ops             1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
   oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      1:0.500 2:0.875 3:0.500 4:0.125 5:0.125 6:0.250
+  oracle_plan@para       1:0.000 2:0.750 3:0.125 4:0.000 5:0.000 6:0.000
   -- breadth plan parses
   plan_execute           1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
   oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
   oracle_ops             1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
   oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_plan@para       1:1.000 2:1.000 3:0.750 4:0.750 5:0.875 6:0.875
   -- breadth exactly the gold plan
   plan_execute           1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
   oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
   oracle_ops             1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
   oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      1:0.375 2:0.875 3:0.125 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       1:1.000 2:0.750 3:0.750 4:0.750 5:0.625 6:0.625
   -- novel accuracy
-  plan_execute           2:0.000 3:0.000
-  oracle_plan            2:1.000 3:1.000
-  oracle_ops             2:0.000 3:0.000
-  oracle_both            2:1.000 3:1.000
+  plan_execute           2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_both            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       2:1.000 3:0.750 4:0.625 5:0.750 6:0.625
   -- novel plan parses
-  plan_execute           2:1.000 3:1.000
-  oracle_plan            2:1.000 3:1.000
-  oracle_ops             2:1.000 3:1.000
-  oracle_both            2:1.000 3:1.000
+  plan_execute           2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
+  oracle_plan            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
+  oracle_both            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
   -- novel exactly the gold plan
-  plan_execute           2:0.000 3:0.000
-  oracle_plan            2:1.000 3:1.000
-  oracle_ops             2:0.000 3:0.000
-  oracle_both            2:1.000 3:1.000
+  plan_execute           2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_both            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  -- units accuracy
+  plan_execute           1:1.000
+  oracle_plan            1:1.000
+  oracle_ops             1:1.000
+  oracle_both            1:1.000
+  plan_execute@para      1:0.750
+  oracle_plan@para       1:0.750
+  -- units plan parses
+  plan_execute           1:1.000
+  oracle_plan            1:1.000
+  oracle_ops             1:1.000
+  oracle_both            1:1.000
+  plan_execute@para      1:1.000
+  oracle_plan@para       1:1.000
+  -- units exactly the gold plan
+  plan_execute           1:1.000
+  oracle_plan            1:1.000
+  oracle_ops             1:1.000
+  oracle_both            1:1.000
+  plan_execute@para      1:1.000
+  oracle_plan@para       1:1.000
   induction: {"pages": 288, "pages_parsed": 288, "gold_ops": 432, "induced_ops": 432, "self_verified": 410, "exact_text": 408, "behavioural": 408}
   representation diagnostics:
     oracle_ops/breadth/1: {"constraint_bound_rate": 0.0, "constraint_bind_events": 0, "constraint_released_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
@@ -233,6 +272,102 @@
   plan_execute@para      1:0.500
   oracle_plan@para       1:0.375
   induction: {"pages": 288, "pages_parsed": 288, "gold_ops": 432, "induced_ops": 432, "self_verified": 411, "exact_text": 408, "behavioural": 408}
+
+===== slots_sampled  rep=slots =====
+  checkpoint: {"arm": "ladder_slots", "rep": "slots", "step": 1500, "tokens": 8511120, "supervised_tokens": 3790994, "examples": 64000, "reinit_tokens": 151, "rounds": 3}
+  oracle_both all 1.000: True
+  -- sequential accuracy
+  plan_execute           1:1.000 2:0.125 3:0.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.125
+  oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  oracle_ops             1:1.000 2:0.125 3:0.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.125
+  oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  plan_execute@para      1:0.500 2:0.000 3:0.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_plan@para       1:0.500 2:0.375 3:0.500 4:0.500 5:0.375 6:0.375 7:0.500 8:0.500
+  -- sequential plan parses
+  plan_execute           1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  oracle_ops             1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  plan_execute@para      1:1.000 2:0.875 3:0.875 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  oracle_plan@para       1:1.000 2:0.875 3:0.875 4:1.000 5:1.000 6:0.875 7:1.000 8:0.875
+  -- sequential exactly the gold plan
+  plan_execute           1:1.000 2:0.000 3:0.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  oracle_ops             1:1.000 2:0.000 3:0.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000 7:1.000 8:1.000
+  plan_execute@para      1:0.500 2:0.000 3:0.000 4:0.000 5:0.000 6:0.000 7:0.000 8:0.000
+  oracle_plan@para       1:0.500 2:0.500 3:0.625 4:0.500 5:0.500 6:0.500 7:0.625 8:0.500
+  -- breadth accuracy
+  plan_execute           1:0.500 2:0.750 3:0.500 4:0.000 5:0.125 6:0.250
+  oracle_plan            1:1.000 2:1.000 3:1.000 4:0.000 5:0.000 6:0.000
+  oracle_ops             1:0.500 2:0.750 3:0.500 4:0.000 5:0.000 6:0.000
+  oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      1:0.000 2:0.250 3:0.250 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       1:0.000 2:0.250 3:0.125 4:0.000 5:0.000 6:0.000
+  -- breadth plan parses
+  plan_execute           1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      1:1.000 2:1.000 3:1.000 4:0.875 5:1.000 6:1.000
+  oracle_plan@para       1:0.625 2:0.750 3:0.500 4:0.750 5:0.750 6:0.750
+  -- breadth exactly the gold plan
+  plan_execute           1:0.500 2:0.750 3:0.500 4:0.000 5:0.000 6:0.000
+  oracle_plan            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             1:0.500 2:0.750 3:0.500 4:0.000 5:0.000 6:0.000
+  oracle_both            1:1.000 2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      1:0.000 2:0.250 3:0.250 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       1:0.250 2:0.250 3:0.125 4:0.000 5:0.250 6:0.000
+  -- novel accuracy
+  plan_execute           2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_both            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       2:0.250 3:0.250 4:0.250 5:0.250 6:0.250
+  -- novel plan parses
+  plan_execute           2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_plan            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_both            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      2:1.000 3:1.000 4:0.875 5:1.000 6:0.875
+  oracle_plan@para       2:0.875 3:0.875 4:0.875 5:0.875 6:0.875
+  -- novel exactly the gold plan
+  plan_execute           2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  oracle_ops             2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_both            2:1.000 3:1.000 4:1.000 5:1.000 6:1.000
+  plan_execute@para      2:0.000 3:0.000 4:0.000 5:0.000 6:0.000
+  oracle_plan@para       2:0.250 3:0.250 4:0.250 5:0.250 6:0.250
+  -- units accuracy
+  plan_execute           1:1.000
+  oracle_plan            1:1.000
+  oracle_ops             1:1.000
+  oracle_both            1:1.000
+  plan_execute@para      1:0.125
+  oracle_plan@para       1:0.000
+  -- units plan parses
+  plan_execute           1:1.000
+  oracle_plan            1:1.000
+  oracle_ops             1:1.000
+  oracle_both            1:1.000
+  plan_execute@para      1:0.875
+  oracle_plan@para       1:0.625
+  -- units exactly the gold plan
+  plan_execute           1:1.000
+  oracle_plan            1:1.000
+  oracle_ops             1:1.000
+  oracle_both            1:1.000
+  plan_execute@para      1:0.250
+  oracle_plan@para       1:0.125
+  induction: {"pages": 288, "pages_parsed": 288, "gold_ops": 432, "induced_ops": 432, "self_verified": 411, "exact_text": 408, "behavioural": 408}
+  representation diagnostics:
+    oracle_ops/breadth/1: {"refinement_passes": 3, "assignment_changed_rate": 0.375, "free_argmax_in_domain_rate": 1.0}
+    oracle_ops/breadth/2: {"refinement_passes": 3, "assignment_changed_rate": 0.125, "free_argmax_in_domain_rate": 1.0}
+    oracle_ops/breadth/3: {"refinement_passes": 3, "assignment_changed_rate": 0.75, "free_argmax_in_domain_rate": 1.0}
+    oracle_ops/breadth/4: {"refinement_passes": 3, "assignment_changed_rate": 0.625, "free_argmax_in_domain_rate": 1.0}
+    oracle_ops/breadth/5: {"refinement_passes": 3, "assignment_changed_rate": 0.75, "free_argmax_in_domain_rate": 1.0}
+    oracle_ops/breadth/6: {"refinement_passes": 3, "assignment_changed_rate": 0.5, "free_argmax_in_domain_rate": 1.0}
 
 ===== symbolic_sampled  rep=symbolic =====
   checkpoint: {"arm": "ladder_symbolic", "rep": "symbolic", "step": 1500, "tokens": 3458144, "supervised_tokens": 850866, "examples": 64000, "reinit_tokens": 0, "rounds": 3}
@@ -416,5 +551,6 @@
 english_sampled        oracle_both_ok=True seq_parse={"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0, "6": 1.0, "7": 1.0, "8": 1.0}
 goalstack_sampled      oracle_both_ok=True seq_parse={"1": 1.0, "2": 1.0, "3": 1.0, "4": 0.0, "5": 0.0, "6": 0.0, "7": 0.0, "8": 0.0}
 opcode_sampled         oracle_both_ok=True seq_parse={"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0, "6": 1.0, "7": 1.0, "8": 1.0}
+slots_sampled          oracle_both_ok=True seq_parse={"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0, "6": 1.0, "7": 1.0, "8": 1.0}
 symbolic_sampled       oracle_both_ok=True seq_parse={"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0, "6": 1.0, "7": 1.0, "8": 1.0}
 typed_sampled          oracle_both_ok=True seq_parse={"1": 1.0, "2": 1.0, "3": 1.0, "4": 1.0, "5": 1.0, "6": 1.0, "7": 1.0, "8": 1.0}

@@ -1,0 +1,1092 @@
+{
+ "config": {
+  "ckpt": "runs/micro/p2.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "out": "results/micro/p2.json",
+  "n": 2,
+  "batch_size": 4,
+  "kinds": "sequential",
+  "styles": "0",
+  "iters": "1,3",
+  "temperatures": "0.0,0.8",
+  "verify_counter": true
+ },
+ "head": "p2",
+ "corruption_mixture": {
+  "all_mask": 0.25,
+  "random_mask": 0.25,
+  "transpose": 0.1,
+  "wrong_op": 0.15,
+  "truncate": 0.15,
+  "sparse": 0.1
+ },
+ "train_args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p2",
+  "out": "runs/micro/p2.pt",
+  "steps": 4,
+  "batch_size": 4,
+  "max_len": 640,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 2,
+  "worlds": 40,
+  "log_every": 1,
+  "seed": 17
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 95,
+   "2": 31,
+   "3": 34
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160
+ },
+ "induction": {
+  "pages": 8,
+  "pages_parsed": 0,
+  "gold_ops": 12,
+  "induced_ops": 0,
+  "self_verified": 0,
+  "exact_text": 0,
+  "behavioural": 0
+ },
+ "oracle_both": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "3": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "4": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "5": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "6": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "7": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "8": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   }
+  }
+ },
+ "oracle_both_roundtrip": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "3": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "4": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "5": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "6": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "7": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   },
+   "8": {
+    "n": 2,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 2
+    }
+   }
+  }
+ },
+ "counter_check": {
+  "p2@T0": {
+   "reported": 161,
+   "observed": 161,
+   "ok": true
+  },
+  "p2@T0.8": {
+   "reported": 161,
+   "observed": 161,
+   "ok": true
+  }
+ },
+ "plan_execute@T0": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 193.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.9,
+    "sample": "ixs add=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 sub=operate/2 "
+   },
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 195.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 197.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "4": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 199.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "5": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 201.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "6": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 203.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "7": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 205.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "8": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 207.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   }
+  }
+ },
+ "oracle_ops@T0": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 232.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.9,
+    "sample": "} 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3. } 3."
+   },
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 234.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.9,
+    "sample": "} } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } } }"
+   },
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 236.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 10.0,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "4": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 238.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.9,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "5": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 240.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "6": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 242.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "7": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 244.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   },
+   "8": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 246.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 9.8,
+    "sample": "__ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __ __"
+   }
+  }
+ },
+ "oracle_plan@T0": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; t4 = # t3 2 ; ans t4"
+   },
+   "5": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 6 ; t4 = / t3 3 ; t5 = / t4 4 ; ans t5"
+   },
+   "6": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 3 ; t4 = # t3 10 ; t5 = # t4 12 ; t6 = # t5 1 ; ans t6"
+   },
+   "7": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 9 3 ; t2 = # t1 10 ; t3 = # t2 11 ; t4 = # t3 5 ; t5 = # t4 4 ; t6 = # t5 2 ; t7 = # t6 8 ; ans t7"
+   },
+   "8": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8"
+   }
+  }
+ },
+ "plan_execute@T0.8": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 193.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) imp for x2; and then re * 0. In this opglm() returns a new line, which is: If you are familiar with re: for x in x2; if so, you can map to: exactt1,exactt2,exactt3,exactt4 == x2 exactt1,exactt2,ex"
+   },
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 195.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) imputee opgraph 0. *Note 3: (a) opgraph p() * p(the pointer) * p(the value): result(p(the pointer)) (b) opgraph p(the null pointer) (c) opgraph p(the null pointer) (d) opgraph p(the null pointer) "
+   },
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 197.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) s s 0 s ( s s ) ( s s ) 3 s ( s s ) 4 s ( s s ) 5 s ( s s ) 6 s ( s s ) 6 s ( s s ) 6 s ( s s ) 7 s ( s s ) 8 s s( s ) 9 s ( s s ) 10 s ( s s ) 11 s ( s s ) 11 s( s ) 12 s ( s s ) 13 s ( s s ) 14 s"
+   },
+   "4": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 199.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) impulse ops ive I think I was jealous. , (c) opopeln 2015 I think I was jealous. , (d) opopeln 2015 I think I was jealous. , (e) opopeln 2015 The first message is a function. It is an argument of "
+   },
+   "5": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 201.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) impulse ops . A . A"
+   },
+   "6": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 203.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) 5 4 0 1 3 2. 0. 0 0. 0. \uff59 4 0. 1. \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \uff59 \ufffd"
+   },
+   "7": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 205.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) # 4 n x ( x ) # 4 # 4 # 5 # 6 # 6 # 7 # 8 # 6 # 9 # 7 # 7 # 8 # 8 # 9 # 9 # 9 # 9 # 10 # 9 # 10 # 10 # 11 # 11 # 11 # 11 # 11 # 11 # 12 # 12 # 13 # 13 # 14 # 15 # 16 # 16 # 17 # 18 # 19 # 20 # 21 #"
+   },
+   "8": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 207.0,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) # 4 n x ( x ) # 4 # 4 # 5 # 6 # 6 # 6 # 6 # 6 # 6 # 7 # 7 # 7 # 8 # 8 # 9 # 9 # 9 # 10 # 11 # 11 # 12 # 12 # 12 # 13 # 13 # 14 # 14 # 15 # 16 # 16 # 17 # 18 # 18 #18 # 19 # 19 # 20 # 20 # 20 # 21 #"
+   }
+  }
+ },
+ "oracle_ops@T0.8": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 232.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) imputee fact it is appropriate to distinguish the members of the re of this opgraph if all the elements of the opgraph are included. Re is also a synonym of \u2018if\u2019 (esqui-lach=s-if . A nd AC is not "
+   },
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 234.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) imputee fact it is appropriate to distinguish the members of the re of this opgraph if all the elements of the opgraph are included. Re is also a synonym of \u2018if\u2019 (esqui-lach=s-if . A nd rty of the"
+   },
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 236.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) s s 0 s ( s s ) ( s s ) 3 # ( s s ) 4 4 # 5 6 ( s s ) 6 # 7 ( s s ) 7 # 8 6 # 10 ( s s ) 8 # 9 6 # 10 . # # 11 s # 12 # 13 # 15 # 16 # 17 # 18 # 19 # 20 18 # 12. s __ 6 35 3 __ 13 41 0 0 # 19 # 20 "
+   },
+   "4": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 238.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "re) impute 1 (1.4) impute 3 (1.4) impute 4 (1.4) impute 5 (1.4) impute 6 (1.4) impute 7 (1.4) impute 8 (1.4) the order of the pyryuk's tick A == (1-(1.4)*(1-(1.4))*(1-(1.4)*(1-(1.4))*(1-(2))* (1-(1.4)"
+   },
+   "5": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 240.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) s s 0 s ( s s ) ( s s ) 3 s ( s s ) 4 s ( s s ) 5 s ( s s ) 6 s ( s s ) 6 s ( s s ) 7 s ( s s ) . A s . k . A"
+   },
+   "6": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 242.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) s s 0 s ( s s ) ( s s ) 3 # ( s s ) 4 4 # 5 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 # 9 #"
+   },
+   "7": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 244.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) s s 0 s ( s s ) # 3 * 0 3 # ( s s ) # 4 # 5 # 5 # 6 # 6 # 7 # 8 # 9 # 10 # 11 # 12 # 13 # 14 # 15 # 16 # 17 . # # s # # # # # # # # A = 2 ( B ) B = 1 ( C ) C = 0 ( D ) D = 1 ( E ) A = 2 ( B ) B = 1"
+   },
+   "8": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 0.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 161.0,
+    "slot_decisions_mean": 160.0,
+    "position_evals_mean": 246.5,
+    "reasons": {
+     "plan_parse": 2
+    },
+    "secs": 3.9,
+    "sample": "n) s s 0 s ( s s ) ( s s ) 3 # ( s s ) 4 4 # 5 6 ( s s ) 6 # 7 ( s s ) 7 6 6 # 2 # 6 2 6 # 2 # 4 . # # s # # # # # # # # A = 2 ( B ) B = 1 ( C ) C = 0 ( D ) D = 1 ( E ) A = 2 ( E ) E = 1 ( E ) E = 4 ("
+   }
+  }
+ },
+ "oracle_plan@T0.8": {
+  "sequential": {
+   "1": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; t4 = # t3 2 ; ans t4"
+   },
+   "5": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 6 ; t4 = / t3 3 ; t5 = / t4 4 ; ans t5"
+   },
+   "6": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 3 ; t4 = # t3 10 ; t5 = # t4 12 ; t6 = # t5 1 ; ans t6"
+   },
+   "7": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 9 3 ; t2 = # t1 10 ; t3 = # t2 11 ; t4 = # t3 5 ; t5 = # t4 4 ; t6 = # t5 2 ; t7 = # t6 8 ; ans t7"
+   },
+   "8": {
+    "n": 2,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "execute": 2
+    },
+    "secs": 0.0,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8"
+   }
+  }
+ }
+}

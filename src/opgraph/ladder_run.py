@@ -86,8 +86,8 @@ class TokenGenerator:
                     continue
                 ban = hooks[i].banned()
                 if ban:
-                    if free[i] in ban:
-                        hooks[i].binds += 1
+                    if int(free[i]) in ban:
+                        hooks[i].note_bind(int(free[i]))
                     logits[i, ban] = float("-inf")
             picked = sample_from_logits(logits, self.temperature, self.top_k,
                                         policy.generator).tolist()
@@ -118,13 +118,21 @@ class TokenGenerator:
 class GoalHook:
     """The obligation state, kept outside the model and enforced on the sampler.
 
-    `banned` removes the two tokens that can end a plan while any obligation is
-    open. `forced` writes the current state into the sequence at every
-    instruction boundary, which is what the goalstack arm is trained to read.
+    `banned` removes the tokens that can end a plan. While any of the three
+    obligations is open, neither the return instruction nor the end of text may
+    be chosen. Once they are closed the end of text is still banned, because
+    returning is itself an obligation: a plan that stops without naming a
+    result has not finished, and letting the model take the end of text there
+    is the same early halt in a different costume. `forced` writes the state
+    into the sequence at every instruction boundary, which is what the
+    goalstack arm is trained to read.
 
     If an instruction comes back unparseable the state can no longer be
     tracked, so the constraint is released for that item rather than left to
-    stall the decoder against the step cap. Both counts are reported.
+    stall the decoder against the step cap. Every count is reported: how often
+    the ban removed what would otherwise have been the argmax, split by which
+    token it removed, how often the constraint was released, and how often the
+    decoder ran out of budget without ever returning.
     """
 
     def __init__(self, tok, ops, item, flags=None):
@@ -134,19 +142,33 @@ class GoalHook:
         self.pending = deque(tok.encode(" " + self.ob.annotation()))
         self.cur: list[int] = []
         self.binds = 0
+        self.binds_ret = 0
+        self.binds_eot = 0
         self.instructions = 0
         self.released = False
         self.done = False
+        self.returned = False
         self.end_id = tok.token_id(T_END)
-        self.ban_ids = [tok.token_id(T_RET), tok.token_id(EOT)]
+        self.ret_id = tok.token_id(T_RET)
+        self.eot_id = tok.token_id(EOT)
+        self.ban_ids = [self.ret_id, self.eot_id]
 
     def forced(self):
         return self.pending.popleft() if self.pending else None
 
     def banned(self):
-        if self.released or self.done or self.ob.resolved():
+        if self.released or self.done:
             return None
-        return self.ban_ids
+        if not self.ob.resolved():
+            return self.ban_ids
+        return [self.eot_id]
+
+    def note_bind(self, token: int) -> None:
+        self.binds += 1
+        if token == self.ret_id:
+            self.binds_ret += 1
+        elif token == self.eot_id:
+            self.binds_eot += 1
 
     def push(self, token: int, was_forced: bool) -> None:
         if was_forced:
@@ -162,6 +184,7 @@ class GoalHook:
             self._release()
             return
         if names[0] == "ret":
+            self.returned = True
             self.done = True
             return
         if "to" not in names:
@@ -423,7 +446,15 @@ def score_cell(rep, items, written, ops_by_world, use_gold_plan, use_gold_ops,
         n = max(1, len(side))
         c.extra["constraint_bound_rate"] = sum(1 for h in side if h.binds) / n
         c.extra["constraint_bind_events"] = sum(h.binds for h in side)
+        c.extra["constraint_bind_events_ret"] = sum(h.binds_ret for h in side)
+        c.extra["constraint_bind_events_eot"] = sum(h.binds_eot for h in side)
         c.extra["constraint_released_rate"] = sum(1 for h in side if h.released) / n
+        # Where a decode ended. A plan that returned is the only clean exit; a
+        # released one lost track of the state; an exhausted one was still
+        # writing when the token budget ran out, which is a budget fact and not
+        # a fact about the model.
+        c.extra["plan_returned_rate"] = sum(1 for h in side if h.returned) / n
+        c.extra["budget_exhausted_rate"] = sum(1 for h in side if not h.done) / n
         # How tight the obligation actually was. The required application count
         # is read off the question through the operator table the model itself
         # induced, so a failed induction leaves the glyph unrecognised and the

@@ -74,7 +74,14 @@ def main() -> int:
     ap.add_argument("--kinds", default=",".join(GRID))
     ap.add_argument("--styles", default="0,1")
     ap.add_argument("--temperature", type=float, default=0.0)
-    ap.add_argument("--max-new", type=int, default=192)
+    # Shared by every rung. `scripts/vocab_budget.py` measures the longest
+    # gold plan any representation has to write over the whole grid: 234
+    # tokens, at goalstack sequential depth eight, where the obligation
+    # state adds five tokens per instruction. At 192 that rung could not
+    # have finished a depth eight plan whatever it wrote, which would have
+    # read as the representation failing. The budget clears it for every
+    # rung rather than being tuned per rung.
+    ap.add_argument("--max-new", type=int, default=320)
     ap.add_argument("--conditions",
                     default="plan_execute,oracle_plan,oracle_ops,oracle_both")
     args = ap.parse_args()
