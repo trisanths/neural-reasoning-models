@@ -160,15 +160,35 @@ def main(argv=None) -> int:
         # never recorded still costs a rerun.
         base = Path(args.out) / args.rescore
         report = json.loads((base.with_suffix(".json")).read_text())
-        records = [json.loads(x) for x in
-                   open(str(base) + "_records.jsonl") if x.strip()]
-        report["hedging"] = runner.hedging_report(records)
+        rec_path = Path(str(base) + "_records.jsonl")
+        # Records older than the report they sit beside belong to an
+        # earlier run. Grading those against this report silently mixes
+        # two runs, and the result looks entirely normal, so refuse rather
+        # than warn. This is not hypothetical: a crashed run left its
+        # predecessor's records in place and a rescore picked them up.
+        stale = (rec_path.exists()
+                 and rec_path.stat().st_mtime
+                 < (base.with_suffix(".json")).stat().st_mtime - 60)
+        if stale:
+            print(f"refusing: {rec_path.name} is older than the report it "
+                  f"sits beside, so it belongs to an earlier run. Delete it "
+                  f"and rerun, or pass a stem whose records match.",
+                  file=sys.stderr)
+            return 2
+        records = ([json.loads(x) for x in open(rec_path) if x.strip()]
+                   if rec_path.exists() else [])
+        # With no records this is a re-render of the stored report, which
+        # is the recovery path when a run finished its model work and then
+        # died formatting the markdown.
+        if records:
+            report["hedging"] = runner.hedging_report(records)
         (base.with_suffix(".json")).write_text(
             json.dumps(report, indent=2, default=str))
         (base.with_suffix(".md")).write_text(rep.render_markdown(report))
         print(rep.render_markdown(report))
         print(f"\nrescored {base}.json and {base}.md from "
-              f"{len(records)} records")
+              f"{len(records)} records"
+              if records else f"\nre-rendered {base}.md from the stored report")
         return 0
 
     if args.calibrate:

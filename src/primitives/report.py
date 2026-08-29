@@ -288,7 +288,7 @@ def render_markdown(report: dict) -> str:
                 f"| {name} | {r['field']} | {r['chance']:.3f} | "
                 f"{_pct(r['strict'])} | {_pct(r['lenient'])} | "
                 f"{r['leniency_gap']:+.3f} | "
-                + (f"{hr['acc']:.3f} [{hr['lo']:.3f}, {hr['hi']:.3f}]"
+                + (f"{hr['acc']:.3f} [{hr['ci_lo']:.3f}, {hr['ci_hi']:.3f}]"
                    if hr else "not defined") + " |")
         worst = max(report["hedging"].items(),
                     key=lambda kv: kv[1]["leniency_gap"], default=None)
@@ -374,8 +374,11 @@ def write_report(bundle: dict, out_dir: str, stem: str = "primitives") -> tuple:
     with open(jp, "w") as fh:
         json.dump(bundle["report"], fh, indent=2, default=str)
         fh.write("\n")
-    mp.write_text(render_markdown(bundle["report"]))
+    # Records before the markdown. Rendering is the one step here that can
+    # fail on a formatting mistake, and it must never cost the replies the
+    # run just spent an hour earning, which are what a rescore reads back.
     with open(rp, "w") as fh:
         for rec in bundle.get("records", []):
             fh.write(json.dumps(rec, default=str) + "\n")
+    mp.write_text(render_markdown(bundle["report"]))
     return jp, mp, rp
