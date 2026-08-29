@@ -1,0 +1,305 @@
+===== greedy =====
+
+-- harness check, oracle_both must be 1.000 everywhere
+  english    oracle_both_ok=1 cells= 20 step=1500 reinit=0
+  symbolic   oracle_both_ok=1 cells= 20 step=1500 reinit=0
+  opcode     oracle_both_ok=1 cells= 20 step=1500 reinit=12
+  typed      oracle_both_ok=1 cells= 20 step=1500 reinit=44
+  goalstack  oracle_both_ok=1 cells= 20 step=1500 reinit=146
+  slots      oracle_both_ok=1 cells= 20 step=1500 reinit=151
+
+-- sequential, accuracy   depth   1    2    3    4    5    6    7    8  
+  english    plan_execute       1.00 1.00 0.88 0.00 0.00 0.00 0.00 0.00  n=8
+  symbolic   plan_execute       1.00 0.62 1.00 0.00 0.00 0.00 0.00 0.00  n=8
+  opcode     plan_execute       1.00 1.00 0.88 0.00 0.00 0.00 0.12 0.00  n=8
+  typed      plan_execute       1.00 1.00 0.88 0.12 0.12 0.00 0.00 0.00  n=8
+  goalstack  plan_execute       1.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00  n=8
+  slots      plan_execute       1.00 0.12 0.00 0.00 0.00 0.00 0.00 0.12  n=8
+
+  english    oracle_plan        1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+  symbolic   oracle_plan        1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+  opcode     oracle_plan        1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+  typed      oracle_plan        1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+  goalstack  oracle_plan        1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+  slots      oracle_plan        1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+
+  english    oracle_ops         1.00 1.00 0.88 0.00 0.00 0.00 0.00 0.00  n=8
+  symbolic   oracle_ops         1.00 0.62 1.00 0.00 0.00 0.00 0.00 0.00  n=8
+  opcode     oracle_ops         1.00 1.00 0.88 0.00 0.00 0.00 0.12 0.00  n=8
+  typed      oracle_ops         1.00 1.00 0.88 0.12 0.12 0.00 0.00 0.00  n=8
+  goalstack  oracle_ops         1.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00  n=8
+  slots      oracle_ops         1.00 0.12 0.00 0.00 0.00 0.00 0.00 0.12  n=8
+
+  english    plan_execute@para  1.00 0.50 0.50 0.00 0.00 0.00 0.00 0.00  n=8
+  symbolic   plan_execute@para  1.00 0.50 0.62 0.00 0.00 0.00 0.00 0.00  n=8
+  opcode     plan_execute@para  0.88 0.62 0.62 0.00 0.00 0.00 0.00 0.00  n=8
+  typed      plan_execute@para  0.62 0.38 0.50 0.00 0.12 0.00 0.00 0.00  n=8
+  goalstack  plan_execute@para  1.00 0.38 0.38 0.00 0.00 0.00 0.00 0.00  n=8
+  slots      plan_execute@para  0.50 0.00 0.00 0.00 0.00 0.00 0.00 0.00  n=8
+
+  english    oracle_plan@para   1.00 1.00 0.88 1.00 1.00 1.00 0.88 1.00  n=8
+  symbolic   oracle_plan@para   1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00  n=8
+  opcode     oracle_plan@para   1.00 1.00 1.00 0.62 0.75 0.75 0.62 0.75  n=8
+  typed      oracle_plan@para   0.62 0.62 0.75 0.75 0.62 0.62 0.62 0.62  n=8
+  goalstack  oracle_plan@para   1.00 0.62 0.62 0.50 0.62 0.62 0.62 0.75  n=8
+  slots      oracle_plan@para   0.50 0.38 0.50 0.50 0.38 0.38 0.50 0.50  n=8
+
+-- sequential, plan parses   depth   1    2    3    4    5    6    7    8  
+  english    plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+  symbolic   plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+  opcode     plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+  typed      plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+  goalstack  plan_execute       1.00 1.00 1.00 0.00 0.00 0.00 0.00 0.00 
+  slots      plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 
+
+-- sequential, parseable but wrong   depth   1    2    3    4    5    6    7    8  
+  english    plan_execute       0.00 0.00 0.12 1.00 1.00 1.00 1.00 1.00 
+  symbolic   plan_execute       0.00 0.38 0.00 1.00 1.00 1.00 1.00 1.00 
+  opcode     plan_execute       0.00 0.00 0.12 1.00 1.00 1.00 0.88 1.00 
+  typed      plan_execute       0.00 0.00 0.12 0.88 0.88 1.00 1.00 1.00 
+  goalstack  plan_execute       0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 
+  slots      plan_execute       0.00 0.88 1.00 1.00 1.00 1.00 1.00 0.88 
+
+-- sequential, fraction of the gap recovered over english   depth   1    2    3    4    5    6    7    8  
+   blank where the ceiling and the floor are within 0.25 of each other, which is not a gap.
+  english                         .     .     .   +0.00 +0.00 +0.00 +0.00 +0.00
+  symbolic                        .     .     .   +0.00 +0.00 +0.00 +0.00 +0.00
+  opcode                          .     .     .   +0.00 +0.00 +0.00 +0.12 +0.00
+  typed                           .     .     .   +0.12 +0.12 +0.00 +0.00 +0.00
+  goalstack                       .     .     .   +0.00 +0.00 +0.00 +0.00 +0.00
+  slots                           .     .     .   +0.00 +0.00 +0.00 +0.00 +0.12
+
+-- breadth, accuracy   depth   1    2    3    4    5    6  
+  english    plan_execute       1.00 1.00 1.00 0.25 0.38 0.25  n=8
+  symbolic   plan_execute       1.00 1.00 1.00 0.50 0.38 0.38  n=8
+  opcode     plan_execute       1.00 1.00 1.00 0.12 0.50 0.38  n=8
+  typed      plan_execute       1.00 1.00 1.00 0.25 0.12 0.12  n=8
+  goalstack  plan_execute       1.00 1.00 1.00 0.25 0.12 0.12  n=8
+  slots      plan_execute       0.50 0.75 0.50 0.00 0.12 0.25  n=8
+
+  english    oracle_plan        1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  symbolic   oracle_plan        1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  opcode     oracle_plan        1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  typed      oracle_plan        1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  goalstack  oracle_plan        1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  slots      oracle_plan        1.00 1.00 1.00 0.00 0.00 0.00  n=8
+
+  english    oracle_ops         1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  symbolic   oracle_ops         1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  opcode     oracle_ops         1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  typed      oracle_ops         1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  goalstack  oracle_ops         1.00 1.00 1.00 0.00 0.00 0.00  n=8
+  slots      oracle_ops         0.50 0.75 0.50 0.00 0.00 0.00  n=8
+
+  english    plan_execute@para  0.00 1.00 0.75 0.38 0.25 0.25  n=8
+  symbolic   plan_execute@para  0.00 0.62 0.62 0.25 0.12 0.38  n=8
+  opcode     plan_execute@para  0.00 0.00 0.00 0.12 0.12 0.12  n=8
+  typed      plan_execute@para  0.62 0.38 0.25 0.12 0.00 0.12  n=8
+  goalstack  plan_execute@para  0.62 0.88 0.62 0.25 0.12 0.25  n=8
+  slots      plan_execute@para  0.00 0.25 0.25 0.00 0.00 0.00  n=8
+
+  english    oracle_plan@para   0.00 1.00 0.75 0.00 0.00 0.00  n=8
+  symbolic   oracle_plan@para   0.00 0.62 0.62 0.00 0.00 0.00  n=8
+  opcode     oracle_plan@para   0.00 0.00 0.00 0.00 0.00 0.00  n=8
+  typed      oracle_plan@para   0.00 0.38 0.00 0.00 0.00 0.00  n=8
+  goalstack  oracle_plan@para   0.00 0.88 0.12 0.00 0.00 0.00  n=8
+  slots      oracle_plan@para   0.00 1.00 1.00 0.00 0.00 0.00  n=8
+
+-- breadth, plan parses   depth   1    2    3    4    5    6  
+  english    plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 
+  symbolic   plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 
+  opcode     plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 
+  typed      plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 
+  goalstack  plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 
+  slots      plan_execute       1.00 1.00 1.00 1.00 1.00 1.00 
+
+-- breadth, parseable but wrong   depth   1    2    3    4    5    6  
+  english    plan_execute       0.00 0.00 0.00 0.75 0.62 0.75 
+  symbolic   plan_execute       0.00 0.00 0.00 0.50 0.62 0.62 
+  opcode     plan_execute       0.00 0.00 0.00 0.88 0.50 0.62 
+  typed      plan_execute       0.00 0.00 0.00 0.75 0.88 0.88 
+  goalstack  plan_execute       0.00 0.00 0.00 0.75 0.88 0.88 
+  slots      plan_execute       0.50 0.25 0.50 1.00 0.88 0.75 
+
+-- breadth, fraction of the gap recovered over english   depth   1    2    3    4    5    6  
+   blank where the ceiling and the floor are within 0.25 of each other, which is not a gap.
+  english                         .     .     .     .     .     .  
+  symbolic                        .     .     .     .     .     .  
+  opcode                          .     .     .     .     .     .  
+  typed                           .     .     .     .     .     .  
+  goalstack                       .     .     .     .     .     .  
+  slots                           .     .     .     .     .     .  
+
+-- novel, accuracy   depth   2    3    4    5    6  
+  english    plan_execute       0.00 0.00 0.00 0.00 0.00  n=8
+  symbolic   plan_execute       0.00 0.00 0.00 0.00 0.00  n=8
+  opcode     plan_execute       0.00 0.00 0.00 0.00 0.00  n=8
+  typed      plan_execute       0.00 0.00 0.00 0.00 0.00  n=8
+  goalstack  plan_execute       0.00 0.00 0.00 0.00 0.00  n=8
+  slots      plan_execute       0.00 0.00 0.00 0.00 0.00  n=8
+
+  english    oracle_plan        1.00 1.00 1.00 1.00 1.00  n=8
+  symbolic   oracle_plan        1.00 1.00 1.00 1.00 1.00  n=8
+  opcode     oracle_plan        1.00 1.00 1.00 1.00 1.00  n=8
+  typed      oracle_plan        1.00 1.00 1.00 1.00 1.00  n=8
+  goalstack  oracle_plan        1.00 1.00 1.00 1.00 1.00  n=8
+  slots      oracle_plan        1.00 1.00 1.00 1.00 1.00  n=8
+
+  english    oracle_ops         0.00 0.00 0.00 0.00 0.00  n=8
+  symbolic   oracle_ops         0.00 0.00 0.00 0.00 0.00  n=8
+  opcode     oracle_ops         0.00 0.00 0.00 0.00 0.00  n=8
+  typed      oracle_ops         0.00 0.00 0.00 0.00 0.00  n=8
+  goalstack  oracle_ops         0.00 0.00 0.00 0.00 0.00  n=8
+  slots      oracle_ops         0.00 0.00 0.00 0.00 0.00  n=8
+
+  english    plan_execute@para  0.00 0.00 0.00 0.00 0.00  n=8
+  symbolic   plan_execute@para  0.00 0.00 0.00 0.00 0.00  n=8
+  opcode     plan_execute@para  0.00 0.00 0.00 0.00 0.00  n=8
+  typed      plan_execute@para  0.00 0.00 0.00 0.00 0.00  n=8
+  goalstack  plan_execute@para  0.00 0.00 0.00 0.00 0.00  n=8
+  slots      plan_execute@para  0.00 0.00 0.00 0.00 0.00  n=8
+
+  english    oracle_plan@para   0.75 0.75 0.75 0.75 0.75  n=8
+  symbolic   oracle_plan@para   0.88 0.88 0.88 0.88 0.88  n=8
+  opcode     oracle_plan@para   0.75 0.38 0.50 0.62 0.38  n=8
+  typed      oracle_plan@para   0.62 0.62 0.62 0.62 0.62  n=8
+  goalstack  oracle_plan@para   1.00 0.75 0.62 0.75 0.62  n=8
+  slots      oracle_plan@para   0.25 0.25 0.25 0.25 0.25  n=8
+
+-- novel, plan parses   depth   2    3    4    5    6  
+  english    plan_execute       1.00 1.00 0.75 1.00 1.00 
+  symbolic   plan_execute       1.00 1.00 1.00 1.00 1.00 
+  opcode     plan_execute       1.00 1.00 1.00 1.00 1.00 
+  typed      plan_execute       1.00 1.00 1.00 1.00 0.62 
+  goalstack  plan_execute       1.00 1.00 0.00 0.00 0.00 
+  slots      plan_execute       1.00 1.00 1.00 1.00 1.00 
+
+-- novel, parseable but wrong   depth   2    3    4    5    6  
+  english    plan_execute       1.00 1.00 0.75 1.00 1.00 
+  symbolic   plan_execute       1.00 1.00 1.00 1.00 1.00 
+  opcode     plan_execute       1.00 1.00 1.00 1.00 1.00 
+  typed      plan_execute       1.00 1.00 1.00 1.00 0.62 
+  goalstack  plan_execute       1.00 1.00 0.00 0.00 0.00 
+  slots      plan_execute       1.00 1.00 1.00 1.00 1.00 
+
+-- novel, fraction of the gap recovered over english   depth   2    3    4    5    6  
+   blank where the ceiling and the floor are within 0.25 of each other, which is not a gap.
+  english                       +0.00 +0.00 +0.00 +0.00 +0.00
+  symbolic                      +0.00 +0.00 +0.00 +0.00 +0.00
+  opcode                        +0.00 +0.00 +0.00 +0.00 +0.00
+  typed                         +0.00 +0.00 +0.00 +0.00 +0.00
+  goalstack                     +0.00 +0.00 +0.00 +0.00 +0.00
+  slots                         +0.00 +0.00 +0.00 +0.00 +0.00
+
+-- units, accuracy   depth   1  
+  english    plan_execute       1.00  n=8
+  symbolic   plan_execute       1.00  n=8
+  opcode     plan_execute       1.00  n=8
+  typed      plan_execute       1.00  n=8
+  goalstack  plan_execute       1.00  n=8
+  slots      plan_execute       1.00  n=8
+
+  english    oracle_plan        1.00  n=8
+  symbolic   oracle_plan        1.00  n=8
+  opcode     oracle_plan        1.00  n=8
+  typed      oracle_plan        1.00  n=8
+  goalstack  oracle_plan        1.00  n=8
+  slots      oracle_plan        1.00  n=8
+
+  english    oracle_ops         1.00  n=8
+  symbolic   oracle_ops         1.00  n=8
+  opcode     oracle_ops         1.00  n=8
+  typed      oracle_ops         1.00  n=8
+  goalstack  oracle_ops         1.00  n=8
+  slots      oracle_ops         1.00  n=8
+
+  english    plan_execute@para  0.12  n=8
+  symbolic   plan_execute@para  0.25  n=8
+  opcode     plan_execute@para  0.25  n=8
+  typed      plan_execute@para  0.25  n=8
+  goalstack  plan_execute@para  0.75  n=8
+  slots      plan_execute@para  0.12  n=8
+
+  english    oracle_plan@para   0.12  n=8
+  symbolic   oracle_plan@para   0.12  n=8
+  opcode     oracle_plan@para   0.25  n=8
+  typed      oracle_plan@para   0.25  n=8
+  goalstack  oracle_plan@para   0.75  n=8
+  slots      oracle_plan@para   0.12  n=8
+
+-- units, plan parses   depth   1  
+  english    plan_execute       1.00 
+  symbolic   plan_execute       1.00 
+  opcode     plan_execute       1.00 
+  typed      plan_execute       1.00 
+  goalstack  plan_execute       1.00 
+  slots      plan_execute       1.00 
+
+-- units, parseable but wrong   depth   1  
+  english    plan_execute       0.00 
+  symbolic   plan_execute       0.00 
+  opcode     plan_execute       0.00 
+  typed      plan_execute       0.00 
+  goalstack  plan_execute       0.00 
+  slots      plan_execute       0.00 
+
+-- units, fraction of the gap recovered over english   depth   1  
+   blank where the ceiling and the floor are within 0.25 of each other, which is not a gap.
+  english                         .  
+  symbolic                        .  
+  opcode                          .  
+  typed                           .  
+  goalstack                       .  
+  slots                           .  
+
+-- sequential decay shape, plan_execute
+   last_depth_above_half is the deepest d with accuracy at or above 0.5 at every depth up to d.
+   per_depth_factor is the geometric mean of acc(d+1)/acc(d) over the pairs where acc(d) is above zero.
+  english    last_depth_above_half=3 per_depth_factor=0.000 over 3 pairs
+  symbolic   last_depth_above_half=3 per_depth_factor=0.000 over 3 pairs
+  opcode     last_depth_above_half=3 per_depth_factor=0.000 over 4 pairs
+  typed      last_depth_above_half=3 per_depth_factor=0.000 over 5 pairs
+  goalstack  last_depth_above_half=3 per_depth_factor=0.000 over 3 pairs
+  slots      last_depth_above_half=1 per_depth_factor=0.000 over 2 pairs
+
+-- representation diagnostics, plan_execute only
+  goalstack  sequential/1: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  sequential/2: {"constraint_bound_rate": 1.0, "constraint_bind_events": 15, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 15, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 2.0, "mean_gold_steps": 2.0}
+  goalstack  sequential/3: {"constraint_bound_rate": 1.0, "constraint_bind_events": 22, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 22, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 3.0, "mean_gold_steps": 3.0}
+  goalstack  sequential/4: {"constraint_bound_rate": 1.0, "constraint_bind_events": 97, "constraint_bind_events_ret": 42, "constraint_bind_events_eot": 55, "constraint_released_rate": 0.0, "plan_returned_rate": 0.625, "budget_exhausted_rate": 0.375, "obligation_tight_rate": 1.0, "mean_required": 4.0, "mean_gold_steps": 4.0}
+  goalstack  sequential/5: {"constraint_bound_rate": 1.0, "constraint_bind_events": 125, "constraint_bind_events_ret": 49, "constraint_bind_events_eot": 76, "constraint_released_rate": 0.0, "plan_returned_rate": 0.25, "budget_exhausted_rate": 0.75, "obligation_tight_rate": 1.0, "mean_required": 5.0, "mean_gold_steps": 5.0}
+  goalstack  sequential/6: {"constraint_bound_rate": 1.0, "constraint_bind_events": 118, "constraint_bind_events_ret": 46, "constraint_bind_events_eot": 72, "constraint_released_rate": 0.0, "plan_returned_rate": 0.375, "budget_exhausted_rate": 0.625, "obligation_tight_rate": 1.0, "mean_required": 6.0, "mean_gold_steps": 6.0}
+  goalstack  sequential/7: {"constraint_bound_rate": 1.0, "constraint_bind_events": 117, "constraint_bind_events_ret": 42, "constraint_bind_events_eot": 75, "constraint_released_rate": 0.125, "plan_returned_rate": 0.25, "budget_exhausted_rate": 0.625, "obligation_tight_rate": 1.0, "mean_required": 7.0, "mean_gold_steps": 7.0}
+  goalstack  sequential/8: {"constraint_bound_rate": 1.0, "constraint_bind_events": 137, "constraint_bind_events_ret": 51, "constraint_bind_events_eot": 86, "constraint_released_rate": 0.0, "plan_returned_rate": 0.0, "budget_exhausted_rate": 1.0, "obligation_tight_rate": 1.0, "mean_required": 8.0, "mean_gold_steps": 8.0}
+  goalstack  breadth/1: {"constraint_bound_rate": 0.75, "constraint_bind_events": 6, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 6, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  breadth/2: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  breadth/3: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  breadth/4: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  breadth/5: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  breadth/6: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  goalstack  novel/2: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 2.0, "mean_gold_steps": 2.0}
+  goalstack  novel/3: {"constraint_bound_rate": 1.0, "constraint_bind_events": 17, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 17, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 3.0, "mean_gold_steps": 3.0}
+  goalstack  novel/4: {"constraint_bound_rate": 1.0, "constraint_bind_events": 49, "constraint_bind_events_ret": 18, "constraint_bind_events_eot": 31, "constraint_released_rate": 0.125, "plan_returned_rate": 0.75, "budget_exhausted_rate": 0.125, "obligation_tight_rate": 1.0, "mean_required": 4.0, "mean_gold_steps": 4.0}
+  goalstack  novel/5: {"constraint_bound_rate": 1.0, "constraint_bind_events": 107, "constraint_bind_events_ret": 49, "constraint_bind_events_eot": 58, "constraint_released_rate": 0.25, "plan_returned_rate": 0.25, "budget_exhausted_rate": 0.5, "obligation_tight_rate": 1.0, "mean_required": 5.0, "mean_gold_steps": 5.0}
+  goalstack  novel/6: {"constraint_bound_rate": 1.0, "constraint_bind_events": 93, "constraint_bind_events_ret": 38, "constraint_bind_events_eot": 55, "constraint_released_rate": 0.5, "plan_returned_rate": 0.125, "budget_exhausted_rate": 0.375, "obligation_tight_rate": 1.0, "mean_required": 6.0, "mean_gold_steps": 6.0}
+  goalstack  units/1: {"constraint_bound_rate": 1.0, "constraint_bind_events": 8, "constraint_bind_events_ret": 0, "constraint_bind_events_eot": 8, "constraint_released_rate": 0.0, "plan_returned_rate": 1.0, "budget_exhausted_rate": 0.0, "obligation_tight_rate": 1.0, "mean_required": 1.0, "mean_gold_steps": 1.0}
+  slots      sequential/1: {"refinement_passes": 3, "assignment_changed_rate": 0.0, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/2: {"refinement_passes": 3, "assignment_changed_rate": 0.875, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/3: {"refinement_passes": 3, "assignment_changed_rate": 0.875, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/4: {"refinement_passes": 3, "assignment_changed_rate": 1.0, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/5: {"refinement_passes": 3, "assignment_changed_rate": 1.0, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/6: {"refinement_passes": 3, "assignment_changed_rate": 0.75, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/7: {"refinement_passes": 3, "assignment_changed_rate": 0.75, "free_argmax_in_domain_rate": 1.0}
+  slots      sequential/8: {"refinement_passes": 3, "assignment_changed_rate": 0.875, "free_argmax_in_domain_rate": 1.0}
+  slots      breadth/1: {"refinement_passes": 3, "assignment_changed_rate": 0.375, "free_argmax_in_domain_rate": 1.0}
+  slots      breadth/2: {"refinement_passes": 3, "assignment_changed_rate": 0.125, "free_argmax_in_domain_rate": 1.0}
+  slots      breadth/3: {"refinement_passes": 3, "assignment_changed_rate": 0.75, "free_argmax_in_domain_rate": 1.0}
+  slots      breadth/4: {"refinement_passes": 3, "assignment_changed_rate": 0.625, "free_argmax_in_domain_rate": 1.0}
+  slots      breadth/5: {"refinement_passes": 3, "assignment_changed_rate": 0.75, "free_argmax_in_domain_rate": 1.0}
+  slots      breadth/6: {"refinement_passes": 3, "assignment_changed_rate": 0.5, "free_argmax_in_domain_rate": 1.0}
+  slots      novel/2: {"refinement_passes": 3, "assignment_changed_rate": 0.0, "free_argmax_in_domain_rate": 1.0}
+  slots      novel/3: {"refinement_passes": 3, "assignment_changed_rate": 0.625, "free_argmax_in_domain_rate": 1.0}
+  slots      novel/4: {"refinement_passes": 3, "assignment_changed_rate": 1.0, "free_argmax_in_domain_rate": 1.0}
+  slots      novel/5: {"refinement_passes": 3, "assignment_changed_rate": 1.0, "free_argmax_in_domain_rate": 1.0}
+  slots      novel/6: {"refinement_passes": 3, "assignment_changed_rate": 0.875, "free_argmax_in_domain_rate": 1.0}
+  slots      units/1: {"refinement_passes": 3, "assignment_changed_rate": 0.0, "free_argmax_in_domain_rate": 1.0}

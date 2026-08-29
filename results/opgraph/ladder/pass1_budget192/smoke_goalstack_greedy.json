@@ -11,7 +11,7 @@
   "kinds": "sequential,breadth,novel,units",
   "styles": "0,1",
   "temperature": 0.0,
-  "max_new": 320,
+  "max_new": 192,
   "conditions": "plan_execute,oracle_plan,oracle_ops,oracle_both"
  },
  "rep": "goalstack",
@@ -48,13 +48,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -77,13 +73,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 15,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 15,
+     "constraint_bound_rate": 0.875,
+     "constraint_bind_events": 7,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 2.0,
      "mean_gold_steps": 2.0
@@ -107,12 +99,8 @@
     "declarations_agree": 1.0,
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 22,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 22,
+     "constraint_bind_events": 14,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 3.0,
      "mean_gold_steps": 3.0
@@ -135,12 +123,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 97,
-     "constraint_bind_events_ret": 42,
-     "constraint_bind_events_eot": 55,
+     "constraint_bind_events": 53,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.625,
-     "budget_exhausted_rate": 0.375,
      "obligation_tight_rate": 1.0,
      "mean_required": 4.0,
      "mean_gold_steps": 4.0
@@ -148,7 +132,7 @@
     "samples": [
      "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 7 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "5": {
@@ -163,20 +147,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 125,
-     "constraint_bind_events_ret": 49,
-     "constraint_bind_events_eot": 76,
+     "constraint_bind_events": 65,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.75,
      "obligation_tight_rate": 1.0,
      "mean_required": 5.0,
      "mean_gold_steps": 5.0
     },
     "samples": [
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 11 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 11 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "6": {
@@ -191,20 +171,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 118,
-     "constraint_bind_events_ret": 46,
-     "constraint_bind_events_eot": 72,
+     "constraint_bind_events": 60,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.375,
-     "budget_exhausted_rate": 0.625,
      "obligation_tight_rate": 1.0,
      "mean_required": 6.0,
      "mean_gold_steps": 6.0
     },
     "samples": [
      "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg34|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>",
-     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 12 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>"
+     "<|pg142|> <|pg34|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 12 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "7": {
@@ -219,20 +195,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 117,
-     "constraint_bind_events_ret": 42,
-     "constraint_bind_events_eot": 75,
-     "constraint_released_rate": 0.125,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.625,
+     "constraint_bind_events": 62,
+     "constraint_released_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 7.0,
      "mean_gold_steps": 7.0
     },
     "samples": [
-     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|>",
-     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|>",
-     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "8": {
@@ -247,20 +219,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 137,
-     "constraint_bind_events_ret": 51,
-     "constraint_bind_events_eot": 86,
+     "constraint_bind_events": 71,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.0,
-     "budget_exhausted_rate": 1.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 8.0,
      "mean_gold_steps": 8.0
     },
     "samples": [
-     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|>",
-     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|>",
-     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 11 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>",
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>",
+     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 11 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>"
     ]
    }
   },
@@ -277,13 +245,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 0.75,
-     "constraint_bind_events": 6,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 6,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -306,13 +270,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -335,13 +295,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -365,13 +321,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -395,13 +347,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -425,13 +373,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -456,13 +400,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 2.0,
      "mean_gold_steps": 2.0
@@ -486,12 +426,8 @@
     "declarations_agree": 1.0,
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 17,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 17,
+     "constraint_bind_events": 9,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 3.0,
      "mean_gold_steps": 3.0
@@ -514,12 +450,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 49,
-     "constraint_bind_events_ret": 18,
-     "constraint_bind_events_eot": 31,
+     "constraint_bind_events": 29,
      "constraint_released_rate": 0.125,
-     "plan_returned_rate": 0.75,
-     "budget_exhausted_rate": 0.125,
      "obligation_tight_rate": 1.0,
      "mean_required": 4.0,
      "mean_gold_steps": 4.0
@@ -527,7 +459,7 @@
     "samples": [
      "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 7 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg28|> <|pg30|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>"
+     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "5": {
@@ -542,20 +474,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 107,
-     "constraint_bind_events_ret": 49,
-     "constraint_bind_events_eot": 58,
+     "constraint_bind_events": 54,
      "constraint_released_rate": 0.25,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.5,
      "obligation_tight_rate": 1.0,
      "mean_required": 5.0,
      "mean_gold_steps": 5.0
     },
     "samples": [
-     "<|pg142|> <|pg33|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|>",
+     "<|pg142|> <|pg33|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
      "<|pg142|> <|pg33|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 7 2 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg13|> <|pg141|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 6 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|>"
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 6 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "6": {
@@ -570,12 +498,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 93,
-     "constraint_bind_events_ret": 38,
-     "constraint_bind_events_eot": 55,
+     "constraint_bind_events": 60,
      "constraint_released_rate": 0.5,
-     "plan_returned_rate": 0.125,
-     "budget_exhausted_rate": 0.375,
      "obligation_tight_rate": 1.0,
      "mean_required": 6.0,
      "mean_gold_steps": 6.0
@@ -600,13 +524,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -980,13 +900,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1009,13 +925,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 15,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 15,
+     "constraint_bound_rate": 0.875,
+     "constraint_bind_events": 7,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 2.0,
      "mean_gold_steps": 2.0
@@ -1039,12 +951,8 @@
     "declarations_agree": 1.0,
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 22,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 22,
+     "constraint_bind_events": 14,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 3.0,
      "mean_gold_steps": 3.0
@@ -1067,12 +975,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 97,
-     "constraint_bind_events_ret": 42,
-     "constraint_bind_events_eot": 55,
+     "constraint_bind_events": 53,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.625,
-     "budget_exhausted_rate": 0.375,
      "obligation_tight_rate": 1.0,
      "mean_required": 4.0,
      "mean_gold_steps": 4.0
@@ -1080,7 +984,7 @@
     "samples": [
      "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 7 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "5": {
@@ -1095,20 +999,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 125,
-     "constraint_bind_events_ret": 49,
-     "constraint_bind_events_eot": 76,
+     "constraint_bind_events": 65,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.75,
      "obligation_tight_rate": 1.0,
      "mean_required": 5.0,
      "mean_gold_steps": 5.0
     },
     "samples": [
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 11 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 11 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "6": {
@@ -1123,20 +1023,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 118,
-     "constraint_bind_events_ret": 46,
-     "constraint_bind_events_eot": 72,
+     "constraint_bind_events": 60,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.375,
-     "budget_exhausted_rate": 0.625,
      "obligation_tight_rate": 1.0,
      "mean_required": 6.0,
      "mean_gold_steps": 6.0
     },
     "samples": [
      "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg34|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>",
-     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 12 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>"
+     "<|pg142|> <|pg34|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 12 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "7": {
@@ -1151,20 +1047,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 117,
-     "constraint_bind_events_ret": 42,
-     "constraint_bind_events_eot": 75,
-     "constraint_released_rate": 0.125,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.625,
+     "constraint_bind_events": 62,
+     "constraint_released_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 7.0,
      "mean_gold_steps": 7.0
     },
     "samples": [
-     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|>",
-     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|>",
-     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "8": {
@@ -1179,20 +1071,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 134,
-     "constraint_bind_events_ret": 50,
-     "constraint_bind_events_eot": 84,
-     "constraint_released_rate": 0.125,
-     "plan_returned_rate": 0.0,
-     "budget_exhausted_rate": 0.875,
+     "constraint_bind_events": 71,
+     "constraint_released_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 8.0,
      "mean_gold_steps": 8.0
     },
     "samples": [
-     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|>",
-     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|>",
-     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 11 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>",
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>",
+     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 11 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>"
     ]
    }
   },
@@ -1209,13 +1097,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 0.75,
-     "constraint_bind_events": 6,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 6,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1238,13 +1122,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1267,13 +1147,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1295,13 +1171,9 @@
      "execute": 8
     },
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1323,13 +1195,9 @@
      "execute": 8
     },
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1351,13 +1219,9 @@
      "execute": 8
     },
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1382,13 +1246,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 2.0,
      "mean_gold_steps": 2.0
@@ -1412,12 +1272,8 @@
     "declarations_agree": 1.0,
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 17,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 17,
+     "constraint_bind_events": 9,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 3.0,
      "mean_gold_steps": 3.0
@@ -1440,12 +1296,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 49,
-     "constraint_bind_events_ret": 18,
-     "constraint_bind_events_eot": 31,
+     "constraint_bind_events": 29,
      "constraint_released_rate": 0.125,
-     "plan_returned_rate": 0.75,
-     "budget_exhausted_rate": 0.125,
      "obligation_tight_rate": 1.0,
      "mean_required": 4.0,
      "mean_gold_steps": 4.0
@@ -1453,7 +1305,7 @@
     "samples": [
      "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 7 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg28|> <|pg30|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>"
+     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "5": {
@@ -1468,20 +1320,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 106,
-     "constraint_bind_events_ret": 48,
-     "constraint_bind_events_eot": 58,
+     "constraint_bind_events": 54,
      "constraint_released_rate": 0.25,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.5,
      "obligation_tight_rate": 1.0,
      "mean_required": 5.0,
      "mean_gold_steps": 5.0
     },
     "samples": [
-     "<|pg142|> <|pg33|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|>",
+     "<|pg142|> <|pg33|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
      "<|pg142|> <|pg33|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 7 2 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg13|> <|pg141|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 6 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|>"
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 6 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "6": {
@@ -1496,12 +1344,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 94,
-     "constraint_bind_events_ret": 39,
-     "constraint_bind_events_eot": 55,
+     "constraint_bind_events": 60,
      "constraint_released_rate": 0.5,
-     "plan_returned_rate": 0.125,
-     "budget_exhausted_rate": 0.375,
      "obligation_tight_rate": 1.0,
      "mean_required": 6.0,
      "mean_gold_steps": 6.0
@@ -1526,13 +1370,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1900,7 +1740,7 @@
   "pages_parsed": 286,
   "gold_ops": 432,
   "induced_ops": 412,
-  "self_verified": 60,
+  "self_verified": 62,
   "exact_text": 169,
   "behavioural": 235
  },
@@ -1918,13 +1758,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 0.875,
-     "constraint_bind_events": 7,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 7,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -1948,13 +1784,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 15,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 15,
+     "constraint_bound_rate": 0.875,
+     "constraint_bind_events": 7,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 2.0,
      "mean_gold_steps": 2.0
@@ -1979,12 +1811,8 @@
     "declarations_agree": 1.0,
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 23,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 23,
+     "constraint_bind_events": 15,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 3.0,
      "mean_gold_steps": 3.0
@@ -2007,12 +1835,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 86,
-     "constraint_bind_events_ret": 33,
-     "constraint_bind_events_eot": 53,
+     "constraint_bind_events": 48,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.625,
-     "budget_exhausted_rate": 0.375,
      "obligation_tight_rate": 1.0,
      "mean_required": 4.0,
      "mean_gold_steps": 4.0
@@ -2020,7 +1844,7 @@
     "samples": [
      "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 7 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 5 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 12 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "5": {
@@ -2035,20 +1859,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 95,
-     "constraint_bind_events_ret": 31,
-     "constraint_bind_events_eot": 64,
+     "constraint_bind_events": 55,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.5,
-     "budget_exhausted_rate": 0.5,
      "obligation_tight_rate": 1.0,
      "mean_required": 5.0,
      "mean_gold_steps": 5.0
     },
     "samples": [
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 9 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 4 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 11 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "6": {
@@ -2063,12 +1883,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 110,
-     "constraint_bind_events_ret": 38,
-     "constraint_bind_events_eot": 72,
+     "constraint_bind_events": 60,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 0.375,
-     "budget_exhausted_rate": 0.625,
      "obligation_tight_rate": 1.0,
      "mean_required": 6.0,
      "mean_gold_steps": 6.0
@@ -2076,7 +1892,7 @@
     "samples": [
      "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg34|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 12 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|>"
+     "<|pg142|> <|pg34|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 12 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg33|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 3 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 1 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "7": {
@@ -2091,20 +1907,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 113,
-     "constraint_bind_events_ret": 38,
-     "constraint_bind_events_eot": 75,
-     "constraint_released_rate": 0.125,
-     "plan_returned_rate": 0.25,
-     "budget_exhausted_rate": 0.625,
+     "constraint_bind_events": 59,
+     "constraint_released_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 7.0,
      "mean_gold_steps": 7.0
     },
     "samples": [
-     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|>  <|pg140|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 4 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg35|> <|pg36|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg34|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 8 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg35|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 4 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 11 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
+     "<|pg142|> <|pg35|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 1 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 6 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 8 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "8": {
@@ -2119,20 +1931,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 135,
-     "constraint_bind_events_ret": 51,
-     "constraint_bind_events_eot": 84,
-     "constraint_released_rate": 0.25,
-     "plan_returned_rate": 0.0,
-     "budget_exhausted_rate": 0.75,
+     "constraint_bind_events": 72,
+     "constraint_released_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 8.0,
      "mean_gold_steps": 8.0
     },
     "samples": [
-     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|>",
-     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|>  <|pg140|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 11 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|>"
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 4 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>",
+     "<|pg142|> <|pg36|> <|pg35|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 1 3 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg33|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 10 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 10 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>",
+     "<|pg142|> <|pg36|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 11 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg35|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg34|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg33|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 10 <|pg14|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 11 <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|>"
     ]
    }
   },
@@ -2151,13 +1959,9 @@
     },
     "declarations_agree": 0.75,
     "extra": {
-     "constraint_bound_rate": 0.75,
-     "constraint_bind_events": 6,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 6,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2181,13 +1985,9 @@
     },
     "declarations_agree": 0.875,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2211,13 +2011,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2242,13 +2038,9 @@
     },
     "declarations_agree": 0.75,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2273,13 +2065,9 @@
     },
     "declarations_agree": 0.875,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2303,13 +2091,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2334,13 +2118,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 2.0,
      "mean_gold_steps": 2.0
@@ -2364,12 +2144,8 @@
     "declarations_agree": 1.0,
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 16,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 16,
+     "constraint_bind_events": 8,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 3.0,
      "mean_gold_steps": 3.0
@@ -2392,12 +2168,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 65,
-     "constraint_bind_events_ret": 27,
-     "constraint_bind_events_eot": 38,
+     "constraint_bind_events": 39,
      "constraint_released_rate": 0.25,
-     "plan_returned_rate": 0.5,
-     "budget_exhausted_rate": 0.25,
      "obligation_tight_rate": 1.0,
      "mean_required": 4.0,
      "mean_gold_steps": 4.0
@@ -2405,7 +2177,7 @@
     "samples": [
      "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 7 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg28|> <|pg30|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> <|pg13|> <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 7 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
      "<|pg142|> <|pg32|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 12 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 6 8 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg28|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|>"
+     "<|pg142|> <|pg32|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 2 5 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 9 <|pg12|> <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 2 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "5": {
@@ -2420,20 +2192,16 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 116,
-     "constraint_bind_events_ret": 52,
-     "constraint_bind_events_eot": 64,
+     "constraint_bind_events": 62,
      "constraint_released_rate": 0.25,
-     "plan_returned_rate": 0.125,
-     "budget_exhausted_rate": 0.625,
      "obligation_tight_rate": 1.0,
      "mean_required": 5.0,
      "mean_gold_steps": 5.0
     },
     "samples": [
-     "<|pg142|> <|pg33|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|>",
+     "<|pg142|> <|pg33|> <|pg32|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 3 9 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 3 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 12 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>",
      "<|pg142|> <|pg33|> <|pg33|> <|pg28|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> 7 2 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg31|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg14|> 5 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg0|> <|pg129|> <|pg135|> <|pg13|> 6 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg14|> <|pg141|>",
-     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 6 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|>"
+     "<|pg142|> <|pg33|> <|pg34|> <|pg28|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 1 10 <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg32|> <|pg32|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> 4 6 <|pg140|> <|pg13|> <|pg141|> <|pg142|> <|pg31|> <|pg30|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg12|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg30|> <|pg29|> <|pg30|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg29|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg13|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|> <|pg29|> <|pg29|> <|pg143|> <|pg138|> <|pg1|> <|pg129|> <|pg135|> <|pg14|> 9 <|pg140|> <|pg14|> <|pg141|> <|pg142|> <|pg28|>"
     ]
    },
    "6": {
@@ -2448,12 +2216,8 @@
     },
     "extra": {
      "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 104,
-     "constraint_bind_events_ret": 44,
-     "constraint_bind_events_eot": 60,
+     "constraint_bind_events": 63,
      "constraint_released_rate": 0.5,
-     "plan_returned_rate": 0.0,
-     "budget_exhausted_rate": 0.5,
      "obligation_tight_rate": 1.0,
      "mean_required": 6.0,
      "mean_gold_steps": 6.0
@@ -2479,13 +2243,9 @@
     },
     "declarations_agree": 1.0,
     "extra": {
-     "constraint_bound_rate": 1.0,
-     "constraint_bind_events": 8,
-     "constraint_bind_events_ret": 0,
-     "constraint_bind_events_eot": 8,
+     "constraint_bound_rate": 0.0,
+     "constraint_bind_events": 0,
      "constraint_released_rate": 0.0,
-     "plan_returned_rate": 1.0,
-     "budget_exhausted_rate": 0.0,
      "obligation_tight_rate": 1.0,
      "mean_required": 1.0,
      "mean_gold_steps": 1.0
@@ -2663,36 +2423,37 @@
    },
    "2": {
     "n": 8,
-    "acc": 0.875,
-    "plan_parses": 0.875,
-    "well_typed": 0.875,
-    "exact_gold_plan": 0.875,
-    "parsed_but_wrong": 0.0,
+    "acc": 0.75,
+    "plan_parses": 1.0,
+    "well_typed": 0.75,
+    "exact_gold_plan": 0.75,
+    "parsed_but_wrong": 0.25,
     "reasons": {
-     "ok": 7,
-     "gold_encode": 1
+     "ok": 6,
+     "execute": 2
     },
-    "declarations_agree": 0.875,
+    "declarations_agree": 0.75,
     "samples": [
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg130|> <|pg135|> 23 <|pg150|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg130|> <|pg135|> 56 <|pg150|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
-     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg3|> <|pg130|> <|pg135|> 50 <|pg149|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>"
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg130|> <|pg135|> 50 <|pg149|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>"
     ]
    },
    "3": {
     "n": 8,
     "acc": 0.125,
-    "plan_parses": 1.0,
+    "plan_parses": 0.75,
     "well_typed": 0.125,
-    "exact_gold_plan": 1.0,
-    "parsed_but_wrong": 0.875,
+    "exact_gold_plan": 0.75,
+    "parsed_but_wrong": 0.625,
     "reasons": {
-     "execute": 7,
+     "plan_parse": 2,
+     "execute": 5,
      "ok": 1
     },
     "declarations_agree": 0.125,
     "samples": [
-     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg131|> <|pg135|> 56 <|pg149|> <|pg150|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg5|> <|pg131|> <|pg135|> 56 <|pg149|> <|pg150|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg131|> <|pg135|> 80 <|pg150|> <|pg149|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg131|> <|pg135|> 52 <|pg149|> <|pg150|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>"
     ]
@@ -2700,12 +2461,13 @@
    "4": {
     "n": 8,
     "acc": 0.0,
-    "plan_parses": 1.0,
+    "plan_parses": 0.75,
     "well_typed": 0.0,
-    "exact_gold_plan": 1.0,
-    "parsed_but_wrong": 1.0,
+    "exact_gold_plan": 0.75,
+    "parsed_but_wrong": 0.75,
     "reasons": {
-     "execute": 8
+     "execute": 6,
+     "plan_parse": 2
     },
     "samples": [
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg132|> <|pg135|> 57 <|pg149|> <|pg149|> <|pg149|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
@@ -2718,30 +2480,31 @@
     "acc": 0.0,
     "plan_parses": 0.875,
     "well_typed": 0.0,
-    "exact_gold_plan": 0.875,
+    "exact_gold_plan": 0.625,
     "parsed_but_wrong": 0.875,
     "reasons": {
-     "execute": 7,
-     "gold_encode": 1
+     "plan_parse": 1,
+     "execute": 7
     },
     "samples": [
-     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg133|> <|pg135|> 31 <|pg149|> <|pg149|> <|pg150|> <|pg150|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
-     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg3|> <|pg133|> <|pg135|> 39 <|pg149|> <|pg149|> <|pg149|> <|pg149|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg5|> <|pg133|> <|pg135|> 31 <|pg149|> <|pg149|> <|pg150|> <|pg150|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg133|> <|pg135|> 39 <|pg149|> <|pg149|> <|pg149|> <|pg149|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg3|> <|pg133|> <|pg135|> 49 <|pg150|> <|pg150|> <|pg150|> <|pg149|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>"
     ]
    },
    "6": {
     "n": 8,
     "acc": 0.0,
-    "plan_parses": 1.0,
+    "plan_parses": 0.875,
     "well_typed": 0.0,
-    "exact_gold_plan": 1.0,
-    "parsed_but_wrong": 1.0,
+    "exact_gold_plan": 0.625,
+    "parsed_but_wrong": 0.875,
     "reasons": {
-     "execute": 8
+     "execute": 7,
+     "plan_parse": 1
     },
     "samples": [
-     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg2|> <|pg134|> <|pg135|> 40 <|pg149|> <|pg150|> <|pg150|> <|pg149|> <|pg150|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
+     "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg134|> <|pg135|> 40 <|pg149|> <|pg150|> <|pg150|> <|pg149|> <|pg150|> <|pg150|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg3|> <|pg134|> <|pg135|> 24 <|pg149|> <|pg150|> <|pg150|> <|pg150|> <|pg150|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>",
      "<|pg142|> <|pg29|> <|pg29|> <|pg28|> <|pg143|> <|pg138|> <|pg4|> <|pg134|> <|pg135|> 60 <|pg149|> <|pg150|> <|pg150|> <|pg149|> <|pg149|> <|pg149|> <|pg140|> <|pg12|> <|pg141|> <|pg142|> <|pg28|> <|pg28|> <|pg29|> <|pg143|> <|pg139|> <|pg135|> <|pg12|> <|pg141|>"
     ]

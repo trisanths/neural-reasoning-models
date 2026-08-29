@@ -51,6 +51,30 @@ question's surface, which the other rungs do not get. This is set out in full
 under rung E below, because it is the one place where a rung is handed something
 the others are not, and a reader who misses it will over-read E's numbers.
 
+## The decoding budget
+
+One budget for every rung, and it has to clear the longest gold plan any of them
+writes. `scripts/vocab_budget.py` measures that over the whole grid, both page
+wordings:
+
+| rung | longest gold plan | where |
+|---|---|---|
+| english | 109 | sequential depth 8 |
+| symbolic | 60 | sequential depth 8 |
+| opcode | 60 | sequential depth 8 |
+| typed | 144 | sequential depth 8 |
+| goalstack | 234 | sequential depth 8 |
+| slots | fixed 129 fields, no autoregressive budget | |
+
+The goal stack costs five tokens of obligation state per instruction, so its
+gold plan at depth eight is 234 tokens against the typed form's 144. The first
+smoke ran at 192 and rung E could not have finished a depth eight plan whatever
+it wrote: every one of its depth four to eight decodes ended either mid
+instruction at the cap or with no return. That is a budget fact, not a fact
+about the representation, and it is exactly the shape of the max_prompt_tokens
+filter that produced a wrong conclusion on this project once already. The budget
+is now 320 for every rung, checked against the measurement rather than assumed.
+
 ## The reserved token block
 
 167 logical tokens are mapped onto `<|pg0|>` through `<|pg166|>` in a fixed
@@ -161,24 +185,38 @@ The surface form is D's. What differs is that an obligation state is maintained
 outside the model, written into the sequence at every instruction boundary, and
 enforced on the sampler.
 
-The state is three obligations:
+The state is four obligations:
 
 | obligation | closed when |
 |---|---|
 | applications | at least as many applies emitted as the question names operators |
 | literals | every integer written in the question has been used as an operand |
 | dangling | exactly one register is live, so no produced value is left unread |
+| return | a return instruction has been written |
 
-Written into the sequence as `<goal> <n_pending> <n_unused> <n_live> <sep>`
-before each instruction. Those tokens are never supervised: the decoder computes
-and writes them, the model only reads them. Training and decoding therefore see
-the same sequence.
+The first three are written into the sequence as
+`<goal> <n_pending> <n_unused> <n_live> <sep>` before each instruction. Those
+tokens are never supervised: the decoder computes and writes them, the model
+only reads them, and training and decoding therefore see the same sequence. The
+return obligation needs no field of its own, since it is open exactly until the
+return instruction appears.
 
-Enforcement is a hard mask on the sampler. While any obligation is open, the
-logits of `<ret>` and `<|eot|>` are set to negative infinity, so termination is
-not a token the model may choose. How often that mask removed what would
-otherwise have been the argmax is reported per cell as
-`constraint_bound_rate` and `constraint_bind_events`.
+Enforcement is a hard mask on the sampler. While any of the first three is open,
+the logits of `<ret>` and `<|eot|>` are set to negative infinity. Once they
+close, `<|eot|>` stays banned until the return instruction has been written,
+because returning is itself an obligation: a plan that stops without naming a
+result has not finished, and allowing the end of text there is the same early
+halt in a different costume. The first smoke, which banned the end of text only
+while the first three were open, lost most of its depth four decodes that way:
+the obligations closed, the model took the end of text instead of writing a
+return, and the plan failed to parse for want of its last instruction.
+
+Reported per cell: `constraint_bound_rate` and `constraint_bind_events` for how
+often the mask removed what would otherwise have been the argmax, split into
+`constraint_bind_events_ret` and `constraint_bind_events_eot` by which token it
+removed; `plan_returned_rate` for how many decodes ended by returning, which is
+the only clean exit; and `budget_exhausted_rate` for how many were still writing
+when the token budget ran out.
 
 The application count is read off the question by counting occurrences of the
 single-character operator glyphs in the operator table the model is given, with
@@ -257,6 +295,22 @@ there rather than as a quiet loss elsewhere. `oracle_plan` should be the same
 number for every rung, since the plan is gold in all of them, and a rung where
 it is not has a round-trip problem.
 
+The gold plan is written in the same operator table it will be read back with,
+which is the model's own induced table in `oracle_plan` and the gold table in
+`oracle_both`. This matters only for rungs B to F, and it matters a great deal
+there. Those rungs name an operator by its slot, which is its index in
+`sorted(ops)`, so a gold plan written from the gold table and read back against
+the model's table rebinds every slot whenever the two disagree about which
+symbols exist. `scripts/vocab_slotcheck.py` measures that agreement over 500
+evaluation items: on the original page wording the two tables agree on all 500,
+and on the paraphrase they agree on 145, or 263 counting only the operators an
+item's own plan uses. Written from the gold table, rung D's paraphrased
+`oracle_plan` sat near 0.55 while rung A's, which names the operator by the
+symbol the page uses and is immune, sat near 0.95. That gap was an artifact of
+the pairing and not a property of the representation. A symbol the induction
+never produced now fails at encode time and is counted under `gold_encode`,
+which is the honest attribution: the model does not have that operator.
+
 Per cell, alongside accuracy: `n`, `plan_parses`, `well_typed`,
 `exact_gold_plan`, `parsed_but_wrong`, and the reason counter. The gap between
 `plan_parses` and `acc` is where the remaining failure sits.
@@ -283,7 +337,11 @@ checkable.
 | `src/opgraph/ladder_run.py` | the token-level generator, the goal-stack hook, the mask-predict slot decoder, the cell scorer |
 | `scripts/vocab_selftest.py` | round trip, obligation satisfiability, typing and tokenizer checks over the whole grid, on CPU |
 | `scripts/vocab_eval.py` | the four conditions for one rung, both wordings |
-| `scripts/vocab_smoke.sh` | train and score every rung at tiny scale |
+| `scripts/vocab_smoke.sh` | train and score every rung at tiny scale; `TRAIN=0` rescores the checkpoints already on disk, `REPS` picks a subset |
+| `scripts/vocab_budget.py` | the longest gold plan each rung has to write, against the shared decoding budget, on CPU |
+| `scripts/vocab_slotcheck.py` | whether the model's induced table agrees with gold about slot order, which is what couples rungs B to F to induction |
+| `scripts/vocab_report.py` | the depth shape and the plan level diagnostics, one rung at a time |
+| `scripts/vocab_across.py` | the rungs side by side at one temperature, with the fraction of the gap each recovers |
 | `scripts/opgraph_train.py` | the shared trainer, with six arms added |
 
 ```

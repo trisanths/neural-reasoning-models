@@ -404,10 +404,19 @@ def score_cell(rep, items, written, ops_by_world, use_gold_plan, use_gold_ops,
         ops = it.world.ops if use_gold_ops else ops_by_world[it.world.seed].ops
         c.n += 1
         if use_gold_plan:
+            # In the same table the plan will be read back with. Rungs B to F
+            # name an operator by its slot, which is its index in sorted(ops),
+            # so writing the gold plan from the gold table and reading it back
+            # against the model's own table rebinds every slot whenever the two
+            # tables disagree about which symbols exist. They agree on every
+            # item on the original wording and on well under half of the
+            # paraphrased ones. A symbol the induction never produced fails
+            # here and is counted, rather than silently becoming a different
+            # operator.
             try:
-                obj = encode_plan(rep, it.plan, it.world.ops, it)
+                obj = encode_plan(rep, it.plan, ops, it)
             except RepError as exc:
-                c.reasons["gold_encode:" + str(exc)[:40]] += 1
+                c.reasons["gold_encode"] += 1
                 continue
             raw = obj
         else:
