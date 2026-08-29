@@ -141,7 +141,13 @@ def main() -> int:
     if not paths:
         raise SystemExit("no dump files matched")
     rows = load(paths)
-    vocab = nonce_vocab(rows)
+    # Template English is constant within a renderer but differs between
+    # renderers, so the invented-word vocabulary is built per renderer.
+    by_rend = defaultdict(list)
+    for r in rows:
+        by_rend[r["renderer"]].append(r)
+    vocabs = {k: nonce_vocab(v) for k, v in by_rend.items()}
+    vocab = set().union(*vocabs.values()) if vocabs else set()
 
     groups: dict[tuple, list[dict]] = defaultdict(list)
     for r in rows:
@@ -156,8 +162,7 @@ def main() -> int:
     fams = sorted({k[2] for k in groups if k[2] != "ALL(pooled)"})
     fams = fams + ["ALL(pooled)"]
 
-    twin_cols = any("named_twin" in summarize(v, vocab)
-                    for k, v in groups.items() if k[2] == "ALL(pooled)")
+    twin_cols = any(r.get("twin_candidates") for r in rows)
     out = {}
     hdr = ("%-19s %-18s %5s %8s %7s %7s %6s %6s %7s %7s"
            % ("renderer", "family", "n", "shipped", "forced", "first",
@@ -172,7 +177,7 @@ def main() -> int:
                 key = (rend, cond, fam)
                 if key not in groups:
                     continue
-                s = summarize(groups[key], vocab)
+                s = summarize(groups[key], vocabs[rend])
                 out["|".join(key)] = s
                 line = ("%-19s %-18s %5d %8.3f %7.3f %7.3f %6.3f %6.3f "
                         "%7.3f %7.3f" % (rend, fam, s["n"], s["acc_shipped"],
@@ -183,7 +188,8 @@ def main() -> int:
                     line += " %6.3f %6.3f" % (s.get("named_own", float("nan")),
                                               s.get("named_twin", float("nan")))
                 print(line)
-    print("\nnonce vocabulary size: %d" % len(vocab))
+    print("\ninvented-word vocabulary per renderer: %s"
+          % ", ".join("%s=%d" % (k, len(v)) for k, v in sorted(vocabs.items())))
     if args.json_out:
         with open(args.json_out, "w") as fh:
             json.dump(out, fh, indent=2)
