@@ -66,6 +66,14 @@ def structurally_ok(q, inst) -> bool:
         str(x) for x in q.start)
     if gold == str(start) or gold == str(q.key_b):
         return False
+    # A numeric answer can collide with a number the question states for a
+    # reason unrelated to the wording: the application count, the attribute
+    # value, the second key. Every frame writes those same numbers, so the
+    # test belongs here rather than in the per frame violation count, where it
+    # would leave the frames with different surviving question sets.
+    for v in q.meta.values():
+        if gold == str(v):
+            return False
     return True
 
 

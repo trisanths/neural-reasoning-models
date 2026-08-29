@@ -121,6 +121,13 @@ def _relation_cell(job):
         ep.pop("invented_words", None)
         kept.append(ep)
         rejects["kept"] += 1
+        # The two rejection stages are counted separately. The structural one
+        # runs on the records before a frame is chosen and drops individual
+        # questions; the episode one runs on the rendered text and drops whole
+        # episodes. Pooling them would make it impossible to tell a wording
+        # problem from a task problem.
+        rejects["q_proposed"] += ep["n_proposed_questions"]
+        rejects["q_structural_rejected"] += ep["n_structural_rejects"]
     return family, frame.fid, kept, dict(rejects)
 
 
@@ -205,11 +212,14 @@ def cmd_relation(args) -> int:
     frames, source = load_frames()
     os.makedirs(args.out, exist_ok=True)
     jobs = []
-    cell = 0
     for band, (s0, n) in (("train", (TRAIN_BASE["relation"],
                                      args.seeds_per_cell)),
                           ("heldout", (HELDOUT_BASE["relation"],
                                        args.heldout_per_cell))):
+        # The cell counter restarts for each band. Letting it run on from the
+        # training band pushed the last held-out block past the end of the
+        # held-out range, which the manifest's seed check caught.
+        cell = 0
         fams = TRAIN_FAMILIES if band == "train" else sorted(
             relations.STRUCTURES)
         # The held-out band spans the frame bank rather than filling it: it is
@@ -277,11 +287,11 @@ def cmd_relation(args) -> int:
 def cmd_plan(args) -> int:
     os.makedirs(args.out, exist_ok=True)
     jobs = []
-    cell = 0
     for band, (s0, n) in (("train", (TRAIN_BASE["plan"],
                                      args.seeds_per_cell)),
                           ("heldout", (HELDOUT_BASE["plan"],
                                        args.heldout_per_cell))):
+        cell = 0
         for ns in PLAN_STEPS:
             for k in PLAN_SYMBOLS:
                 if k > ns:
@@ -387,12 +397,13 @@ def cmd_external(args) -> int:
         return 0
     split = external_frames.frame_split("both")
     from src.frames.generate import FAMILIES
-    jobs, cell = [], 0
+    jobs = []
     for band, names, n in (("train", split["train"], args.seeds_per_cell),
                            ("heldout", split["test"] + split["bridge"],
                             args.heldout_per_cell)):
         s0 = TRAIN_BASE["external"] if band == "train" \
             else HELDOUT_BASE["external"]
+        cell = 0
         for fname in names:
             for fam in FAMILIES:
                 jobs.append((fname, fam, s0 + cell * 200, n, band))
@@ -433,9 +444,100 @@ def cmd_external(args) -> int:
     return 0
 
 
+def cmd_deleak(args) -> int:
+    """Drop from the held-out files any item that also appears in training.
+
+    A seed split does not guarantee an item split. Two seeds can draw the same
+    short question with the same answer, and when they land on opposite sides
+    of the split the held-out item is leaked whatever its seed says. This reads
+    every training hash, rewrites each held-out file without the items that
+    match one, drops any episode left with fewer than two questions, and
+    reports the counts.
+    """
+    train_files = ["relation_train.jsonl", "external_train.jsonl",
+                   "mathgen_train.jsonl", "plan_train_whole.jsonl"]
+    held_files = ["relation_heldout.jsonl", "external_heldout.jsonl",
+                  "mathgen_heldout.jsonl", "plan_heldout_whole.jsonl"]
+    train_hashes = set()
+    for f in train_files:
+        p = os.path.join(args.out, f)
+        if not os.path.exists(p):
+            continue
+        with open(p) as fh:
+            for line in fh:
+                r = json.loads(line)
+                if "questions" in r:
+                    for q in r["questions"]:
+                        train_hashes.add(q["hash"])
+                elif "hash" in r:
+                    train_hashes.add(r["hash"])
+    rep = {"n_train_hashes": len(train_hashes), "files": {}}
+    for f in held_files:
+        p = os.path.join(args.out, f)
+        if not os.path.exists(p):
+            continue
+        kept, dropped_q, dropped_ep, total_q, total_ep = [], 0, 0, 0, 0
+        with open(p) as fh:
+            for line in fh:
+                r = json.loads(line)
+                total_ep += 1
+                if "questions" in r:
+                    total_q += len(r["questions"])
+                    qs = [q for q in r["questions"]
+                          if q["hash"] not in train_hashes]
+                    dropped_q += len(r["questions"]) - len(qs)
+                    if len(qs) < 2:
+                        dropped_ep += 1
+                        continue
+                    r["questions"] = qs
+                else:
+                    total_q += 1
+                    if r.get("hash") in train_hashes:
+                        dropped_q += 1
+                        dropped_ep += 1
+                        continue
+                kept.append(r)
+        with open(p, "w") as fh:
+            for r in kept:
+                fh.write(json.dumps(r) + "\n")
+        rep["files"][f] = {"episodes_before": total_ep,
+                           "episodes_after": len(kept),
+                           "episodes_dropped": dropped_ep,
+                           "questions_before": total_q,
+                           "questions_dropped": dropped_q}
+    # Plan step examples belong to their whole plan, so any step whose seed
+    # lost its plan goes with it.
+    sp = os.path.join(args.out, "plan_heldout_whole.jsonl")
+    st = os.path.join(args.out, "plan_heldout_step.jsonl")
+    if os.path.exists(sp) and os.path.exists(st):
+        keep_seeds = set()
+        with open(sp) as fh:
+            for line in fh:
+                keep_seeds.add(json.loads(line)["seed"])
+        kept, total = [], 0
+        with open(st) as fh:
+            for line in fh:
+                total += 1
+                r = json.loads(line)
+                if r["seed"] in keep_seeds:
+                    kept.append(r)
+        with open(st, "w") as fh:
+            for r in kept:
+                fh.write(json.dumps(r) + "\n")
+        rep["files"]["plan_heldout_step.jsonl"] = {
+            "records_before": total, "records_after": len(kept),
+            "records_dropped": total - len(kept)}
+    with open(os.path.join(args.out, "deleak_summary.json"), "w") as fh:
+        json.dump(rep, fh, indent=2)
+    print(json.dumps(rep, indent=2))
+    return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
+    dl = sub.add_parser("deleak")
+    dl.add_argument("--out", required=True)
     for name in ("relation", "plan", "mathgen", "external"):
         p = sub.add_parser(name)
         p.add_argument("--out", required=True)
@@ -451,7 +553,8 @@ def main(argv=None) -> int:
             p.add_argument("--derived-boost", type=int, default=4)
     args = ap.parse_args(argv)
     return {"relation": cmd_relation, "plan": cmd_plan,
-            "mathgen": cmd_mathgen, "external": cmd_external}[args.cmd](args)
+            "mathgen": cmd_mathgen, "external": cmd_external,
+            "deleak": cmd_deleak}[args.cmd](args)
 
 
 if __name__ == "__main__":

@@ -41,9 +41,13 @@ def relation_stats(path, encode) -> dict:
     hashes = set()
     lens = defaultdict(lambda: defaultdict(list))
     n_ep = 0
+    proposed = Counter()
+    structural = Counter()
     for ep in _read(path):
         n_ep += 1
         fam = ep["family"]
+        proposed[fam] += ep.get("n_proposed_questions", 0)
+        structural[fam] += ep.get("n_structural_rejects", 0)
         fams[fam]["episodes"] += 1
         fams[fam]["questions"] += len(ep["questions"])
         fams[fam]["pages"] += len(ep["documents"])
@@ -67,9 +71,17 @@ def relation_stats(path, encode) -> dict:
         r = audit.parity_report(view, tolerance=0.15)
         r.pop("per_frame_median", None)
         parity[fam] = r
+    rej = {}
+    for fam in proposed:
+        tot = proposed[fam]
+        rej[fam] = {"questions_proposed": tot,
+                    "questions_structurally_rejected": structural[fam],
+                    "rejection_rate": round(structural[fam] / tot, 4)
+                    if tot else 0.0}
     return {
         "n_episodes": n_ep,
         "by_family": {k: dict(v) for k, v in fams.items()},
+        "structural_question_rejection_by_family": rej,
         "n_distinct_frames": len(frames),
         "frame_use_min": min(frames.values()) if frames else 0,
         "frame_use_max": max(frames.values()) if frames else 0,
