@@ -93,3 +93,37 @@ than page order being neutral.
 
 R1, whose page set holds the preamble and one table, has no tie to break and
 should not move at all. That cell is the control on the change.
+### The prediction, from the tie groups in the before run
+
+Written before the after run. Counted from
+`results/retrieval/d2_before_rows.jsonl.gz`, first round of each rollout, tie
+group sizes:
+
+| cell | no tie | tied 2 ways | tied 3 ways | ties the needed page wins | ties it loses |
+|---|---|---|---|---|---|
+| R1 step 0 | 388 | 5 | 0 | 0 | 5 |
+| R1 step 1 | 381 | 6 | 0 | 0 | 6 |
+| R1w step 0 | 343 | 40 | 2 | 40 | 2 |
+| R1w step 1 | 222 | 167 | 5 | 0 | 172 |
+| R1o step 0 | 330 | 49 | 9 | 49 | 9 |
+| R1o step 1 | 220 | 166 | 4 | 166 | 4 |
+
+Every tie the needed page currently wins, it wins for sitting earlier. Every
+tie it loses, it loses for sitting later. A position-blind tie break replaces
+both with one in k, so the arithmetic is fixed before any rollout runs:
+
+  R1w step one serves the needed page on 0.008 now and should serve it on
+  0.224, because 167 two-way ties become about 84 wins and 5 three-way ties
+  about 2.
+
+  R1o step one serves it on 0.4175 now and should fall to about 0.21, because
+  the 166 two-way ties it wins by position become about 83.
+
+  R1w step zero should fall from 0.4775 to about 0.446, and R1 should barely
+  move in either direction, 5 and 6 ties out of about 390.
+
+The two-sided form is the test worth watching. R1w rising is expected and
+proves little on its own, because almost anything that serves more pages would
+raise it. R1o falling to meet it is the part that is hard to get by accident:
+it says the 75x gap between the two rungs was page order and nothing else, and
+that both were measuring the same thing all along.
