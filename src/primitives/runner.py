@@ -300,7 +300,11 @@ def hedging_report(records) -> dict:
         if not rows:
             continue
         n = len(rows)
-        measurable = [g for g in rows if "hedged" in g]
+        # Present-and-not-None. The free-form intent grader has no label
+        # namespace to hedge across and records None there, and whether
+        # that None survives into the records depends on which runner
+        # built them, so test the value rather than the key.
+        measurable = [g for g in rows if g.get("hedged") is not None]
         # The chance floor travels on the item, because the option count
         # is not the same on every item of every primitive and a floor
         # quoted from the module constant would be wrong wherever it varies.

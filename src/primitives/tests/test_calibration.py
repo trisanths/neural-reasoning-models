@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import pytest
 
-from src.primitives import PRIMITIVES, fakes, runner
+from src.primitives import PRIMITIVES, fakes, report, runner
 
 N = 60
 KS = (1, 2, 3)
@@ -166,6 +166,27 @@ def test_the_forced_choice_rescue_matrix_locates_the_same_faculty(key):
     assert m["baseline"]["acc"] < 0.4
     assert m["rows"]["oracle_composition"]["accuracy"]["acc"] == 1.0
     assert m["largest_rescue"] == "oracle_composition"
+
+
+def test_every_mode_renders_end_to_end(key):
+    """Both modes, all the way through aggregation and rendering.
+
+    Two bugs reached a finished GPU run because they lived past the last
+    line of model work: a stat key misspelled in the hedging table, and a
+    None hedge flag that only the free-form integrated grader produces.
+    Neither was reachable from a test that stopped at the report dict, and
+    each cost an hour. This walks the whole path in both modes.
+    """
+    for mode in ("isolated", "integrated"):
+        k = fakes.build_answer_key(n=3, seed=SEED, mode=mode, ks=(1, 2),
+                                   rescue_n=2)
+        model = fakes.ScriptedModel(k, competent=["intent"], seed=1)
+        bundle = runner.run_suite(model, n=3, seed=SEED, mode=mode, ks=(1, 2),
+                                  rescue_n=2)
+        text = report.render_markdown(bundle["report"])
+        assert "## Headline, one line per faculty" in text, mode
+        assert "## Hedging, and the two grading rules" in text, mode
+        assert bundle["report"]["hedging"], mode
 
 
 def test_a_hedging_model_is_caught_by_the_strict_rule(key):
