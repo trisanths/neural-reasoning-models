@@ -1,0 +1,902 @@
+plan head smoke
+==============================================================================
+
+train loss, first logged step to last
+  p1   induce 4.168 -> 4.168     plan 0.289 -> 0.000     steps=1000 secs=109.6
+  p2   induce 4.168 -> 4.168     plan 0.260 -> 0.026     steps=1000 secs=104.9
+  p2s  induce 4.168 -> 4.168     plan 0.130 -> 0.000     steps=1000 secs=97.5
+  p3   induce 4.168 -> 4.168     plan 0.107 -> 0.006     steps=1000 secs=102.5
+  p4   induce 4.168 -> 4.168     plan 0.094 -> 0.016     steps=1000 secs=118.5
+
+sequences dropped for not fitting max_len, which must be zero
+  p1   induce=0 plan=0 of 8000 sequences ok
+  p2   induce=0 plan=0 of 8000 sequences ok
+  p2s  induce=0 plan=0 of 8000 sequences ok
+  p3   induce=0 plan=0 of 8000 sequences ok
+  p4   induce=0 plan=0 of 8000 sequences ok
+
+codec round trip over the evaluation grid, before any model ran
+  p1   7800/7800 gold plans survive this head's representation ok
+  p2   7800/7800 gold plans survive this head's representation ok
+  p2s  7800/7800 gold plans survive this head's representation ok
+  p3   7800/7800 gold plans survive this head's representation ok
+  p4   7800/7800 gold plans survive this head's representation ok
+
+oracle_both, which must be 1.000 everywhere or the harness is broken
+  p1   oracle_both              cells=19 n=152 min_acc=1.000 ok
+  p1   oracle_both_roundtrip    cells=19 n=152 min_acc=1.000 ok
+  p2   oracle_both              cells=19 n=152 min_acc=1.000 ok
+  p2   oracle_both_roundtrip    cells=19 n=152 min_acc=1.000 ok
+  p2s  oracle_both              cells=19 n=152 min_acc=1.000 ok
+  p2s  oracle_both_roundtrip    cells=19 n=152 min_acc=1.000 ok
+  p3   oracle_both              cells=19 n=152 min_acc=1.000 ok
+  p3   oracle_both_roundtrip    cells=19 n=152 min_acc=1.000 ok
+  p4   oracle_both              cells=19 n=152 min_acc=1.000 ok
+  p4   oracle_both_roundtrip    cells=19 n=152 min_acc=1.000 ok
+
+forward pass counter, reported against the count the model saw
+  p1@T0                    reported=   12 observed=   12 ok
+  p1@T0.8                  reported=   12 observed=   12 ok
+  p2@T0                    reported=   13 observed=   13 ok
+  p2@T0.8                  reported=   13 observed=   13 ok
+  p2s@T0                   reported=   97 observed=   97 ok
+  p2s@T0.8                 reported=   97 observed=   97 ok
+  p3@T0@it1                reported=    1 observed=    1 ok
+  p3@T0@it4                reported=    4 observed=    4 ok
+  p3@T0.8@it1              reported=    1 observed=    1 ok
+  p3@T0.8@it4              reported=    4 observed=    4 ok
+  p4@T0@it1                reported=    1 observed=    1 ok
+  p4@T0@it4                reported=    4 observed=    4 ok
+  p4@T0.8@it1              reported=    1 observed=    1 ok
+  p4@T0.8@it4              reported=    4 observed=    4 ok
+
+plan construction: does the executor accept what the head writes
+  head   condition                          kind          d   n    acc  parse  typed  exact     fwd
+  p1     oracle_ops@T0                      breadth       1   8  1.000  1.000  1.000  1.000    12.0
+  p1     oracle_ops@T0                      breadth       2   8  1.000  1.000  1.000  1.000    13.0
+  p1     oracle_ops@T0                      breadth       3   8  1.000  1.000  1.000  1.000    14.0
+  p1     oracle_ops@T0                      breadth       4   8  0.000  1.000  0.000  0.000    14.0
+  p1     oracle_ops@T0                      breadth       5   8  0.000  1.000  0.000  0.000    14.0
+  p1     oracle_ops@T0                      breadth       6   8  0.000  1.000  0.000  0.000    14.0
+  p1     oracle_ops@T0                      novel         2   8  0.000  1.000  1.000  0.000    20.0
+  p1     oracle_ops@T0                      novel         3   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0                      novel         4   8  0.000  1.000  1.000  0.000    27.6
+  p1     oracle_ops@T0                      novel         5   8  0.000  1.000  1.000  0.000    27.9
+  p1     oracle_ops@T0                      novel         6   8  0.000  1.000  1.000  0.000    27.8
+  p1     oracle_ops@T0                      sequential    1   8  1.000  1.000  1.000  1.000    12.0
+  p1     oracle_ops@T0                      sequential    2   8  0.875  1.000  1.000  0.875    20.0
+  p1     oracle_ops@T0                      sequential    3   8  0.625  1.000  1.000  0.625    28.0
+  p1     oracle_ops@T0                      sequential    4   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0                      sequential    5   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0                      sequential    6   8  0.000  1.000  1.000  0.000    30.0
+  p1     oracle_ops@T0                      sequential    7   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0                      sequential    8   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0.8                    breadth       1   8  1.000  1.000  1.000  1.000    12.0
+  p1     oracle_ops@T0.8                    breadth       2   8  1.000  1.000  1.000  1.000    13.0
+  p1     oracle_ops@T0.8                    breadth       3   8  1.000  1.000  1.000  1.000    14.0
+  p1     oracle_ops@T0.8                    breadth       4   8  0.000  1.000  0.000  0.000    14.0
+  p1     oracle_ops@T0.8                    breadth       5   8  0.000  1.000  0.000  0.000    14.0
+  p1     oracle_ops@T0.8                    breadth       6   8  0.000  1.000  0.000  0.000    14.0
+  p1     oracle_ops@T0.8                    novel         2   8  0.000  1.000  1.000  0.000    20.0
+  p1     oracle_ops@T0.8                    novel         3   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0.8                    novel         4   8  0.000  0.875  0.875  0.000    29.0
+  p1     oracle_ops@T0.8                    novel         5   8  0.000  1.000  1.000  0.000    27.8
+  p1     oracle_ops@T0.8                    novel         6   8  0.000  1.000  1.000  0.000    27.8
+  p1     oracle_ops@T0.8                    sequential    1   8  1.000  1.000  1.000  1.000    12.0
+  p1     oracle_ops@T0.8                    sequential    2   8  0.625  1.000  1.000  0.625    20.0
+  p1     oracle_ops@T0.8                    sequential    3   8  0.750  1.000  1.000  0.750    28.0
+  p1     oracle_ops@T0.8                    sequential    4   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0.8                    sequential    5   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0.8                    sequential    6   8  0.000  1.000  1.000  0.000    29.0
+  p1     oracle_ops@T0.8                    sequential    7   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_ops@T0.8                    sequential    8   8  0.000  1.000  1.000  0.000    28.0
+  p1     oracle_plan@T0                     breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p1     oracle_plan@T0                     breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p1     oracle_plan@T0                     breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p1     oracle_plan@T0                     novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0                     sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p1     oracle_plan@T0.8                   breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p1     oracle_plan@T0.8                   breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p1     oracle_plan@T0.8                   novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p1     oracle_plan@T0.8                   sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p1     plan_execute@T0                    breadth       1   8  1.000  1.000  1.000  1.000    12.0
+  p1     plan_execute@T0                    breadth       2   8  1.000  1.000  1.000  1.000    13.0
+  p1     plan_execute@T0                    breadth       3   8  1.000  1.000  1.000  1.000    14.0
+  p1     plan_execute@T0                    breadth       4   8  0.375  1.000  1.000  0.000    14.0
+  p1     plan_execute@T0                    breadth       5   8  0.375  1.000  1.000  0.000    14.0
+  p1     plan_execute@T0                    breadth       6   8  0.375  1.000  1.000  0.000    14.0
+  p1     plan_execute@T0                    novel         2   8  0.000  1.000  1.000  0.000    20.0
+  p1     plan_execute@T0                    novel         3   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0                    novel         4   8  0.000  1.000  1.000  0.000    27.6
+  p1     plan_execute@T0                    novel         5   8  0.000  1.000  1.000  0.000    27.9
+  p1     plan_execute@T0                    novel         6   8  0.000  1.000  1.000  0.000    27.8
+  p1     plan_execute@T0                    sequential    1   8  1.000  1.000  1.000  1.000    12.0
+  p1     plan_execute@T0                    sequential    2   8  0.875  1.000  1.000  0.875    20.0
+  p1     plan_execute@T0                    sequential    3   8  0.625  1.000  1.000  0.625    28.0
+  p1     plan_execute@T0                    sequential    4   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0                    sequential    5   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0                    sequential    6   8  0.000  1.000  1.000  0.000    30.0
+  p1     plan_execute@T0                    sequential    7   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0                    sequential    8   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0.8                  breadth       1   8  1.000  1.000  1.000  1.000    12.0
+  p1     plan_execute@T0.8                  breadth       2   8  1.000  1.000  1.000  1.000    13.0
+  p1     plan_execute@T0.8                  breadth       3   8  1.000  1.000  1.000  1.000    14.0
+  p1     plan_execute@T0.8                  breadth       4   8  0.375  1.000  1.000  0.000    14.0
+  p1     plan_execute@T0.8                  breadth       5   8  0.375  1.000  1.000  0.000    14.0
+  p1     plan_execute@T0.8                  breadth       6   8  0.250  1.000  1.000  0.000    14.0
+  p1     plan_execute@T0.8                  novel         2   8  0.000  1.000  1.000  0.000    20.0
+  p1     plan_execute@T0.8                  novel         3   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0.8                  novel         4   8  0.000  0.875  0.875  0.000    29.0
+  p1     plan_execute@T0.8                  novel         5   8  0.000  1.000  1.000  0.000    27.8
+  p1     plan_execute@T0.8                  novel         6   8  0.000  1.000  1.000  0.000    27.8
+  p1     plan_execute@T0.8                  sequential    1   8  1.000  1.000  1.000  1.000    12.0
+  p1     plan_execute@T0.8                  sequential    2   8  0.625  1.000  1.000  0.625    20.0
+  p1     plan_execute@T0.8                  sequential    3   8  0.750  1.000  1.000  0.750    28.0
+  p1     plan_execute@T0.8                  sequential    4   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0.8                  sequential    5   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0.8                  sequential    6   8  0.000  1.000  1.000  0.000    29.0
+  p1     plan_execute@T0.8                  sequential    7   8  0.000  1.000  1.000  0.000    28.0
+  p1     plan_execute@T0.8                  sequential    8   8  0.000  1.000  1.000  0.000    28.0
+  p2     oracle_ops@T0                      breadth       1   8  0.750  1.000  0.750  0.750    13.0
+  p2     oracle_ops@T0                      breadth       2   8  0.625  1.000  0.625  0.625    14.0
+  p2     oracle_ops@T0                      breadth       3   8  0.500  1.000  0.500  0.500    15.0
+  p2     oracle_ops@T0                      breadth       4   8  0.000  1.000  0.000  0.000    15.0
+  p2     oracle_ops@T0                      breadth       5   8  0.000  1.000  0.000  0.000    15.0
+  p2     oracle_ops@T0                      breadth       6   8  0.000  1.000  0.000  0.000    15.0
+  p2     oracle_ops@T0                      novel         2   8  0.000  1.000  1.000  0.000    22.0
+  p2     oracle_ops@T0                      novel         3   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0                      novel         4   8  0.000  1.000  1.000  0.000    30.8
+  p2     oracle_ops@T0                      novel         5   8  0.000  1.000  1.000  0.000    30.9
+  p2     oracle_ops@T0                      novel         6   8  0.000  1.000  1.000  0.000    30.8
+  p2     oracle_ops@T0                      sequential    1   8  1.000  1.000  1.000  1.000    13.0
+  p2     oracle_ops@T0                      sequential    2   8  0.750  1.000  1.000  0.750    22.0
+  p2     oracle_ops@T0                      sequential    3   8  0.750  1.000  1.000  0.750    31.0
+  p2     oracle_ops@T0                      sequential    4   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0                      sequential    5   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0                      sequential    6   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0                      sequential    7   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0                      sequential    8   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0.8                    breadth       1   8  0.625  1.000  0.625  0.625    13.0
+  p2     oracle_ops@T0.8                    breadth       2   8  0.375  1.000  0.375  0.375    14.0
+  p2     oracle_ops@T0.8                    breadth       3   8  0.375  1.000  0.375  0.375    15.0
+  p2     oracle_ops@T0.8                    breadth       4   8  0.000  1.000  0.000  0.000    15.0
+  p2     oracle_ops@T0.8                    breadth       5   8  0.000  1.000  0.000  0.000    15.0
+  p2     oracle_ops@T0.8                    breadth       6   8  0.000  1.000  0.000  0.000    15.0
+  p2     oracle_ops@T0.8                    novel         2   8  0.000  1.000  1.000  0.000    22.0
+  p2     oracle_ops@T0.8                    novel         3   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0.8                    novel         4   8  0.000  1.000  1.000  0.000    30.8
+  p2     oracle_ops@T0.8                    novel         5   8  0.000  1.000  1.000  0.000    30.9
+  p2     oracle_ops@T0.8                    novel         6   8  0.000  1.000  1.000  0.000    30.8
+  p2     oracle_ops@T0.8                    sequential    1   8  1.000  1.000  1.000  1.000    13.0
+  p2     oracle_ops@T0.8                    sequential    2   8  0.750  1.000  1.000  0.625    22.0
+  p2     oracle_ops@T0.8                    sequential    3   8  0.750  1.000  1.000  0.750    31.0
+  p2     oracle_ops@T0.8                    sequential    4   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0.8                    sequential    5   8  0.000  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0.8                    sequential    6   8  0.125  1.000  0.875  0.000    31.0
+  p2     oracle_ops@T0.8                    sequential    7   8  0.125  1.000  1.000  0.000    31.0
+  p2     oracle_ops@T0.8                    sequential    8   8  0.000  1.000  0.875  0.000    31.0
+  p2     oracle_plan@T0                     breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p2     oracle_plan@T0                     breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p2     oracle_plan@T0                     breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p2     oracle_plan@T0                     novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0                     sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p2     oracle_plan@T0.8                   breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p2     oracle_plan@T0.8                   breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p2     oracle_plan@T0.8                   novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p2     oracle_plan@T0.8                   sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p2     plan_execute@T0                    breadth       1   8  0.750  1.000  0.750  0.750    13.0
+  p2     plan_execute@T0                    breadth       2   8  0.625  1.000  0.625  0.625    14.0
+  p2     plan_execute@T0                    breadth       3   8  0.500  1.000  0.500  0.500    15.0
+  p2     plan_execute@T0                    breadth       4   8  0.125  1.000  0.750  0.000    15.0
+  p2     plan_execute@T0                    breadth       5   8  0.250  1.000  0.500  0.000    15.0
+  p2     plan_execute@T0                    breadth       6   8  0.125  1.000  0.375  0.000    15.0
+  p2     plan_execute@T0                    novel         2   8  0.000  1.000  1.000  0.000    22.0
+  p2     plan_execute@T0                    novel         3   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0                    novel         4   8  0.000  1.000  1.000  0.000    30.8
+  p2     plan_execute@T0                    novel         5   8  0.000  1.000  1.000  0.000    30.9
+  p2     plan_execute@T0                    novel         6   8  0.000  1.000  1.000  0.000    30.8
+  p2     plan_execute@T0                    sequential    1   8  1.000  1.000  1.000  1.000    13.0
+  p2     plan_execute@T0                    sequential    2   8  0.750  1.000  1.000  0.750    22.0
+  p2     plan_execute@T0                    sequential    3   8  0.750  1.000  1.000  0.750    31.0
+  p2     plan_execute@T0                    sequential    4   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0                    sequential    5   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0                    sequential    6   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0                    sequential    7   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0                    sequential    8   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0.8                  breadth       1   8  0.625  1.000  0.625  0.625    13.0
+  p2     plan_execute@T0.8                  breadth       2   8  0.375  1.000  0.375  0.375    14.0
+  p2     plan_execute@T0.8                  breadth       3   8  0.375  1.000  0.375  0.375    15.0
+  p2     plan_execute@T0.8                  breadth       4   8  0.250  1.000  0.625  0.000    15.0
+  p2     plan_execute@T0.8                  breadth       5   8  0.250  1.000  0.375  0.000    15.0
+  p2     plan_execute@T0.8                  breadth       6   8  0.125  1.000  0.500  0.000    15.0
+  p2     plan_execute@T0.8                  novel         2   8  0.000  1.000  1.000  0.000    22.0
+  p2     plan_execute@T0.8                  novel         3   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0.8                  novel         4   8  0.000  1.000  1.000  0.000    30.8
+  p2     plan_execute@T0.8                  novel         5   8  0.000  1.000  1.000  0.000    30.9
+  p2     plan_execute@T0.8                  novel         6   8  0.000  1.000  1.000  0.000    30.8
+  p2     plan_execute@T0.8                  sequential    1   8  1.000  1.000  1.000  1.000    13.0
+  p2     plan_execute@T0.8                  sequential    2   8  0.750  1.000  1.000  0.625    22.0
+  p2     plan_execute@T0.8                  sequential    3   8  0.750  1.000  1.000  0.750    31.0
+  p2     plan_execute@T0.8                  sequential    4   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0.8                  sequential    5   8  0.000  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0.8                  sequential    6   8  0.125  1.000  0.875  0.000    31.0
+  p2     plan_execute@T0.8                  sequential    7   8  0.125  1.000  1.000  0.000    31.0
+  p2     plan_execute@T0.8                  sequential    8   8  0.000  1.000  0.875  0.000    31.0
+  p2s    oracle_ops@T0                      breadth       1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    oracle_ops@T0                      breadth       2   8  0.750  1.000  1.000  0.750    97.0
+  p2s    oracle_ops@T0                      breadth       3   8  1.000  1.000  1.000  1.000    97.0
+  p2s    oracle_ops@T0                      breadth       4   8  0.000  0.000  0.000  0.000    97.0
+  p2s    oracle_ops@T0                      breadth       5   8  0.000  0.000  0.000  0.000    97.0
+  p2s    oracle_ops@T0                      breadth       6   8  0.000  0.000  0.000  0.000    97.0
+  p2s    oracle_ops@T0                      novel         2   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      novel         3   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      novel         4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      novel         5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      novel         6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      sequential    1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    oracle_ops@T0                      sequential    2   8  0.375  1.000  1.000  0.375    97.0
+  p2s    oracle_ops@T0                      sequential    3   8  0.500  1.000  1.000  0.500    97.0
+  p2s    oracle_ops@T0                      sequential    4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      sequential    5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      sequential    6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      sequential    7   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0                      sequential    8   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    breadth       1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    oracle_ops@T0.8                    breadth       2   8  0.750  1.000  1.000  0.750    97.0
+  p2s    oracle_ops@T0.8                    breadth       3   8  0.750  1.000  1.000  0.750    97.0
+  p2s    oracle_ops@T0.8                    breadth       4   8  0.000  0.000  0.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    breadth       5   8  0.000  0.000  0.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    breadth       6   8  0.000  0.000  0.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    novel         2   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    novel         3   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    novel         4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    novel         5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    novel         6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    sequential    1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    oracle_ops@T0.8                    sequential    2   8  0.375  1.000  1.000  0.250    97.0
+  p2s    oracle_ops@T0.8                    sequential    3   8  0.375  1.000  1.000  0.375    97.0
+  p2s    oracle_ops@T0.8                    sequential    4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    sequential    5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    sequential    6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    sequential    7   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_ops@T0.8                    sequential    8   8  0.000  1.000  1.000  0.000    97.0
+  p2s    oracle_plan@T0                     breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p2s    oracle_plan@T0                     breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p2s    oracle_plan@T0                     breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p2s    oracle_plan@T0                     novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0                     sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p2s    oracle_plan@T0.8                   sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p2s    plan_execute@T0                    breadth       1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    plan_execute@T0                    breadth       2   8  0.750  1.000  1.000  0.750    97.0
+  p2s    plan_execute@T0                    breadth       3   8  1.000  1.000  1.000  1.000    97.0
+  p2s    plan_execute@T0                    breadth       4   8  0.250  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    breadth       5   8  0.250  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    breadth       6   8  0.375  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    novel         2   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    novel         3   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    novel         4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    novel         5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    novel         6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    sequential    1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    plan_execute@T0                    sequential    2   8  0.375  1.000  1.000  0.375    97.0
+  p2s    plan_execute@T0                    sequential    3   8  0.500  1.000  1.000  0.500    97.0
+  p2s    plan_execute@T0                    sequential    4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    sequential    5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    sequential    6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    sequential    7   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0                    sequential    8   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  breadth       1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    plan_execute@T0.8                  breadth       2   8  0.750  1.000  1.000  0.750    97.0
+  p2s    plan_execute@T0.8                  breadth       3   8  0.750  1.000  1.000  0.750    97.0
+  p2s    plan_execute@T0.8                  breadth       4   8  0.375  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  breadth       5   8  0.375  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  breadth       6   8  0.500  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  novel         2   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  novel         3   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  novel         4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  novel         5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  novel         6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  sequential    1   8  1.000  1.000  1.000  1.000    97.0
+  p2s    plan_execute@T0.8                  sequential    2   8  0.375  1.000  1.000  0.250    97.0
+  p2s    plan_execute@T0.8                  sequential    3   8  0.375  1.000  1.000  0.375    97.0
+  p2s    plan_execute@T0.8                  sequential    4   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  sequential    5   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  sequential    6   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  sequential    7   8  0.000  1.000  1.000  0.000    97.0
+  p2s    plan_execute@T0.8                  sequential    8   8  0.000  1.000  1.000  0.000    97.0
+  p3     oracle_ops@T0.8@it1                breadth       1   8  0.125  0.500  0.500  0.125     1.0
+  p3     oracle_ops@T0.8@it1                breadth       2   8  0.125  0.750  0.750  0.125     1.0
+  p3     oracle_ops@T0.8@it1                breadth       3   8  0.125  0.750  0.750  0.125     1.0
+  p3     oracle_ops@T0.8@it1                breadth       4   8  0.000  0.000  0.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                breadth       5   8  0.000  0.000  0.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                breadth       6   8  0.000  0.000  0.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                novel         2   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                novel         3   8  0.125  0.875  0.875  0.125     1.0
+  p3     oracle_ops@T0.8@it1                novel         4   8  0.000  0.875  0.875  0.000     1.0
+  p3     oracle_ops@T0.8@it1                novel         5   8  0.000  0.250  0.250  0.000     1.0
+  p3     oracle_ops@T0.8@it1                novel         6   8  0.000  0.625  0.625  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    1   8  1.000  1.000  1.000  1.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    2   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    5   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    7   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it1                sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0.8@it4                breadth       1   8  0.125  0.500  0.500  0.125     4.0
+  p3     oracle_ops@T0.8@it4                breadth       2   8  0.000  0.625  0.625  0.000     4.0
+  p3     oracle_ops@T0.8@it4                breadth       3   8  0.250  0.875  0.875  0.250     4.0
+  p3     oracle_ops@T0.8@it4                breadth       4   8  0.000  0.000  0.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                breadth       5   8  0.000  0.000  0.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                breadth       6   8  0.000  0.000  0.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                novel         4   8  0.125  0.750  0.750  0.000     4.0
+  p3     oracle_ops@T0.8@it4                novel         5   8  0.000  0.250  0.250  0.000     4.0
+  p3     oracle_ops@T0.8@it4                novel         6   8  0.000  0.625  0.625  0.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    1   8  1.000  1.000  1.000  1.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    2   8  0.125  1.000  1.000  0.125     4.0
+  p3     oracle_ops@T0.8@it4                sequential    3   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0.8@it4                sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it1                  breadth       1   8  0.375  0.750  0.750  0.375     1.0
+  p3     oracle_ops@T0@it1                  breadth       2   8  0.250  0.750  0.750  0.250     1.0
+  p3     oracle_ops@T0@it1                  breadth       3   8  0.250  0.875  0.875  0.250     1.0
+  p3     oracle_ops@T0@it1                  breadth       4   8  0.000  0.000  0.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  breadth       5   8  0.000  0.000  0.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  breadth       6   8  0.000  0.000  0.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  novel         2   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  novel         3   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  novel         4   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  novel         5   8  0.000  0.125  0.125  0.000     1.0
+  p3     oracle_ops@T0@it1                  novel         6   8  0.000  0.250  0.250  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    1   8  1.000  1.000  1.000  1.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    2   8  0.125  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    5   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    7   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it1                  sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p3     oracle_ops@T0@it4                  breadth       1   8  0.375  0.750  0.750  0.375     4.0
+  p3     oracle_ops@T0@it4                  breadth       2   8  0.250  0.750  0.750  0.250     4.0
+  p3     oracle_ops@T0@it4                  breadth       3   8  0.125  0.750  0.750  0.125     4.0
+  p3     oracle_ops@T0@it4                  breadth       4   8  0.000  0.000  0.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  breadth       5   8  0.000  0.000  0.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  breadth       6   8  0.000  0.000  0.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  novel         4   8  0.125  0.500  0.500  0.000     4.0
+  p3     oracle_ops@T0@it4                  novel         5   8  0.000  0.125  0.125  0.000     4.0
+  p3     oracle_ops@T0@it4                  novel         6   8  0.000  0.250  0.250  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    1   8  1.000  1.000  1.000  1.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    2   8  0.125  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    3   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_ops@T0@it4                  sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p3     oracle_plan@T0.8@it1               breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it1               sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0.8@it4               sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it1                 sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p3     oracle_plan@T0@it4                 sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p3     plan_execute@T0.8@it1              breadth       1   8  0.125  0.500  0.500  0.125     1.0
+  p3     plan_execute@T0.8@it1              breadth       2   8  0.125  0.750  0.750  0.125     1.0
+  p3     plan_execute@T0.8@it1              breadth       3   8  0.125  0.750  0.750  0.125     1.0
+  p3     plan_execute@T0.8@it1              breadth       4   8  0.000  0.875  0.875  0.000     1.0
+  p3     plan_execute@T0.8@it1              breadth       5   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              breadth       6   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              novel         2   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              novel         3   8  0.125  0.875  0.875  0.125     1.0
+  p3     plan_execute@T0.8@it1              novel         4   8  0.000  0.875  0.875  0.000     1.0
+  p3     plan_execute@T0.8@it1              novel         5   8  0.000  0.250  0.250  0.000     1.0
+  p3     plan_execute@T0.8@it1              novel         6   8  0.000  0.625  0.625  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    1   8  1.000  1.000  1.000  1.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    2   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    5   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    7   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it1              sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0.8@it4              breadth       1   8  0.125  0.500  0.500  0.125     4.0
+  p3     plan_execute@T0.8@it4              breadth       2   8  0.000  0.625  0.625  0.000     4.0
+  p3     plan_execute@T0.8@it4              breadth       3   8  0.250  0.875  0.875  0.250     4.0
+  p3     plan_execute@T0.8@it4              breadth       4   8  0.000  0.625  0.625  0.000     4.0
+  p3     plan_execute@T0.8@it4              breadth       5   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              breadth       6   8  0.000  0.750  0.750  0.000     4.0
+  p3     plan_execute@T0.8@it4              novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              novel         4   8  0.125  0.750  0.750  0.000     4.0
+  p3     plan_execute@T0.8@it4              novel         5   8  0.000  0.250  0.250  0.000     4.0
+  p3     plan_execute@T0.8@it4              novel         6   8  0.000  0.625  0.625  0.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    1   8  1.000  1.000  1.000  1.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    2   8  0.125  1.000  1.000  0.125     4.0
+  p3     plan_execute@T0.8@it4              sequential    3   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0.8@it4              sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it1                breadth       1   8  0.375  0.750  0.750  0.375     1.0
+  p3     plan_execute@T0@it1                breadth       2   8  0.250  0.750  0.750  0.250     1.0
+  p3     plan_execute@T0@it1                breadth       3   8  0.250  0.875  0.875  0.250     1.0
+  p3     plan_execute@T0@it1                breadth       4   8  0.125  0.750  0.750  0.000     1.0
+  p3     plan_execute@T0@it1                breadth       5   8  0.125  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                breadth       6   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                novel         2   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                novel         3   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                novel         4   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                novel         5   8  0.000  0.125  0.125  0.000     1.0
+  p3     plan_execute@T0@it1                novel         6   8  0.000  0.250  0.250  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    1   8  1.000  1.000  1.000  1.000     1.0
+  p3     plan_execute@T0@it1                sequential    2   8  0.125  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    5   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    7   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it1                sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p3     plan_execute@T0@it4                breadth       1   8  0.375  0.750  0.750  0.375     4.0
+  p3     plan_execute@T0@it4                breadth       2   8  0.250  0.750  0.750  0.250     4.0
+  p3     plan_execute@T0@it4                breadth       3   8  0.125  0.750  0.750  0.125     4.0
+  p3     plan_execute@T0@it4                breadth       4   8  0.125  0.750  0.750  0.000     4.0
+  p3     plan_execute@T0@it4                breadth       5   8  0.000  0.875  0.875  0.000     4.0
+  p3     plan_execute@T0@it4                breadth       6   8  0.000  0.875  0.875  0.000     4.0
+  p3     plan_execute@T0@it4                novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                novel         4   8  0.125  0.500  0.500  0.000     4.0
+  p3     plan_execute@T0@it4                novel         5   8  0.000  0.125  0.125  0.000     4.0
+  p3     plan_execute@T0@it4                novel         6   8  0.000  0.250  0.250  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    1   8  1.000  1.000  1.000  1.000     4.0
+  p3     plan_execute@T0@it4                sequential    2   8  0.125  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    3   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p3     plan_execute@T0@it4                sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it1                breadth       1   8  0.000  0.375  0.375  0.000     1.0
+  p4     oracle_ops@T0.8@it1                breadth       2   8  0.000  0.125  0.125  0.000     1.0
+  p4     oracle_ops@T0.8@it1                breadth       3   8  0.000  0.250  0.250  0.000     1.0
+  p4     oracle_ops@T0.8@it1                breadth       4   8  0.000  0.000  0.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                breadth       5   8  0.000  0.000  0.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                breadth       6   8  0.000  0.000  0.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                novel         2   8  0.000  0.875  0.875  0.000     1.0
+  p4     oracle_ops@T0.8@it1                novel         3   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                novel         4   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                novel         5   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                novel         6   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    1   8  0.625  1.000  1.000  0.625     1.0
+  p4     oracle_ops@T0.8@it1                sequential    2   8  0.125  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    5   8  0.125  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    7   8  0.000  0.875  0.875  0.000     1.0
+  p4     oracle_ops@T0.8@it1                sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0.8@it4                breadth       1   8  0.000  0.375  0.375  0.000     4.0
+  p4     oracle_ops@T0.8@it4                breadth       2   8  0.000  0.250  0.250  0.000     4.0
+  p4     oracle_ops@T0.8@it4                breadth       3   8  0.000  0.625  0.625  0.000     4.0
+  p4     oracle_ops@T0.8@it4                breadth       4   8  0.000  0.000  0.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                breadth       5   8  0.000  0.000  0.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                breadth       6   8  0.000  0.000  0.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                novel         4   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                novel         5   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                novel         6   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    1   8  0.625  1.000  1.000  0.625     4.0
+  p4     oracle_ops@T0.8@it4                sequential    2   8  0.125  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    3   8  0.000  0.875  0.875  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0.8@it4                sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it1                  breadth       1   8  0.250  0.750  0.750  0.250     1.0
+  p4     oracle_ops@T0@it1                  breadth       2   8  0.000  0.375  0.375  0.000     1.0
+  p4     oracle_ops@T0@it1                  breadth       3   8  0.125  0.375  0.375  0.125     1.0
+  p4     oracle_ops@T0@it1                  breadth       4   8  0.000  0.000  0.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  breadth       5   8  0.000  0.000  0.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  breadth       6   8  0.000  0.000  0.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  novel         2   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  novel         3   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  novel         4   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  novel         5   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  novel         6   8  0.000  0.875  0.875  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    1   8  0.875  1.000  1.000  0.875     1.0
+  p4     oracle_ops@T0@it1                  sequential    2   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    5   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    7   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it1                  sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p4     oracle_ops@T0@it4                  breadth       1   8  0.250  0.750  0.750  0.250     4.0
+  p4     oracle_ops@T0@it4                  breadth       2   8  0.000  0.500  0.500  0.000     4.0
+  p4     oracle_ops@T0@it4                  breadth       3   8  0.250  0.500  0.500  0.250     4.0
+  p4     oracle_ops@T0@it4                  breadth       4   8  0.000  0.000  0.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  breadth       5   8  0.000  0.000  0.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  breadth       6   8  0.000  0.000  0.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  novel         4   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  novel         5   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  novel         6   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    1   8  0.750  1.000  1.000  0.750     4.0
+  p4     oracle_ops@T0@it4                  sequential    2   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    3   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_ops@T0@it4                  sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p4     oracle_plan@T0.8@it1               breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it1               sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0.8@it4               sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it1                 sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 breadth       1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 breadth       2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 breadth       3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 breadth       4   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 breadth       5   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 breadth       6   8  0.000  1.000  0.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 novel         2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 novel         3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 novel         4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 novel         5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 novel         6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    1   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    2   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    3   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    4   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    5   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    6   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    7   8  1.000  1.000  1.000  1.000     0.0
+  p4     oracle_plan@T0@it4                 sequential    8   8  1.000  1.000  1.000  1.000     0.0
+  p4     plan_execute@T0.8@it1              breadth       1   8  0.000  0.375  0.375  0.000     1.0
+  p4     plan_execute@T0.8@it1              breadth       2   8  0.000  0.125  0.125  0.000     1.0
+  p4     plan_execute@T0.8@it1              breadth       3   8  0.000  0.250  0.250  0.000     1.0
+  p4     plan_execute@T0.8@it1              breadth       4   8  0.000  0.250  0.250  0.000     1.0
+  p4     plan_execute@T0.8@it1              breadth       5   8  0.000  0.250  0.250  0.000     1.0
+  p4     plan_execute@T0.8@it1              breadth       6   8  0.000  0.000  0.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              novel         2   8  0.000  0.875  0.875  0.000     1.0
+  p4     plan_execute@T0.8@it1              novel         3   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              novel         4   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              novel         5   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              novel         6   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    1   8  0.625  1.000  1.000  0.625     1.0
+  p4     plan_execute@T0.8@it1              sequential    2   8  0.125  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    5   8  0.125  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    7   8  0.000  0.875  0.875  0.000     1.0
+  p4     plan_execute@T0.8@it1              sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0.8@it4              breadth       1   8  0.000  0.375  0.375  0.000     4.0
+  p4     plan_execute@T0.8@it4              breadth       2   8  0.000  0.250  0.250  0.000     4.0
+  p4     plan_execute@T0.8@it4              breadth       3   8  0.000  0.625  0.625  0.000     4.0
+  p4     plan_execute@T0.8@it4              breadth       4   8  0.000  0.250  0.250  0.000     4.0
+  p4     plan_execute@T0.8@it4              breadth       5   8  0.000  0.625  0.625  0.000     4.0
+  p4     plan_execute@T0.8@it4              breadth       6   8  0.000  0.250  0.250  0.000     4.0
+  p4     plan_execute@T0.8@it4              novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              novel         4   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              novel         5   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              novel         6   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    1   8  0.625  1.000  1.000  0.625     4.0
+  p4     plan_execute@T0.8@it4              sequential    2   8  0.125  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    3   8  0.000  0.875  0.875  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0.8@it4              sequential    8   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it1                breadth       1   8  0.250  0.750  0.750  0.250     1.0
+  p4     plan_execute@T0@it1                breadth       2   8  0.000  0.375  0.375  0.000     1.0
+  p4     plan_execute@T0@it1                breadth       3   8  0.125  0.375  0.375  0.125     1.0
+  p4     plan_execute@T0@it1                breadth       4   8  0.125  0.625  0.625  0.000     1.0
+  p4     plan_execute@T0@it1                breadth       5   8  0.000  0.500  0.500  0.000     1.0
+  p4     plan_execute@T0@it1                breadth       6   8  0.000  0.375  0.375  0.000     1.0
+  p4     plan_execute@T0@it1                novel         2   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                novel         3   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                novel         4   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                novel         5   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                novel         6   8  0.000  0.875  0.875  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    1   8  0.875  1.000  1.000  0.875     1.0
+  p4     plan_execute@T0@it1                sequential    2   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    3   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    4   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    5   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    6   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    7   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it1                sequential    8   8  0.000  1.000  1.000  0.000     1.0
+  p4     plan_execute@T0@it4                breadth       1   8  0.250  0.750  0.750  0.250     4.0
+  p4     plan_execute@T0@it4                breadth       2   8  0.000  0.500  0.500  0.000     4.0
+  p4     plan_execute@T0@it4                breadth       3   8  0.250  0.500  0.500  0.250     4.0
+  p4     plan_execute@T0@it4                breadth       4   8  0.125  0.750  0.750  0.000     4.0
+  p4     plan_execute@T0@it4                breadth       5   8  0.000  0.500  0.500  0.000     4.0
+  p4     plan_execute@T0@it4                breadth       6   8  0.000  0.375  0.375  0.000     4.0
+  p4     plan_execute@T0@it4                novel         2   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                novel         3   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                novel         4   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                novel         5   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                novel         6   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    1   8  0.750  1.000  1.000  0.750     4.0
+  p4     plan_execute@T0@it4                sequential    2   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    3   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    4   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    5   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    6   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    7   8  0.000  1.000  1.000  0.000     4.0
+  p4     plan_execute@T0@it4                sequential    8   8  0.000  1.000  1.000  0.000     4.0
+
+compute per plan, averaged over every scored cell
+  head   condition                               fwd  decisions  positions
+  p1     oracle_ops@T0                          21.8       20.8       82.7
+  p1     oracle_ops@T0.8                        21.8       20.8       82.7
+  p1     plan_execute@T0                        21.8       20.8       82.7
+  p1     plan_execute@T0.8                      21.8       20.8       82.7
+  p2     oracle_ops@T0                          23.9       22.9      112.1
+  p2     oracle_ops@T0.8                        23.9       22.9      112.1
+  p2     plan_execute@T0                        23.9       22.9      112.1
+  p2     plan_execute@T0.8                      23.9       22.9      112.1
+  p2s    oracle_ops@T0                          97.0       97.0      188.1
+  p2s    oracle_ops@T0.8                        97.0       97.0      188.1
+  p2s    plan_execute@T0                        97.0       97.0      188.1
+  p2s    plan_execute@T0.8                      97.0       97.0      188.1
+  p3     oracle_ops@T0.8@it1                     1.0       97.0      188.1
+  p3     oracle_ops@T0.8@it4                     4.0      388.0      479.1
+  p3     oracle_ops@T0@it1                       1.0       97.0      188.1
+  p3     oracle_ops@T0@it4                       4.0      388.0      479.1
+  p3     plan_execute@T0.8@it1                   1.0       97.0      188.1
+  p3     plan_execute@T0.8@it4                   4.0      388.0      479.1
+  p3     plan_execute@T0@it1                     1.0       97.0      188.1
+  p3     plan_execute@T0@it4                     4.0      388.0      479.1
+  p4     oracle_ops@T0.8@it1                     1.0      145.0      236.1
+  p4     oracle_ops@T0.8@it4                     4.0      580.0      671.1
+  p4     oracle_ops@T0@it1                       1.0      145.0      236.1
+  p4     oracle_ops@T0@it4                       4.0      580.0      671.1
+  p4     plan_execute@T0.8@it1                   1.0      145.0      236.1
+  p4     plan_execute@T0.8@it4                   4.0      580.0      671.1
+  p4     plan_execute@T0@it1                     1.0      145.0      236.1
+  p4     plan_execute@T0@it4                     4.0      580.0      671.1
+
+did the head learn anything: sequential depth one, the easiest cell
+inside the training holdout. A head that is 0.000 here has not
+learned to plan at this budget, whatever the harness checks say.
+  p1   best depth-1 accuracy 1.000 at plan_execute@T0 ok
+  p2   best depth-1 accuracy 1.000 at plan_execute@T0 ok
+  p2s  best depth-1 accuracy 1.000 at plan_execute@T0 ok
+  p3   best depth-1 accuracy 1.000 at plan_execute@T0.8@it1 ok
+  p4   best depth-1 accuracy 0.875 at plan_execute@T0@it1 ok
+
+corruption mixture actually drawn during training
+  p2s  declared={"all_mask": 0.25, "random_mask": 0.25, "transpose": 0.1, "wrong_op": 0.15, "truncate": 0.15, "sparse": 0.1}
+       drawn   ={"teacher_forced": 1.0} over 4000 examples
+  p3   declared={"all_mask": 0.25, "random_mask": 0.25, "transpose": 0.1, "wrong_op": 0.15, "truncate": 0.15, "sparse": 0.1}
+       drawn   ={"all_mask": 0.268, "random_mask": 0.241, "sparse": 0.099, "transpose": 0.104, "truncate": 0.14, "wrong_op": 0.148} over 4000 examples
+  p4   declared={"all_mask": 0.22, "random_mask": 0.22, "transpose": 0.09, "wrong_op": 0.13, "truncate": 0.13, "sparse": 0.08, "edge_noise": 0.13}
+       drawn   ={"all_mask": 0.228, "edge_noise": 0.125, "random_mask": 0.226, "sparse": 0.079, "transpose": 0.092, "truncate": 0.119, "wrong_op": 0.131} over 4000 examples
+
+VERDICT: smoke clean
