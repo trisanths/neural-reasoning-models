@@ -15,8 +15,9 @@ property of the training corpus or of the substrate.
 
 ## Status
 
-Method, data and baselines are settled and the first arm is trained. Numbers
-land here as each arm is evaluated.
+All five arms are trained. The 1-frame arm is evaluated and reported below.
+The other four and the base checkpoint are decoding now; their numbers land
+here as they finish.
 
 ## Design
 
@@ -140,6 +141,71 @@ ceiling on the native frame and 0.000 on all 19 others, which is the
 program-shaped version of the hypothesis under test.
 
 Artifact: `~/sweep/res/parsers_gen.json`.
+
+## First arm: one frame, 8,423 examples
+
+Greedy, forced choice, 200 questions per frame and family, chance from each
+item set's own option count.
+
+| group | frames | n | forced | first | chance | none | served |
+|---|---|---|---|---|---|---|---|
+| substitution_rule, seen | 1 | 200 | 1.000 | 1.000 | 0.200 | 0.000 | 1.000 |
+| substitution_rule, held out | 19 | 3800 | 0.468 | 0.468 | 0.200 | 0.180 | 0.980 |
+| exception_rule, seen | 1 | 200 | 1.000 | 1.000 | 0.500 | 0.000 | 1.000 |
+| exception_rule, held out | 19 | 3800 | 0.357 | 0.357 | 0.500 | 0.568 | 0.669 |
+
+On its own frame the arm is at ceiling on both families. On the 19 frames it
+never saw, `substitution_rule` sits at 0.468 against a 0.200 floor and
+`exception_rule` at 0.357 against a 0.500 floor, which is below chance.
+
+The single number hides the shape of it. Bucketed by the eval frame's shape
+distance from the one frame this arm trained on:
+
+| shape distance | frames | n | substitution forced | exception forced |
+|---|---|---|---|---|
+| 0.00, identical | 1 | 200 | 1.000 | 1.000 |
+| 0.00-0.10 | 6 / 3 | 1200 / 600 | 0.919 | 0.815 |
+| 0.10-0.25 | 3 / 5 | 600 / 1000 | 0.347 | 0.403 |
+| 0.25-0.40 | 2 / 4 | 400 / 800 | 0.372 | 0.292 |
+| 0.40-0.55 | 1 / 6 | 200 / 1200 | 0.885 | 0.188 |
+| 0.55+ | 7 / 1 | 1400 / 200 | 0.102 | 0.025 |
+
+Chance is 0.200 for `substitution_rule` and 0.500 for `exception_rule` in
+every row. Frame counts differ between the families because the same 20 eval
+frames sit at different shape distances when the distance is measured on each
+family's own rendered page.
+
+Two things in that table matter more than the averages.
+
+Changing every content word costs almost nothing while the skeleton holds.
+`kitchen__native`, `archive__native` and `depot__native` share the native
+skeleton and share almost no vocabulary with it: lexical distance 0.53 to
+0.65, shape distance 0.03 to 0.04. They score 0.910, 0.935 and 0.965 on
+`substitution_rule` against the native frame's 1.000. Move the skeleton
+instead and the same lexical distance is fatal: `depot__relative` is at
+lexical 0.65 like the others but shape 0.19, and it scores 0.330.
+
+The failure is mostly not a wrong answer. Across the 19 held-out frames
+`exception_rule` names no candidate at all on 0.568 of questions, rising to
+0.94 on `observatory__valuefirst`. `substitution_rule` holds its none-rate
+near zero out to shape 0.27 and then breaks: 1.000 on `abstract__tablepipe`,
+0.575 on `depot__tablecolon`, 0.545 on `abstract__conditional`. The model
+stops answering rather than answering wrongly.
+
+Retrieval and rule reading come apart, and the separation is family-specific.
+On `substitution_rule` the answering page is served on 0.980 of held-out
+questions, so `acc_forced_when_served` tracks `acc_forced` almost exactly and
+the collapse is entirely a reading failure with the page in context. On
+`exception_rule` served drops to 0.669, so part of that family's held-out
+number is the policy failing to retrieve at all.
+
+One frame breaks the monotonicity and should not be smoothed over.
+`assembly__imperative` sits at shape 0.53 and lexical 0.91 from native, and
+scores 0.885 on `substitution_rule` while frames at half that distance score
+0.33. Whatever the metric orders, it does not order everything.
+
+Artifacts: `~/sweep/res/score_arm001-gen-greedy.json`,
+`~/sweep/res/report.json`, dumps under `~/sweep/dumps/arm001-gen-greedy/`.
 
 ## Coverage
 

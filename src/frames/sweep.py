@@ -455,105 +455,200 @@ def cmd_evalset(args) -> int:
 # ----------------------------------------------------------------- report
 
 
+BINS = ((0.001, "0.00 identical"), (0.10, "0.00-0.10"), (0.25, "0.10-0.25"),
+        (0.40, "0.25-0.40"), (0.55, "0.40-0.55"), (9.9, "0.55+"))
+
+
 def _bin(d: float) -> str:
-    if d <= 0.001:
-        return "0.00 (identical)"
-    if d < 0.10:
-        return "0.00-0.10"
-    if d < 0.25:
-        return "0.10-0.25"
-    if d < 0.40:
-        return "0.25-0.40"
-    if d < 0.55:
-        return "0.40-0.55"
-    return "0.55+"
+    for hi, name in BINS:
+        if d <= hi:
+            return name
+    return BINS[-1][1]
+
+
+def _arm_key(label: str) -> str:
+    """Which arm's training frames a label is read against.
+
+    `base` is the RL checkpoint the arms start from. Its own RL run was on
+    src/skillacq's native wording only, so its trained-frame set is the same
+    single frame as arm 1 and it is read at arm 1's distances.
+    """
+    if label == "base":
+        return "1"
+    return str(int(label.replace("arm", "")))
+
+
+def hand_distances(plan: dict, family: str, dist_seed: int) -> dict:
+    """The same metric applied to the hand-written renderers, per arm."""
+    order = plan["frame_order"]
+    sigs = dist.frame_signatures(order, family, dist_seed)
+    for name, r in SIMPLE_RENDERERS.items():
+        sigs[name] = dist.signature(r, family, dist_seed)
+    out = {}
+    for n in plan["arm_sizes"]:
+        trained = order[:n]
+        out[str(n)] = {
+            name: {
+                "shape_min": round(min(dist.shape_distance(
+                    sigs[t]["skeleton"], sigs[name]["skeleton"])
+                    for t in trained), 4),
+                "lex_min": round(min(dist.lex_distance(
+                    set(sigs[t]["words"]), set(sigs[name]["words"]))
+                    for t in trained), 4),
+                # `native` is the hand-written renderer the generator's native
+                # frame reproduces word for word, so it counts as seen.
+                "seen": name == "native",
+            }
+            for name in SIMPLE_RENDERERS}
+    return out
+
+
+def _weighted(sel, key):
+    tot = sum(r["n"] for r in sel)
+    return sum(r[key] * r["n"] for r in sel) / tot if tot else float("nan")
+
+
+def _group(sel, sc):
+    cells = [(r["acc_forced"], r["chance_cand"]) for r in sel]
+    return {**sc.macro_both_orders(cells), "frames": len(sel),
+            "n_questions": sum(r["n"] for r in sel),
+            "acc_first": _weighted(sel, "acc_first"),
+            "hedge_rate": _weighted(sel, "hedge_rate"),
+            "none_rate": _weighted(sel, "none_rate"),
+            "served_rate": _weighted(sel, "served_rate"),
+            "shape_min_mean": _weighted(sel, "shape_min"),
+            "lex_min_mean": _weighted(sel, "lex_min")}
 
 
 def cmd_report(args) -> int:
+    import glob as _glob
+
     from src.frames import score as sc
 
     with open(args.plan) as fh:
         plan = json.load(fh)
-    dists = plan["distances"]
+    hand = {fam: hand_distances(plan, fam, args.dist_seed)
+            for fam in TRAIN_FAMILIES}
+    pool = {e["frame"]: e["pool"] for e in plan["eval_frames"]}
     rows = []
-    for spec in args.scores.split(","):
-        arm, kind, path = spec.split(":", 2)
+    sources = {}
+    for path in sorted(_glob.glob(os.path.join(args.res, "score_*.json"))):
+        stem = os.path.basename(path)[len("score_"):-len(".json")]
+        label, kind, temp = stem.split("-")
         with open(path) as fh:
             blob = json.load(fh)
+        sources[stem] = {"path": path,
+                         "mtime": os.path.getmtime(path),
+                         "cells": len(blob["records"])}
+        table = plan["distances"] if kind == "gen" else hand
         for key, s in blob["records"].items():
             frame, family, cond = key.split("|")
-            d = dists.get(family, {}).get(arm, {}).get(frame)
+            d = table.get(family, {}).get(_arm_key(label), {}).get(frame)
+            if d is None:
+                raise SystemExit(f"no distance for {label} {family} {frame}")
+            if s.get("canary_forced") not in (0.0, None):
+                raise SystemExit(f"canary above zero in {path} on {key}")
             rows.append({
-                "arm": arm, "set": kind, "frame": frame, "family": family,
-                "condition": cond, "n": s["n"],
-                "seen": bool(d and d["seen"]),
-                "shape_min": d["shape_min"] if d else None,
-                "lex_min": d["lex_min"] if d else None,
+                "label": label, "arm_key": _arm_key(label), "set": kind,
+                "decode": temp, "frame": frame, "family": family,
+                "pool": pool.get(frame, "handwritten"),
+                "condition": cond, "n": s["n"], "seen": bool(d["seen"]),
+                "shape_min": d["shape_min"], "lex_min": d["lex_min"],
                 "acc_forced": s["acc_forced"], "acc_first": s["acc_first"],
+                "acc_shipped": s["acc_shipped"],
                 "hedge_rate": s["hedge_rate"], "none_rate": s["none_rate"],
                 "chance_cand": s["chance_cand"],
                 "chance_page": s["chance_page"],
                 "served_rate": s["served_rate"],
                 "acc_forced_when_served": s["acc_forced_when_served"],
                 "canary_forced": s.get("canary_forced"),
-            })
-    out = {"cells": rows}
+                "n_candidates_mean": s["n_candidates_mean"]})
+    if not rows:
+        raise SystemExit(f"no score files under {args.res}")
 
-    # seen versus held out, per arm and family, both aggregation orders
+    labels = sorted({r["label"] for r in rows},
+                    key=lambda x: (x != "base", x))
+    fams = sorted({r["family"] for r in rows})
+    decodes = sorted({r["decode"] for r in rows})
+
     agg = {}
-    for arm in sorted({r["arm"] for r in rows}):
-        for fam in sorted({r["family"] for r in rows}):
-            for grp in ("seen", "held_out"):
-                sel = [r for r in rows
-                       if r["arm"] == arm and r["family"] == fam
-                       and r["set"] == "gen"
-                       and (r["seen"] if grp == "seen" else not r["seen"])]
-                if not sel:
-                    continue
-                cells = [(r["acc_forced"], r["chance_cand"]) for r in sel]
-                agg[f"{arm}|{fam}|{grp}"] = {
-                    **sc.macro_both_orders(cells),
-                    "n_questions": sum(r["n"] for r in sel),
-                    "frames": len(sel),
-                    "none_rate": sum(r["none_rate"] * r["n"] for r in sel)
-                    / sum(r["n"] for r in sel),
-                    "hedge_rate": sum(r["hedge_rate"] * r["n"] for r in sel)
-                    / sum(r["n"] for r in sel),
-                    "acc_first": sum(r["acc_first"] * r["n"] for r in sel)
-                    / sum(r["n"] for r in sel),
-                }
-    out["seen_vs_heldout"] = agg
+    for lb in labels:
+        for dc in decodes:
+            for fam in fams:
+                for grp in ("seen", "held_out"):
+                    sel = [r for r in rows if r["label"] == lb
+                           and r["decode"] == dc and r["family"] == fam
+                           and r["set"] == "gen"
+                           and (r["seen"] if grp == "seen" else not r["seen"])]
+                    if sel:
+                        agg[f"{lb}|{dc}|{fam}|{grp}"] = _group(sel, sc)
 
-    # the curve: accuracy against shape distance, per arm and family
+    # The strictest comparison the design allows: the seven frames on the
+    # test and bridge sides that NO arm ever trained on, the same episodes
+    # for every arm, so only the training frame count differs.
+    fixed = {}
+    for lb in labels:
+        for dc in decodes:
+            for fam in fams:
+                sel = [r for r in rows if r["label"] == lb
+                       and r["decode"] == dc and r["family"] == fam
+                       and r["set"] == "gen"
+                       and r["pool"] in ("test", "bridge")]
+                if sel:
+                    fixed[f"{lb}|{dc}|{fam}"] = _group(sel, sc)
+
     curve = defaultdict(lambda: defaultdict(list))
     for r in rows:
-        if r["set"] != "gen" or r["shape_min"] is None:
-            continue
-        curve[f"{r['arm']}|{r['family']}"][_bin(r["shape_min"])].append(r)
-    out["curve"] = {
-        k: {b: {"frames": len(v), "n": sum(x["n"] for x in v),
-                "acc_forced": sum(x["acc_forced"] * x["n"] for x in v)
-                / sum(x["n"] for x in v),
-                "chance": sum(x["chance_cand"] * x["n"] for x in v)
-                / sum(x["n"] for x in v),
-                "none_rate": sum(x["none_rate"] * x["n"] for x in v)
-                / sum(x["n"] for x in v),
-                "served_rate": sum(x["served_rate"] * x["n"] for x in v)
-                / sum(x["n"] for x in v)}
-            for b, v in sorted(bins.items())}
-        for k, bins in sorted(curve.items())}
+        if r["set"] == "gen":
+            curve[f"{r['label']}|{r['decode']}|{r['family']}"][
+                _bin(r["shape_min"])].append(r)
+    curve_out = {k: {b: _group(v, sc) for b, v in
+                     sorted(bins.items(),
+                            key=lambda x: [n for _, n in BINS].index(x[0]))}
+                 for k, bins in sorted(curve.items())}
 
+    handrows = {}
+    for r in rows:
+        if r["set"] == "hand":
+            handrows[f"{r['label']}|{r['decode']}|{r['family']}|"
+                     f"{r['frame']}"] = r
+
+    out = {"cells": rows, "seen_vs_heldout": agg,
+           "never_trained_frames": fixed, "curve": curve_out,
+           "handwritten": handrows, "sources": sources,
+           "note": "families are never pooled; every macro is over frames "
+                   "inside one family, both aggregation orders reported"}
     with open(args.out, "w") as fh:
         json.dump(out, fh, indent=2)
-    print("%-6s %-18s %-9s %6s %7s %7s %7s %7s"
-          % ("arm", "family", "group", "frames", "n", "forced", "chance",
-             "none"))
-    for k in sorted(agg):
-        arm, fam, grp = k.split("|")
+
+    print("seen versus held out, generated frames, forced choice\n")
+    print("%-7s %-7s %-18s %-9s %5s %6s %7s %7s %7s %7s %7s %7s"
+          % ("arm", "decode", "family", "group", "frms", "n", "forced",
+             "first", "chance", "corrA", "none", "served"))
+    for k in sorted(agg, key=lambda x: (x.split("|")[2], x.split("|")[1],
+                                        labels.index(x.split("|")[0]),
+                                        x.split("|")[3])):
+        lb, dc, fam, grp = k.split("|")
         a = agg[k]
-        print("%-6s %-18s %-9s %6d %7d %7.3f %7.3f %7.3f"
-              % (arm, fam, grp, a["frames"], a["n_questions"],
-                 a["macro_accuracy"], a["macro_chance"], a["none_rate"]))
+        print("%-7s %-7s %-18s %-9s %5d %6d %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f"
+              % (lb, dc, fam, grp, a["frames"], a["n_questions"],
+                 a["macro_accuracy"], a["acc_first"], a["macro_chance"],
+                 a["order_A_corrected_macro"], a["none_rate"],
+                 a["served_rate"]))
+    print("\nthe seven frames no arm ever trained on, same episodes "
+          "for every arm\n")
+    print("%-7s %-7s %-18s %5s %6s %7s %7s %7s %7s %7s %7s"
+          % ("arm", "decode", "family", "frms", "n", "forced", "first",
+             "chance", "corrA", "none", "served"))
+    for k in sorted(fixed, key=lambda x: (x.split("|")[2], x.split("|")[1],
+                                          labels.index(x.split("|")[0]))):
+        lb, dc, fam = k.split("|")
+        a = fixed[k]
+        print("%-7s %-7s %-18s %5d %6d %7.3f %7.3f %7.3f %7.3f %7.3f %7.3f"
+              % (lb, dc, fam, a["frames"], a["n_questions"],
+                 a["macro_accuracy"], a["acc_first"], a["macro_chance"],
+                 a["order_A_corrected_macro"], a["none_rate"],
+                 a["served_rate"]))
     print(f"\nwrote {args.out}")
     return 0
 
@@ -611,8 +706,9 @@ def main() -> int:
 
     r = sub.add_parser("report")
     r.add_argument("--plan", required=True)
-    r.add_argument("--scores", required=True,
-                   help="comma list of ARM:SET:PATH")
+    r.add_argument("--res", required=True,
+                   help="directory holding score_LABEL-SET-DECODE.json")
+    r.add_argument("--dist-seed", type=int, default=4242)
     r.add_argument("--out", required=True)
 
     args = ap.parse_args()
