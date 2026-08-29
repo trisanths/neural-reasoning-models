@@ -121,7 +121,7 @@ def norm_terms(text: str) -> list[str]:
 # and a query that separates the documents at all never reaches break_tie.
 # Both serving loops, src/rl/env.py and src/evals/interactive.py, read this
 # setting through the module so one assignment moves both.
-RETRIEVAL_TIE_BREAK = "first"
+RETRIEVAL_TIE_BREAK = "content"
 
 
 def break_tie(query: str, texts: list[str], tied: list[int],
