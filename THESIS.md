@@ -494,3 +494,62 @@ One checkpoint, rlsimple-503-921. Renderers are hand written rather than sampled
 A temperature 0.7 run lost 150 of 250 episodes in one arm to the 384 token prompt
 cap, so the greedy tables above, where all four renderers keep exactly 200
 questions, are the unfiltered ones and should be preferred.
+
+## Correction 3, 2026-08-29: the operator-graph result does not show induction
+
+The eight-check audit commissioned against the oracle_plan flat-to-depth-eight
+result returned two lanes failed and one passed. The failures remove the reading
+the result was being used for.
+
+### The model follows training identity, not the page
+
+On pages whose operand roles were transposed after training, the model followed
+the training identity on 678 of 678 items and the page on 0 of 678. The operator
+it produces reflects what it was trained on rather than what the page states,
+whenever the two disagree. Nothing in this experiment demonstrates induction from
+a page.
+
+### The flat row is a single-wording result
+
+oracle_plan at 1.000 through depth eight holds only under the one trained page
+wording. Under three other wordings it reads 0.087 to 0.207. The flatness in
+depth is real within that wording and does not survive outside it.
+
+### The depth two and depth three cells are coin flips
+
+The checkpoint writes a byte-identical plan for a page stating left to right and
+a page stating right to left, in 750 of 750 pairs. The two arms sum to
+0.480 + 0.533 = 1.013. That is chance across the pair, not partial composition.
+Any reading of 0.480 or 0.500 as "half the compositions succeed" is wrong.
+
+### An internal check that was reported and is dead
+
+The claim that plan_execute equals oracle_ops to three decimals at every depth,
+used to argue that gold operators change nothing and therefore that induction is
+not the sequential bottleneck, does not hold. The two differ in 5 of 26 cells by
+up to 0.420.
+
+### What survived
+
+No packaging channel encodes the plan: page order, rule names, operator
+identifiers, lengths and formatting do not carry it. And the executor under
+oracle_plan invoked a model-induced operator object 8850 of 8850 times and a gold
+one zero times, so the condition is wired as described. The mechanism is honest.
+What it establishes is narrower than what was claimed from it.
+
+### Gold generation held
+
+An independently written prose interpreter reproduced the gold answers with 0
+disagreements in 7800, so the task's answers are not an artifact of the generator
+grading itself.
+
+### Status of dependent claims
+
+Dead: that the model induces operators from unseen pages; that induction works
+and only planning fails; that gold operators change nothing; that depth costs
+nothing once a correct plan exists, stated generally rather than within one
+wording.
+
+Still standing: that emitted plan length saturates exactly at the training
+ceiling and the extrapolation constant is zero, which is measured on emitted
+structure rather than on accuracy and is independent of the induction question.
