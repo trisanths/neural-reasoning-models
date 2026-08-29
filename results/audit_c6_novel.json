@@ -1,0 +1,362 @@
+{
+ "source": "results/audit_leak_novel_s0.json",
+ "induction": {
+  "pages": 600,
+  "pages_parsed": 600,
+  "gold_ops": 899,
+  "induced_ops": 899,
+  "exact_text": 598,
+  "behavioural": 598
+ },
+ "c61_identity": {
+  "n_worlds": 150,
+  "induced_object_ids": 899,
+  "gold_object_ids": 899,
+  "ids_shared_between_tables": 0,
+  "per_cond": {
+   "plan_execute": {
+    "calls": {
+     "induced_object": 1915
+    },
+    "tables": {
+     "table_induced=6_gold=0": 745,
+     "table_induced=5_gold=0": 5
+    }
+   },
+   "oracle_plan": {
+    "calls": {
+     "induced_object": 3000
+    },
+    "tables": {
+     "table_induced=6_gold=0": 745,
+     "table_induced=5_gold=0": 5
+    }
+   },
+   "oracle_ops": {
+    "calls": {
+     "gold_object": 1914
+    },
+    "tables": {
+     "table_induced=0_gold=6": 745,
+     "table_induced=0_gold=5": 5
+    }
+   },
+   "oracle_both": {
+    "calls": {
+     "gold_object": 3000
+    },
+    "tables": {
+     "table_induced=0_gold=6": 745,
+     "table_induced=0_gold=5": 5
+    }
+   }
+  }
+ },
+ "c62_gold_plans": {
+  "2": {
+   "plans": 150,
+   "steps": 300,
+   "operator_steps": 300,
+   "literal_args": 450,
+   "temp_args": 150,
+   "ans_is_temporary": 150
+  },
+  "3": {
+   "plans": 150,
+   "steps": 450,
+   "operator_steps": 450,
+   "literal_args": 600,
+   "temp_args": 300,
+   "ans_is_temporary": 150
+  },
+  "4": {
+   "plans": 150,
+   "steps": 600,
+   "operator_steps": 600,
+   "literal_args": 750,
+   "temp_args": 450,
+   "ans_is_temporary": 150
+  },
+  "5": {
+   "plans": 150,
+   "steps": 750,
+   "operator_steps": 750,
+   "literal_args": 900,
+   "temp_args": 600,
+   "ans_is_temporary": 150
+  },
+  "6": {
+   "plans": 150,
+   "steps": 900,
+   "operator_steps": 900,
+   "literal_args": 1050,
+   "temp_args": 750,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 1
+  }
+ },
+ "c62_intermediate_leak": {
+  "2": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 3
+  },
+  "3": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 10
+  },
+  "4": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 12
+  },
+  "5": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 18
+  },
+  "6": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 29
+  }
+ },
+ "c63_prompts": {
+  "plan_execute": {
+   "generate_calls": 5,
+   "prompts": 750,
+   "sample": "<|world|> opgraph <|doc|> ops >/2 ^/2 decide/1 score/4 wrenyuk/1 zamtez/1 <|q|> plan Evaluate 5 ^ (7 > 6). <|a|>"
+  },
+  "oracle_ops": {
+   "generate_calls": 5,
+   "prompts": 750,
+   "sample": "<|world|> opgraph <|doc|> ops >/2/left ^/2/left decide/1 score/4 wrenyuk/1 zamtez/1 <|q|> plan Evaluate 5 ^ (7 > 6). <|a|>"
+  }
+ },
+ "c64_counterfactuals": {
+  "2": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0067,
+   "empty": 0.0
+  },
+  "3": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "4": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0067,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "5": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "6": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0067,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  }
+ },
+ "c65_reverse_leak": {
+  "2": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   }
+  },
+  "3": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 4,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   }
+  },
+  "4": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 284,
+    "builtin_calls": 0,
+    "step_len_3": 50,
+    "step_len_1": 66,
+    "step_len_2": 34,
+    "CORRECT_with_plan_shorter_than_depth": 2
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 600,
+    "builtin_calls": 0,
+    "step_len_4": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 284,
+    "builtin_calls": 0,
+    "step_len_3": 50,
+    "step_len_1": 66,
+    "step_len_2": 34,
+    "CORRECT_with_plan_shorter_than_depth": 2
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 600,
+    "builtin_calls": 0,
+    "step_len_4": 150
+   }
+  },
+  "5": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 3,
+    "operator_calls": 447,
+    "builtin_calls": 0,
+    "step_len_3": 147,
+    "step_len_2": 3,
+    "CORRECT_with_plan_shorter_than_depth": 3
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 750,
+    "builtin_calls": 0,
+    "step_len_5": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 3,
+    "operator_calls": 445,
+    "builtin_calls": 0,
+    "step_len_3": 145,
+    "step_len_2": 5,
+    "CORRECT_with_plan_shorter_than_depth": 3
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 750,
+    "builtin_calls": 0,
+    "step_len_5": 150
+   }
+  },
+  "6": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 2
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 900,
+    "builtin_calls": 0,
+    "step_len_6": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 2
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 900,
+    "builtin_calls": 0,
+    "step_len_6": 150
+   }
+  }
+ },
+ "assoc": {
+  "2": {
+   "n": 150,
+   "model_matches_gold_assoc": 81,
+   "rate": 0.54,
+   "table": {
+    "gold=left|model=left": 36,
+    "gold=left|model=right": 36,
+    "gold=right|model=left": 33,
+    "gold=right|model=right": 45
+   }
+  },
+  "3": {
+   "n": 150,
+   "model_matches_gold_assoc": 80,
+   "rate": 0.5333,
+   "table": {
+    "gold=left|model=left": 25,
+    "gold=left|model=right": 47,
+    "gold=right|model=left": 23,
+    "gold=right|model=right": 55
+   }
+  }
+ }
+}

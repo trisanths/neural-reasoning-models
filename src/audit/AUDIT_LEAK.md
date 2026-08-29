@@ -114,6 +114,15 @@ Under `oracle_plan` the executor invoked a model-induced operator 5400 times out
 of 5400 and a gold operator zero times. The claim rested on an accuracy
 difference; it is now a direct measurement.
 
+The same instrumentation was run on breadth, 900 worlds and 5398 operator objects
+per table, and on novel, 150 worlds and 899 objects. Zero shared ids in both.
+`oracle_plan` resolved 450 of 450 calls on breadth and 3000 of 3000 on novel to
+induced objects, and `oracle_ops` and `oracle_both` resolved every call to a gold
+object. Across the three kinds that is 8850 `oracle_plan` operator calls, all
+induced, none gold. The handful of executions where the table held five operators
+rather than six, 2 of 900 on breadth and 5 of 750 on novel, are pages induction
+failed on, not contamination.
+
 ### 6b. The gold plan carries no operand values that make induction unnecessary
 
 Across 1200 gold plans at depths 1 to 8, holding 5400 steps:

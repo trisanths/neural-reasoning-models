@@ -1,0 +1,407 @@
+{
+ "source": "results/audit_leak_breadth_s0.json",
+ "induction": {
+  "pages": 3600,
+  "pages_parsed": 3600,
+  "gold_ops": 5398,
+  "induced_ops": 5398,
+  "exact_text": 3146,
+  "behavioural": 3146
+ },
+ "c61_identity": {
+  "n_worlds": 900,
+  "induced_object_ids": 5398,
+  "gold_object_ids": 5398,
+  "ids_shared_between_tables": 0,
+  "per_cond": {
+   "plan_execute": {
+    "calls": {
+     "induced_object": 838
+    },
+    "tables": {
+     "table_induced=6_gold=0": 898,
+     "table_induced=5_gold=0": 2
+    }
+   },
+   "oracle_plan": {
+    "calls": {
+     "induced_object": 450
+    },
+    "tables": {
+     "table_induced=6_gold=0": 898,
+     "table_induced=5_gold=0": 2
+    }
+   },
+   "oracle_ops": {
+    "calls": {
+     "gold_object": 450
+    },
+    "tables": {
+     "table_induced=0_gold=6": 898,
+     "table_induced=0_gold=5": 2
+    }
+   },
+   "oracle_both": {
+    "calls": {
+     "gold_object": 900
+    },
+    "tables": {
+     "table_induced=0_gold=6": 898,
+     "table_induced=0_gold=5": 2
+    }
+   }
+  }
+ },
+ "c62_gold_plans": {
+  "1": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 300,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 76
+  },
+  "2": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 450,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 39
+  },
+  "3": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 600,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 30
+  },
+  "4": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 750,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 24
+  },
+  "5": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 900,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 16
+  },
+  "6": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 1050,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 24
+  }
+ },
+ "c62_intermediate_leak": {
+  "1": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  },
+  "2": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  },
+  "3": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  },
+  "4": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  },
+  "5": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  },
+  "6": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  }
+ },
+ "c63_prompts": {
+  "plan_execute": {
+   "generate_calls": 6,
+   "prompts": 900,
+   "sample": "<|world|> opgraph <|doc|> ops #/2 %/2 braqen/1 decide/1 score/2 zellum/1 <|q|> plan An application has a nakovi value of 40. It is marked zamlum. What is its adjusted value? <|a|>"
+  },
+  "oracle_ops": {
+   "generate_calls": 6,
+   "prompts": 900,
+   "sample": "<|world|> opgraph <|doc|> ops #/2/left %/2/right braqen/1 decide/1 score/2 zellum/1 <|q|> plan An application has a nakovi value of 40. It is marked zamlum. What is its adjusted value? <|a|>"
+  }
+ },
+ "c64_counterfactuals": {
+  "1": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.5067,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "2": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.26,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "3": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.2,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "4": {
+   "as_induced": 0.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "5": {
+   "as_induced": 0.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "6": {
+   "as_induced": 0.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  }
+ },
+ "c65_reverse_leak": {
+  "1": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   }
+  },
+  "2": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   }
+  },
+  "3": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   }
+  },
+  "4": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 63,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150,
+    "CORRECT_with_plan_shorter_than_depth": 63
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 0,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 0,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   }
+  },
+  "5": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 47,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 47,
+    "step_len_1": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 0,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 0,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   }
+  },
+  "6": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 17,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150,
+    "CORRECT_with_plan_shorter_than_depth": 17
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 0,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 0,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "CORRECT_with_plan_shorter_than_depth": 150,
+    "step_len_1": 150
+   }
+  }
+ },
+ "assoc": {
+  "2": {
+   "n": 150,
+   "model_matches_gold_assoc": 0,
+   "rate": 0.0,
+   "table": {
+    "gold=None|model=short": 150
+   }
+  },
+  "3": {
+   "n": 150,
+   "model_matches_gold_assoc": 0,
+   "rate": 0.0,
+   "table": {
+    "gold=None|model=short": 150
+   }
+  }
+ }
+}
