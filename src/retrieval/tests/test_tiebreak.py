@@ -5,9 +5,9 @@ These tests pin the property that makes the gate's choice among them a
 measurement artifact under "first" and not under "content".
 """
 
-from src.rl.env import RetrievalService, break_tie, make_service
+from src.rl.env import make_service
 from src.retrieval.rankdiag import diagnose
-from src.train.retrieval import BM25Index
+from src.train.retrieval import BM25Index, break_tie
 
 PREAMBLE = ("The Wrenzel referral system.\n\nEvery office in the Wrenzel "
             "system routes a request to a desk according to the request's "

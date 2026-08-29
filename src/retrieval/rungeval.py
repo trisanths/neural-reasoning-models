@@ -198,14 +198,14 @@ def main() -> int:
     problems = load_problems(args.episodes)
     if args.limit:
         problems = problems[: args.limit]
-    import src.rl.env as rlenv
+    from src.train import retrieval as retrieval_mod
     if args.tie_break:
-        rlenv.RETRIEVAL_TIE_BREAK = args.tie_break
+        retrieval_mod.RETRIEVAL_TIE_BREAK = args.tie_break
     from src.disc.minrepro import load_policy_parts
     model, tok, device = load_policy_parts(args.checkpoint, args.tokenizer)
 
     report = {"tag": args.tag, "episodes_path": args.episodes,
-              "tie_break": rlenv.RETRIEVAL_TIE_BREAK, "cells": [],
+              "tie_break": retrieval_mod.RETRIEVAL_TIE_BREAK, "cells": [],
               "config": {"samples": args.samples, "seed": args.seed,
                          "temperature": args.temperature,
                          "max_rounds": args.max_rounds,
@@ -221,7 +221,7 @@ def main() -> int:
                               seed=args.seed,
                               max_prompt_tokens=args.max_prompt_tokens)
         cell["episodes_path"] = args.episodes
-        cell["tie_break"] = rlenv.RETRIEVAL_TIE_BREAK
+        cell["tie_break"] = retrieval_mod.RETRIEVAL_TIE_BREAK
         report["cells"].append(cell)
         print(json.dumps(cell), flush=True)
         if rows_fh:
