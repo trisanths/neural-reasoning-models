@@ -281,7 +281,8 @@ It is handed exactly what `direct_all` is handed, the four pages concatenated in
 the retriever's order plus the question string, and nothing else: no gold operator,
 no gold plan, no gold answer, no model. It finds the page that mentions the glyph,
 reads the modulus, reads the associativity, reads the rule, and folds the operands
-in the stated direction. The sixteen regexes cover four rule shapes across four wordings.
+in the stated direction. The sixteen regexes cover four rule shapes across four
+wordings.
 
 Accuracy, 150 items per cell:
 
@@ -297,15 +298,16 @@ On the transposed pages it is 1.000 toward the page and 0.000 toward the trainin
 identity at every depth, on 1095 items, which is the mirror image of the model.
 
 So the parser equals `oracle_plan` at depth eight on the trained wording, 1.000
-against 1.000, and beats it everywhere else: at depth eight by 0.867 on style 2, by 0.833 on
-style 3, by 0.893 on style 4, and by 1.000 on the transposed pages. It also beats `plan_execute` at every
-depth on every family, and `oracle_ops` at every depth from 2 to 8.
+against 1.000, and beats it everywhere else. At depth eight the gap is 0.867 on
+style 2, 0.833 on style 3, 0.893 on style 4, and 1.000 on the transposed pages. It
+also beats `plan_execute` at every depth on every family, and ties or beats
+`oracle_ops` at every depth.
 
 One honest note in the parser's disfavour. With only the trained wording's four
 regexes enabled it scores 1.000 on style 0 and 0.000 on styles 2, 3 and 4, because
 it refuses rather than guessing. The parser is as surface-bound as the model, by
-construction; the difference is that adding a wording costs it four regexes and
-the model cannot add one at all. What the parser establishes is that the pages
+construction; the difference is that adding a wording costs it four regexes.
+What the parser establishes is that the pages
 contain everything the answer needs, mechanically, under every wording, so the
 model's drop is not the task getting harder.
 
@@ -336,9 +338,10 @@ wordings put the trace arm below the arm it was built to beat.
 
 ### Survives
 
-The harness. `oracle_both` is 1.000 on all five families and both control
-families, 150 or 678 items per cell, including on pages whose operators were
-transposed after training. The executor computes what it is told to compute.
+The harness. `oracle_both` is 1.000 at every depth on the trained wording, 150
+per cell, on the transposed pages, 678 in total, and on the renumbered pages, 150
+per cell. Handed the transposed operator, the executor returns the transposed
+truth. It computes what it is told to compute.
 
 `oracle_ops` and `oracle_both` are wording independent, exactly as the design
 says, because the plan prompt carries no page.
