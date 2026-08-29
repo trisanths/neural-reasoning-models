@@ -267,19 +267,35 @@ def hedging_report(records) -> dict:
     Never pooled. Every primitive keeps its own row, because one family
     scoring on the grader is exactly what a pooled mean would hide.
     """
+    # Split by family, never pooled. A primitive whose families differ is
+    # exactly where a pooled mean hides one family scoring on the grader,
+    # so acquisition keeps its two variants apart, abstraction keeps
+    # same-surface apart from transfer, composition keeps its three kinds
+    # apart, and memory keeps its five arms apart.
     by: dict = {}
     for r in records:
         g = r.get("grade") or {}
         if "lenient_correct" not in g:
             continue
-        if str(r.get("variant", "")).startswith("probe"):
+        variant = str(r.get("variant", ""))
+        if variant.startswith("probe"):
             continue
-        by.setdefault(r["primitive"], []).append(g)
+        fam = r["primitive"]
+        if variant and variant != fam:
+            fam = f"{fam}/{variant}"
+        by.setdefault(fam, []).append(g)
     strict_key = {"gap": "detected", "verification": "detected",
                   "acquisition": "source", "intent": "goal"}
     out: dict = {}
     for name, rows in sorted(by.items()):
-        key = strict_key.get(name, "correct")
+        base = name.split("/")[0]
+        key = strict_key.get(base, "correct")
+        # The recorded strict verdict, not the primitive's own headline
+        # field. gap and verification read their two-way field through a
+        # cue list that takes the earliest cue, which is the lenient rule;
+        # using it here would print a lenient number in a column labelled
+        # strict, which is the exact confusion this table exists to end.
+        key = "strict_correct" if all("strict_correct" in g for g in rows) else key
         rows = [g for g in rows if key in g]
         if not rows:
             continue
@@ -290,7 +306,7 @@ def hedging_report(records) -> dict:
         # quoted from the module constant would be wrong wherever it varies.
         chance = sum(g.get("chance", 0.0) for g in rows) / n
         out[name] = {
-            "field": HEADLINE_FIELD.get(name, key), "n": n,
+            "field": HEADLINE_FIELD.get(base, key), "n": n,
             "chance": round(chance, 4),
             "strict": proportion(sum(int(g[key]) for g in rows), n, chance,
                                  f"{name}/strict"),

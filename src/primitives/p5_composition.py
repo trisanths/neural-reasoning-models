@@ -364,7 +364,8 @@ def grade(item: Item, response: str) -> dict:
     v = label_verdict(response, item.gold["labels"], item.gold["answer"])
     return {"parsed": pick is not None,
             "correct": float(pick == item.gold["answer"]),
-            "lenient_correct": v["lenient"], "hedged": v["hedged"],
+            "strict_correct": v["strict"],
+        "lenient_correct": v["lenient"], "hedged": v["hedged"],
             "k": item.meta.get("k", 0),
             "kind": item.meta.get("kind", "probe"),
             "chance": 1.0 / max(2, len(item.gold["labels"]))}

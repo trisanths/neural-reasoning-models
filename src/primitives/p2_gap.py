@@ -252,6 +252,7 @@ def grade(item: Item, response: str) -> dict:
     return {
         "parsed": "STATUS" in f,
         "detected": float(detected),
+        "strict_correct": v["strict"],
         "lenient_correct": v["lenient"], "hedged": v["hedged"],
         "chance": 0.5,
         "false_alarm": float(g["status"] == "SOLVABLE" and status == "BLOCKED"),

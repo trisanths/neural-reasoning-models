@@ -113,10 +113,16 @@ def render_markdown(report: dict) -> str:
         h = rep.get("headline")
         h = (", ".join(f"{k}={v}" for k, v in h.items())
              if isinstance(h, dict) else f"{h:+.3f}")
-        hg = hedge.get(name) or {}
-        ch = f"{hg['chance']:.3f}" if "chance" in hg else "-"
-        hr = (f"{hg['hedge_rate']['acc']:.3f}"
-              if hg.get("hedge_rate") else "not defined")
+        # The headline shows the range across this primitive's families
+        # rather than a mean over them, so a single family scoring on the
+        # grader is visible in the one-line summary too.
+        fam = [v for k, v in hedge.items() if k.split("/")[0] == name]
+        ch = (f"{min(v['chance'] for v in fam):.3f}" if fam else "-")
+        if fam and len({round(v["chance"], 3) for v in fam}) > 1:
+            ch = (f"{min(v['chance'] for v in fam):.3f}-"
+                  f"{max(v['chance'] for v in fam):.3f}")
+        rates = [v["hedge_rate"]["acc"] for v in fam if v.get("hedge_rate")]
+        hr = (f"{max(rates):.3f}" if rates else "not defined")
         fields = fc.get(name) or {}
         fields = {k: v for k, v in fields.items() if not k.startswith("_")}
         if name == "composition" and fc.get("composition_k_star"):
@@ -284,13 +290,15 @@ def render_markdown(report: dict) -> str:
                 f"{r['leniency_gap']:+.3f} | "
                 + (f"{hr['acc']:.3f} [{hr['lo']:.3f}, {hr['hi']:.3f}]"
                    if hr else "not defined") + " |")
-        worst = max(report["hedging"].values(),
-                    key=lambda r: r["leniency_gap"], default=None)
+        worst = max(report["hedging"].items(),
+                    key=lambda kv: kv[1]["leniency_gap"], default=None)
         if worst is not None:
-            out += ["", f"Largest leniency gap: {worst['field']} at "
-                    f"{worst['leniency_gap']:+.3f}. A gap near zero means the "
-                    f"strict rule cost this model nothing, because it was not "
-                    f"hedging in the first place."]
+            out += ["", f"Largest leniency gap: {worst[0]} at "
+                    f"{worst[1]['leniency_gap']:+.3f}. A gap near zero means "
+                    f"the strict rule cost this model nothing, because it was "
+                    f"not hedging in the first place. Rows are per family and "
+                    f"never pooled, since one family scoring on the grader is "
+                    f"what a pooled mean hides."]
 
     if report.get("forced_choice"):
         out += ["", "## Forced choice, the same items scored by preference", "",

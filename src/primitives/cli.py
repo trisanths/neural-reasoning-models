@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from pathlib import Path
 
 from src.primitives import PRIMITIVES
 from src.primitives import report as rep
@@ -121,6 +122,9 @@ def main(argv=None) -> int:
     ap.add_argument("--tokenizer")
     ap.add_argument("--fake", help="blind, oracle, copy, depthN, or a "
                                    "faculty name")
+    ap.add_argument("--rescore", metavar="STEM",
+                    help="recompute the grading blocks from a finished run's "
+                         "records and re-render its report, no model needed")
     ap.add_argument("--calibrate", action="store_true",
                     help="run the stand-in matrix instead of a model")
     ap.add_argument("--out", required=True)
@@ -147,9 +151,28 @@ def main(argv=None) -> int:
     args.ks = [int(x) for x in str(args.ks).split(",") if x.strip()]
     args.primitives = (args.primitives.split(",") if args.primitives else None)
 
+    if args.rescore:
+        # Grading rules change more often than model outputs do, and a
+        # rerun costs a GPU hour to produce the same replies. The records
+        # hold every reply, so a new rule is applied to a finished run
+        # instead of re-earning it. This reaches only as far as the fields
+        # the original grade emitted; a rule needing something the run
+        # never recorded still costs a rerun.
+        base = Path(args.out) / args.rescore
+        report = json.loads((base.with_suffix(".json")).read_text())
+        records = [json.loads(x) for x in
+                   open(str(base) + "_records.jsonl") if x.strip()]
+        report["hedging"] = runner.hedging_report(records)
+        (base.with_suffix(".json")).write_text(
+            json.dumps(report, indent=2, default=str))
+        (base.with_suffix(".md")).write_text(rep.render_markdown(report))
+        print(rep.render_markdown(report))
+        print(f"\nrescored {base}.json and {base}.md from "
+              f"{len(records)} records")
+        return 0
+
     if args.calibrate:
         rows = calibrate(args)
-        from pathlib import Path
 
         out = Path(args.out)
         out.mkdir(parents=True, exist_ok=True)

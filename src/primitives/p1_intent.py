@@ -376,6 +376,7 @@ def grade(item: Item, response: str) -> dict:
 
     if g["form"] == "menu":
         v = label_verdict(got["GOAL"], g["goal_labels"], g["goal"])
+        out["strict_correct"] = v["strict"]
         out["lenient_correct"], out["hedged"] = v["lenient"], v["hedged"]
         out["chance"] = 1.0 / max(2, len(g["goal_labels"]))
         out["goal"] = float(parse_one_label(got["GOAL"], g["goal_labels"]) == g["goal"])
@@ -413,6 +414,7 @@ def grade(item: Item, response: str) -> dict:
         # The free-form grader has no label namespace to hedge across, so
         # the hedge flag is not defined here and is reported as absent
         # rather than as a zero it did not measure.
+        out["strict_correct"] = out["goal"]
         out["lenient_correct"], out["hedged"] = out["goal"], None
         out["chance"] = 0.0
     return out

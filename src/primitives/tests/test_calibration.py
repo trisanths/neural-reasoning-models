@@ -180,11 +180,14 @@ def test_a_hedging_model_is_caught_by_the_strict_rule(key):
     """
     model = fakes.HedgingModel(key, seed=3)
     bundle = runner.run_suite(model, primitives=["memory"], n=8, seed=SEED)
-    h = bundle["report"]["hedging"]["memory"]
-    assert h["strict"]["acc"] == 0.0
-    assert h["lenient"]["acc"] == 1.0
-    assert h["hedge_rate"]["acc"] == 1.0
-    assert h["leniency_gap"] == 1.0
+    fams = {k: v for k, v in bundle["report"]["hedging"].items()
+            if k.startswith("memory")}
+    assert fams, "the hedging block lost the memory rows"
+    for name, h in fams.items():
+        assert h["strict"]["acc"] == 0.0, name
+        assert h["lenient"]["acc"] == 1.0, name
+        assert h["hedge_rate"]["acc"] == 1.0, name
+        assert h["leniency_gap"] == 1.0, name
 
 
 def test_a_silent_model_scores_zero_and_not_chance(key):

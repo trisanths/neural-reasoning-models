@@ -307,6 +307,7 @@ def grade(item: Item, response: str, followup: str | None = None) -> dict:
     out = {
         "parsed": "QUERY" in parse_fields(response),
         "source": float(src == want_tier),
+        "strict_correct": v["strict"],
         "lenient_correct": v["lenient"], "hedged": v["hedged"],
         "chance": 1.0 / len(TIER_NAMES),
         "hit1": float(bool(rank) and rank[0] == want_first),

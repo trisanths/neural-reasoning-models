@@ -54,6 +54,43 @@ Issuing the request verbatim ranks the decoy first, which generation checks
 on every item, and the surviving copy baseline is printed next to the model's
 score.
 
+## Hedging, and the two grading rules
+
+The shared environment grader in `src/rl/env.py` accepts any prediction
+containing the gold answer. A policy that names both candidates is therefore
+graded correct whichever one is right, and on the rule families that is what
+the policy learned: it hedges in 94.3% of its answers, emits byte-identical
+output for items with opposite gold answers, and falls from 0.985 to 0.009
+once naming more than one candidate counts as wrong.
+
+Every single-choice field here is scored under both rules. Strict is the
+headline and counts naming more than one candidate as wrong. Lenient takes
+the first candidate named, which is the rule the environment grader
+approximates. The hedge rate is the share of replies naming more than one,
+and the gap between the two columns says whether a score lives on the
+leniency. A primitive whose strict and lenient columns agree was not hedging;
+one whose lenient column sits far above its strict column is measuring the
+grader.
+
+Writing the strict rule down is not enough, because a grader can have the
+hole without anyone noticing. `p3_acquisition` did: its source parser scanned
+the four tier names in their own list order and returned the first that
+appeared anywhere in the reply, so a reply naming every tier scored correct
+on every item. It now reads the labels in the order they appear and counts
+more than one as wrong.
+
+`fakes.HedgingModel` is the policy the environment grader rewards, answering
+"gold or decoy" on every item, and a calibration test pins it at zero under
+the strict rule, one under the lenient rule, and a hedge rate of one. A
+nonzero strict score there means this suite has grown the same hole.
+
+Chance floors ride on the item rather than being quoted from a module
+constant, because the option count is not the same on every item of every
+primitive, and every accuracy is reported against its own floor with the
+chance-corrected value beside it. Nothing is pooled, across primitives or
+across families within one: a single family scoring on the grader is exactly
+what a pooled mean hides.
+
 ## Two channels, and why both are needed
 
 Producing an answer and preferring the right one are different abilities, and
@@ -154,6 +191,24 @@ zero for format rather than for faculty. Strict field presence is still
 counted and printed as the parse rate, and the report opens with a format
 warning when that rate is low, saying plainly that the profile is a floor
 rather than an estimate.
+
+## Acquisition against the rule-family result
+
+Three relation types never seen in training scored at or below chance under
+balanced scoring, while a fifty-line regex parser scored above 0.98 on the
+identical items. That is a statement about answering, and this suite's
+acquisition primitive does not measure answering: it reads the query the
+model issues and scores whether that query retrieves the needed page under
+the training retriever. The corpus is never in the context and the model's
+own answer is never graded, so a model that cannot apply a rule can still
+write a query that finds the page, and a model that writes a good query can
+still fail to use what comes back.
+
+The two readings are consistent and neither substitutes for the other. What
+would contradict the rule-family finding is a high second-hop score, since
+the hop requires reading the page that was served and applying it. That line
+is reported apart from the acquisition headline and flagged as contaminated
+by reading ability, for exactly this reason.
 
 ## Known limits
 

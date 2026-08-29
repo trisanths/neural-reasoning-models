@@ -216,7 +216,8 @@ def grade(item: Item, response: str) -> dict:
     v = label_verdict(response, g["labels"], g["answer"])
     return {"parsed": pick is not None,
             "correct": float(pick == g["answer"]),
-            "lenient_correct": v["lenient"], "hedged": v["hedged"],
+            "strict_correct": v["strict"],
+        "lenient_correct": v["lenient"], "hedged": v["hedged"],
             "chance": 1.0 / max(2, len(g["labels"])),
             "intrusion": float(g["intrusion"] is not None
                                and pick == g["intrusion"]
