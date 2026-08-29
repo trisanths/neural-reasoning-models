@@ -79,7 +79,11 @@ def summarize(rows: list[dict], vocab: set[str],
     hit_own = hit_twin = 0
     ch_cand = ch_page = 0.0
     any_twin = False
+    n_served = n_forced_served = n_retrieved = 0
     for r in rows:
+        n_retrieved += int(bool(r.get("chunks")))
+        served = bool(r.get("served"))
+        n_served += int(served)
         own = list(r["candidates"] or [])
         twin = list(r.get("twin_candidates") or [])
         any_twin = any_twin or bool(twin)
@@ -93,6 +97,7 @@ def summarize(rows: list[dict], vocab: set[str],
             hedge += 1
         if len(hits) == 1 and hits[0] == gold:
             forced += 1
+            n_forced_served += int(served)
         if hits and hits[0] == gold:
             first += 1
         ownl = {c.lower() for c in own}
@@ -116,6 +121,15 @@ def summarize(rows: list[dict], vocab: set[str],
         "chance_cand": ch_cand / n,
         "chance_page": ch_page / n,
         "n_candidates_mean": sum(len(r["candidates"] or []) for r in rows) / n,
+        # Retrieval separated from rule reading. `served_rate` is the share of
+        # rollouts where a page carrying the gold came back. `acc_forced_when
+        # _served` is forced choice among only those, which is the accuracy
+        # with the answering page demonstrably in context.
+        "retrieved_rate": n_retrieved / n,
+        "served_rate": n_served / n,
+        "n_served": n_served,
+        "acc_forced_when_served": (n_forced_served / n_served
+                                   if n_served else float("nan")),
     }
     if any_twin:
         out["named_own"] = hit_own / n
@@ -168,13 +182,15 @@ def macro_both_orders(cells: list[tuple[float, float]]) -> dict:
     }
 
 
-HEADER = ("%-28s %-18s %5s %8s %7s %7s %6s %6s %7s %7s"
+HEADER = ("%-22s %-18s %5s %7s %7s %7s %6s %6s %7s %7s %6s %7s"
           % ("frame", "family", "n", "shipped", "forced", "first", "hedge",
-             "none", "chance", "chncPg"))
+             "none", "chance", "chncPg", "served", "frcdSv"))
 
 
 def row_line(frame: str, family: str, s: dict) -> str:
-    return ("%-28s %-18s %5d %8.3f %7.3f %7.3f %6.3f %6.3f %7.3f %7.3f"
+    return ("%-22s %-18s %5d %7.3f %7.3f %7.3f %6.3f %6.3f %7.3f %7.3f "
+            "%6.3f %7.3f"
             % (frame, family, s["n"], s["acc_shipped"], s["acc_forced"],
                s["acc_first"], s["hedge_rate"], s["none_rate"],
-               s["chance_cand"], s["chance_page"]))
+               s["chance_cand"], s["chance_page"], s["served_rate"],
+               s["acc_forced_when_served"]))

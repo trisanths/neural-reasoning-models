@@ -420,11 +420,25 @@ def cmd_score(args) -> int:
         manifest = json.load(fh)
     by_base = {os.path.basename(m["path"])[:-6]: m for m in manifest}
     cells: dict[tuple, list[dict]] = defaultdict(list)
+    mtimes = {}
     for p in sorted(glob.glob(os.path.join(args.dump_dir, "*.rolls.jsonl"))):
         base = os.path.basename(p)[: -len(".rolls.jsonl")]
         m = by_base.get(base)
         if m is None:
             raise SystemExit(f"dump {p} has no manifest entry")
+        # A dump older than the episode file it claims to come from belongs
+        # to an earlier generation of that file. Scoring it silently mixes
+        # two runs and the result looks entirely normal, so refuse rather
+        # than warn. A crashed run leaving its predecessor's records in
+        # place has already caused this on the project once.
+        ep_m = os.path.getmtime(m["path"])
+        dp_m = os.path.getmtime(p)
+        if dp_m < ep_m - 60:
+            raise SystemExit(
+                f"refusing: {os.path.basename(p)} is older than the episode "
+                f"file it came from, so it belongs to an earlier run. "
+                f"Delete it and re-evaluate.")
+        mtimes[base] = {"episodes": ep_m, "dump": dp_m}
         with open(p) as fh:
             for line in fh:
                 cells[(m["frame"], m["family"], m["condition"])].append(
@@ -455,6 +469,9 @@ def cmd_score(args) -> int:
                     for k in sorted(cells) if k[1] == fam]
         macro[fam] = sc.macro_both_orders(cellvals)
     out = {"records": records, "macro_by_family": macro,
+           "freshness": {"n_dumps": len(mtimes), "mtimes": mtimes,
+                         "rule": "every dump must be at least as new as the "
+                                 "episode file it came from"},
            "note": "families are never pooled; macro is over frames within "
                    "one family"}
     with open(args.out, "w") as fh:

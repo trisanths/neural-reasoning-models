@@ -88,6 +88,9 @@ def run_parsers(episodes: list[dict], family: str, frame_name: str,
                 "candidates": ep["candidates"],
                 "twin_candidates": ep.get("twin_candidates", []),
                 "chunks": [d["text"] for d in ep["documents"]],
+                # A parser reads the store directly, so the answering page is
+                # served by construction.
+                "served": True,
                 "answer_frame_aware": parse_answer(frame, s, family, key,
                                                    pages),
                 "answer_native_tuned": parse_answer(native, s, family, key,
