@@ -82,3 +82,52 @@ both candidates never satisfies a forced choice.
 
 Retrieval is healthy everywhere in the gate: one round on essentially every
 rollout, well-formed queries on 0.95 to 1.00, and no degenerate queries.
+
+## What a hand-written program gets off the same pages
+
+`scripts/mg_trivial_baseline.py` reads the same episodes files the policy is
+served, finds the tables page among the documents, rebuilds the algebra from
+the printed grid, and answers. It touches no model. Two tiers:
+
+    parser   the question is parsed as well. The prompt is scanned for one
+             expression over the printed element names and glyphs; prompts that
+             bind a variable or write no expression are declined. Nothing is
+             read from the answer key except the gold used to score.
+    recipe   the structured recipe is taken from the answer key, so this tier
+             answers every question kind. It bounds what a program reading only
+             the chunks can do with the question already parsed.
+
+25 universes, 1111 exercises, 593 `stated_in_a_chapter` and 518
+`derived_by_computation`. The parser found the tables page in all 25 own
+libraries and all 25 sibling libraries, and in none of the blank ones.
+Rollouts are `~/mg3/roll_trivial.jsonl`, scored into `~/mg3/strict_trivial.json`.
+
+| condition | tier | answer_source | n | attempted | correct | floor | shipped | forced | acc on attempted |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| own | recipe | stated_in_a_chapter | 593 | 593 | 593 | 0.141 | 1.000 | 1.000 | 1.000 |
+| own | recipe | derived_by_computation | 518 | 518 | 518 | 0.154 | 1.000 | 1.000 | 1.000 |
+| own | parser | stated_in_a_chapter | 593 | 0 | 0 | 0.141 | 0.000 | 0.000 | n/a |
+| own | parser | derived_by_computation | 518 | 157 | 151 | 0.154 | 0.292 | 0.292 | 0.962 |
+| sibling | recipe | stated_in_a_chapter | 593 | 529 | 113 | 0.141 | 0.191 | 0.103 | 0.214 |
+| sibling | recipe | derived_by_computation | 518 | 479 | 60 | 0.154 | 0.116 | 0.097 | 0.125 |
+| sibling | parser | derived_by_computation | 518 | 157 | 19 | 0.154 | 0.037 | 0.037 | 0.121 |
+| blank | either | either | 1111 | 0 | 0 | 0.141/0.154 | 0.000 | 0.000 | n/a |
+
+The recipe tier is 1.000 on both families. Every one of these 1111 exercises is
+fully determined by the text on the pages the policy is served, and a program
+of a few hundred lines recovers all of it from the printed grid. Whatever a low
+policy score means here, it does not mean the questions are unanswerable from
+the evidence.
+
+The parser tier fixes the other end. It declines every `stated_in_a_chapter`
+item, because those prompts name an invented definition rather than write an
+expression, and it declines the derived items that bind a variable. On the 157
+derived items it does attempt it is 0.962. So the expression-shaped part of the
+benchmark falls to a regex over the table, and the rest needs the definitions
+chapter read.
+
+The sibling column is the coincidence rate for these items, measured rather
+than assumed. A rival system wearing the same names answers 0.191 of the
+`stated` items and 0.116 of the `derived` ones the same way, 0.103 and 0.097
+under the forced grader. Anything a policy scores on sibling pages has to clear
+that, not zero.
