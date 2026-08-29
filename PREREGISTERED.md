@@ -455,3 +455,74 @@ model's answer, train a tiny operator to imitate the transformation the large
 model performs on a reasoning state, then shrink that operator until the
 transformation stops being reproducible. The size at which it stops is a direct
 measurement of the irreducible substrate this project is trying to find.
+
+## H12, the training ceiling hypothesis, registered 2026-08-29 before running
+
+Reading the emitted plans rather than only scoring answers moves the failure well
+past composition.
+
+Step count tracks the question up to three and then saturates, so a depth-eight
+question receives a three-step plan. Novel composition fails at depth two, where
+length is not the constraint, by writing the first operator symbol twice where the
+gold plan names two distinct symbols. Operands, ordering and register wiring are
+correct in both cases.
+
+Training never showed a plan longer than three steps and never showed a plan using
+two distinct operator symbols. Those are exactly the two observed ceilings.
+
+H12 states the composition cliff is a plan-length and symbol-count generalisation
+failure rather than a reasoning failure. The model composes correctly up to the
+largest structure its training distribution contained, and cannot emit a structure
+it never saw.
+
+### Why this competes with H10 and is simpler
+
+H10 attributed the roughly three-step wall to irreversible autoregressive
+commitment. H12 attributes it to the training maximum being three. Both predict a
+wall near three on the current checkpoint, so the existing data cannot separate
+them.
+
+H12 additionally explains, with no extra assumptions, why direct and trace die at
+the same depth despite different channels, since both were trained on the same
+plan lengths; why oracle_plan runs flat to depth eight, since a supplied plan
+requires no length generalisation from the model; and why the minimal repro
+succeeds only at depth one, since its RL stage trained on single-step tasks.
+
+### The experiment that separates them
+
+Vary the training ceiling and measure whether the test ceiling tracks it. Train
+otherwise identical arms with maximum plan depth in 1, 2, 3, 4, 6 and 8, and with
+maximum distinct operator symbols per plan in 1, 2 and 3. Evaluate every arm at
+depths one to thirty two.
+
+H12 predicts the achieved depth tracks the training maximum roughly one for one,
+with a small constant of extrapolation, and that the novel-composition failure
+disappears as soon as training contains plans using two distinct symbols.
+
+H10 predicts the achieved depth saturates near three regardless of the training
+maximum, because the constraint is the number of sequential discrete decisions
+rather than the distribution.
+
+A third outcome is available and would be the most useful: the test ceiling tracks
+the training ceiling up to some point and then saturates. That would locate a real
+horizon while showing that most of the observed wall was distributional, and it
+would give the horizon a number rather than an argument.
+
+### What each outcome implies for the programme
+
+If H12 wins, the intervention is curriculum and data rather than a plan head, a
+vocabulary, or latent recurrence, and the running architecture comparisons are
+measuring a distributional artifact. They should be rerun with the training
+ceiling raised past the evaluation range before their results mean anything.
+
+If H10 wins, the architecture work stands and the training ceiling is incidental.
+
+Either way the architecture experiments currently in flight need their training
+maximum reported alongside every depth curve, since a curve that stops where its
+training stopped says nothing about the mechanism under test.
+
+### The bound this must respect
+
+Relational breadth fails at induction, where oracle_plan collapses at breadth four
+while oracle_both holds at 1.000. Raising a plan-length ceiling should not move
+breadth. If it does, the induction reading of breadth is wrong.
