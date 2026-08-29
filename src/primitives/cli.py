@@ -157,6 +157,13 @@ def main(argv=None) -> int:
     ap.add_argument("--tokenizer")
     ap.add_argument("--fake", help="blind, oracle, copy, depthN, or a "
                                    "faculty name")
+    ap.add_argument("--interactive", action="store_true",
+                    help="drive the checkpoint through the trained retrieval "
+                         "rollout instead of a single-shot answer prompt")
+    ap.add_argument("--frame-check", action="store_true",
+                    help="reproduce the published wording-ablation number "
+                         "through this suite's harness, to price the "
+                         "harness before any faculty claim is made")
     ap.add_argument("--native-frame", action="store_true",
                     help="re-render the seven faculties in the checkpoint's "
                          "trained surface form and measure both channels")
@@ -250,20 +257,55 @@ def main(argv=None) -> int:
         ap.error("give either --fake, or both --ckpt and --tokenizer")
         return 2
 
-    if args.native_frame:
-        rep = runner.run_native_frame(model, n=args.n, seed=args.seed,
-                                      ks=tuple(args.ks), progress=_progress)
-        recs = [r for f in rep.values() for r in f.pop("records", [])]
-        rep["meta"] = {"mode": "native", "n_per_primitive": args.n,
-                       "seed": args.seed, "n_items": len(recs),
-                       "checkpoint": args.ckpt}
+    if args.frame_check and args.interactive:
+        from src.primitives import framecheck
+        from src.evals.interactive import (make_checkpoint_step_fn,
+                                           make_retrieval_answer_fn)
+        step_fn, _m, _st = make_checkpoint_step_fn(args.ckpt, args.device)
+        from src.train.tokenizer import load_tokenizer
+        tok = load_tokenizer(args.tokenizer)
+        afn = make_retrieval_answer_fn(step_fn, tok,
+                                       max_rounds=4, max_new_tokens=64,
+                                       seed=args.seed)
+        fc2 = framecheck.run_generation(afn, seed=args.seed)
         out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
         (out / f"{args.stem}.json").write_text(
-            json.dumps(rep, indent=2, default=str))
+            json.dumps(fc2, indent=2, default=str))
+        text = framecheck.render(fc2)
+        (out / f"{args.stem}.md").write_text(text)
+        print(text)
+        return 0
+
+    if args.frame_check:
+        from src.primitives import framecheck
+        # Not named rep: that is the report module, and binding it
+        # here makes it a local for the whole of main(), which
+        # broke the ordinary suite path with an UnboundLocalError.
+        fcheck = framecheck.run(model, n_systems=12, per_system=4,
+                                seed=args.seed)
+        out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
+        (out / f"{args.stem}.json").write_text(
+            json.dumps(fcheck, indent=2, default=str))
+        text = framecheck.render(fcheck)
+        (out / f"{args.stem}.md").write_text(text)
+        print(text)
+        return 0
+
+    if args.native_frame:
+        nrep = runner.run_native_frame(model, n=args.n, seed=args.seed,
+                                       ks=tuple(args.ks),
+                                       progress=_progress)
+        recs = [r for f in nrep.values() for r in f.pop("records", [])]
+        nrep["meta"] = {"mode": "native", "n_per_primitive": args.n,
+                        "seed": args.seed, "n_items": len(recs),
+                        "checkpoint": args.ckpt}
+        out = Path(args.out); out.mkdir(parents=True, exist_ok=True)
+        (out / f"{args.stem}.json").write_text(
+            json.dumps(nrep, indent=2, default=str))
         with open(out / f"{args.stem}_records.jsonl", "w") as fh:
             for r in recs:
                 fh.write(json.dumps(r, default=str) + "\n")
-        text = rep_native(rep)
+        text = rep_native(nrep)
         (out / f"{args.stem}.md").write_text(text)
         print(text)
         print(f"\nwrote {out}/{args.stem}.json and .md")
