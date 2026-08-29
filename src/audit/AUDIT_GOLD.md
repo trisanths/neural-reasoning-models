@@ -209,8 +209,10 @@ more."
 
 That also explains the induction totals in the shipped run, 6144 exact and 6144
 behavioural out of 9897 operators, with the two counts identical. Both
-comparisons in `run.py` require `assoc` to agree, so all 3300 binary operators
-fail both on that field alone while their bodies are right.
+comparisons in `run.py` require `assoc` to agree. The run covers 1650 worlds and
+so about 3300 binary operators, and it reports 3753 mismatches, which is what you
+get when every binary operator fails on that one field while its body is right
+and a few hundred `score` operators at high breadth fail outright.
 
 And it disposes of the supporting claim. `plan_execute` equals `oracle_ops` not
 because gold operators add nothing, but because the only thing gold operators add
@@ -220,7 +222,8 @@ changes nothing, which is a statement about the planner ignoring its input, not
 about induction being complete.
 
 The current checkpoint is a different situation. It emits the clause on 120 of
-120 pages, writes a different plan for the twin page on all 150 items at depth two, and scores 1.000 on the original and 1.000 on the twin at depths two and
+120 pages, writes a different plan for the twin page on all 150 items at depth
+two, and scores 1.000 on the original and 1.000 on the twin at depths two and
 three. Its depth two and depth three numbers are real. Its depth four and depth
 eight numbers are the same three-step plans: 150 of 150 plans have three steps,
 0 of 150 have the length the question needs, and all three correct items at each
@@ -283,8 +286,10 @@ depends on.
 
 The claim that the model induces operators from pages, stated without
 qualification. On the audited checkpoint the bodies are perfect and the
-associativity clause is absent from every page, 0 of 120. By the package's own
-`_same_text` and `_same_behaviour`, 0 of 3300 binary operators match gold.
+associativity clause is absent from every one of the 120 binary operator pages
+sampled, and from all 750 items and all 750 twins in the rerun. By the package's
+own `_same_text` and `_same_behaviour`, both of which require `assoc` to agree,
+none of those operators counts as matching gold.
 
 The residuals 0.020 at depth four and 0.013 at depth eight, read as anything.
 Every plan there has three steps, none has the length the question needs, every
