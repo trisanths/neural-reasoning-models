@@ -87,9 +87,77 @@ def _pick_level(options, cost, target):
     return best
 
 
+def _instances(seed, family, frame, depth, n_problems, with_distractor,
+               reserved, global_reserved):
+    """The relation instance and its distractor, before any page is rendered.
+
+    Split out of the builder so the padding target can be measured on the same
+    records the builder will render, rather than on a guess.
+    """
+    rng = random.Random(seed * 7919 + 13)
+    lex = Lexicon(random.Random(seed * 104729 + 7), reserved, global_reserved)
+    kw = {"n_problems": n_problems}
+    if family in relations.DEPTH_STRUCTURES:
+        kw["depth"] = depth
+    inst = relations.STRUCTURES[family](rng, lex, **kw)
+    dinst = None
+    if with_distractor:
+        others = [f for f in relations.STRUCTURES if f != family]
+        dfam = others[seed % len(others)]
+        dkw = {"n_problems": 1}
+        if dfam in relations.DEPTH_STRUCTURES:
+            dkw["depth"] = min(depth, 2)
+        dinst = relations.STRUCTURES[dfam](
+            random.Random(seed * 7919 + DISTRACTOR_OFFSET),
+            Lexicon(random.Random(seed * 104729 + DISTRACTOR_OFFSET),
+                    reserved, global_reserved), **dkw)
+    return inst, dinst, lex
+
+
+def page_target_table(frames, encode, families, depth_schedule,
+                      global_reserved, probes: int = 2,
+                      headroom: float = 1.04) -> dict:
+    """The page length every frame pads up to, per family and depth.
+
+    A fixed target cannot work. Padding only adds length, so a target below
+    what the most verbose statement mode already writes leaves that mode above
+    the target and the terse modes below it, and the gap between a table row
+    frame and a relative clause frame stays open. On the first build that put
+    a third of `weighted_chain`'s frames outside a fifteen percent band.
+
+    The target is therefore the largest unpadded store any frame produces for
+    that family and depth, measured on the same records the builder renders,
+    plus a little headroom. Every frame can then reach it.
+    """
+    reps, seen = [], set()
+    for f in frames:
+        k = (f.mode, f.key_pos)
+        if k in seen:
+            continue
+        seen.add(k)
+        reps.append(f)
+    table = {}
+    for fam in families:
+        for d in depth_schedule.get(fam, (1,)):
+            best = 0
+            for f in reps:
+                for i in range(probes):
+                    seed = 299_000_000 + i * 977
+                    inst, dinst, _ = _instances(
+                        seed, fam, f, d, 6, True, reserved_words(f),
+                        global_reserved)
+                    pages = list(inst.pages) + (list(dinst.pages)
+                                                if dinst else [])
+                    cost = sum(len(encode(f.page(sc, fs, 0)))
+                               for sc, fs in pages)
+                    best = max(best, cost)
+            table[(fam, d)] = int(best * headroom) + 8
+    return table
+
+
 def build_relation_episode(seed: int, family: str, frame, encode,
                            depth: int = 1, n_problems: int = 6,
-                           page_target: int = 420, prompt_target: int = 90,
+                           page_target=None, prompt_target: int = 90,
                            with_distractor: bool = True,
                            global_reserved: frozenset = frozenset()) -> dict:
     """One episode: one relation instance, one frame, its questions audited.
@@ -108,13 +176,12 @@ def build_relation_episode(seed: int, family: str, frame, encode,
     because each frame's reserved set is a subset of the union.
     """
     reserved = reserved_words(frame)
-    rng = random.Random(seed * 7919 + 13)
-    lex = Lexicon(random.Random(seed * 104729 + 7), reserved, global_reserved)
-    fn = relations.STRUCTURES[family]
-    kw = {"n_problems": n_problems}
-    if family in relations.DEPTH_STRUCTURES:
-        kw["depth"] = depth
-    inst = fn(rng, lex, **kw)
+    inst, dinst, lex = _instances(seed, family, frame, depth, n_problems,
+                                  with_distractor, reserved, global_reserved)
+    if page_target is None:
+        page_target = 420
+    elif isinstance(page_target, dict):
+        page_target = page_target.get((family, depth), 420)
     n_proposed = len(inst.questions)
     inst.questions = [q for q in inst.questions if structurally_ok(q, inst)]
     n_structural_rejects = n_proposed - len(inst.questions)
@@ -123,17 +190,6 @@ def build_relation_episode(seed: int, family: str, frame, encode,
     # included, because that is what a retriever and a reader actually see.
     from src.corpus import frames_default as _fd
     n_levels = getattr(_fd, "MAX_NOTES", 8) + 1
-    dfam = dinst = None
-    if with_distractor:
-        others = [f for f in relations.STRUCTURES if f != family]
-        dfam = others[seed % len(others)]
-        dkw = {"n_problems": 1}
-        if dfam in relations.DEPTH_STRUCTURES:
-            dkw["depth"] = min(depth, 2)
-        dinst = fn_of(dfam)(
-            random.Random(seed * 7919 + DISTRACTOR_OFFSET),
-            Lexicon(random.Random(seed * 104729 + DISTRACTOR_OFFSET),
-                    reserved, global_reserved), **dkw)
     all_pages = list(inst.pages) + (list(dinst.pages) if dinst else [])
     lvl = _pick_level(
         range(n_levels),
@@ -289,6 +345,7 @@ def build_mathgen_episode(seed: int, answer_source: str = "all") -> dict:
     overlap retriever which chapter the answer is on.
     """
     from src.mathgen.cli import build_universe
+    from src.mathgen.exercises import rejected_report
     from src.mathgen.textbook import chunks
 
     u = build_universe(seed, answer_source=answer_source)
@@ -335,4 +392,7 @@ def build_mathgen_episode(seed: int, answer_source: str = "all") -> dict:
             "assertions_passed": ver["assertions_passed"],
         },
         "relation_kind": u["theory"].structure.rel_kind,
+        # mathgen's own necessity filter, reported so the corpus carries a
+        # rejection statistic comparable with the one the generator publishes.
+        "candidates_rejected": rejected_report(u["theory"]),
     }

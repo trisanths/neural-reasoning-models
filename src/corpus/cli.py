@@ -89,7 +89,10 @@ def _init(tokenizer_path):
     _STATE["frame_source"] = source
     _STATE["encode"] = encode
     _STATE["encode_kind"] = kind
-    _STATE["global_reserved"] = global_reserved(frames)
+    gr = global_reserved(frames)
+    _STATE["global_reserved"] = gr
+    _STATE["page_targets"] = build.page_target_table(
+        frames, encode, sorted(relations.STRUCTURES), DEPTH_SCHEDULE, gr)
 
 
 def _relation_cell(job):
@@ -107,6 +110,7 @@ def _relation_cell(job):
         try:
             ep = build.build_relation_episode(
                 seed, family, frame, encode, depth=depth,
+                page_target=_STATE["page_targets"],
                 global_reserved=_STATE["global_reserved"])
         except Exception as exc:  # noqa: BLE001
             rejects["generator_error:" + type(exc).__name__] += 1
@@ -366,6 +370,8 @@ def cmd_mathgen(args) -> int:
                 assertions["universes"] += 1
                 counts[f"{ep['band']}:universes"] += 1
                 counts[f"{ep['band']}:questions"] += len(ep["questions"])
+                for k, v in ep.pop("candidates_rejected", {}).items():
+                    counts[f"{ep['band']}:mathgen_candidates:{k}"] += v
                 for q in ep["questions"]:
                     counts[f"{ep['band']}:src:{q['answer_source']}"] += 1
                     counts[f"{ep['band']}:level:{q['level']}"] += 1
