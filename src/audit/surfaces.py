@@ -383,13 +383,23 @@ def render_procedure(name, attr, flags, cutoff, ex_base, ex_flags, ex_value,
 
 # -------------------------------------------------------------- whole worlds
 
-def _rebuild(world: World, style: int, swap: bool) -> World:
+# Constants outside every value the generator can draw during training.
+# a is drawn from 2,3,4,5; b from 2,3,6,7; c from 1,2,5,10; m from 100,1000.
+NEW_CONST = {"a": 9, "b": 11, "c": 13, "m": 97}
+
+
+def _rebuild(world: World, style: int, swap: bool, renumber: bool = False) -> World:
     """One world with every page re-rendered, and operators optionally transposed."""
     pages: list[Page] = []
     for p in world.pages:
         if p.key.startswith("binop:"):
             gold = p.ops[0]
             prm = binop_params(gold)
+            if renumber:
+                prm = {"form": prm["form"],
+                       "a": None if prm["a"] is None else NEW_CONST["a"],
+                       "b": None if prm["b"] is None else NEW_CONST["b"],
+                       "c": NEW_CONST["c"], "m": NEW_CONST["m"]}
             body = binop_body(prm["form"], prm["a"], prm["b"], prm["c"], prm["m"],
                               swap=swap)
             bare = Operator(gold.symbol, ("x", "y"), body)
@@ -432,6 +442,16 @@ def _rebuild(world: World, style: int, swap: bool) -> World:
 def restyle_world(world: World, style: int) -> World:
     """Same operators, same questions, same seed; different prose."""
     return _rebuild(world, style, swap=False)
+
+
+def renumber_world(world: World) -> World:
+    """Trained wording, trained roles, constants outside the training support.
+
+    The positive control for the transposition. If the model reads numerals off
+    the page at all, this stays high; if it is reciting a memorised constant it
+    does not.
+    """
+    return _rebuild(world, 0, swap=False, renumber=True)
 
 
 def transpose_world(world: World) -> World:
