@@ -1,7 +1,9 @@
 # Intelligence per example
 
-Built 2026-08-31 13:27 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:29 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
+Freshness at build time: 18 record files, none newer than the report of 2026-08-31 13:28 UTC. `opdoc` refuses to build when any record
+file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
 gradient trained model needs many examples, because that is how gradients work.
@@ -363,13 +365,19 @@ space is complete.
 ## How to reproduce
 
     .venv/bin/python -m src.norm.opitems
-    .venv/bin/python -m src.norm.oprun
     .venv/bin/python -m src.norm.opattack
+    .venv/bin/python -m src.norm.oprun
     .venv/bin/python -m src.norm.oprun --items results/norm/oneshot/stress_items.jsonl.gz \
         --out results/norm/oneshot/stress_sys.jsonl.gz
-    bash src/norm/drive.sh          # the GPU side, about ninety minutes on one L40S
+    bash src/norm/drive.sh     # the data, the no gradient run and the first ladder
+    bash src/norm/drive2.sh    # the ladder from the family trained network
+    bash src/norm/drive3.sh    # the far end of the first ladder
     .venv/bin/python -m src.norm.opreport
     .venv/bin/python -m src.norm.opdoc
+
+`drive2.sh` and `drive3.sh` each wait for the one before it, so all three can be
+started at once. Together they are about two and a half hours on one L40S. The
+gates are `src/norm/tests/test_oneshot.py`.
 
 | record     | path                                                                       |
 | ---------- | -------------------------------------------------------------------------- |

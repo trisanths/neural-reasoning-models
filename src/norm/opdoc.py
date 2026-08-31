@@ -350,6 +350,31 @@ def t_paths(rep) -> str:
     return table(["record", "path"], rows)
 
 
+def check_fresh(report_path: str, rep: dict, d: str) -> dict:
+    """Refuse to build a document from a report older than its own records.
+
+    A rescore run against stale record files mixed two differently graded runs
+    on this project once. The document is the place that costs the most, so the
+    check lives here and it is an error rather than a warning.
+    """
+    import glob as _g
+    t = os.path.getmtime(report_path)
+    stale = []
+    paths = list(rep.get("records", {}).values())
+    paths += _g.glob(os.path.join(d, "*.jsonl.gz"))
+    paths += _g.glob(os.path.join(d, "attack.json"))
+    paths = sorted({os.path.realpath(p) for p in paths})
+    for p in paths:
+        if os.path.exists(p) and os.path.getmtime(p) > t:
+            stale.append(os.path.basename(p))
+    if stale:
+        raise SystemExit("the report is older than its records, rebuild it "
+                         "first: " + ", ".join(sorted(set(stale))))
+    return {"report_mtime": time.strftime("%Y-%m-%d %H:%M UTC",
+                                          time.gmtime(t)),
+            "n_records_checked": len(paths)}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--report", default="results/norm/oneshot/report.json")
@@ -361,6 +386,7 @@ def main():
     a = ap.parse_args()
 
     rep = json.load(open(a.report))
+    fresh = check_fresh(a.report, rep, os.path.dirname(a.report))
     tags = a.tags.split(",")
     ks = [int(x) for x in a.ks.split(",")]
     subs = {
@@ -380,6 +406,8 @@ def main():
         "T_STATES": t_states(rep),
         "T_PATHS": t_paths(rep),
         "BUILT": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()),
+        "FRESH": (f"{fresh['n_records_checked']} record files, none newer "
+                  f"than the report of {fresh['report_mtime']}"),
     }
     doc = open(a.tmpl).read()
     for k, v in subs.items():
