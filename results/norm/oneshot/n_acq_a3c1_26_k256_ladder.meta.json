@@ -1,0 +1,31 @@
+{
+  "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/oneshot/ft_acq_a3c1_26_k256.pt",
+  "vocab": "ext",
+  "size": "l",
+  "params": {
+    "total": 45483008,
+    "embeddings": 1379328,
+    "non_embedding": 44103680
+  },
+  "finetune": {
+    "k": 256,
+    "steps": 1500,
+    "lr": 4e-05,
+    "rows": 16,
+    "pool": "/home/ec2-user/decoupled-reasoner/data/norm/oneshot/big/acq_a3c1_26.npz",
+    "from": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_l.pt"
+  },
+  "n_items": 800,
+  "n_unreadable_input": 0,
+  "drops": [],
+  "modes": [
+    "greedy",
+    "sampled"
+  ],
+  "max_len": 320,
+  "temperature": 1.0,
+  "seed": 0,
+  "items": "/home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_items.jsonl.gz",
+  "seconds": 44.5,
+  "out": "/home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k256_ladder.jsonl.gz"
+}
