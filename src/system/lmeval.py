@@ -64,6 +64,23 @@ def generate(model, tok, device, prompts, max_new, temperature, seed,
     return out
 
 
+
+def spread(items, n):
+    """`n` items taken evenly across the file rather than off the front.
+
+    The eval files are written frame by frame, so the first `n` of one is a
+    block of whole frames and not a sample of the group. `data/norm/qframe`
+    lists its 35 key-first frames before its 35 value-first ones, so a prefix
+    of it is every key-first item and no value-first one, and a key-position
+    split taken on that prefix cannot say anything. Striding costs the same
+    and carries every frame of the group.
+    """
+    if not n or len(items) <= n:
+        return items
+    k = len(items) / n
+    return [items[int(i * k)] for i in range(n)]
+
+
 class TextVocab:
     """The decode side of `OutVocab`, for emissions that arrive as strings.
 
@@ -119,10 +136,11 @@ def main():
               "cfg": state["config"]["model"],
               "params": sum(p.numel() for p in model.parameters()),
               "step": state.get("step"), "eval_n": a.n,
+              "sampling": "evenly spread across the file, not a prefix",
               "max_new": a.max_new, "temperature": a.temperature,
               "splits": {}}
     for sp in a.splits.split(","):
-        items = neval.load_eval(os.path.join(a.data, sp), a.n)
+        items = spread(neval.load_eval(os.path.join(a.data, sp), 0), a.n)
         prompts = [lmdata.prompt_ids(tok, it["text"], it["slots"])
                    for it in items]
         report["splits"][sp] = {"n": len(items),

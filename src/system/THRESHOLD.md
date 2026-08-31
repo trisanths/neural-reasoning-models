@@ -83,6 +83,12 @@ again on the whole file. The other four groups happened to interleave and
 their prefixes were close to balanced, but none of them was balanced by
 construction, so none of them is read off a prefix any more.
 
+The 350M arm cannot read all 7,000, because it writes its structures a token
+at a time and 70,000 generations of up to 640 tokens is most of a day. It
+takes 1,400 spread evenly across each file instead, which costs what a prefix
+of 1,400 costs and carries every frame of the group. On `qframe` that is 700
+key-first items and 700 value-first ones where the prefix was 1,400 and none.
+
 ## 3. Per shape, never pooled
 
 `modal/shape` is what a system that always emits that shape's most common
