@@ -629,3 +629,101 @@ rollouts `~/retrain/relation/all_{base,new}_{heldout,train}.jsonl`, scores
 `~/retrain/relation/score_oracle_heldout.json` (14 families at 1.000 forced,
 2 at 1.000 exact), corpus shortcut floors
 `~/retrain/relation/shortcut_floors.json`.
+
+## 7. The two instrument controls
+
+Sections 4 and 5 compare the new checkpoint against the original, and the
+original cannot attempt the plan task at all. That is a control on the harness,
+not on capability. The checkpoints the recorded failures were read off are on
+this box, `~/opg/runs/opgraph.pt` and `~/opg/runs/direct.pt`, the pass-one arms
+of the operator-graph experiment at 8000 steps and batch 32. Running them on
+the same items turns both re-measurements into matched before-and-afters and
+tells us whether the rebuilt instruments reproduce the numbers on record.
+
+### The transposed rule reproduces exactly
+
+The opgraph arm was trained to write `(defop ...)` from a page, so it is the
+one checkpoint here that can be asked to induce an operator. Prompt is
+`src/opgraph/data.py:induce_prompt` over the transposed pages. The induced
+operator's behaviour on eight probe pairs is compared with the page's operator
+and with the canonical binding the template always had, and then the gold plan
+is executed with the induced operators, which is `oracle_plan`.
+
+| level | decode | n | distinguishable | parsed | follows page | follows training |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| operator | greedy | 298 | 293 | 298 | 0 / 293 | 293 / 293 |
+| operator | t1 | 298 | 293 | 291 | 0 / 286 | 286 / 286 |
+| item, `oracle_plan` | greedy | 689 | | 689 ran | 0 / 689 | 689 / 689 |
+| item, `oracle_plan` | t1 | 689 | | 675 ran | 0 / 689 | 675 / 689 |
+
+On record: 0 of 678 toward the page and 678 of 678 toward training at the item
+level, 0 of 290 and 290 of 290 at the operator level. The rebuild gives 0 of
+689 and 689 of 689, and 0 of 293 and 293 of 293. It reproduces, so the
+construction, the distinguishability filter and the grader are the ones the
+record was made with.
+
+Per depth, greedy, the item-level split is 0 of 127, 0 of 140, 0 of 140, 0 of
+139 and 0 of 143 toward the page at depths 1, 2, 3, 4 and 8, and every one of
+those items toward training. There is no depth at which the model reads the
+page.
+
+The other three checkpoints cannot be asked. `direct.pt` emits a bare number on
+an induce prompt, the new checkpoint emits `1` or `10`, the original emits
+`yes` and `5.5.1.1`. None of them writes a `defop`, so `parsed` is 0 of 298 for
+all three and the operator-level number is undefined on them.
+
+That is the answer on page semantics and it is not the answer the corpus was
+built to give. Operator-page induction is a fifth axis, and the corpus does not
+widen it: the plan component hands the scheduler `%/2/left */2/right ...`, a
+signature line with arities and associativity and no body, and no component
+anywhere in the corpus contains a page that says what an operator does. So the
+0 of 678 stands, untouched, and the reason it is untouched is that nothing in
+this run was aimed at it. What this run does establish is that the instrument
+reproduces, so the next arm to attempt it has a working test.
+
+### The plan ceiling reproduces exactly, on the same items
+
+`~/opg/runs/opgraph.pt` on the corpus plan eval sets, greedy, determinate
+subset, beside the new checkpoint on the identical items:
+
+| required steps | n | opgraph arm emitted mean | opgraph arm max | opgraph long enough | new emitted mean | new long enough |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 36 | 2.64 | 3 | 1.000 | 1.00 | 1.000 |
+| 2 | 49 | 2.69 | 3 | 0.918 | 2.00 | 1.000 |
+| 3 | 46 | 2.74 | 3 | 0.826 | 3.00 | 1.000 |
+| 4 | 55 | 2.64 | 3 | 0.000 | 4.00 | 1.000 |
+| 8 | 60 | 2.92 | 3 | 0.000 | 8.00 | 1.000 |
+| 16 | 35 | 2.77 | 3 | 0.000 | 16.06 | 1.000 |
+| 32 | 36 | 2.67 | 3 | 0.000 | 32.00 | 1.000 |
+| 48 | 26 | 2.65 | 3 | 0.000 | 47.69 | 0.885 |
+| 56 | 40 | 2.70 | 3 | 0.000 | 56.20 | 0.400 |
+| 96 | 38 | 2.16 | 3 | 0.000 | 76.50 | 0.000 |
+
+The opgraph arm's emitted step count is between 2.43 and 2.92 at every one of
+the twenty-three lengths from 1 to 96 and its maximum emitted length is 3 in
+every cell. Its accuracy is 0.111, 0.041 and 0.283 at lengths one, two and
+three and 0.000 or 0.029 at every length above. That is the recorded ceiling,
+verbatim, on items it has never seen, and it is flat at exactly the training
+maximum of the arm that produced it.
+
+Symbols, same run:
+
+| required symbols | n | opgraph arm emitted | opgraph arm enough | new emitted | new enough |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 278 | 1.040 | 1.000 | 1.000 | 1.000 |
+| 2 | 280 | 1.054 | 0.039 | 2.000 | 1.000 |
+| 3 | 136 | 1.000 | 0.000 | 3.007 | 1.000 |
+| 4 | 42 | 1.000 | 0.000 | 4.000 | 1.000 |
+| 5 | 54 | 1.056 | 0.000 | 4.981 | 0.982 |
+
+The opgraph arm emits 1.00 to 1.06 distinct symbols whatever the question
+needs, which is the recorded "about 1.0 where 2 are needed", and reaches a
+second symbol on 0.039 of the two-symbol items and never on the wider ones.
+The corpus arm reaches exactly the required width every time.
+
+Both ceilings are therefore corpus properties, demonstrated on one item set
+with two checkpoints and one harness.
+
+Artifacts: `~/retrain/transposed/induce_all_*.jsonl` and `score_induce_*.json`,
+`~/retrain/transposed/direct_all_*.jsonl` and `score_direct_*.json`,
+`~/retrain/plan/all_opgrapharm_*.jsonl` and `score_opgrapharm_*.json`.
