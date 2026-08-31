@@ -286,6 +286,57 @@ def _stress_instance(sk, fid, seed, arity):
             "page_name": lex.name()}
 
 
+DEEP = (1, 2, 4, 8, 16, 32, 48, 64)
+
+
+def build_deep(seed0=606060, per=40, keys_asked=2):
+    """The same operation run far past the corpus plan length ceiling.
+
+    The corpus stops at plan length 48. A plan here is a list and running it is
+    a loop over that list, so the only thing depth costs is time, and the time
+    is measured rather than asserted.
+    """
+    import time
+    rows, timing = [], {}
+    pool = opitems.frame_pool()
+    closed = [s for s in oplang.distinct_space(1)
+              if all(r[0] != "word" for _, r in s[0]) and s[1][0] != "word"]
+    si = 0
+    got = 0
+    for sk in closed:
+        if got >= per:
+            break
+        si += 1
+        fid, split = pool[(si * 41) % len(pool)]
+        inst = opitems.draw_instance(sk, fid, seed0 + si * 8117, closed=True)
+        if inst is None or oplang.is_degenerate(inst["spec"], inst["tables"],
+                                                inst["keys"]):
+            continue
+        got += 1
+        mode = opsay.READ_MODES[si % len(opsay.READ_MODES)]
+        for ki, key in enumerate(inst["keys"][:keys_asked]):
+            for n in DEEP:
+                e = opitems.episode(inst, fid, "iterate", key, mode=mode, n=n)
+                if e is None:
+                    continue
+                p = oplang.program_single(inst["spec"], inst["tables"], key)
+                prog = oplang.program_iterate(inst["spec"], inst["tables"],
+                                              key, n)
+                t0 = time.perf_counter()
+                for _ in range(20):
+                    run(prog)
+                dt = (time.perf_counter() - t0) / 20 * 1e6
+                timing.setdefault(n, []).append(dt)
+                e.update({"cond": "deep", "family": f"n{n}", "fid": fid,
+                          "split": split, "skeleton": repr(sk),
+                          "arity": inst["spec"].arity, "steps": len(prog.steps),
+                          "id": f"deep/{si}/{ki}/n{n}",
+                          "item_key": f"deep/{si}/{ki}"})
+                rows.append(e)
+    return rows, {str(n): round(sum(v) / len(v), 1)
+                  for n, v in sorted(timing.items())}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--items", default="results/norm/oneshot/items.jsonl.gz")
@@ -303,6 +354,10 @@ def main():
            "alpha": attack_alpha(acq, a.n)}
 
     rows, drops = build_stress()
+    deep, timing = build_deep()
+    rows = rows + deep
+    out["deep"] = {"n_items": len(deep), "microseconds_per_run": timing,
+                   "depths": list(DEEP)}
     path = os.path.join(a.dir, "stress_items.jsonl.gz")
     with gzip.open(path, "wt") as fh:
         for r in rows:

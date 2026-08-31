@@ -148,6 +148,14 @@ so the five rows are the same items and not five different ones.
 
 {{T_DEPTH}}
 
+Past the ceiling. The corpus stops at plan length 48 and the network's own
+ladder stops well before that. Running the same acquired operation 64 times over
+is a plan of 192 steps when the operation reads two directories and 256 when it
+reads three, and the only thing it costs is the time in the last column,
+measured over twenty runs of each plan.
+
+{{T_DEEP}}
+
 ## Composing two operations from two pages
 
 Two operations, each defined on its own page, the second reading the answers of

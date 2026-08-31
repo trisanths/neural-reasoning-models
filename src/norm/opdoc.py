@@ -210,6 +210,22 @@ def t_depth(rep) -> str:
                   "network no gradient", "network family trained"], rows)
 
 
+def t_deep(rep) -> str:
+    """Depth past the corpus plan length ceiling, with what it cost."""
+    rows = []
+    us = rep.get("attack", {}).get("deep", {}).get("microseconds_per_run", {})
+    for n in rep["deep"].get("_depths", []):
+        c = rep["deep"][f"n{n}|L"]
+        rows.append([n, c["n"], f(c["floor"]), f(c["strict"]),
+                     f(c.get("structure_exact", 0)),
+                     f(rep["deep"][f"n{n}|S1"]["strict"]),
+                     f(rep["deep"][f"n{n}|S2"]["strict"]),
+                     us.get(str(n), "-")])
+    return table(["applications", "n", "floor", "L strict",
+                  "L structure exact", "S1", "S2",
+                  "microseconds to run the plan"], rows)
+
+
 def t_compose(rep) -> str:
     rows = []
     c = rep["compose"]["L"]
@@ -356,6 +372,7 @@ def main():
         "T_COST": t_cost(rep, tags, ks),
         "T_SECOND": t_second(rep, tags, [1, 2, 4]),
         "T_DEPTH": t_depth(rep),
+        "T_DEEP": t_deep(rep),
         "T_COMPOSE": t_compose(rep),
         "T_CONTRA": t_contra(rep),
         "T_STRESS": t_stress(rep),

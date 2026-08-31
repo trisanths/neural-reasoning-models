@@ -168,7 +168,7 @@ def main():
                            os.path.join(D, "ladder_sys.jsonl.gz"))},
            "cells": {}, "acq": {}, "depth": {}, "compose": {},
            "contra": {}, "controls": {}, "ladder": {}, "neural": {},
-           "stress": {}, "attack": {}, "states": {}}
+           "stress": {}, "attack": {}, "states": {}, "deep": {}}
 
     # ---- the acquisition set, by family and by how many pages were served
     acq = [r for r in sysrows if r["cond"] == "acq"]
@@ -231,10 +231,21 @@ def main():
     # ---- operations past the shapes the reader was written on
     sp = os.path.join(D, "stress_sys.jsonl.gz")
     if os.path.exists(sp):
-        for fam, rows in sorted(by(load(sp),
-                                   lambda r: r["family"]).items()):
+        srows = load(sp)
+        for fam, rows in sorted(by(srows, lambda r: r["family"]).items()):
             for s in SYSTEMS:
                 rep["stress"][f"{fam}|{s}"] = cell(rows, getter(s))
+        deep = [r for r in srows if r["cond"] == "deep"]
+        seen2 = by(deep, lambda r: r["item_key"])
+        ns2 = sorted({r["n"] for r in deep})
+        keep2 = {k for k, v in seen2.items()
+                 if {r["n"] for r in v} == set(ns2)}
+        for n in ns2:
+            al = [r for r in deep if r["n"] == n and r["item_key"] in keep2]
+            for s in SYSTEMS:
+                rep["deep"][f"n{n}|{s}"] = cell(al, getter(s))
+        rep["deep"]["_aligned_items"] = len(keep2)
+        rep["deep"]["_depths"] = ns2
         rep["records"]["stress_sys"] = os.path.abspath(sp)
 
     # ---- the attacks, carried through from their own record file

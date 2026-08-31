@@ -1,6 +1,6 @@
 # Intelligence per example
 
-Built 2026-08-31 13:25 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:27 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -163,7 +163,7 @@ this operation, tested on the same operation in wordings it did not train on.
 | pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64   | k=256 | k=1024 | no gradient |
 | ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
 | acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
-| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | -      | -      | -      | -     | -      | 0.0400      |
+| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | -      | -      | -     | -      | 0.0400      |
 | acq_a3c2_144 | acq/a3c2/144 | -      | -      | -      | -      | -      | -     | -      | 0.0300      |
 | acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
 
@@ -186,7 +186,7 @@ The metric this lane is named for, read off those tables.
 | ------- | --------------------- | ------------------- | ------ | --------------------------- | ------------------------ |
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
 | network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
-| network | acq/a3c1/26           | 0.0300              | 0.3333 | not within 2                | not within 2             |
+| network | acq/a3c1/26           | 0.0300              | 0.3333 | not within 4                | not within 4             |
 | network | acq/a3c2/144          | -                   | 0.2500 | not within 0                | not within 0             |
 | network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
 
@@ -206,6 +206,23 @@ so the five rows are the same items and not five different ones.
 | 4            | 555 | 0.3589 | 1.0000   | 0.1820 | 0.2162 | 0.0288              | -                      |
 | 8            | 555 | 0.3629 | 1.0000   | 0.1351 | 0.1640 | 0.0144              | -                      |
 | 16           | 555 | 0.3629 | 1.0000   | 0.1910 | 0.2288 | 0.0090              | -                      |
+
+Past the ceiling. The corpus stops at plan length 48 and the network's own
+ladder stops well before that. Running the same acquired operation 64 times over
+is a plan of 192 steps when the operation reads two directories and 256 when it
+reads three, and the only thing it costs is the time in the last column,
+measured over twenty runs of each plan.
+
+| applications | n  | floor  | L strict | L structure exact | S1     | S2     | microseconds to run the plan |
+| ------------ | -- | ------ | -------- | ----------------- | ------ | ------ | ---------------------------- |
+| 1            | 40 | 0.1913 | 1.0000   | 1.0000            | 0.4750 | 0.5500 | 11.5                         |
+| 2            | 40 | 0.2442 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 20.9                         |
+| 4            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 38.9                         |
+| 8            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 74.5                         |
+| 16           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 144.6                        |
+| 32           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.0750 | 288.9                        |
+| 48           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1500 | 0.0250 | 432.8                        |
+| 64           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 572.0                        |
 
 ## Composing two operations from two pages
 
@@ -315,11 +332,11 @@ directories, generated for the first time by this table.
 
 | operation                            | n   | floor  | L strict | L structure exact | S1     | S2     | parser |
 | ------------------------------------ | --- | ------ | -------- | ----------------- | ------ | ------ | ------ |
-| three clauses                        | 120 | 0.2904 | 1.0000   | 1.0000            | 0.4417 | 0.3583 | 0.0000 |
-| four clauses                         | 120 | 0.2883 | 1.0000   | 1.0000            | 0.4417 | 0.3833 | 0.0000 |
-| four directories                     | 120 | 0.3117 | 1.0000   | 1.0000            | 0.4000 | 0.3583 | 0.0000 |
-| five directories                     | 120 | 0.2475 | 1.0000   | 1.0000            | 0.4000 | 0.4333 | 0.0000 |
-| a directory the question never names | 120 | 0.3275 | 1.0000   | 1.0000            | 0.3750 | 0.0000 | 0.0000 |
+| three clauses                        | 120 | 0.2625 | 1.0000   | 1.0000            | 0.4583 | 0.4333 | 0.0000 |
+| four clauses                         | 120 | 0.2921 | 1.0000   | 1.0000            | 0.4500 | 0.4833 | 0.0000 |
+| four directories                     | 120 | 0.3050 | 1.0000   | 1.0000            | 0.3833 | 0.4167 | 0.0000 |
+| five directories                     | 120 | 0.2667 | 1.0000   | 1.0000            | 0.3583 | 0.4000 | 0.0000 |
+| a directory the question never names | 120 | 0.3233 | 1.0000   | 1.0000            | 0.4500 | 0.0000 | 0.0000 |
 
 ## What this does not show
 
