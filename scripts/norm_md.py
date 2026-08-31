@@ -15,7 +15,7 @@ shapes = sorted(any_["splits"]["train_frames_eval"]["modes"]["greedy"]["by_shape
 hdr_names = {t: f"{t} ({d[t]['params']['total']/1e6:.2f}M)" for t in d}
 
 for sp in ("train_frames_eval", "qframe", "lexicon", "mode", "mixed"):
-    if sp not in any_["splits"]:
+    if any(sp not in v["splits"] for v in d.values()):
         continue
     print(f"\n#### {sp}\n")
     cols = list(d)
