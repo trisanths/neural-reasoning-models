@@ -49,7 +49,7 @@ rung at every logged step, which is why `xl93lr40` exists: the same rung, the
 same seed, the same 30,000 steps, run again at the 45M rung's own peak. Where it has
 finished, its own row is here.
 
-
+*Not measured yet: the rate control, queue2.sh step 3.*
 
 ## 2. Structure exact match by frame group
 
@@ -523,16 +523,16 @@ write the structure down, and does it still generalise afterwards.
 
 Structure exact match, on the same grader every rung goes through.
 
+*Not measured yet: the 350M arm, queue2.sh step 6.*
 
-
-
+*Not measured yet: the 350M arm, queue2.sh step 6.*
 
 Forced choice on held-out frames, the same checkpoint before and after the
 structure fine tune. Each cell carries its own chance floor, which is the mean
 over that cell's items of one over that item's option count. `strict` requires
 exactly one option named and it the gold one.
 
-
+*Not measured yet: the frame reading before and after the structure fine tune.*
 
 ## 8. What this says
 

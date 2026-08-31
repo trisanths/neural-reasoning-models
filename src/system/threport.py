@@ -474,6 +474,16 @@ def fit_table(rungs):
     return "\n".join(rows) if seen else ""
 
 
+
+def blk(text, note):
+    """A table, or a line saying which run has not produced it yet.
+
+    A blank gap in the document reads as an omission. A named pending line
+    reads as what it is, and it disappears on its own when the run lands.
+    """
+    return text if text else f"*Not measured yet: {note}.*"
+
+
 def rung_cfg_table(sums):
     """What each rung is, read off the checkpoint the summary was written from."""
     rows = ["| rung | d_model | heads | layers | parameters | non-embedding "
@@ -1088,8 +1098,9 @@ def main():
                     tmpl = tmpl.replace(key, shape_table(sums, grp, mode))
         tmpl = tmpl.replace("{{RUNG_CFG}}", rung_cfg_table(sums))
         tmpl = tmpl.replace("{{FIT}}", fit)
-        tmpl = tmpl.replace("{{CONTROL}}", lm_table(
-            {**{r: sums[r] for r in RUNGS if r in sums}, **ctl}) if ctl else "")
+        tmpl = tmpl.replace("{{CONTROL}}", blk(lm_table(
+            {**{r: sums[r] for r in RUNGS if r in sums}, **ctl}) if ctl else "",
+            "the rate control, queue2.sh step 3"))
         tmpl = tmpl.replace("{{ARTIFACTS}}", artifacts_table(
             collect_artifacts(a, sums, lms)))
         for ax, ph in (("qform", "QFORM"), ("scope_pos", "SCOPEPOS")):
@@ -1101,17 +1112,19 @@ def main():
         tmpl = tmpl.replace("{{KEYPOS_GROUP}}", kpg)
         tmpl = tmpl.replace("{{PARSER_KEYPOS}}", pkp)
         tmpl = tmpl.replace("{{FAILCAT}}", fct)
-        tmpl = tmpl.replace("{{TPOSE_BOTH}}", tpb)
-        tmpl = tmpl.replace("{{TPOSE_BOTH_GROUP}}", tpbg)
+        tmpl = tmpl.replace("{{TPOSE_BOTH}}", blk(tpb, "the balanced-draw fine tune"))
+        tmpl = tmpl.replace("{{TPOSE_BOTH_GROUP}}", blk(tpbg, "the balanced-draw fine tune"))
         tmpl = tmpl.replace("{{KEYPOS_DRAW}}", kpd)
         tmpl = tmpl.replace("{{KEYPOS_MODE}}", kpm)
         tmpl = tmpl.replace("{{GRID_ORDER}}", gro)
         tmpl = tmpl.replace("{{TPOSE}}", tp)
         tmpl = tmpl.replace("{{TPOSE_GROUP}}", tpg)
         tmpl = tmpl.replace("{{FT_COST}}", ftc)
-        tmpl = tmpl.replace("{{LM_EXACT}}", lm_table(lms) if lms else "")
-        tmpl = tmpl.replace("{{LM_SAFETY}}", lm_safety(lms) if lms else "")
-        tmpl = tmpl.replace("{{FRAMES}}", ft)
+        tmpl = tmpl.replace("{{LM_EXACT}}", blk(lm_table(lms) if lms else "",
+                                 "the 350M arm, queue2.sh step 6"))
+        tmpl = tmpl.replace("{{LM_SAFETY}}", blk(lm_safety(lms) if lms else "",
+                                  "the 350M arm, queue2.sh step 6"))
+        tmpl = tmpl.replace("{{FRAMES}}", blk(ft, "the frame reading before and after the structure fine tune"))
         tmpl = tmpl.replace("{{FRESHNESS}}", freshness(sums, reports))
         for key in ("greedy", "sampled"):
             tmpl = tmpl.replace(f"{{{{RUNGS_{key}}}}}",
