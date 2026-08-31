@@ -277,6 +277,8 @@ have. Keys right, values right, pairing wrong.
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
 | l45 | 1024 | original | 750 | 672 / 750 = 0.8960 | 0 / 750 = 0.0000 | 20 / 750 = 0.0267 | 58 / 750 = 0.0773 |
 | l45 | 1024 | transposed | 750 | 0 / 750 = 0.0000 | 733 / 750 = 0.9773 | 17 / 750 = 0.0227 | 0 / 750 = 0.0000 |
+| xl93 | 1024 | original | 750 | 534 / 750 = 0.7120 | 0 / 750 = 0.0000 | 20 / 750 = 0.0267 | 196 / 750 = 0.2613 |
+| xl93 | 1024 | transposed | 750 | 0 / 750 = 0.0000 | 721 / 750 = 0.9613 | 22 / 750 = 0.0293 | 7 / 750 = 0.0093 |
 
 The item file carries 150 pages per frame group per version, so the same
 census is also counted inside each group.
@@ -293,6 +295,16 @@ census is also counted inside each group.
 | l45 | transposed | mode | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | l45 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | l45 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| xl93 | original | lexicon | 150 | 122 / 150 = 0.8133 | 0 / 150 = 0.0000 | 15 / 150 = 0.1000 | 13 / 150 = 0.0867 |
+| xl93 | original | mixed | 150 | 67 / 150 = 0.4467 | 0 / 150 = 0.0000 | 5 / 150 = 0.0333 | 78 / 150 = 0.5200 |
+| xl93 | original | mode | 150 | 82 / 150 = 0.5467 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 68 / 150 = 0.4533 |
+| xl93 | original | qframe | 150 | 115 / 150 = 0.7667 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 35 / 150 = 0.2333 |
+| xl93 | original | train | 150 | 148 / 150 = 0.9867 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 2 / 150 = 0.0133 |
+| xl93 | transposed | lexicon | 150 | 0 / 150 = 0.0000 | 132 / 150 = 0.8800 | 11 / 150 = 0.0733 | 7 / 150 = 0.0467 |
+| xl93 | transposed | mixed | 150 | 0 / 150 = 0.0000 | 139 / 150 = 0.9267 | 11 / 150 = 0.0733 | 0 / 150 = 0.0000 |
+| xl93 | transposed | mode | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| xl93 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| xl93 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 
 Half of every fine tuning batch is drawn from the original training file, so
 this is acquisition and not a trade. What it cost the groups the rung already
@@ -304,6 +316,10 @@ read, against that rung's own final in-training eval on the same 700 items.
 | l45 | qframe | 700 | 0.9086 | 0.8957 |
 | l45 | lexicon | 700 | 0.7971 | 0.7957 |
 | l45 | mode | 700 | 0.5657 | 0.5500 |
+| xl93 | train | 700 | 0.8900 | 0.8614 |
+| xl93 | qframe | 700 | 0.8857 | 0.8514 |
+| xl93 | lexicon | 700 | 0.6871 | 0.6986 |
+| xl93 | mode | 700 | 0.5529 | 0.5186 |
 
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
@@ -333,14 +349,45 @@ exactly one option named and it the gold one.
 
 ## 8. What this says
 
-The first thing this ladder found is not a threshold. The 93M rung is behind
-the 45M rung on every frame group, 0.8889 against
-0.9211 on trained frames and
-0.5221 against 0.5389 on the held-out
-sentence mode, and it is also behind on its own training loss at every logged
-step. A rung that fits its training file worse than a smaller rung is not a
-capacity measurement, so the inverse-width rate the ladder inherited is under
-test before the two expensive rungs run at it. `xl93lr40` is that test.
+Two things are settled on the part of the ladder that has run and neither of
+them is a threshold.
+
+The transposed-operand test does not move with scale. On the `train` frame
+group the fine tuned reader is exact on the original page
+149 of 150 at 45M and 148 of 150 at
+93M, so it has the page shape. On the transposed version of that same page it
+is exact 0 of 150 and
+0 of 150, and it writes the page's nine values onto
+the key layout an untransposed grid would have
+150 of 150 and
+150 of 150. Acquisition is not the
+explanation for the second number, because the first number is on the same 150
+pages. Over all 750 pages of each version the untransposed key order accounts
+for 733 of 750 at 45M and
+721 of 750 at 93M, against
+0 of 750 and 0 of 750 exact.
+Doubling the parameters moved none of it.
+
+The same failure is there without any fine tune, on the held-out sentence
+mode, and section 4 is where it shows. On `inverse`, `iterate`, `priority` and
+`precedence` the 45M reader is exact on every key-first item of that group and
+on no value-first item at all. Right keys, right values, wrong pairing, bound
+to the position the two had in training rather than the position the sentence
+in front of it gives them. That is the transposed-operand failure reached by a
+different road, and it is the reason the `mode` group sits near the key-first
+share of its own items rather than anywhere near the trained-frame score.
+
+The second thing is that the ladder's parameter axis is not yet clean. The 93M
+rung is behind the 45M rung on every frame group,
+0.8889 against 0.9211 on trained
+frames and 0.5221 against 0.5389 on the
+held-out sentence mode, and it is also behind on its own training loss at
+every logged step. A rung that fits its training file worse than a smaller rung
+is not a capacity measurement. `xl93lr40` is the same rung at the 45M rung's
+own peak rate, and `src/system/lrdecide.py` reads the two training losses and
+writes the rate the 167M and 355M rungs then run at. Until that lands, the
+right reading of the first two rungs is that nothing has been shown to move,
+not that scale has been shown not to help.
 
 ## 9. Every artifact
 
@@ -370,6 +417,8 @@ test before the two expensive rungs run at it. `xl93lr40` is that test.
 | `results/system/eval/xl93/records_mode_sampled.jsonl.gz` | 38,362 | 2026-08-31 19:57 |
 | `results/system/eval/xl93/records_mixed_greedy.jsonl.gz` | 38,372 | 2026-08-31 19:58 |
 | `results/system/eval/xl93/records_mixed_sampled.jsonl.gz` | 38,295 | 2026-08-31 19:59 |
+| `results/system/eval/ftxl93/summary.json` | 79,603 | 2026-08-31 20:06 |
+| `results/system/tpose/xmode_xl93.json` | 1,474 | 2026-08-31 20:03 |
 | `results/system/train/log_xl93.jsonl` | 15,652 | 2026-08-31 19:50 |
 | `results/norm/compare/x_items.jsonl.gz` | 292,011 | 2026-08-31 10:52 |
 | `data/norm/grid_train.npz` | 3,459,112 | 2026-08-31 11:10 |
@@ -385,6 +434,7 @@ a records file newer than the summary that reports it.
 | l45 | 2026-08-31 17:41 | 10 | 2026-08-31 17:41 | yes |
 | xl93 | 2026-08-31 19:59 | 10 | 2026-08-31 19:59 | yes |
 | ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
+| ftxl93 | 2026-08-31 20:06 | 10 | 2026-08-31 20:06 | yes |
 
 ## 10. How to run it
 

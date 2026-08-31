@@ -543,6 +543,53 @@ def collect_artifacts(a, sums, lms):
     return uniq
 
 
+
+def tpose_facts(dirpath) -> dict:
+    """Every cell of the transposed census as a fact, so prose can cite one.
+
+    Keys are tp_RUNG_VERSION_GROUP_CATEGORY and the value is the count over
+    that cell's own denominator. A category with no items in a cell is 0 over
+    that denominator rather than absent, so a citation cannot silently become
+    a blank.
+    """
+    out = {}
+    for r in RUNGS:
+        rep = load(os.path.join(dirpath, f"xmode_{r}.json"))
+        if rep is None:
+            continue
+        for run in rep["runs"].values():
+            by = run.get("counts_by_group") or {}
+            groups = []
+            for key in by:
+                sp = key.split("|")[1]
+                if sp not in groups:
+                    groups.append(sp)
+            for ver in ("original", "transposed"):
+                for sp in groups:
+                    cells = {k.split("|")[2]: v for k, v in by.items()
+                             if k.startswith(f"{ver}|{sp}|")}
+                    n = sum(cells.values())
+                    if not n:
+                        continue
+                    for cat in TP_CATS:
+                        v = cells.get(cat, 0)
+                        out[f"tp_{r}_{ver}_{sp}_{cat}"] = \
+                            f"{v} of {n}"
+                        out[f"tp_{r}_{ver}_{sp}_{cat}_rate"] = f"{v / n:.4f}"
+            c = run["counts"]
+            for ver in ("original", "transposed"):
+                cells = {k.split("|")[1]: v for k, v in c.items()
+                         if k.startswith(ver + "|")}
+                n = sum(cells.values())
+                if not n:
+                    continue
+                for cat in TP_CATS:
+                    v = cells.get(cat, 0)
+                    out[f"tp_{r}_{ver}_all_{cat}"] = f"{v} of {n}"
+                    out[f"tp_{r}_{ver}_all_{cat}_rate"] = f"{v / n:.4f}"
+    return out
+
+
 def facts(sums, extra) -> dict:
     out = dict(extra)
     for r in RUNGS:
@@ -676,6 +723,7 @@ def main():
 
     extra = load(a.extra) or {}
     fx = facts(sums, extra)
+    fx.update(tpose_facts(a.tpose))
     with open(os.path.join(a.out, "facts.json"), "w") as fh:
         json.dump(fx, fh, indent=1, sort_keys=True)
     print(f"{len(fx)} facts, {len(sums)} rungs")
