@@ -81,11 +81,16 @@ recorded per run in the meta file.
 
 ## Every prompt formulation tried, not just the one reported
 
-Four formulations were run over the same 213 item stride sample of the one
-page set, and the full run uses the best of the three that hand the model no
-more than the library system gets. The fourth prints the candidate list, which
+Five formulations were run over the same {n_sel} item stride sample of the one
+page set, and the full run uses the best of the four that hand the model no
+more than the library system gets. The fifth prints the candidate list, which
 is more than our own system is given, so it is kept apart as an advantaged
 cell and never used for a matched row.
+
+One of the four is a scaffold naming the steps the definition calls for, and
+one prefills the assistant turn so the model has to write the values it read
+before it can answer. Both are here because the small models comply with an
+answer format and skip the reasoning when they are merely asked for it.
 
 {t_selection}
 

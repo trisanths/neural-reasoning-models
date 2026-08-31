@@ -191,6 +191,8 @@ def main():
         "t_curve": t_curve(rep, ours), "t_general": t_general(rep),
         "t_samples": t_samples(rep),
         "n_records": len(rep["records"]),
+        "n_sel": max([d["all"]["n"] for d in rep["selection"].values()]
+                     or [0]),
         "verdict": (open(a.verdict).read().strip()
                     if os.path.exists(a.verdict) else "(verdict pending)"),
     }
