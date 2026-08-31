@@ -43,3 +43,16 @@ for s in sorted(be):
             f"{d[k]:9.4f}" for k in ("train_frames_eval", "qframe",
                                      "lexicon", "mode")))
     print()
+
+dest = os.path.join(ROOT, "results/system/lr_control_curves.json")
+with open(dest, "w") as fh:
+    json.dump({"source": ["results/norm/train/log_l.jsonl",
+                          "results/system/train/log_xl93.jsonl",
+                          "results/system/train/log_xl93lr40.jsonl"],
+               "note": ("in-training eval reads the first 700 items of each "
+                        "file, which is a prefix and not a sample; the qframe "
+                        "column of it is key-first only. The scored numbers "
+                        "in THRESHOLD.md read all 7,000."),
+               "loss": {"l45": c, "xl93": a, "xl93lr40": b},
+               "eval": {"l45": ce, "xl93": ae, "xl93lr40": be}}, fh, indent=1)
+print("wrote", dest)
