@@ -178,6 +178,7 @@ def main():
     ap.add_argument("--ours", default="results/extern/ours_oneshot.json")
     ap.add_argument("--tmpl", default="src/extern/LIQUID.tmpl.md")
     ap.add_argument("--out", default="src/extern/LIQUID.md")
+    ap.add_argument("--verdict", default="results/extern/verdict.md")
     a = ap.parse_args()
     rep = json.load(open(a.report))
     ours = json.load(open(a.ours)) if os.path.exists(a.ours) else {}
@@ -189,6 +190,8 @@ def main():
         "t_curve": t_curve(rep, ours), "t_general": t_general(rep),
         "t_samples": t_samples(rep),
         "n_records": len(rep["records"]),
+        "verdict": (open(a.verdict).read().strip()
+                    if os.path.exists(a.verdict) else "(verdict pending)"),
     }
     for k, v in holes.items():
         txt = txt.replace("{" + k + "}", str(v))
