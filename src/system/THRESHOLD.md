@@ -261,6 +261,23 @@ The other axes of the same group, for comparison.
 | l45 | 0.4736 (1176) | 0.5862 (1624) |
 | xl93 | 0.4694 (1176) | 0.5603 (1624) |
 
+Taken together over the seven shapes, the reader is exact on
+0 of 651 value-first items of that group at 45M and
+0 of 651 at 93M, against
+528 of 749 and 489 of 749 on the key-first
+ones. What it writes instead is not noise. At 45M
+531 of 651 of those items are a structure the interpreter
+accepts and runs to a wrong answer and only
+120 of 651 are refused, with
+0 of 651 malformed.
+
+| rung | key position | n | exact | wrong | refused | malformed |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | key_first | 749 | 528 / 749 = 0.7049 | 221 / 749 = 0.2951 | 0 / 749 = 0.0000 | 0 / 749 = 0.0000 |
+| l45 | value_first | 651 | 0 / 651 = 0.0000 | 531 / 651 = 0.8157 | 120 / 651 = 0.1843 | 0 / 651 = 0.0000 |
+| xl93 | key_first | 749 | 489 / 749 = 0.6529 | 256 / 749 = 0.3418 | 4 / 749 = 0.0053 | 0 / 749 = 0.0000 |
+| xl93 | value_first | 651 | 0 / 651 = 0.0000 | 491 / 651 = 0.7542 | 159 / 651 = 0.2442 | 1 / 651 = 0.0015 |
+
 ### Whether the surface explains it
 
 If the binding were not in the text, or were ambiguous there, the network's

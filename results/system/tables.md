@@ -195,6 +195,14 @@
 | xl93 | mode | 0.6976 (1498) | 0.3203 (1302) |
 | xl93 | mixed | 0.5328 (1190) | 0.4261 (1610) |
 
+## What the value-first failures are made of
+| rung | key position | n | exact | wrong | refused | malformed |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | key_first | 749 | 528 / 749 = 0.7049 | 221 / 749 = 0.2951 | 0 / 749 = 0.0000 | 0 / 749 = 0.0000 |
+| l45 | value_first | 651 | 0 / 651 = 0.0000 | 531 / 651 = 0.8157 | 120 / 651 = 0.1843 | 0 / 651 = 0.0000 |
+| xl93 | key_first | 749 | 489 / 749 = 0.6529 | 256 / 749 = 0.3418 | 4 / 749 = 0.0053 | 0 / 749 = 0.0000 |
+| xl93 | value_first | 651 | 0 / 651 = 0.0000 | 491 / 651 = 0.7542 | 159 / 651 = 0.2442 | 1 / 651 = 0.0015 |
+
 ## The reference parser on the same split
 | frame group | key position | n | parser exact |
 | --- | --- | ---: | ---: |

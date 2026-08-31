@@ -120,6 +120,18 @@ The other axes of the same group, for comparison.
 
 {{SCOPEPOS}}
 
+Taken together over the seven shapes, the reader is exact on
+{{fc_l45_value_first_exact}} value-first items of that group at 45M and
+{{fc_xl93_value_first_exact}} at 93M, against
+{{fc_l45_key_first_exact}} and {{fc_xl93_key_first_exact}} on the key-first
+ones. What it writes instead is not noise. At 45M
+{{fc_l45_value_first_wrong}} of those items are a structure the interpreter
+accepts and runs to a wrong answer and only
+{{fc_l45_value_first_refused}} are refused, with
+{{fc_l45_value_first_malformed}} malformed.
+
+{{FAILCAT}}
+
 ### Whether the surface explains it
 
 If the binding were not in the text, or were ambiguous there, the network's

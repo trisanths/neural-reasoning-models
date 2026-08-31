@@ -642,6 +642,45 @@ def draw_facts(keypos_path, mode_path, order_path) -> dict:
 
 
 
+
+def failcat_table(path):
+    """What the value-first failures are made of, on the seven shapes."""
+    d = load(path)
+    if d is None:
+        return ""
+    rows = ["| rung | key position | n | exact | wrong | refused | "
+            "malformed |",
+            "| --- | --- | ---: | ---: | ---: | ---: | ---: |"]
+    for tag, c in d["cells"].items():
+        for kp in ("key_first", "value_first"):
+            n = c.get(f"{kp}|n")
+            if not n:
+                continue
+            cells = []
+            for cat in ("exact", "wrong", "refused", "malformed"):
+                v = c.get(f"{kp}|{cat}", 0)
+                cells.append(f"{v} / {n} = {v / n:.4f}")
+            rows.append(f"| {tag} | {kp} | {n} | " + " | ".join(cells) + " |")
+    return "\n".join(rows)
+
+
+def failcat_facts(path) -> dict:
+    d = load(path)
+    if d is None:
+        return {}
+    out = {}
+    for tag, c in d["cells"].items():
+        for kp in ("key_first", "value_first"):
+            n = c.get(f"{kp}|n")
+            if not n:
+                continue
+            for cat in ("exact", "wrong", "refused", "malformed"):
+                v = c.get(f"{kp}|{cat}", 0)
+                out[f"fc_{tag}_{kp}_{cat}"] = f"{v} of {n}"
+                out[f"fc_{tag}_{kp}_{cat}_rate"] = f"{v / n:.4f}"
+    return out
+
+
 def parser_keypos_table(path):
     """The reference parser on the same items, split by key position."""
     d = load(path)
@@ -884,6 +923,9 @@ def main():
     kpg = keypos_group_table("results/system/keypos_by_group.json")
     if kpg:
         parts += ["## Key position inside every frame group", kpg, ""]
+    fct = failcat_table("results/system/failcat_mode_seven.json")
+    if fct:
+        parts += ["## What the value-first failures are made of", fct, ""]
     pkp = parser_keypos_table("results/system/parser_by_keypos.json")
     if pkp:
         parts += ["## The reference parser on the same split", pkp, ""]
@@ -960,6 +1002,7 @@ def main():
     fx.update(draw_facts(KP, KM, GO))
     fx.update(keypos_group_facts("results/system/keypos_by_group.json"))
     fx.update(parser_keypos_facts("results/system/parser_by_keypos.json"))
+    fx.update(failcat_facts("results/system/failcat_mode_seven.json"))
     fx.update({("tpb" + k[2:]): v for k, v in
                tpose_facts(a.tpose, "_both").items()})
     with open(os.path.join(a.out, "facts.json"), "w") as fh:
@@ -988,6 +1031,7 @@ def main():
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
         tmpl = tmpl.replace("{{KEYPOS_GROUP}}", kpg)
         tmpl = tmpl.replace("{{PARSER_KEYPOS}}", pkp)
+        tmpl = tmpl.replace("{{FAILCAT}}", fct)
         tmpl = tmpl.replace("{{TPOSE_BOTH}}", tpb)
         tmpl = tmpl.replace("{{TPOSE_BOTH_GROUP}}", tpbg)
         tmpl = tmpl.replace("{{KEYPOS_DRAW}}", kpd)
