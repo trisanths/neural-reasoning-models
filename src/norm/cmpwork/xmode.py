@@ -90,18 +90,25 @@ def main():
                         "cuda", "greedy", batch=48, max_len=ndata.MAX_OUT,
                         seed=0)
         c = Counter()
+        cg = Counter()
         for k, i in enumerate(live):
             gold = program_load(items[i]["prog"])
             try:
                 got = deserialize(ov.decode(em[k]), enc[i]["slots"])
             except Exception:
                 got = None
-            c[(items[i]["version"], classify(got, gold))] += 1
+            cat = classify(got, gold)
+            c[(items[i]["version"], cat)] += 1
+            # The item file carries 150 pages per frame group per version, so
+            # the census is also counted per group and never pooled over one.
+            cg[(items[i]["version"], items[i].get("split", "all"), cat)] += 1
         tag = os.path.basename(path).replace(".pt", "")
         rep["runs"][tag] = {
             "ckpt": os.path.abspath(path), "size": ck["size"],
             "finetune": ck.get("finetune"),
-            "counts": {f"{v}|{k}": n for (v, k), n in sorted(c.items())}}
+            "counts": {f"{v}|{k}": n for (v, k), n in sorted(c.items())},
+            "counts_by_group": {f"{v}|{sp}|{k}": n
+                                for (v, sp, k), n in sorted(cg.items())}}
         print(tag, json.dumps(rep["runs"][tag]["counts"]), flush=True)
         del model
         torch.cuda.empty_cache()
