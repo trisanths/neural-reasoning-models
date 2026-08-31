@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 13:41 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 15:27 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 25 record files, none newer than the report of 2026-08-31 13:41 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 70 record files, none newer than the report of 2026-08-31 15:26 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -15,13 +15,17 @@ The answer. One page is enough for the library system and it is enough on the
 first page: 1.0000 strict on each of the four operation families, and structure
 exact at 1.0000 as well, unchanged when the same operation is stated on two
 pages and on four. The network, handed the same page in its context and taking
-no gradient step, scores 0.0000, 0.0194, 0.1200 and 0.0173 strict on those four
-families against floors of 0.3735, 0.3086, 0.3567 and 0.2879, which is below its
-own guessing floor in every one. Across the whole item set it is structure exact
+no gradient step, scores 0.0000 on the two directory one clause family against a
+floor of 0.3735, 0.0194 on three directories and one clause against 0.3086,
+0.1200 on two directories and two clauses against 0.3567, and 0.0173 on three
+directories and two clauses against 0.2879, which is below its own guessing
+floor in every one. Across the whole item set it is structure exact
 on 0 of 6,736 items under greedy decoding and 0 of 6,736 under sampled.
 Given labelled examples of the one operation it will be tested on, and an output
-vocabulary extended for free so it can write an operation down at all, it climbs
-the ladder below rather than arriving at the first example.
+vocabulary extended for free so it can write an operation down at all, it takes
+256 examples to clear its chance floor on one of the four operations a ladder
+was run for, 1024 on a second, and it does not clear it within 256 on the other
+two. It reaches 0.9000 on none of them.
 
 ## The operation, and why it is new to everything here
 
@@ -96,12 +100,20 @@ hand written parser for the fourteen corpus shapes.
 
 The same items, answered by the network.
 
-| network     | family                         | n   | floor  | strict greedy | strict sampled | structure exact | declined |
-| ----------- | ------------------------------ | --- | ------ | ------------- | -------------- | --------------- | -------- |
-| no gradient | two directories, one clause    | 110 | 0.3735 | 0.0000        | 0.0091         | 0.0000          | 0.4364   |
-| no gradient | three directories, one clause  | 310 | 0.3086 | 0.0194        | 0.0161         | 0.0000          | 0.7323   |
-| no gradient | two directories, two clauses   | 25  | 0.3567 | 0.1200        | 0.0000         | 0.0000          | 0.5200   |
-| no gradient | three directories, two clauses | 405 | 0.2879 | 0.0173        | 0.0074         | 0.0000          | 0.5852   |
+| network                    | family                         | n   | floor  | strict greedy | strict sampled | structure exact | declined |
+| -------------------------- | ------------------------------ | --- | ------ | ------------- | -------------- | --------------- | -------- |
+| no gradient                | two directories, one clause    | 110 | 0.3735 | 0.0000        | 0.0091         | 0.0000          | 0.4364   |
+| family trained, 1500 steps | two directories, one clause    | 110 | 0.3735 | 0.0273        | 0.0091         | 0.0000          | 0.7636   |
+| family trained, 6000 steps | two directories, one clause    | 110 | 0.3735 | 0.0636        | 0.0545         | 0.0000          | 0.7182   |
+| no gradient                | three directories, one clause  | 310 | 0.3086 | 0.0194        | 0.0161         | 0.0000          | 0.7323   |
+| family trained, 1500 steps | three directories, one clause  | 310 | 0.3086 | 0.0419        | 0.0226         | 0.0000          | 0.6129   |
+| family trained, 6000 steps | three directories, one clause  | 310 | 0.3086 | 0.0903        | 0.0226         | 0.0000          | 0.5968   |
+| no gradient                | two directories, two clauses   | 25  | 0.3567 | 0.1200        | 0.0000         | 0.0000          | 0.5200   |
+| family trained, 1500 steps | two directories, two clauses   | 25  | 0.3567 | 0.0400        | 0.0000         | 0.0000          | 0.6400   |
+| family trained, 6000 steps | two directories, two clauses   | 25  | 0.3567 | 0.0000        | 0.0000         | 0.0000          | 0.6800   |
+| no gradient                | three directories, two clauses | 405 | 0.2879 | 0.0173        | 0.0074         | 0.0000          | 0.5852   |
+| family trained, 1500 steps | three directories, two clauses | 405 | 0.2879 | 0.0346        | 0.0173         | 0.0000          | 0.5605   |
+| family trained, 6000 steps | three directories, two clauses | 405 | 0.2879 | 0.0395        | 0.0469         | 0.0000          | 0.7062   |
 
 The three library columns are the curve. One page, two pages and four pages of
 the same operation give the same number, because the second page carries nothing
@@ -163,50 +175,56 @@ hide which of them moved. `network best on its own ladder` is the highest strict
 score any of that operation's fine tuned checkpoints reached, and `at k` says
 how many examples that took.
 
-| operation    | n   | floor  | library | library exact | S1     | S2     | network no gradient | network family trained | network best on its own ladder | at k |
-| ------------ | --- | ------ | ------- | ------------- | ------ | ------ | ------------------- | ---------------------- | ------------------------------ | ---- |
-| acq/a2c1/2   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0100              | -                      | 0.3300                         | 64   |
-| acq/a2c1/5   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0100              | -                      | -                              | -    |
-| acq/a2c2/157 | 100 | 0.3333 | 1.0000  | 1.0000        | 0.0000 | 0.6000 | 0.0500              | -                      | -                              | -    |
-| acq/a2c2/187 | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0200              | -                      | -                              | -    |
-| acq/a3c1/26  | 100 | 0.3333 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0400              | -                      | 0.2600                         | 64   |
-| acq/a3c1/28  | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.8000 | 0.0300              | -                      | -                              | -    |
-| acq/a3c2/144 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0300              | -                      | 0.0200                         | 1    |
-| acq/a3c2/146 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.2000 | 0.8000 | 0.0000              | -                      | -                              | -    |
+| operation    | n   | floor  | library | library exact | S1     | S2     | network no gradient | network family trained 6000 steps | network best on its own ladder | at k |
+| ------------ | --- | ------ | ------- | ------------- | ------ | ------ | ------------------- | --------------------------------- | ------------------------------ | ---- |
+| acq/a2c1/2   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0100              | 0.0200                            | 0.5500                         | 256  |
+| acq/a2c1/5   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0100              | 0.0300                            | -                              | -    |
+| acq/a2c2/157 | 100 | 0.3333 | 1.0000  | 1.0000        | 0.0000 | 0.6000 | 0.0500              | 0.0100                            | 0.2500                         | 64   |
+| acq/a2c2/187 | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0200              | 0.0300                            | -                              | -    |
+| acq/a3c1/26  | 100 | 0.3333 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0400              | 0.0000                            | 0.3800                         | 1024 |
+| acq/a3c1/28  | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.8000 | 0.0300              | 0.0200                            | -                              | -    |
+| acq/a3c2/144 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0300              | 0.0000                            | 0.0700                         | 256  |
+| acq/a3c2/146 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.2000 | 0.8000 | 0.0000              | 0.0700                            | -                              | -    |
 
 The k curve behind that last column, for the four operations a ladder was run
 for. This is the cell where the network has every advantage: k labelled examples of exactly
 this operation, tested on the same operation in wordings it did not train on.
 
-| pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64   | k=256 | k=1024 | no gradient |
-| ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
-| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
-| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | 0.0500 | 0.2600 | -     | -      | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | 0.0100 | 0.0100 | 0.0100 | -      | -     | -      | 0.0300      |
-| acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
+| pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64   | k=256  | k=1024 | no gradient |
+| ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ------ | ------ | ----------- |
+| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | 0.5500 | 0.5500 | 0.0100      |
+| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | 0.0500 | 0.2600 | 0.3000 | 0.3800 | 0.0400      |
+| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | 0.0100 | 0.0100 | 0.0100 | 0.0300 | 0.0700 | -      | 0.0300      |
+| acq_a2c2_157 | acq/a2c2/157 | 0.0400 | 0.0200 | 0.0400 | 0.0800 | 0.2500 | 0.2500 | -      | 0.0500      |
 
-The same ladder run again from the family trained network rather than from the
+The same ladder run again from a family trained network rather than from the
 shipped one. That network has already read a thousand examples of other
 operations of this family and already has the notation, so k here buys this
 operation and nothing else, which is the friendliest reading of the question a
-gradient learner can be given.
+gradient learner can be given. Both starting points are shown; the 1500 step one
+is the run that had not converged, and it is here for comparison rather than as
+a baseline.
 
-| pool         | operation    | k=0 (family trained) | k=1 | k=2 | k=4 |
-| ------------ | ------------ | -------------------- | --- | --- | --- |
-| acq_a2c1_2   | acq/a2c1/2   | -                    | -   | -   | -   |
-| acq_a3c1_26  | acq/a3c1/26  | -                    | -   | -   | -   |
-| acq_a3c2_144 | acq/a3c2/144 | -                    | -   | -   | -   |
-| acq_a2c2_157 | acq/a2c2/157 | -                    | -   | -   | -   |
+| starting point           | operation    | k=0    | k=1    | k=2    | k=4    |
+| ------------------------ | ------------ | ------ | ------ | ------ | ------ |
+| 1500 step family network | acq/a2c1/2   | 0.0200 | 0.0600 | 0.1600 | 0.2000 |
+| 1500 step family network | acq/a3c1/26  | 0.0100 | 0.0500 | 0.0500 | 0.0500 |
+| 1500 step family network | acq/a3c2/144 | 0.0000 | 0.0100 | 0.0100 | 0.0100 |
+| 1500 step family network | acq/a2c2/157 | 0.0600 | 0.0500 | 0.0800 | 0.1100 |
+| 6000 step family network | acq/a2c1/2   | 0.0200 | 0.0200 | 0.0400 | 0.0800 |
+| 6000 step family network | acq/a3c1/26  | 0.0000 | 0.0800 | 0.0400 | 0.1300 |
+| 6000 step family network | acq/a3c2/144 | 0.0000 | 0.0200 | 0.0100 | 0.0100 |
+| 6000 step family network | acq/a2c2/157 | 0.0100 | 0.0800 | 0.0800 | 0.0200 |
 
 The metric this lane is named for, read off those tables.
 
-| system  | operation             | best strict reached | floor  | examples to clear the floor | examples to reach 0.9000 |
-| ------- | --------------------- | ------------------- | ------ | --------------------------- | ------------------------ |
-| library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
-| network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
-| network | acq/a3c1/26           | 0.2600              | 0.3333 | not within 64               | not within 64            |
-| network | acq/a3c2/144          | 0.0200              | 0.2500 | not within 16               | not within 16            |
-| network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
+| system  | operation                | best strict reached | floor  | examples to clear the floor | examples to reach 0.9000 |
+| ------- | ------------------------ | ------------------- | ------ | --------------------------- | ------------------------ |
+| library | all eight, one page each | 1.0000              | 0.3646 | 0                           | 0                        |
+| network | acq/a2c1/2               | 0.5500              | 0.5000 | 256                         | not within 1024          |
+| network | acq/a3c1/26              | 0.3800              | 0.3333 | 1024                        | not within 1024          |
+| network | acq/a3c2/144             | 0.0700              | 0.2500 | not within 256              | not within 256           |
+| network | acq/a2c2/157             | 0.2500              | 0.3333 | not within 256              | not within 256           |
 
 ## Depth
 
@@ -217,13 +235,13 @@ no step cap in `src/norm/interp.py` to reach. Items are aligned: only the
 question keys whose option set stays larger than one at every depth are counted,
 so the five rows are the same items and not five different ones.
 
-| applications | n   | floor  | L strict | S1     | S2     | network no gradient greedy | network no gradient sampled | network family trained greedy | network family trained sampled |
-| ------------ | --- | ------ | -------- | ------ | ------ | -------------------------- | --------------------------- | ----------------------------- | ------------------------------ |
-| 1            | 555 | 0.2504 | 1.0000   | 0.3820 | 0.4378 | 0.0072                     | 0.0054                      | -                             | -                              |
-| 2            | 555 | 0.3090 | 1.0000   | 0.1315 | 0.1477 | 0.0180                     | 0.0180                      | -                             | -                              |
-| 4            | 555 | 0.3589 | 1.0000   | 0.1820 | 0.2162 | 0.0288                     | 0.0288                      | -                             | -                              |
-| 8            | 555 | 0.3629 | 1.0000   | 0.1351 | 0.1640 | 0.0144                     | 0.0126                      | -                             | -                              |
-| 16           | 555 | 0.3629 | 1.0000   | 0.1910 | 0.2288 | 0.0090                     | 0.0054                      | -                             | -                              |
+| applications | n   | floor  | L strict | S1     | S2     | network no gradient greedy | network no gradient sampled | family 1500 greedy | family 1500 sampled | family 6000 greedy | family 6000 sampled |
+| ------------ | --- | ------ | -------- | ------ | ------ | -------------------------- | --------------------------- | ------------------ | ------------------- | ------------------ | ------------------- |
+| 1            | 555 | 0.2504 | 1.0000   | 0.3820 | 0.4378 | 0.0072                     | 0.0054                      | 0.0162             | 0.0036              | 0.0090             | 0.0036              |
+| 2            | 555 | 0.3090 | 1.0000   | 0.1315 | 0.1477 | 0.0180                     | 0.0180                      | 0.0018             | 0.0036              | 0.0018             | 0.0036              |
+| 4            | 555 | 0.3589 | 1.0000   | 0.1820 | 0.2162 | 0.0288                     | 0.0288                      | 0.0072             | 0.0036              | 0.0018             | 0.0000              |
+| 8            | 555 | 0.3629 | 1.0000   | 0.1351 | 0.1640 | 0.0144                     | 0.0126                      | 0.0018             | 0.0000              | 0.0018             | 0.0018              |
+| 16           | 555 | 0.3629 | 1.0000   | 0.1910 | 0.2288 | 0.0090                     | 0.0054                      | 0.0108             | 0.0054              | 0.0072             | 0.0036              |
 
 Past the ceiling. The corpus stops at plan length 48 and the network's own
 ladder stops well before that. Running the same acquired operation 64 times over
@@ -249,24 +267,42 @@ the first. The plan is the reads for the first operation and a call, then the
 reads for the second and a second call, so six steps when both read two
 directories and eight when both read three.
 
-| system                         | n   | floor  | strict | lenient | declined | structure exact |
-| ------------------------------ | --- | ------ | ------ | ------- | -------- | --------------- |
-| library, two pages             | 240 | 0.3915 | 1.0000 | 1.0000  | 0.0000   | 1.0000          |
-| shortcut, first line           | 240 | 0.3915 | 0.1375 | 0.1375  | 0.0000   | -               |
-| shortcut, last line            | 240 | 0.3915 | 0.1792 | 0.1792  | 0.0000   | -               |
-| corpus parser                  | 240 | 0.3915 | 0.0000 | 0.0000  | 1.0000   | -               |
-| network, no gradient (greedy)  | 240 | 0.3915 | 0.0125 | 0.0125  | 0.5125   | 0.0000          |
-| network, no gradient (sampled) | 240 | 0.3915 | 0.0167 | 0.0167  | 0.5208   | 0.0000          |
+| system                                        | n   | floor  | strict | lenient | declined | structure exact |
+| --------------------------------------------- | --- | ------ | ------ | ------- | -------- | --------------- |
+| library, two pages                            | 240 | 0.3915 | 1.0000 | 1.0000  | 0.0000   | 1.0000          |
+| shortcut, first line                          | 240 | 0.3915 | 0.1375 | 0.1375  | 0.0000   | -               |
+| shortcut, last line                           | 240 | 0.3915 | 0.1792 | 0.1792  | 0.0000   | -               |
+| corpus parser                                 | 240 | 0.3915 | 0.0000 | 0.0000  | 1.0000   | -               |
+| network, no gradient (greedy)                 | 240 | 0.3915 | 0.0125 | 0.0125  | 0.5125   | 0.0000          |
+| network, no gradient (sampled)                | 240 | 0.3915 | 0.0167 | 0.0167  | 0.5208   | 0.0000          |
+| network, family trained, 1500 steps (greedy)  | 240 | 0.3915 | 0.0042 | 0.0042  | 0.8167   | 0.0000          |
+| network, family trained, 1500 steps (sampled) | 240 | 0.3915 | 0.0042 | 0.0042  | 0.9333   | 0.0000          |
+| network, family trained, 6000 steps (greedy)  | 240 | 0.3915 | 0.0042 | 0.0042  | 0.8250   | 0.0000          |
+| network, family trained, 6000 steps (sampled) | 240 | 0.3915 | 0.0125 | 0.0125  | 0.8375   | 0.0000          |
 
 An accuracy says the network is wrong. This says what it wrote instead. A
 composition item needs a structure holding two operator definitions and a plan
 that calls two different operators, and the counts are averaged over the
 emissions that read back as a structure at all.
 
-| row                  | n   | malformed | operator definitions | calls  | distinct operators called | directories | plan steps |
-| -------------------- | --- | --------- | -------------------- | ------ | ------------------------- | ----------- | ---------- |
-| what the item needs  | 240 | -         | 2.0000               | 2.0000 | 2.0000                    | 5.5370      | 7.5370     |
-| network, no gradient | 135 | 105       | 0.0000               | 0.0000 | 0.0000                    | 2.3630      | 3.7630     |
+| row                                         | n    | malformed | operator definitions | calls  | distinct operators called | directories | plan steps |
+| ------------------------------------------- | ---- | --------- | -------------------- | ------ | ------------------------- | ----------- | ---------- |
+| what a one application item needs           | 2550 | -         | 1.0000               | 1.0000 | 1.0000                    | 2.8410      | 3.8410     |
+| network, no gradient, on one application    | 1137 | 1413      | 0.0000               | 0.0000 | 0.0000                    | 3.6760      | 5.3430     |
+| what a composition item needs               | 240  | -         | 2.0000               | 2.0000 | 2.0000                    | 5.5370      | 7.5370     |
+| network, no gradient, on compose            | 135  | 105       | 0.0000               | 0.0000 | 0.0000                    | 2.3630      | 3.7630     |
+| what a one application item needs           | 2550 | -         | 1.0000               | 1.0000 | 1.0000                    | 2.8410      | 3.8410     |
+| network, family trained, on one application | 1337 | 1213      | 0.9330               | 0.9350 | 0.9350                    | 3.0650      | 3.9990     |
+| what a composition item needs               | 240  | -         | 2.0000               | 2.0000 | 2.0000                    | 5.5370      | 7.5370     |
+| network, family trained, on compose         | 96   | 144       | 0.7290               | 0.7920 | 0.7920                    | 3.2500      | 4.5420     |
+
+The family trained network has learned the notation and not the reading. On one
+application items it writes 0.9330 operator definitions where one is needed and
+makes 0.9350 calls where one is needed, and is structure exact on 0 of 2,550: it
+writes an operator definition of the right shape with the wrong contents. On
+composition it writes 0.7290 definitions and calls 0.7920 distinct operators
+where two of each are needed, which is this lane's version of the count an
+earlier lane recorded as about one distinct symbol where two are needed.
 
 ## The page that contradicts the training
 
@@ -279,20 +315,28 @@ are built, because a system that answers the first directory under both is
 following training and a system that answers what the page says under both is
 following the page, and one direction alone cannot tell those apart.
 
-| page says   | system                         | n   | floor  | follows page | follows training | neither |
-| ----------- | ------------------------------ | --- | ------ | ------------ | ---------------- | ------- |
-| page_first  | library                        | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
-| page_first  | shortcut, first line           | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
-| page_first  | shortcut, last line            | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_first  | corpus parser                  | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_first  | network, no gradient (greedy)  | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_first  | network, no gradient (sampled) | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_second | library                        | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
-| page_second | shortcut, first line           | 230 | 0.2754 | 0.0000       | 0.9087           | 0.0913  |
-| page_second | shortcut, last line            | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
-| page_second | corpus parser                  | 230 | 0.2754 | 0.0000       | 0.0000           | 1.0000  |
-| page_second | network, no gradient (greedy)  | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
-| page_second | network, no gradient (sampled) | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
+| page says   | system                                        | n   | floor  | follows page | follows training | neither |
+| ----------- | --------------------------------------------- | --- | ------ | ------------ | ---------------- | ------- |
+| page_first  | library                                       | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
+| page_first  | shortcut, first line                          | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
+| page_first  | shortcut, last line                           | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | corpus parser                                 | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | network, no gradient (greedy)                 | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | network, no gradient (sampled)                | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | network, family trained, 1500 steps (greedy)  | 230 | 0.2703 | 0.0739       | 0.0739           | 0.9261  |
+| page_first  | network, family trained, 1500 steps (sampled) | 230 | 0.2703 | 0.0087       | 0.0087           | 0.9913  |
+| page_first  | network, family trained, 6000 steps (greedy)  | 230 | 0.2703 | 0.0130       | 0.0130           | 0.9870  |
+| page_first  | network, family trained, 6000 steps (sampled) | 230 | 0.2703 | 0.0130       | 0.0130           | 0.9870  |
+| page_second | library                                       | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
+| page_second | shortcut, first line                          | 230 | 0.2754 | 0.0000       | 0.9087           | 0.0913  |
+| page_second | shortcut, last line                           | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
+| page_second | corpus parser                                 | 230 | 0.2754 | 0.0000       | 0.0000           | 1.0000  |
+| page_second | network, no gradient (greedy)                 | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
+| page_second | network, no gradient (sampled)                | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
+| page_second | network, family trained, 1500 steps (greedy)  | 230 | 0.2754 | 0.0348       | 0.0522           | 0.9130  |
+| page_second | network, family trained, 1500 steps (sampled) | 230 | 0.2754 | 0.0087       | 0.0174           | 0.9739  |
+| page_second | network, family trained, 6000 steps (greedy)  | 230 | 0.2754 | 0.0304       | 0.0348           | 0.9348  |
+| page_second | network, family trained, 6000 steps (sampled) | 230 | 0.2754 | 0.0130       | 0.0217           | 0.9652  |
 
 The library follows the page in both directions. It does so by construction and
 the point of running it is that construction and behaviour are two different
@@ -338,20 +382,26 @@ structure it was given, or a well formed structure was executed and computed
 something else. For the library the first column is every refusal, wherever it
 happened, and the controls table above says at which step.
 
-| system               | condition | n    | no structure produced | interpreter refused | ran the wrong structure | ran the right one |
-| -------------------- | --------- | ---- | --------------------- | ------------------- | ----------------------- | ----------------- |
-| library              | acq       | 2550 | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
-| library              | depth     | 3246 | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
-| library              | compose   | 240  | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
-| library              | contra    | 460  | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
-| library              | held_mode | 120  | 1.0000                | 0.0000              | 0.0000                  | 0.0000            |
-| library              | unstated  | 120  | 1.0000                | 0.0000              | 0.0000                  | 0.0000            |
-| network, no gradient | acq       | 2550 | 0.5541                | 0.0255              | 0.4047                  | 0.0157            |
-| network, no gradient | depth     | 3246 | 0.4421                | 0.0499              | 0.4920                  | 0.0160            |
-| network, no gradient | compose   | 240  | 0.4375                | 0.0750              | 0.4750                  | 0.0125            |
-| network, no gradient | contra    | 460  | 0.2630                | 0.0370              | 0.6935                  | 0.0065            |
-| network, no gradient | held_mode | 120  | 0.0333                | 0.1000              | 0.8167                  | 0.0500            |
-| network, no gradient | unstated  | 120  | 0.3750                | 0.0583              | 0.5667                  | 0.0000            |
+| system                  | condition | n    | no structure produced | interpreter refused | ran the wrong structure | ran the right one |
+| ----------------------- | --------- | ---- | --------------------- | ------------------- | ----------------------- | ----------------- |
+| library                 | acq       | 2550 | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library                 | depth     | 3246 | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library                 | compose   | 240  | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library                 | contra    | 460  | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library                 | held_mode | 120  | 1.0000                | 0.0000              | 0.0000                  | 0.0000            |
+| library                 | unstated  | 120  | 1.0000                | 0.0000              | 0.0000                  | 0.0000            |
+| network, no gradient    | acq       | 2550 | 0.5541                | 0.0255              | 0.4047                  | 0.0157            |
+| network, no gradient    | depth     | 3246 | 0.4421                | 0.0499              | 0.4920                  | 0.0160            |
+| network, no gradient    | compose   | 240  | 0.4375                | 0.0750              | 0.4750                  | 0.0125            |
+| network, no gradient    | contra    | 460  | 0.2630                | 0.0370              | 0.6935                  | 0.0065            |
+| network, no gradient    | held_mode | 120  | 0.0333                | 0.1000              | 0.8167                  | 0.0500            |
+| network, no gradient    | unstated  | 120  | 0.3750                | 0.0583              | 0.5667                  | 0.0000            |
+| network, family trained | acq       | 2550 | 0.4753                | 0.2494              | 0.2482                  | 0.0271            |
+| network, family trained | depth     | 3246 | 0.7221                | 0.1433              | 0.1263                  | 0.0083            |
+| network, family trained | compose   | 240  | 0.6000                | 0.2167              | 0.1792                  | 0.0042            |
+| network, family trained | contra    | 460  | 0.2543                | 0.3174              | 0.3739                  | 0.0543            |
+| network, family trained | held_mode | 120  | 0.2417                | 0.3167              | 0.3917                  | 0.0500            |
+| network, family trained | unstated  | 120  | 0.2167                | 0.3833              | 0.4000                  | 0.0000            |
 
 The network's failures are mostly the first and the third. Its commonest
 malformed emission names a copy slot the text does not have, which is a stream
@@ -377,6 +427,81 @@ network was decoded on the main and ladder item sets and not on this one.
 | five directories                     | 120 | 0.2727 | 1.0000   | 1.0000            | 0.4167 | 0.3667 | 0.0000 |
 | a directory the question never names | 120 | 0.3050 | 1.0000   | 1.0000            | 0.4417 | 0.0000 | 0.0000 |
 
+## What each fine tune reached on its own training data
+
+A run whose loss is still falling has not finished learning what it was shown,
+so scoring it would measure the budget rather than the network. Every run other than
+the first family one ends below 0.005, so their scores are about generalising
+and not about fitting: a run that has memorised its
+one example and still cannot answer a new question about that same operation is
+the measurement this lane wanted. The family run at 1500 steps did not: its loss
+was still coming down, from 0.36188 to 0.12185, so it was run again for four
+times as long and both are reported.
+
+The last column is the check that decides whether any of this means anything. A
+network that cannot write back the targets it was trained on is a broken harness
+and not a slow learner. The 1500 step family run writes back 0.0050 of its own
+training examples, so its scores say nothing; the 6000 step one writes back
+0.7500, so the target language, the widened vocabulary and the decoder all work,
+and its 0.0000 structure exact on new questions about those same operations is a
+statement about acquisition.
+
+| run                 | examples | steps | final training loss | writes its own training target back | n checked |
+| ------------------- | -------- | ----- | ------------------- | ----------------------------------- | --------- |
+| acq_a2c1_2_k1       | 1        | 1500  | 0.0038              | -                                   | -         |
+| acq_a2c1_2_k1024    | 1024     | 1500  | 0.0029              | -                                   | -         |
+| acq_a2c1_2_k16      | 16       | 1500  | 0.0003              | -                                   | -         |
+| acq_a2c1_2_k2       | 2        | 1500  | 0.0015              | -                                   | -         |
+| acq_a2c1_2_k256     | 256      | 1500  | 0.0004              | -                                   | -         |
+| acq_a2c1_2_k4       | 4        | 1500  | 0.0001              | -                                   | -         |
+| acq_a2c1_2_k64      | 64       | 1500  | 0.0042              | -                                   | -         |
+| acq_a2c2_157_k1     | 1        | 1500  | 0.0002              | -                                   | -         |
+| acq_a2c2_157_k16    | 16       | 1500  | 0.0013              | -                                   | -         |
+| acq_a2c2_157_k2     | 2        | 1500  | 0.0035              | -                                   | -         |
+| acq_a2c2_157_k256   | 256      | 1500  | 0.0035              | -                                   | -         |
+| acq_a2c2_157_k4     | 4        | 1500  | 0.0027              | -                                   | -         |
+| acq_a2c2_157_k64    | 64       | 1500  | 0.0023              | -                                   | -         |
+| acq_a3c1_26_k1      | 1        | 1500  | 0.0014              | -                                   | -         |
+| acq_a3c1_26_k1024   | 1024     | 1500  | 0.0027              | -                                   | -         |
+| acq_a3c1_26_k16     | 16       | 1500  | 0.0021              | -                                   | -         |
+| acq_a3c1_26_k2      | 2        | 1500  | 0.0001              | -                                   | -         |
+| acq_a3c1_26_k256    | 256      | 1500  | 0.0016              | -                                   | -         |
+| acq_a3c1_26_k4      | 4        | 1500  | 0.0028              | -                                   | -         |
+| acq_a3c1_26_k64     | 64       | 1500  | 0.0031              | -                                   | -         |
+| acq_a3c2_144_k1     | 1        | 1500  | 0.0003              | -                                   | -         |
+| acq_a3c2_144_k16    | 16       | 1500  | 0.0001              | -                                   | -         |
+| acq_a3c2_144_k2     | 2        | 1500  | 0.0035              | -                                   | -         |
+| acq_a3c2_144_k256   | 256      | 1500  | 0.0046              | -                                   | -         |
+| acq_a3c2_144_k4     | 4        | 1500  | 0.0001              | -                                   | -         |
+| acq_a3c2_144_k64    | 64       | 1500  | 0.0027              | -                                   | -         |
+| family              | 1024     | 1500  | 0.1218              | 0.0050                              | 200       |
+| family2             | 1024     | 6000  | 0.0156              | 0.7500                              | 200       |
+| ft2_acq_a2c1_2_k1   | 1        | 1500  | 0.0000              | -                                   | -         |
+| ft2_acq_a2c1_2_k2   | 2        | 1500  | 0.0000              | -                                   | -         |
+| ft2_acq_a2c1_2_k4   | 4        | 1500  | 0.0005              | -                                   | -         |
+| ft2_acq_a2c2_157_k1 | 1        | 1500  | 0.0010              | -                                   | -         |
+| ft2_acq_a2c2_157_k2 | 2        | 1500  | 0.0049              | -                                   | -         |
+| ft2_acq_a2c2_157_k4 | 4        | 1500  | 0.0006              | -                                   | -         |
+| ft2_acq_a3c1_26_k1  | 1        | 1500  | 0.0001              | -                                   | -         |
+| ft2_acq_a3c1_26_k2  | 2        | 1500  | 0.0004              | -                                   | -         |
+| ft2_acq_a3c1_26_k4  | 4        | 1500  | 0.0034              | -                                   | -         |
+| ft2_acq_a3c2_144_k1 | 1        | 1500  | 0.0003              | -                                   | -         |
+| ft2_acq_a3c2_144_k2 | 2        | 1500  | 0.0014              | -                                   | -         |
+| ft2_acq_a3c2_144_k4 | 4        | 1500  | 0.0029              | -                                   | -         |
+| ft3_acq_a2c1_2_k1   | 1        | 1500  | 0.0003              | -                                   | -         |
+| ft3_acq_a2c1_2_k2   | 2        | 1500  | 0.0002              | -                                   | -         |
+| ft3_acq_a2c1_2_k4   | 4        | 1500  | 0.0016              | -                                   | -         |
+| ft3_acq_a2c2_157_k1 | 1        | 1500  | 0.0007              | -                                   | -         |
+| ft3_acq_a2c2_157_k2 | 2        | 1500  | 0.0001              | -                                   | -         |
+| ft3_acq_a2c2_157_k4 | 4        | 1500  | 0.0003              | -                                   | -         |
+| ft3_acq_a3c1_26_k1  | 1        | 1500  | 0.0002              | -                                   | -         |
+| ft3_acq_a3c1_26_k2  | 2        | 1500  | 0.0001              | -                                   | -         |
+| ft3_acq_a3c1_26_k4  | 4        | 1500  | 0.0002              | -                                   | -         |
+| ft3_acq_a3c2_144_k1 | 1        | 1500  | 0.0002              | -                                   | -         |
+| ft3_acq_a3c2_144_k2 | 2        | 1500  | 0.0004              | -                                   | -         |
+| ft3_acq_a3c2_144_k4 | 4        | 1500  | 0.0008              | -                                   | -         |
+| k0                  | 0        | 1500  | 0.0149              | -                                   | -         |
+
 ## What this does not show
 
 The reader is hand written, so its 1.0000 measures that the definition grammar
@@ -392,9 +517,11 @@ already measures how well the network does it on the shapes it was trained for.
 The neural baseline here is the normalizer of `src/norm/nmodel.py` at size `l`,
 45,483,008 parameters, which is the stronger of this project's two networks on
 every cell of the main comparison. The corpus checkpoint that scored 678 of 678
-on the transposed pages was not run on these items; it is at or below 0.1 strict
-on most cells of `src/norm/COMPARE.md` and adding it would not change what the
-tables above say.
+on the transposed pages was not run on these items. Its greedy strict score in
+`results/norm/compare/report_main.json` has a median of 0.02 over that lane's 60
+cells and is at or below 0.1 in 50 of them, so adding it here would not change
+what the tables above say, and its serving format is the corpus episode rather
+than a page of text, which is a harness this lane does not have.
 
 The two clause space is sampled, not enumerated: 120 of 4,528. The one clause
 space is complete.
@@ -409,15 +536,12 @@ space is complete.
     bash src/norm/drive.sh     # the data, the no gradient run and the first ladder
     bash src/norm/drive2.sh    # the ladder from the family trained network
     bash src/norm/drive3.sh    # the far end of the first ladder
-    .venv/bin/python -m src.norm.opdiag --vocab base --only compose \
-        --out results/norm/oneshot/diag_base_compose.json
-    .venv/bin/python -m src.norm.opdiag --ckpt results/norm/oneshot/ft_family.pt \
-        --vocab ext --only compose --out results/norm/oneshot/diag_family_compose.json
-    .venv/bin/python -m src.norm.opreport
-    .venv/bin/python -m src.norm.opdoc
+    bash src/norm/drive4.sh    # the family condition, trained four times longer
+    bash src/norm/finish.sh    # the diagnostics, the report and this document
 
-`drive2.sh` and `drive3.sh` each wait for the one before it, so all three can be
-started at once. Together they are about two and a half hours on one L40S.
+`drive2.sh`, `drive3.sh` and `drive4.sh` each wait for the one before them, so
+all four can be started at once. Together they are about three hours on one
+L40S.
 
 The gates are `src/norm/tests/test_oneshot.py`. Two of them rebuild the item
 files into a temporary directory and compare the uncompressed bytes against the
@@ -425,30 +549,75 @@ recorded ones, because a change that quietly redrew the items would leave the
 report built from two different item sets and the network runs cost hours to
 repeat.
 
-| record                    | path                                                                                      |
-| ------------------------- | ----------------------------------------------------------------------------------------- |
-| attack                    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json                        |
-| diag_base_compose         | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json             |
-| items                     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/items.jsonl.gz                     |
-| ladder_items              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_items.jsonl.gz              |
-| ladder_sys                | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz                |
-| n_acq_a2c1_2_k16_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k16_ladder.jsonl.gz   |
-| n_acq_a2c1_2_k1_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k1_ladder.jsonl.gz    |
-| n_acq_a2c1_2_k2_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k2_ladder.jsonl.gz    |
-| n_acq_a2c1_2_k4_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k4_ladder.jsonl.gz    |
-| n_acq_a2c1_2_k64_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k64_ladder.jsonl.gz   |
-| n_acq_a3c1_26_k16_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k16_ladder.jsonl.gz  |
-| n_acq_a3c1_26_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k1_ladder.jsonl.gz   |
-| n_acq_a3c1_26_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k2_ladder.jsonl.gz   |
-| n_acq_a3c1_26_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k4_ladder.jsonl.gz   |
-| n_acq_a3c1_26_k64_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k64_ladder.jsonl.gz  |
-| n_acq_a3c2_144_k16_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k16_ladder.jsonl.gz |
-| n_acq_a3c2_144_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k1_ladder.jsonl.gz  |
-| n_acq_a3c2_144_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k2_ladder.jsonl.gz  |
-| n_acq_a3c2_144_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k4_ladder.jsonl.gz  |
-| n_base_l                  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l.jsonl.gz                  |
-| n_base_l_ladder           | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l_ladder.jsonl.gz           |
-| n_k0_ladder               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_k0_ladder.jsonl.gz               |
-| stress_items              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_items.jsonl.gz              |
-| stress_sys                | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz                |
-| sys                       | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz                       |
+| record                     | path                                                                                       |
+| -------------------------- | ------------------------------------------------------------------------------------------ |
+| attack                     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json                         |
+| diag_base_acq              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_acq.json                  |
+| diag_base_compose          | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json              |
+| diag_family_acq            | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_family_acq.json                |
+| diag_family_compose        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_family_compose.json            |
+| fit_family                 | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/fit_family.json                     |
+| fit_family2                | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/fit_family2.json                    |
+| items                      | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/items.jsonl.gz                      |
+| ladder_items               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_items.jsonl.gz               |
+| ladder_sys                 | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz                 |
+| n2_acq_a2c1_2_k1_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a2c1_2_k1_ladder.jsonl.gz    |
+| n2_acq_a2c1_2_k2_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a2c1_2_k2_ladder.jsonl.gz    |
+| n2_acq_a2c1_2_k4_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a2c1_2_k4_ladder.jsonl.gz    |
+| n2_acq_a2c2_157_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a2c2_157_k1_ladder.jsonl.gz  |
+| n2_acq_a2c2_157_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a2c2_157_k2_ladder.jsonl.gz  |
+| n2_acq_a2c2_157_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a2c2_157_k4_ladder.jsonl.gz  |
+| n2_acq_a3c1_26_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a3c1_26_k1_ladder.jsonl.gz   |
+| n2_acq_a3c1_26_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a3c1_26_k2_ladder.jsonl.gz   |
+| n2_acq_a3c1_26_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a3c1_26_k4_ladder.jsonl.gz   |
+| n2_acq_a3c2_144_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a3c2_144_k1_ladder.jsonl.gz  |
+| n2_acq_a3c2_144_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a3c2_144_k2_ladder.jsonl.gz  |
+| n2_acq_a3c2_144_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n2_acq_a3c2_144_k4_ladder.jsonl.gz  |
+| n3_acq_a2c1_2_k1_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a2c1_2_k1_ladder.jsonl.gz    |
+| n3_acq_a2c1_2_k2_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a2c1_2_k2_ladder.jsonl.gz    |
+| n3_acq_a2c1_2_k4_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a2c1_2_k4_ladder.jsonl.gz    |
+| n3_acq_a2c2_157_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a2c2_157_k1_ladder.jsonl.gz  |
+| n3_acq_a2c2_157_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a2c2_157_k2_ladder.jsonl.gz  |
+| n3_acq_a2c2_157_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a2c2_157_k4_ladder.jsonl.gz  |
+| n3_acq_a3c1_26_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a3c1_26_k1_ladder.jsonl.gz   |
+| n3_acq_a3c1_26_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a3c1_26_k2_ladder.jsonl.gz   |
+| n3_acq_a3c1_26_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a3c1_26_k4_ladder.jsonl.gz   |
+| n3_acq_a3c2_144_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a3c2_144_k1_ladder.jsonl.gz  |
+| n3_acq_a3c2_144_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a3c2_144_k2_ladder.jsonl.gz  |
+| n3_acq_a3c2_144_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n3_acq_a3c2_144_k4_ladder.jsonl.gz  |
+| n_acq_a2c1_2_k1024_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k1024_ladder.jsonl.gz  |
+| n_acq_a2c1_2_k16_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k16_ladder.jsonl.gz    |
+| n_acq_a2c1_2_k1_ladder     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k1_ladder.jsonl.gz     |
+| n_acq_a2c1_2_k256_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k256_ladder.jsonl.gz   |
+| n_acq_a2c1_2_k2_ladder     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k2_ladder.jsonl.gz     |
+| n_acq_a2c1_2_k4_ladder     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k4_ladder.jsonl.gz     |
+| n_acq_a2c1_2_k64_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k64_ladder.jsonl.gz    |
+| n_acq_a2c2_157_k16_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c2_157_k16_ladder.jsonl.gz  |
+| n_acq_a2c2_157_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c2_157_k1_ladder.jsonl.gz   |
+| n_acq_a2c2_157_k256_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c2_157_k256_ladder.jsonl.gz |
+| n_acq_a2c2_157_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c2_157_k2_ladder.jsonl.gz   |
+| n_acq_a2c2_157_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c2_157_k4_ladder.jsonl.gz   |
+| n_acq_a2c2_157_k64_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c2_157_k64_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k1024_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k1024_ladder.jsonl.gz |
+| n_acq_a3c1_26_k16_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k16_ladder.jsonl.gz   |
+| n_acq_a3c1_26_k1_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k1_ladder.jsonl.gz    |
+| n_acq_a3c1_26_k256_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k256_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k2_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k2_ladder.jsonl.gz    |
+| n_acq_a3c1_26_k4_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k4_ladder.jsonl.gz    |
+| n_acq_a3c1_26_k64_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k64_ladder.jsonl.gz   |
+| n_acq_a3c2_144_k16_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k16_ladder.jsonl.gz  |
+| n_acq_a3c2_144_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k1_ladder.jsonl.gz   |
+| n_acq_a3c2_144_k256_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k256_ladder.jsonl.gz |
+| n_acq_a3c2_144_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k2_ladder.jsonl.gz   |
+| n_acq_a3c2_144_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k4_ladder.jsonl.gz   |
+| n_acq_a3c2_144_k64_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k64_ladder.jsonl.gz  |
+| n_base_l                   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l.jsonl.gz                   |
+| n_base_l_ladder            | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l_ladder.jsonl.gz            |
+| n_family                   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_family.jsonl.gz                   |
+| n_family2                  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_family2.jsonl.gz                  |
+| n_family2_ladder           | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_family2_ladder.jsonl.gz           |
+| n_family_ladder            | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_family_ladder.jsonl.gz            |
+| n_k0_ladder                | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_k0_ladder.jsonl.gz                |
+| stress_items               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_items.jsonl.gz               |
+| stress_sys                 | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz                 |
+| sys                        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz                        |

@@ -114,7 +114,7 @@ def t_ladder(rep, tags, ks) -> str:
         s1 = rep["ladder"][f"{iid}|S1"]
         s2 = rep["ladder"][f"{iid}|S2"]
         base = rep["neural"].get(f"base_l|greedy|{iid}")
-        fam = rep["neural"].get(f"family|greedy|{iid}")
+        fam = rep["neural"].get(f"family2|greedy|{iid}")
         tag = "acq_" + "_".join(iid.split("/")[1:])
         best, at = 0.0, "-"
         for k in ks:
@@ -129,8 +129,8 @@ def t_ladder(rep, tags, ks) -> str:
                      f(best) if at != "-" else "-", at])
     return table(["operation", "n", "floor", "library", "library exact",
                   "S1", "S2", "network no gradient",
-                  "network family trained", "network best on its own ladder",
-                  "at k"], rows)
+                  "network family trained 6000 steps",
+                  "network best on its own ladder", "at k"], rows)
 
 
 def t_ladder_own(rep, tags, ks) -> str:
@@ -280,7 +280,9 @@ def t_diag(rep) -> str:
     for tag in sorted(rep.get("diag", {})):
         d = rep["diag"][tag]
         g, e = d["means_over_gold"], d["means_over_emitted_that_read"]
-        rows.append([f"what a {d['cond']} item needs", d["n"], "-"]
+        need = {"acq": "one application", "compose": "composition"}.get(
+            d["cond"], d["cond"])
+        rows.append([f"what a {need} item needs", d["n"], "-"]
                     + [f(g[k]) for k in keys])
         rows.append([labels.get(tag, tag), d["n"] - d["n_malformed"],
                      d["n_malformed"]]

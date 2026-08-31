@@ -22,8 +22,10 @@ directories and two clauses against 0.2879, which is below its own guessing
 floor in every one. Across the whole item set it is structure exact
 on 0 of 6,736 items under greedy decoding and 0 of 6,736 under sampled.
 Given labelled examples of the one operation it will be tested on, and an output
-vocabulary extended for free so it can write an operation down at all, it climbs
-the ladder below rather than arriving at the first example.
+vocabulary extended for free so it can write an operation down at all, it takes
+256 examples to clear its chance floor on one of the four operations a ladder
+was run for, 1024 on a second, and it does not clear it within 256 on the other
+two. It reaches 0.9000 on none of them.
 
 ## The operation, and why it is new to everything here
 
@@ -141,11 +143,13 @@ this operation, tested on the same operation in wordings it did not train on.
 
 {{T_LADDER_OWN}}
 
-The same ladder run again from the family trained network rather than from the
+The same ladder run again from a family trained network rather than from the
 shipped one. That network has already read a thousand examples of other
 operations of this family and already has the notation, so k here buys this
 operation and nothing else, which is the friendliest reading of the question a
-gradient learner can be given.
+gradient learner can be given. Both starting points are shown; the 1500 step one
+is the run that had not converged, and it is here for comparison rather than as
+a baseline.
 
 {{T_SECOND}}
 
@@ -187,6 +191,14 @@ that calls two different operators, and the counts are averaged over the
 emissions that read back as a structure at all.
 
 {{T_DIAG}}
+
+The family trained network has learned the notation and not the reading. On one
+application items it writes 0.9330 operator definitions where one is needed and
+makes 0.9350 calls where one is needed, and is structure exact on 0 of 2,550: it
+writes an operator definition of the right shape with the wrong contents. On
+composition it writes 0.7290 definitions and calls 0.7920 distinct operators
+where two of each are needed, which is this lane's version of the count an
+earlier lane recorded as about one distinct symbol where two are needed.
 
 ## The page that contradicts the training
 
@@ -258,9 +270,9 @@ network was decoded on the main and ladder item sets and not on this one.
 ## What each fine tune reached on its own training data
 
 A run whose loss is still falling has not finished learning what it was shown,
-so scoring it would measure the budget rather than the network. The small k runs
-fit their handful of examples to a loss between 0.00009 and 0.0042 and their
-scores are about generalising, not about fitting: a run that has memorised its
+so scoring it would measure the budget rather than the network. Every run other than
+the first family one ends below 0.005, so their scores are about generalising
+and not about fitting: a run that has memorised its
 one example and still cannot answer a new question about that same operation is
 the measurement this lane wanted. The family run at 1500 steps did not: its loss
 was still coming down, from 0.36188 to 0.12185, so it was run again for four

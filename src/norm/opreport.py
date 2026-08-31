@@ -331,7 +331,8 @@ def main():
 
     # ---- what each fine tune reached on its own training data
     rep["training"] = {}
-    for lg in ("ft.log", "ft2.log", "ft3.log", "fam.log", "fam2.log"):
+    for lg in ("ft.log", "ft2.log", "ft3.log", "ft5.log", "fam.log",
+               "fam2.log"):
         path = os.path.join("logs/oneshot", lg)
         if not os.path.exists(path):
             continue
