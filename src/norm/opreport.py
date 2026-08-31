@@ -174,7 +174,7 @@ def main():
            "cells": {}, "acq": {}, "depth": {}, "compose": {},
            "contra": {}, "controls": {}, "ladder": {}, "neural": {},
            "stress": {}, "attack": {}, "states": {}, "deep": {},
-           "diag": {}}
+           "diag": {}, "fit": {}}
 
     # ---- the acquisition set, by family and by how many pages were served
     acq = [r for r in sysrows if r["cond"] == "acq"]
@@ -271,6 +271,13 @@ def main():
         rep["diag"][tag] = {k: v for k, v in d.items() if k != "rows"}
         rep["records"][f"diag_{tag}"] = os.path.abspath(path)
 
+    # ---- whether each fine tune can emit its own training targets
+    rep["fit"] = {}
+    for path in sorted(glob.glob(os.path.join(D, "fit_*.json"))):
+        tag = os.path.basename(path)[len("fit_"):-len(".json")]
+        rep["fit"][tag] = json.load(open(path))
+        rep["records"][f"fit_{tag}"] = os.path.abspath(path)
+
     # ---- the attacks, carried through from their own record file
     ap_ = os.path.join(D, "attack.json")
     if os.path.exists(ap_):
@@ -296,13 +303,17 @@ def main():
 
     # ---- the ladder: the network at each k, on the same rows
     paths = (sorted(glob.glob(os.path.join(D, "n_*_ladder.jsonl.gz")))
-             + sorted(glob.glob(os.path.join(D, "n2_*_ladder.jsonl.gz"))))
+             + sorted(glob.glob(os.path.join(D, "n2_*_ladder.jsonl.gz")))
+             + sorted(glob.glob(os.path.join(D, "n3_*_ladder.jsonl.gz"))))
     for path in paths:
         base = os.path.basename(path)
-        pre = "n2_" if base.startswith("n2_") else "n_"
+        pre = ("n2_" if base.startswith("n2_")
+               else "n3_" if base.startswith("n3_") else "n_")
         tag = base[len(pre):-len("_ladder.jsonl.gz")]
         if pre == "n2_":
             tag = "second_" + tag
+        elif pre == "n3_":
+            tag = "third_" + tag
         rows = load(path)
         for r in rows:
             r["inst_id"] = inst_of[r["id"]]

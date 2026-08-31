@@ -266,6 +266,14 @@ the measurement this lane wanted. The family run at 1500 steps did not: its loss
 was still coming down, from 0.36188 to 0.12185, so it was run again for four
 times as long and both are reported.
 
+The last column is the check that decides whether any of this means anything. A
+network that cannot write back the targets it was trained on is a broken harness
+and not a slow learner. The 1500 step family run writes back 0.0050 of its own
+training examples, so its scores say nothing; the 6000 step one writes back
+0.7500, so the target language, the widened vocabulary and the decoder all work,
+and its 0.0000 structure exact on new questions about those same operations is a
+statement about acquisition.
+
 {{T_TRAINING}}
 
 ## What this does not show

@@ -192,16 +192,18 @@ def t_second(rep, tags, ks) -> str:
     nothing else.
     """
     rows = []
-    for tag in tags:
-        iid = "acq/" + "/".join(tag.split("_")[1:])
-        r = [tag, iid]
-        c0 = rep["neural"].get(f"family|greedy|{iid}")
-        r.append(f(c0["strict"]) if c0 else "-")
-        for k in ks:
-            c = rep["neural"].get(f"second_{tag}_k{k}|greedy|{iid}")
-            r.append(f(c["strict"]) if c else "-")
-        rows.append(r)
-    return table(["pool", "operation", "k=0 (family trained)"]
+    for pre, base, label in (("second", "family", "1500 step family network"),
+                             ("third", "family2", "6000 step family network")):
+        for tag in tags:
+            iid = "acq/" + "/".join(tag.split("_")[1:])
+            r = [label, iid]
+            c0 = rep["neural"].get(f"{base}|greedy|{iid}")
+            r.append(f(c0["strict"]) if c0 else "-")
+            for k in ks:
+                c = rep["neural"].get(f"{pre}_{tag}_k{k}|greedy|{iid}")
+                r.append(f(c["strict"]) if c else "-")
+            rows.append(r)
+    return table(["starting point", "operation", "k=0"]
                  + [f"k={k}" for k in ks], rows)
 
 
@@ -403,12 +405,15 @@ def t_training(rep) -> str:
     shown, and scoring it would measure the budget rather than the network.
     """
     rows = []
+    fit = rep.get("fit", {})
     for tag in sorted(rep.get("training", {})):
         d = rep["training"][tag]
+        g = fit.get(tag)
         rows.append([tag, d["k"], d["steps"], f(d["final_loss"] or 0),
-                     d["seconds"]])
+                     f(g["token_exact_on_training_examples"]) if g else "-",
+                     g["n"] if g else "-"])
     return table(["run", "examples", "steps", "final training loss",
-                  "seconds"], rows)
+                  "writes its own training target back", "n checked"], rows)
 
 
 def t_paths(rep) -> str:
