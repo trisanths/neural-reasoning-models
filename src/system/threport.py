@@ -84,6 +84,77 @@ def shape_table(sums, group, mode, field="exact", rungs=RUNGS):
     return "\n".join(rows)
 
 
+
+FID_AXES = ("lexicon", "mode", "key_pos", "qform", "scope_pos")
+
+
+def axis_table(sums, group, mode, axis):
+    """Rungs down, one frame axis across, inside one frame group.
+
+    `src/norm/nreport.py:by_axis` computed these off the same records the
+    exactness came from. The cells of one axis partition that group and are
+    not pooled with any other group.
+    """
+    have = [r for r in RUNGS if sums.get(r)]
+    if not have:
+        return ""
+    keys = sorted(g(sums[have[0]], group, mode)["by_axis"].get(axis, {}))
+    if len(keys) < 2:
+        return ""
+    rows = ["| rung | " + " | ".join(f"{k} (n)" for k in keys) + " |",
+            "| --- | " + " | ".join("---:" for _ in keys) + " |"]
+    for r in have:
+        by = g(sums[r], group, mode)["by_axis"].get(axis, {})
+        cells = [f"{f4(by[k]['exact'])} ({by[k]['n']})" if k in by else "n/a"
+                 for k in keys]
+        rows.append(f"| {r} | " + " | ".join(cells) + " |")
+    return "\n".join(rows)
+
+
+def shape_by_axis(sums, group, mode, axis):
+    """One rung's shapes against one axis, counted off the records file.
+
+    The 45M rung is exact on several shapes of the held-out sentence mode at
+    a rate that matches the key-first share of that group exactly, so the
+    cross tabulation is in the document rather than left as a coincidence.
+    """
+    import gzip
+    ai = FID_AXES.index(axis)
+    have = [r for r in RUNGS if sums.get(r)]
+    blocks = []
+    for r in have:
+        try:
+            path = g(sums[r], group, mode)["records"]
+        except KeyError:
+            continue
+        if not os.path.exists(path):
+            continue
+        cells = defaultdict(Counter)
+        vals = set()
+        with gzip.open(path, "rt") as fh:
+            for line in fh:
+                rec = json.loads(line)
+                v = rec["fid"].split(".")[ai]
+                vals.add(v)
+                c = cells[(rec["shape"], v)]
+                c["n"] += 1
+                c["exact"] += bool(rec["exact"])
+        vals = sorted(vals)
+        rows = [f"| shape | " + " | ".join(vals) + " |",
+                "| --- | " + " | ".join("---:" for _ in vals) + " |"]
+        for sh in SHAPES:
+            if not any((sh, v) in cells for v in vals):
+                continue
+            out = []
+            for v in vals:
+                c = cells.get((sh, v))
+                out.append(f"{c['exact'] / c['n']:.4f} ({c['n']})"
+                           if c else "n/a")
+            rows.append(f"| {sh} | " + " | ".join(out) + " |")
+        blocks.append(f"### {r}\n\n" + "\n".join(rows))
+    return "\n\n".join(blocks)
+
+
 def safety_table(sums, mode):
     """Refused and malformed against wrong-but-executable, per group."""
     rows = ["| rung | group | exact | malformed | refused | wrong | "
@@ -326,6 +397,16 @@ def main():
     parts += ["## Safe failure against wrong executable structure, greedy",
               safety_table(sums, "greedy"), ""]
 
+    for ax in ("key_pos", "qform", "scope_pos", "lexicon"):
+        t = axis_table(sums, "mode", "greedy", ax)
+        if t:
+            parts += [f"## The held-out sentence mode by {ax}, greedy exact",
+                      t, ""]
+    sba = shape_by_axis(sums, "mode", "greedy", "key_pos")
+    if sba:
+        parts += ["## The held-out sentence mode, shape against key position",
+                  sba, ""]
+
     tp = tpose_table(a.tpose)
     if tp:
         parts += ["## The transposed operand test", tp, ""]
@@ -377,6 +458,9 @@ def main():
                 key = f"{{{{SHAPES_{GROUP_LABEL[grp]}_{mode}}}}}"
                 if key in tmpl:
                     tmpl = tmpl.replace(key, shape_table(sums, grp, mode))
+        tmpl = tmpl.replace("{{KEYPOS}}",
+                            axis_table(sums, "mode", "greedy", "key_pos"))
+        tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
         tmpl = tmpl.replace("{{TPOSE}}", tp)
         tmpl = tmpl.replace("{{LM_EXACT}}", lm_table(lms) if lms else "")
         tmpl = tmpl.replace("{{LM_SAFETY}}", lm_safety(lms) if lms else "")
