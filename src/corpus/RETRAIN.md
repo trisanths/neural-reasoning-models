@@ -212,3 +212,37 @@ and 0.000 on the other nine. Extracted to
 `~/retrain/relation/shortcut_floors.json`. That is weaker than a parser and it
 is named as what it is: the relation table has a floor and a page-reader
 reference, not a program that solves the task.
+
+## 1. The harness gate
+
+Run first, and nothing below it means anything if this does not reproduce. The
+two `src/skillacq/` families whose values are on record, through
+`scripts/mg_threeway_eval.py --suite gate` and `scripts/mg_strict_rescore.py`,
+budget `configs/mg3-gate.yaml`, on the original checkpoint.
+
+`floor` is one over the item's own candidate count. `ship` is the environment
+grader as recorded. `forced` is exactly one candidate named and it is the gold.
+`c_ship` and `c_frc` are chance-corrected, `(acc - floor) / (1 - floor)`.
+
+| cell | nQ | nR | floor | ship | forced | first | c_ship | c_frc | hedge | none | rounds | wellformed |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| substitution_rule greedy | 500 | 500 | 0.200 | 0.976 | 0.954 | 0.958 | 0.970 | 0.943 | 0.022 | 0.016 | 1.00 | 0.988 |
+| substitution_rule t1 x4 | 500 | 2000 | 0.200 | 0.861 | 0.866 | 0.871 | 0.826 | 0.832 | 0.009 | 0.118 | 0.98 | 0.944 |
+| threshold_rule greedy | 500 | 500 | 0.500 | 0.996 | 0.008 | 0.464 | 0.992 | -0.984 | 0.988 | 0.000 | 1.00 | 1.000 |
+| threshold_rule t1 x4 | 500 | 2000 | 0.500 | 0.903 | 0.060 | 0.456 | 0.807 | -0.879 | 0.853 | 0.043 | 0.98 | 0.949 |
+
+Against the record: `substitution_rule` 0.976 greedy against 0.969 on record
+and 0.972 in the `src/mathgen/EVAL.md` re-run; `threshold_rule` 0.996 against
+1.000 and 0.998. At temperature one, 0.861 against 0.828 and 0.874, and 0.903
+against 0.922 and 0.902. The strict column reproduces the known forced-choice
+regrade as well: `threshold_rule` names both of its two candidates on 0.988 of
+greedy answers so 0.996 shipped becomes 0.008 forced, against 0.008 and 0.009
+on record, and `substitution_rule` holds at 0.954 against 0.950 and 0.954.
+
+The gate passes on all four cells and on both graders. Retrieval is healthy:
+one round on essentially every rollout, well-formed queries on 0.94 to 1.00, no
+degenerate queries.
+
+Artifacts: `~/retrain/gate/roll_gate_base.jsonl`,
+`~/retrain/gate/graded_gate_base.jsonl`, `~/retrain/gate/strict_gate_base.json`,
+log `~/retrain/logs/gate_base.log`.
