@@ -178,9 +178,18 @@ OPS = {
 
 
 def _table_get(t: Table, key):
-    for k, v in t.entries:
-        if k == key:
-            return True, v
+    """The value the table states for a key.
+
+    A page that lists one key twice with two values states two answers, and
+    picking either one is a guess. Both the first row and the last row have
+    been someone's convention; neither is stated. So this refuses.
+    """
+    hits = [v for k, v in t.entries if k == key]
+    if len({str(v) for v in hits}) > 1:
+        raise Cannot(f"table {t.name} states {len(hits)} different values "
+                     f"for {key!r}")
+    if hits:
+        return True, hits[0]
     if t.default is not None:
         return True, t.default
     return False, None

@@ -212,7 +212,11 @@ def read_pages(P: dict, chunks: list) -> list:
             lines = lines[1:]
         if not lines:
             raise ParseError("a page states no rules")
-        pages.append((scope, [read_fact(P, ln) for ln in lines]))
+        try:
+            pages.append((scope, [read_fact(P, ln) for ln in lines]))
+        except ParseError as exc:
+            # A page the question never names does not have to be readable.
+            pages.append((scope, exc))
     return pages
 
 
@@ -317,14 +321,42 @@ def _groups(text: str) -> tuple:
     return tuple([p for p in head.split(", ") if p] + [tail])
 
 
+def named_scopes(P: dict, kind: str, got: dict) -> list:
+    """The pages this question names, in the order it names them.
+
+    Every one of the fourteen shapes names each page it needs, so a page that
+    is not named is not part of the structure the question asks about. That is
+    what lets a store holding a distractor be read without the distractor
+    being mistaken for part of the answer.
+    """
+    if kind in ("compose", "sum_chain"):
+        return _hop_scopes(P, got["first"], got)
+    if kind in ("precedence", "lookup_then_band", "band_then_lookup"):
+        return [got["first"], got["last"]]
+    return [got["scope"]]
+
+
+def select(pages: list, want: list) -> list:
+    """The named pages, in the named order. A page named twice is a refusal."""
+    have = {}
+    for scope, facts in pages:
+        if scope in have:
+            raise ParseError(f"two pages are called {scope}")
+        have[scope] = facts
+    out = []
+    for s in want:
+        if s not in have:
+            raise ParseError(f"the question names {s}, which is not served")
+        if isinstance(have[s], ParseError):
+            raise ParseError(f"page {s}: {have[s]}")
+        out.append((s, have[s]))
+    return out
+
+
 def build(P: dict, kind: str, got: dict, pages: list) -> Program:
+    want = named_scopes(P, kind, got)
+    pages = select(pages, want)
     names = [s for s, _ in pages]
-    if kind in ("lookup", "inverse", "exclusion", "priority", "pair",
-                "iterate", "classify", "lookup_general", "apply_n"):
-        if len(pages) != 1:
-            raise ParseError(f"{kind} wants one page, got {len(pages)}")
-        if got["scope"] != names[0]:
-            raise ParseError("the question names a page that is not here")
     if kind == "lookup":
         t = _assoc_table(names[0], pages[0][1])
         return assemble("lookup", tables=[t], inputs=(("x", got["k"]),))
@@ -371,11 +403,10 @@ def build(P: dict, kind: str, got: dict, pages: list) -> Program:
         return assemble("apply_n", affine=Affine(names[0], a, b, m),
                         inputs=(("x", int(got["k"])),), n=int(got["n"]))
     if kind in ("compose", "sum_chain"):
-        scopes = _hop_scopes(P, got["first"], got)
-        if kind == "compose" and got["last"] != scopes[-1]:
+        # Only the `wh` form of Q_COMPOSE states the last scope; the other
+        # three name the hops and stop. Where it is stated it is checked.
+        if kind == "compose" and "last" in got and got["last"] != names[-1]:
             raise ParseError("the question's last hop is not the last scope")
-        if scopes != names:
-            raise ParseError("the hops named do not match the pages served")
         if kind == "compose":
             tables = [_assoc_table(s, f) for s, f in pages]
             return assemble("compose", tables=tables,
@@ -388,22 +419,16 @@ def build(P: dict, kind: str, got: dict, pages: list) -> Program:
         return assemble("sum_chain", tables=tables, weights=wts,
                         inputs=(("x", got["k"]),))
     if kind == "precedence":
-        if names != [got["first"], got["last"]]:
-            raise ParseError("the two pages are not the two named")
         a = _assoc_table(names[0], pages[0][1])
         b = _assoc_table(names[1], pages[1][1])
         return assemble("precedence", tables=[a, b],
                         inputs=(("x", got["k"]),))
     if kind == "lookup_then_band":
-        if names != [got["first"], got["last"]]:
-            raise ParseError("the two pages are not the two named")
         w = _weights_of(names[0], pages[0][1])
         b = _bands_of(names[1], pages[1][1], names[0])
         return assemble("lookup_then_band", weights=[w], bands=b,
                         inputs=(("x", got["k"]),))
     if kind == "band_then_lookup":
-        if names != [got["first"], got["last"]]:
-            raise ParseError("the two pages are not the two named")
         b = _bands_of(names[0], pages[0][1], got.get("attr"))
         t = _assoc_table(names[1], pages[1][1])
         return assemble("band_then_lookup", bands=b, tables=[t],
