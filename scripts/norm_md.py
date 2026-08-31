@@ -32,6 +32,12 @@ for sp in ("train_frames_eval", "qframe", "lexicon", "mode", "mixed"):
     for _, sh, vals, ms, pe in sorted(rows):
         print(f"| `{sh}` | " + " | ".join(f"{v:.3f}" for v in vals)
               + f" | {ms:.3f} | {pe:.3f} |")
+    print("\nShapes at exact 1.000, out of 14: "
+          + ", ".join("%s %d" % (t, sum(
+              1 for sh in shapes
+              if d[t]["splits"][sp]["modes"]["greedy"]["by_shape"][sh]["exact"]
+              == 1.0)) for t in cols)
+          + ", parser 14.")
     print("\n| size | n | exact | malformed | refused | wrong | sampled exact |")
     print("|---|---|---|---|---|---|---|")
     for t in cols:
