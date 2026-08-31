@@ -37,6 +37,20 @@ silently ran something smaller is visible.
 The hand-written parser of `src/norm/parse.py` is 1.0000 on all 14 shapes of
 every split and is the column beside every rung.
 
+A rung that fits its own training file worse than a smaller rung is not a
+capacity measurement, so the fit is beside the exactness rather than behind it.
+
+| rung | peak lr | loss at 8,000 | at 15,000 | at 30,000 | peak GB |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
+| xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
+
+The 93M rung under the ladder's inherited inverse-width rate is behind the 45M
+rung at every logged step, which is why `xl93lr40` exists: the same rung, the
+same seed, the same 30,000 steps, run again at the 45M rung's own peak.
+
+
+
 ## 2. Structure exact match by frame group
 
 Greedy.

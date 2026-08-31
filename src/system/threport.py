@@ -335,6 +335,62 @@ def shapes_at_one(s, group, mode):
 
 
 
+
+CONTROLS = ("xl93lr40",)
+TRAIN_LOG = {"l45": "results/norm/train/log_l.jsonl"}
+
+
+def train_log(rung):
+    return TRAIN_LOG.get(rung, f"results/system/train/log_{rung}.jsonl")
+
+
+def fit_of(rung):
+    """The rung's own training loss at the steps every rung logged.
+
+    A rung that fits its training file worse than a smaller rung is not a
+    capacity measurement, so the fit sits beside the exactness rather than
+    behind it.
+    """
+    path = train_log(rung)
+    if not os.path.exists(path):
+        return None
+    at, last, peak, lr = {}, None, None, None
+    for line in open(path):
+        try:
+            r = json.loads(line)
+        except ValueError:
+            continue
+        if r.get("event") == "start":
+            lr = r.get("lr")
+        if r.get("event") == "step":
+            last = r
+            if r["step"] in (8000, 15000, 30000):
+                at[r["step"]] = r["loss"]
+            if r.get("gb"):
+                peak = max(peak or 0, r["gb"])
+    if last is None:
+        return None
+    return {"lr": lr, "at": at, "final": last["loss"], "peak_gb": peak}
+
+
+def fit_table(rungs):
+    rows = ["| rung | peak lr | loss at 8,000 | at 15,000 | at 30,000 | "
+            "peak GB |",
+            "| --- | ---: | ---: | ---: | ---: | ---: |"]
+    seen = 0
+    for r in rungs:
+        f = fit_of(r)
+        if f is None:
+            continue
+        a = f["at"]
+        rows.append(f"| {r} | {f['lr']} | "
+                    + " | ".join(str(a.get(k, "n/a"))
+                                 for k in (8000, 15000, 30000))
+                    + f" | {f['peak_gb'] if f['peak_gb'] else 'n/a'} |")
+        seen += 1
+    return "\n".join(rows) if seen else ""
+
+
 def rung_cfg_table(sums):
     """What each rung is, read off the checkpoint the summary was written from."""
     rows = ["| rung | d_model | heads | layers | parameters | non-embedding "
@@ -457,6 +513,12 @@ def main():
     if not sums:
         raise SystemExit("no rung summaries yet")
 
+    ctl = {}
+    for c in CONTROLS:
+        s2 = load(os.path.join(a.eval, c, "summary.json"))
+        if s2:
+            ctl[c] = s2
+
     parts = ["## Structure exact match, greedy",
              rung_table(sums, "greedy", "exact"),
              "", "## Structure exact match, sampled",
@@ -476,6 +538,14 @@ def main():
     if sba:
         parts += ["## The held-out sentence mode, shape against key position",
                   sba, ""]
+
+    fit = fit_table(list(RUNGS) + list(ctl))
+    if fit:
+        parts += ["## What each rung did to its own training file", fit, ""]
+    if ctl:
+        parts += ["## The learning rate control",
+                  lm_table({**{r: sums[r] for r in RUNGS if r in sums}, **ctl}),
+                  ""]
 
     tp = tpose_table(a.tpose)
     if tp:
@@ -529,6 +599,9 @@ def main():
                 if key in tmpl:
                     tmpl = tmpl.replace(key, shape_table(sums, grp, mode))
         tmpl = tmpl.replace("{{RUNG_CFG}}", rung_cfg_table(sums))
+        tmpl = tmpl.replace("{{FIT}}", fit)
+        tmpl = tmpl.replace("{{CONTROL}}", lm_table(
+            {**{r: sums[r] for r in RUNGS if r in sums}, **ctl}) if ctl else "")
         tmpl = tmpl.replace("{{ARTIFACTS}}", artifacts_table(
             collect_artifacts(a, sums, lms)))
         for ax, ph in (("qform", "QFORM"), ("scope_pos", "SCOPEPOS")):
