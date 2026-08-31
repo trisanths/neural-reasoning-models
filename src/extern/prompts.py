@@ -74,12 +74,38 @@ def v_options(item):
             {"role": "user", "content": item["text"].rstrip() + "\n\n" + tail}]
 
 
+def v_prefill(item):
+    """The scaffold again, with the answer withheld until the readings are out.
+
+    Under `worked` the small models comply with the answer format and skip the
+    reasoning, going straight to a one word guess. This variant starts the
+    assistant turn mid sentence so the first thing the model can write is the
+    value it read, which is the step the task actually turns on.
+    """
+    return [{"role": "system", "content": SYS_WORKED},
+            {"role": "user",
+             "content": item["text"].rstrip() + "\n\n" + WORKED
+             + "\n\nDo not give the answer before writing the readings out."}]
+
+
+# A variant may continue the assistant turn rather than start it empty. The
+# prefix is appended after the generation prompt the chat template renders, so
+# the template is still the model card's own.
+PREFILL = {
+    "prefill": "Step 1. The question names the operation ",
+}
+
 VARIANTS = {
     "bare": (v_bare, False),
     "reader": (v_reader, False),
     "worked": (v_worked, False),
+    "prefill": (v_prefill, False),
     "options": (v_options, True),
 }
+
+
+def prefill(name):
+    return PREFILL.get(name, "")
 
 
 def build(name, item):

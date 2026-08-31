@@ -16,7 +16,7 @@ import os
 from src.extern.answer import answer_span
 from src.norm.cmpwork.grade import forced
 
-MATCHED = ("bare", "reader", "worked")
+MATCHED = ("bare", "reader", "worked", "prefill")
 
 
 def strict_of(path):

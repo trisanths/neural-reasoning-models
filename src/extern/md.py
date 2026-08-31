@@ -23,6 +23,7 @@ SHORT = {"LiquidAI/LFM2.5-350M": "LFM2.5-350M",
          "LiquidAI/LFM2.5-8B-A1B": "LFM2.5-8B-A1B",
          "Qwen/Qwen3.5-9B": "Qwen3.5-9B"}
 VNAME = {"bare": "bare", "reader": "reader", "worked": "worked",
+         "prefill": "worked + assistant turn prefilled",
          "options": "worked + options shown"}
 
 

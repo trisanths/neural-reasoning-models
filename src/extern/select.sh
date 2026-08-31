@@ -15,7 +15,7 @@ MAXNEW=$($PY -m src.extern.models $M maxnew)
 BATCH=$($PY -m src.extern.models $M batch)
 CARD=$($PY -m src.extern.models $M)
 mkdir -p results/extern logs/extern
-for V in bare reader worked options; do
+for V in bare reader worked prefill options; do
   OUT=results/extern/sel_${M}_${V}.jsonl.gz
   if [ -f "$OUT" ]; then echo "skip $OUT"; continue; fi
   echo "=== $M $V $(date -u +%T)"

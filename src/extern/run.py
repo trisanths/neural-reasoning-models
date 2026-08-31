@@ -111,9 +111,10 @@ def main():
         torch.manual_seed(a.seed)
     print("gen_config", gc.to_diff_dict(), flush=True)
 
+    pre = prompts.prefill(a.variant)
     rendered = [tok.apply_chat_template(prompts.build(a.variant, it),
                                         tokenize=False,
-                                        add_generation_prompt=True)
+                                        add_generation_prompt=True) + pre
                 for it in items]
     order = sorted(range(len(items)), key=lambda i: -len(rendered[i]))
     out = [None] * len(items)
@@ -172,7 +173,7 @@ def main():
         "seed": a.seed,
         "generation_config": gc.to_diff_dict(),
         "chat_template_sha": hash(tok.chat_template or "") & 0xffffffff,
-        "rendered_example": rendered[0],
+        "rendered_example": rendered[0], "prefill": pre,
         "max_prompt_tokens": max(o["n_prompt"] for o in out),
         "mean_new_tokens": round(sum(o["n_new"] for o in out) / len(out), 1),
         "seconds": round(time.time() - t0, 1),
