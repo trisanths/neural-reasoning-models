@@ -193,12 +193,29 @@ construction with {{grid_both_other}} of its {{grid_both_pages}} pages in
 another order, shares no page with `grid_train` or with either version of the
 item set, and is the data fix. Section 6 reports what the test does after it.
 
-## 5. Safe failure against wrong executable structure
+## 5. What the interpreter catches, and on familiar surface it catches nothing
 
 A structure the interpreter rejects is a refusal and the system declines. A
 structure it accepts and runs to a wrong answer is a wrong answer with nothing
-in front of it. The ratio of the first to the second is a property of this
-design and is reported rather than folded into an error rate.
+in front of it. The first is a safe failure and the second is a dangerous one,
+and the ratio between them is a property of this design.
+
+On trained frames that ratio is zero. At 45M the malformed rate is
+{{l45_train_greedy_malformed}} and the refusal rate is
+{{l45_train_greedy_refused}} against a wrong-structure rate of
+{{l45_train_greedy_wrong}}, and at 93M they are
+{{xl93_train_greedy_malformed}}, {{xl93_train_greedy_refused}} and
+{{xl93_train_greedy_wrong}}. Every failure on surface the reader was trained on
+is a structure the interpreter accepts and executes to a wrong answer. The
+cells that sit at exactly zero are {{safe_unsafe_zero_cells}}. Anything that
+says this design declines rather than answering wrongly is false on that
+surface, and `src/norm/COMPARE.md`'s safe-failure result holds for a page shape
+the reader had never seen rather than for the shapes it reads every day.
+
+Refusals appear only as the surface moves away from training, and even there
+they stay the minority. The highest ratio in the table is
+{{safe_unsafe_max}} at {{safe_unsafe_max_cell}}, and
+{{safe_unsafe_below_one}} of {{safe_unsafe_cells}} cells are below one.
 
 {{SAFETY_greedy}}
 
@@ -217,8 +234,11 @@ have. Keys right, values right, pairing wrong.
 
 {{TPOSE}}
 
-The item file carries 150 pages per frame group per version, so the same
-census is also counted inside each group.
+The item file carries 150 pages per frame group per version. Those 150 are
+distinct structures and the five groups are the same 150 structures under five
+different surfaces, so 750 counts each structure five times and the per-group
+row of 150 is the independent unit. The census is counted inside each group for
+that reason.
 
 {{TPOSE_GROUP}}
 
