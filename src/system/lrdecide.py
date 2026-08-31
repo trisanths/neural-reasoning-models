@@ -28,19 +28,36 @@ BASE = "xl93"
 PEAK_45M = 4.0e-4
 
 
-def final_loss(tag):
+TAIL_STEPS = 5000
+
+
+def final_loss(tag, tail=TAIL_STEPS):
+    """The mean loss over the last `tail` steps, not the last logged window.
+
+    strain.py logs the mean over each 200 steps, so the final logged value is
+    one sample of a noisy quantity. On this pair the two orderings disagree:
+    the last window puts the control behind at 0.0187 against 0.0182, and the
+    last 5,000 steps put it ahead at 0.01779 against 0.02007. A rate for
+    thirteen hours of training should not turn on which window it landed in.
+    """
     path = os.path.join(ROOT, f"results/system/train/log_{tag}.jsonl")
     if not os.path.exists(path):
         return None
-    last = None
+    steps = []
     for line in open(path):
         try:
             r = json.loads(line)
         except ValueError:
             continue
         if r.get("event") == "step":
-            last = r
-    return None if last is None else (last["step"], last["loss"])
+            steps.append((r["step"], r["loss"]))
+    if not steps:
+        return None
+    steps.sort()
+    k = max(1, tail // 200)
+    window = steps[-k:]
+    mean = sum(l for _, l in window) / len(window)
+    return (steps[-1][0], round(mean, 6))
 
 
 def mode_exact(tag):
@@ -83,6 +100,7 @@ def main():
          "base_tag": BASE, "base_final": b, "base_mode_exact": mb,
          "control_tag": CTL, "control_final": c, "control_mode_exact": mc,
          "control_fits_better": better,
+         "comparison": f"mean training loss over the last {TAIL_STEPS} steps",
          "rate_for_xxl167_and_xxxl355": rate,
          "meaning": ("the 45M rung's own peak, one rate across the ladder"
                      if better else "src/system/sizes.py:LR, unchanged")})
