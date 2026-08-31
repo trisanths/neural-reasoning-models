@@ -46,10 +46,12 @@ def answer_span(raw: str):
                 "span": "", "reasoning_chars": len(reasoning), "rest": rest}
     hits = list(ANSWER_LINE.finditer(rest))
     if hits:
-        span = rest[hits[-1].end():]
-        # An "Answer:" marker is followed by the answer on that line; keep the
-        # line and let a model that writes a sentence there be graded on it.
-        span = span.split("\n")[0] if span.strip() else span
+        tail = rest[hits[-1].end():]
+        # The answer usually sits on the marker's own line, but a model that
+        # puts a newline after "Answer:" has still answered, so the first line
+        # with anything on it is the one graded rather than the literal first.
+        after = [l for l in tail.splitlines() if l.strip()]
+        span = after[0] if after else ""
     else:
         lines = [l for l in rest.splitlines() if l.strip()]
         span = lines[-1] if lines else ""

@@ -36,6 +36,11 @@ CASES = [
      "lummel", 1, 1, 0),
     ("final answer marker", "blah\nFinal Answer: lummel", "ok", "lummel",
      1, 1, 0),
+    ("newline after marker", "reasoning\nAnswer:\nlummel", "ok", "lummel",
+     1, 1, 0),
+    ("blank lines after marker", "Answer:\n\n  lummel  \nnote", "ok",
+     "lummel", 1, 1, 0),
+    ("marker with nothing after", "text\nAnswer:\n", "ok", "", 0, 0, 0),
 ]
 
 fails = 0
