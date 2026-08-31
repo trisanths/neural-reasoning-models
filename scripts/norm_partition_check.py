@@ -1,18 +1,27 @@
-"""The four outcomes must partition every scored row, and the gold must run.
+"""Two gates on every scored row, run before TRAIN.md is rebuilt.
 
-`src/norm/neval.py` increments exact, malformed, refused and wrong from four
-independent booleans, so a bug that set two of them on one item would inflate
-one rate without anything else looking wrong. This requires the four to sum to
-one on every shape of every split of every size on record, and requires
-n_gold_executes to equal n, which is the denominator answer_ok is divided by.
+The four outcomes must partition each row. `src/norm/neval.py` increments
+exact, malformed, refused and wrong from four independent booleans, so a bug
+that set two of them on one item would inflate one rate without anything else
+looking wrong. n_gold_executes must equal n, because that is the denominator
+answer_ok is divided by.
+
+And every summary must be newer than the checkpoint it reports on. A rescore
+against a stale record set has cost this project a retracted headline before.
 """
 
 import glob
 import json
+import os
 import sys
 
 bad = tot = 0
 for p in sorted(glob.glob("results/norm/eval/*/summary.json")):
+    tag = os.path.basename(os.path.dirname(p))
+    ck = "results/norm/train/ckpt_%s.pt" % tag
+    if os.path.exists(ck) and os.path.getmtime(p) < os.path.getmtime(ck):
+        bad += 1
+        print("STALE", p, "is older than", ck)
     d = json.load(open(p))
     for sp, v in d["splits"].items():
         for mode, g in v["modes"].items():
