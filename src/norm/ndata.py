@@ -42,8 +42,9 @@ from src.norm.ntok import (InputVocab, MAX_SLOTS, OutVocab, TokenizeError,
                            english_from_frames, serialize)
 from src.norm.render import SHAPES, render, frames
 
-HELD_LEXICON = "signal"
-HELD_MODE = "relative_clause"
+HELD_LEXICON = os.environ.get("NORM_HELD_LEXICON", "signal")
+HELD_MODE = os.environ.get("NORM_HELD_MODE", "relative_clause")
+HELD_QFORM = os.environ.get("NORM_HELD_QFORM", "")
 BAND_STRIDE = 8
 
 MAX_IN = 1280
@@ -55,7 +56,8 @@ def split_frames():
     fr, _ = frames()
     groups = {"train": [], "qframe": [], "lexicon": [], "mode": [], "mixed": []}
     for i, f in enumerate(fr):
-        band = (i % BAND_STRIDE == 0)
+        band = ((f.fid.split(".")[3] == HELD_QFORM) if HELD_QFORM
+                else (i % BAND_STRIDE == 0))
         lex = (f.lexicon == HELD_LEXICON)
         mod = (f.mode == HELD_MODE)
         n_new = int(band) + int(lex) + int(mod)
@@ -198,7 +200,9 @@ def main():
     os.makedirs(a.out, exist_ok=True)
     groups = split_frames()
     iv, ov = _vocab()
-    report = {"frames": {k: len(v) for k, v in groups.items()},
+    report = {"held": {"lexicon": HELD_LEXICON, "mode": HELD_MODE,
+                       "qframe": HELD_QFORM or f"band, every {BAND_STRIDE}th"},
+              "frames": {k: len(v) for k, v in groups.items()},
               "in_vocab": len(iv), "out_vocab": len(ov),
               "max_slots": MAX_SLOTS, "max_in": MAX_IN, "max_out": MAX_OUT,
               "shapes": list(SHAPES), "splits": {}}
