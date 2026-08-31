@@ -294,6 +294,17 @@ census is also counted inside each group.
 | l45 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | l45 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 
+Half of every fine tuning batch is drawn from the original training file, so
+this is acquisition and not a trade. What it cost the groups the rung already
+read, against that rung's own final in-training eval on the same 700 items.
+
+| rung | frame group | n | before the fine tune | after |
+| --- | --- | ---: | ---: | ---: |
+| l45 | train | 700 | 0.9171 | 0.9043 |
+| l45 | qframe | 700 | 0.9086 | 0.8957 |
+| l45 | lexicon | 700 | 0.7971 | 0.7957 |
+| l45 | mode | 700 | 0.5657 | 0.5500 |
+
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
 of it, so the transposed row is only interpretable where the original row is
@@ -346,6 +357,7 @@ test before the two expensive rungs run at it. `xl93lr40` is that test.
 | `results/system/eval/l45/records_mode_sampled.jsonl.gz` | 37,341 | 2026-08-31 17:40 |
 | `results/system/eval/l45/records_mixed_greedy.jsonl.gz` | 37,443 | 2026-08-31 17:40 |
 | `results/system/eval/l45/records_mixed_sampled.jsonl.gz` | 37,831 | 2026-08-31 17:41 |
+| `results/system/eval/ftl45/summary.json` | 79,516 | 2026-08-31 20:01 |
 | `results/system/tpose/xmode_l45.json` | 1,395 | 2026-08-31 19:59 |
 | `results/system/eval/xl93/summary.json` | 82,229 | 2026-08-31 19:59 |
 | `results/system/eval/xl93/records_train_frames_eval_greedy.jsonl.gz` | 33,018 | 2026-08-31 19:52 |
@@ -372,6 +384,7 @@ a records file newer than the summary that reports it.
 | --- | --- | ---: | --- | --- |
 | l45 | 2026-08-31 17:41 | 10 | 2026-08-31 17:41 | yes |
 | xl93 | 2026-08-31 19:59 | 10 | 2026-08-31 19:59 | yes |
+| ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
 
 ## 10. How to run it
 

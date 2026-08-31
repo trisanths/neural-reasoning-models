@@ -203,8 +203,17 @@
 | l45 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | l45 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 
+## What the 1,024 grids cost the groups already read
+| rung | frame group | n | before the fine tune | after |
+| --- | --- | ---: | ---: | ---: |
+| l45 | train | 700 | 0.9171 | 0.9043 |
+| l45 | qframe | 700 | 0.9086 | 0.8957 |
+| l45 | lexicon | 700 | 0.7971 | 0.7957 |
+| l45 | mode | 700 | 0.5657 | 0.5500 |
+
 ## Records against the reports beside them
 | report | written | records | newest record | ok |
 | --- | --- | ---: | --- | --- |
 | l45 | 2026-08-31 17:41 | 10 | 2026-08-31 17:41 | yes |
 | xl93 | 2026-08-31 19:59 | 10 | 2026-08-31 19:59 | yes |
+| ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |

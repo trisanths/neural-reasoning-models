@@ -137,6 +137,12 @@ census is also counted inside each group.
 
 {{TPOSE_GROUP}}
 
+Half of every fine tuning batch is drawn from the original training file, so
+this is acquisition and not a trade. What it cost the groups the rung already
+read, against that rung's own final in-training eval on the same 700 items.
+
+{{FT_COST}}
+
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
 of it, so the transposed row is only interpretable where the original row is

@@ -181,6 +181,55 @@ def safety_table(sums, mode):
 TP_CATS = ("exact", "key_order_canonical", "malformed", "other")
 
 
+
+QUICK = ("train_frames_eval", "qframe", "lexicon", "mode")
+
+
+def last_quick_eval(rung):
+    """The rung's own final in-training eval, 700 items, the same prefix.
+
+    `src/system/strain.py` evaluates on `neval.load_eval(path, 700)`, which is
+    the first 700 items of the same file `src/system/sreport.py` reads, so the
+    fine tuned checkpoint scored at 700 and the rung scored at 700 are the same
+    denominator on the same items.
+    """
+    path = train_log(rung)
+    if not os.path.exists(path):
+        return None
+    last = None
+    for line in open(path):
+        try:
+            r = json.loads(line)
+        except ValueError:
+            continue
+        if r.get("event") == "eval":
+            last = r
+    return last
+
+
+def ft_cost_table(evaldir):
+    """What 1,024 grids of a new page shape cost the groups already read."""
+    rows = ["| rung | frame group | n | before the fine tune | after |",
+            "| --- | --- | ---: | ---: | ---: |"]
+    seen = 0
+    for r in RUNGS:
+        before = last_quick_eval(r)
+        after = load(os.path.join(evaldir, f"ft{r}", "summary.json"))
+        if before is None or after is None:
+            continue
+        for k in QUICK:
+            try:
+                a = g(after, k, "greedy")["pooled_do_not_headline"]
+            except KeyError:
+                continue
+            b = before.get(k)
+            rows.append(f"| {r} | {GROUP_LABEL[k]} | {a['n']} | "
+                        f"{f4(b) if b is not None else 'n/a'} | "
+                        f"{f4(a['exact'])} |")
+            seen += 1
+    return "\n".join(rows) if seen else ""
+
+
 def tpose_table(dirpath):
     """The transposed-operand census, per rung, per version, never pooled.
 
@@ -587,6 +636,10 @@ def main():
         parts += ["## The transposed operand test", tp, ""]
     if tpg:
         parts += ["## The transposed operand test, per frame group", tpg, ""]
+    ftc = ft_cost_table(a.eval)
+    if ftc:
+        parts += ["## What the 1,024 grids cost the groups already read",
+                  ftc, ""]
 
     lms = {}
     for tag in ("corpus_nosft", "lm350"):
@@ -649,6 +702,7 @@ def main():
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
         tmpl = tmpl.replace("{{TPOSE}}", tp)
         tmpl = tmpl.replace("{{TPOSE_GROUP}}", tpg)
+        tmpl = tmpl.replace("{{FT_COST}}", ftc)
         tmpl = tmpl.replace("{{LM_EXACT}}", lm_table(lms) if lms else "")
         tmpl = tmpl.replace("{{LM_SAFETY}}", lm_safety(lms) if lms else "")
         tmpl = tmpl.replace("{{FRAMES}}", ft)
