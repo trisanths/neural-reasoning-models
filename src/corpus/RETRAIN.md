@@ -538,3 +538,94 @@ record sets `~/retrain/plan/heldout_whole_sample.jsonl` and
 `~/retrain/plan/extrap_whole.jsonl` with the `determinate` flag on every
 record, trivial program `~/retrain/plan/parser_*` and `score_parser_*`,
 oracle `~/retrain/plan/score_oracle_*`.
+
+## 6. Relation type, and the depth wall underneath it
+
+Sixteen structures, 100 episodes each, two questions per episode, forced choice
+with the chance floor from each family's own candidate count. Twelve structures
+are in the corpus's training band and four are not. Two families,
+`modular_apply` and `weighted_chain`, answer with a computed number and carry no
+candidate set, so they are scored by strict normalized exact match with the
+floor stated as 0.000 rather than by a forced choice that is not defined on
+them.
+
+Held-out band, greedy. `served` is the share of rollouts where a page carrying
+the gold came back; `frcdSv` is forced choice among only those.
+
+| structure | in training | n | chance | original forced | new forced | new none | new served | new frcdSv |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| substitution | yes | 200 | 0.200 | 0.080 | 1.000 | 0.000 | 1.000 | 1.000 |
+| threshold | yes | 200 | 0.500 | 0.110 | 1.000 | 0.000 | 1.000 | 1.000 |
+| exception_rule | yes | 200 | 0.500 | 0.295 | 1.000 | 0.000 | 1.000 | 1.000 |
+| inverse_table | yes | 200 | 0.250 | 0.055 | 1.000 | 0.000 | 1.000 | 1.000 |
+| band_rule | yes | 200 | 0.333 | 0.085 | 0.990 | 0.000 | 1.000 | 0.990 |
+| band_then_lookup | yes | 200 | 0.333 | 0.015 | 0.890 | 0.005 | 1.000 | 0.890 |
+| chain_rule | yes | 200 | 0.250 | 0.020 | 0.420 | 0.005 | 1.000 | 0.420 |
+| lookup_then_band | yes | 200 | 0.333 | 0.020 | 0.400 | 0.000 | 1.000 | 0.400 |
+| inverse_chain | yes | 200 | 0.250 | 0.020 | 0.275 | 0.490 | 0.605 | 0.455 |
+| transitive | yes | 200 | 0.167 | 0.025 | 0.270 | 0.000 | 1.000 | 0.270 |
+| agreement | no | 200 | 0.125 | n/a | 0.450 | 0.010 | 0.455 | 0.989 |
+| priority_list | no | 200 | 0.250 | 0.185 | 0.330 | 0.545 | 0.985 | 0.335 |
+| two_key | no | 200 | 0.111 | 0.025 | 0.075 | 0.875 | 1.000 | 0.075 |
+| exclusion | no | 200 | 0.250 | 0.050 | 0.000 | 0.020 | 1.000 | 0.000 |
+| modular_apply | yes | 200 | 0.000 | 0.000 exact | 0.000 exact | | | |
+| weighted_chain | yes | 200 | 0.000 | 0.000 exact | 0.225 exact | | | |
+
+Macro over the fourteen candidate families, both aggregation orders, greedy:
+the original is 0.075 macro accuracy against a 0.275 macro chance, so A is
+-0.276 and B is -0.302, below its own floor; the new checkpoint is 0.579
+against 0.275, A 0.419 and B 0.458.
+
+Three things sit in that table and they do not point the same way.
+
+The three named relation-type failures are fixed, and they were fixed by being
+trained. `inverse_table` goes from 0.107 on record to 1.000, `band_rule` from
+0.313 to 0.990, `chain_rule` from 0.008 to 0.420. All three are in the corpus's
+training band, so this measures fit rather than generalisation, which is
+exactly what `src/corpus/CORPUS.md` says training on them costs: the probe they
+served is retired.
+
+The four structures that are genuinely new are not learned. `agreement` at
+0.450 against 0.125 is the only one clearly above its floor, and its ceiling is
+retrieval rather than reading: the answering page comes back on 0.455 of its
+rollouts and the answer is right on 0.989 of those. `priority_list` is 0.330
+against 0.250 with no candidate named on 0.545. `two_key` is 0.075 against
+0.111, below its floor, naming a nonce word that is not among its nine
+candidates on 0.875 of items. `exclusion` is 0.000 against 0.250 with the page
+served on 1.000 and a candidate named on 0.980, and the failure is legible: the
+question asks which listed type the value does *not* receive and the model
+names one that it does. It reads the page, finds the list, and does not read
+the negation.
+
+Reading the answer off a page is solved. Chaining is not, and it fails inside
+the training distribution. Broken out by the number of derivation steps, on the
+training band, where every one of these structures and depths is trained:
+
+| structure | depth 1 | depth 2 | depth 3 | depth 4 | chance |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| chain_rule, held out | 1.000 | 0.220 | 0.180 | 0.280 | 0.250 |
+| chain_rule, train band | 0.972 | 0.312 | 0.281 | 0.240 | 0.250 |
+| inverse_chain, held out | 0.760 | 0.180 | 0.120 | 0.040 | 0.250 |
+| inverse_chain, train band | 0.656 | 0.059 | 0.176 | 0.060 | 0.250 |
+
+`weighted_chain` emits two plan steps per hop, and the same wall is there: one
+hop is 1.000 and two hops is 0.039, on the held-out band, against a 0.000
+floor. `transitive` sits between 0.240 and 0.300 against a 0.167 floor at every
+depth from one to four and falls to 0.019 at depth 48. `modular_apply` is 0.000
+at every depth on both bands.
+
+So the corpus bought one-hop rule reading in any wording, on any of the twelve
+structures it trains, at or near ceiling. It did not buy the second hop. A
+checkpoint that writes a correct forty-eight step plan over a printed
+expression cannot carry one intermediate answer through one retrieval round.
+Writing a long plan is a transformation of a string that is entirely in the
+prompt; chaining requires holding a value that only exists after a page comes
+back. Those are the same "depth" in the project's vocabulary and they are not
+the same operation, and this run separates them.
+
+Artifacts: `~/retrain/relation/rel_{heldout,train}.jsonl`,
+rollouts `~/retrain/relation/all_{base,new}_{heldout,train}.jsonl`, scores
+`~/retrain/relation/score_{base,new}_{heldout,train}.json`, oracle check
+`~/retrain/relation/score_oracle_heldout.json` (14 families at 1.000 forced,
+2 at 1.000 exact), corpus shortcut floors
+`~/retrain/relation/shortcut_floors.json`.
