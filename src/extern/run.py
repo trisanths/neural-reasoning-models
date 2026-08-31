@@ -57,6 +57,11 @@ def main():
     ap.add_argument("--batch", type=int, default=32)
     ap.add_argument("--max-new", type=int, default=512)
     ap.add_argument("--greedy", action="store_true")
+    ap.add_argument("--temperature", type=float, default=0.0)
+    ap.add_argument("--top-k", type=int, default=0)
+    ap.add_argument("--top-p", type=float, default=0.0)
+    ap.add_argument("--rep-penalty", type=float, default=0.0)
+    ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--dtype", default="bfloat16")
     ap.add_argument("--load-4bit", action="store_true")
     ap.add_argument("--max-batch-tokens", type=int, default=0)
@@ -92,6 +97,17 @@ def main():
     gkw = {"max_new_tokens": a.max_new, "pad_token_id": tok.pad_token_id}
     if a.greedy:
         gkw.update(do_sample=False, temperature=None, top_p=None, top_k=None)
+    else:
+        # The model card's own recommended sampling settings, passed in by the
+        # driver, so the decode is the one the publisher asks for.
+        gkw.update(do_sample=True, temperature=a.temperature)
+        if a.top_k:
+            gkw["top_k"] = a.top_k
+        if a.top_p:
+            gkw["top_p"] = a.top_p
+        if a.rep_penalty:
+            gkw["repetition_penalty"] = a.rep_penalty
+        torch.manual_seed(a.seed)
     print("gen_config", gc.to_diff_dict(), flush=True)
 
     rendered = [tok.apply_chat_template(prompts.build(a.variant, it),
@@ -150,7 +166,9 @@ def main():
         "n_items": len(items), "conds": conds, "families": fams,
         "pages": pages, "stride": a.stride, "limit": a.limit,
         "batch": a.batch, "max_new_tokens": a.max_new,
-        "greedy": a.greedy,
+        "greedy": a.greedy, "gen_kwargs": {k: v for k, v in gkw.items()
+                                          if k != "pad_token_id"},
+        "seed": a.seed,
         "generation_config": gc.to_diff_dict(),
         "chat_template_sha": hash(tok.chat_template or "") & 0xffffffff,
         "rendered_example": rendered[0],
