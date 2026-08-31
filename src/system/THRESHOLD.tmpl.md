@@ -120,6 +120,26 @@ The other axes of the same group, for comparison.
 
 {{SCOPEPOS}}
 
+### Whether the surface explains it
+
+If the binding were not in the text, or were ambiguous there, the network's
+zeros would be about the pages rather than about the network. The hand-written
+parser of `src/norm/parse.py` runs on the same items.
+
+{{PARSER_KEYPOS}}
+
+It reads the value-first half of the held-out sentence mode exactly,
+{{parser_mode_value_first}}, and it does so for each of the seven shapes
+separately: {{parser_mode_lookup_value_first}} on `lookup`,
+{{parser_mode_inverse_value_first}} on `inverse`,
+{{parser_mode_iterate_value_first}} on `iterate`,
+{{parser_mode_compose_value_first}} on `compose`,
+{{parser_mode_exclusion_value_first}} on `exclusion`,
+{{parser_mode_sum_chain_value_first}} on `sum_chain` and
+{{parser_mode_precedence_value_first}} on `precedence`. The binding is present
+in the text and it is unambiguous. What the network gets wrong there, it gets
+wrong on its own.
+
 ### Whether the training draw explains it
 
 The frame grammar carries key position as an axis. Whether the draw used it is

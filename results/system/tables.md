@@ -195,6 +195,14 @@
 | xl93 | mode | 0.6976 (1498) | 0.3203 (1302) |
 | xl93 | mixed | 0.5328 (1190) | 0.4261 (1610) |
 
+## The reference parser on the same split
+| frame group | key position | n | parser exact |
+| --- | --- | ---: | ---: |
+| train | key_first | 1386 | 1386 / 1386 = 1.0000 |
+| train | value_first | 1414 | 1414 / 1414 = 1.0000 |
+| mode | key_first | 1498 | 1498 / 1498 = 1.0000 |
+| mode | value_first | 1302 | 1302 / 1302 = 1.0000 |
+
 ## Key position in the training draw
 | shape | key_first | value_first | value_first share | scores 0.0000 on value_first |
 | --- | ---: | ---: | ---: | --- |

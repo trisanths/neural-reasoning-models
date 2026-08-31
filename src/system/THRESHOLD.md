@@ -261,6 +261,31 @@ The other axes of the same group, for comparison.
 | l45 | 0.4736 (1176) | 0.5862 (1624) |
 | xl93 | 0.4694 (1176) | 0.5603 (1624) |
 
+### Whether the surface explains it
+
+If the binding were not in the text, or were ambiguous there, the network's
+zeros would be about the pages rather than about the network. The hand-written
+parser of `src/norm/parse.py` runs on the same items.
+
+| frame group | key position | n | parser exact |
+| --- | --- | ---: | ---: |
+| train | key_first | 1386 | 1386 / 1386 = 1.0000 |
+| train | value_first | 1414 | 1414 / 1414 = 1.0000 |
+| mode | key_first | 1498 | 1498 / 1498 = 1.0000 |
+| mode | value_first | 1302 | 1302 / 1302 = 1.0000 |
+
+It reads the value-first half of the held-out sentence mode exactly,
+1302 of 1302, and it does so for each of the seven shapes
+separately: 93 of 93 on `lookup`,
+93 of 93 on `inverse`,
+93 of 93 on `iterate`,
+93 of 93 on `compose`,
+93 of 93 on `exclusion`,
+93 of 93 on `sum_chain` and
+93 of 93 on `precedence`. The binding is present
+in the text and it is unambiguous. What the network gets wrong there, it gets
+wrong on its own.
+
 ### Whether the training draw explains it
 
 The frame grammar carries key position as an axis. Whether the draw used it is
@@ -488,6 +513,11 @@ the order and it reads it. On a sentence mode it never saw, the same reader is
 0.3280 on value first against
 0.7223 on key first, and on seven shapes it is exact on
 zero value-first items out of 93.
+
+The binding is in the text and it is not ambiguous there. The hand-written
+parser reads the same value-first half of that group
+1302 of 1302, and 93 of 93 on each of
+the seven shapes taken separately.
 
 Balancing key position in the training draw cannot fix that, because the draw
 is already balanced and has been all along. What failed to transfer is the

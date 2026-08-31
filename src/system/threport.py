@@ -641,6 +641,44 @@ def draw_facts(keypos_path, mode_path, order_path) -> dict:
 
 
 
+
+def parser_keypos_table(path):
+    """The reference parser on the same items, split by key position."""
+    d = load(path)
+    if d is None:
+        return ""
+    rows = ["| frame group | key position | n | parser exact |",
+            "| --- | --- | ---: | ---: |"]
+    for split, c in d["splits"].items():
+        for kp in ("key_first", "value_first"):
+            n = c.get(f"{kp}|n")
+            ex = c.get(f"{kp}|exact")
+            if not n:
+                continue
+            rows.append(f"| {GROUP_LABEL.get(split, split)} | {kp} | {n} | "
+                        f"{ex} / {n} = {ex / n:.4f} |")
+    return "\n".join(rows)
+
+
+def parser_keypos_facts(path) -> dict:
+    d = load(path)
+    if d is None:
+        return {}
+    out = {}
+    for split, c in d["splits"].items():
+        lab = GROUP_LABEL.get(split, split)
+        for kp in ("key_first", "value_first"):
+            n, ex = c.get(f"{kp}|n"), c.get(f"{kp}|exact")
+            if n:
+                out[f"parser_{lab}_{kp}"] = f"{ex} of {n}"
+        for sh in ZERO_ON_VALUE_FIRST:
+            n = c.get(f"{sh}|value_first|n")
+            ex = c.get(f"{sh}|value_first|exact")
+            if n:
+                out[f"parser_{lab}_{sh}_value_first"] = f"{ex} of {n}"
+    return out
+
+
 def keypos_group_table(path):
     """Key position inside every frame group, from the same records.
 
@@ -846,6 +884,9 @@ def main():
     kpg = keypos_group_table("results/system/keypos_by_group.json")
     if kpg:
         parts += ["## Key position inside every frame group", kpg, ""]
+    pkp = parser_keypos_table("results/system/parser_by_keypos.json")
+    if pkp:
+        parts += ["## The reference parser on the same split", pkp, ""]
     kpd = keypos_draw_table("results/system/keypos_train_draw.json")
     kpm = keypos_mode_table("results/system/keypos_by_mode.json")
     gro = grid_order_table("results/system/grid_key_order.json",
@@ -918,6 +959,7 @@ def main():
     GV = "results/system/grid_overlap.json"
     fx.update(draw_facts(KP, KM, GO))
     fx.update(keypos_group_facts("results/system/keypos_by_group.json"))
+    fx.update(parser_keypos_facts("results/system/parser_by_keypos.json"))
     fx.update({("tpb" + k[2:]): v for k, v in
                tpose_facts(a.tpose, "_both").items()})
     with open(os.path.join(a.out, "facts.json"), "w") as fh:
@@ -945,6 +987,7 @@ def main():
                             axis_table(sums, "mode", "greedy", "key_pos"))
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
         tmpl = tmpl.replace("{{KEYPOS_GROUP}}", kpg)
+        tmpl = tmpl.replace("{{PARSER_KEYPOS}}", pkp)
         tmpl = tmpl.replace("{{TPOSE_BOTH}}", tpb)
         tmpl = tmpl.replace("{{TPOSE_BOTH_GROUP}}", tpbg)
         tmpl = tmpl.replace("{{KEYPOS_DRAW}}", kpd)
