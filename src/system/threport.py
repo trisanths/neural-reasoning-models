@@ -692,7 +692,7 @@ def failcat_facts(path) -> dict:
 
 
 
-PARSER_FILES = (("data/norm", "results/system/parser_by_keypos.json"),
+PARSER_FILES = (("data/norm", "results/system/parser_norm.json"),
                 ("data/normB", "results/system/parser_normB.json"),
                 ("data/normC", "results/system/parser_normC.json"))
 
