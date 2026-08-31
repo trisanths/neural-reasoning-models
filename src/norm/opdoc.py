@@ -63,7 +63,8 @@ def t_acq_net(rep) -> str:
     rows = []
     for fam, label2 in FAMS:
         for name, label in (("n_base_l", "no gradient"),
-                            ("n_family", "family trained")):
+                            ("n_family", "family trained, 1500 steps"),
+                            ("n_family2", "family trained, 6000 steps")):
             k = f"{name}|greedy|acq|{fam}|pages1"
             if k not in rep["neural"]:
                 continue
@@ -211,7 +212,7 @@ def t_depth(rep) -> str:
         r = [n, c["n"], f(c["floor"]), f(c["strict"])]
         for s in ("S1", "S2"):
             r.append(f(rep["depth"][f"n{n}|aligned|{s}"]["strict"]))
-        for name in ("n_base_l", "n_family"):
+        for name in ("n_base_l", "n_family", "n_family2"):
             for mode in ("greedy", "sampled"):
                 k = f"{name}|{mode}|depth|n{n}|aligned"
                 r.append(f(rep["neural"][k]["strict"])
@@ -219,8 +220,8 @@ def t_depth(rep) -> str:
         rows.append(r)
     return table(["applications", "n", "floor", "L strict", "S1", "S2",
                   "network no gradient greedy", "network no gradient sampled",
-                  "network family trained greedy",
-                  "network family trained sampled"], rows)
+                  "family 1500 greedy", "family 1500 sampled",
+                  "family 6000 greedy", "family 6000 sampled"], rows)
 
 
 def t_deep(rep) -> str:
@@ -252,7 +253,8 @@ def t_compose(rep) -> str:
                       "P": "corpus parser"}[s], d["n"], f(d["floor"]),
                      f(d["strict"]), f(d["lenient"]), f(d["declined"]), "-"])
     for name, label in (("n_base_l", "network, no gradient"),
-                        ("n_family", "network, family trained")):
+                        ("n_family", "network, family trained, 1500 steps"),
+                        ("n_family2", "network, family trained, 6000 steps")):
         for mode in ("greedy", "sampled"):
             k = f"{name}|{mode}|compose"
             if k in rep["neural"]:
@@ -297,7 +299,9 @@ def t_contra(rep) -> str:
                          f(c["follows_page"]), f(c["follows_training"]),
                          f(c["neither"])])
         for name, label in (("n_base_l", "network, no gradient"),
-                            ("n_family", "network, family trained")):
+                            ("n_family", "network, family trained, 1500 steps"),
+                            ("n_family2",
+                             "network, family trained, 6000 steps")):
             for mode in ("greedy", "sampled"):
                 k = f"{name}|{mode}|contra|{fam}"
                 if k in rep["neural"]:
@@ -392,6 +396,21 @@ def t_states(rep) -> str:
                   "ran the right one"], rows)
 
 
+def t_training(rep) -> str:
+    """What each fine tune reached on its own training data.
+
+    A run whose loss is still falling has not finished learning what it was
+    shown, and scoring it would measure the budget rather than the network.
+    """
+    rows = []
+    for tag in sorted(rep.get("training", {})):
+        d = rep["training"][tag]
+        rows.append([tag, d["k"], d["steps"], f(d["final_loss"] or 0),
+                     d["seconds"]])
+    return table(["run", "examples", "steps", "final training loss",
+                  "seconds"], rows)
+
+
 def t_paths(rep) -> str:
     rows = [[k, v] for k, v in sorted(rep["records"].items())]
     return table(["record", "path"], rows)
@@ -453,6 +472,7 @@ def main():
         "T_STRESS": t_stress(rep),
         "T_CONTROLS": t_controls(rep),
         "T_STATES": t_states(rep),
+        "T_TRAINING": t_training(rep),
         "T_PATHS": t_paths(rep),
         "BUILT": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()),
         "FRESH": (f"{fresh['n_records_checked']} record files, none newer "

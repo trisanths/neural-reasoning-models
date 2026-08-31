@@ -318,8 +318,29 @@ def main():
         rep["records"][os.path.basename(path)[:-len(".jsonl.gz")]] = \
             os.path.abspath(path)
 
+    # ---- what each fine tune reached on its own training data
+    rep["training"] = {}
+    for lg in ("ft.log", "ft2.log", "ft3.log", "fam.log", "fam2.log"):
+        path = os.path.join("logs/oneshot", lg)
+        if not os.path.exists(path):
+            continue
+        for line in open(path):
+            line = line.strip()
+            if not line.startswith('{"out"'):
+                continue
+            try:
+                d = json.loads(line)
+            except ValueError:
+                continue
+            tag = os.path.basename(d["out"]).replace("ft_", "").replace(
+                ".pt", "")
+            rep["training"][tag] = {
+                "k": d.get("k"), "steps": d.get("steps"),
+                "final_loss": d["log"][-1]["loss"] if d.get("log") else None,
+                "seconds": d.get("seconds")}
+
     # ---- the network on the main item set
-    for name in ("n_base_l", "n_family"):
+    for name in ("n_base_l", "n_family", "n_family2"):
         p = os.path.join(D, f"{name}.jsonl.gz")
         if not os.path.exists(p):
             continue

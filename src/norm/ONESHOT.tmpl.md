@@ -255,6 +255,19 @@ network was decoded on the main and ladder item sets and not on this one.
 
 {{T_STRESS}}
 
+## What each fine tune reached on its own training data
+
+A run whose loss is still falling has not finished learning what it was shown,
+so scoring it would measure the budget rather than the network. The small k runs
+fit their handful of examples to a loss between 0.00009 and 0.0042 and their
+scores are about generalising, not about fitting: a run that has memorised its
+one example and still cannot answer a new question about that same operation is
+the measurement this lane wanted. The family run at 1500 steps did not: its loss
+was still coming down, from 0.36188 to 0.12185, so it was run again for four
+times as long and both are reported.
+
+{{T_TRAINING}}
+
 ## What this does not show
 
 The reader is hand written, so its 1.0000 measures that the definition grammar
@@ -289,10 +302,12 @@ space is complete.
     bash src/norm/drive.sh     # the data, the no gradient run and the first ladder
     bash src/norm/drive2.sh    # the ladder from the family trained network
     bash src/norm/drive3.sh    # the far end of the first ladder
+    bash src/norm/drive4.sh    # the family condition, trained four times longer
     bash src/norm/finish.sh    # the diagnostics, the report and this document
 
-`drive2.sh` and `drive3.sh` each wait for the one before it, so all three can be
-started at once. Together they are about two and a half hours on one L40S.
+`drive2.sh`, `drive3.sh` and `drive4.sh` each wait for the one before them, so
+all four can be started at once. Together they are about three hours on one
+L40S.
 
 The gates are `src/norm/tests/test_oneshot.py`. Two of them rebuild the item
 files into a temporary directory and compare the uncompressed bytes against the
