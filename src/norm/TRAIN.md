@@ -540,6 +540,14 @@ the page says 23, and two of the four tables with their key to value pairings
 scrambled. `sum_chain` pages carry eight definitions and are the longest in the
 corpus.
 
+A `compose` item at 8.05M, from `results/norm/ndiff/m.json`. The plan is four
+`lookup` steps and all four are right. The table carries the right four keys
+and the right four values. Three of the four rows have the wrong key against
+the wrong value: the page pairs `bruntez` with `lumnak`, `drizunt` with
+`nidmuth` and `bramel` with `thoxlorn`, and the network wrote `bramel` with
+`lumnak`, `bruntez` with `nidmuth` and `drizunt` with `thoxlorn`. It saw every
+symbol on the page and bound them to each other in the wrong order.
+
 The failure mode is copying, not parsing. It is the opposite of what this
 project measured in the language model, which followed its training identity on
 678 of 678 transposed pages. This network reads the page and mis-transcribes
