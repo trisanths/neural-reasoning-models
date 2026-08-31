@@ -799,7 +799,12 @@ def alt_manifest_table():
             "| --- | --- | --- | --- | --- | ---: |"]
     seen = 0
     for tag, meta in [("l45", {"data": "data/norm"})] + list(ALT.items()):
-        m = load(os.path.join(meta["data"], "manifest.json"))
+        # data/ is not in the repository, so the copy beside the results is
+        # what the document reads when the built directory is gone.
+        name = os.path.basename(meta["data"])
+        m = load(os.path.join("results/system/splits",
+                              f"{name}_manifest.json")) \
+            or load(os.path.join(meta["data"], "manifest.json"))
         if m is None:
             continue
         h = m.get("held", {"lexicon": "signal", "mode": "relative_clause",

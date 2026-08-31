@@ -187,6 +187,7 @@
 | split | data | withheld question frame | withheld lexicon | withheld statement mode | training frames |
 | --- | --- | --- | --- | --- | ---: |
 | l45 | `data/norm` | band, every 8th | signal | relative_clause | 490 |
+| c45 | `data/normC` | wh | signal | relative_clause | 420 |
 | b45 | `data/normB` | band, every 8th | signal | table_row | 490 |
 
 ## Key position inside every frame group

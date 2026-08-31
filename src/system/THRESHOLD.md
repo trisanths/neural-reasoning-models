@@ -378,6 +378,7 @@ seed and the same counts, and both are scored by the same grader.
 | split | data | withheld question frame | withheld lexicon | withheld statement mode | training frames |
 | --- | --- | --- | --- | --- | ---: |
 | l45 | `data/norm` | band, every 8th | signal | relative_clause | 490 |
+| c45 | `data/normC` | wh | signal | relative_clause | 420 |
 | b45 | `data/normB` | band, every 8th | signal | table_row | 490 |
 
 `b45` withholds `table_row` where the first split withholds
