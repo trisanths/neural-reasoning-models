@@ -15,9 +15,11 @@ The answer. One page is enough for the library system and it is enough on the
 first page: 1.0000 strict on each of the four operation families, and structure
 exact at 1.0000 as well, unchanged when the same operation is stated on two
 pages and on four. The network, handed the same page in its context and taking
-no gradient step, scores 0.0000, 0.0194, 0.1200 and 0.0173 strict on those four
-families against floors of 0.3735, 0.3086, 0.3567 and 0.2879, which is below its
-own guessing floor in every one. Across the whole item set it is structure exact
+no gradient step, scores 0.0000 on the two directory one clause family against a
+floor of 0.3735, 0.0194 on three directories and one clause against 0.3086,
+0.1200 on two directories and two clauses against 0.3567, and 0.0173 on three
+directories and two clauses against 0.2879, which is below its own guessing
+floor in every one. Across the whole item set it is structure exact
 on 0 of 6,736 items under greedy decoding and 0 of 6,736 under sampled.
 Given labelled examples of the one operation it will be tested on, and an output
 vocabulary extended for free so it can write an operation down at all, it climbs
