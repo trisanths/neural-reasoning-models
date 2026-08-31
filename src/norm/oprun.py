@@ -71,8 +71,11 @@ def main():
             exact = 0
             if got.get("program") is not None:
                 exact = int(got["program"] == program_load(it["prog"]))
+            lib = got.get("library")
             rec["L"] = {"answer": got["answer"], "state": got["state"],
                         "stage": got.get("stage", ""), "exact": exact,
+                        "pages_read": lib.n_pages if lib else 0,
+                        "operations": len(lib) if lib else 0,
                         "reason": got.get("reason", "")[:160]}
             counts["L"][got["state"]] = counts["L"].get(got["state"], 0) + 1
             p = parse.parse(it["text"], it["fid"])

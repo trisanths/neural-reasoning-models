@@ -163,7 +163,12 @@ def main():
     D = a.dir
     sysrows = load(os.path.join(D, "sys.jsonl.gz"))
     ladder_sys = load(os.path.join(D, "ladder_sys.jsonl.gz"))
-    rep = {"records": {"sys": os.path.abspath(os.path.join(D, "sys.jsonl.gz")),
+    rep = {"records": {"items": os.path.abspath(os.path.join(D, "items.jsonl.gz")),
+                       "ladder_items": os.path.abspath(
+                           os.path.join(D, "ladder_items.jsonl.gz")),
+                       "stress_items": os.path.abspath(
+                           os.path.join(D, "stress_items.jsonl.gz")),
+                       "sys": os.path.abspath(os.path.join(D, "sys.jsonl.gz")),
                        "ladder_sys": os.path.abspath(
                            os.path.join(D, "ladder_sys.jsonl.gz"))},
            "cells": {}, "acq": {}, "depth": {}, "compose": {},
@@ -177,6 +182,16 @@ def main():
                                                       r["n_pages"])).items()):
         for s in SYSTEMS:
             rep["acq"][f"{fam}|pages{npg}|{s}"] = cell(rows, getter(s))
+
+    # ---- what the library actually took off the extra pages
+    for npg, rows in sorted(by(acq, lambda r: r["n_pages"]).items()):
+        n = len(rows)
+        rep["acq"][f"library|pages{npg}"] = {
+            "n": n,
+            "definition_pages_read":
+                round(sum(r["L"].get("pages_read", 0) for r in rows) / n, 4),
+            "operations_stored":
+                round(sum(r["L"].get("operations", 0) for r in rows) / n, 4)}
 
     # ---- the same set split by the frame the pages are written in
     for (fam, split), rows in sorted(by(
@@ -299,12 +314,17 @@ def main():
                                       lambda r: r["inst_id"]).items()):
                 rep["neural"][f"{tag}|{mode}|{iid}"] = cell(sub,
                                                             getter("", mode))
+    for path in paths:
+        rep["records"][os.path.basename(path)[:-len(".jsonl.gz")]] = \
+            os.path.abspath(path)
+
     # ---- the network on the main item set
     for name in ("n_base_l", "n_family"):
         p = os.path.join(D, f"{name}.jsonl.gz")
         if not os.path.exists(p):
             continue
         rows = load(p)
+        rep["records"][name] = os.path.abspath(p)
         for r in rows:
             if r["cond"] == "contra":
                 r["first"] = conitems[r["id"]]["first"]

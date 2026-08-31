@@ -9,7 +9,9 @@ exact both ways so that a wrong answer from the network is a wrong structure
 and not a lost one.
 """
 
+import os
 import random
+import sys
 import unittest
 
 from src.norm import ndata, oplang, opread, opsay, optok, opitems
@@ -147,6 +149,40 @@ class DepthIsAList(unittest.TestCase):
             if done >= 5:
                 break
         self.assertGreaterEqual(done, 5)
+
+
+class ItemSetsAreReproducible(unittest.TestCase):
+    """The recorded item files must come back byte for byte from the code.
+
+    The item sets are drawn once and then answered by runs that cost hours, so
+    a change that quietly redraws them would leave a report built from two
+    different item sets. This rebuilds them into a temporary directory and
+    compares the uncompressed bytes.
+    """
+
+    def _same(self, module_args, recorded):
+        import gzip as gz
+        import hashlib
+        import subprocess
+        import tempfile
+        if not os.path.exists(recorded):
+            self.skipTest(f"{recorded} has not been built")
+        with tempfile.TemporaryDirectory() as d:
+            out = os.path.join(d, os.path.basename(recorded))
+            r = subprocess.run([sys.executable, "-m"] + module_args
+                               + ["--out", out], capture_output=True)
+            self.assertEqual(r.returncode, 0, r.stderr[-400:])
+            a = hashlib.md5(gz.open(out, "rb").read()).hexdigest()
+        b = hashlib.md5(gz.open(recorded, "rb").read()).hexdigest()
+        self.assertEqual(a, b, f"{recorded} is not what the code now draws")
+
+    def test_items(self):
+        self._same(["src.norm.opitems"],
+                   "results/norm/oneshot/items.jsonl.gz")
+
+    def test_ladder_items(self):
+        self._same(["src.norm.opladder"],
+                   "results/norm/oneshot/ladder_items.jsonl.gz")
 
 
 class ExtendedTargetIsExact(unittest.TestCase):

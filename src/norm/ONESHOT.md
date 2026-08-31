@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 13:36 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:40 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 22 record files, none newer than the report of 2026-08-31 13:35 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 24 record files, none newer than the report of 2026-08-31 13:40 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -102,6 +102,15 @@ the same operation give the same number, because the second page carries nothing
 the first did not and the library says so by construction: a repeat that agrees
 changes nothing and a repeat that disagrees is a refusal.
 
+The extra pages are read, not skipped. The library counts what it took off them,
+and a four page episode is four definitions read and one operation stored.
+
+| definition pages served | n   | definition pages the library read | operations it stored |
+| ----------------------- | --- | --------------------------------- | -------------------- |
+| 1                       | 850 | 1.0000                            | 1.0000               |
+| 2                       | 850 | 2.0000                            | 1.0000               |
+| 4                       | 850 | 4.0000                            | 1.0000               |
+
 The same items split by the frame the pages are written in, which is the split
 the normalizer trained under. The library does not read a held out frame
 differently from a trained one, and this table is what says so rather than
@@ -167,7 +176,7 @@ this operation, tested on the same operation in wordings it did not train on.
 | ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
 | acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
 | acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | 0.0500 | 0.2600 | -     | -      | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | -      | -      | -      | -      | -     | -      | 0.0300      |
+| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | 0.0100 | 0.0100 | -      | -      | -     | -      | 0.0300      |
 | acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
 
 The same ladder run again from the family trained network rather than from the
@@ -190,7 +199,7 @@ The metric this lane is named for, read off those tables.
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
 | network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
 | network | acq/a3c1/26           | 0.2600              | 0.3333 | not within 64               | not within 64            |
-| network | acq/a3c2/144          | 0.0200              | 0.2500 | not within 1                | not within 1             |
+| network | acq/a3c2/144          | 0.0200              | 0.2500 | not within 4                | not within 4             |
 | network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
 
 ## Depth
@@ -218,14 +227,14 @@ measured over twenty runs of each plan.
 
 | applications | n  | floor  | L strict | L structure exact | S1     | S2     | microseconds to run the plan |
 | ------------ | -- | ------ | -------- | ----------------- | ------ | ------ | ---------------------------- |
-| 1            | 40 | 0.1913 | 1.0000   | 1.0000            | 0.4750 | 0.5500 | 11.5                         |
-| 2            | 40 | 0.2442 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 20.8                         |
-| 4            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 38.9                         |
-| 8            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 76.1                         |
-| 16           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 146.3                        |
-| 32           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.0750 | 291.5                        |
-| 48           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1500 | 0.0250 | 435.6                        |
-| 64           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 576.6                        |
+| 1            | 26 | 0.1881 | 1.0000   | 1.0000            | 0.3462 | 0.5000 | 11.4                         |
+| 2            | 26 | 0.2430 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 20.7                         |
+| 4            | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 39.6                         |
+| 8            | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 79.1                         |
+| 16           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 153.9                        |
+| 32           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 304.7                        |
+| 48           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1538 | 0.1538 | 452.2                        |
+| 64           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 612.5                        |
 
 ## Composing two operations from two pages
 
@@ -354,11 +363,11 @@ network was decoded on the main and ladder item sets and not on this one.
 
 | operation                            | n   | floor  | L strict | L structure exact | S1     | S2     | parser |
 | ------------------------------------ | --- | ------ | -------- | ----------------- | ------ | ------ | ------ |
-| three clauses                        | 120 | 0.2900 | 1.0000   | 1.0000            | 0.4750 | 0.3833 | 0.0000 |
-| four clauses                         | 120 | 0.3042 | 1.0000   | 1.0000            | 0.4583 | 0.3250 | 0.0000 |
-| four directories                     | 120 | 0.2771 | 1.0000   | 1.0000            | 0.4000 | 0.3750 | 0.0000 |
-| five directories                     | 120 | 0.2629 | 1.0000   | 1.0000            | 0.3917 | 0.5000 | 0.0000 |
-| a directory the question never names | 120 | 0.3042 | 1.0000   | 1.0000            | 0.4333 | 0.0000 | 0.0000 |
+| three clauses                        | 120 | 0.2975 | 1.0000   | 1.0000            | 0.4167 | 0.4083 | 0.0000 |
+| four clauses                         | 120 | 0.2792 | 1.0000   | 1.0000            | 0.5000 | 0.4333 | 0.0000 |
+| four directories                     | 120 | 0.2854 | 1.0000   | 1.0000            | 0.3583 | 0.4583 | 0.0000 |
+| five directories                     | 120 | 0.2727 | 1.0000   | 1.0000            | 0.4167 | 0.3667 | 0.0000 |
+| a directory the question never names | 120 | 0.3050 | 1.0000   | 1.0000            | 0.4417 | 0.0000 | 0.0000 |
 
 ## What this does not show
 
@@ -403,10 +412,29 @@ space is complete.
 started at once. Together they are about two and a half hours on one L40S. The
 gates are `src/norm/tests/test_oneshot.py`.
 
-| record            | path                                                                          |
-| ----------------- | ----------------------------------------------------------------------------- |
-| attack            | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json            |
-| diag_base_compose | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json |
-| ladder_sys        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz    |
-| stress_sys        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz    |
-| sys               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz           |
+| record                   | path                                                                                     |
+| ------------------------ | ---------------------------------------------------------------------------------------- |
+| attack                   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json                       |
+| diag_base_compose        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json            |
+| items                    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/items.jsonl.gz                    |
+| ladder_items             | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_items.jsonl.gz             |
+| ladder_sys               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz               |
+| n_acq_a2c1_2_k16_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k16_ladder.jsonl.gz  |
+| n_acq_a2c1_2_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k1_ladder.jsonl.gz   |
+| n_acq_a2c1_2_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k2_ladder.jsonl.gz   |
+| n_acq_a2c1_2_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k4_ladder.jsonl.gz   |
+| n_acq_a2c1_2_k64_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k64_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k16_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k16_ladder.jsonl.gz |
+| n_acq_a3c1_26_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k1_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k2_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k4_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k64_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k64_ladder.jsonl.gz |
+| n_acq_a3c2_144_k1_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k1_ladder.jsonl.gz |
+| n_acq_a3c2_144_k2_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k2_ladder.jsonl.gz |
+| n_acq_a3c2_144_k4_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k4_ladder.jsonl.gz |
+| n_base_l                 | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l.jsonl.gz                 |
+| n_base_l_ladder          | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l_ladder.jsonl.gz          |
+| n_k0_ladder              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_k0_ladder.jsonl.gz              |
+| stress_items             | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_items.jsonl.gz             |
+| stress_sys               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz               |
+| sys                      | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz                      |

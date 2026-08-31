@@ -92,6 +92,11 @@ the same operation give the same number, because the second page carries nothing
 the first did not and the library says so by construction: a repeat that agrees
 changes nothing and a repeat that disagrees is a refusal.
 
+The extra pages are read, not skipped. The library counts what it took off them,
+and a four page episode is four definitions read and one operation stored.
+
+{{T_PAGES}}
+
 The same items split by the frame the pages are written in, which is the split
 the normalizer trained under. The library does not read a held out frame
 differently from a trained one, and this table is what says so rather than

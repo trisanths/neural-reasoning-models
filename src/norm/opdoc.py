@@ -76,6 +76,19 @@ def t_acq_net(rep) -> str:
                   "strict sampled", "structure exact", "declined"], rows)
 
 
+def t_pages(rep) -> str:
+    """What the library took off the extra pages, so the flat curve is checkable."""
+    rows = []
+    for npg in (1, 2, 4):
+        c = rep["acq"].get(f"library|pages{npg}")
+        if c:
+            rows.append([npg, c["n"], f(c["definition_pages_read"]),
+                         f(c["operations_stored"])])
+    return table(["definition pages served", "n",
+                  "definition pages the library read",
+                  "operations it stored"], rows)
+
+
 def t_split(rep) -> str:
     rows = []
     for k in sorted(rep["cells"]):
@@ -423,6 +436,7 @@ def main():
     subs = {
         "T_ACQ": t_acq(rep),
         "T_ACQ_NET": t_acq_net(rep),
+        "T_PAGES": t_pages(rep),
         "T_SPLIT": t_split(rep),
         "T_LADDER": t_ladder(rep, tags, ks),
         "T_LADDER_OWN": t_ladder_own(rep, tags, ks),

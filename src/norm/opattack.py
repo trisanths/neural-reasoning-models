@@ -28,6 +28,7 @@ import gzip
 import json
 import os
 import random
+import zlib
 
 from src.norm import oplang, opitems, opread, opsay
 from src.norm.interp import run
@@ -295,7 +296,7 @@ def build_stress(seed0=515151, per=40, keys_asked=3):
     for name, n_clauses, arity in STRESS:
         got = 0
         for sk in oplang.sample_clauses(arity, n_clauses, per * 4,
-                                        seed0 + hash(name) % 9973):
+                                        seed0 + zlib.crc32(name.encode())):
             if got >= per:
                 break
             si += 1

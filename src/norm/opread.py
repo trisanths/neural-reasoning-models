@@ -354,6 +354,7 @@ def answer(text: str, fid: str) -> dict:
     out: Result = run(r.program)
     if not out.ok:
         return {"state": "refused", "answer": "", "reason": out.reason,
-                "stage": "interpreter", "program": r.program}
+                "stage": "interpreter", "program": r.program,
+                "library": r.library}
     return {"state": "ran", "answer": out.text, "reason": "", "stage": "",
-            "program": r.program}
+            "program": r.program, "library": r.library}

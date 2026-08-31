@@ -309,15 +309,20 @@ def make_tables(rng: random.Random, names, keys, values, plant: bool = False):
     an instance that never makes its readings agree would test one branch of
     the operation and report it as the operation.
     """
+    if not plant:
+        # One directory at a time, which is the order the recorded item sets
+        # were drawn in. Changing it changes every table in them.
+        return tuple(Table(nm, tuple((k, rng.choice(values)) for k in keys))
+                     for nm in names)
     m = len(names)
     rows = {nm: [] for nm in names}
     for i, k in enumerate(keys):
-        if plant and i == 0 and len(values) >= 1:
+        if i == 0 and len(values) >= 1:
             vals = [values[0]] * m
-        elif plant and i == 1 and len(values) > m:
+        elif i == 1 and len(values) > m:
             vals = [values[0], values[0]] + [values[j + 1]
                                              for j in range(m - 2)]
-        elif plant and i == 2 and len(values) >= m:
+        elif i == 2 and len(values) >= m:
             vals = [values[j] for j in range(m)]
         else:
             vals = [rng.choice(values) for _ in range(m)]
