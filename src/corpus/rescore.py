@@ -322,12 +322,23 @@ def cmd_plan(args) -> int:
 
 def cmd_relation(args) -> int:
     """Corpus relation families, per family, never pooled."""
+    from src.evals.naturalized import exact_match
     from src.frames import score as sc
 
     cells = defaultdict(list)
     for r in read(args.rolls):
         fam = r.get("episode_family") or r.get("family") or "?"
         cells[(r.get("decode", "?"), fam)].append(r)
+
+    # Two of the sixteen structures, modular_apply and weighted_chain, answer
+    # with a computed number and carry no candidate set. Forced choice is not
+    # defined on them and the forced-choice scorer reports 0.000 with a 1.000
+    # none rate, which reads as a failure and is an artefact. They are scored
+    # by strict normalized exact match instead, with the floor stated as 0.000
+    # because the answer is an open integer.
+    open_cells = {k: v for k, v in cells.items()
+                  if not any(r.get("candidates") for r in v)}
+    cells = {k: v for k, v in cells.items() if k not in open_cells}
     records = {}
     print(sc.HEADER)
     for key in sorted(cells):
@@ -343,6 +354,8 @@ def cmd_relation(args) -> int:
         if can["acc_forced"] != 0.0:
             raise SystemExit(f"HEDGING CANARY FAILED on {key}")
         s["canary_forced"] = can["acc_forced"]
+        s["acc_exact"] = sum(exact_match(r.get("answer", ""), r["gold"])
+                             for r in rows) / len(rows)
         s["mean_generated"] = sum(r.get("n_generated", 0) for r in rows) / len(rows)
         s["mean_rounds"] = sum(r.get("n_rounds", 0) for r in rows) / len(rows)
         records["|".join(map(str, key))] = s
@@ -353,8 +366,30 @@ def cmd_relation(args) -> int:
             [(records["|".join(map(str, k))]["acc_forced"],
               records["|".join(map(str, k))]["chance_cand"])
              for k in sorted(cells) if k[0] == dec])
+    open_records = {}
+    if open_cells:
+        print("\nopen numeric answer, no candidate set, strict exact match, "
+              "floor 0.000")
+        print("%-8s %-18s %6s %8s %8s %8s %8s"
+              % ("decode", "family", "n", "exact", "shipped", "rounds", "gen"))
+    for key in sorted(open_cells):
+        rows = open_cells[key]
+        n = len(rows)
+        rec = {"n": n, "chance": 0.0,
+               "acc_exact": sum(exact_match(r.get("answer", ""), r["gold"])
+                                for r in rows) / n,
+               "acc_shipped": sum(bool(r.get("shipped_ok")) for r in rows) / n,
+               "empty_answer_rate": sum(not str(r.get("answer", "")).strip()
+                                        for r in rows) / n,
+               "mean_rounds": sum(r.get("n_rounds", 0) for r in rows) / n,
+               "mean_generated": sum(r.get("n_generated", 0) for r in rows) / n}
+        open_records["|".join(map(str, key))] = rec
+        print("%-8s %-18s %6d %8.3f %8.3f %8.2f %8.1f"
+              % (key[0], key[1], n, rec["acc_exact"], rec["acc_shipped"],
+                 rec["mean_rounds"], rec["mean_generated"]))
     with open(args.out, "w") as fh:
-        json.dump({"records": records, "macro_over_families": macro,
+        json.dump({"records": records, "open_answer_records": open_records,
+                   "macro_over_families": macro,
                    "note": "families are never pooled; the macro is over "
                            "families within one decode and both aggregation "
                            "orders are given"}, fh, indent=1)
