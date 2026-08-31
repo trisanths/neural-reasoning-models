@@ -23,6 +23,18 @@ for PG in ${PAGES//,/ }; do
       --batch "$BATCH" --max-new "$MAXNEW" $CARD "$@" \
       >> logs/extern/full_${M}.log 2>&1 || echo "FAILED $M $V p$PG"
 done
+# Greedy beside the card's sampled settings, on the one page rung only. The
+# project's own reader reports a greedy headline, and a decode the publisher
+# did not recommend is still worth one look before a number is called final.
+GOUT_G=results/extern/full_${M}_${V}_greedy_p1.jsonl.gz
+if [ ! -f "$GOUT_G" ]; then
+  echo "=== greedy $M $V p1 $(date -u +%T)"
+  $PY -m src.extern.run --model "$REPO" --variant "$V" --out "$GOUT_G" \
+      --conds acq --pages 1 --stride "$STRIDE" \
+      --batch "$BATCH" --max-new "$MAXNEW" --greedy \
+      >> logs/extern/full_${M}.log 2>&1 || echo "FAILED $M $V greedy"
+fi
+
 # The general check, same model, same harness, so the axis these models win on
 # is measured by the same code as the axis they do not.
 GOUT=results/extern/gen_${M}.jsonl.gz
