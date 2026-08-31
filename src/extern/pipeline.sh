@@ -19,19 +19,24 @@ MIN_FREE_GB=12
 log() { echo "$(date -u +%FT%TZ) $*"; }
 
 wait_free() {
-  local ok=0 used busy
+  # The card is free when no process holds it, which is what
+  # --query-compute-apps reports. The ladder's shell drivers stay alive
+  # between its GPU stages, so counting those would wait forever on a card
+  # that is actually idle.
+  local ok=0 used apps
   while :; do
+    apps=$(nvidia-smi --query-compute-apps=pid --format=csv,noheader \
+           | grep -c . || true)
     used=$(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits \
            | head -1)
-    busy=$(pgrep -f "src[./]system" | wc -l)
-    if [ "${used:-99999}" -lt 3000 ] && [ "$busy" -eq 0 ]; then
+    if [ "${apps:-9}" -eq 0 ] && [ "${used:-99999}" -lt 3000 ]; then
       ok=$((ok + 1))
     else
       ok=0
     fi
-    log "wait_free used=${used}MiB ladder_procs=$busy stable=$ok"
+    log "wait_free gpu_procs=${apps} used=${used}MiB stable=$ok"
     [ "$ok" -ge 3 ] && { log "card is free"; return 0; }
-    sleep 60
+    sleep 45
   done
 }
 
