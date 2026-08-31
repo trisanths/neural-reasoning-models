@@ -30,7 +30,7 @@ BUILTIN_STEPS = {
     "mul": (2, lambda a, b: a * b),
 }
 
-MAX_STEPS = 32
+MAX_STEPS = 128
 _TEMP_RE = re.compile(r"^t\d+$")
 _INT_RE = re.compile(r"^-?\d+$")
 
