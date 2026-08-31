@@ -15,5 +15,7 @@ if [ -f $R/ft_family.pt ]; then
 fi
 $P -m src.norm.opdiag --ckpt results/norm/train/ckpt_l.pt --vocab base \
    --only compose --out $R/diag_base_compose.json >> $L/diag.log 2>&1
+$P -m src.norm.opdiag --ckpt results/norm/train/ckpt_l.pt --vocab base \
+   --only acq --out $R/diag_base_acq.json >> $L/diag.log 2>&1
 $P -m src.norm.opreport
 $P -m src.norm.opdoc

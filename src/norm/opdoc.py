@@ -271,7 +271,8 @@ def t_compose(rep) -> str:
 def t_diag(rep) -> str:
     """How much of the needed structure the network actually writes down."""
     rows = []
-    labels = {"base_compose": "network, no gradient, on compose",
+    labels = {"base_acq": "network, no gradient, on one application",
+              "base_compose": "network, no gradient, on compose",
               "family_compose": "network, family trained, on compose",
               "family_acq": "network, family trained, on one application"}
     keys = ("ops", "calls", "distinct_called", "tables", "steps")
