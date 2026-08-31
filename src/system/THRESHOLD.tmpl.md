@@ -132,6 +132,11 @@ have. Keys right, values right, pairing wrong.
 
 {{TPOSE}}
 
+The item file carries 150 pages per frame group per version, so the same
+census is also counted inside each group.
+
+{{TPOSE_GROUP}}
+
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
 of it, so the transposed row is only interpretable where the original row is
@@ -158,7 +163,11 @@ exactly one option named and it the gold one.
 
 {{FRAMES}}
 
-## 8. Every artifact
+## 8. What this says
+
+{{VERDICT}}
+
+## 9. Every artifact
 
 {{ARTIFACTS}}
 
@@ -169,7 +178,7 @@ a records file newer than the summary that reports it.
 
 {{FRESHNESS}}
 
-## 9. How to run it
+## 10. How to run it
 
     export AWS_PROFILE=chronos
     cd ~/decoupled-reasoner

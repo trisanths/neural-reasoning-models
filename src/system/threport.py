@@ -216,6 +216,40 @@ def tpose_table(dirpath):
     return "\n".join(rows) if seen else ""
 
 
+def tpose_group_table(dirpath):
+    """The same census inside each frame group, 150 pages per cell."""
+    rows = ["| rung | version | frame group | n | exact | keys in the "
+            "untransposed order | malformed | other |",
+            "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |"]
+    seen = 0
+    for r in RUNGS:
+        rep = load(os.path.join(dirpath, f"xmode_{r}.json"))
+        if rep is None:
+            continue
+        for run in rep["runs"].values():
+            by = run.get("counts_by_group")
+            if not by:
+                continue
+            groups = []
+            for key in by:
+                sp = key.split("|")[1]
+                if sp not in groups:
+                    groups.append(sp)
+            for ver in ("original", "transposed"):
+                for sp in groups:
+                    cells = {k.split("|")[2]: v for k, v in by.items()
+                             if k.startswith(f"{ver}|{sp}|")}
+                    n = sum(cells.values())
+                    if not n:
+                        continue
+                    out = [f"{cells.get(cat, 0)} / {n} = "
+                           f"{cells.get(cat, 0) / n:.4f}" for cat in TP_CATS]
+                    rows.append(f"| {r} | {ver} | {sp} | {n} | "
+                                + " | ".join(out) + " |")
+                    seen += 1
+    return "\n".join(rows) if seen else ""
+
+
 def lm_table(sums, field="exact"):
     """The 350M arm on the same grader the rungs go through.
 
@@ -548,8 +582,11 @@ def main():
                   ""]
 
     tp = tpose_table(a.tpose)
+    tpg = tpose_group_table(a.tpose)
     if tp:
         parts += ["## The transposed operand test", tp, ""]
+    if tpg:
+        parts += ["## The transposed operand test, per frame group", tpg, ""]
 
     lms = {}
     for tag in ("corpus_nosft", "lm350"):
@@ -611,6 +648,7 @@ def main():
                             axis_table(sums, "mode", "greedy", "key_pos"))
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
         tmpl = tmpl.replace("{{TPOSE}}", tp)
+        tmpl = tmpl.replace("{{TPOSE_GROUP}}", tpg)
         tmpl = tmpl.replace("{{LM_EXACT}}", lm_table(lms) if lms else "")
         tmpl = tmpl.replace("{{LM_SAFETY}}", lm_safety(lms) if lms else "")
         tmpl = tmpl.replace("{{FRAMES}}", ft)

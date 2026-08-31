@@ -14,9 +14,14 @@ same data with the same frame split, and scored by the same
 axis and nothing else.
 
     l45      d 512,  6+6 layers   45,483,008   the existing rung, restated
-    xl93     d 640,  8+8 layers   93,472,240
+    xl93     d 640,  8+8 layers   93,579,520
     xxl167   d 768, 10+10 layers  167,182,336
     xxxl355  d 1024, 12+12 layers 355,127,936
+
+The 93M line is the count the built model reported. The two above it are
+`counts()`, which is a formula and is close rather than exact, and each is
+replaced by its checkpoint's own number once that rung has run. Every number
+in `src/system/THRESHOLD.md` comes from the checkpoint and not from here.
 
 The top rung sits in the same class as `configs/350m.yaml`, which is
 375,440,384 parameters, so the ladder reaches the size the corpus checkpoint

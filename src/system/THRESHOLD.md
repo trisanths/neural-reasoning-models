@@ -26,6 +26,7 @@ pooled across frame group and nothing is pooled across shape.
 | rung | d_model | heads | layers | parameters | non-embedding | steps |
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
 | l45 | 512 | 8 | 6+6 | 45,483,008 | 44,103,680 | 30000 |
+| xl93 | 640 | 10 | 8+8 | 93,579,520 | 91,855,360 | 30000 |
 
 The token budget per step is 32,768 for every rung. The rungs above 45M reach
 it by gradient accumulation rather than in one micro batch, because a rung at
@@ -58,6 +59,7 @@ Greedy.
 | rung | params | train | qframe | lexicon | mode | mixed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | l45 | 45,483,008 | 0.9211 | 0.9129 | 0.8125 | 0.5389 | 0.5525 |
+| xl93 | 93,579,520 | 0.8889 | 0.8839 | 0.6921 | 0.5221 | 0.4714 |
 
 Sampled at temperature 1.0, because greedy has produced false zeros in this
 project.
@@ -65,6 +67,7 @@ project.
 | rung | params | train | qframe | lexicon | mode | mixed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | l45 | 45,483,008 | 0.9139 | 0.9075 | 0.8039 | 0.5357 | 0.5454 |
+| xl93 | 93,579,520 | 0.8779 | 0.8686 | 0.6796 | 0.5182 | 0.4675 |
 
 `train` is held-out items on trained frames. `qframe` holds out the question
 frame, `lexicon` the symbol lexicon, `mode` the sentence mode, and `mixed`
@@ -78,98 +81,98 @@ structure gets, which is the floor a structure-level score is read against.
 
 ### Trained frames
 
-| shape | n | parser | modal/shape | l45 |
-| --- | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1250 | 1.0000 |
-| lookup_general | 200 | 1.0000 | 0.5700 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.9950 |
-| inverse | 200 | 1.0000 | 0.1500 | 1.0000 |
-| compose | 200 | 1.0000 | 0.0350 | 0.5450 |
-| iterate | 200 | 1.0000 | 0.0300 | 1.0000 |
-| pair | 200 | 1.0000 | 0.1400 | 1.0000 |
-| priority | 200 | 1.0000 | 0.0700 | 1.0000 |
-| exclusion | 200 | 1.0000 | 0.1400 | 1.0000 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.9750 |
-| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.9950 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.4200 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.9650 |
-| precedence | 200 | 1.0000 | 0.1600 | 1.0000 |
+| shape | n | parser | modal/shape | l45 | xl93 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 200 | 1.0000 | 0.1250 | 1.0000 | 1.0000 |
+| lookup_general | 200 | 1.0000 | 0.5700 | 1.0000 | 1.0000 |
+| classify | 200 | 1.0000 | 0.0100 | 0.9950 | 0.9300 |
+| inverse | 200 | 1.0000 | 0.1500 | 1.0000 | 1.0000 |
+| compose | 200 | 1.0000 | 0.0350 | 0.5450 | 0.5300 |
+| iterate | 200 | 1.0000 | 0.0300 | 1.0000 | 1.0000 |
+| pair | 200 | 1.0000 | 0.1400 | 1.0000 | 1.0000 |
+| priority | 200 | 1.0000 | 0.0700 | 1.0000 | 1.0000 |
+| exclusion | 200 | 1.0000 | 0.1400 | 1.0000 | 1.0000 |
+| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.9750 | 0.8150 |
+| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.9950 | 0.9850 |
+| sum_chain | 200 | 1.0000 | 0.0050 | 0.4200 | 0.2450 |
+| apply_n | 200 | 1.0000 | 0.0050 | 0.9650 | 0.9400 |
+| precedence | 200 | 1.0000 | 0.1600 | 1.0000 | 1.0000 |
 
 ### Held-out question frame
 
-| shape | n | parser | modal/shape | l45 |
-| --- | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.2400 | 1.0000 |
-| lookup_general | 200 | 1.0000 | 0.5350 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.9900 |
-| inverse | 200 | 1.0000 | 0.3050 | 1.0000 |
-| compose | 200 | 1.0000 | 0.0450 | 0.5250 |
-| iterate | 200 | 1.0000 | 0.0500 | 1.0000 |
-| pair | 200 | 1.0000 | 0.1450 | 1.0000 |
-| priority | 200 | 1.0000 | 0.0900 | 1.0000 |
-| exclusion | 200 | 1.0000 | 0.2700 | 1.0000 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.9700 |
-| band_then_lookup | 200 | 1.0000 | 0.0150 | 1.0000 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.3200 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.9750 |
-| precedence | 200 | 1.0000 | 0.2800 | 1.0000 |
+| shape | n | parser | modal/shape | l45 | xl93 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 200 | 1.0000 | 0.2400 | 1.0000 | 1.0000 |
+| lookup_general | 200 | 1.0000 | 0.5350 | 1.0000 | 1.0000 |
+| classify | 200 | 1.0000 | 0.0100 | 0.9900 | 0.9350 |
+| inverse | 200 | 1.0000 | 0.3050 | 1.0000 | 1.0000 |
+| compose | 200 | 1.0000 | 0.0450 | 0.5250 | 0.5000 |
+| iterate | 200 | 1.0000 | 0.0500 | 1.0000 | 1.0000 |
+| pair | 200 | 1.0000 | 0.1450 | 1.0000 | 1.0000 |
+| priority | 200 | 1.0000 | 0.0900 | 1.0000 | 1.0000 |
+| exclusion | 200 | 1.0000 | 0.2700 | 1.0000 | 1.0000 |
+| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.9700 | 0.8100 |
+| band_then_lookup | 200 | 1.0000 | 0.0150 | 1.0000 | 0.9850 |
+| sum_chain | 200 | 1.0000 | 0.0050 | 0.3200 | 0.2350 |
+| apply_n | 200 | 1.0000 | 0.0050 | 0.9750 | 0.9100 |
+| precedence | 200 | 1.0000 | 0.2800 | 1.0000 | 1.0000 |
 
 ### Held-out lexicon
 
-| shape | n | parser | modal/shape | l45 |
-| --- | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1350 | 0.9600 |
-| lookup_general | 200 | 1.0000 | 0.5500 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.9550 |
-| inverse | 200 | 1.0000 | 0.1850 | 0.9600 |
-| compose | 200 | 1.0000 | 0.0250 | 0.3100 |
-| iterate | 200 | 1.0000 | 0.0300 | 0.9800 |
-| pair | 200 | 1.0000 | 0.1500 | 1.0000 |
-| priority | 200 | 1.0000 | 0.0500 | 0.8850 |
-| exclusion | 200 | 1.0000 | 0.1600 | 0.9750 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.4950 |
-| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.9650 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.2000 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.6900 |
-| precedence | 200 | 1.0000 | 0.1500 | 1.0000 |
+| shape | n | parser | modal/shape | l45 | xl93 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 200 | 1.0000 | 0.1350 | 0.9600 | 0.3100 |
+| lookup_general | 200 | 1.0000 | 0.5500 | 1.0000 | 0.8850 |
+| classify | 200 | 1.0000 | 0.0100 | 0.9550 | 0.7750 |
+| inverse | 200 | 1.0000 | 0.1850 | 0.9600 | 0.9600 |
+| compose | 200 | 1.0000 | 0.0250 | 0.3100 | 0.3350 |
+| iterate | 200 | 1.0000 | 0.0300 | 0.9800 | 0.8700 |
+| pair | 200 | 1.0000 | 0.1500 | 1.0000 | 0.8650 |
+| priority | 200 | 1.0000 | 0.0500 | 0.8850 | 0.9450 |
+| exclusion | 200 | 1.0000 | 0.1600 | 0.9750 | 0.8800 |
+| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.4950 | 0.4050 |
+| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.9650 | 0.8850 |
+| sum_chain | 200 | 1.0000 | 0.0050 | 0.2000 | 0.0800 |
+| apply_n | 200 | 1.0000 | 0.0050 | 0.6900 | 0.7900 |
+| precedence | 200 | 1.0000 | 0.1500 | 1.0000 | 0.7050 |
 
 ### Held-out sentence mode
 
-| shape | n | parser | modal/shape | l45 |
-| --- | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1450 | 0.5300 |
-| lookup_general | 200 | 1.0000 | 0.5100 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.8500 |
-| inverse | 200 | 1.0000 | 0.1500 | 0.5350 |
-| compose | 200 | 1.0000 | 0.0350 | 0.2200 |
-| iterate | 200 | 1.0000 | 0.0350 | 0.5350 |
-| pair | 200 | 1.0000 | 0.1500 | 0.9900 |
-| priority | 200 | 1.0000 | 0.0500 | 0.5350 |
-| exclusion | 200 | 1.0000 | 0.1650 | 0.2150 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.5350 |
-| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.7100 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.0700 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.2850 |
-| precedence | 200 | 1.0000 | 0.1600 | 0.5350 |
+| shape | n | parser | modal/shape | l45 | xl93 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 200 | 1.0000 | 0.1450 | 0.5300 | 0.5350 |
+| lookup_general | 200 | 1.0000 | 0.5100 | 1.0000 | 1.0000 |
+| classify | 200 | 1.0000 | 0.0100 | 0.8500 | 0.7150 |
+| inverse | 200 | 1.0000 | 0.1500 | 0.5350 | 0.5300 |
+| compose | 200 | 1.0000 | 0.0350 | 0.2200 | 0.1150 |
+| iterate | 200 | 1.0000 | 0.0350 | 0.5350 | 0.5150 |
+| pair | 200 | 1.0000 | 0.1500 | 0.9900 | 1.0000 |
+| priority | 200 | 1.0000 | 0.0500 | 0.5350 | 0.5600 |
+| exclusion | 200 | 1.0000 | 0.1650 | 0.2150 | 0.1600 |
+| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.5350 | 0.4000 |
+| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.7100 | 0.6250 |
+| sum_chain | 200 | 1.0000 | 0.0050 | 0.0700 | 0.0550 |
+| apply_n | 200 | 1.0000 | 0.0050 | 0.2850 | 0.5650 |
+| precedence | 200 | 1.0000 | 0.1600 | 0.5350 | 0.5350 |
 
 ### More than one held out
 
-| shape | n | parser | modal/shape | l45 |
-| --- | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1600 | 0.5450 |
-| lookup_general | 200 | 1.0000 | 0.5700 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.8750 |
-| inverse | 200 | 1.0000 | 0.1900 | 0.5650 |
-| compose | 200 | 1.0000 | 0.0350 | 0.1500 |
-| iterate | 200 | 1.0000 | 0.0300 | 0.5600 |
-| pair | 200 | 1.0000 | 0.1350 | 0.9550 |
-| priority | 200 | 1.0000 | 0.0500 | 0.5050 |
-| exclusion | 200 | 1.0000 | 0.1800 | 0.3900 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.4000 |
-| band_then_lookup | 200 | 1.0000 | 0.0150 | 0.8100 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.1050 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.3050 |
-| precedence | 200 | 1.0000 | 0.1500 | 0.5700 |
+| shape | n | parser | modal/shape | l45 | xl93 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 200 | 1.0000 | 0.1600 | 0.5450 | 0.2600 |
+| lookup_general | 200 | 1.0000 | 0.5700 | 1.0000 | 0.8450 |
+| classify | 200 | 1.0000 | 0.0100 | 0.8750 | 0.6600 |
+| inverse | 200 | 1.0000 | 0.1900 | 0.5650 | 0.5950 |
+| compose | 200 | 1.0000 | 0.0350 | 0.1500 | 0.1400 |
+| iterate | 200 | 1.0000 | 0.0300 | 0.5600 | 0.4750 |
+| pair | 200 | 1.0000 | 0.1350 | 0.9550 | 0.8850 |
+| priority | 200 | 1.0000 | 0.0500 | 0.5050 | 0.5750 |
+| exclusion | 200 | 1.0000 | 0.1800 | 0.3900 | 0.3250 |
+| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.4000 | 0.3300 |
+| band_then_lookup | 200 | 1.0000 | 0.0150 | 0.8100 | 0.6600 |
+| sum_chain | 200 | 1.0000 | 0.0050 | 0.1050 | 0.0450 |
+| apply_n | 200 | 1.0000 | 0.0050 | 0.3050 | 0.3850 |
+| precedence | 200 | 1.0000 | 0.1500 | 0.5700 | 0.4200 |
 
 ## 4. What the held-out sentence mode actually fails at
 
@@ -180,6 +183,7 @@ sharply on where the sentence puts the key.
 | rung | key_first (n) | value_first (n) |
 | --- | ---: | ---: |
 | l45 | 0.7223 (1498) | 0.3280 (1302) |
+| xl93 | 0.6976 (1498) | 0.3203 (1302) |
 
 Per shape against the same axis. The cells that read 1.0000 and 0.0000 in one
 row are the finding: on a sentence mode it never trained on, the reader binds
@@ -205,15 +209,36 @@ mode puts the value first it binds them backwards on every item of that shape.
 | apply_n | 0.2523 (107) | 0.3226 (93) |
 | precedence | 1.0000 (107) | 0.0000 (93) |
 
+### xl93
+
+| shape | key_first | value_first |
+| --- | ---: | ---: |
+| lookup | 1.0000 (107) | 0.0000 (93) |
+| lookup_general | 1.0000 (107) | 1.0000 (93) |
+| classify | 0.6636 (107) | 0.7742 (93) |
+| inverse | 0.9907 (107) | 0.0000 (93) |
+| compose | 0.2150 (107) | 0.0000 (93) |
+| iterate | 0.9626 (107) | 0.0000 (93) |
+| pair | 1.0000 (107) | 1.0000 (93) |
+| priority | 0.9907 (107) | 0.0645 (93) |
+| exclusion | 0.2991 (107) | 0.0000 (93) |
+| lookup_then_band | 0.3832 (107) | 0.4194 (93) |
+| band_then_lookup | 0.5794 (107) | 0.6774 (93) |
+| sum_chain | 0.1028 (107) | 0.0000 (93) |
+| apply_n | 0.5794 (107) | 0.5484 (93) |
+| precedence | 1.0000 (107) | 0.0000 (93) |
+
 The other axes of the same group, for comparison.
 
 | rung | cloze (n) | imperative (n) | inverted (n) | wh (n) |
 | --- | ---: | ---: | ---: | ---: |
 | l45 | 0.5000 (770) | 0.5488 (840) | 0.5512 (840) | 0.5714 (350) |
+| xl93 | 0.5026 (770) | 0.5202 (840) | 0.5345 (840) | 0.5400 (350) |
 
 | rung | scope_first (n) | scope_last (n) |
 | --- | ---: | ---: |
 | l45 | 0.4736 (1176) | 0.5862 (1624) |
+| xl93 | 0.4694 (1176) | 0.5603 (1624) |
 
 ## 5. Safe failure against wrong executable structure
 
@@ -229,6 +254,11 @@ design and is reported rather than folded into an error rate.
 | l45 | lexicon | 0.8125 | 0.0207 | 0.0011 | 0.1657 | 0.132 |
 | l45 | mode | 0.5389 | 0.0007 | 0.0429 | 0.4175 | 0.104 |
 | l45 | mixed | 0.5525 | 0.0175 | 0.0439 | 0.3861 | 0.159 |
+| xl93 | train | 0.8889 | 0.0000 | 0.0000 | 0.1111 | 0.000 |
+| xl93 | qframe | 0.8839 | 0.0000 | 0.0004 | 0.1157 | 0.003 |
+| xl93 | lexicon | 0.6921 | 0.0875 | 0.0054 | 0.2150 | 0.432 |
+| xl93 | mode | 0.5221 | 0.0004 | 0.0582 | 0.4193 | 0.140 |
+| xl93 | mixed | 0.4714 | 0.0707 | 0.0511 | 0.4068 | 0.299 |
 
 ## 6. The transposed operand test
 
@@ -243,7 +273,26 @@ operands each line names first. The question is byte identical.
 nine values in the page's order on the key layout an untransposed grid would
 have. Keys right, values right, pairing wrong.
 
+| rung | grids seen | version | n | exact | keys in the untransposed order | malformed | other |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | 1024 | original | 750 | 672 / 750 = 0.8960 | 0 / 750 = 0.0000 | 20 / 750 = 0.0267 | 58 / 750 = 0.0773 |
+| l45 | 1024 | transposed | 750 | 0 / 750 = 0.0000 | 733 / 750 = 0.9773 | 17 / 750 = 0.0227 | 0 / 750 = 0.0000 |
 
+The item file carries 150 pages per frame group per version, so the same
+census is also counted inside each group.
+
+| rung | version | frame group | n | exact | keys in the untransposed order | malformed | other |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | original | lexicon | 150 | 130 / 150 = 0.8667 | 0 / 150 = 0.0000 | 5 / 150 = 0.0333 | 15 / 150 = 0.1000 |
+| l45 | original | mixed | 150 | 114 / 150 = 0.7600 | 0 / 150 = 0.0000 | 15 / 150 = 0.1000 | 21 / 150 = 0.1400 |
+| l45 | original | mode | 150 | 134 / 150 = 0.8933 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 16 / 150 = 0.1067 |
+| l45 | original | qframe | 150 | 145 / 150 = 0.9667 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 5 / 150 = 0.0333 |
+| l45 | original | train | 150 | 149 / 150 = 0.9933 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 1 / 150 = 0.0067 |
+| l45 | transposed | lexicon | 150 | 0 / 150 = 0.0000 | 145 / 150 = 0.9667 | 5 / 150 = 0.0333 | 0 / 150 = 0.0000 |
+| l45 | transposed | mixed | 150 | 0 / 150 = 0.0000 | 138 / 150 = 0.9200 | 12 / 150 = 0.0800 | 0 / 150 = 0.0000 |
+| l45 | transposed | mode | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| l45 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| l45 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
@@ -271,7 +320,18 @@ exactly one option named and it the gold one.
 
 
 
-## 8. Every artifact
+## 8. What this says
+
+The first thing this ladder found is not a threshold. The 93M rung is behind
+the 45M rung on every frame group, 0.8889 against
+0.9211 on trained frames and
+0.5221 against 0.5389 on the held-out
+sentence mode, and it is also behind on its own training loss at every logged
+step. A rung that fits its training file worse than a smaller rung is not a
+capacity measurement, so the inverse-width rate the ladder inherited is under
+test before the two expensive rungs run at it. `xl93lr40` is that test.
+
+## 9. Every artifact
 
 | artifact | bytes | written |
 | --- | ---: | --- |
@@ -286,6 +346,18 @@ exactly one option named and it the gold one.
 | `results/system/eval/l45/records_mode_sampled.jsonl.gz` | 37,341 | 2026-08-31 17:40 |
 | `results/system/eval/l45/records_mixed_greedy.jsonl.gz` | 37,443 | 2026-08-31 17:40 |
 | `results/system/eval/l45/records_mixed_sampled.jsonl.gz` | 37,831 | 2026-08-31 17:41 |
+| `results/system/tpose/xmode_l45.json` | 1,395 | 2026-08-31 19:59 |
+| `results/system/eval/xl93/summary.json` | 82,229 | 2026-08-31 19:59 |
+| `results/system/eval/xl93/records_train_frames_eval_greedy.jsonl.gz` | 33,018 | 2026-08-31 19:52 |
+| `results/system/eval/xl93/records_train_frames_eval_sampled.jsonl.gz` | 33,320 | 2026-08-31 19:52 |
+| `results/system/eval/xl93/records_qframe_greedy.jsonl.gz` | 32,081 | 2026-08-31 19:53 |
+| `results/system/eval/xl93/records_qframe_sampled.jsonl.gz` | 32,090 | 2026-08-31 19:54 |
+| `results/system/eval/xl93/records_lexicon_greedy.jsonl.gz` | 34,998 | 2026-08-31 19:55 |
+| `results/system/eval/xl93/records_lexicon_sampled.jsonl.gz` | 35,430 | 2026-08-31 19:56 |
+| `results/system/eval/xl93/records_mode_greedy.jsonl.gz` | 37,759 | 2026-08-31 19:57 |
+| `results/system/eval/xl93/records_mode_sampled.jsonl.gz` | 38,362 | 2026-08-31 19:57 |
+| `results/system/eval/xl93/records_mixed_greedy.jsonl.gz` | 38,372 | 2026-08-31 19:58 |
+| `results/system/eval/xl93/records_mixed_sampled.jsonl.gz` | 38,295 | 2026-08-31 19:59 |
 | `results/system/train/log_xl93.jsonl` | 15,652 | 2026-08-31 19:50 |
 | `results/norm/compare/x_items.jsonl.gz` | 292,011 | 2026-08-31 10:52 |
 | `data/norm/grid_train.npz` | 3,459,112 | 2026-08-31 11:10 |
@@ -299,8 +371,9 @@ a records file newer than the summary that reports it.
 | report | written | records | newest record | ok |
 | --- | --- | ---: | --- | --- |
 | l45 | 2026-08-31 17:41 | 10 | 2026-08-31 17:41 | yes |
+| xl93 | 2026-08-31 19:59 | 10 | 2026-08-31 19:59 | yes |
 
-## 9. How to run it
+## 10. How to run it
 
     export AWS_PROFILE=chronos
     cd ~/decoupled-reasoner

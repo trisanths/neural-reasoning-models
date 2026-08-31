@@ -1,0 +1,3384 @@
+{
+ "ckpt": "/home/ec2-user/decoupled-reasoner/results/system/train/ckpt_xl93.pt",
+ "size": "xl93",
+ "cfg": {
+  "d_model": 640,
+  "n_head": 10,
+  "n_enc": 8,
+  "n_dec": 8,
+  "d_ff": 2560
+ },
+ "params": {
+  "total": 93579520,
+  "embeddings": 1724160,
+  "non_embedding": 91855360
+ },
+ "steps": 30000,
+ "n_train_examples": 1200000,
+ "seed": 1,
+ "temperature": 1.0,
+ "eval_n": 2800,
+ "splits": {
+  "train_frames_eval": {
+   "n": 2800,
+   "modes": {
+    "greedy": {
+     "tag": "xl93/train_frames_eval/greedy",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.94,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.06,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.94,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.015,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.985,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.015,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.11,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3933
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.93,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.07,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.965,
+       "modal_answer_ok": 0.325,
+       "modal_shape_answer_ok": 0.325,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.36
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.53,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.47,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.6,
+       "modal_answer_ok": 0.025,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.14,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.14,
+       "modal_shape_answer_ok": 0.14,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.11,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.03,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.175,
+       "modal_shape_answer_ok": 0.11,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1636
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.125,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.1,
+       "modal_shape_answer_ok": 0.125,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.57,
+       "modal_shape_exact": 0.57,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.57,
+       "modal_shape_answer_ok": 0.57,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.815,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.185,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.19,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.385
+      },
+      "pair": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.14,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.1,
+       "modal_shape_answer_ok": 0.14,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.085,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.07,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.105,
+       "modal_shape_answer_ok": 0.345,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2642
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.245,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.755,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.43,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.005,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.8889,
+      "malformed": 0.0,
+      "refused": 0.0,
+      "wrong": 0.1111,
+      "parser_exact": 1.0
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_train_frames_eval_greedy.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 518,
+        "exact": 0.9035
+       },
+       "assembly": {
+        "n": 490,
+        "exact": 0.8898
+       },
+       "clinic": {
+        "n": 490,
+        "exact": 0.8878
+       },
+       "depot": {
+        "n": 490,
+        "exact": 0.898
+       },
+       "ledger": {
+        "n": 322,
+        "exact": 0.8789
+       },
+       "routing": {
+        "n": 238,
+        "exact": 0.8655
+       },
+       "transit": {
+        "n": 252,
+        "exact": 0.877
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 560,
+        "exact": 0.8875
+       },
+       "imperative": {
+        "n": 546,
+        "exact": 0.8919
+       },
+       "mapping": {
+        "n": 546,
+        "exact": 0.8864
+       },
+       "passive_decl": {
+        "n": 616,
+        "exact": 0.8977
+       },
+       "table_row": {
+        "n": 532,
+        "exact": 0.8797
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1386,
+        "exact": 0.8918
+       },
+       "value_first": {
+        "n": 1414,
+        "exact": 0.8861
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 784,
+        "exact": 0.8788
+       },
+       "imperative": {
+        "n": 812,
+        "exact": 0.8879
+       },
+       "inverted": {
+        "n": 812,
+        "exact": 0.8966
+       },
+       "wh": {
+        "n": 392,
+        "exact": 0.8954
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 1204,
+        "exact": 0.8821
+       },
+       "scope_last": {
+        "n": 1596,
+        "exact": 0.8941
+       }
+      }
+     }
+    },
+    "sampled": {
+     "tag": "xl93/train_frames_eval/sampled",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.905,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.095,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.905,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.015,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.98,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.02,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.11,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3933
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.91,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.085,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.95,
+       "modal_answer_ok": 0.325,
+       "modal_shape_answer_ok": 0.325,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.36
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.53,
+       "malformed": 0.0,
+       "refused": 0.005,
+       "wrong": 0.465,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.595,
+       "modal_answer_ok": 0.025,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.14,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.14,
+       "modal_shape_answer_ok": 0.14,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.11,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.03,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.175,
+       "modal_shape_answer_ok": 0.11,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1636
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.125,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.1,
+       "modal_shape_answer_ok": 0.125,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.57,
+       "modal_shape_exact": 0.57,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.57,
+       "modal_shape_answer_ok": 0.57,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.74,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.255,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.19,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.385
+      },
+      "pair": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.14,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.1,
+       "modal_shape_answer_ok": 0.14,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.085,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.07,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.105,
+       "modal_shape_answer_ok": 0.345,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2642
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.225,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.77,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.45,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.005,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.8779,
+      "malformed": 0.0011,
+      "refused": 0.0004,
+      "wrong": 0.1207,
+      "parser_exact": null
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_train_frames_eval_sampled.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 518,
+        "exact": 0.888
+       },
+       "assembly": {
+        "n": 490,
+        "exact": 0.8776
+       },
+       "clinic": {
+        "n": 490,
+        "exact": 0.8714
+       },
+       "depot": {
+        "n": 490,
+        "exact": 0.8898
+       },
+       "ledger": {
+        "n": 322,
+        "exact": 0.8727
+       },
+       "routing": {
+        "n": 238,
+        "exact": 0.8445
+       },
+       "transit": {
+        "n": 252,
+        "exact": 0.8849
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 560,
+        "exact": 0.8714
+       },
+       "imperative": {
+        "n": 546,
+        "exact": 0.9011
+       },
+       "mapping": {
+        "n": 546,
+        "exact": 0.8645
+       },
+       "passive_decl": {
+        "n": 616,
+        "exact": 0.8815
+       },
+       "table_row": {
+        "n": 532,
+        "exact": 0.8703
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1386,
+        "exact": 0.8838
+       },
+       "value_first": {
+        "n": 1414,
+        "exact": 0.872
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 784,
+        "exact": 0.8699
+       },
+       "imperative": {
+        "n": 812,
+        "exact": 0.8818
+       },
+       "inverted": {
+        "n": 812,
+        "exact": 0.8818
+       },
+       "wh": {
+        "n": 392,
+        "exact": 0.8776
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 1204,
+        "exact": 0.8787
+       },
+       "scope_last": {
+        "n": 1596,
+        "exact": 0.8772
+       }
+      }
+     }
+    }
+   }
+  },
+  "qframe": {
+   "n": 2800,
+   "modes": {
+    "greedy": {
+     "tag": "xl93/qframe/greedy",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.91,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.09,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.91,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.01,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.985,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.015,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.015,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.125,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3908
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.935,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.065,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.955,
+       "modal_answer_ok": 0.015,
+       "modal_shape_answer_ok": 0.215,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3667
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.5,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.5,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.045,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.61,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.045,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.27,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.225,
+       "modal_shape_answer_ok": 0.27,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.305,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.27,
+       "modal_shape_answer_ok": 0.305,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.2,
+       "modal_shape_answer_ok": 0.2,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1696
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.24,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.24,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.535,
+       "modal_shape_exact": 0.535,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.535,
+       "modal_shape_answer_ok": 0.535,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.81,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.19,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.13,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3975
+      },
+      "pair": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.145,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.145,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.28,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.28,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.09,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.585,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2515
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.235,
+       "malformed": 0.0,
+       "refused": 0.005,
+       "wrong": 0.76,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.435,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.01,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.8839,
+      "malformed": 0.0,
+      "refused": 0.0004,
+      "wrong": 0.1157,
+      "parser_exact": 1.0
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_qframe_greedy.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 434,
+        "exact": 0.8848
+       },
+       "assembly": {
+        "n": 448,
+        "exact": 0.8973
+       },
+       "clinic": {
+        "n": 378,
+        "exact": 0.8783
+       },
+       "depot": {
+        "n": 406,
+        "exact": 0.867
+       },
+       "ledger": {
+        "n": 364,
+        "exact": 0.8791
+       },
+       "routing": {
+        "n": 406,
+        "exact": 0.9039
+       },
+       "transit": {
+        "n": 364,
+        "exact": 0.8736
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 588,
+        "exact": 0.8912
+       },
+       "imperative": {
+        "n": 546,
+        "exact": 0.8919
+       },
+       "mapping": {
+        "n": 546,
+        "exact": 0.8846
+       },
+       "passive_decl": {
+        "n": 546,
+        "exact": 0.8791
+       },
+       "table_row": {
+        "n": 574,
+        "exact": 0.8728
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 2800,
+        "exact": 0.8839
+       }
+      },
+      "qform": {
+       "wh": {
+        "n": 2800,
+        "exact": 0.8839
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 2800,
+        "exact": 0.8839
+       }
+      }
+     }
+    },
+    "sampled": {
+     "tag": "xl93/qframe/sampled",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.86,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.14,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.86,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.01,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.985,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.015,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.015,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.125,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3908
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.905,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.095,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.95,
+       "modal_answer_ok": 0.015,
+       "modal_shape_answer_ok": 0.215,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3667
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.5,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.5,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.045,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.635,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.045,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.27,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.225,
+       "modal_shape_answer_ok": 0.27,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.305,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.27,
+       "modal_shape_answer_ok": 0.305,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.99,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.01,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.99,
+       "modal_answer_ok": 0.2,
+       "modal_shape_answer_ok": 0.2,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1696
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.24,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.24,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.535,
+       "modal_shape_exact": 0.535,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.535,
+       "modal_shape_answer_ok": 0.535,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.745,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.255,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.13,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3975
+      },
+      "pair": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.145,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.145,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.28,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.28,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.995,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.005,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.09,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.585,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2515
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.18,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.82,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.42,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.01,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.8686,
+      "malformed": 0.0,
+      "refused": 0.0,
+      "wrong": 0.1314,
+      "parser_exact": null
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_qframe_sampled.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 434,
+        "exact": 0.8779
+       },
+       "assembly": {
+        "n": 448,
+        "exact": 0.8772
+       },
+       "clinic": {
+        "n": 378,
+        "exact": 0.8598
+       },
+       "depot": {
+        "n": 406,
+        "exact": 0.8374
+       },
+       "ledger": {
+        "n": 364,
+        "exact": 0.8874
+       },
+       "routing": {
+        "n": 406,
+        "exact": 0.8744
+       },
+       "transit": {
+        "n": 364,
+        "exact": 0.8654
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 588,
+        "exact": 0.8878
+       },
+       "imperative": {
+        "n": 546,
+        "exact": 0.8828
+       },
+       "mapping": {
+        "n": 546,
+        "exact": 0.8645
+       },
+       "passive_decl": {
+        "n": 546,
+        "exact": 0.8571
+       },
+       "table_row": {
+        "n": 574,
+        "exact": 0.8502
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 2800,
+        "exact": 0.8686
+       }
+      },
+      "qform": {
+       "wh": {
+        "n": 2800,
+        "exact": 0.8686
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 2800,
+        "exact": 0.8686
+       }
+      }
+     }
+    }
+   }
+  },
+  "lexicon": {
+   "n": 2800,
+   "modes": {
+    "greedy": {
+     "tag": "xl93/lexicon/greedy",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.79,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.21,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.79,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.01,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.885,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.115,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.955,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.08,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3783
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.775,
+       "malformed": 0.01,
+       "refused": 0.0,
+       "wrong": 0.215,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.875,
+       "modal_answer_ok": 0.04,
+       "modal_shape_answer_ok": 0.23,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3412
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.335,
+       "malformed": 0.0,
+       "refused": 0.005,
+       "wrong": 0.66,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.025,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.505,
+       "modal_answer_ok": 0.01,
+       "modal_shape_answer_ok": 0.025,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 0.88,
+       "malformed": 0.0,
+       "refused": 0.035,
+       "wrong": 0.085,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.88,
+       "modal_answer_ok": 0.13,
+       "modal_shape_answer_ok": 0.265,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 0.96,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.04,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.185,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.12,
+       "modal_shape_answer_ok": 0.185,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.87,
+       "malformed": 0.09,
+       "refused": 0.0,
+       "wrong": 0.04,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.03,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.875,
+       "modal_answer_ok": 0.175,
+       "modal_shape_answer_ok": 0.21,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1668
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 0.31,
+       "malformed": 0.67,
+       "refused": 0.0,
+       "wrong": 0.02,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.135,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.31,
+       "modal_answer_ok": 0.095,
+       "modal_shape_answer_ok": 0.135,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 0.885,
+       "malformed": 0.115,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.55,
+       "modal_shape_exact": 0.55,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.885,
+       "modal_answer_ok": 0.55,
+       "modal_shape_answer_ok": 0.55,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.405,
+       "malformed": 0.135,
+       "refused": 0.005,
+       "wrong": 0.455,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.845,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.26,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3958
+      },
+      "pair": {
+       "n": 200,
+       "exact": 0.865,
+       "malformed": 0.0,
+       "refused": 0.005,
+       "wrong": 0.13,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.89,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 0.705,
+       "malformed": 0.0,
+       "refused": 0.025,
+       "wrong": 0.27,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.705,
+       "modal_answer_ok": 0.125,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.945,
+       "malformed": 0.015,
+       "refused": 0.0,
+       "wrong": 0.04,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.975,
+       "modal_answer_ok": 0.28,
+       "modal_shape_answer_ok": 0.215,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2562
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.08,
+       "malformed": 0.19,
+       "refused": 0.0,
+       "wrong": 0.73,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.145,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.015,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.6921,
+      "malformed": 0.0875,
+      "refused": 0.0054,
+      "wrong": 0.215,
+      "parser_exact": 1.0
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_lexicon_greedy.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "signal": {
+        "n": 2800,
+        "exact": 0.6921
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 714,
+        "exact": 0.6919
+       },
+       "imperative": {
+        "n": 462,
+        "exact": 0.7208
+       },
+       "mapping": {
+        "n": 462,
+        "exact": 0.7532
+       },
+       "passive_decl": {
+        "n": 546,
+        "exact": 0.6905
+       },
+       "table_row": {
+        "n": 616,
+        "exact": 0.6266
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1470,
+        "exact": 0.6721
+       },
+       "value_first": {
+        "n": 1330,
+        "exact": 0.7143
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 882,
+        "exact": 0.7029
+       },
+       "imperative": {
+        "n": 770,
+        "exact": 0.7
+       },
+       "inverted": {
+        "n": 756,
+        "exact": 0.6918
+       },
+       "wh": {
+        "n": 392,
+        "exact": 0.6531
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 1148,
+        "exact": 0.7003
+       },
+       "scope_last": {
+        "n": 1652,
+        "exact": 0.6864
+       }
+      }
+     }
+    },
+    "sampled": {
+     "tag": "xl93/lexicon/sampled",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.74,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.26,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.745,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.01,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.885,
+       "malformed": 0.01,
+       "refused": 0.0,
+       "wrong": 0.105,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.945,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.08,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3783
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.755,
+       "malformed": 0.02,
+       "refused": 0.0,
+       "wrong": 0.225,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.86,
+       "modal_answer_ok": 0.04,
+       "modal_shape_answer_ok": 0.23,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3412
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.315,
+       "malformed": 0.015,
+       "refused": 0.015,
+       "wrong": 0.655,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.025,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.465,
+       "modal_answer_ok": 0.01,
+       "modal_shape_answer_ok": 0.025,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 0.855,
+       "malformed": 0.0,
+       "refused": 0.04,
+       "wrong": 0.105,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.855,
+       "modal_answer_ok": 0.13,
+       "modal_shape_answer_ok": 0.265,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 0.95,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.05,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.185,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.12,
+       "modal_shape_answer_ok": 0.185,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.875,
+       "malformed": 0.08,
+       "refused": 0.0,
+       "wrong": 0.045,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.03,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.88,
+       "modal_answer_ok": 0.175,
+       "modal_shape_answer_ok": 0.21,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1668
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 0.295,
+       "malformed": 0.66,
+       "refused": 0.0,
+       "wrong": 0.045,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.135,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.32,
+       "modal_answer_ok": 0.095,
+       "modal_shape_answer_ok": 0.135,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 0.87,
+       "malformed": 0.125,
+       "refused": 0.0,
+       "wrong": 0.005,
+       "modal_exact": 0.55,
+       "modal_shape_exact": 0.55,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.875,
+       "modal_answer_ok": 0.55,
+       "modal_shape_answer_ok": 0.55,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.365,
+       "malformed": 0.145,
+       "refused": 0.005,
+       "wrong": 0.485,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.815,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.26,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3958
+      },
+      "pair": {
+       "n": 200,
+       "exact": 0.885,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.115,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.9,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 0.72,
+       "malformed": 0.0,
+       "refused": 0.03,
+       "wrong": 0.25,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.72,
+       "modal_answer_ok": 0.125,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.945,
+       "malformed": 0.02,
+       "refused": 0.0,
+       "wrong": 0.035,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.975,
+       "modal_answer_ok": 0.28,
+       "modal_shape_answer_ok": 0.215,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2562
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.06,
+       "malformed": 0.27,
+       "refused": 0.0,
+       "wrong": 0.67,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.15,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.015,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.6796,
+      "malformed": 0.0961,
+      "refused": 0.0064,
+      "wrong": 0.2179,
+      "parser_exact": null
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_lexicon_sampled.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "signal": {
+        "n": 2800,
+        "exact": 0.6796
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 714,
+        "exact": 0.6891
+       },
+       "imperative": {
+        "n": 462,
+        "exact": 0.7078
+       },
+       "mapping": {
+        "n": 462,
+        "exact": 0.7316
+       },
+       "passive_decl": {
+        "n": 546,
+        "exact": 0.6813
+       },
+       "table_row": {
+        "n": 616,
+        "exact": 0.6071
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1470,
+        "exact": 0.6605
+       },
+       "value_first": {
+        "n": 1330,
+        "exact": 0.7008
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 882,
+        "exact": 0.6848
+       },
+       "imperative": {
+        "n": 770,
+        "exact": 0.6818
+       },
+       "inverted": {
+        "n": 756,
+        "exact": 0.6931
+       },
+       "wh": {
+        "n": 392,
+        "exact": 0.6378
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 1148,
+        "exact": 0.6873
+       },
+       "scope_last": {
+        "n": 1652,
+        "exact": 0.6743
+       }
+      }
+     }
+    }
+   }
+  },
+  "mode": {
+   "n": 2800,
+   "modes": {
+    "greedy": {
+     "tag": "xl93/mode/greedy",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.565,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.435,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.565,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.625,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.375,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.745,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.245,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3842
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.715,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.285,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.79,
+       "modal_answer_ok": 0.33,
+       "modal_shape_answer_ok": 0.33,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3529
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.115,
+       "malformed": 0.0,
+       "refused": 0.075,
+       "wrong": 0.81,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.415,
+       "modal_answer_ok": 0.02,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 0.16,
+       "malformed": 0.0,
+       "refused": 0.45,
+       "wrong": 0.39,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.165,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.16,
+       "modal_answer_ok": 0.145,
+       "modal_shape_answer_ok": 0.165,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 0.53,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.47,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.125,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.515,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.48,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.695,
+       "modal_answer_ok": 0.19,
+       "modal_shape_answer_ok": 0.17,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1707
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 0.535,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.465,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.145,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.665,
+       "modal_answer_ok": 0.1,
+       "modal_shape_answer_ok": 0.145,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.51,
+       "modal_shape_exact": 0.51,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.51,
+       "modal_shape_answer_ok": 0.51,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.4,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.6,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.985,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.21,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.4008
+      },
+      "pair": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.15,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 0.535,
+       "malformed": 0.0,
+       "refused": 0.255,
+       "wrong": 0.21,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.535,
+       "modal_answer_ok": 0.11,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.56,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.44,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.565,
+       "modal_answer_ok": 0.095,
+       "modal_shape_answer_ok": 0.07,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2567
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.055,
+       "malformed": 0.0,
+       "refused": 0.035,
+       "wrong": 0.91,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.16,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.005,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.5221,
+      "malformed": 0.0004,
+      "refused": 0.0582,
+      "wrong": 0.4193,
+      "parser_exact": 1.0
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_mode_greedy.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 420,
+        "exact": 0.5786
+       },
+       "assembly": {
+        "n": 434,
+        "exact": 0.4885
+       },
+       "clinic": {
+        "n": 378,
+        "exact": 0.5582
+       },
+       "depot": {
+        "n": 406,
+        "exact": 0.4828
+       },
+       "ledger": {
+        "n": 378,
+        "exact": 0.5423
+       },
+       "routing": {
+        "n": 406,
+        "exact": 0.4778
+       },
+       "transit": {
+        "n": 378,
+        "exact": 0.5317
+       }
+      },
+      "mode": {
+       "relative_clause": {
+        "n": 2800,
+        "exact": 0.5221
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1498,
+        "exact": 0.6976
+       },
+       "value_first": {
+        "n": 1302,
+        "exact": 0.3203
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 770,
+        "exact": 0.5026
+       },
+       "imperative": {
+        "n": 840,
+        "exact": 0.5202
+       },
+       "inverted": {
+        "n": 840,
+        "exact": 0.5345
+       },
+       "wh": {
+        "n": 350,
+        "exact": 0.54
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 1176,
+        "exact": 0.4694
+       },
+       "scope_last": {
+        "n": 1624,
+        "exact": 0.5603
+       }
+      }
+     }
+    },
+    "sampled": {
+     "tag": "xl93/mode/sampled",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.555,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.445,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.555,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.625,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.375,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.735,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.245,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3842
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.69,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.31,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.78,
+       "modal_answer_ok": 0.33,
+       "modal_shape_answer_ok": 0.33,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3529
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.115,
+       "malformed": 0.02,
+       "refused": 0.085,
+       "wrong": 0.78,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.38,
+       "modal_answer_ok": 0.02,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 0.165,
+       "malformed": 0.02,
+       "refused": 0.44,
+       "wrong": 0.375,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.165,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.165,
+       "modal_answer_ok": 0.145,
+       "modal_shape_answer_ok": 0.165,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 0.54,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.46,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.125,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.515,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.48,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.7,
+       "modal_answer_ok": 0.19,
+       "modal_shape_answer_ok": 0.17,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1707
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 0.53,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.47,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.145,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.66,
+       "modal_answer_ok": 0.1,
+       "modal_shape_answer_ok": 0.145,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.51,
+       "modal_shape_exact": 0.51,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.51,
+       "modal_shape_answer_ok": 0.51,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.37,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.63,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.99,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.21,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.4008
+      },
+      "pair": {
+       "n": 200,
+       "exact": 1.0,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.15,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 0.535,
+       "malformed": 0.005,
+       "refused": 0.29,
+       "wrong": 0.17,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.535,
+       "modal_answer_ok": 0.11,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.555,
+       "malformed": 0.02,
+       "refused": 0.0,
+       "wrong": 0.425,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.56,
+       "modal_answer_ok": 0.095,
+       "modal_shape_answer_ok": 0.07,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2567
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.06,
+       "malformed": 0.035,
+       "refused": 0.015,
+       "wrong": 0.89,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.14,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.005,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.5182,
+      "malformed": 0.0075,
+      "refused": 0.0593,
+      "wrong": 0.415,
+      "parser_exact": null
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_mode_sampled.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 420,
+        "exact": 0.5571
+       },
+       "assembly": {
+        "n": 434,
+        "exact": 0.4908
+       },
+       "clinic": {
+        "n": 378,
+        "exact": 0.5529
+       },
+       "depot": {
+        "n": 406,
+        "exact": 0.4828
+       },
+       "ledger": {
+        "n": 378,
+        "exact": 0.5344
+       },
+       "routing": {
+        "n": 406,
+        "exact": 0.4778
+       },
+       "transit": {
+        "n": 378,
+        "exact": 0.537
+       }
+      },
+      "mode": {
+       "relative_clause": {
+        "n": 2800,
+        "exact": 0.5182
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1498,
+        "exact": 0.6909
+       },
+       "value_first": {
+        "n": 1302,
+        "exact": 0.3195
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 770,
+        "exact": 0.5026
+       },
+       "imperative": {
+        "n": 840,
+        "exact": 0.5214
+       },
+       "inverted": {
+        "n": 840,
+        "exact": 0.5226
+       },
+       "wh": {
+        "n": 350,
+        "exact": 0.5343
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 1176,
+        "exact": 0.466
+       },
+       "scope_last": {
+        "n": 1624,
+        "exact": 0.556
+       }
+      }
+     }
+    }
+   }
+  },
+  "mixed": {
+   "n": 2800,
+   "modes": {
+    "greedy": {
+     "tag": "xl93/mixed/greedy",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.385,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.615,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.39,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.005,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.66,
+       "malformed": 0.005,
+       "refused": 0.01,
+       "wrong": 0.325,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.015,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.815,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.34,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3767
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.66,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.34,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.77,
+       "modal_answer_ok": 0.02,
+       "modal_shape_answer_ok": 0.295,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3463
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.14,
+       "malformed": 0.005,
+       "refused": 0.075,
+       "wrong": 0.78,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.37,
+       "modal_answer_ok": 0.03,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 0.325,
+       "malformed": 0.09,
+       "refused": 0.36,
+       "wrong": 0.225,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.18,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.325,
+       "modal_answer_ok": 0.085,
+       "modal_shape_answer_ok": 0.18,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 0.595,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.405,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.19,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 1.0,
+       "modal_answer_ok": 0.11,
+       "modal_shape_answer_ok": 0.19,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.475,
+       "malformed": 0.045,
+       "refused": 0.0,
+       "wrong": 0.48,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.03,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.65,
+       "modal_answer_ok": 0.185,
+       "modal_shape_answer_ok": 0.17,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1641
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 0.26,
+       "malformed": 0.445,
+       "refused": 0.0,
+       "wrong": 0.295,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.335,
+       "modal_answer_ok": 0.105,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 0.845,
+       "malformed": 0.155,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.57,
+       "modal_shape_exact": 0.57,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.845,
+       "modal_answer_ok": 0.57,
+       "modal_shape_answer_ok": 0.57,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.33,
+       "malformed": 0.135,
+       "refused": 0.0,
+       "wrong": 0.535,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.845,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.255,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.3892
+      },
+      "pair": {
+       "n": 200,
+       "exact": 0.885,
+       "malformed": 0.0,
+       "refused": 0.01,
+       "wrong": 0.105,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.135,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.9,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.135,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 0.42,
+       "malformed": 0.0,
+       "refused": 0.235,
+       "wrong": 0.345,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.42,
+       "modal_answer_ok": 0.15,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.575,
+       "malformed": 0.04,
+       "refused": 0.0,
+       "wrong": 0.385,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.575,
+       "modal_answer_ok": 0.31,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.2561
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.045,
+       "malformed": 0.07,
+       "refused": 0.025,
+       "wrong": 0.86,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": 1.0,
+       "n_gold_executes": 200,
+       "answer_ok": 0.135,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.025,
+       "parser_answer_ok": 1.0,
+       "parser_read": 1.0,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.4714,
+      "malformed": 0.0707,
+      "refused": 0.0511,
+      "wrong": 0.4068,
+      "parser_exact": 1.0
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_mixed_greedy.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 112,
+        "exact": 0.7143
+       },
+       "assembly": {
+        "n": 182,
+        "exact": 0.2802
+       },
+       "clinic": {
+        "n": 112,
+        "exact": 0.7054
+       },
+       "depot": {
+        "n": 182,
+        "exact": 0.2692
+       },
+       "ledger": {
+        "n": 112,
+        "exact": 0.7143
+       },
+       "routing": {
+        "n": 182,
+        "exact": 0.2967
+       },
+       "signal": {
+        "n": 1750,
+        "exact": 0.4994
+       },
+       "transit": {
+        "n": 168,
+        "exact": 0.3155
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 182,
+        "exact": 0.6758
+       },
+       "imperative": {
+        "n": 98,
+        "exact": 0.6735
+       },
+       "mapping": {
+        "n": 112,
+        "exact": 0.7411
+       },
+       "passive_decl": {
+        "n": 112,
+        "exact": 0.6786
+       },
+       "relative_clause": {
+        "n": 2114,
+        "exact": 0.3992
+       },
+       "table_row": {
+        "n": 182,
+        "exact": 0.7033
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1190,
+        "exact": 0.5328
+       },
+       "value_first": {
+        "n": 1610,
+        "exact": 0.4261
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 336,
+        "exact": 0.3899
+       },
+       "imperative": {
+        "n": 196,
+        "exact": 0.4541
+       },
+       "inverted": {
+        "n": 196,
+        "exact": 0.3673
+       },
+       "wh": {
+        "n": 2072,
+        "exact": 0.4961
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 2128,
+        "exact": 0.5089
+       },
+       "scope_last": {
+        "n": 672,
+        "exact": 0.3527
+       }
+      }
+     }
+    },
+    "sampled": {
+     "tag": "xl93/mixed/sampled",
+     "by_shape": {
+      "apply_n": {
+       "n": 200,
+       "exact": 0.385,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.61,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.39,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.005,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": null
+      },
+      "band_then_lookup": {
+       "n": 200,
+       "exact": 0.665,
+       "malformed": 0.02,
+       "refused": 0.0,
+       "wrong": 0.315,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.015,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.795,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.34,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3767
+      },
+      "classify": {
+       "n": 200,
+       "exact": 0.635,
+       "malformed": 0.0,
+       "refused": 0.0,
+       "wrong": 0.365,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.01,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.775,
+       "modal_answer_ok": 0.02,
+       "modal_shape_answer_ok": 0.295,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3463
+      },
+      "compose": {
+       "n": 200,
+       "exact": 0.135,
+       "malformed": 0.015,
+       "refused": 0.085,
+       "wrong": 0.765,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.035,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.41,
+       "modal_answer_ok": 0.03,
+       "modal_shape_answer_ok": 0.035,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "exclusion": {
+       "n": 200,
+       "exact": 0.34,
+       "malformed": 0.08,
+       "refused": 0.345,
+       "wrong": 0.235,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.18,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.34,
+       "modal_answer_ok": 0.085,
+       "modal_shape_answer_ok": 0.18,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "inverse": {
+       "n": 200,
+       "exact": 0.57,
+       "malformed": 0.005,
+       "refused": 0.0,
+       "wrong": 0.425,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.19,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.995,
+       "modal_answer_ok": 0.11,
+       "modal_shape_answer_ok": 0.19,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      },
+      "iterate": {
+       "n": 200,
+       "exact": 0.47,
+       "malformed": 0.045,
+       "refused": 0.0,
+       "wrong": 0.485,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.03,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.625,
+       "modal_answer_ok": 0.185,
+       "modal_shape_answer_ok": 0.17,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1641
+      },
+      "lookup": {
+       "n": 200,
+       "exact": 0.285,
+       "malformed": 0.4,
+       "refused": 0.0,
+       "wrong": 0.315,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.16,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.365,
+       "modal_answer_ok": 0.105,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2
+      },
+      "lookup_general": {
+       "n": 200,
+       "exact": 0.845,
+       "malformed": 0.155,
+       "refused": 0.0,
+       "wrong": 0.0,
+       "modal_exact": 0.57,
+       "modal_shape_exact": 0.57,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.845,
+       "modal_answer_ok": 0.57,
+       "modal_shape_answer_ok": 0.57,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.5
+      },
+      "lookup_then_band": {
+       "n": 200,
+       "exact": 0.295,
+       "malformed": 0.165,
+       "refused": 0.0,
+       "wrong": 0.54,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.805,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.255,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.3892
+      },
+      "pair": {
+       "n": 200,
+       "exact": 0.88,
+       "malformed": 0.0,
+       "refused": 0.015,
+       "wrong": 0.105,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.135,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.9,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.135,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.1111
+      },
+      "precedence": {
+       "n": 200,
+       "exact": 0.43,
+       "malformed": 0.005,
+       "refused": 0.24,
+       "wrong": 0.325,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.15,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.43,
+       "modal_answer_ok": 0.15,
+       "modal_shape_answer_ok": 0.15,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.125
+      },
+      "priority": {
+       "n": 200,
+       "exact": 0.57,
+       "malformed": 0.035,
+       "refused": 0.0,
+       "wrong": 0.395,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.05,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.57,
+       "modal_answer_ok": 0.31,
+       "modal_shape_answer_ok": 0.16,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.2561
+      },
+      "sum_chain": {
+       "n": 200,
+       "exact": 0.04,
+       "malformed": 0.16,
+       "refused": 0.02,
+       "wrong": 0.78,
+       "modal_exact": 0.0,
+       "modal_shape_exact": 0.005,
+       "parser_exact": null,
+       "n_gold_executes": 200,
+       "answer_ok": 0.12,
+       "modal_answer_ok": 0.0,
+       "modal_shape_answer_ok": 0.025,
+       "parser_answer_ok": null,
+       "parser_read": null,
+       "answer_chance_floor": 0.25
+      }
+     },
+     "pooled_do_not_headline": {
+      "n": 2800,
+      "exact": 0.4675,
+      "malformed": 0.0779,
+      "refused": 0.0504,
+      "wrong": 0.4043,
+      "parser_exact": null
+     },
+     "records": "/home/ec2-user/decoupled-reasoner/results/system/eval/xl93/records_mixed_sampled.jsonl.gz",
+     "by_axis": {
+      "lexicon": {
+       "abstract": {
+        "n": 112,
+        "exact": 0.6786
+       },
+       "assembly": {
+        "n": 182,
+        "exact": 0.2802
+       },
+       "clinic": {
+        "n": 112,
+        "exact": 0.6696
+       },
+       "depot": {
+        "n": 182,
+        "exact": 0.2637
+       },
+       "ledger": {
+        "n": 112,
+        "exact": 0.7143
+       },
+       "routing": {
+        "n": 182,
+        "exact": 0.2747
+       },
+       "signal": {
+        "n": 1750,
+        "exact": 0.5011
+       },
+       "transit": {
+        "n": 168,
+        "exact": 0.3095
+       }
+      },
+      "mode": {
+       "conditional": {
+        "n": 182,
+        "exact": 0.6703
+       },
+       "imperative": {
+        "n": 98,
+        "exact": 0.6939
+       },
+       "mapping": {
+        "n": 112,
+        "exact": 0.7411
+       },
+       "passive_decl": {
+        "n": 112,
+        "exact": 0.7143
+       },
+       "relative_clause": {
+        "n": 2114,
+        "exact": 0.3917
+       },
+       "table_row": {
+        "n": 182,
+        "exact": 0.7033
+       }
+      },
+      "key_pos": {
+       "key_first": {
+        "n": 1190,
+        "exact": 0.5303
+       },
+       "value_first": {
+        "n": 1610,
+        "exact": 0.4211
+       }
+      },
+      "qform": {
+       "cloze": {
+        "n": 336,
+        "exact": 0.4018
+       },
+       "imperative": {
+        "n": 196,
+        "exact": 0.4286
+       },
+       "inverted": {
+        "n": 196,
+        "exact": 0.352
+       },
+       "wh": {
+        "n": 2072,
+        "exact": 0.4928
+       }
+      },
+      "scope_pos": {
+       "scope_first": {
+        "n": 2128,
+        "exact": 0.5009
+       },
+       "scope_last": {
+        "n": 672,
+        "exact": 0.3616
+       }
+      }
+     }
+    }
+   }
+  }
+ }
+}
