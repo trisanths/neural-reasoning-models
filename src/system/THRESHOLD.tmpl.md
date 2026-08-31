@@ -21,8 +21,6 @@ pooled across frame group and nothing is pooled across shape.
 
 ## 1. The rungs
 
-| rung | d_model | heads | layers | parameters | non-embedding | steps |
-| --- | ---: | ---: | --- | ---: | ---: | ---: |
 {{RUNG_CFG}}
 
 The token budget per step is 32,768 for every rung. The rungs above 45M reach
@@ -42,7 +40,8 @@ capacity measurement, so the fit is beside the exactness rather than behind it.
 
 The 93M rung under the ladder's inherited inverse-width rate is behind the 45M
 rung at every logged step, which is why `xl93lr40` exists: the same rung, the
-same seed, the same 30,000 steps, run again at the 45M rung's own peak.
+same seed, the same 30,000 steps, run again at the 45M rung's own peak. Where it has
+finished, its own row is here.
 
 {{CONTROL}}
 

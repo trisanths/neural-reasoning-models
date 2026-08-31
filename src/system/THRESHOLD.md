@@ -23,8 +23,6 @@ pooled across frame group and nothing is pooled across shape.
 
 | rung | d_model | heads | layers | parameters | non-embedding | steps |
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
-| rung | d_model | heads | layers | parameters | non-embedding | steps |
-| --- | ---: | ---: | --- | ---: | ---: | ---: |
 | l45 | 512 | 8 | 6+6 | 45,483,008 | 44,103,680 | 30000 |
 | xl93 | 640 | 10 | 8+8 | 93,579,520 | 91,855,360 | 30000 |
 
@@ -48,7 +46,8 @@ capacity measurement, so the fit is beside the exactness rather than behind it.
 
 The 93M rung under the ladder's inherited inverse-width rate is behind the 45M
 rung at every logged step, which is why `xl93lr40` exists: the same rung, the
-same seed, the same 30,000 steps, run again at the 45M rung's own peak.
+same seed, the same 30,000 steps, run again at the 45M rung's own peak. Where it has
+finished, its own row is here.
 
 
 
