@@ -215,12 +215,15 @@ def t_depth(rep) -> str:
         for s in ("S1", "S2"):
             r.append(f(rep["depth"][f"n{n}|aligned|{s}"]["strict"]))
         for name in ("n_base_l", "n_family"):
-            k = f"{name}|greedy|depth|n{n}|aligned"
-            r.append(f(rep["neural"][k]["strict"])
-                     if k in rep["neural"] else "-")
+            for mode in ("greedy", "sampled"):
+                k = f"{name}|{mode}|depth|n{n}|aligned"
+                r.append(f(rep["neural"][k]["strict"])
+                         if k in rep["neural"] else "-")
         rows.append(r)
     return table(["applications", "n", "floor", "L strict", "S1", "S2",
-                  "network no gradient", "network family trained"], rows)
+                  "network no gradient greedy", "network no gradient sampled",
+                  "network family trained greedy",
+                  "network family trained sampled"], rows)
 
 
 def t_deep(rep) -> str:
@@ -296,12 +299,13 @@ def t_contra(rep) -> str:
                          f(c["neither"])])
         for name, label in (("n_base_l", "network, no gradient"),
                             ("n_family", "network, family trained")):
-            k = f"{name}|greedy|contra|{fam}"
-            if k in rep["neural"]:
-                c = rep["neural"][k]
-                rows.append([fam, label, c["n"], f(c["floor"]),
-                             f(c["follows_page"]), f(c["follows_training"]),
-                             f(c["neither"])])
+            for mode in ("greedy", "sampled"):
+                k = f"{name}|{mode}|contra|{fam}"
+                if k in rep["neural"]:
+                    c = rep["neural"][k]
+                    rows.append([fam, f"{label} ({mode})", c["n"],
+                                 f(c["floor"]), f(c["follows_page"]),
+                                 f(c["follows_training"]), f(c["neither"])])
     return table(["page says", "system", "n", "floor", "follows page",
                   "follows training", "neither"], rows)
 

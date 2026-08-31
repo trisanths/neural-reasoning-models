@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 13:40 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:41 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 24 record files, none newer than the report of 2026-08-31 13:40 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 25 record files, none newer than the report of 2026-08-31 13:41 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -68,8 +68,14 @@ operation.
 The directories themselves are ordinary corpus pages. They are written by
 `src/corpus/frames_default.py` through `Frame.page`, so they are byte identical
 to what the corpus writes for a two directory agreement instance, and the
-normalizer has read thousands of them. Only the definition page and the question
-are new.
+normalizer has read thousands of them, in all 768 frames. Only the definition
+page and the question are new.
+
+The definition page has a grammar of its own, in `src/norm/opsay.py`, and it is
+smaller than the corpus grammar: four wording modes rather than 768 frames, with
+the nouns taken from the frame's own lexicon and the question form following the
+frame's question axis. Four modes is the whole of the wording variation a
+definition page gets here, and one of the four is never read.
 
 ## The acquisition curve
 
@@ -176,7 +182,7 @@ this operation, tested on the same operation in wordings it did not train on.
 | ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
 | acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
 | acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | 0.0500 | 0.2600 | -     | -      | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | 0.0100 | 0.0100 | -      | -      | -     | -      | 0.0300      |
+| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | 0.0100 | 0.0100 | 0.0100 | -      | -     | -      | 0.0300      |
 | acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
 
 The same ladder run again from the family trained network rather than from the
@@ -199,7 +205,7 @@ The metric this lane is named for, read off those tables.
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
 | network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
 | network | acq/a3c1/26           | 0.2600              | 0.3333 | not within 64               | not within 64            |
-| network | acq/a3c2/144          | 0.0200              | 0.2500 | not within 4                | not within 4             |
+| network | acq/a3c2/144          | 0.0200              | 0.2500 | not within 16               | not within 16            |
 | network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
 
 ## Depth
@@ -211,13 +217,13 @@ no step cap in `src/norm/interp.py` to reach. Items are aligned: only the
 question keys whose option set stays larger than one at every depth are counted,
 so the five rows are the same items and not five different ones.
 
-| applications | n   | floor  | L strict | S1     | S2     | network no gradient | network family trained |
-| ------------ | --- | ------ | -------- | ------ | ------ | ------------------- | ---------------------- |
-| 1            | 555 | 0.2504 | 1.0000   | 0.3820 | 0.4378 | 0.0072              | -                      |
-| 2            | 555 | 0.3090 | 1.0000   | 0.1315 | 0.1477 | 0.0180              | -                      |
-| 4            | 555 | 0.3589 | 1.0000   | 0.1820 | 0.2162 | 0.0288              | -                      |
-| 8            | 555 | 0.3629 | 1.0000   | 0.1351 | 0.1640 | 0.0144              | -                      |
-| 16           | 555 | 0.3629 | 1.0000   | 0.1910 | 0.2288 | 0.0090              | -                      |
+| applications | n   | floor  | L strict | S1     | S2     | network no gradient greedy | network no gradient sampled | network family trained greedy | network family trained sampled |
+| ------------ | --- | ------ | -------- | ------ | ------ | -------------------------- | --------------------------- | ----------------------------- | ------------------------------ |
+| 1            | 555 | 0.2504 | 1.0000   | 0.3820 | 0.4378 | 0.0072                     | 0.0054                      | -                             | -                              |
+| 2            | 555 | 0.3090 | 1.0000   | 0.1315 | 0.1477 | 0.0180                     | 0.0180                      | -                             | -                              |
+| 4            | 555 | 0.3589 | 1.0000   | 0.1820 | 0.2162 | 0.0288                     | 0.0288                      | -                             | -                              |
+| 8            | 555 | 0.3629 | 1.0000   | 0.1351 | 0.1640 | 0.0144                     | 0.0126                      | -                             | -                              |
+| 16           | 555 | 0.3629 | 1.0000   | 0.1910 | 0.2288 | 0.0090                     | 0.0054                      | -                             | -                              |
 
 Past the ceiling. The corpus stops at plan length 48 and the network's own
 ladder stops well before that. Running the same acquired operation 64 times over
@@ -273,18 +279,20 @@ are built, because a system that answers the first directory under both is
 following training and a system that answers what the page says under both is
 following the page, and one direction alone cannot tell those apart.
 
-| page says   | system               | n   | floor  | follows page | follows training | neither |
-| ----------- | -------------------- | --- | ------ | ------------ | ---------------- | ------- |
-| page_first  | library              | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
-| page_first  | shortcut, first line | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
-| page_first  | shortcut, last line  | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_first  | corpus parser        | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_first  | network, no gradient | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
-| page_second | library              | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
-| page_second | shortcut, first line | 230 | 0.2754 | 0.0000       | 0.9087           | 0.0913  |
-| page_second | shortcut, last line  | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
-| page_second | corpus parser        | 230 | 0.2754 | 0.0000       | 0.0000           | 1.0000  |
-| page_second | network, no gradient | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
+| page says   | system                         | n   | floor  | follows page | follows training | neither |
+| ----------- | ------------------------------ | --- | ------ | ------------ | ---------------- | ------- |
+| page_first  | library                        | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
+| page_first  | shortcut, first line           | 230 | 0.2703 | 1.0000       | 1.0000           | 0.0000  |
+| page_first  | shortcut, last line            | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | corpus parser                  | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | network, no gradient (greedy)  | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_first  | network, no gradient (sampled) | 230 | 0.2703 | 0.0000       | 0.0000           | 1.0000  |
+| page_second | library                        | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
+| page_second | shortcut, first line           | 230 | 0.2754 | 0.0000       | 0.9087           | 0.0913  |
+| page_second | shortcut, last line            | 230 | 0.2754 | 1.0000       | 0.0000           | 0.0000  |
+| page_second | corpus parser                  | 230 | 0.2754 | 0.0000       | 0.0000           | 1.0000  |
+| page_second | network, no gradient (greedy)  | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
+| page_second | network, no gradient (sampled) | 230 | 0.2754 | 0.0130       | 0.0000           | 0.9870  |
 
 The library follows the page in both directions. It does so by construction and
 the point of running it is that construction and behaviour are two different
@@ -417,29 +425,30 @@ recorded ones, because a change that quietly redrew the items would leave the
 report built from two different item sets and the network runs cost hours to
 repeat.
 
-| record                   | path                                                                                     |
-| ------------------------ | ---------------------------------------------------------------------------------------- |
-| attack                   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json                       |
-| diag_base_compose        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json            |
-| items                    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/items.jsonl.gz                    |
-| ladder_items             | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_items.jsonl.gz             |
-| ladder_sys               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz               |
-| n_acq_a2c1_2_k16_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k16_ladder.jsonl.gz  |
-| n_acq_a2c1_2_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k1_ladder.jsonl.gz   |
-| n_acq_a2c1_2_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k2_ladder.jsonl.gz   |
-| n_acq_a2c1_2_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k4_ladder.jsonl.gz   |
-| n_acq_a2c1_2_k64_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k64_ladder.jsonl.gz  |
-| n_acq_a3c1_26_k16_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k16_ladder.jsonl.gz |
-| n_acq_a3c1_26_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k1_ladder.jsonl.gz  |
-| n_acq_a3c1_26_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k2_ladder.jsonl.gz  |
-| n_acq_a3c1_26_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k4_ladder.jsonl.gz  |
-| n_acq_a3c1_26_k64_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k64_ladder.jsonl.gz |
-| n_acq_a3c2_144_k1_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k1_ladder.jsonl.gz |
-| n_acq_a3c2_144_k2_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k2_ladder.jsonl.gz |
-| n_acq_a3c2_144_k4_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k4_ladder.jsonl.gz |
-| n_base_l                 | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l.jsonl.gz                 |
-| n_base_l_ladder          | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l_ladder.jsonl.gz          |
-| n_k0_ladder              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_k0_ladder.jsonl.gz              |
-| stress_items             | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_items.jsonl.gz             |
-| stress_sys               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz               |
-| sys                      | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz                      |
+| record                    | path                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------- |
+| attack                    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json                        |
+| diag_base_compose         | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json             |
+| items                     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/items.jsonl.gz                     |
+| ladder_items              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_items.jsonl.gz              |
+| ladder_sys                | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz                |
+| n_acq_a2c1_2_k16_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k16_ladder.jsonl.gz   |
+| n_acq_a2c1_2_k1_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k1_ladder.jsonl.gz    |
+| n_acq_a2c1_2_k2_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k2_ladder.jsonl.gz    |
+| n_acq_a2c1_2_k4_ladder    | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k4_ladder.jsonl.gz    |
+| n_acq_a2c1_2_k64_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a2c1_2_k64_ladder.jsonl.gz   |
+| n_acq_a3c1_26_k16_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k16_ladder.jsonl.gz  |
+| n_acq_a3c1_26_k1_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k1_ladder.jsonl.gz   |
+| n_acq_a3c1_26_k2_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k2_ladder.jsonl.gz   |
+| n_acq_a3c1_26_k4_ladder   | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k4_ladder.jsonl.gz   |
+| n_acq_a3c1_26_k64_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c1_26_k64_ladder.jsonl.gz  |
+| n_acq_a3c2_144_k16_ladder | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k16_ladder.jsonl.gz |
+| n_acq_a3c2_144_k1_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k1_ladder.jsonl.gz  |
+| n_acq_a3c2_144_k2_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k2_ladder.jsonl.gz  |
+| n_acq_a3c2_144_k4_ladder  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_acq_a3c2_144_k4_ladder.jsonl.gz  |
+| n_base_l                  | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l.jsonl.gz                  |
+| n_base_l_ladder           | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_base_l_ladder.jsonl.gz           |
+| n_k0_ladder               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/n_k0_ladder.jsonl.gz               |
+| stress_items              | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_items.jsonl.gz              |
+| stress_sys                | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz                |
+| sys                       | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz                       |
