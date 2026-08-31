@@ -628,6 +628,13 @@ inductive bias that does not care about word order. And the withheld lexicon
 peaks mid run and falls, so a checkpoint chosen on a held-out lexicon would
 report 0.06 to 0.17 more than any number here.
 
+One thing this lane did not measure. The project's second metric is examples
+per acquired operation, and the version of it that belongs to the normalizer is
+examples per acquired frame: show a trained checkpoint N sentences in the
+withheld statement mode and read off the N at which it reads that mode. The
+`mode` split is the item set for it and the ceiling at 0.535 is the number to
+beat. Nothing here fine tunes a checkpoint, so that number does not exist yet.
+
 ## 12. How to run it
 
 All of this runs on the g6e box at `~/decoupled-reasoner`, under
