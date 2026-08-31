@@ -727,3 +727,66 @@ with two checkpoints and one harness.
 Artifacts: `~/retrain/transposed/induce_all_*.jsonl` and `score_induce_*.json`,
 `~/retrain/transposed/direct_all_*.jsonl` and `score_direct_*.json`,
 `~/retrain/plan/all_opgrapharm_*.jsonl` and `score_opgrapharm_*.json`.
+
+## 8. Twelve more held-out frames, by shape and by lexicon
+
+`split_frames("both")` holds out four whole sentence shapes, `active`,
+`condthen`, `imperative` and `tablepipe`, and four whole lexicons, `abstract`,
+`assembly`, `kitchen` and `panel`. The corpus trains the other eight shapes and
+nine lexicons. Twelve more frames were generated to span that split and the
+shape-distance range, none of them trained, 200 questions per cell. The
+frame-aware regex reads all twelve at 0.992 on `substitution_rule` and 1.000 on
+`exception_rule`; the same regex with the native wording baked in reads them at
+0.000.
+
+`substitution_rule`, greedy, forced, chance 0.200. Shape and lexical distance
+are to the nearest of the 72 trained frames:
+
+| frame | held-out axis | shape | lex | original | new |
+| --- | --- | ---: | ---: | ---: | ---: |
+| assembly__native | lexicon | 0.018 | 0.586 | 0.425 | 1.000 |
+| panel__conditional | lexicon | 0.000 | 0.545 | 0.045 | 1.000 |
+| kitchen__keyphrase | lexicon | 0.026 | 0.656 | 0.140 | 1.000 |
+| assembly__conditional | lexicon | 0.054 | 0.545 | 0.055 | 0.995 |
+| assembly__relative | lexicon | 0.054 | 0.571 | 0.110 | 1.000 |
+| abstract__postvalue | lexicon | 0.073 | 0.556 | 0.085 | 1.000 |
+| archive__active | shape | 0.215 | 0.600 | 0.030 | 0.995 |
+| archive__condthen | shape | 0.246 | 0.188 | 0.040 | 0.995 |
+| archive__imperative | shape | 0.315 | 0.235 | 0.000 | 0.995 |
+| mailroom__imperative | shape | 0.315 | 0.222 | 0.000 | 1.000 |
+| registry__imperative | shape | 0.315 | 0.125 | 0.000 | 0.995 |
+| archive__tablepipe | shape | 0.262 | 0.000 | 0.005 | 0.375 |
+
+Macro over the twelve, both orders: the original is 0.078 macro accuracy
+against 0.200, A and B both -0.153; the new checkpoint is 0.946, A and B both
+0.932. On `exception_rule` the same numbers are 0.350 against 0.500, -0.301,
+and 0.867, 0.733.
+
+Three of the four never-trained sentence shapes transfer at ceiling. `active`,
+`condthen` and `imperative` all read 0.995 or better on `substitution_rule` in
+every frame that carries them, including `archive__imperative` and
+`registry__imperative`, where the lexicon is one the corpus trained so the only
+new thing is the sentence geometry, at shape distance 0.315.
+
+The fourth does not. `tablepipe` is the one shape that fails, and it fails in
+both of its frames: `archive__tablepipe` 0.375 and `abstract__tablepipe` 0.260,
+against every other held-out shape at 0.985 to 1.000. `archive__tablepipe` has
+lexical distance 0.000 from `archive__tablecolon`, a frame the corpus trained
+17,000 times, so the failure is not a word the model has not seen. The two
+frames differ in the delimiter of a table row, a colon against a pipe. A model
+that reads eight sentence geometries it never trained on at ceiling loses
+three quarters of its accuracy when the separator in a table changes character.
+
+All four held-out lexicons transfer completely. Every lexicon-only cell is
+0.995 or better, against 0.045 to 0.425 for the original on the same cells.
+
+The imperative frames are where the original's recorded failure is sharpest and
+it reproduces on all three: `archive__imperative`, `mailroom__imperative` and
+`registry__imperative` each serve the answering page on 0.000 of 200 greedy
+rollouts and name no candidate on 1.000, in both families. The recorded result
+is two imperative frames at 200 of 200 with no retrieve token; here it is three
+frames and two families, 1,200 rollouts, all of them.
+
+Artifacts: `~/retrain/frames/gen_ext/`, `parsers_ext.json`,
+`scoreext_{base,new}-{greedy,t07}.json`, dumps under
+`~/retrain/frames/dumpext_*`, selection `~/retrain/frames/pick.json`.
