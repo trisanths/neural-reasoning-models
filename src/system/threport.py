@@ -419,7 +419,10 @@ def shapes_at_one(s, group, mode):
 
 
 
-CONTROLS = ("xl93lr40",)
+CONTROLS = ("xl93lr40", "xl93match")
+# xl93lr40 is the 93M rung at the 45M rung's rate and its step count.
+# xl93match is the same rung at that rate and the 45M rung's tokens
+# per parameter, which is 61,724 steps. See results/system/token_budget.json.
 TRAIN_LOG = {"l45": "results/norm/train/log_l.jsonl"}
 
 
@@ -482,6 +485,57 @@ def blk(text, note):
     reads as what it is, and it disappears on its own when the run lands.
     """
     return text if text else f"*Not measured yet: {note}.*"
+
+
+
+def budget_table(path="results/system/token_budget.json"):
+    """Tokens per parameter for each rung, and what a matched budget costs."""
+    d = load(path)
+    if d is None:
+        return ""
+    rows = ["| rung | parameters | target tokens per parameter | source "
+            "tokens per parameter | steps to match l45 |",
+            "| --- | ---: | ---: | ---: | ---: |"]
+    for name, r in d["rungs"].items():
+        rows.append(f"| {name} | {r['params']:,} | "
+                    f"{r['target_per_param']:.2f} | "
+                    f"{r['real_source_per_param']:.2f} | "
+                    f"{r['steps_to_match_l45']:,} |")
+    return "\n".join(rows)
+
+
+def budget_facts(path="results/system/token_budget.json") -> dict:
+    d = load(path)
+    if d is None:
+        return {}
+    out = {"budget_steps": f"{d['steps']:,}",
+           "budget_cap": f"{d['budget']:,}",
+           "budget_examples": f"{d['examples_in_file']:,}",
+           "budget_epochs": f"{d['epochs_over_file']:.2f}",
+           "budget_rows_seen": f"{d['seen_over_run']['rows']:,}",
+           "budget_source_tokens":
+               f"{d['seen_over_run']['real_source_tokens']:,}",
+           "budget_target_tokens":
+               f"{d['seen_over_run']['real_target_tokens']:,}"}
+    for name, r in d["rungs"].items():
+        out[f"tpp_{name}_target"] = f"{r['target_per_param']:.2f}"
+        out[f"tpp_{name}_source"] = f"{r['real_source_per_param']:.2f}"
+        out[f"steps_match_{name}"] = f"{r['steps_to_match_l45']:,}"
+    return out
+
+
+def tail_facts(path="results/system/tail_loss.json") -> dict:
+    d = load(path)
+    if d is None:
+        return {}
+    out = {}
+    key = {"l45": "l45", "xl93 3.2e-4": "xl93", "xl93 4.0e-4": "xl93lr40"}
+    for lab, r in d["runs"].items():
+        t = key.get(lab, lab.replace(" ", "_"))
+        out[f"tail_{t}_2000"] = f"{r['last_2000']:.5f}"
+        out[f"tail_{t}_5000"] = f"{r['last_5000']:.5f}"
+        out[f"tail_{t}_last"] = f"{r['last_logged']:.5f}"
+    return out
 
 
 def rung_cfg_table(sums):
@@ -1091,6 +1145,10 @@ def main():
         parts += ["## The held-out sentence mode, shape against key position",
                   sba, ""]
 
+    bud = budget_table()
+    if bud:
+        parts += ["## Tokens per parameter, and what a matched budget costs",
+                  bud, ""]
     fit = fit_table(list(RUNGS) + list(ctl))
     if fit:
         parts += ["## What each rung did to its own training file", fit, ""]
@@ -1207,6 +1265,8 @@ def main():
     fx.update(keypos_extreme_facts(sums))
     fx.update(parser_keypos_facts("results/system/parser_by_keypos.json"))
     fx.update(failcat_facts("results/system/failcat_mode_seven.json"))
+    fx.update(budget_facts())
+    fx.update(tail_facts())
     fx.update({("tpb" + k[2:]): v for k, v in
                tpose_facts(a.tpose, "_both").items()})
     with open(os.path.join(a.out, "facts.json"), "w") as fh:
@@ -1215,6 +1275,25 @@ def main():
 
     if os.path.exists(a.template):
         tmpl = open(a.template).read()
+        for _pass in range(3):
+            _before = tmpl
+            tmpl = substitute(tmpl, tables, sums, lms, fx, kpd, kpm, gro, kpg,
+                              pkp, pall, fct, altm, altg, altshape, tp, tpg,
+                              tpb, tpbg, ftc, ft, bud, fit, ctl, reports,
+                              a, asums, sba)
+            if tmpl == _before:
+                break
+        left = sorted(set(re.findall(r"\{\{[A-Za-z0-9_]+\}\}", tmpl)))
+        if left:
+            raise SystemExit("unresolved placeholders: " + ", ".join(left))
+        with open(a.doc, "w") as fh:
+            fh.write(tmpl)
+        print("wrote", a.doc)
+
+
+def substitute(tmpl, tables, sums, lms, fx, kpd, kpm, gro, kpg, pkp, pall,
+               fct, altm, altg, altshape, tp, tpg, tpb, tpbg, ftc, ft, bud,
+               fit, ctl, reports, a, asums, sba):
         tmpl = tmpl.replace("{{TABLES}}", tables)
         for grp in GROUPS:
             for mode in ("greedy", "sampled"):
@@ -1223,6 +1302,8 @@ def main():
                     tmpl = tmpl.replace(key, shape_table(sums, grp, mode))
         tmpl = tmpl.replace("{{RUNG_CFG}}", rung_cfg_table(sums))
         tmpl = tmpl.replace("{{FIT}}", fit)
+        tmpl = tmpl.replace("{{TOKEN_BUDGET}}", blk(bud, "the token budget "
+                                                    "arithmetic"))
         tmpl = tmpl.replace("{{CONTROL}}", blk(lm_table(
             {**{r: sums[r] for r in RUNGS if r in sums}, **ctl}) if ctl else "",
             "the rate control, queue2.sh step 3"))
@@ -1267,12 +1348,7 @@ def main():
                                 safety_table(sums, key))
         for k, v in fx.items():
             tmpl = tmpl.replace("{{" + k + "}}", str(v))
-        left = sorted(set(re.findall(r"\{\{[A-Za-z0-9_]+\}\}", tmpl)))
-        if left:
-            raise SystemExit("unresolved placeholders: " + ", ".join(left))
-        with open(a.doc, "w") as fh:
-            fh.write(tmpl)
-        print("wrote", a.doc)
+        return tmpl
 
 
 if __name__ == "__main__":

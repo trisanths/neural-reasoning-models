@@ -2,7 +2,7 @@
 
 A 45,483,008 parameter normalizer reads the structure off a page it was trained
 on and stops there. `src/norm/TRAIN.md` puts 0.8982 exact at 404,608 parameters
-and 0.9211 at 45M over the same 2,800 items, and on a
+and 0.9209 at 45M over the same 2,800 items, and on a
 sentence shape held out of training the larger reader does not move. The 350M
 corpus checkpoint of `src/corpus/RETRAIN.md` reads held-out frames at 0.990 to
 1.000 forced choice against a 0.200 floor. Somewhere between those two numbers
@@ -52,10 +52,10 @@ finished, its own row is here.
 
 | checkpoint | mode | train | qframe | lexicon | mode | mixed |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| l45 | greedy | 0.9211 | 0.9129 | 0.8125 | 0.5389 | 0.5525 |
-| l45 | sampled | 0.9139 | 0.9075 | 0.8039 | 0.5357 | 0.5454 |
-| xl93 | greedy | 0.8889 | 0.8839 | 0.6921 | 0.5221 | 0.4714 |
-| xl93 | sampled | 0.8779 | 0.8686 | 0.6796 | 0.5182 | 0.4675 |
+| l45 | greedy | 0.9209 | 0.9161 | 0.8181 | 0.5256 | 0.5834 |
+| l45 | sampled | 0.9163 | 0.9093 | 0.8124 | 0.5167 | 0.5781 |
+| xl93 | greedy | 0.8907 | 0.8841 | 0.7004 | 0.5076 | 0.5047 |
+| xl93 | sampled | 0.8794 | 0.8731 | 0.6899 | 0.4997 | 0.5007 |
 | xl93lr40 | greedy | 0.9024 | 0.8991 | 0.8273 | 0.4637 | 0.5444 |
 | xl93lr40 | sampled | 0.9009 | 0.8940 | 0.8227 | 0.4611 | 0.5411 |
 
@@ -65,16 +65,16 @@ Greedy.
 
 | rung | params | train | qframe | lexicon | mode | mixed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| l45 | 45,483,008 | 0.9211 | 0.9129 | 0.8125 | 0.5389 | 0.5525 |
-| xl93 | 93,579,520 | 0.8889 | 0.8839 | 0.6921 | 0.5221 | 0.4714 |
+| l45 | 45,483,008 | 0.9209 | 0.9161 | 0.8181 | 0.5256 | 0.5834 |
+| xl93 | 93,579,520 | 0.8907 | 0.8841 | 0.7004 | 0.5076 | 0.5047 |
 
 Sampled at temperature 1.0, because greedy has produced false zeros in this
 project.
 
 | rung | params | train | qframe | lexicon | mode | mixed |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| l45 | 45,483,008 | 0.9139 | 0.9075 | 0.8039 | 0.5357 | 0.5454 |
-| xl93 | 93,579,520 | 0.8779 | 0.8686 | 0.6796 | 0.5182 | 0.4675 |
+| l45 | 45,483,008 | 0.9163 | 0.9093 | 0.8124 | 0.5167 | 0.5781 |
+| xl93 | 93,579,520 | 0.8794 | 0.8731 | 0.6899 | 0.4997 | 0.5007 |
 
 `train` is held-out items on trained frames. `qframe` holds out the question
 frame, `lexicon` the symbol lexicon, `mode` the sentence mode, and `mixed`
@@ -106,96 +106,96 @@ structure gets, which is the floor a structure-level score is read against.
 
 | shape | n | parser | modal/shape | l45 | xl93 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1250 | 1.0000 | 1.0000 |
-| lookup_general | 200 | 1.0000 | 0.5700 | 1.0000 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.9950 | 0.9300 |
-| inverse | 200 | 1.0000 | 0.1500 | 1.0000 | 1.0000 |
-| compose | 200 | 1.0000 | 0.0350 | 0.5450 | 0.5300 |
-| iterate | 200 | 1.0000 | 0.0300 | 1.0000 | 1.0000 |
-| pair | 200 | 1.0000 | 0.1400 | 1.0000 | 1.0000 |
-| priority | 200 | 1.0000 | 0.0700 | 1.0000 | 1.0000 |
-| exclusion | 200 | 1.0000 | 0.1400 | 1.0000 | 1.0000 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.9750 | 0.8150 |
-| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.9950 | 0.9850 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.4200 | 0.2450 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.9650 | 0.9400 |
-| precedence | 200 | 1.0000 | 0.1600 | 1.0000 | 1.0000 |
+| lookup | 500 | 1.0000 | 0.1160 | 1.0000 | 1.0000 |
+| lookup_general | 500 | 1.0000 | 0.5200 | 1.0000 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0040 | 0.9980 | 0.9320 |
+| inverse | 500 | 1.0000 | 0.1420 | 1.0000 | 1.0000 |
+| compose | 500 | 1.0000 | 0.0300 | 0.5540 | 0.5360 |
+| iterate | 500 | 1.0000 | 0.0300 | 1.0000 | 0.9980 |
+| pair | 500 | 1.0000 | 0.1280 | 1.0000 | 1.0000 |
+| priority | 500 | 1.0000 | 0.0620 | 1.0000 | 1.0000 |
+| exclusion | 500 | 1.0000 | 0.1440 | 1.0000 | 1.0000 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.9720 | 0.8140 |
+| band_then_lookup | 500 | 1.0000 | 0.0060 | 0.9980 | 0.9840 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.4020 | 0.2620 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.9680 | 0.9440 |
+| precedence | 500 | 1.0000 | 0.1480 | 1.0000 | 1.0000 |
 
 ### Held-out question frame
 
 | shape | n | parser | modal/shape | l45 | xl93 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.2400 | 1.0000 | 1.0000 |
-| lookup_general | 200 | 1.0000 | 0.5350 | 1.0000 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.9900 | 0.9350 |
-| inverse | 200 | 1.0000 | 0.3050 | 1.0000 | 1.0000 |
-| compose | 200 | 1.0000 | 0.0450 | 0.5250 | 0.5000 |
-| iterate | 200 | 1.0000 | 0.0500 | 1.0000 | 1.0000 |
-| pair | 200 | 1.0000 | 0.1450 | 1.0000 | 1.0000 |
-| priority | 200 | 1.0000 | 0.0900 | 1.0000 | 1.0000 |
-| exclusion | 200 | 1.0000 | 0.2700 | 1.0000 | 1.0000 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.9700 | 0.8100 |
-| band_then_lookup | 200 | 1.0000 | 0.0150 | 1.0000 | 0.9850 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.3200 | 0.2350 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.9750 | 0.9100 |
-| precedence | 200 | 1.0000 | 0.2800 | 1.0000 | 1.0000 |
+| lookup | 500 | 1.0000 | 0.1120 | 1.0000 | 1.0000 |
+| lookup_general | 500 | 1.0000 | 0.5020 | 1.0000 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0040 | 0.9880 | 0.9320 |
+| inverse | 500 | 1.0000 | 0.1580 | 1.0000 | 1.0000 |
+| compose | 500 | 1.0000 | 0.0280 | 0.5360 | 0.5000 |
+| iterate | 500 | 1.0000 | 0.0280 | 1.0000 | 1.0000 |
+| pair | 500 | 1.0000 | 0.1340 | 1.0000 | 1.0000 |
+| priority | 500 | 1.0000 | 0.0440 | 1.0000 | 1.0000 |
+| exclusion | 500 | 1.0000 | 0.1420 | 1.0000 | 1.0000 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.9620 | 0.8180 |
+| band_then_lookup | 500 | 1.0000 | 0.0060 | 1.0000 | 0.9920 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.3760 | 0.2580 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.9640 | 0.8780 |
+| precedence | 500 | 1.0000 | 0.1360 | 1.0000 | 1.0000 |
 
 ### Held-out lexicon
 
 | shape | n | parser | modal/shape | l45 | xl93 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1350 | 0.9600 | 0.3100 |
-| lookup_general | 200 | 1.0000 | 0.5500 | 1.0000 | 0.8850 |
-| classify | 200 | 1.0000 | 0.0100 | 0.9550 | 0.7750 |
-| inverse | 200 | 1.0000 | 0.1850 | 0.9600 | 0.9600 |
-| compose | 200 | 1.0000 | 0.0250 | 0.3100 | 0.3350 |
-| iterate | 200 | 1.0000 | 0.0300 | 0.9800 | 0.8700 |
-| pair | 200 | 1.0000 | 0.1500 | 1.0000 | 0.8650 |
-| priority | 200 | 1.0000 | 0.0500 | 0.8850 | 0.9450 |
-| exclusion | 200 | 1.0000 | 0.1600 | 0.9750 | 0.8800 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.4950 | 0.4050 |
-| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.9650 | 0.8850 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.2000 | 0.0800 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.6900 | 0.7900 |
-| precedence | 200 | 1.0000 | 0.1500 | 1.0000 | 0.7050 |
+| lookup | 500 | 1.0000 | 0.1140 | 0.9640 | 0.3600 |
+| lookup_general | 500 | 1.0000 | 0.5240 | 1.0000 | 0.8860 |
+| classify | 500 | 1.0000 | 0.0040 | 0.9700 | 0.8040 |
+| inverse | 500 | 1.0000 | 0.1460 | 0.9560 | 0.9580 |
+| compose | 500 | 1.0000 | 0.0280 | 0.3620 | 0.3900 |
+| iterate | 500 | 1.0000 | 0.0260 | 0.9740 | 0.9020 |
+| pair | 500 | 1.0000 | 0.1260 | 1.0000 | 0.8940 |
+| priority | 500 | 1.0000 | 0.0540 | 0.8900 | 0.9160 |
+| exclusion | 500 | 1.0000 | 0.1420 | 0.9800 | 0.8700 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.5060 | 0.3860 |
+| band_then_lookup | 500 | 1.0000 | 0.0080 | 0.9700 | 0.8860 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.1720 | 0.0740 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.7120 | 0.7780 |
+| precedence | 500 | 1.0000 | 0.1560 | 0.9980 | 0.7020 |
 
 ### Held-out sentence mode
 
 | shape | n | parser | modal/shape | l45 | xl93 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1450 | 0.5300 | 0.5350 |
-| lookup_general | 200 | 1.0000 | 0.5100 | 1.0000 | 1.0000 |
-| classify | 200 | 1.0000 | 0.0100 | 0.8500 | 0.7150 |
-| inverse | 200 | 1.0000 | 0.1500 | 0.5350 | 0.5300 |
-| compose | 200 | 1.0000 | 0.0350 | 0.2200 | 0.1150 |
-| iterate | 200 | 1.0000 | 0.0350 | 0.5350 | 0.5150 |
-| pair | 200 | 1.0000 | 0.1500 | 0.9900 | 1.0000 |
-| priority | 200 | 1.0000 | 0.0500 | 0.5350 | 0.5600 |
-| exclusion | 200 | 1.0000 | 0.1650 | 0.2150 | 0.1600 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.5350 | 0.4000 |
-| band_then_lookup | 200 | 1.0000 | 0.0100 | 0.7100 | 0.6250 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.0700 | 0.0550 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.2850 | 0.5650 |
-| precedence | 200 | 1.0000 | 0.1600 | 0.5350 | 0.5350 |
+| lookup | 500 | 1.0000 | 0.1360 | 0.4980 | 0.5040 |
+| lookup_general | 500 | 1.0000 | 0.5120 | 1.0000 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0080 | 0.8380 | 0.6800 |
+| inverse | 500 | 1.0000 | 0.1380 | 0.5040 | 0.5040 |
+| compose | 500 | 1.0000 | 0.0320 | 0.1960 | 0.1060 |
+| iterate | 500 | 1.0000 | 0.0280 | 0.5020 | 0.4860 |
+| pair | 500 | 1.0000 | 0.1300 | 0.9760 | 1.0000 |
+| priority | 500 | 1.0000 | 0.0440 | 0.5040 | 0.5200 |
+| exclusion | 500 | 1.0000 | 0.1460 | 0.2320 | 0.1820 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.5300 | 0.3800 |
+| band_then_lookup | 500 | 1.0000 | 0.0100 | 0.7120 | 0.6440 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.0640 | 0.0520 |
+| apply_n | 500 | 1.0000 | 0.0020 | 0.2980 | 0.5420 |
+| precedence | 500 | 1.0000 | 0.1340 | 0.5040 | 0.5060 |
 
 ### More than one held out
 
 | shape | n | parser | modal/shape | l45 | xl93 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 200 | 1.0000 | 0.1600 | 0.5450 | 0.2600 |
-| lookup_general | 200 | 1.0000 | 0.5700 | 1.0000 | 0.8450 |
-| classify | 200 | 1.0000 | 0.0100 | 0.8750 | 0.6600 |
-| inverse | 200 | 1.0000 | 0.1900 | 0.5650 | 0.5950 |
-| compose | 200 | 1.0000 | 0.0350 | 0.1500 | 0.1400 |
-| iterate | 200 | 1.0000 | 0.0300 | 0.5600 | 0.4750 |
-| pair | 200 | 1.0000 | 0.1350 | 0.9550 | 0.8850 |
-| priority | 200 | 1.0000 | 0.0500 | 0.5050 | 0.5750 |
-| exclusion | 200 | 1.0000 | 0.1800 | 0.3900 | 0.3250 |
-| lookup_then_band | 200 | 1.0000 | 0.0050 | 0.4000 | 0.3300 |
-| band_then_lookup | 200 | 1.0000 | 0.0150 | 0.8100 | 0.6600 |
-| sum_chain | 200 | 1.0000 | 0.0050 | 0.1050 | 0.0450 |
-| apply_n | 200 | 1.0000 | 0.0050 | 0.3050 | 0.3850 |
-| precedence | 200 | 1.0000 | 0.1500 | 0.5700 | 0.4200 |
+| lookup | 500 | 1.0000 | 0.1160 | 0.6060 | 0.3340 |
+| lookup_general | 500 | 1.0000 | 0.5220 | 1.0000 | 0.8480 |
+| classify | 500 | 1.0000 | 0.0060 | 0.8480 | 0.6580 |
+| inverse | 500 | 1.0000 | 0.1500 | 0.6380 | 0.6360 |
+| compose | 500 | 1.0000 | 0.0300 | 0.2140 | 0.1720 |
+| iterate | 500 | 1.0000 | 0.0260 | 0.6320 | 0.5540 |
+| pair | 500 | 1.0000 | 0.1420 | 0.9660 | 0.8800 |
+| priority | 500 | 1.0000 | 0.0420 | 0.5880 | 0.6660 |
+| exclusion | 500 | 1.0000 | 0.1400 | 0.4400 | 0.3760 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.3940 | 0.2960 |
+| band_then_lookup | 500 | 1.0000 | 0.0080 | 0.8060 | 0.6840 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.0960 | 0.0460 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.3060 | 0.4200 |
+| precedence | 500 | 1.0000 | 0.1360 | 0.6340 | 0.4960 |
 
 ## 4. What the held-out sentence mode actually fails at
 
@@ -205,14 +205,14 @@ sharply on where the sentence puts the key.
 
 | rung | key_first (n) | value_first (n) |
 | --- | ---: | ---: |
-| l45 | 0.7223 (1498) | 0.3280 (1302) |
-| xl93 | 0.6976 (1498) | 0.3203 (1302) |
+| l45 | 0.7302 (3528) | 0.3177 (3472) |
+| xl93 | 0.6959 (3528) | 0.3162 (3472) |
 
-Per shape against the same axis. At 45M there are 4 question
-shapes of this group where the reader is exact on 107 of
-107 key-first items and on 0 of 93 value-first
-ones: `inverse`, `iterate`, `priority`, `precedence`. At 93M there are 2,
-`lookup`, `precedence`. Same shape, same frame group, same sentence mode, same
+Per shape against the same axis. At 45M there are 3 question
+shapes of this group where the reader is exact on 252 of
+252 key-first items and on 0 of 248 value-first
+ones: `inverse`, `priority`, `precedence`. At 93M there are 1,
+`lookup`. Same shape, same frame group, same sentence mode, same
 gold structures, and the only difference is which of the two the sentence names
 first. The cells that read 1.0000 and 0.0000 in one row are the finding: on a sentence mode it never trained on, the reader binds
 the key and the value by the position they had in training, and when the new
@@ -222,52 +222,54 @@ mode puts the value first it binds them backwards on every item of that shape.
 
 | shape | key_first | value_first |
 | --- | ---: | ---: |
-| lookup | 0.9907 (107) | 0.0000 (93) |
-| lookup_general | 1.0000 (107) | 1.0000 (93) |
-| classify | 0.7944 (107) | 0.9140 (93) |
-| inverse | 1.0000 (107) | 0.0000 (93) |
-| compose | 0.4112 (107) | 0.0000 (93) |
-| iterate | 1.0000 (107) | 0.0000 (93) |
-| pair | 1.0000 (107) | 0.9785 (93) |
-| priority | 1.0000 (107) | 0.0000 (93) |
-| exclusion | 0.4019 (107) | 0.0000 (93) |
-| lookup_then_band | 0.5047 (107) | 0.5699 (93) |
-| band_then_lookup | 0.6262 (107) | 0.8065 (93) |
-| sum_chain | 0.1308 (107) | 0.0000 (93) |
-| apply_n | 0.2523 (107) | 0.3226 (93) |
-| precedence | 1.0000 (107) | 0.0000 (93) |
+| lookup | 0.9881 (252) | 0.0000 (248) |
+| lookup_general | 1.0000 (252) | 1.0000 (248) |
+| classify | 0.8056 (252) | 0.8710 (248) |
+| inverse | 1.0000 (252) | 0.0000 (248) |
+| compose | 0.3889 (252) | 0.0000 (248) |
+| iterate | 0.9960 (252) | 0.0000 (248) |
+| pair | 0.9841 (252) | 0.9677 (248) |
+| priority | 1.0000 (252) | 0.0000 (248) |
+| exclusion | 0.4603 (252) | 0.0000 (248) |
+| lookup_then_band | 0.5198 (252) | 0.5403 (248) |
+| band_then_lookup | 0.6627 (252) | 0.7621 (248) |
+| sum_chain | 0.1270 (252) | 0.0000 (248) |
+| apply_n | 0.2897 (252) | 0.3065 (248) |
+| precedence | 1.0000 (252) | 0.0000 (248) |
 
 ### xl93
 
 | shape | key_first | value_first |
 | --- | ---: | ---: |
-| lookup | 1.0000 (107) | 0.0000 (93) |
-| lookup_general | 1.0000 (107) | 1.0000 (93) |
-| classify | 0.6636 (107) | 0.7742 (93) |
-| inverse | 0.9907 (107) | 0.0000 (93) |
-| compose | 0.2150 (107) | 0.0000 (93) |
-| iterate | 0.9626 (107) | 0.0000 (93) |
-| pair | 1.0000 (107) | 1.0000 (93) |
-| priority | 0.9907 (107) | 0.0645 (93) |
-| exclusion | 0.2991 (107) | 0.0000 (93) |
-| lookup_then_band | 0.3832 (107) | 0.4194 (93) |
-| band_then_lookup | 0.5794 (107) | 0.6774 (93) |
-| sum_chain | 0.1028 (107) | 0.0000 (93) |
-| apply_n | 0.5794 (107) | 0.5484 (93) |
-| precedence | 1.0000 (107) | 0.0000 (93) |
+| lookup | 1.0000 (252) | 0.0000 (248) |
+| lookup_general | 1.0000 (252) | 1.0000 (248) |
+| classify | 0.6310 (252) | 0.7298 (248) |
+| inverse | 0.9841 (252) | 0.0161 (248) |
+| compose | 0.2063 (252) | 0.0040 (248) |
+| iterate | 0.9603 (252) | 0.0040 (248) |
+| pair | 1.0000 (252) | 1.0000 (248) |
+| priority | 0.9802 (252) | 0.0524 (248) |
+| exclusion | 0.3611 (252) | 0.0000 (248) |
+| lookup_then_band | 0.3849 (252) | 0.3750 (248) |
+| band_then_lookup | 0.5952 (252) | 0.6935 (248) |
+| sum_chain | 0.0992 (252) | 0.0040 (248) |
+| apply_n | 0.5397 (252) | 0.5444 (248) |
+| precedence | 1.0000 (252) | 0.0040 (248) |
 
 The same axis inside the groups whose sentence mode training did contain.
 
 | checkpoint | frame group | key_first | value_first |
 | --- | --- | ---: | ---: |
-| l45 | train | 0.9264 (1386) | 0.9158 (1414) |
-| l45 | lexicon | 0.8245 (1470) | 0.7992 (1330) |
-| l45 | mode | 0.7223 (1498) | 0.3280 (1302) |
-| l45 | mixed | 0.7345 (1190) | 0.4180 (1610) |
-| xl93 | train | 0.8918 (1386) | 0.8861 (1414) |
-| xl93 | lexicon | 0.6721 (1470) | 0.7143 (1330) |
-| xl93 | mode | 0.6976 (1498) | 0.3203 (1302) |
-| xl93 | mixed | 0.5328 (1190) | 0.4261 (1610) |
+| l45 | train | 0.9206 (3528) | 0.9211 (3472) |
+| l45 | qframe | 0.9149 (3500) | 0.9174 (3500) |
+| l45 | lexicon | 0.8294 (3528) | 0.8067 (3472) |
+| l45 | mode | 0.7302 (3528) | 0.3177 (3472) |
+| l45 | mixed | 0.7314 (3500) | 0.4354 (3500) |
+| xl93 | train | 0.8900 (3528) | 0.8914 (3472) |
+| xl93 | qframe | 0.8834 (3500) | 0.8849 (3500) |
+| xl93 | lexicon | 0.6811 (3528) | 0.7200 (3472) |
+| xl93 | mode | 0.6959 (3528) | 0.3162 (3472) |
+| xl93 | mixed | 0.5523 (3500) | 0.4571 (3500) |
 | xl93lr40 | train | 0.9031 (3528) | 0.9018 (3472) |
 | xl93lr40 | qframe | 0.8986 (3500) | 0.8997 (3500) |
 | xl93lr40 | lexicon | 0.8325 (3528) | 0.8220 (3472) |
@@ -275,9 +277,9 @@ The same axis inside the groups whose sentence mode training did contain.
 | xl93lr40 | mixed | 0.6700 (3500) | 0.4189 (3500) |
 
 On trained frames the two positions are within about a point of each other at
-both rungs, 0.9264 against 0.9158 at
-45M and 0.8918 against 0.8861 at
-93M, over 1386 and 1414
+both rungs, 0.9206 against 0.9211 at
+45M and 0.8900 against 0.8914 at
+93M, over 3528 and 3472
 items. On a held-out lexicon they stay together too. The reader has the
 value-first order and reads it well. It loses it when the sentence mode
 changes, and not before.
@@ -286,13 +288,13 @@ The other axes of the same group, for comparison.
 
 | rung | cloze (n) | imperative (n) | inverted (n) | wh (n) |
 | --- | ---: | ---: | ---: | ---: |
-| l45 | 0.5000 (770) | 0.5488 (840) | 0.5512 (840) | 0.5714 (350) |
-| xl93 | 0.5026 (770) | 0.5202 (840) | 0.5345 (840) | 0.5400 (350) |
+| l45 | 0.5248 (2016) | 0.5312 (1988) | 0.5206 (1988) | 0.5258 (1008) |
+| xl93 | 0.5129 (2016) | 0.5086 (1988) | 0.5101 (1988) | 0.4901 (1008) |
 
 | rung | scope_first (n) | scope_last (n) |
 | --- | ---: | ---: |
-| l45 | 0.4736 (1176) | 0.5862 (1624) |
-| xl93 | 0.4694 (1176) | 0.5603 (1624) |
+| l45 | 0.5217 (2996) | 0.5285 (4004) |
+| xl93 | 0.5087 (2996) | 0.5067 (4004) |
 
 Taken together over the seven shapes, the reader is exact on
 0 of 651 value-first items of that group at 45M and
@@ -504,9 +506,9 @@ and the ratio between them is a property of this design.
 On trained frames that ratio is zero. At 45M the malformed rate is
 0.0000 and the refusal rate is
 0.0000 against a wrong-structure rate of
-0.0789, and at 93M they are
+0.0791, and at 93M they are
 0.0000, 0.0000 and
-0.1111. Every failure on surface the reader was trained on
+0.1093. Every failure on surface the reader was trained on
 is a structure the interpreter accepts and executes to a wrong answer. The
 cells that sit at exactly zero are l45 train, l45 qframe, xl93 train. Anything that
 says this design declines rather than answering wrongly is false on that
@@ -515,21 +517,21 @@ the reader had never seen rather than for the shapes it reads every day.
 
 Refusals appear only as the surface moves away from training, and even there
 they stay the minority. The highest ratio in the table is
-0.432 at xl93 lexicon, and
+0.419 at xl93 lexicon, and
 10 of 10 cells are below one.
 
 | rung | group | exact | malformed | refused | wrong | safe/unsafe |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
-| l45 | train | 0.9211 | 0.0000 | 0.0000 | 0.0789 | 0.000 |
-| l45 | qframe | 0.9129 | 0.0000 | 0.0000 | 0.0871 | 0.000 |
-| l45 | lexicon | 0.8125 | 0.0207 | 0.0011 | 0.1657 | 0.132 |
-| l45 | mode | 0.5389 | 0.0007 | 0.0429 | 0.4175 | 0.104 |
-| l45 | mixed | 0.5525 | 0.0175 | 0.0439 | 0.3861 | 0.159 |
-| xl93 | train | 0.8889 | 0.0000 | 0.0000 | 0.1111 | 0.000 |
-| xl93 | qframe | 0.8839 | 0.0000 | 0.0004 | 0.1157 | 0.003 |
-| xl93 | lexicon | 0.6921 | 0.0875 | 0.0054 | 0.2150 | 0.432 |
-| xl93 | mode | 0.5221 | 0.0004 | 0.0582 | 0.4193 | 0.140 |
-| xl93 | mixed | 0.4714 | 0.0707 | 0.0511 | 0.4068 | 0.299 |
+| l45 | train | 0.9209 | 0.0000 | 0.0000 | 0.0791 | 0.000 |
+| l45 | qframe | 0.9161 | 0.0000 | 0.0000 | 0.0839 | 0.000 |
+| l45 | lexicon | 0.8181 | 0.0197 | 0.0010 | 0.1611 | 0.128 |
+| l45 | mode | 0.5256 | 0.0010 | 0.0471 | 0.4263 | 0.113 |
+| l45 | mixed | 0.5834 | 0.0197 | 0.0343 | 0.3626 | 0.149 |
+| xl93 | train | 0.8907 | 0.0000 | 0.0000 | 0.1093 | 0.000 |
+| xl93 | qframe | 0.8841 | 0.0000 | 0.0001 | 0.1157 | 0.001 |
+| xl93 | lexicon | 0.7004 | 0.0843 | 0.0041 | 0.2111 | 0.419 |
+| xl93 | mode | 0.5076 | 0.0019 | 0.0593 | 0.4313 | 0.142 |
+| xl93 | mixed | 0.5047 | 0.0727 | 0.0437 | 0.3789 | 0.307 |
 
 ## 6. The transposed operand test
 
@@ -654,10 +656,10 @@ them is a threshold.
 
 ### Positional binding survives its own data fix
 
-At 45M there are 4 question shapes of the held-out sentence
-mode where the reader is exact on 107 of 107
-key-first items and on 0 of 93 value-first ones:
-`inverse`, `iterate`, `priority`, `precedence`. Same shape, same group, same mode, same gold structures.
+At 45M there are 3 question shapes of the held-out sentence
+mode where the reader is exact on 252 of 252
+key-first items and on 0 of 248 value-first ones:
+`inverse`, `priority`, `precedence`. Same shape, same group, same mode, same gold structures.
 Only which of the two the sentence names first differs.
 
 The seven shapes that are exact on no value-first item of that group each saw between 42,567 and 42,918
@@ -665,12 +667,12 @@ value-first training items, 0.4978 to
 0.5006 of that shape's own draw, and between
 8,362 and 8,910 of them inside
 every one of the 5 sentence modes training contained. On
-those modes the reader is 0.9158 exact on value-first
-items against 0.9264 on key-first ones, over
-1414 and 1386 items. It has
+those modes the reader is 0.9211 exact on value-first
+items against 0.9206 on key-first ones, over
+3472 and 3528 items. It has
 the order and it reads it. On a sentence mode it never saw, the same reader is
-0.3280 on value first against
-0.7223 on key first, and on seven shapes it is exact on
+0.3177 on value first against
+0.7302 on key first, and on seven shapes it is exact on
 zero value-first items out of 93.
 
 The binding is in the text and it is not ambiguous there. The hand-written
@@ -722,47 +724,94 @@ withheld mode also produces shapes exact on every key-first item and no
 value-first one, the failure is a property of the architecture and not of one
 sentence form.
 
-### The ladder's parameter axis is not clean yet
+### What the ladder can and cannot say about parameters
 
-The 93M rung is behind the 45M rung on every frame group,
-0.8889 against 0.9211 on trained
-frames and 0.5221 against 0.5389 on the
-held-out sentence mode, and it is also behind on its own training loss at every
-logged step. A rung that fits its training file worse than a smaller rung is
-not a capacity measurement. `xl93lr40` is the same rung at the 45M rung's own
-peak rate and `src/system/lrdecide.py` reads the two training losses and writes
-the rate the 167M and 355M rungs then run at. Until it lands, the reading of
-the first two rungs is that nothing has been shown to move, not that scale has
-been shown not to help.
+The rungs share a token budget, not a budget per parameter. 30,000
+steps at a 32,768 source-token cap is 971,681,857 source
+tokens and 238,468,769 target tokens for every rung, which is
+21.36 source tokens per parameter at 45M against
+10.38 at 93M. Counting only the tokens the loss falls on it is
+5.24 against 2.55. Whichever count is used, the
+93M rung had half the tokens per parameter the 45M rung had.
+
+At that budget, and at the 45M rung's own rate, the 93M rung fits its own
+training file worse than the 45M rung, 0.01779 against
+0.01320 over the last 5,000 steps, and reads worse on four of the
+five frame groups. A larger model fitting its own training data worse at
+matched steps is the signature of undertraining. What that pair measures is
+that at a fixed token budget doubling the parameters costs, which is what a
+scaling law predicts, and it is a different statement from the one this ladder
+was built to make.
+
+So the claim that more parameters do not buy surface generalisation here is
+not supported by the pair and is not made. `xl93match` is the run that
+separates the two readings: the same rung at the same rate for
+61,724 steps, which is the 45M rung's tokens per parameter
+rather than its step count, and nothing else changed. If it then beats the 45M
+rung on the trained and held-out-question groups, the parameter axis was
+always fine and the earlier reading was undertraining. If it beats the 45M
+rung everywhere except the held-out sentence mode, that is the dissociation
+worth having, and it is much stronger than what is here now, because the
+larger model would then be better at everything except the compositional axis.
+
+One caveat on the arithmetic itself. The run makes 4.02 passes
+over a file of 1,200,000 examples, so these are not unique tokens
+and the usual tokens-per-parameter guidance, which assumes they are, applies
+loosely. The undertraining reading does not rest on that guidance. It rests on
+the direct observation that at equal steps the larger rung fit its own
+training data less well, and more steps at the same rate is the direct remedy
+for that.
+
+### Two of the four rungs cannot reach a comparable budget on this card
+
+| rung | parameters | target tokens per parameter | source tokens per parameter | steps to match l45 |
+| --- | ---: | ---: | ---: | ---: |
+| l45 | 45,483,008 | 5.24 | 21.36 | 30,000 |
+| xl93 | 93,579,520 | 2.55 | 10.38 | 61,724 |
+| xxl167 | 167,182,336 | 1.43 | 5.81 | 110,271 |
+| xxxl355 | 355,127,936 | 0.67 | 2.74 | 234,238 |
+
+At the 45M rung's tokens per parameter the 167M rung needs
+110,271 steps and the 355M rung 234,238. On one
+L40S that is about fourteen hours and about sixty-four. The 167M rung is
+queued at its matched budget and runs last. The 355M rung is not run at all.
+A 355M rung reported as flat after seeing an eighth of the tokens per
+parameter the 45M rung saw would be a statement about its budget that reads as
+a statement about the architecture, and that is worse than leaving the top of
+the ladder empty.
+
+The ladder therefore does not reach 350M, and the question of where surface
+generalisation appears between 45M and 350M is not answered here. What is
+answered is narrower and is the part the card can pay for.
 
 ## 9. Every artifact
 
 | artifact | bytes | written |
 | --- | ---: | --- |
-| `results/system/eval/l45/summary.json` | 82,127 | 2026-08-31 17:41 |
-| `results/system/eval/l45/records_train_frames_eval_greedy.jsonl.gz` | 32,785 | 2026-08-31 17:36 |
-| `results/system/eval/l45/records_train_frames_eval_sampled.jsonl.gz` | 33,183 | 2026-08-31 17:37 |
-| `results/system/eval/l45/records_qframe_greedy.jsonl.gz` | 31,886 | 2026-08-31 17:37 |
-| `results/system/eval/l45/records_qframe_sampled.jsonl.gz` | 32,013 | 2026-08-31 17:38 |
-| `results/system/eval/l45/records_lexicon_greedy.jsonl.gz` | 33,166 | 2026-08-31 17:39 |
-| `results/system/eval/l45/records_lexicon_sampled.jsonl.gz` | 33,584 | 2026-08-31 17:39 |
-| `results/system/eval/l45/records_mode_greedy.jsonl.gz` | 37,252 | 2026-08-31 17:39 |
-| `results/system/eval/l45/records_mode_sampled.jsonl.gz` | 37,341 | 2026-08-31 17:40 |
-| `results/system/eval/l45/records_mixed_greedy.jsonl.gz` | 37,443 | 2026-08-31 17:40 |
-| `results/system/eval/l45/records_mixed_sampled.jsonl.gz` | 37,831 | 2026-08-31 17:41 |
+| `results/system/eval/l45/summary.json` | 82,653 | 2026-08-31 22:51 |
+| `results/system/eval/l45/records_train_frames_eval_greedy.jsonl.gz` | 81,181 | 2026-08-31 22:39 |
+| `results/system/eval/l45/records_train_frames_eval_sampled.jsonl.gz` | 81,672 | 2026-08-31 22:41 |
+| `results/system/eval/l45/records_qframe_greedy.jsonl.gz` | 79,166 | 2026-08-31 22:42 |
+| `results/system/eval/l45/records_qframe_sampled.jsonl.gz` | 79,508 | 2026-08-31 22:43 |
+| `results/system/eval/l45/records_lexicon_greedy.jsonl.gz` | 82,013 | 2026-08-31 22:45 |
+| `results/system/eval/l45/records_lexicon_sampled.jsonl.gz` | 82,924 | 2026-08-31 22:46 |
+| `results/system/eval/l45/records_mode_greedy.jsonl.gz` | 92,959 | 2026-08-31 22:47 |
+| `results/system/eval/l45/records_mode_sampled.jsonl.gz` | 93,718 | 2026-08-31 22:48 |
+| `results/system/eval/l45/records_mixed_greedy.jsonl.gz` | 91,070 | 2026-08-31 22:49 |
+| `results/system/eval/l45/records_mixed_sampled.jsonl.gz` | 91,797 | 2026-08-31 22:51 |
 | `results/system/eval/ftl45/summary.json` | 79,516 | 2026-08-31 20:01 |
 | `results/system/tpose/xmode_l45.json` | 1,395 | 2026-08-31 19:59 |
-| `results/system/eval/xl93/summary.json` | 82,229 | 2026-08-31 19:59 |
-| `results/system/eval/xl93/records_train_frames_eval_greedy.jsonl.gz` | 33,018 | 2026-08-31 19:52 |
-| `results/system/eval/xl93/records_train_frames_eval_sampled.jsonl.gz` | 33,320 | 2026-08-31 19:52 |
-| `results/system/eval/xl93/records_qframe_greedy.jsonl.gz` | 32,081 | 2026-08-31 19:53 |
-| `results/system/eval/xl93/records_qframe_sampled.jsonl.gz` | 32,090 | 2026-08-31 19:54 |
-| `results/system/eval/xl93/records_lexicon_greedy.jsonl.gz` | 34,998 | 2026-08-31 19:55 |
-| `results/system/eval/xl93/records_lexicon_sampled.jsonl.gz` | 35,430 | 2026-08-31 19:56 |
-| `results/system/eval/xl93/records_mode_greedy.jsonl.gz` | 37,759 | 2026-08-31 19:57 |
-| `results/system/eval/xl93/records_mode_sampled.jsonl.gz` | 38,362 | 2026-08-31 19:57 |
-| `results/system/eval/xl93/records_mixed_greedy.jsonl.gz` | 38,372 | 2026-08-31 19:58 |
-| `results/system/eval/xl93/records_mixed_sampled.jsonl.gz` | 38,295 | 2026-08-31 19:59 |
+| `results/system/eval/xl93/summary.json` | 82,812 | 2026-08-31 23:11 |
+| `results/system/eval/xl93/records_train_frames_eval_greedy.jsonl.gz` | 81,737 | 2026-08-31 22:53 |
+| `results/system/eval/xl93/records_train_frames_eval_sampled.jsonl.gz` | 82,016 | 2026-08-31 22:56 |
+| `results/system/eval/xl93/records_qframe_greedy.jsonl.gz` | 79,581 | 2026-08-31 22:58 |
+| `results/system/eval/xl93/records_qframe_sampled.jsonl.gz` | 80,180 | 2026-08-31 23:00 |
+| `results/system/eval/xl93/records_lexicon_greedy.jsonl.gz` | 86,275 | 2026-08-31 23:02 |
+| `results/system/eval/xl93/records_lexicon_sampled.jsonl.gz` | 87,359 | 2026-08-31 23:04 |
+| `results/system/eval/xl93/records_mode_greedy.jsonl.gz` | 94,010 | 2026-08-31 23:06 |
+| `results/system/eval/xl93/records_mode_sampled.jsonl.gz` | 94,935 | 2026-08-31 23:07 |
+| `results/system/eval/xl93/records_mixed_greedy.jsonl.gz` | 93,727 | 2026-08-31 23:09 |
+| `results/system/eval/xl93/records_mixed_sampled.jsonl.gz` | 93,591 | 2026-08-31 23:11 |
 | `results/system/eval/ftxl93/summary.json` | 79,603 | 2026-08-31 20:06 |
 | `results/system/tpose/xmode_xl93.json` | 1,474 | 2026-08-31 20:03 |
 | `results/system/train/log_xl93.jsonl` | 15,652 | 2026-08-31 19:50 |
@@ -777,8 +826,8 @@ a records file newer than the summary that reports it.
 
 | report | written | records | newest record | ok |
 | --- | --- | ---: | --- | --- |
-| l45 | 2026-08-31 17:41 | 10 | 2026-08-31 17:41 | yes |
-| xl93 | 2026-08-31 19:59 | 10 | 2026-08-31 19:59 | yes |
+| l45 | 2026-08-31 22:51 | 10 | 2026-08-31 22:51 | yes |
+| xl93 | 2026-08-31 23:11 | 10 | 2026-08-31 23:11 | yes |
 | ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
 | ftxl93 | 2026-08-31 20:06 | 10 | 2026-08-31 20:06 | yes |
 

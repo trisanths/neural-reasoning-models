@@ -1,0 +1,50 @@
+{
+ "steps": 30000,
+ "budget": 32768,
+ "examples_in_file": 1200000,
+ "batches_per_epoch": 7461,
+ "per_step": {
+  "rows": 160.84,
+  "real_source_tokens": 32389.4,
+  "real_target_tokens": 7948.96,
+  "padded_source_tokens": 32396.85
+ },
+ "seen_over_run": {
+  "rows": 4825090,
+  "real_source_tokens": 971681857,
+  "real_target_tokens": 238468769,
+  "padded_source_tokens": 971905621
+ },
+ "epochs_over_file": 4.021,
+ "note": "ntrain.batches caps padded source tokens; the loss falls on target tokens. The ratio between two rungs is the same under every count.",
+ "rungs": {
+  "l45": {
+   "params": 45483008,
+   "target_per_param": 5.243,
+   "real_source_per_param": 21.364,
+   "padded_source_per_param": 21.369,
+   "steps_to_match_l45": 30000
+  },
+  "xl93": {
+   "params": 93579520,
+   "target_per_param": 2.548,
+   "real_source_per_param": 10.383,
+   "padded_source_per_param": 10.386,
+   "steps_to_match_l45": 61724
+  },
+  "xxl167": {
+   "params": 167182336,
+   "target_per_param": 1.426,
+   "real_source_per_param": 5.812,
+   "padded_source_per_param": 5.813,
+   "steps_to_match_l45": 110271
+  },
+  "xxxl355": {
+   "params": 355127936,
+   "target_per_param": 0.672,
+   "real_source_per_param": 2.736,
+   "padded_source_per_param": 2.737,
+   "steps_to_match_l45": 234238
+  }
+ }
+}

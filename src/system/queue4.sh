@@ -1,18 +1,21 @@
 #!/bin/bash
-# Everything still owed, one job at a time on the one card.
+# Everything still owed, in the order the evidence now justifies.
 #
-# Three things changed from queue2. Scoring reads the whole 7,000 item eval
-# file rather than the first 2,800 of it, because that prefix is not a sample:
-# the qframe file lists its 35 key-first frames before its 35 value-first ones,
-# so 2,800 of 7,000 was every key-first item and no value-first one, and the
-# two rungs already scored are scored again. The two new frame splits run
-# early, because whether the positional collapse is about one withheld constant
-# or about any withheld axis value is worth more than another rung of a ladder
-# that is already flat. And the 350M arm runs as one block, its harness having
-# been exercised on a handful of items first.
+# What changed. 30,000 steps at a 32,768 source-token budget is the same token
+# budget for every rung, which is 21.36 source tokens per parameter at 45M and
+# 10.38 at 93M. A rung that fits its own training file worse than a smaller
+# rung at half the tokens per parameter is undertrained, not resistant to
+# parameters, so the step count is now set per rung by tokens per parameter
+# rather than copied. src/system/tokenbudget.py computes it: 61,724 steps at
+# 93M, 110,271 at 167M and 234,238 at 355M to match what 45M had.
 #
-# Every stage is skipped when its output is already there, so this can be
-# killed and restarted without repeating work.
+# 234,238 steps at 355M is about 64 hours on this card and is not run. Saying
+# a 355M rung is flat when it saw an eighth of the tokens per parameter the
+# 45M rung saw would be worse than not running it.
+#
+# Order follows what each run can settle: the two new frame splits first, then
+# the budget-matched 93M rung, then the 350M arm, then the 167M rung last and
+# only because it is the one large rung that can reach a defensible budget.
 cd ~/decoupled-reasoner
 set -u
 export PYTHONPATH=.
@@ -31,27 +34,17 @@ NEVAL=7000
 mkdir -p $L $T $E $F $G $M results/system/lmeval results/system/tpose
 say () { echo "$(date -u +%H:%M:%S) $*" >> $L/queue.log; }
 doc () { $P -m src.system.threport >> $L/threport.log 2>&1; say "threport rc=$?"; }
-lrof () { cat results/system/lr_$1 2>/dev/null || echo 0; }
 
-# tag ckpt datadir  -- scores the whole eval file, skipping work already done
 score () {
   if [ -f $E/$1/summary.json ]; then say "eval $1 already present"; return; fi
   $P -m src.system.sreport --ckpt "$2" --tag "$1" --data "$3" \
      --n $NEVAL --batch 64 >> $L/eval_$1.log 2>&1
   say "eval $1 rc=$?"
 }
-rescore () {
-  if [ -f $E/$1/summary.json ] && \
-     grep -q "\"eval_n\": $NEVAL" $E/$1/summary.json 2>/dev/null; then
-    say "eval $1 already at n=$NEVAL"; return
-  fi
-  rm -f $E/$1/summary.json
-  score "$1" "$2" "$3"
-}
-# tag size datadir lr
+# tag size datadir lr steps micro
 rung () {
   if [ ! -f $T/ckpt_$1.pt ]; then
-    $P -m src.system.strain --size $2 --micro 1 --steps 30000 --lr $4 \
+    $P -m src.system.strain --size $2 --micro $6 --steps $5 --lr $4 \
        --data "$3" --eval-every 3000 --eval-n 700 --out $T --tag $1 \
        >> $L/train_$1.log 2>&1
     say "train $1 rc=$?"
@@ -61,34 +54,30 @@ rung () {
   score "$1" "$T/ckpt_$1.pt" "$3"
 }
 
-say "queue3 starts"
+say "queue4 starts"
 
-# 1. the rate control queue2 had already launched
-while kill -0 180771 2>/dev/null; do sleep 20; done
-say "train xl93lr40 ended"
-score xl93lr40 $T/ckpt_xl93lr40.pt data/norm
+# 1. the xl93 rescore queue3 had already launched
+while kill -0 205966 2>/dev/null; do sleep 20; done
+say "eval xl93 ended"
 doc
 
-# 2. the two rungs, on the whole eval file this time
-rescore l45 results/norm/train/ckpt_l.pt data/norm
-rescore xl93 $T/ckpt_xl93.pt data/norm
-doc
-
-# 3. one whole value of the question-form axis withheld, in place of the band.
-#    Its held-out group carries 70 key-first frames and 70 value-first ones,
-#    which the band's group did not, so the key-position split can be read on
-#    an axis that is not statement mode.
+# 2. one whole value of the question-form axis withheld. Carries the
+#    pre-registered prediction and is the reason this lane exists.
 while [ ! -f data/normC/manifest.json ]; do sleep 30; done
-rung c45 l45 data/normC 0
+rung c45 l45 data/normC 0 30000 1
 doc
 
-# 4. a different statement mode withheld, table_row for relative_clause, the
-#    split otherwise identical at 490 training frames
+# 3. a different statement mode withheld, table_row for relative_clause
 while [ ! -f data/normB/manifest.json ]; do sleep 30; done
-rung b45 l45 data/normB 0
+rung b45 l45 data/normB 0 30000 1
 doc
 
-# 5. the 350M arm, whole
+# 4. the 93M rung at the 45M rung's tokens per parameter rather than at its
+#    step count. Everything else is identical to xl93lr40, including the rate.
+rung xl93match xl93 data/norm 4.0e-4 61724 1
+doc
+
+# 5. the 350M arm
 if [ ! -f $G/strict_gate_base.json ]; then
   $P scripts/mg_threeway_eval.py --checkpoint $BASE --tokenizer $TK \
      --config configs/mg3-gate.yaml --suite gate \
@@ -132,27 +121,13 @@ if [ ! -f $F/corpus_after_greedy.json ]; then
 fi
 doc
 
-# 6. the 167M rung
-R=$(lrof xxl167); say "xxl167 lr $R"
-if [ ! -f $T/ckpt_xxl167.pt ]; then
-  $P -m src.system.strain --size xxl167 --micro 2 --steps 30000 --lr $R \
-     --eval-every 3000 --eval-n 700 --out $T --tag xxl167 \
-     >> $L/train_xxl167.log 2>&1
-  say "train xxl167 rc=$?"
-fi
-score xxl167 $T/ckpt_xxl167.pt data/norm
-bash src/system/tpose.sh xxl167 $T/ckpt_xxl167.pt
+# 6. the transposed test at the two rungs that have it outstanding
+bash src/system/tpose_both.sh
 doc
 
-# 7. the top rung
-R=$(lrof xxxl355); say "xxxl355 lr $R"
-if [ ! -f $T/ckpt_xxxl355.pt ]; then
-  $P -m src.system.strain --size xxxl355 --micro 2 --steps 30000 --lr $R \
-     --eval-every 3000 --eval-n 700 --out $T --tag xxxl355 \
-     >> $L/train_xxxl355.log 2>&1
-  say "train xxxl355 rc=$?"
-fi
-score xxxl355 $T/ckpt_xxxl355.pt data/norm
-bash src/system/tpose.sh xxxl355 $T/ckpt_xxxl355.pt
+# 7. the 167M rung, at its own matched budget, last. About fourteen hours.
+#    355M is not here: 234,238 steps is about sixty-four hours on this card.
+rung xxl167 xxl167 data/norm 4.0e-4 110271 2
+bash src/system/tpose.sh xxl167 $T/ckpt_xxl167.pt
 doc
 say "done"
