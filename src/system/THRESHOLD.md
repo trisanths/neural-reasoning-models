@@ -394,6 +394,32 @@ the question-form axis the same kind of holdout, over 140 frames rather than
 70, and it asks whether the collapse is about the statement-mode axis or about
 any withheld axis value.
 
+How the frame grammar is built says what each of the two should be expected to
+do, and the expectation is written here before the runs finished.
+
+`src/corpus/frames_default.py` renders the statement through `ASSOC`, a table
+of twelve entries keyed by the pair (statement mode, key position). Withholding
+a statement mode therefore withholds two of those twelve, one for each key
+position, and the reader has to work out role order from a sentence form it has
+never seen. For `table_row` the two entries are `{k}    {v}` and
+`{v}    {k}`, which is the whole of the difference. For `relative_clause` they
+are "The {target} that {vact} a {k} {item} is the {v} {target}." and "The {v}
+{target} is the one that {vact} a {k} {item}.", where the order of mention is
+again the only cue.
+
+The question is rendered from a different table, indexed by question form
+inside a table chosen by scope position. Key position is not part of that key
+at all. So withholding `wh` withholds two of eight question templates and
+leaves every statement template in training.
+
+That gives two different predictions. `b45` should show the collapse again if
+the collapse is about unseen statement templates rather than about
+`relative_clause`. `c45` should not, because the statement surface it reads is
+entirely familiar and only the question around it is new. If `c45` collapses
+anyway, then unfamiliar surface anywhere degrades role binding and the failure
+is broader than the statement template. If `b45` does not collapse, the whole
+reading is about `relative_clause` and much narrower than it looks.
+
 *Not measured yet: the alternative split rungs, queue3.sh steps 3 and 4.*
 
 *Not measured yet: the alternative split rungs.*
