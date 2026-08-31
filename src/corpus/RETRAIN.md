@@ -790,3 +790,75 @@ frames and two families, 1,200 rollouts, all of them.
 Artifacts: `~/retrain/frames/gen_ext/`, `parsers_ext.json`,
 `scoreext_{base,new}-{greedy,t07}.json`, dumps under
 `~/retrain/frames/dumpext_*`, selection `~/retrain/frames/pick.json`.
+
+## 9. What the run answers
+
+Three of the four measured failures were corpus properties and one was not
+tested by this corpus. A fifth thing, which was not on the list, is the
+strongest result in the run and it points the other way.
+
+Wording was data. On thirty-two evaluation frames the original checkpoint
+macros below its own chance floor in both families and has exactly one cell
+above it, the idiom it was trained in. The corpus-trained checkpoint macros
+0.943 and 0.691 chance-corrected on the twenty-frame set and 0.932 and 0.733 on
+the twelve extra, reads every held-out lexicon at 0.995 or better, and reads
+three of the four never-trained sentence shapes at ceiling. The 0.940-against-
+0.100 collapse the project has carried since the renderer ablation does not
+survive a corpus with 768 frames in it.
+
+Plan length was data. The matched opgraph arm emits between 2.43 and 2.92 steps
+at every required length from 1 to 96, never more than 3. The corpus arm emits
+the required number of steps at all eighteen trained lengths and keeps
+extrapolating past its own training maximum, 56.20 emitted at 56 required and
+64.33 at 64, with individual plans to 111 steps. The extrapolation constant went
+from zero to about sixteen.
+
+Symbol count was data. The opgraph arm emits 1.00 to 1.06 distinct symbols
+whatever the question needs. The corpus arm emits exactly the required width at
+every width from one to five.
+
+Page semantics was not tested. The transposed-rule rebuild reproduces the
+recorded number on the checkpoint it was recorded on, 0 of 689 toward the page
+and 689 of 689 toward training, and 0 of 293 operators against 293 of 293. No
+other checkpoint here can be asked, because writing a `defop` from a page is a
+skill only the opgraph arm has and the corpus contains no page that says what
+an operator does. The result stands unmoved and the reason is that nothing in
+this run aimed at it. The instrument works, which is what the next arm needs.
+
+The thing that did not move, and was not on the list, is the second hop.
+`chain_rule` is 1.000 at one hop and 0.220 at two against a 0.250 floor.
+`inverse_chain` is 0.760 and 0.180. `weighted_chain` is 1.000 at one hop and
+0.039 at two. `transitive` sits between 0.240 and 0.300 against 0.167 at every
+depth. `modular_apply` is 0.000 everywhere. Every one of those structures is in
+the corpus's training band at those depths, so this is a failure inside the
+training distribution after training on it, which is a different and harder
+fact than the out-of-distribution failures the project had before. The same
+checkpoint writes a correct forty-eight step plan over an expression printed in
+its prompt. Composing a plan and chaining through retrieval are both called
+depth on this project and they come apart here: the first is a transformation
+of a string that is already in the context, the second requires carrying a
+value that does not exist until a page comes back.
+
+Two smaller residuals, both specific enough to act on. One sentence shape,
+`tablepipe`, resists everything: 0.375 and 0.260 in its two frames while the
+other three held-out shapes read at ceiling, and one of those two frames has
+lexical distance 0.000 from a trained frame, so what defeats it is a colon
+becoming a pipe. And negation is not read: on `exclusion`, a held-out structure
+whose question asks which listed item does *not* apply, the model serves the
+page on 1.000, names a candidate on 0.980, and is right on 0.000, because it
+names one that does apply.
+
+### What would change the negative half
+
+The honest threat to the chaining result is share, not principle. This is one
+pass over 253,972 examples; the relation component is half of it and
+`chain_rule` is one of twelve structures inside that half, so it saw on the
+order of seven thousand examples. A run that spent its whole budget on chains,
+or that trained the stepwise plan target against retrieved intermediates rather
+than against a printed expression, is the experiment that would separate "not
+enough of it" from "not this substrate". Nothing here rules the first out.
+
+The threat to the positive half is smaller and named: the frame result is on
+two `src/skillacq/` families, and the relation component's twelve structures
+show the same wording invariance only on the one-hop ones, because the
+multi-hop ones are at chance in every wording.
