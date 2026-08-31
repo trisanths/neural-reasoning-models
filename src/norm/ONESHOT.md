@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 15:27 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 15:29 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 70 record files, none newer than the report of 2026-08-31 15:26 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 70 record files, none newer than the report of 2026-08-31 15:29 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -251,14 +251,14 @@ measured over twenty runs of each plan.
 
 | applications | n  | floor  | L strict | L structure exact | S1     | S2     | microseconds to run the plan |
 | ------------ | -- | ------ | -------- | ----------------- | ------ | ------ | ---------------------------- |
-| 1            | 26 | 0.1881 | 1.0000   | 1.0000            | 0.3462 | 0.5000 | 11.4                         |
-| 2            | 26 | 0.2430 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 20.7                         |
-| 4            | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 39.6                         |
-| 8            | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 79.1                         |
-| 16           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 153.9                        |
-| 32           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 304.7                        |
-| 48           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1538 | 0.1538 | 452.2                        |
-| 64           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 612.5                        |
+| 1            | 26 | 0.1881 | 1.0000   | 1.0000            | 0.3462 | 0.5000 | 11.5                         |
+| 2            | 26 | 0.2430 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 20.9                         |
+| 4            | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 39.7                         |
+| 8            | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 78.0                         |
+| 16           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 149.8                        |
+| 32           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1923 | 0.1538 | 298.5                        |
+| 48           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.1538 | 0.1538 | 448.0                        |
+| 64           | 26 | 0.3046 | 1.0000   | 1.0000            | 0.2308 | 0.1538 | 595.6                        |
 
 ## Composing two operations from two pages
 
