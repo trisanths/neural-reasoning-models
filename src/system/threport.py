@@ -544,6 +544,134 @@ def collect_artifacts(a, sums, lms):
 
 
 
+
+
+ZERO_ON_VALUE_FIRST = ("lookup", "inverse", "iterate", "compose", "exclusion",
+                       "sum_chain", "precedence")
+
+
+def keypos_draw_table(path):
+    """Key position per shape in the training draw the network actually saw."""
+    d = load(path)
+    if d is None:
+        return ""
+    rows = ["| shape | key_first | value_first | value_first share | "
+            "scores 0.0000 on value_first |",
+            "| --- | ---: | ---: | ---: | --- |"]
+    for r in d["per_shape"]:
+        rows.append(f"| {r['shape']} | {r['key_first']:,} | "
+                    f"{r['value_first']:,} | {r['value_first_share']:.4f} | "
+                    + ("yes" if r["scores_zero_on_value_first"] else "") + " |")
+    return "\n".join(rows)
+
+
+def keypos_mode_table(path):
+    """Value-first items per trained sentence mode, for the seven shapes."""
+    d = load(path)
+    if d is None:
+        return ""
+    modes = d["modes"]
+    by = d["seven_shapes_by_mode_keypos"]
+    rows = ["| shape | " + " | ".join(modes) + " |",
+            "| --- | " + " | ".join("---:" for _ in modes) + " |"]
+    for sh in ZERO_ON_VALUE_FIRST:
+        cells = [f"{by.get(f'{sh}|{m}|value_first', 0):,}" for m in modes]
+        rows.append(f"| {sh} | " + " | ".join(cells) + " |")
+    return "\n".join(rows)
+
+
+def grid_order_table(order_path, overlap_path):
+    """Operand order in the two grid draws, and their overlap with the test."""
+    o = load(order_path)
+    v = load(overlap_path)
+    if o is None:
+        return ""
+    rows = ["| draw | pages | row-major key order | another key order |",
+            "| --- | ---: | ---: | ---: |"]
+    for name, c in o["counts"].items():
+        tot = sum(c.values())
+        rows.append(f"| `{name}` | {tot:,} | {c.get('canonical', 0):,} | "
+                    f"{c.get('other', 0):,} |")
+    if v:
+        rows.append("")
+        rows.append("| pair | shared pages |")
+        rows.append("| --- | ---: |")
+        for k, lab in (("overlap_both_train", "`grid_both` and `grid_train`"),
+                       ("overlap_train_transposed",
+                        "`grid_train` and the transposed items"),
+                       ("overlap_both_transposed",
+                        "`grid_both` and the transposed items"),
+                       ("overlap_both_original",
+                        "`grid_both` and the original items")):
+            if k in v:
+                rows.append(f"| {lab} | {v[k]} |")
+    return "\n".join(rows)
+
+
+def draw_facts(keypos_path, mode_path, order_path) -> dict:
+    out = {}
+    d = load(keypos_path)
+    if d:
+        seven = [r for r in d["per_shape"] if r["scores_zero_on_value_first"]]
+        if seven:
+            out["keypos_seven_vf_min"] = f"{min(r['value_first'] for r in seven):,}"
+            out["keypos_seven_vf_max"] = f"{max(r['value_first'] for r in seven):,}"
+            out["keypos_seven_share_min"] = \
+                f"{min(r['value_first_share'] for r in seven):.4f}"
+            out["keypos_seven_share_max"] = \
+                f"{max(r['value_first_share'] for r in seven):.4f}"
+        out["draw_n"] = f"{d['n_training_items']:,}"
+    m = load(mode_path)
+    if m:
+        by = m["seven_shapes_by_mode_keypos"]
+        vals = [v for k, v in by.items() if k.endswith("|value_first")]
+        if vals:
+            out["keypos_seven_per_mode_min"] = f"{min(vals):,}"
+            out["keypos_seven_per_mode_max"] = f"{max(vals):,}"
+        out["trained_modes"] = ", ".join(f"`{x}`" for x in m["modes"])
+        out["n_trained_modes"] = str(len(m["modes"]))
+    o = load(order_path)
+    if o:
+        for name, c in o["counts"].items():
+            tot = sum(c.values())
+            out[f"{name}_pages"] = f"{tot:,}"
+            out[f"{name}_canonical"] = f"{c.get('canonical', 0):,}"
+            out[f"{name}_other"] = f"{c.get('other', 0):,}"
+    return out
+
+
+def safety_facts(sums) -> dict:
+    """The extreme cells of the safe-to-unsafe ratio, so prose can cite them.
+
+    The ratio is (malformed + refused) / wrong. A cell at 0.000 means every
+    failure in it is a structure the interpreter accepted and ran.
+    """
+    cells = []
+    for r in RUNGS:
+        s = sums.get(r)
+        if s is None:
+            continue
+        for k in GROUPS:
+            try:
+                p = g(s, k, "greedy")["pooled_do_not_headline"]
+            except KeyError:
+                continue
+            if p["wrong"] == 0:
+                continue
+            cells.append((("%s %s" % (r, GROUP_LABEL[k])),
+                          (p["malformed"] + p["refused"]) / p["wrong"]))
+    if not cells:
+        return {}
+    hi = max(cells, key=lambda c: c[1])
+    zero = [c[0] for c in cells if c[1] == 0.0]
+    return {"safe_unsafe_max": f"{hi[1]:.3f}",
+            "safe_unsafe_max_cell": hi[0],
+            "safe_unsafe_cells": str(len(cells)),
+            "safe_unsafe_below_one": str(sum(1 for c in cells if c[1] < 1.0)),
+            "safe_unsafe_zero_cells": ("none" if not zero
+                                       else ", ".join(zero))}
+
+
 def tpose_facts(dirpath) -> dict:
     """Every cell of the transposed census as a fact, so prose can cite one.
 
@@ -677,6 +805,17 @@ def main():
                   lm_table({**{r: sums[r] for r in RUNGS if r in sums}, **ctl}),
                   ""]
 
+    kpd = keypos_draw_table("results/system/keypos_train_draw.json")
+    kpm = keypos_mode_table("results/system/keypos_by_mode.json")
+    gro = grid_order_table("results/system/grid_key_order.json",
+                           "results/system/grid_overlap.json")
+    if kpd:
+        parts += ["## Key position in the training draw", kpd, ""]
+    if kpm:
+        parts += ["## Value-first items per trained sentence mode", kpm, ""]
+    if gro:
+        parts += ["## Operand order in the grid draws", gro, ""]
+
     tp = tpose_table(a.tpose)
     tpg = tpose_group_table(a.tpose)
     if tp:
@@ -724,6 +863,12 @@ def main():
     extra = load(a.extra) or {}
     fx = facts(sums, extra)
     fx.update(tpose_facts(a.tpose))
+    fx.update(safety_facts(sums))
+    KP = "results/system/keypos_train_draw.json"
+    KM = "results/system/keypos_by_mode.json"
+    GO = "results/system/grid_key_order.json"
+    GV = "results/system/grid_overlap.json"
+    fx.update(draw_facts(KP, KM, GO))
     with open(os.path.join(a.out, "facts.json"), "w") as fh:
         json.dump(fx, fh, indent=1, sort_keys=True)
     print(f"{len(fx)} facts, {len(sums)} rungs")
@@ -748,6 +893,9 @@ def main():
         tmpl = tmpl.replace("{{KEYPOS}}",
                             axis_table(sums, "mode", "greedy", "key_pos"))
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
+        tmpl = tmpl.replace("{{KEYPOS_DRAW}}", kpd)
+        tmpl = tmpl.replace("{{KEYPOS_MODE}}", kpm)
+        tmpl = tmpl.replace("{{GRID_ORDER}}", gro)
         tmpl = tmpl.replace("{{TPOSE}}", tp)
         tmpl = tmpl.replace("{{TPOSE_GROUP}}", tpg)
         tmpl = tmpl.replace("{{FT_COST}}", ftc)

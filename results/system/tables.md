@@ -183,6 +183,48 @@
 | l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
 
+## Key position in the training draw
+| shape | key_first | value_first | value_first share | scores 0.0000 on value_first |
+| --- | ---: | ---: | ---: | --- |
+| apply_n | 42,781 | 43,122 | 0.5020 |  |
+| band_then_lookup | 42,858 | 42,599 | 0.4985 |  |
+| classify | 42,723 | 42,920 | 0.5011 |  |
+| compose | 42,801 | 42,776 | 0.4999 | yes |
+| exclusion | 42,817 | 42,917 | 0.5006 | yes |
+| inverse | 42,900 | 42,820 | 0.4995 | yes |
+| iterate | 42,895 | 42,572 | 0.4981 | yes |
+| lookup | 42,748 | 42,567 | 0.4989 | yes |
+| lookup_general | 43,026 | 42,870 | 0.4991 |  |
+| lookup_then_band | 42,730 | 42,969 | 0.5014 |  |
+| pair | 42,689 | 42,737 | 0.5003 |  |
+| precedence | 43,105 | 42,918 | 0.4989 | yes |
+| priority | 43,131 | 42,950 | 0.4989 |  |
+| sum_chain | 43,216 | 42,843 | 0.4978 | yes |
+
+## Value-first items per trained sentence mode
+| shape | conditional | imperative | mapping | passive_decl | table_row |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 8,522 | 8,614 | 8,412 | 8,434 | 8,585 |
+| inverse | 8,740 | 8,511 | 8,519 | 8,393 | 8,657 |
+| iterate | 8,444 | 8,402 | 8,617 | 8,494 | 8,615 |
+| compose | 8,573 | 8,765 | 8,362 | 8,577 | 8,499 |
+| exclusion | 8,389 | 8,526 | 8,408 | 8,910 | 8,684 |
+| sum_chain | 8,532 | 8,564 | 8,662 | 8,508 | 8,577 |
+| precedence | 8,514 | 8,587 | 8,545 | 8,587 | 8,685 |
+
+## Operand order in the grid draws
+| draw | pages | row-major key order | another key order |
+| --- | ---: | ---: | ---: |
+| `grid_train` | 4,096 | 4,096 | 0 |
+| `grid_both` | 1,024 | 512 | 512 |
+
+| pair | shared pages |
+| --- | ---: |
+| `grid_both` and `grid_train` | 0 |
+| `grid_train` and the transposed items | 0 |
+| `grid_both` and the transposed items | 0 |
+| `grid_both` and the original items | 0 |
+
 ## The transposed operand test
 | rung | grids seen | version | n | exact | keys in the untransposed order | malformed | other |
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |

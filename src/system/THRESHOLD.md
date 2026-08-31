@@ -240,6 +240,80 @@ The other axes of the same group, for comparison.
 | l45 | 0.4736 (1176) | 0.5862 (1624) |
 | xl93 | 0.4694 (1176) | 0.5603 (1624) |
 
+### Whether the training draw explains it
+
+The frame grammar carries key position as an axis. Whether the draw used it is
+a separate question, so it is counted off `data/norm/train.meta.jsonl.gz`,
+which is the 1,200,000 items the network saw rather than the bank they were
+drawn from.
+
+| shape | key_first | value_first | value_first share | scores 0.0000 on value_first |
+| --- | ---: | ---: | ---: | --- |
+| apply_n | 42,781 | 43,122 | 0.5020 |  |
+| band_then_lookup | 42,858 | 42,599 | 0.4985 |  |
+| classify | 42,723 | 42,920 | 0.5011 |  |
+| compose | 42,801 | 42,776 | 0.4999 | yes |
+| exclusion | 42,817 | 42,917 | 0.5006 | yes |
+| inverse | 42,900 | 42,820 | 0.4995 | yes |
+| iterate | 42,895 | 42,572 | 0.4981 | yes |
+| lookup | 42,748 | 42,567 | 0.4989 | yes |
+| lookup_general | 43,026 | 42,870 | 0.4991 |  |
+| lookup_then_band | 42,730 | 42,969 | 0.5014 |  |
+| pair | 42,689 | 42,737 | 0.5003 |  |
+| precedence | 43,105 | 42,918 | 0.4989 | yes |
+| priority | 43,131 | 42,950 | 0.4989 |  |
+| sum_chain | 43,216 | 42,843 | 0.4978 | yes |
+
+For the seven shapes that score exactly 0.0000 on value first, value first is
+0.4978 to 0.5006 of that shape's own
+training items, which is between 42,567 and
+42,918 examples each. It is neither absent nor rare.
+
+The axis held out of training is the sentence mode and not key position, so
+the draw is counted jointly as well. The 5 trained modes are
+`conditional`, `imperative`, `mapping`, `passive_decl`, `table_row`, and each of the seven shapes saw between
+8,362 and 8,910 value-first
+items inside every one of them.
+
+| shape | conditional | imperative | mapping | passive_decl | table_row |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| lookup | 8,522 | 8,614 | 8,412 | 8,434 | 8,585 |
+| inverse | 8,740 | 8,511 | 8,519 | 8,393 | 8,657 |
+| iterate | 8,444 | 8,402 | 8,617 | 8,494 | 8,615 |
+| compose | 8,573 | 8,765 | 8,362 | 8,577 | 8,499 |
+| exclusion | 8,389 | 8,526 | 8,408 | 8,910 | 8,684 |
+| sum_chain | 8,532 | 8,564 | 8,662 | 8,508 | 8,577 |
+| precedence | 8,514 | 8,587 | 8,545 | 8,587 | 8,685 |
+
+The zeros are not a hole in the draw. A reader that saw the value before the
+key roughly forty thousand times per shape, spread evenly over all five
+sentence modes it trained on, reads that order zero times out of 93 on the
+sixth. What failed to transfer is the composition of two axes it saw
+separately and often, not a frequency it never saw. Rebuilding the draw
+balanced on key position would change nothing, because it is already balanced.
+
+### The transposed operand test is the opposite case
+
+| draw | pages | row-major key order | another key order |
+| --- | ---: | ---: | ---: |
+| `grid_train` | 4,096 | 4,096 | 0 |
+| `grid_both` | 1,024 | 512 | 512 |
+
+| pair | shared pages |
+| --- | ---: |
+| `grid_both` and `grid_train` | 0 |
+| `grid_train` and the transposed items | 0 |
+| `grid_both` and the transposed items | 0 |
+| `grid_both` and the original items | 0 |
+
+`grid_train` lists its nine key pairs in row-major order on
+4,096 of 4,096 pages, so the fine tune that
+precedes the transposed test never showed the rung the layout that test asks it
+to read. That failure is a hole in its own draw. `grid_both` is the same
+construction with 512 of its 1,024 pages in
+another order, shares no page with `grid_train` or with either version of the
+item set, and is the data fix. Section 6 reports what the test does after it.
+
 ## 5. Safe failure against wrong executable structure
 
 A structure the interpreter rejects is a refusal and the system declines. A
@@ -305,21 +379,6 @@ census is also counted inside each group.
 | xl93 | transposed | mode | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | xl93 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | xl93 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
-
-Half of every fine tuning batch is drawn from the original training file, so
-this is acquisition and not a trade. What it cost the groups the rung already
-read, against that rung's own final in-training eval on the same 700 items.
-
-| rung | frame group | n | before the fine tune | after |
-| --- | --- | ---: | ---: | ---: |
-| l45 | train | 700 | 0.9171 | 0.9043 |
-| l45 | qframe | 700 | 0.9086 | 0.8957 |
-| l45 | lexicon | 700 | 0.7971 | 0.7957 |
-| l45 | mode | 700 | 0.5657 | 0.5500 |
-| xl93 | train | 700 | 0.8900 | 0.8614 |
-| xl93 | qframe | 700 | 0.8857 | 0.8514 |
-| xl93 | lexicon | 700 | 0.6871 | 0.6986 |
-| xl93 | mode | 700 | 0.5529 | 0.5186 |
 
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version

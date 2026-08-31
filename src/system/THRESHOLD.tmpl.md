@@ -108,6 +108,47 @@ The other axes of the same group, for comparison.
 
 {{SCOPEPOS}}
 
+### Whether the training draw explains it
+
+The frame grammar carries key position as an axis. Whether the draw used it is
+a separate question, so it is counted off `data/norm/train.meta.jsonl.gz`,
+which is the {{draw_n}} items the network saw rather than the bank they were
+drawn from.
+
+{{KEYPOS_DRAW}}
+
+For the seven shapes that score exactly 0.0000 on value first, value first is
+{{keypos_seven_share_min}} to {{keypos_seven_share_max}} of that shape's own
+training items, which is between {{keypos_seven_vf_min}} and
+{{keypos_seven_vf_max}} examples each. It is neither absent nor rare.
+
+The axis held out of training is the sentence mode and not key position, so
+the draw is counted jointly as well. The {{n_trained_modes}} trained modes are
+{{trained_modes}}, and each of the seven shapes saw between
+{{keypos_seven_per_mode_min}} and {{keypos_seven_per_mode_max}} value-first
+items inside every one of them.
+
+{{KEYPOS_MODE}}
+
+The zeros are not a hole in the draw. A reader that saw the value before the
+key roughly forty thousand times per shape, spread evenly over all five
+sentence modes it trained on, reads that order zero times out of 93 on the
+sixth. What failed to transfer is the composition of two axes it saw
+separately and often, not a frequency it never saw. Rebuilding the draw
+balanced on key position would change nothing, because it is already balanced.
+
+### The transposed operand test is the opposite case
+
+{{GRID_ORDER}}
+
+`grid_train` lists its nine key pairs in row-major order on
+{{grid_train_canonical}} of {{grid_train_pages}} pages, so the fine tune that
+precedes the transposed test never showed the rung the layout that test asks it
+to read. That failure is a hole in its own draw. `grid_both` is the same
+construction with {{grid_both_other}} of its {{grid_both_pages}} pages in
+another order, shares no page with `grid_train` or with either version of the
+item set, and is the data fix. Section 6 reports what the test does after it.
+
 ## 5. Safe failure against wrong executable structure
 
 A structure the interpreter rejects is a refusal and the system declines. A
@@ -136,12 +177,6 @@ The item file carries 150 pages per frame group per version, so the same
 census is also counted inside each group.
 
 {{TPOSE_GROUP}}
-
-Half of every fine tuning batch is drawn from the original training file, so
-this is acquisition and not a trade. What it cost the groups the rung already
-read, against that rung's own final in-training eval on the same 700 items.
-
-{{FT_COST}}
 
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
