@@ -7,12 +7,15 @@ happens in `src/norm/interp.py`, which is a program.
 
 The claim under test is that this job needs no world knowledge and should
 therefore be far smaller than a language model. That is measured here across
-four sizes rather than asserted, and the answer is mixed. A 404,608 parameter
-network with 232,192 parameters outside its embedding tables is exact on seven
-of the fourteen structure shapes on the training frames and above 0.91 on five
-more, in 200 items per shape. Five shapes are never read exactly by any size
-tried. The hand written parser reads all fourteen exactly, so the network does
-not beat the trivial program on the frames that program covers.
+four sizes rather than asserted, and the answer has two halves. On the wording
+the network was trained on it is small: 404,608 parameters read seven of the
+fourteen structure shapes without an error in 200 items each, and 113 times as
+many parameters move the pooled rate from 0.8982 to 0.9211 and move no shape
+across the line. On wording it was not trained on, parameters matter and the
+job is not solved: reading a held-out lexicon runs 0.5150 to 0.8125 across the
+same range, and reading a held-out sentence shape does not move at all. The
+hand written parser reads all fourteen shapes of every split exactly, so on the
+frames that program covers the network does not beat it.
 
 ## 1. Why this trains
 
@@ -177,182 +180,196 @@ Greedy, 2,800 items per split, 200 per shape, from
 
 #### train_frames_eval
 
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `band_then_lookup` | 0.960 | 0.860 | 1.000 | 0.010 | 1.000 |
-| `exclusion` | 1.000 | 1.000 | 1.000 | 0.140 | 1.000 |
-| `inverse` | 1.000 | 1.000 | 1.000 | 0.150 | 1.000 |
-| `iterate` | 0.995 | 1.000 | 1.000 | 0.030 | 1.000 |
-| `lookup` | 1.000 | 1.000 | 1.000 | 0.125 | 1.000 |
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.570 | 1.000 |
-| `pair` | 1.000 | 1.000 | 1.000 | 0.140 | 1.000 |
-| `precedence` | 1.000 | 1.000 | 1.000 | 0.160 | 1.000 |
-| `priority` | 1.000 | 1.000 | 1.000 | 0.070 | 1.000 |
-| `classify` | 0.915 | 0.775 | 0.980 | 0.010 | 1.000 |
-| `lookup_then_band` | 0.975 | 0.540 | 0.910 | 0.005 | 1.000 |
-| `apply_n` | 0.920 | 0.470 | 0.900 | 0.005 | 1.000 |
-| `compose` | 0.540 | 0.430 | 0.535 | 0.035 | 1.000 |
-| `sum_chain` | 0.270 | 0.115 | 0.380 | 0.005 | 1.000 |
+| shape | xs (0.40M) | s (1.73M) | m (8.05M) | l (45.48M) | modal_shape | parser |
+|---|---|---|---|---|---|---|
+| `exclusion` | 1.000 | 1.000 | 1.000 | 1.000 | 0.140 | 1.000 |
+| `inverse` | 1.000 | 1.000 | 1.000 | 1.000 | 0.150 | 1.000 |
+| `iterate` | 0.995 | 1.000 | 1.000 | 1.000 | 0.030 | 1.000 |
+| `lookup` | 1.000 | 1.000 | 1.000 | 1.000 | 0.125 | 1.000 |
+| `lookup_general` | 1.000 | 1.000 | 1.000 | 1.000 | 0.570 | 1.000 |
+| `pair` | 1.000 | 1.000 | 1.000 | 1.000 | 0.140 | 1.000 |
+| `precedence` | 1.000 | 1.000 | 1.000 | 1.000 | 0.160 | 1.000 |
+| `priority` | 1.000 | 1.000 | 1.000 | 1.000 | 0.070 | 1.000 |
+| `band_then_lookup` | 0.960 | 0.860 | 1.000 | 0.995 | 0.010 | 1.000 |
+| `classify` | 0.915 | 0.775 | 0.980 | 0.995 | 0.010 | 1.000 |
+| `lookup_then_band` | 0.975 | 0.540 | 0.910 | 0.975 | 0.005 | 1.000 |
+| `apply_n` | 0.920 | 0.470 | 0.900 | 0.965 | 0.005 | 1.000 |
+| `compose` | 0.540 | 0.430 | 0.535 | 0.545 | 0.035 | 1.000 |
+| `sum_chain` | 0.270 | 0.115 | 0.380 | 0.420 | 0.005 | 1.000 |
 
-Shapes at exact 1.000, out of 14: xs 7, s 8, m 9, parser 14.
+Shapes at exact 1.000, out of 14: xs 7, s 8, m 9, l 8, parser 14.
 
 | size | n | exact | malformed | refused | wrong | sampled exact |
 |---|---|---|---|---|---|---|
 | xs | 2800 | 0.8982 | 0.0004 | 0.0000 | 0.1014 | 0.8843 |
 | s | 2800 | 0.7993 | 0.0004 | 0.0000 | 0.2004 | 0.7700 |
 | m | 2800 | 0.9075 | 0.0000 | 0.0000 | 0.0925 | 0.8911 |
+| l | 2800 | 0.9211 | 0.0000 | 0.0000 | 0.0789 | 0.9139 |
 
 #### qframe
 
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `exclusion` | 1.000 | 1.000 | 1.000 | 0.270 | 1.000 |
-| `inverse` | 1.000 | 1.000 | 1.000 | 0.305 | 1.000 |
-| `lookup` | 1.000 | 1.000 | 1.000 | 0.240 | 1.000 |
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.535 | 1.000 |
-| `pair` | 1.000 | 1.000 | 1.000 | 0.145 | 1.000 |
-| `precedence` | 1.000 | 1.000 | 1.000 | 0.280 | 1.000 |
-| `priority` | 1.000 | 1.000 | 1.000 | 0.090 | 1.000 |
-| `band_then_lookup` | 0.955 | 0.805 | 0.995 | 0.015 | 1.000 |
-| `iterate` | 0.995 | 1.000 | 0.995 | 0.050 | 1.000 |
-| `classify` | 0.870 | 0.715 | 0.975 | 0.010 | 1.000 |
-| `lookup_then_band` | 0.940 | 0.470 | 0.910 | 0.005 | 1.000 |
-| `apply_n` | 0.930 | 0.480 | 0.870 | 0.005 | 1.000 |
-| `compose` | 0.535 | 0.360 | 0.500 | 0.045 | 1.000 |
-| `sum_chain` | 0.260 | 0.100 | 0.300 | 0.005 | 1.000 |
+| shape | xs (0.40M) | s (1.73M) | m (8.05M) | l (45.48M) | modal_shape | parser |
+|---|---|---|---|---|---|---|
+| `band_then_lookup` | 0.955 | 0.805 | 0.995 | 1.000 | 0.015 | 1.000 |
+| `exclusion` | 1.000 | 1.000 | 1.000 | 1.000 | 0.270 | 1.000 |
+| `inverse` | 1.000 | 1.000 | 1.000 | 1.000 | 0.305 | 1.000 |
+| `iterate` | 0.995 | 1.000 | 0.995 | 1.000 | 0.050 | 1.000 |
+| `lookup` | 1.000 | 1.000 | 1.000 | 1.000 | 0.240 | 1.000 |
+| `lookup_general` | 1.000 | 1.000 | 1.000 | 1.000 | 0.535 | 1.000 |
+| `pair` | 1.000 | 1.000 | 1.000 | 1.000 | 0.145 | 1.000 |
+| `precedence` | 1.000 | 1.000 | 1.000 | 1.000 | 0.280 | 1.000 |
+| `priority` | 1.000 | 1.000 | 1.000 | 1.000 | 0.090 | 1.000 |
+| `classify` | 0.870 | 0.715 | 0.975 | 0.990 | 0.010 | 1.000 |
+| `apply_n` | 0.930 | 0.480 | 0.870 | 0.975 | 0.005 | 1.000 |
+| `lookup_then_band` | 0.940 | 0.470 | 0.910 | 0.970 | 0.005 | 1.000 |
+| `compose` | 0.535 | 0.360 | 0.500 | 0.525 | 0.045 | 1.000 |
+| `sum_chain` | 0.260 | 0.100 | 0.300 | 0.320 | 0.005 | 1.000 |
 
-Shapes at exact 1.000, out of 14: xs 7, s 8, m 7, parser 14.
+Shapes at exact 1.000, out of 14: xs 7, s 8, m 7, l 9, parser 14.
 
 | size | n | exact | malformed | refused | wrong | sampled exact |
 |---|---|---|---|---|---|---|
 | xs | 2800 | 0.8918 | 0.0000 | 0.0000 | 0.1082 | 0.8789 |
 | s | 2800 | 0.7807 | 0.0011 | 0.0000 | 0.2182 | 0.7632 |
 | m | 2800 | 0.8961 | 0.0000 | 0.0000 | 0.1039 | 0.8857 |
+| l | 2800 | 0.9129 | 0.0000 | 0.0000 | 0.0871 | 0.9075 |
 
 #### lexicon
 
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.550 | 1.000 |
-| `classify` | 0.135 | 0.465 | 0.900 | 0.010 | 1.000 |
-| `precedence` | 0.940 | 0.205 | 0.895 | 0.150 | 1.000 |
-| `inverse` | 0.760 | 0.595 | 0.820 | 0.185 | 1.000 |
-| `pair` | 0.585 | 0.895 | 0.805 | 0.150 | 1.000 |
-| `priority` | 0.835 | 0.405 | 0.800 | 0.050 | 1.000 |
-| `iterate` | 0.660 | 0.525 | 0.795 | 0.030 | 1.000 |
-| `exclusion` | 0.615 | 0.490 | 0.740 | 0.160 | 1.000 |
-| `lookup` | 0.750 | 0.605 | 0.710 | 0.135 | 1.000 |
-| `band_then_lookup` | 0.210 | 0.560 | 0.705 | 0.010 | 1.000 |
-| `apply_n` | 0.410 | 0.110 | 0.685 | 0.005 | 1.000 |
-| `lookup_then_band` | 0.135 | 0.000 | 0.420 | 0.005 | 1.000 |
-| `compose` | 0.175 | 0.185 | 0.280 | 0.025 | 1.000 |
-| `sum_chain` | 0.000 | 0.000 | 0.055 | 0.005 | 1.000 |
+| shape | xs (0.40M) | s (1.73M) | m (8.05M) | l (45.48M) | modal_shape | parser |
+|---|---|---|---|---|---|---|
+| `lookup_general` | 1.000 | 1.000 | 1.000 | 1.000 | 0.550 | 1.000 |
+| `pair` | 0.585 | 0.895 | 0.805 | 1.000 | 0.150 | 1.000 |
+| `precedence` | 0.940 | 0.205 | 0.895 | 1.000 | 0.150 | 1.000 |
+| `iterate` | 0.660 | 0.525 | 0.795 | 0.980 | 0.030 | 1.000 |
+| `exclusion` | 0.615 | 0.490 | 0.740 | 0.975 | 0.160 | 1.000 |
+| `band_then_lookup` | 0.210 | 0.560 | 0.705 | 0.965 | 0.010 | 1.000 |
+| `inverse` | 0.760 | 0.595 | 0.820 | 0.960 | 0.185 | 1.000 |
+| `lookup` | 0.750 | 0.605 | 0.710 | 0.960 | 0.135 | 1.000 |
+| `classify` | 0.135 | 0.465 | 0.900 | 0.955 | 0.010 | 1.000 |
+| `priority` | 0.835 | 0.405 | 0.800 | 0.885 | 0.050 | 1.000 |
+| `apply_n` | 0.410 | 0.110 | 0.685 | 0.690 | 0.005 | 1.000 |
+| `lookup_then_band` | 0.135 | 0.000 | 0.420 | 0.495 | 0.005 | 1.000 |
+| `compose` | 0.175 | 0.185 | 0.280 | 0.310 | 0.025 | 1.000 |
+| `sum_chain` | 0.000 | 0.000 | 0.055 | 0.200 | 0.005 | 1.000 |
 
-Shapes at exact 1.000, out of 14: xs 1, s 1, m 1, parser 14.
+Shapes at exact 1.000, out of 14: xs 1, s 1, m 1, l 3, parser 14.
 
 | size | n | exact | malformed | refused | wrong | sampled exact |
 |---|---|---|---|---|---|---|
 | xs | 2800 | 0.5150 | 0.1086 | 0.0243 | 0.3521 | 0.4857 |
 | s | 2800 | 0.4314 | 0.0850 | 0.0379 | 0.4457 | 0.4171 |
 | m | 2800 | 0.6864 | 0.0811 | 0.0014 | 0.2311 | 0.6743 |
+| l | 2800 | 0.8125 | 0.0207 | 0.0011 | 0.1657 | 0.8039 |
 
 #### mode
 
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.510 | 1.000 |
-| `pair` | 1.000 | 1.000 | 0.990 | 0.150 | 1.000 |
-| `classify` | 0.005 | 0.740 | 0.885 | 0.010 | 1.000 |
-| `band_then_lookup` | 0.810 | 0.740 | 0.785 | 0.010 | 1.000 |
-| `apply_n` | 0.285 | 0.185 | 0.640 | 0.005 | 1.000 |
-| `inverse` | 0.535 | 0.535 | 0.535 | 0.150 | 1.000 |
-| `lookup` | 0.535 | 0.530 | 0.535 | 0.145 | 1.000 |
-| `precedence` | 0.535 | 0.535 | 0.535 | 0.160 | 1.000 |
-| `priority` | 0.510 | 0.520 | 0.535 | 0.050 | 1.000 |
-| `lookup_then_band` | 0.030 | 0.320 | 0.525 | 0.005 | 1.000 |
-| `iterate` | 0.520 | 0.515 | 0.520 | 0.035 | 1.000 |
-| `exclusion` | 0.145 | 0.215 | 0.180 | 0.165 | 1.000 |
-| `compose` | 0.120 | 0.130 | 0.155 | 0.035 | 1.000 |
-| `sum_chain` | 0.020 | 0.025 | 0.115 | 0.005 | 1.000 |
+| shape | xs (0.40M) | s (1.73M) | m (8.05M) | l (45.48M) | modal_shape | parser |
+|---|---|---|---|---|---|---|
+| `lookup_general` | 1.000 | 1.000 | 1.000 | 1.000 | 0.510 | 1.000 |
+| `pair` | 1.000 | 1.000 | 0.990 | 0.990 | 0.150 | 1.000 |
+| `classify` | 0.005 | 0.740 | 0.885 | 0.850 | 0.010 | 1.000 |
+| `band_then_lookup` | 0.810 | 0.740 | 0.785 | 0.710 | 0.010 | 1.000 |
+| `inverse` | 0.535 | 0.535 | 0.535 | 0.535 | 0.150 | 1.000 |
+| `iterate` | 0.520 | 0.515 | 0.520 | 0.535 | 0.035 | 1.000 |
+| `lookup_then_band` | 0.030 | 0.320 | 0.525 | 0.535 | 0.005 | 1.000 |
+| `precedence` | 0.535 | 0.535 | 0.535 | 0.535 | 0.160 | 1.000 |
+| `priority` | 0.510 | 0.520 | 0.535 | 0.535 | 0.050 | 1.000 |
+| `lookup` | 0.535 | 0.530 | 0.535 | 0.530 | 0.145 | 1.000 |
+| `apply_n` | 0.285 | 0.185 | 0.640 | 0.285 | 0.005 | 1.000 |
+| `compose` | 0.120 | 0.130 | 0.155 | 0.220 | 0.035 | 1.000 |
+| `exclusion` | 0.145 | 0.215 | 0.180 | 0.215 | 0.165 | 1.000 |
+| `sum_chain` | 0.020 | 0.025 | 0.115 | 0.070 | 0.005 | 1.000 |
 
-Shapes at exact 1.000, out of 14: xs 2, s 2, m 1, parser 14.
+Shapes at exact 1.000, out of 14: xs 2, s 2, m 1, l 1, parser 14.
 
 | size | n | exact | malformed | refused | wrong | sampled exact |
 |---|---|---|---|---|---|---|
 | xs | 2800 | 0.4321 | 0.0886 | 0.0421 | 0.4371 | 0.4300 |
 | s | 2800 | 0.4993 | 0.0043 | 0.0432 | 0.4532 | 0.4836 |
 | m | 2800 | 0.5668 | 0.0086 | 0.0575 | 0.3671 | 0.5564 |
+| l | 2800 | 0.5389 | 0.0007 | 0.0429 | 0.4175 | 0.5357 |
 
 #### mixed
 
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.570 | 1.000 |
-| `classify` | 0.040 | 0.655 | 0.870 | 0.010 | 1.000 |
-| `pair` | 0.530 | 0.830 | 0.790 | 0.135 | 1.000 |
-| `band_then_lookup` | 0.450 | 0.560 | 0.680 | 0.015 | 1.000 |
-| `precedence` | 0.575 | 0.190 | 0.525 | 0.150 | 1.000 |
-| `inverse` | 0.470 | 0.410 | 0.490 | 0.190 | 1.000 |
-| `priority` | 0.550 | 0.295 | 0.490 | 0.050 | 1.000 |
-| `lookup` | 0.430 | 0.340 | 0.470 | 0.160 | 1.000 |
-| `apply_n` | 0.130 | 0.130 | 0.460 | 0.005 | 1.000 |
-| `iterate` | 0.370 | 0.295 | 0.430 | 0.030 | 1.000 |
-| `lookup_then_band` | 0.045 | 0.115 | 0.325 | 0.005 | 1.000 |
-| `exclusion` | 0.355 | 0.245 | 0.315 | 0.180 | 1.000 |
-| `compose` | 0.110 | 0.120 | 0.165 | 0.035 | 1.000 |
-| `sum_chain` | 0.000 | 0.000 | 0.045 | 0.005 | 1.000 |
+| shape | xs (0.40M) | s (1.73M) | m (8.05M) | l (45.48M) | modal_shape | parser |
+|---|---|---|---|---|---|---|
+| `lookup_general` | 1.000 | 1.000 | 1.000 | 1.000 | 0.570 | 1.000 |
+| `pair` | 0.530 | 0.830 | 0.790 | 0.955 | 0.135 | 1.000 |
+| `classify` | 0.040 | 0.655 | 0.870 | 0.875 | 0.010 | 1.000 |
+| `band_then_lookup` | 0.450 | 0.560 | 0.680 | 0.810 | 0.015 | 1.000 |
+| `precedence` | 0.575 | 0.190 | 0.525 | 0.570 | 0.150 | 1.000 |
+| `inverse` | 0.470 | 0.410 | 0.490 | 0.565 | 0.190 | 1.000 |
+| `iterate` | 0.370 | 0.295 | 0.430 | 0.560 | 0.030 | 1.000 |
+| `lookup` | 0.430 | 0.340 | 0.470 | 0.545 | 0.160 | 1.000 |
+| `priority` | 0.550 | 0.295 | 0.490 | 0.505 | 0.050 | 1.000 |
+| `lookup_then_band` | 0.045 | 0.115 | 0.325 | 0.400 | 0.005 | 1.000 |
+| `exclusion` | 0.355 | 0.245 | 0.315 | 0.390 | 0.180 | 1.000 |
+| `apply_n` | 0.130 | 0.130 | 0.460 | 0.305 | 0.005 | 1.000 |
+| `compose` | 0.110 | 0.120 | 0.165 | 0.150 | 0.035 | 1.000 |
+| `sum_chain` | 0.000 | 0.000 | 0.045 | 0.105 | 0.005 | 1.000 |
 
-Shapes at exact 1.000, out of 14: xs 1, s 1, m 1, parser 14.
+Shapes at exact 1.000, out of 14: xs 1, s 1, m 1, l 1, parser 14.
 
 | size | n | exact | malformed | refused | wrong | sampled exact |
 |---|---|---|---|---|---|---|
 | xs | 2800 | 0.3611 | 0.1268 | 0.0500 | 0.4621 | 0.3554 |
 | s | 2800 | 0.3704 | 0.0875 | 0.0575 | 0.4846 | 0.3518 |
 | m | 2800 | 0.5039 | 0.0707 | 0.0393 | 0.3861 | 0.4957 |
+| l | 2800 | 0.5525 | 0.0175 | 0.0439 | 0.3861 | 0.5454 |
 
 #### answer_ok, the lenient companion, greedy, train frames
 
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | answer floor |
-|---|---|---|---|---|
-| `apply_n` | 0.920 | 0.475 | 0.900 | open |
-| `band_then_lookup` | 0.975 | 0.925 | 1.000 | 0.393 |
-| `classify` | 0.950 | 0.845 | 0.985 | 0.360 |
-| `compose` | 0.645 | 0.525 | 0.680 | 0.250 |
-| `exclusion` | 1.000 | 1.000 | 1.000 | 0.250 |
-| `inverse` | 1.000 | 1.000 | 1.000 | 0.250 |
-| `iterate` | 0.995 | 1.000 | 1.000 | 0.164 |
-| `lookup` | 1.000 | 1.000 | 1.000 | 0.200 |
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.500 |
-| `lookup_then_band` | 1.000 | 1.000 | 0.995 | 0.385 |
-| `pair` | 1.000 | 1.000 | 1.000 | 0.111 |
-| `precedence` | 1.000 | 1.000 | 1.000 | 0.125 |
-| `priority` | 1.000 | 1.000 | 1.000 | 0.264 |
-| `sum_chain` | 0.440 | 0.200 | 0.530 | 0.250 |
+| shape | xs (0.40M) | s (1.73M) | m (8.05M) | l (45.48M) | answer floor |
+|---|---|---|---|---|---|
+| `apply_n` | 0.920 | 0.475 | 0.900 | 0.965 | open |
+| `band_then_lookup` | 0.975 | 0.925 | 1.000 | 1.000 | 0.393 |
+| `classify` | 0.950 | 0.845 | 0.985 | 1.000 | 0.360 |
+| `compose` | 0.645 | 0.525 | 0.680 | 0.670 | 0.250 |
+| `exclusion` | 1.000 | 1.000 | 1.000 | 1.000 | 0.250 |
+| `inverse` | 1.000 | 1.000 | 1.000 | 1.000 | 0.250 |
+| `iterate` | 0.995 | 1.000 | 1.000 | 1.000 | 0.164 |
+| `lookup` | 1.000 | 1.000 | 1.000 | 1.000 | 0.200 |
+| `lookup_general` | 1.000 | 1.000 | 1.000 | 1.000 | 0.500 |
+| `lookup_then_band` | 1.000 | 1.000 | 0.995 | 1.000 | 0.385 |
+| `pair` | 1.000 | 1.000 | 1.000 | 1.000 | 0.111 |
+| `precedence` | 1.000 | 1.000 | 1.000 | 1.000 | 0.125 |
+| `priority` | 1.000 | 1.000 | 1.000 | 1.000 | 0.264 |
+| `sum_chain` | 0.440 | 0.200 | 0.530 | 0.585 | 0.250 |
 
-On the withheld statement mode a group of shapes sits at 0.535 and stays there
-at every size: `inverse` 0.535 at 1.73M and 0.535 at 8.05M, `precedence` 0.535
-and 0.535, `lookup` 0.530 and 0.535, `priority` 0.520 and 0.535, `iterate`
-0.515 and 0.520. Twenty times the parameters moves those five shapes by at most
-0.015. Whatever bounds them is not capacity.
+On the training frames, 113 times the parameters between 0.40M and 45.48M moves
+the pooled rate from 0.8982 to 0.9211 and moves no shape across the line from
+inexact to exact. `compose` goes 0.540 to 0.545 and `sum_chain` goes 0.270 to
+0.420. Whatever those two shapes need, it is not width.
 
-The frame axis breakdown in each `summary.json` says what it is. Split by where
-the key sits in the sentence:
+On the withheld lexicon the same 113 times buys a great deal: 0.5150 to 0.8125.
+Reading a wording the network was never trained on is the one thing on this
+board that parameters buy.
 
-| size | `mode`, key first | `mode`, value first | `lexicon`, key first | `lexicon`, value first |
-|---|---|---|---|---|
-| xs 0.40M | 0.6075 | 0.2304 | 0.5476 | 0.4789 |
-| s 1.73M | 0.6776 | 0.2942 | 0.5551 | 0.2947 |
-| m 8.05M | 0.7497 | 0.3564 | 0.7122 | 0.6579 |
+On the withheld statement mode they buy nothing. The pooled rate runs 0.4321,
+0.4993, 0.5668, 0.5389 across the four sizes, and a group of shapes sits near
+0.535 at every one of them: `inverse` 0.535, 0.535, 0.535, `precedence` 0.535,
+0.535, 0.535, `lookup` 0.530, 0.535, 0.535 at 1.73M, 8.05M and 45.48M.
+
+The frame axis breakdown in each `summary.json` says why. Split by where the
+key sits in the sentence:
+
+| size | `mode`, key first | `mode`, value first | gap | `lexicon`, key first | `lexicon`, value first | gap |
+|---|---|---|---|---|---|---|
+| xs 0.40M | 0.6075 | 0.2304 | 0.377 | 0.5476 | 0.4789 | 0.069 |
+| s 1.73M | 0.6776 | 0.2942 | 0.383 | 0.5551 | 0.2947 | 0.260 |
+| m 8.05M | 0.7497 | 0.3564 | 0.393 | 0.7122 | 0.6579 | 0.054 |
+| l 45.48M | 0.7223 | 0.3280 | 0.394 | 0.8245 | 0.7992 | 0.026 |
 
 n is 1,498 and 1,302 on `mode`, 1,470 and 1,330 on `lexicon`.
 
 An unseen sentence shape read from the wrong end is barely read at all, and the
-gap is 0.38, 0.38 and 0.39 at the three sizes: parameters move both halves and
-close nothing between them. On the withheld lexicon the same gap does close,
-from 0.26 at 1.73M to 0.05 at 8.05M. So the two withheld groups fail for
-different reasons. A new lexicon is a capacity problem and the network is
-solving it. A new statement mode with the key in the unfamiliar position is
-not, and no size on record touches it.
+gap is 0.377, 0.383, 0.393, 0.394 across a 113 times parameter range. It does
+not move. On the withheld lexicon the same gap closes to 0.026. So the two
+withheld groups fail for different reasons. A new lexicon is a capacity problem
+and the network is solving it. A new statement mode with the key in the
+unfamiliar position is not a capacity problem, and no size on record touches
+it.
 
 ### The 1.73M point is an anomaly and it is not the learning rate
 
@@ -479,18 +496,23 @@ Pooled counts, greedy, n=2,800, marked as pooled and not used as a headline.
 | xs | `train_frames_eval` | 0.8982 | 0.0004 | 0.0000 | 0.1014 | 254 : 1 |
 | s | `train_frames_eval` | 0.7993 | 0.0004 | 0.0000 | 0.2004 | 501 : 1 |
 | m | `train_frames_eval` | 0.9075 | 0.0000 | 0.0000 | 0.0925 | all dangerous |
+| l | `train_frames_eval` | 0.9211 | 0.0000 | 0.0000 | 0.0789 | all dangerous |
 | xs | `qframe` | 0.8918 | 0.0000 | 0.0000 | 0.1082 | all dangerous |
 | s | `qframe` | 0.7807 | 0.0011 | 0.0000 | 0.2182 | 198 : 1 |
 | m | `qframe` | 0.8961 | 0.0000 | 0.0000 | 0.1039 | all dangerous |
+| l | `qframe` | 0.9129 | 0.0000 | 0.0000 | 0.0871 | all dangerous |
 | xs | `lexicon` | 0.5150 | 0.1086 | 0.0243 | 0.3521 | 2.6 : 1 |
 | s | `lexicon` | 0.4314 | 0.0850 | 0.0379 | 0.4457 | 3.6 : 1 |
 | m | `lexicon` | 0.6864 | 0.0811 | 0.0014 | 0.2311 | 2.8 : 1 |
+| l | `lexicon` | 0.8125 | 0.0207 | 0.0011 | 0.1657 | 7.6 : 1 |
 | xs | `mode` | 0.4321 | 0.0886 | 0.0421 | 0.4371 | 3.3 : 1 |
 | s | `mode` | 0.4993 | 0.0043 | 0.0432 | 0.4532 | 9.5 : 1 |
 | m | `mode` | 0.5668 | 0.0086 | 0.0575 | 0.3671 | 5.6 : 1 |
+| l | `mode` | 0.5389 | 0.0007 | 0.0429 | 0.4175 | 9.6 : 1 |
 | xs | `mixed` | 0.3611 | 0.1268 | 0.0500 | 0.4621 | 2.6 : 1 |
 | s | `mixed` | 0.3704 | 0.0875 | 0.0575 | 0.4846 | 3.3 : 1 |
 | m | `mixed` | 0.5039 | 0.0707 | 0.0393 | 0.3861 | 3.5 : 1 |
+| l | `mixed` | 0.5525 | 0.0175 | 0.0439 | 0.3861 | 6.3 : 1 |
 
 This is the worst property of the design as it stands. On the frames it was
 trained on, the 8.05M normalizer never once emitted something the interpreter
@@ -521,11 +543,19 @@ back as `order_only`, and hands it an ordered table and a changed value and
 requires them not to. The comparator can see a reordering; there are none to
 see.
 
-Mean over the fourteen shapes on training frames at 8.05M: `exact` 0.9075,
-`order_only` 0.0000, `same_answer` 0.0275, `shape_slip` 0.0007, `value_slip`
-0.0643. The plan is almost never wrong. `shape_slip`, where the emitted plan's
-operation sequence differs from the gold plan's, is 7 items in 10,000. What
-goes wrong is the contents.
+Mean over the fourteen shapes on the training frames, three sizes:
+
+| size | exact | order_only | same_answer | shape_slip | value_slip |
+|---|---|---|---|---|---|
+| s 1.73M | 0.7993 | 0.0000 | 0.0557 | 0.0207 | 0.1239 |
+| m 8.05M | 0.9075 | 0.0000 | 0.0275 | 0.0007 | 0.0643 |
+| l 45.48M | 0.9211 | 0.0000 | 0.0232 | 0.0007 | 0.0550 |
+
+The plan is almost never wrong. `shape_slip`, where the emitted plan's
+operation sequence differs from the gold plan's, is 7 items in 10,000 at both
+of the larger sizes, against a `value_slip` of 0.0643 and 0.0550. At 45.5M
+there are 79 copy errors for every parse error. What goes wrong is the
+contents, and it stays that way as the model grows.
 
 Two failures read in full, from `results/norm/ndiff/s.json`:
 
@@ -572,75 +602,107 @@ the pre-edit structure anyway.
 
 | size | attack | edits scored | network changed its output | followed the edit exactly | silently_original | malformed |
 |---|---|---|---|---|---|---|
+| xs | `value` | 880 | 741 | 473 | 6 | 133 |
 | s | `value` | 880 | 819 | 427 | 4 | 57 |
 | m | `value` | 880 | 732 | 476 | 10 | 138 |
+| l | `value` | 880 | 760 | 484 | 16 | 104 |
+| xs | `delete` | 1083 | 379 | 35 | 93 | 611 |
 | s | `delete` | 1083 | 483 | 40 | 74 | 526 |
 | m | `delete` | 1083 | 429 | 37 | 104 | 550 |
+| l | `delete` | 1083 | 340 | 38 | 106 | 637 |
 
 Edits that leave no structure to emit, where the only right answer is
 silence.
 
 | size | attack | items | refused or malformed | answered anyway |
 |---|---|---|---|---|
+| xs | `truncate` | 1400 | 323 | 1077 |
 | s | `truncate` | 1400 | 167 | 1233 |
 | m | `truncate` | 1400 | 145 | 1255 |
+| l | `truncate` | 1400 | 117 | 1283 |
+| xs | `strip` | 1400 | 1092 | 308 |
 | s | `strip` | 1400 | 998 | 402 |
 | m | `strip` | 1400 | 1006 | 394 |
+| l | `strip` | 1400 | 981 | 419 |
 
 `silently_original` is the number that would kill the design: the page no
-longer says the original structure and the network emitted it anyway. It is 4
-in 880 at 1.73M and 10 in 880 at 8.05M. The network is reading.
+longer says the original structure and the network emitted it anyway. Under the
+`value` edit it is 6, 4, 10 and 16 of 880 across the four sizes, under 2% at
+every size, and rising with size rather than falling. The network is reading
+the page, and the larger it gets the more often it prefers the structure it
+expected to the one in front of it. Against the 678 of 678 the language model
+scored on transposed pages, 16 of 880 is a different regime, and it is not
+zero.
 
 `truncate` is the failure. With the question removed there is no structure to
 emit and the only right answer is silence, and the network writes a structure
-anyway on 88% of items at 1.73M and 90% at 8.05M. It has never been shown a
-page it should refuse, so it has no way to refuse one. That is a training data
-gap, not a capacity one, and it is the same finding as section 8 from a
-different direction.
+anyway on 1,077, 1,233, 1,255 and 1,283 of 1,400 items, which is 77%, 88%, 90%
+and 92% and rises monotonically with size. It has never been shown a page it
+should refuse, so it has no way to refuse one, and the bigger it is the more
+confidently it invents. That is a training data gap rather than a capacity one,
+and it is the same finding as section 8 reached from a different direction.
+
+`order_only` deserves one more line here. Across the four sizes, four splits
+and fourteen shapes, 44,800 scored emissions, not one of them was the gold
+structure written in a different order. The exact match numbers above lose
+nothing to serialisation.
 
 ## 11. What this says about the thesis
 
-What holds up is the size claim. A 1.73M parameter network with no pretraining
-and no world knowledge is exact on eight of the fourteen structure shapes, both
-on frames it was trained on and on the corpus's held-out question band, and
-8.05M puts a ninth at 1.000 and three more above 0.87. The perception job
-really is small: a network 47 times smaller than the checkpoint this project
-trained reads nine of the fourteen shapes without an error in 200 items each.
+What holds up is the size claim, and more strongly than expected. A 404,608
+parameter network with 232,192 parameters outside its embedding tables reads
+seven of the fourteen shapes without an error in 200 items each and is at
+0.8982 pooled on the training frames. Going to 45,483,008 parameters, 113 times
+as many, moves that to 0.9211 and moves no shape from inexact to exact. On the
+wording it was trained on, the perception job fits in four hundred thousand
+parameters, and the language model this project trained is 928 times larger
+than that.
 
-What does not hold up is the comparison with the trivial program taken whole.
-The parser is at 1.000 on all fourteen shapes of every split, and the best
-normalizer matches it on nine. On `classify`, `lookup_then_band` and `apply_n`
-it is within 0.10 of the parser and does not reach it. On `compose` 0.535 and
-`sum_chain` 0.380 it is nowhere near. The honest statement is the one the brief
-demanded: this system does not beat the hand written parser on the frames the
-parser covers.
+Parameters do buy one thing, and the measurement says exactly what. Reading a
+lexicon the network has never seen goes 0.5150, 0.4314, 0.6864, 0.8125 across
+the four sizes. That is the split where capacity matters and where 45.5M is
+still short of exact.
+
+What does not hold up is the comparison with the trivial program. The parser is
+at 1.000 on all fourteen shapes of every split. The largest normalizer matches
+it on eight, is at 0.995 on `band_then_lookup` and `classify`, 0.975 on
+`lookup_then_band` and 0.965 on `apply_n`, and is at 0.545 on `compose` and
+0.420 on `sum_chain`. The honest statement is the one the brief demanded: this
+system does not beat the hand written parser on the frames the parser covers,
+and on the two composite shapes it is not close.
 
 What the network buys is the two splits where the parser search refuses every
-single item. There the best size on record reaches 0.6864 pooled on the
-withheld lexicon and 0.5668 on the withheld statement mode, which is real,
-which the trivial program cannot get at all, and which is not exact.
+single item. There the largest size reaches 0.8125 on the withheld lexicon and
+0.5389 on the withheld statement mode. The first is real and large. The second
+is the one number in this file that does not move with anything: 0.4321,
+0.4993, 0.5668, 0.5389 across a 113 times parameter range, with a 0.39 gap by
+key position that is the same at every size. A sentence shape the network was
+not trained on is not something it learns to read by being made bigger.
 
 The cost of the design as built is that every failure on the ordinary case is a
-structure that executes. A system whose argument is that its core is exact has
-put the whole of its error budget in the one place that core cannot check.
+structure that executes. At 8.05M and at 45.5M, on the training frames and on
+the held-out question band, the interpreter declined nothing at all: 0 malformed
+and 0 refused in 2,800 items, against 0.0789 wrong at the larger size. A system
+whose argument is that its core is exact has put the whole of its error budget
+in the one place that core cannot check.
 
 Four things follow from the measurements rather than from taste. The network
-answers a page with no question on it 88% to 90% of the time, and it has never
-been shown a page it should refuse, so the training set needs unreadable pages
-with refusal as the target. `shape_slip` is 7 in 10,000 and `value_slip` is
-0.064, so what fails is the copy and not the parse, which is an argument for a
-pointer over the input rather than for more layers. The `mode` ceiling does not
-move across a twenty times parameter range and splits 0.75 against 0.36 on
-where the key sits, so it wants either that sentence shape in training or an
-inductive bias that does not care about word order. And the withheld lexicon
-peaks mid run and falls, so a checkpoint chosen on a held-out lexicon would
-report 0.06 to 0.17 more than any number here.
+answers a page with no question on it 77% to 92% of the time, rising with size,
+and it has never been shown a page it should refuse, so the training set needs
+unreadable pages with refusal as the target. `shape_slip` is 7 in 10,000 and
+`value_slip` is 0.055 at 45.5M, so what fails is the copy and not the parse,
+which is an argument for a pointer over the input rather than for more layers.
+The `mode` ceiling does not move across a 113 times parameter range and splits
+0.72 against 0.33 on where the key sits, so it wants either that sentence shape
+in training or an inductive bias that does not care about word order. And the
+withheld lexicon peaks mid run and falls at every size below 45.5M, so a
+checkpoint chosen on a held-out lexicon would report more than the numbers here.
 
 One thing this lane did not measure. The project's second metric is examples
 per acquired operation, and the version of it that belongs to the normalizer is
 examples per acquired frame: show a trained checkpoint N sentences in the
 withheld statement mode and read off the N at which it reads that mode. The
-`mode` split is the item set for it and the ceiling at 0.535 is the number to
+`mode` split is the item set for it and the ceiling at 0.5389 is the number to
 beat. Nothing here fine tunes a checkpoint, so that number does not exist yet.
 
 ## 12. How to run it

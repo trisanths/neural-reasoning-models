@@ -1,0 +1,4112 @@
+{
+ "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_xs.pt",
+ "size": "xs",
+ "params": {
+  "total": 404608,
+  "embeddings": 172416,
+  "non_embedding": 232192
+ },
+ "splits": {
+  "train_frames_eval": {
+   "by_shape": {
+    "apply_n": {
+     "n": 200,
+     "exact": 0.92,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.025,
+     "value_slip": 0.05,
+     "malformed": 0.005
+    },
+    "band_then_lookup": {
+     "n": 200,
+     "exact": 0.96,
+     "order_only": 0.0,
+     "same_answer": 0.015,
+     "shape_slip": 0.0,
+     "value_slip": 0.025,
+     "malformed": 0.0
+    },
+    "classify": {
+     "n": 200,
+     "exact": 0.915,
+     "order_only": 0.0,
+     "same_answer": 0.035,
+     "shape_slip": 0.0,
+     "value_slip": 0.05,
+     "malformed": 0.0
+    },
+    "compose": {
+     "n": 200,
+     "exact": 0.54,
+     "order_only": 0.0,
+     "same_answer": 0.105,
+     "shape_slip": 0.0,
+     "value_slip": 0.355,
+     "malformed": 0.0
+    },
+    "exclusion": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "inverse": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "iterate": {
+     "n": 200,
+     "exact": 0.995,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.005,
+     "malformed": 0.0
+    },
+    "lookup": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "lookup_general": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "lookup_then_band": {
+     "n": 200,
+     "exact": 0.975,
+     "order_only": 0.0,
+     "same_answer": 0.025,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "pair": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "precedence": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "priority": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "sum_chain": {
+     "n": 200,
+     "exact": 0.27,
+     "order_only": 0.0,
+     "same_answer": 0.17,
+     "shape_slip": 0.0,
+     "value_slip": 0.56,
+     "malformed": 0.0
+    }
+   },
+   "examples": {
+    "sum_chain": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.passive_decl.key_first.imperative.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Stivwren', entries=(('mibelu', 'givorham'), ('zamtarn', 'zelthox'), ('tudolm', 'pravbra'), ('haldrham', 'cinqhald')), default=None, ordered=False)",
+       "Weights(name='Stivwren', entries=(('mibelu', 15), ('zamtarn', 23), ('tudolm', 25), ('haldrham', 27)))",
+       "Table(name='Tezdolm', entries=(('cinqhald', 'tarnquil'), ('zelthox', 'brunkresh'), ('pravbra', 'cloharv'), ('givorham', 'frikjarn')), default=None, ordered=False)",
+       "Weights(name='Tezdolm', entries=(('cinqhald', 28), ('zelthox', 34), ('pravbra', 27), ('givorham', 38)))",
+       "Table(name='Dravulm', entries=(('frikjarn', 'embka'), ('brunkresh', 'dolmthox'), ('tarnquil', 'pyrthox'), ('cloharv', 'plonevi')), default=None, ordered=False)",
+       "Weights(name='Dravulm', entries=(('frikjarn', 14), ('brunkresh', 39), ('tarnquil', 37), ('cloharv', 38)))",
+       "Table(name='Ondazel', entries=(('plonevi', 'brafex'), ('dolmthox', 'frikclo'), ('pyrthox', 'brundolm'), ('embka', 'beluijo')), default=None, ordered=False)",
+       "Weights(name='Ondazel', entries=(('plonevi', 27), ('dolmthox', 25), ('pyrthox', 26), ('embka', 26)))"
+      ],
+      "got_defs": [
+       "Table(name='Stivwren', entries=(('mibelu', 'givorham'), ('zamtarn', 'zelthox'), ('tudolm', 'pravbra'), ('haldrham', 'cinqhald')), default=None, ordered=False)",
+       "Weights(name='Stivwren', entries=(('mibelu', 15), ('zamtarn', 23), ('tudolm', 25), ('haldrham', 27)))",
+       "Table(name='Tezdolm', entries=(('cinqhald', 'tarnquil'), ('zelthox', 'brunkresh'), ('pravbra', 'cloharv'), ('givorham', 'frikjarn')), default=None, ordered=False)",
+       "Weights(name='Tezdolm', entries=(('cinqhald', 28), ('zelthox', 34), ('pravbra', 27), ('givorham', 38)))",
+       "Table(name='Dravulm', entries=(('frikjarn', 'embka'), ('brunkresh', 'dolmthox'), ('tarnquil', 'pyrthox'), ('cloharv', 'plonevi')), default=None, ordered=False)",
+       "Weights(name='Dravulm', entries=(('frikjarn', 14), ('brunkresh', 39), ('tarnquil', 37), ('cloharv', 38)))",
+       "Table(name='Ondazel', entries=(('pyrthox', 'brafex'), ('embka', 'frikclo'), ('dolmthox', 'brundolm'), ('plonevi', 'beluijo')), default=None, ordered=False)",
+       "Weights(name='Ondazel', entries=(('pyrthox', 27), ('embka', 25), ('dolmthox', 6), ('plonevi', 26)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Stivwren', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Stivwren', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Tezdolm', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Tezdolm', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Dravulm', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Dravulm', Ref(name='c2')))",
+       "Step(out='w4', op='weigh', args=('Ondazel', Ref(name='c3')))",
+       "Step(out='s4', op='add', args=(Ref(name='s3'), Ref(name='w4')))",
+       "Step(out='c4', op='lookup', args=('Ondazel', Ref(name='c3')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Stivwren', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Stivwren', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Tezdolm', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Tezdolm', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Dravulm', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Dravulm', Ref(name='c2')))",
+       "Step(out='w4', op='weigh', args=('Ondazel', Ref(name='c3')))",
+       "Step(out='s4', op='add', args=(Ref(name='s3'), Ref(name='w4')))",
+       "Step(out='c4', op='lookup', args=('Ondazel', Ref(name='c3')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.passive_decl.key_first.inverted.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Muthdri', entries=(('frikplo', 'stivtu'), ('muthbrun', 'drixanth'), ('lumnak', 'embvand'), ('pyrlum', 'dravpyr')), default=None, ordered=False)",
+       "Weights(name='Muthdri', entries=(('frikplo', 18), ('muthbrun', 23), ('lumnak', 2), ('pyrlum', 25)))",
+       "Table(name='Ulmvand', entries=(('dravpyr', 'ovicinq'), ('stivtu', 'drigest'), ('embvand', 'ploemb'), ('drixanth', 'vorgest')), default=None, ordered=False)",
+       "Weights(name='Ulmvand', entries=(('dravpyr', 35), ('stivtu', 32), ('embvand', 29), ('drixanth', 9)))",
+       "Table(name='Eskfex', entries=(('vorgest', 'harvargo'), ('drigest', 'gestciv'), ('ploemb', 'pravzunt'), ('ovicinq', 'ulmtarn')), default=None, ordered=False)",
+       "Weights(name='Eskfex', entries=(('vorgest', 30), ('drigest', 39), ('ploemb', 30), ('ovicinq', 27)))",
+       "Table(name='Ruskthox', entries=(('ulmtarn', 'verxnid'), ('pravzunt', 'wrenka'), ('harvargo', 'verxdrav'), ('gestciv', 'beluulm')), default=None, ordered=False)",
+       "Weights(name='Ruskthox', entries=(('ulmtarn', 3), ('pravzunt', 28), ('harvargo', 23), ('gestciv', 22)))"
+      ],
+      "got_defs": [
+       "Table(name='Muthdri', entries=(('frikplo', 'stivtu'), ('muthbrun', 'drixanth'), ('lumnak', 'embvand'), ('pyrlum', 'dravpyr')), default=None, ordered=False)",
+       "Weights(name='Muthdri', entries=(('frikplo', 18), ('muthbrun', 23), ('lumnak', 22), ('pyrlum', 5)))",
+       "Table(name='Ulmvand', entries=(('dravpyr', 'ovicinq'), ('stivtu', 'drigest'), ('embvand', 'ploemb'), ('drixanth', 'vorgest')), default=None, ordered=False)",
+       "Weights(name='Ulmvand', entries=(('dravpyr', 35), ('stivtu', 32), ('embvand', 9), ('drixanth', 29)))",
+       "Table(name='Eskfex', entries=(('vorgest', 'harvargo'), ('drigest', 'gestciv'), ('ploemb', 'pravzunt'), ('ovicinq', 'ulmtarn')), default=None, ordered=False)",
+       "Weights(name='Eskfex', entries=(('vorgest', 30), ('drigest', 39), ('ploemb', 30), ('ovicinq', 27)))",
+       "Table(name='Ruskthox', entries=(('harvargo', 'verxnid'), ('pravzunt', 'wrenka'), ('ulmtarn', 'verxdrav'), ('gestciv', 'beluulm')), default=None, ordered=False)",
+       "Weights(name='Ruskthox', entries=(('harvargo', 32), ('pravzunt', 8), ('ulmtarn', 23), ('gestciv', 2)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Muthdri', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Muthdri', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Ulmvand', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Ulmvand', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Eskfex', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Eskfex', Ref(name='c2')))",
+       "Step(out='w4', op='weigh', args=('Ruskthox', Ref(name='c3')))",
+       "Step(out='s4', op='add', args=(Ref(name='s3'), Ref(name='w4')))",
+       "Step(out='c4', op='lookup', args=('Ruskthox', Ref(name='c3')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Muthdri', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Muthdri', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Ulmvand', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Ulmvand', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Eskfex', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Eskfex', Ref(name='c2')))",
+       "Step(out='w4', op='weigh', args=('Ruskthox', Ref(name='c3')))",
+       "Step(out='s4', op='add', args=(Ref(name='s3'), Ref(name='w4')))",
+       "Step(out='c4', op='lookup', args=('Ruskthox', Ref(name='c3')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.passive_decl.value_first.imperative.scope_last",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Xilcinq', entries=(('givorham', 'clothox'), ('verxciv', 'cloesk'), ('nevitez', 'lumverx'), ('clojarn', 'civargo')), default=None, ordered=False)",
+       "Weights(name='Xilcinq', entries=(('givorham', 24), ('verxciv', 5), ('nevitez', 12), ('clojarn', 21)))",
+       "Table(name='Ovihald', entries=(('clothox', 'soldrav'), ('cloesk', 'givobrun'), ('lumverx', 'dolmrham'), ('civargo', 'driesk')), default=None, ordered=False)",
+       "Weights(name='Ovihald', entries=(('clothox', 10), ('cloesk', 3), ('lumverx', 35), ('civargo', 20)))",
+       "Table(name='Thoxovi', entries=(('soldrav', 'nakkresh'), ('driesk', 'wrenka'), ('dolmrham', 'cinqashk'), ('givobrun', 'embovi')), default=None, ordered=False)",
+       "Weights(name='Thoxovi', entries=(('soldrav', 14), ('driesk', 20), ('dolmrham', 24), ('givobrun', 12)))"
+      ],
+      "got_defs": [
+       "Table(name='Xilcinq', entries=(('givorham', 'clothox'), ('verxciv', 'cloesk'), ('nevitez', 'lumverx'), ('clojarn', 'civargo')), default=None, ordered=False)",
+       "Weights(name='Xilcinq', entries=(('givorham', 24), ('verxciv', 5), ('nevitez', 21), ('clojarn', 12)))",
+       "Table(name='Ovihald', entries=(('clothox', 'soldrav'), ('cloesk', 'givobrun'), ('lumverx', 'dolmrham'), ('civargo', 'driesk')), default=None, ordered=False)",
+       "Weights(name='Ovihald', entries=(('clothox', 10), ('cloesk', 3), ('lumverx', 35), ('civargo', 20)))",
+       "Table(name='Thoxovi', entries=(('soldrav', 'nakkresh'), ('driesk', 'wrenka'), ('dolmrham', 'cinqashk'), ('givobrun', 'embovi')), default=None, ordered=False)",
+       "Weights(name='Thoxovi', entries=(('soldrav', 14), ('driesk', 20), ('dolmrham', 24), ('givobrun', 12)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Xilcinq', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Xilcinq', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Ovihald', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Ovihald', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Thoxovi', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Thoxovi', Ref(name='c2')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Xilcinq', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Xilcinq', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Ovihald', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Ovihald', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Thoxovi', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Thoxovi', Ref(name='c2')))"
+      ]
+     }
+    ],
+    "compose": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.passive_decl.key_first.inverted.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Rhammi', entries=(('nidqen', 'pravdolm'), ('wisktarn', 'civverx'), ('yuknid', 'plorham'), ('nevistiv', 'yukyuk')), default=None, ordered=False)",
+       "Table(name='Argoesk', entries=(('pravdolm', 'thoxwren'), ('plorham', 'brunjarn'), ('yukyuk', 'xilbelu'), ('civverx', 'jarnbelu')), default=None, ordered=False)",
+       "Table(name='Embzunt', entries=(('xilbelu', 'bramel'), ('thoxwren', 'bruntez'), ('brunjarn', 'drizunt'), ('jarnbelu', 'wrenwren')), default=None, ordered=False)",
+       "Table(name='Ondazel', entries=(('bruntez', 'lumnak'), ('drizunt', 'nidmuth'), ('bramel', 'thoxlorn'), ('wrenwren', 'brunlum')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Rhammi', entries=(('nidqen', 'pravdolm'), ('wisktarn', 'civverx'), ('yuknid', 'plorham'), ('nevistiv', 'yukyuk')), default=None, ordered=False)",
+       "Table(name='Argoesk', entries=(('pravdolm', 'thoxwren'), ('plorham', 'brunjarn'), ('yukyuk', 'xilbelu'), ('civverx', 'jarnbelu')), default=None, ordered=False)",
+       "Table(name='Embzunt', entries=(('xilbelu', 'bramel'), ('thoxwren', 'bruntez'), ('brunjarn', 'drizunt'), ('jarnbelu', 'wrenwren')), default=None, ordered=False)",
+       "Table(name='Ondazel', entries=(('bramel', 'lumnak'), ('bruntez', 'nidmuth'), ('wrenwren', 'thoxlorn'), ('drizunt', 'brunlum')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Rhammi', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argoesk', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Embzunt', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Ondazel', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Rhammi', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argoesk', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Embzunt', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Ondazel', Ref(name='t3')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.passive_decl.value_first.imperative.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Nakdri', entries=(('teznak', 'xilyuk'), ('yborargo', 'fexzunt'), ('vordolm', 'tuprav'), ('pyrzel', 'frikwisk')), default=None, ordered=False)",
+       "Table(name='Wrencinq', entries=(('fexzunt', 'lornovi'), ('frikwisk', 'yukthox'), ('tuprav', 'xanthdri'), ('xilyuk', 'clorusk')), default=None, ordered=False)",
+       "Table(name='Embka', entries=(('yukthox', 'wrenjarn'), ('clorusk', 'givoesk'), ('lornovi', 'xilciv'), ('xanthdri', 'frikgivo')), default=None, ordered=False)",
+       "Table(name='Xilvand', entries=(('xilciv', 'wrenprav'), ('givoesk', 'jarntez'), ('wrenjarn', 'civkresh'), ('frikgivo', 'harvmi')), default=None, ordered=False)",
+       "Table(name='Nakclo', entries=(('harvmi', 'brunonda'), ('civkresh', 'lumdolm'), ('wrenprav', 'haldargo'), ('jarntez', 'qenmi')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Nakdri', entries=(('teznak', 'xilyuk'), ('yborargo', 'fexzunt'), ('vordolm', 'tuprav'), ('pyrzel', 'frikwisk')), default=None, ordered=False)",
+       "Table(name='Wrencinq', entries=(('fexzunt', 'lornovi'), ('frikwisk', 'yukthox'), ('tuprav', 'xanthdri'), ('xilyuk', 'clorusk')), default=None, ordered=False)",
+       "Table(name='Embka', entries=(('yukthox', 'wrenjarn'), ('clorusk', 'givoesk'), ('lornovi', 'xilciv'), ('xanthdri', 'frikgivo')), default=None, ordered=False)",
+       "Table(name='Xilvand', entries=(('frikgivo', 'wrenprav'), ('wrenjarn', 'jarntez'), ('givoesk', 'civkresh'), ('xilciv', 'harvmi')), default=None, ordered=False)",
+       "Table(name='Nakclo', entries=(('wrenprav', 'brunonda'), ('jarntez', 'lumdolm'), ('civkresh', 'haldargo'), ('harvmi', 'qenmi')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Nakdri', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Wrencinq', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Embka', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Xilvand', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Nakclo', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Nakdri', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Wrencinq', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Embka', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Xilvand', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Nakclo', Ref(name='t4')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.passive_decl.value_first.inverted.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Tezbelu', entries=(('oviplo', 'oviciv'), ('ulmqen', 'rhamkresh'), ('fexharv', 'embsol'), ('eskthox', 'dolmybor')), default=None, ordered=False)",
+       "Table(name='Argodrav', entries=(('embsol', 'lumrham'), ('dolmybor', 'driashk'), ('rhamkresh', 'dravmel'), ('oviciv', 'dravyuk')), default=None, ordered=False)",
+       "Table(name='Verxvand', entries=(('dravyuk', 'tarnrusk'), ('lumrham', 'wrenpyr'), ('dravmel', 'quiljarn'), ('driashk', 'xilwisk')), default=None, ordered=False)",
+       "Table(name='Solesk', entries=(('wrenpyr', 'zamstiv'), ('xilwisk', 'ulmsol'), ('quiljarn', 'zamthox'), ('tarnrusk', 'jarnzunt')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Tezbelu', entries=(('oviplo', 'oviciv'), ('ulmqen', 'rhamkresh'), ('fexharv', 'embsol'), ('eskthox', 'dolmybor')), default=None, ordered=False)",
+       "Table(name='Argodrav', entries=(('embsol', 'lumrham'), ('dolmybor', 'driashk'), ('rhamkresh', 'dravmel'), ('oviciv', 'dravyuk')), default=None, ordered=False)",
+       "Table(name='Verxvand', entries=(('dravyuk', 'tarnrusk'), ('lumrham', 'wrenpyr'), ('dravmel', 'quiljarn'), ('driashk', 'xilwisk')), default=None, ordered=False)",
+       "Table(name='Solesk', entries=(('xilwisk', 'zamstiv'), ('tarnrusk', 'ulmsol'), ('wrenpyr', 'zamthox'), ('quiljarn', 'jarnzunt')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Tezbelu', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argodrav', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Verxvand', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Solesk', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Tezbelu', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argodrav', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Verxvand', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Solesk', Ref(name='t3')))"
+      ]
+     }
+    ],
+    "apply_n": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.mapping.key_first.imperative.scope_first",
+      "gold_ops": [
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Givorusk', a=4, b=1, m=251)"
+      ],
+      "got_defs": [
+       "Affine(name='Givorusk', a=4, b=1, m=251)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Givorusk', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Givorusk', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Givorusk', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Givorusk', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "clinic.passive_decl.value_first.imperative.scope_last",
+      "gold_ops": [
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Cinqcinq', a=2, b=1, m=97)"
+      ],
+      "got_defs": [
+       "Affine(name='Cinqcinq', a=2, b=1, m=97)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Cinqcinq', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Cinqcinq', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Cinqcinq', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Cinqcinq', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Cinqcinq', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Cinqcinq', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Cinqcinq', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Cinqcinq', Ref(name='t3')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "clinic.table_row.key_first.cloze.scope_first",
+      "gold_ops": [
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Cinqkresh', a=2, b=3, m=199)"
+      ],
+      "got_defs": [
+       "Affine(name='Cinqkresh', a=2, b=3, m=199)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Cinqkresh', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Cinqkresh', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Cinqkresh', Ref(name='x')))"
+      ]
+     }
+    ],
+    "classify": [
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.passive_decl.key_first.cloze.scope_first",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Qenprav', attr='tudri', cuts=(40, 70, 105), labels=('embnak', 'tudolm', 'ruskijo', 'solthox'))"
+      ],
+      "got_defs": [
+       "Bands(name='Qenprav', attr='tudri', cuts=(40, 70, 105), labels=('embnak', 'tudolm', 'ruskijo', 'solthox'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Qenprav', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Qenprav', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "clinic.passive_decl.value_first.inverted.scope_last",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Lumclo', attr='clovor', cuts=(40, 70, 100), labels=('ruskfrik', 'stivmuth', 'brarham', 'verxtu'))"
+      ],
+      "got_defs": [
+       "Bands(name='Lumclo', attr='clovor', cuts=(40, 70, 100), labels=('ruskfrik', 'stivmuth', 'brarham', 'verxtu'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Lumclo', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Lumclo', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "depot.imperative.value_first.wh.scope_last",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Ondavor', attr='gestpyr', cuts=(25, 50), labels=('yukzam', 'muthpyr', 'drika'))"
+      ],
+      "got_defs": [
+       "Bands(name='Ondavor', attr='gestpyr', cuts=(25, 50), labels=('yukzam', 'muthpyr', 'drika'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Ondavor', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Ondavor', Ref(name='x')))"
+      ]
+     }
+    ],
+    "lookup_then_band": [
+     {
+      "bucket": "same_answer",
+      "fid": "assembly.table_row.key_first.imperative.scope_first",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Nidplo', entries=(('lornpyr', 3), ('zelkresh', 45), ('ashkclo', 79), ('driashk', 1), ('zamtu', 55), ('lumybor', 72)))",
+       "Bands(name='Ruskfex', attr='Nidplo', cuts=(25, 60), labels=('wrenstiv', 'kanak', 'zeltez'))"
+      ],
+      "got_defs": [
+       "Weights(name='Nidplo', entries=(('lornpyr', 3), ('zelkresh', 45), ('ashkclo', 79), ('driashk', 1), ('zamtu', 52), ('lumybor', 75)))",
+       "Bands(name='Ruskfex', attr='Nidplo', cuts=(25, 60), labels=('wrenstiv', 'kanak', 'zeltez'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Nidplo', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Ruskfex', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Nidplo', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Ruskfex', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "depot.mapping.value_first.cloze.scope_last",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Argoesk', entries=(('dravgest', 12), ('wrenthox', 49), ('stivzam', 79), ('harvrham', 2), ('verxprav', 64), ('tarnthox', 82)))",
+       "Bands(name='Cinqplo', attr='Argoesk', cuts=(40, 75), labels=('thoxmi', 'ulmquil', 'rhamwisk'))"
+      ],
+      "got_defs": [
+       "Weights(name='Argoesk', entries=(('dravgest', 1), ('wrenthox', 49), ('stivzam', 79), ('harvrham', 22), ('verxprav', 64), ('tarnthox', 82)))",
+       "Bands(name='Cinqplo', attr='Argoesk', cuts=(40, 75), labels=('thoxmi', 'ulmquil', 'rhamwisk'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Argoesk', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Cinqplo', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Argoesk', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Cinqplo', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "depot.table_row.value_first.inverted.scope_last",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Wrenijo', entries=(('haldvand', 12), ('wrenashk', 45), ('plogivo', 93), ('thoxulm', 7), ('civrusk', 54), ('lumxil', 81)))",
+       "Bands(name='Brabrun', attr='Wrenijo', cuts=(30, 65), labels=('vandprav', 'zelkresh', 'ovidrav'))"
+      ],
+      "got_defs": [
+       "Weights(name='Wrenijo', entries=(('haldvand', 21), ('wrenashk', 45), ('plogivo', 93), ('thoxulm', 7), ('civrusk', 54), ('lumxil', 81)))",
+       "Bands(name='Brabrun', attr='Wrenijo', cuts=(30, 65), labels=('vandprav', 'zelkresh', 'ovidrav'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Wrenijo', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Brabrun', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Wrenijo', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Brabrun', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "iterate": [
+     {
+      "bucket": "value_slip",
+      "fid": "clinic.conditional.value_first.wh.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Argoquil', entries=(('ijoverx', 'cinqtez'), ('cinqtez', 'verxfex'), ('verxfex', 'jarngest'), ('jarngest', 'harvplo'), ('harvplo', 'tezzunt'), ('tezzunt', 'zuntemb'), ('zuntemb', 'zamprav'), ('zamprav', 'dolmashk'), ('dolmashk', 'ijoverx')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Argoquil', entries=(('ijoverx', 'cinqtez'), ('cinqtez', 'verxfex'), ('verxfex', 'jarngest'), ('jarngest', 'harvplo'), ('harvplo', 'tezzunt'), ('tezzunt', 'zuntemb'), ('zuntemb', 'zamprav'), ('zamprav', 'dolmashk'), ('dolmashk', 'ijoverx')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Argoquil', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argoquil', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Argoquil', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Argoquil', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Argoquil', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Argoquil', Ref(name='t5')))",
+       "Step(out='t7', op='lookup', args=('Argoquil', Ref(name='t6')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Argoquil', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argoquil', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Argoquil', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Argoquil', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Argoquil', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Argoquil', Ref(name='t5')))",
+       "Step(out='t7', op='lookup', args=('Argoquil', Ref(name='t6')))"
+      ]
+     }
+    ],
+    "band_then_lookup": [
+     {
+      "bucket": "value_slip",
+      "fid": "depot.mapping.key_first.cloze.scope_first",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Plovor', attr='muthlum', cuts=(30, 60), labels=('tuvor', 'haldkresh', 'tarnokra'))",
+       "Table(name='Braquil', entries=(('tuvor', 'quilbra'), ('haldkresh', 'zuntdri'), ('tarnokra', 'tudri')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Plovor', attr='muthlum', cuts=(30, 60), labels=('tuvor', 'haldkresh', 'tarnokra'))",
+       "Table(name='Braquil', entries=(('tuvor', 'quilbra'), ('haldkresh', 'zuntdri'), ('tarnokra', 'tudri')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Plovor', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Braquil', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Plovor', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Braquil', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "ledger.mapping.value_first.imperative.scope_last",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Gestargo', attr='xilxil', cuts=(40,), labels=('fexharv', 'cinqgivo'))",
+       "Table(name='Gestthox', entries=(('fexharv', 'muthlorn'), ('cinqgivo', 'quilnevi')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Gestargo', attr='xilxil', cuts=(40,), labels=('fexharv', 'cinqgivo'))",
+       "Table(name='Gestthox', entries=(('fexharv', 'muthlorn'), ('cinqgivo', 'quilnevi')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Gestargo', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Gestthox', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Gestargo', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Gestthox', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "ledger.imperative.key_first.inverted.scope_first",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Ruskthox', attr='muthijo', cuts=(40,), labels=('eskesk', 'kaka'))",
+       "Table(name='Pravxanth', entries=(('eskesk', 'ondakresh'), ('kaka', 'muthfex')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Ruskthox', attr='muthijo', cuts=(40,), labels=('eskesk', 'kaka'))",
+       "Table(name='Pravxanth', entries=(('eskesk', 'ondakresh'), ('kaka', 'muthfex')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Ruskthox', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Pravxanth', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Ruskthox', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Pravxanth', Ref(name='t1')))"
+      ]
+     }
+    ]
+   }
+  },
+  "qframe": {
+   "by_shape": {
+    "apply_n": {
+     "n": 200,
+     "exact": 0.93,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.015,
+     "value_slip": 0.055,
+     "malformed": 0.0
+    },
+    "band_then_lookup": {
+     "n": 200,
+     "exact": 0.955,
+     "order_only": 0.0,
+     "same_answer": 0.02,
+     "shape_slip": 0.0,
+     "value_slip": 0.025,
+     "malformed": 0.0
+    },
+    "classify": {
+     "n": 200,
+     "exact": 0.87,
+     "order_only": 0.0,
+     "same_answer": 0.04,
+     "shape_slip": 0.0,
+     "value_slip": 0.09,
+     "malformed": 0.0
+    },
+    "compose": {
+     "n": 200,
+     "exact": 0.535,
+     "order_only": 0.0,
+     "same_answer": 0.13,
+     "shape_slip": 0.0,
+     "value_slip": 0.335,
+     "malformed": 0.0
+    },
+    "exclusion": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "inverse": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "iterate": {
+     "n": 200,
+     "exact": 0.995,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.005,
+     "malformed": 0.0
+    },
+    "lookup": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "lookup_general": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "lookup_then_band": {
+     "n": 200,
+     "exact": 0.94,
+     "order_only": 0.0,
+     "same_answer": 0.055,
+     "shape_slip": 0.0,
+     "value_slip": 0.005,
+     "malformed": 0.0
+    },
+    "pair": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "precedence": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "priority": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "sum_chain": {
+     "n": 200,
+     "exact": 0.26,
+     "order_only": 0.0,
+     "same_answer": 0.16,
+     "shape_slip": 0.005,
+     "value_slip": 0.575,
+     "malformed": 0.0
+    }
+   },
+   "examples": {
+    "sum_chain": [
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.conditional.key_first.wh.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Braqen', entries=(('lumplo', 'solijo'), ('cinqplo', 'rhamashk'), ('milum', 'cloxil'), ('miijo', 'tezybor')), default=None, ordered=False)",
+       "Weights(name='Braqen', entries=(('lumplo', 14), ('cinqplo', 29), ('milum', 33), ('miijo', 28)))",
+       "Table(name='Gestargo', entries=(('rhamashk', 'verxthox'), ('solijo', 'plopyr'), ('tezybor', 'jarnquil'), ('cloxil', 'lornthox')), default=None, ordered=False)",
+       "Weights(name='Gestargo', entries=(('rhamashk', 35), ('solijo', 19), ('tezybor', 23), ('cloxil', 27)))"
+      ],
+      "got_defs": [
+       "Table(name='Braqen', entries=(('lumplo', 'solijo'), ('cinqplo', 'rhamashk'), ('milum', 'cloxil'), ('miijo', 'tezybor')), default=None, ordered=False)",
+       "Weights(name='Braqen', entries=(('lumplo', 14), ('cinqplo', 29), ('milum', 33), ('miijo', 28)))",
+       "Table(name='Gestargo', entries=(('rhamashk', 'verxthox'), ('solijo', 'plopyr'), ('tezybor', 'jarnquil'), ('cloxil', 'lornthox')), default=None, ordered=False)",
+       "Weights(name='Gestargo', entries=(('rhamashk', 35), ('solijo', 19), ('tezybor', 32), ('cloxil', 27)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Braqen', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Braqen', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Gestargo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Gestargo', Ref(name='c1')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Braqen', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Braqen', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Gestargo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Gestargo', Ref(name='c1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.table_row.key_first.wh.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Nakfex', entries=(('tarndolm', 'pravtarn'), ('xanthesk', 'xanthtu'), ('verxwisk', 'pyrdri'), ('frikpyr', 'brunzam')), default=None, ordered=False)",
+       "Weights(name='Nakfex', entries=(('tarndolm', 38), ('xanthesk', 39), ('verxwisk', 38), ('frikpyr', 3)))",
+       "Table(name='Harvplo', entries=(('pyrdri', 'cinqxil'), ('xanthtu', 'tezargo'), ('pravtarn', 'wisklorn'), ('brunzam', 'tarnwisk')), default=None, ordered=False)",
+       "Weights(name='Harvplo', entries=(('pyrdri', 2), ('xanthtu', 25), ('pravtarn', 7), ('brunzam', 8)))",
+       "Table(name='Pyrsol', entries=(('cinqxil', 'qengest'), ('tarnwisk', 'yukdolm'), ('wisklorn', 'tugivo'), ('tezargo', 'fexharv')), default=None, ordered=False)",
+       "Weights(name='Pyrsol', entries=(('cinqxil', 2), ('tarnwisk', 17), ('wisklorn', 32), ('tezargo', 33)))"
+      ],
+      "got_defs": [
+       "Table(name='Nakfex', entries=(('tarndolm', 'pravtarn'), ('xanthesk', 'xanthtu'), ('verxwisk', 'pyrdri'), ('frikpyr', 'brunzam')), default=None, ordered=False)",
+       "Weights(name='Nakfex', entries=(('tarndolm', 38), ('xanthesk', 39), ('verxwisk', 38), ('frikpyr', 3)))",
+       "Table(name='Harvplo', entries=(('pyrdri', 'cinqxil'), ('xanthtu', 'tezargo'), ('pravtarn', 'wisklorn'), ('brunzam', 'tarnwisk')), default=None, ordered=False)",
+       "Weights(name='Harvplo', entries=(('pyrdri', 2), ('xanthtu', 5), ('pravtarn', 7), ('brunzam', 28)))",
+       "Table(name='Pyrsol', entries=(('tarnwisk', 'qengest'), ('cinqxil', 'yukdolm'), ('wisklorn', 'tugivo'), ('tezargo', 'fexharv')), default=None, ordered=False)",
+       "Weights(name='Pyrsol', entries=(('tarnwisk', 2), ('cinqxil', 17), ('wisklorn', 33), ('tezargo', 32)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Nakfex', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Nakfex', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Harvplo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Harvplo', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Pyrsol', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Pyrsol', Ref(name='c2')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Nakfex', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Nakfex', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Harvplo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Harvplo', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Pyrsol', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Pyrsol', Ref(name='c2')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.mapping.key_first.wh.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Stivijo', entries=(('voronda', 'fexqen'), ('zuntquil', 'pyrlorn'), ('vandbra', 'givomi'), ('soldrav', 'kreshwren')), default=None, ordered=False)",
+       "Weights(name='Stivijo', entries=(('voronda', 2), ('zuntquil', 11), ('vandbra', 12), ('soldrav', 10)))",
+       "Table(name='Qenplo', entries=(('pyrlorn', 'ulmxil'), ('fexqen', 'ashkplo'), ('givomi', 'ruskbra'), ('kreshwren', 'yukovi')), default=None, ordered=False)",
+       "Weights(name='Qenplo', entries=(('pyrlorn', 25), ('fexqen', 7), ('givomi', 32), ('kreshwren', 20)))"
+      ],
+      "got_defs": [
+       "Table(name='Stivijo', entries=(('voronda', 'fexqen'), ('zuntquil', 'pyrlorn'), ('vandbra', 'givomi'), ('soldrav', 'kreshwren')), default=None, ordered=False)",
+       "Weights(name='Stivijo', entries=(('voronda', 2), ('zuntquil', 11), ('vandbra', 11), ('soldrav', 10)))",
+       "Table(name='Qenplo', entries=(('pyrlorn', 'ulmxil'), ('fexqen', 'ashkplo'), ('givomi', 'ruskbra'), ('kreshwren', 'yukovi')), default=None, ordered=False)",
+       "Weights(name='Qenplo', entries=(('pyrlorn', 5), ('fexqen', 27), ('givomi', 23), ('kreshwren', 20)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Stivijo', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Stivijo', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Qenplo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Qenplo', Ref(name='c1')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Stivijo', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Stivijo', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Qenplo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Qenplo', Ref(name='c1')))"
+      ]
+     }
+    ],
+    "apply_n": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.conditional.key_first.wh.scope_first",
+      "gold_ops": [
+       "step"
+      ],
+      "got_ops": [
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Kajarn', a=2, b=11, m=251)"
+      ],
+      "got_defs": [
+       "Affine(name='Kajarn', a=2, b=11, m=251)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Kajarn', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Kajarn', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "depot.mapping.key_first.wh.scope_first",
+      "gold_ops": [
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Tarnquil', a=3, b=1, m=251)"
+      ],
+      "got_defs": [
+       "Affine(name='Tarnquil', a=3, b=1, m=251)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Tarnquil', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Tarnquil', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Tarnquil', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Tarnquil', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Tarnquil', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Tarnquil', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Tarnquil', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Tarnquil', Ref(name='t3')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "assembly.imperative.key_first.wh.scope_first",
+      "gold_ops": [
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Solvor', a=3, b=3, m=101)"
+      ],
+      "got_defs": [
+       "Affine(name='Solvor', a=3, b=3, m=101)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Solvor', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Solvor', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Solvor', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Solvor', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Solvor', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Solvor', Ref(name='t3')))",
+       "Step(out='t5', op='step', args=('Solvor', Ref(name='t4')))",
+       "Step(out='t6', op='step', args=('Solvor', Ref(name='t5')))"
+      ]
+     }
+    ],
+    "classify": [
+     {
+      "bucket": "value_slip",
+      "fid": "clinic.conditional.key_first.wh.scope_first",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Harvrham', attr='meltez', cuts=(40,), labels=('civciv', 'vorgivo'))"
+      ],
+      "got_defs": [
+       "Bands(name='Harvrham', attr='meltez', cuts=(40,), labels=('civciv', 'vorgivo'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Harvrham', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Harvrham', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "depot.passive_decl.key_first.wh.scope_first",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Verxcinq', attr='harvvand', cuts=(35, 70, 105), labels=('qenrham', 'yukquil', 'cinqrusk', 'haldmel'))"
+      ],
+      "got_defs": [
+       "Bands(name='Verxcinq', attr='harvvand', cuts=(35, 70, 105), labels=('qenrham', 'yukquil', 'cinqrusk', 'haldmel'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Verxcinq', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Verxcinq', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "routing.imperative.key_first.wh.scope_first",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Eskzunt', attr='eskovi', cuts=(25, 60, 85), labels=('clohald', 'teztu', 'pyryuk', 'rhamdolm'))"
+      ],
+      "got_defs": [
+       "Bands(name='Eskzunt', attr='eskovi', cuts=(25, 60, 85), labels=('clohald', 'teztu', 'pyryuk', 'rhamdolm'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Eskzunt', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Eskzunt', Ref(name='x')))"
+      ]
+     }
+    ],
+    "compose": [
+     {
+      "bucket": "value_slip",
+      "fid": "clinic.conditional.key_first.wh.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Muthvor', entries=(('dolmyuk', 'vorzam'), ('ijobrun', 'kreshzel'), ('ashkokra', 'muthtarn'), ('xanthonda', 'ijomuth')), default=None, ordered=False)",
+       "Table(name='Drimel', entries=(('kreshzel', 'pravbelu'), ('muthtarn', 'verxwisk'), ('vorzam', 'yborpyr'), ('ijomuth', 'solyuk')), default=None, ordered=False)",
+       "Table(name='Mithox', entries=(('solyuk', 'quilfrik'), ('verxwisk', 'okralum'), ('yborpyr', 'fexybor'), ('pravbelu', 'cinqnak')), default=None, ordered=False)",
+       "Table(name='Solnak', entries=(('cinqnak', 'stivemb'), ('quilfrik', 'ondami'), ('fexybor', 'argoclo'), ('okralum', 'pravzel')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Muthvor', entries=(('dolmyuk', 'vorzam'), ('ijobrun', 'kreshzel'), ('ashkokra', 'muthtarn'), ('xanthonda', 'ijomuth')), default=None, ordered=False)",
+       "Table(name='Drimel', entries=(('kreshzel', 'pravbelu'), ('muthtarn', 'verxwisk'), ('vorzam', 'yborpyr'), ('ijomuth', 'solyuk')), default=None, ordered=False)",
+       "Table(name='Mithox', entries=(('solyuk', 'quilfrik'), ('verxwisk', 'okralum'), ('yborpyr', 'fexybor'), ('pravbelu', 'cinqnak')), default=None, ordered=False)",
+       "Table(name='Solnak', entries=(('fexybor', 'stivemb'), ('okralum', 'ondami'), ('quilfrik', 'argoclo'), ('cinqnak', 'pravzel')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Muthvor', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Drimel', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Mithox', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Solnak', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Muthvor', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Drimel', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Mithox', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Solnak', Ref(name='t3')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "clinic.table_row.key_first.wh.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Zelokra', entries=(('ijodolm', 'lumfrik'), ('vandxanth', 'ashkrusk'), ('gestonda', 'argoka'), ('argookra', 'rhamharv')), default=None, ordered=False)",
+       "Table(name='Xanthclo', entries=(('rhamharv', 'vandgivo'), ('ashkrusk', 'thoxrham'), ('argoka', 'lumokra'), ('lumfrik', 'dravmel')), default=None, ordered=False)",
+       "Table(name='Brundri', entries=(('lumokra', 'braka'), ('dravmel', 'tezmel'), ('thoxrham', 'haldzunt'), ('vandgivo', 'quiltarn')), default=None, ordered=False)",
+       "Table(name='Solyuk', entries=(('tezmel', 'stivulm'), ('haldzunt', 'okrahald'), ('quiltarn', 'qenfex'), ('braka', 'haldbrun')), default=None, ordered=False)",
+       "Table(name='Ashkgest', entries=(('okrahald', 'zeltarn'), ('qenfex', 'mitarn'), ('haldbrun', 'zelnid'), ('stivulm', 'kaxanth')), default=None, ordered=False)",
+       "Table(name='Pravwisk', entries=(('kaxanth', 'brunlum'), ('zelnid', 'zamrham'), ('mitarn', 'thoxbrun'), ('zeltarn', 'xilfrik')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Zelokra', entries=(('ijodolm', 'lumfrik'), ('vandxanth', 'ashkrusk'), ('gestonda', 'argoka'), ('argookra', 'rhamharv')), default=None, ordered=False)",
+       "Table(name='Xanthclo', entries=(('rhamharv', 'vandgivo'), ('ashkrusk', 'thoxrham'), ('argoka', 'lumokra'), ('lumfrik', 'dravmel')), default=None, ordered=False)",
+       "Table(name='Brundri', entries=(('lumokra', 'braka'), ('dravmel', 'tezmel'), ('thoxrham', 'haldzunt'), ('vandgivo', 'quiltarn')), default=None, ordered=False)",
+       "Table(name='Solyuk', entries=(('quiltarn', 'stivulm'), ('braka', 'okrahald'), ('tezmel', 'qenfex'), ('haldzunt', 'haldbrun')), default=None, ordered=False)",
+       "Table(name='Ashkgest', entries=(('stivulm', 'zeltarn'), ('qenfex', 'mitarn'), ('okrahald', 'zelnid'), ('haldbrun', 'kaxanth')), default=None, ordered=False)",
+       "Table(name='Pravwisk', entries=(('kaxanth', 'brunlum'), ('zelnid', 'zamrham'), ('mitarn', 'thoxbrun'), ('zeltarn', 'xilfrik')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Zelokra', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Xanthclo', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Brundri', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Solyuk', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Ashkgest', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Pravwisk', Ref(name='t5')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Zelokra', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Xanthclo', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Brundri', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Solyuk', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Ashkgest', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Pravwisk', Ref(name='t5')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "depot.passive_decl.key_first.wh.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Solvand', entries=(('turham', 'solnevi'), ('cinqtez', 'quilzunt'), ('argoijo', 'kadrav'), ('ijookra', 'stivwisk')), default=None, ordered=False)",
+       "Table(name='Haldciv', entries=(('kadrav', 'harvzam'), ('solnevi', 'zamxil'), ('quilzunt', 'civesk'), ('stivwisk', 'nidverx')), default=None, ordered=False)",
+       "Table(name='Gestnak', entries=(('nidverx', 'muthwren'), ('civesk', 'jarnclo'), ('zamxil', 'wrenprav'), ('harvzam', 'eskybor')), default=None, ordered=False)",
+       "Table(name='Tarnfex', entries=(('wrenprav', 'quilcinq'), ('jarnclo', 'okradri'), ('muthwren', 'dravsol'), ('eskybor', 'cinqqen')), default=None, ordered=False)",
+       "Table(name='Zelvand', entries=(('dravsol', 'vorzel'), ('quilcinq', 'clovor'), ('cinqqen', 'solbrun'), ('okradri', 'lumxil')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Solvand', entries=(('turham', 'solnevi'), ('cinqtez', 'quilzunt'), ('argoijo', 'kadrav'), ('ijookra', 'stivwisk')), default=None, ordered=False)",
+       "Table(name='Haldciv', entries=(('kadrav', 'harvzam'), ('solnevi', 'zamxil'), ('quilzunt', 'civesk'), ('stivwisk', 'nidverx')), default=None, ordered=False)",
+       "Table(name='Gestnak', entries=(('nidverx', 'muthwren'), ('civesk', 'jarnclo'), ('zamxil', 'wrenprav'), ('harvzam', 'eskybor')), default=None, ordered=False)",
+       "Table(name='Tarnfex', entries=(('wrenprav', 'quilcinq'), ('muthwren', 'okradri'), ('jarnclo', 'dravsol'), ('eskybor', 'cinqqen')), default=None, ordered=False)",
+       "Table(name='Zelvand', entries=(('quilcinq', 'vorzel'), ('okradri', 'clovor'), ('dravsol', 'solbrun'), ('cinqqen', 'lumxil')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Solvand', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Haldciv', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Gestnak', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Tarnfex', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Zelvand', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Solvand', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Haldciv', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Gestnak', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Tarnfex', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Zelvand', Ref(name='t4')))"
+      ]
+     }
+    ],
+    "band_then_lookup": [
+     {
+      "bucket": "same_answer",
+      "fid": "assembly.passive_decl.key_first.wh.scope_first",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Oviciv', attr='fexjarn', cuts=(25,), labels=('beluciv', 'tarnwren'))",
+       "Table(name='Stivhald', entries=(('beluciv', 'zelvor'), ('tarnwren', 'rhamdri')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Oviciv', attr='fexjarn', cuts=(25,), labels=('beluciv', 'tarnwren'))",
+       "Table(name='Stivhald', entries=(('beluciv', 'zelvor'), ('tarnwren', 'rhamdri')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Oviciv', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Stivhald', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Oviciv', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Stivhald', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "routing.imperative.key_first.wh.scope_first",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Quilgivo', attr='eskxil', cuts=(25, 60), labels=('vortarn', 'rhamciv', 'zuntprav'))",
+       "Table(name='Yukzam', entries=(('vortarn', 'ruskijo'), ('rhamciv', 'ploargo'), ('zuntprav', 'harvdri')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Quilgivo', attr='eskxil', cuts=(25, 60), labels=('vortarn', 'rhamciv', 'zuntprav'))",
+       "Table(name='Yukzam', entries=(('vortarn', 'ruskijo'), ('rhamciv', 'ploargo'), ('zuntprav', 'harvdri')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Quilgivo', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Yukzam', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Quilgivo', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Yukzam', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.table_row.key_first.wh.scope_first",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Xillorn', attr='fexashk', cuts=(30,), labels=('belulorn', 'stivbelu'))",
+       "Table(name='Yuknid', entries=(('belulorn', 'nevibrun'), ('stivbelu', 'jarnthox')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Xillorn', attr='fexashk', cuts=(30,), labels=('belulorn', 'stivbelu'))",
+       "Table(name='Yuknid', entries=(('belulorn', 'nevibrun'), ('stivbelu', 'jarnthox')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Xillorn', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Yuknid', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Xillorn', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Yuknid', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "lookup_then_band": [
+     {
+      "bucket": "same_answer",
+      "fid": "ledger.table_row.key_first.wh.scope_first",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Gestvand', entries=(('solesk', 3), ('drijarn', 55), ('soltez', 67), ('wiskvor', 5), ('pyrnevi', 47), ('tufrik', 77)))",
+       "Bands(name='Muthstiv', attr='Gestvand', cuts=(25, 60), labels=('tezhald', 'pyremb', 'tarnxil'))"
+      ],
+      "got_defs": [
+       "Weights(name='Gestvand', entries=(('solesk', 3), ('drijarn', 55), ('soltez', 67), ('wiskvor', 7), ('pyrnevi', 57), ('tufrik', 72)))",
+       "Bands(name='Muthstiv', attr='Gestvand', cuts=(25, 60), labels=('tezhald', 'pyremb', 'tarnxil'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Gestvand', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Muthstiv', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Gestvand', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Muthstiv', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "clinic.table_row.key_first.wh.scope_first",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Cinqxanth', entries=(('thoxtarn', 4), ('zamtarn', 53), ('gestrusk', 82), ('givojarn', 12), ('dolmnid', 40), ('yuktarn', 72)))",
+       "Bands(name='Tezulm', attr='Cinqxanth', cuts=(30, 65), labels=('tezharv', 'gestvor', 'wisktarn'))"
+      ],
+      "got_defs": [
+       "Weights(name='Cinqxanth', entries=(('thoxtarn', 4), ('zamtarn', 53), ('gestrusk', 82), ('givojarn', 12), ('dolmnid', 40), ('yuktarn', 70)))",
+       "Bands(name='Tezulm', attr='Cinqxanth', cuts=(35, 60), labels=('tezharv', 'gestvor', 'wisktarn'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Cinqxanth', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Tezulm', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Cinqxanth', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Tezulm', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "routing.mapping.key_first.wh.scope_first",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Harvlum', entries=(('kalum', 7), ('argoquil', 54), ('pyrfex', 80), ('wiskesk', 7), ('quilquil', 47), ('melstiv', 85)))",
+       "Bands(name='Braulm', attr='Harvlum', cuts=(30, 65), labels=('brunpyr', 'xilokra', 'beluciv'))"
+      ],
+      "got_defs": [
+       "Weights(name='Harvlum', entries=(('kalum', 7), ('argoquil', 54), ('pyrfex', 80), ('wiskesk', 7), ('quilquil', 47), ('melstiv', 58)))",
+       "Bands(name='Braulm', attr='Harvlum', cuts=(30, 65), labels=('brunpyr', 'xilokra', 'beluciv'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Harvlum', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Braulm', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Harvlum', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Braulm', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "iterate": [
+     {
+      "bucket": "value_slip",
+      "fid": "depot.conditional.key_first.wh.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Vandka', entries=(('emblum', 'ondanevi'), ('ondanevi', 'wrenbrun'), ('wrenbrun', 'stivcinq'), ('stivcinq', 'jarnclo'), ('jarnclo', 'drizel'), ('drizel', 'nidstiv'), ('nidstiv', 'nidwisk'), ('nidwisk', 'ploargo'), ('ploargo', 'emblum')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Vandka', entries=(('emblum', 'ondanevi'), ('ondanevi', 'wrenbrun'), ('wrenbrun', 'stivcinq'), ('stivcinq', 'jarnclo'), ('jarnclo', 'drizel'), ('drizel', 'nidstiv'), ('nidstiv', 'nidwisk'), ('nidwisk', 'ploargo'), ('ploargo', 'emblum')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Vandka', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Vandka', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Vandka', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Vandka', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Vandka', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Vandka', Ref(name='t5')))",
+       "Step(out='t7', op='lookup', args=('Vandka', Ref(name='t6')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Vandka', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Vandka', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Vandka', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Vandka', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Vandka', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Vandka', Ref(name='t5')))",
+       "Step(out='t7', op='lookup', args=('Vandka', Ref(name='t6')))"
+      ]
+     }
+    ]
+   }
+  },
+  "lexicon": {
+   "by_shape": {
+    "apply_n": {
+     "n": 200,
+     "exact": 0.41,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.255,
+     "value_slip": 0.32,
+     "malformed": 0.015
+    },
+    "band_then_lookup": {
+     "n": 200,
+     "exact": 0.21,
+     "order_only": 0.0,
+     "same_answer": 0.065,
+     "shape_slip": 0.435,
+     "value_slip": 0.105,
+     "malformed": 0.185
+    },
+    "classify": {
+     "n": 200,
+     "exact": 0.135,
+     "order_only": 0.0,
+     "same_answer": 0.04,
+     "shape_slip": 0.04,
+     "value_slip": 0.06,
+     "malformed": 0.725
+    },
+    "compose": {
+     "n": 200,
+     "exact": 0.175,
+     "order_only": 0.0,
+     "same_answer": 0.25,
+     "shape_slip": 0.025,
+     "value_slip": 0.545,
+     "malformed": 0.005
+    },
+    "exclusion": {
+     "n": 200,
+     "exact": 0.615,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.005,
+     "value_slip": 0.34,
+     "malformed": 0.04
+    },
+    "inverse": {
+     "n": 200,
+     "exact": 0.76,
+     "order_only": 0.0,
+     "same_answer": 0.185,
+     "shape_slip": 0.02,
+     "value_slip": 0.005,
+     "malformed": 0.03
+    },
+    "iterate": {
+     "n": 200,
+     "exact": 0.66,
+     "order_only": 0.0,
+     "same_answer": 0.035,
+     "shape_slip": 0.025,
+     "value_slip": 0.1,
+     "malformed": 0.18
+    },
+    "lookup": {
+     "n": 200,
+     "exact": 0.75,
+     "order_only": 0.0,
+     "same_answer": 0.035,
+     "shape_slip": 0.035,
+     "value_slip": 0.065,
+     "malformed": 0.115
+    },
+    "lookup_general": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "lookup_then_band": {
+     "n": 200,
+     "exact": 0.135,
+     "order_only": 0.0,
+     "same_answer": 0.585,
+     "shape_slip": 0.0,
+     "value_slip": 0.185,
+     "malformed": 0.095
+    },
+    "pair": {
+     "n": 200,
+     "exact": 0.585,
+     "order_only": 0.0,
+     "same_answer": 0.015,
+     "shape_slip": 0.335,
+     "value_slip": 0.035,
+     "malformed": 0.03
+    },
+    "precedence": {
+     "n": 200,
+     "exact": 0.94,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.06,
+     "malformed": 0.0
+    },
+    "priority": {
+     "n": 200,
+     "exact": 0.835,
+     "order_only": 0.0,
+     "same_answer": 0.04,
+     "shape_slip": 0.0,
+     "value_slip": 0.095,
+     "malformed": 0.03
+    },
+    "sum_chain": {
+     "n": 200,
+     "exact": 0.0,
+     "order_only": 0.0,
+     "same_answer": 0.035,
+     "shape_slip": 0.005,
+     "value_slip": 0.89,
+     "malformed": 0.07
+    }
+   },
+   "examples": {
+    "inverse": [
+     {
+      "bucket": "same_answer",
+      "fid": "signal.passive_decl.key_first.imperative.scope_last",
+      "gold_ops": [
+       "invert"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Argofex', entries=(('cinqlum', 'thoxthox'), ('clofex', 'neviyuk'), ('clofrik', 'fexbra'), ('dolmtu', 'haldtez')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Argofex', entries=(('thoxthox', 'cinqlum'), ('neviyuk', 'clofex'), ('fexbra', 'clofrik'), ('haldtez', 'dolmtu')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='invert', args=('Argofex', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Argofex', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "invert"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Civxanth', entries=(('qenhald', 'givonak'), ('ulmclo', 'harvpyr'), ('qenvor', 'driwren'), ('pyrybor', 'xanthijo')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Civxanth', entries=(('givonak', 'qenhald'), ('harvpyr', 'ulmclo'), ('driwren', 'qenvor'), ('xanthijo', 'pyrybor')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='invert', args=('Civxanth', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Civxanth', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.conditional.value_first.imperative.scope_first",
+      "gold_ops": [
+       "invert"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Neviwren', entries=(('yukcinq', 'givoyuk'), ('lumtu', 'pyrwisk'), ('ruskwisk', 'yukka'), ('harvxanth', 'okradolm')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Neviwren', entries=(('givoyuk', 'yukcinq'), ('pyrwisk', 'lumtu'), ('yukka', 'ruskwisk'), ('okradolm', 'harvxanth')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='invert', args=('Neviwren', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Neviwren', Ref(name='x')))"
+      ]
+     }
+    ],
+    "pair": [
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.key_first.imperative.scope_last",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "invert"
+      ],
+      "gold_defs": [
+       "Table(name='Lornovi', entries=((('zamfex', 'dravpyr'), 'rhamgest'), (('zamfex', 'clonak'), 'stivfex'), (('zamfex', 'kreshcinq'), 'kreshashk'), (('tezvand', 'dravpyr'), 'ovidri'), (('tezvand', 'clonak'), 'migivo'), (('tezvand', 'kreshcinq'), 'ondafex'), (('harvlum', 'dravpyr'), 'brunhald'), (('harvlum', 'clonak'), 'nakvor'), (('harvlum', 'kreshcinq'), 'xilgivo')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Lornovi', entries=(('zamfex', 'dravpyr'), ('rhamgest', 'clonak'), ('stivfex', 'kreshcinq'), ('kreshashk', 'tezvand')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Lornovi', Ref(name='x'), Ref(name='y')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='invert', args=('Lornovi', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.key_first.inverted.scope_last",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Pravbra', entries=((('eskzunt', 'nevitu'), 'argociv'), (('eskzunt', 'wiskquil'), 'esklum'), (('eskzunt', 'ruskpyr'), 'plobra'), (('frikjarn', 'nevitu'), 'zelbrun'), (('frikjarn', 'wiskquil'), 'zamvor'), (('frikjarn', 'ruskpyr'), 'eskvand'), (('zamverx', 'nevitu'), 'zelmuth'), (('zamverx', 'wiskquil'), 'nakbrun'), (('zamverx', 'ruskpyr'), 'ijoargo')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Pravbra', entries=(('eskzunt', 'nevitu'), ('argociv', 'wiskquil'), ('esklum', 'ruskpyr'), ('plobra', 'frikjarn')), default=None, ordered=False)",
+       "Table(name='zelbrun', entries=(('frikjarn', 'zamvor'), ('nevitu', 'eskvand'), ('wiskquil', 'zamverx'), ('ruskpyr', 'zelmuth')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Pravbra', Ref(name='x'), Ref(name='y')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Pravbra', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('zelbrun', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Lumxil', entries=((('haldtu', 'solgest'), 'melxanth'), (('haldtu', 'ijobelu'), 'lumlorn'), (('haldtu', 'jarnzel'), 'thoxvor'), (('ulmwisk', 'solgest'), 'plotu'), (('ulmwisk', 'ijobelu'), 'belupyr'), (('ulmwisk', 'jarnzel'), 'tuzel'), (('quilyuk', 'solgest'), 'ondaargo'), (('quilyuk', 'ijobelu'), 'argotez'), (('quilyuk', 'jarnzel'), 'nakquil')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Lumxil', entries=(('haldtu', 'solgest'), ('melxanth', 'ijobelu'), ('lumlorn', 'jarnzel'), ('thoxvor', 'ulmwisk')), default=None, ordered=False)",
+       "Table(name='plotu', entries=(('ulmwisk', 'belupyr'), ('solgest', 'tuzel'), ('ijobelu', 'quilyuk'), ('jarnzel', 'ondaargo')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Lumxil', Ref(name='x'), Ref(name='y')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Lumxil', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('plotu', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "priority": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.key_first.imperative.scope_last",
+      "gold_ops": [
+       "lookup_ordered"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Driverx', entries=(('vandmel', 'wiskquil'), ('drilum', 'kajarn'), ('verxciv', 'ondagivo'), ('rusktarn', 'xanthashk')), default='wiskquil', ordered=True)"
+      ],
+      "got_defs": [
+       "Table(name='Driverx', entries=(('wiskquil', 'vandmel'), ('kajarn', 'drilum'), ('ondagivo', 'verxciv'), ('xanthashk', 'rusktarn')), default='vandmel', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Driverx', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Driverx', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "signal.table_row.key_first.wh.scope_last",
+      "gold_ops": [
+       "lookup_ordered"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Qenvor', entries=(('tuvor', 'quilciv'), ('vandnevi', 'beluokra'), ('ruskrusk', 'jarndrav'), ('oviquil', 'beludri'), ('jarntu', 'vandsol')), default='quilciv', ordered=True)"
+      ],
+      "got_defs": [
+       "Table(name='Qenvor', entries=(('tuvor', 'quilciv'), ('vandnevi', 'beluokra'), ('ruskrusk', 'jarndrav'), ('oviquil', 'beludri'), ('jarntu', 'vandsol')), default='quilciv', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Qenvor', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Qenvor', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.table_row.key_first.cloze.scope_last",
+      "gold_ops": [
+       "lookup_ordered"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Nevidri', entries=(('clofex', 'nidthox'), ('xilzel', 'eskstiv'), ('xanthprav', 'embfex'), ('pyrharv', 'rhamokra')), default='nidthox', ordered=True)"
+      ],
+      "got_defs": [
+       "Table(name='Nevidri', entries=(('nidthox', 'clofex'), ('eskstiv', 'xilzel'), ('embfex', 'xanthprav'), ('rhamokra', 'pyrharv')), default='clofex', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Nevidri', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Nevidri', Ref(name='x')))"
+      ]
+     }
+    ],
+    "lookup_then_band": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.key_first.imperative.scope_last",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Okraverx', entries=(('nakrusk', 30), ('gestrham', 62), ('tezcinq', 79), ('tuzunt', 9), ('verxsol', 51), ('xanthcinq', 72)))",
+       "Bands(name='Yukmi', attr='Okraverx', cuts=(40, 65), labels=('tarngest', 'xanthnak', 'wiskybor'))"
+      ],
+      "got_defs": [
+       "Weights(name='Okraverx', entries=(('nakrusk', 20), ('gestrham', 30), ('tezcinq', 72), ('tuzunt', 9), ('verxsol', 49), ('xanthcinq', 107)))",
+       "Bands(name='Yukmi', attr='Okraverx', cuts=(40, 65), labels=('tarngest', 'xanthnak', 'wiskybor'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Okraverx', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Yukmi', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Okraverx', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Yukmi', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "signal.passive_decl.key_first.inverted.scope_last",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Stivgivo', entries=(('quilokra', 1), ('ashkulm', 45), ('yukclo', 81), ('tarnlum', 13), ('stivthox', 48), ('zamwren', 64)))",
+       "Bands(name='Argovor', attr='Stivgivo', cuts=(35, 60), labels=('oviybor', 'qenmel', 'beluzunt'))"
+      ],
+      "got_defs": [
+       "Weights(name='Stivgivo', entries=(('quilokra', 2), ('ashkulm', 41), ('yukclo', 40), ('tarnlum', 8), ('stivthox', 31), ('zamwren', 48)))",
+       "Bands(name='Argovor', attr='Stivgivo', cuts=(35, 60), labels=('oviybor', 'qenmel', 'beluzunt'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Stivgivo', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Argovor', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Stivgivo', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Argovor', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Haldkresh', entries=(('tutez', 35), ('kapyr', 65), ('wrenjarn', 20), ('frikprav', 66)))",
+       "Bands(name='Vorsol', attr='Haldkresh', cuts=(40,), labels=('ploverx', 'yborxanth'))"
+      ],
+      "got_defs": [
+       "Weights(name='Haldkresh', entries=(('tutez', 3), ('kapyr', 53), ('wrenjarn', 26), ('frikprav', 6)))",
+       "Bands(name='Vorsol', attr='Haldkresh', cuts=(40,), labels=('ploverx', 'yborxanth'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Haldkresh', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Vorsol', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Haldkresh', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Vorsol', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "band_then_lookup": [
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.key_first.imperative.scope_last",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Quiltu', attr='cloclo', cuts=(25, 55), labels=('yuknid', 'argookra', 'zelnak'))",
+       "Table(name='Cinqwisk', entries=(('yuknid', 'pyrzel'), ('argookra', 'wiskstiv'), ('zelnak', 'yborrham')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Weights(name='Quiltu', entries=(('cloclo', 4), ('yuknid', 55), ('argookra', 5), ('zelnak', 57)))",
+       "Bands(name='Cinqwisk', attr='Quiltu', cuts=(23,), labels=('pyrzel', 'wiskstiv'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Quiltu', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Cinqwisk', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Quiltu', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Cinqwisk', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.key_first.inverted.scope_last",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Civka', attr='harvstiv', cuts=(25,), labels=('dravclo', 'nakdri'))",
+       "Table(name='Verxvor', entries=(('dravclo', 'ashktarn'), ('nakdri', 'pravbrun')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Civka', attr='harvstiv', cuts=(35,), labels=('dravclo', 'nakdri'))",
+       "Table(name='Verxvor', entries=(('dravclo', 'ashktarn'), ('nakdri', 'pravbrun')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Civka', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Verxvor', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Civka', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Verxvor', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Bands(name='Ybornid', attr='soldolm', cuts=(25,), labels=('ashktarn', 'qenmuth'))",
+       "Table(name='Ashkjarn', entries=(('ashktarn', 'plonid'), ('qenmuth', 'yborbrun')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Ybornid', entries=(('soldolm', 'ashktarn'), ('qenmuth', 'soldolm'), ('Ashkjarn', 'soldolm'), ('yborbrun', 'plonid')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Ybornid', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Ashkjarn', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Ybornid', Ref(name='x')))"
+      ]
+     }
+    ],
+    "sum_chain": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.key_first.imperative.scope_last",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Wrenlorn', entries=(('ovixanth', 'mellorn'), ('jarnwisk', 'zuntsol'), ('stivlum', 'dravcinq'), ('solxil', 'vorharv')), default=None, ordered=False)",
+       "Weights(name='Wrenlorn', entries=(('ovixanth', 10), ('jarnwisk', 8), ('stivlum', 37), ('solxil', 8)))",
+       "Table(name='Brunplo', entries=(('zuntsol', 'ijozel'), ('mellorn', 'cinqzel'), ('dravcinq', 'verxmi'), ('vorharv', 'tudrav')), default=None, ordered=False)",
+       "Weights(name='Brunplo', entries=(('zuntsol', 22), ('mellorn', 21), ('dravcinq', 38), ('vorharv', 19)))",
+       "Table(name='Lornulm', entries=(('cinqzel', 'xiltarn'), ('ijozel', 'ulmfrik'), ('verxmi', 'nakrusk'), ('tudrav', 'wrenfrik')), default=None, ordered=False)",
+       "Weights(name='Lornulm', entries=(('cinqzel', 6), ('ijozel', 11), ('verxmi', 11), ('tudrav', 13)))"
+      ],
+      "got_defs": [
+       "Table(name='Wrenlorn', entries=(('ovixanth', 'mellorn'), ('jarnwisk', 'zuntsol'), ('stivlum', 'dravcinq'), ('solxil', 'vorharv')), default=None, ordered=False)",
+       "Weights(name='Wrenlorn', entries=(('ovixanth', 34), ('jarnwisk', 10), ('stivlum', 8), ('solxil', 37)))",
+       "Table(name='Brunplo', entries=(('zuntsol', 'ijozel'), ('dravcinq', 'cinqzel'), ('vorharv', 'verxmi'), ('mellorn', 'tudrav')), default=None, ordered=False)",
+       "Weights(name='Brunplo', entries=(('zuntsol', 28), ('dravcinq', 2), ('vorharv', 2), ('mellorn', 18)))",
+       "Table(name='Lornulm', entries=(('ijozel', 'xiltarn'), ('cinqzel', 'ulmfrik'), ('verxmi', 'nakrusk'), ('tudrav', 'wrenfrik')), default=None, ordered=False)",
+       "Weights(name='Lornulm', entries=(('ijozel', 19), ('cinqzel', 28), ('verxmi', 11), ('tudrav', 6)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Wrenlorn', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Wrenlorn', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Brunplo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Brunplo', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Lornulm', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Lornulm', Ref(name='c2')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Wrenlorn', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Wrenlorn', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Brunplo', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Brunplo', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Lornulm', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Lornulm', Ref(name='c2')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.key_first.inverted.scope_last",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Zamvand', entries=(('tujarn', 'yukbra'), ('xilrusk', 'embka'), ('zamnevi', 'ruskprav'), ('xilzam', 'quilplo')), default=None, ordered=False)",
+       "Weights(name='Zamvand', entries=(('tujarn', 24), ('xilrusk', 8), ('zamnevi', 15), ('xilzam', 21)))",
+       "Table(name='Nidhald', entries=(('quilplo', 'ybordrav'), ('ruskprav', 'civnak'), ('embka', 'verxdri'), ('yukbra', 'solfrik')), default=None, ordered=False)",
+       "Weights(name='Nidhald', entries=(('quilplo', 15), ('ruskprav', 10), ('embka', 29), ('yukbra', 5)))"
+      ],
+      "got_defs": [
+       "Table(name='Zamvand', entries=(('tujarn', 'yukbra'), ('xilrusk', 'embka'), ('zamnevi', 'ruskprav'), ('xilzam', 'quilplo')), default=None, ordered=False)",
+       "Weights(name='Zamvand', entries=(('tujarn', 24), ('xilrusk', 14), ('zamnevi', 28), ('xilzam', 15)))",
+       "Table(name='Nidhald', entries=(('quilplo', 'ybordrav'), ('ruskprav', 'civnak'), ('embka', 'verxdri'), ('yukbra', 'solfrik')), default=None, ordered=False)",
+       "Weights(name='Nidhald', entries=(('quilplo', 2), ('embka', 12), ('ruskprav', 5), ('yukbra', 10)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Zamvand', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Zamvand', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Nidhald', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Nidhald', Ref(name='c1')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Zamvand', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Zamvand', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Nidhald', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Nidhald', Ref(name='c1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Xanthtarn', entries=(('brathox', 'dolmtu'), ('zuntmel', 'wrenka'), ('qenverx', 'tarnijo'), ('lumdolm', 'stivplo')), default=None, ordered=False)",
+       "Weights(name='Xanthtarn', entries=(('brathox', 7), ('zuntmel', 26), ('qenverx', 20), ('lumdolm', 32)))",
+       "Table(name='Bratez', entries=(('wrenka', 'muthqen'), ('stivplo', 'nidmel'), ('dolmtu', 'yukashk'), ('tarnijo', 'xilvor')), default=None, ordered=False)",
+       "Weights(name='Bratez', entries=(('wrenka', 35), ('stivplo', 10), ('dolmtu', 23), ('tarnijo', 15)))",
+       "Table(name='Quilqen', entries=(('nidmel', 'nakbrun'), ('muthqen', 'teznak'), ('yukashk', 'brunpyr'), ('xilvor', 'dristiv')), default=None, ordered=False)",
+       "Weights(name='Quilqen', entries=(('nidmel', 12), ('muthqen', 33), ('yukashk', 31), ('xilvor', 13)))",
+       "Table(name='Brunzam', entries=(('teznak', 'frikmuth'), ('nakbrun', 'kreshhald'), ('brunpyr', 'yukovi'), ('dristiv', 'belumel')), default=None, ordered=False)",
+       "Weights(name='Brunzam', entries=(('teznak', 29), ('nakbrun', 26), ('brunpyr', 10), ('dristiv', 9)))",
+       "Table(name='Tubra', entries=(('kreshhald', 'tunak'), ('yukovi', 'argothox'), ('frikmuth', 'ovibrun'), ('belumel', 'embxil')), default=None, ordered=False)",
+       "Weights(name='Tubra', entries=(('kreshhald', 8), ('yukovi', 16), ('frikmuth', 21), ('belumel', 17)))"
+      ],
+      "got_defs": [
+       "Table(name='Xanthtarn', entries=(('brathox', 'dolmtu'), ('zuntmel', 'wrenka'), ('qenverx', 'tarnijo'), ('lumdolm', 'stivplo')), default=None, ordered=False)",
+       "Weights(name='Xanthtarn', entries=(('brathox', 23), ('zuntmel', 4), ('qenverx', 6), ('lumdolm', 20)))",
+       "Table(name='Bratez', entries=(('stivplo', 'muthqen'), ('wrenka', 'nidmel'), ('tarnijo', 'yukashk'), ('dolmtu', 'xilvor')), default=None, ordered=False)",
+       "Weights(name='Bratez', entries=(('stivplo', 32), ('wrenka', 5), ('tarnijo', 31), ('dolmtu', 30)))",
+       "Table(name='Quilqen', entries=(('muthqen', 'nakbrun'), ('nidmel', 'teznak'), ('yukashk', 'brunpyr'), ('xilvor', 'dristiv')), default=None, ordered=False)",
+       "Weights(name='Quilqen', entries=(('muthqen', 15), ('nidmel', 17), ('yukashk', 26), ('xilvor', 31)))",
+       "Table(name='Brunzam', entries=(('nakbrun', 'frikmuth'), ('brunpyr', 'kreshhald'), ('teznak', 'yukovi'), ('dristiv', 'belumel')), default=None, ordered=False)",
+       "Weights(name='Brunzam', entries=(('nakbrun', 16), ('brunpyr', 37), ('teznak', 9), ('dristiv', 16)))",
+       "Table(name='Tubra', entries=(('frikmuth', 'tunak'), ('yukovi', 'argothox'), ('kreshhald', 'ovibrun'), ('belumel', 'embxil')), default=None, ordered=False)",
+       "Weights(name='Tubra', entries=(('frikmuth', 15), ('yukovi', 7), ('kreshhald', 2), ('belumel', 38)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Xanthtarn', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Xanthtarn', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Bratez', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Bratez', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Quilqen', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Quilqen', Ref(name='c2')))",
+       "Step(out='w4', op='weigh', args=('Brunzam', Ref(name='c3')))",
+       "Step(out='s4', op='add', args=(Ref(name='s3'), Ref(name='w4')))",
+       "Step(out='c4', op='lookup', args=('Brunzam', Ref(name='c3')))",
+       "Step(out='w5', op='weigh', args=('Tubra', Ref(name='c4')))",
+       "Step(out='s5', op='add', args=(Ref(name='s4'), Ref(name='w5')))",
+       "Step(out='c5', op='lookup', args=('Tubra', Ref(name='c4')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Xanthtarn', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Xanthtarn', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Bratez', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Bratez', Ref(name='c1')))",
+       "Step(out='w3', op='weigh', args=('Quilqen', Ref(name='c2')))",
+       "Step(out='s3', op='add', args=(Ref(name='s2'), Ref(name='w3')))",
+       "Step(out='c3', op='lookup', args=('Quilqen', Ref(name='c2')))",
+       "Step(out='w4', op='weigh', args=('Brunzam', Ref(name='c3')))",
+       "Step(out='s4', op='add', args=(Ref(name='s3'), Ref(name='w4')))",
+       "Step(out='c4', op='lookup', args=('Brunzam', Ref(name='c3')))",
+       "Step(out='w5', op='weigh', args=('Tubra', Ref(name='c4')))",
+       "Step(out='s5', op='add', args=(Ref(name='s4'), Ref(name='w5')))",
+       "Step(out='c5', op='lookup', args=('Tubra', Ref(name='c4')))"
+      ]
+     }
+    ],
+    "compose": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.key_first.inverted.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Muthlum', entries=(('rusknak', 'zambra'), ('drixil', 'ybormi'), ('embharv', 'quilzel'), ('tezbelu', 'nidmel')), default=None, ordered=False)",
+       "Table(name='Xilka', entries=(('quilzel', 'yukka'), ('ybormi', 'yborijo'), ('zambra', 'drika'), ('nidmel', 'zuntokra')), default=None, ordered=False)",
+       "Table(name='Melclo', entries=(('zuntokra', 'nakfrik'), ('yborijo', 'thoxmi'), ('drika', 'tarndrav'), ('yukka', 'tarnstiv')), default=None, ordered=False)",
+       "Table(name='Ashkverx', entries=(('tarndrav', 'zelvor'), ('tarnstiv', 'rhamesk'), ('nakfrik', 'ashkpyr'), ('thoxmi', 'givostiv')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Muthlum', entries=(('rusknak', 'zambra'), ('drixil', 'ybormi'), ('embharv', 'quilzel'), ('tezbelu', 'nidmel')), default=None, ordered=False)",
+       "Table(name='Xilka', entries=(('quilzel', 'yukka'), ('nidmel', 'yborijo'), ('ybormi', 'drika'), ('zambra', 'zuntokra')), default=None, ordered=False)",
+       "Table(name='Melclo', entries=(('yukka', 'nakfrik'), ('yborijo', 'thoxmi'), ('drika', 'tarndrav'), ('zuntokra', 'tarnstiv')), default=None, ordered=False)",
+       "Table(name='Ashkverx', entries=(('tarndrav', 'zelvor'), ('thoxmi', 'rhamesk'), ('nakfrik', 'ashkpyr'), ('tarnstiv', 'givostiv')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Muthlum', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Xilka', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Melclo', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Ashkverx', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Muthlum', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Xilka', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Melclo', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Ashkverx', Ref(name='t3')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Stivlorn', entries=(('drilorn', 'wrenverx'), ('eskemb', 'haldwren'), ('wrenrham', 'tezesk'), ('thoxgest', 'karusk')), default=None, ordered=False)",
+       "Table(name='Kreshvand', entries=(('wrenverx', 'muthrham'), ('tezesk', 'tubelu'), ('haldwren', 'ovibra'), ('karusk', 'gestmel')), default=None, ordered=False)",
+       "Table(name='Civverx', entries=(('gestmel', 'wrenulm'), ('ovibra', 'civdolm'), ('tubelu', 'belutez'), ('muthrham', 'embsol')), default=None, ordered=False)",
+       "Table(name='Emblum', entries=(('embsol', 'bracinq'), ('wrenulm', 'yborxil'), ('belutez', 'argovor'), ('civdolm', 'nidtarn')), default=None, ordered=False)",
+       "Table(name='Verxyuk', entries=(('yborxil', 'kreshyuk'), ('argovor', 'vorpyr'), ('nidtarn', 'drilum'), ('bracinq', 'okraulm')), default=None, ordered=False)",
+       "Table(name='Nakashk', entries=(('kreshyuk', 'harvonda'), ('okraulm', 'ondaquil'), ('drilum', 'ruskplo'), ('vorpyr', 'frikplo')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Stivlorn', entries=(('drilorn', 'wrenverx'), ('eskemb', 'haldwren'), ('wrenrham', 'tezesk'), ('thoxgest', 'karusk')), default=None, ordered=False)",
+       "Table(name='Kreshvand', entries=(('tezesk', 'muthrham'), ('karusk', 'tubelu'), ('wrenverx', 'ovibra'), ('haldwren', 'gestmel')), default=None, ordered=False)",
+       "Table(name='Civverx', entries=(('muthrham', 'wrenulm'), ('ovibra', 'civdolm'), ('gestmel', 'belutez'), ('tubelu', 'embsol')), default=None, ordered=False)",
+       "Table(name='Emblum', entries=(('embsol', 'bracinq'), ('wrenulm', 'yborxil'), ('belutez', 'argovor'), ('civdolm', 'nidtarn')), default=None, ordered=False)",
+       "Table(name='Verxyuk', entries=(('bracinq', 'kreshyuk'), ('argovor', 'vorpyr'), ('nidtarn', 'drilum'), ('yborxil', 'okraulm')), default=None, ordered=False)",
+       "Table(name='Nakashk', entries=(('vorpyr', 'harvonda'), ('drilum', 'ondaquil'), ('kreshyuk', 'ruskplo'), ('okraulm', 'frikplo')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Stivlorn', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Kreshvand', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Civverx', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Emblum', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Verxyuk', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Nakashk', Ref(name='t5')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Stivlorn', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Kreshvand', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Civverx', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Emblum', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Verxyuk', Ref(name='t4')))",
+       "Step(out='t6', op='lookup', args=('Nakashk', Ref(name='t5')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.conditional.key_first.wh.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Stivkresh', entries=(('jarnfex', 'eskvor'), ('tezquil', 'ruskzam'), ('tezverx', 'givoverx'), ('nakvand', 'quilemb')), default=None, ordered=False)",
+       "Table(name='Ondanak', entries=(('givoverx', 'fexmi'), ('quilemb', 'okravor'), ('ruskzam', 'wrenrusk'), ('eskvor', 'plozel')), default=None, ordered=False)",
+       "Table(name='Qenbra', entries=(('fexmi', 'tezzel'), ('plozel', 'belufex'), ('wrenrusk', 'stivnevi'), ('okravor', 'wrenijo')), default=None, ordered=False)",
+       "Table(name='Frikhald', entries=(('stivnevi', 'tarnlorn'), ('belufex', 'vordri'), ('tezzel', 'pyrka'), ('wrenijo', 'kreshpyr')), default=None, ordered=False)",
+       "Table(name='Argorham', entries=(('kreshpyr', 'beluplo'), ('vordri', 'zamwren'), ('pyrka', 'plomuth'), ('tarnlorn', 'zelyuk')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Stivkresh', entries=(('eskvor', 'jarnfex'), ('ruskzam', 'tezquil'), ('givoverx', 'tezverx'), ('quilemb', 'nakvand')), default=None, ordered=False)",
+       "Table(name='Ondanak', entries=(('nakvand', 'fexmi'), ('tezverx', 'okravor'), ('tezverx', 'wrenrusk'), ('jarnfex', 'plozel')), default=None, ordered=False)",
+       "Table(name='Qenbra', entries=(('fexmi', 'tezzel'), ('plozel', 'belufex'), ('wrenrusk', 'stivnevi'), ('okravor', 'wrenijo')), default=None, ordered=False)",
+       "Table(name='Frikhald', entries=(('wrenijo', 'tarnlorn'), ('tezzel', 'vordri'), ('stivnevi', 'pyrka'), ('belufex', 'kreshpyr')), default=None, ordered=False)",
+       "Table(name='Argorham', entries=(('tarnlorn', 'beluplo'), ('pyrka', 'zamwren'), ('kreshpyr', 'plomuth'), ('vordri', 'zelyuk')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Stivkresh', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Ondanak', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Qenbra', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Frikhald', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Argorham', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Stivkresh', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Ondanak', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Qenbra', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Frikhald', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Argorham', Ref(name='t4')))"
+      ]
+     }
+    ],
+    "apply_n": [
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.key_first.inverted.scope_last",
+      "gold_ops": [
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Pravfrik', a=3, b=3, m=101)"
+      ],
+      "got_defs": [
+       "Affine(name='Pravfrik', a=3, b=3, m=101)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Pravfrik', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Pravfrik', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Pravfrik', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Pravfrik', Ref(name='t2')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Nidlum', a=2, b=3, m=251)"
+      ],
+      "got_defs": [
+       "Affine(name='Nidlum', a=2, b=3, m=251)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Nidlum', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Nidlum', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Nidlum', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Nidlum', Ref(name='t3')))",
+       "Step(out='t5', op='step', args=('Nidlum', Ref(name='t4')))",
+       "Step(out='t6', op='step', args=('Nidlum', Ref(name='t5')))",
+       "Step(out='t7', op='step', args=('Nidlum', Ref(name='t6')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Nidlum', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Nidlum', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Nidlum', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Nidlum', Ref(name='t3')))",
+       "Step(out='t5', op='step', args=('Nidlum', Ref(name='t4')))",
+       "Step(out='t6', op='step', args=('Nidlum', Ref(name='t5')))",
+       "Step(out='t7', op='step', args=('Nidlum', Ref(name='t6')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.conditional.key_first.wh.scope_last",
+      "gold_ops": [
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Neviemb', a=2, b=11, m=97)"
+      ],
+      "got_defs": [
+       "Affine(name='Neviemb', a=2, b=11, m=97)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Neviemb', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Neviemb', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Neviemb', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Neviemb', Ref(name='t3')))",
+       "Step(out='t5', op='step', args=('Neviemb', Ref(name='t4')))",
+       "Step(out='t6', op='step', args=('Neviemb', Ref(name='t5')))",
+       "Step(out='t7', op='step', args=('Neviemb', Ref(name='t6')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Neviemb', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Neviemb', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Neviemb', Ref(name='t2')))"
+      ]
+     }
+    ],
+    "exclusion": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "odd_one_out"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Rhamtarn', entries=(('kaashk', 'argofex'), ('muthnak', 'yborulm'), ('tarndolm', 'yborulm'), ('rhamijo', 'yborulm')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Rhamtarn', entries=(('argofex', 'kaashk'), ('yborulm', 'muthnak'), ('tarndolm', 'rhamijo')), default='argofex', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Rhamtarn', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Rhamtarn', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.conditional.value_first.imperative.scope_first",
+      "gold_ops": [
+       "odd_one_out"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Tuashk', entries=(('embxil', 'solvor'), ('lornjarn', 'solvor'), ('ulmfex', 'verxdolm'), ('embzunt', 'solvor')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Tuashk', entries=(('solvor', 'embxil'), ('lornjarn', 'verxdolm'), ('ulmfex', 'embzunt')), default='solvor', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Tuashk', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Tuashk', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.mapping.value_first.cloze.scope_first",
+      "gold_ops": [
+       "odd_one_out"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Xanthmuth', entries=(('yukvor', 'ybordolm'), ('tezvor', 'ybordolm'), ('tuashk', 'ybordolm'), ('muthnid', 'xanthbelu')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Xanthmuth', entries=(('yukvor', 'ybordolm'), ('tuashk', 'tezvor'), ('xanthbelu', 'ybordolm'), ('muthnid', 'ybordolm')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Xanthmuth', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Xanthmuth', Ref(name='x')))"
+      ]
+     }
+    ],
+    "precedence": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "prefer"
+      ],
+      "got_ops": [
+       "prefer"
+      ],
+      "gold_defs": [
+       "Table(name='Eskthox', entries=(('dravulm', 'fexthox'), ('tulorn', 'argoxanth'), ('yborthox', 'quilfrik'), ('dravquil', 'embtu')), default=None, ordered=False)",
+       "Table(name='Dritez', entries=(('dravulm', 'givoashk'), ('tulorn', 'drinevi'), ('yborthox', 'givoesk'), ('dravquil', 'dravemb')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Eskthox', entries=(('dravulm', 'fexthox'), ('tulorn', 'argoxanth'), ('yborthox', 'quilfrik'), ('dravquil', 'embtu')), default=None, ordered=False)",
+       "Table(name='Dritez', entries=(('dravulm', 'givoashk'), ('tulorn', 'drinevi'), ('yborthox', 'givoesk'), ('dravquil', 'dravemb')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='prefer', args=('Eskthox', 'Dritez', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='prefer', args=('Eskthox', 'Dritez', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.conditional.value_first.inverted.scope_first",
+      "gold_ops": [
+       "prefer"
+      ],
+      "got_ops": [
+       "prefer"
+      ],
+      "gold_defs": [
+       "Table(name='Harvdolm', entries=(('dolmthox', 'vandmuth'), ('qenxil', 'givoharv'), ('dravnid', 'frikgivo'), ('ulmqen', 'xanthashk')), default=None, ordered=False)",
+       "Table(name='Kaonda', entries=(('dolmthox', 'muthonda'), ('qenxil', 'solxil'), ('dravnid', 'pyrzunt'), ('ulmqen', 'lorngivo')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Harvdolm', entries=(('vandmuth', 'dolmthox'), ('givoharv', 'qenxil'), ('frikgivo', 'dravnid'), ('xanthashk', 'ulmqen')), default=None, ordered=False)",
+       "Table(name='Kaonda', entries=(('vandmuth', 'muthonda'), ('givoharv', 'solxil'), ('frikgivo', 'pyrzunt'), ('xanthashk', 'lorngivo')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='prefer', args=('Harvdolm', 'Kaonda', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='prefer', args=('Harvdolm', 'Kaonda', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.conditional.value_first.imperative.scope_first",
+      "gold_ops": [
+       "prefer"
+      ],
+      "got_ops": [
+       "prefer"
+      ],
+      "gold_defs": [
+       "Table(name='Brabra', entries=(('nidverx', 'ashkgivo'), ('clopyr', 'wiskzunt'), ('clokresh', 'muthplo'), ('xilgivo', 'ovisol')), default=None, ordered=False)",
+       "Table(name='Dolmwren', entries=(('nidverx', 'ruskwren'), ('clopyr', 'ruskplo'), ('clokresh', 'belukresh'), ('xilgivo', 'tezemb')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Brabra', entries=(('ashkgivo', 'nidverx'), ('wiskzunt', 'clopyr'), ('muthplo', 'clokresh'), ('ovisol', 'xilgivo')), default=None, ordered=False)",
+       "Table(name='Dolmwren', entries=(('ashkgivo', 'ruskwren'), ('wiskzunt', 'ruskplo'), ('muthplo', 'belukresh'), ('ovisol', 'tezemb')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='prefer', args=('Brabra', 'Dolmwren', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='prefer', args=('Brabra', 'Dolmwren', Ref(name='x')))"
+      ]
+     }
+    ],
+    "iterate": [
+     {
+      "bucket": "same_answer",
+      "fid": "signal.conditional.value_first.inverted.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Plookra', entries=(('vorxil', 'ruskprav'), ('ruskprav', 'civashk'), ('civashk', 'beluverx'), ('beluverx', 'vorxil')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Plookra', entries=(('ruskprav', 'vorxil'), ('vorxil', 'civashk'), ('civashk', 'beluverx'), ('beluverx', 'ruskprav')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Plookra', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Plookra', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Neviqen', entries=(('fexybor', 'nakokra'), ('nakokra', 'frikulm'), ('frikulm', 'kaovi'), ('kaovi', 'solprav'), ('solprav', 'fexybor')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Neviqen', entries=(('nakokra', 'fexybor'), ('fexybor', 'frikulm'), ('frikulm', 'kaovi'), ('kaovi', 'solprav'), ('solprav', 'nakokra')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Neviqen', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Neviqen', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Neviqen', Ref(name='t2')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Neviqen', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Neviqen', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Neviqen', Ref(name='t2')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.table_row.key_first.cloze.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Stivdrav', entries=(('ijothox', 'lumnevi'), ('lumnevi', 'harvcinq'), ('harvcinq', 'pravthox'), ('pravthox', 'yukyuk'), ('yukyuk', 'pyrzam'), ('pyrzam', 'branevi'), ('branevi', 'ijothox')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Stivdrav', entries=(('lumnevi', 'ijothox'), ('ijothox', 'harvcinq'), ('harvcinq', 'pravthox'), ('pravthox', 'yukyuk'), ('yukyuk', 'pyrzam'), ('pyrzam', 'branevi'), ('branevi', 'lumnevi')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Stivdrav', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Stivdrav', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Stivdrav', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Stivdrav', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Stivdrav', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Stivdrav', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Stivdrav', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Stivdrav', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Stivdrav', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Stivdrav', Ref(name='t4')))"
+      ]
+     }
+    ],
+    "classify": [
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.mapping.key_first.inverted.scope_last",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Fexthox', attr='zuntclo', cuts=(35,), labels=('xanthemb', 'miciv'))"
+      ],
+      "got_defs": [
+       "Weights(name='Fexthox', entries=(('under', 30), ('xanthemb', 35), ('over', 30), ('miciv', 51)))",
+       "Bands(name='zuntclo', attr='Fexthox', cuts=(4,), labels=('xanthemb',))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Fexthox', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Fexthox', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('zuntclo', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.imperative.key_first.imperative.scope_last",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Argohald', attr='harvlorn', cuts=(30, 60), labels=('frikbrun', 'cinqfex', 'wrenesk'))"
+      ],
+      "got_defs": [
+       "Bands(name='Argohald', attr='harvlorn', cuts=(30, 3), labels=('frikbrun', 'cinqfex', 'wrenesk'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Argohald', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Argohald', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "signal.conditional.value_first.imperative.scope_first",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Okraargo', attr='tarntez', cuts=(25,), labels=('dravqen', 'tezclo'))"
+      ],
+      "got_defs": [
+       "Bands(name='Okraargo', attr='tarntez', cuts=(25,), labels=('dravqen', 'tezclo'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Okraargo', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Okraargo', Ref(name='x')))"
+      ]
+     }
+    ],
+    "lookup": [
+     {
+      "bucket": "value_slip",
+      "fid": "signal.table_row.key_first.cloze.scope_last",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Dravbrun', entries=(('zamsol', 'xilzel'), ('lumzam', 'wrenmi'), ('vandlum', 'wiskka'), ('civsol', 'ijorham')), default='cinqokra', ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Dravbrun', entries=(('xilzel', 'zamsol'), ('wrenmi', 'lumzam'), ('wiskka', 'vandlum'), ('ijorham', 'civsol')), default='cinqokra', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Dravbrun', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Dravbrun', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.imperative.key_first.inverted.scope_last",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Wiskpyr', entries=(('embvand', 'frikplo'), ('ijodrav', 'xildri'), ('beluciv', 'pyrtu'), ('okradolm', 'yukhald')), default='rhamyuk', ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Wiskpyr', entries=(('embvand', 'frikplo'), ('ijodrav', 'xildri'), ('beluciv', 'pyrtu'), ('okradolm', 'yukhald')), default='frikplo', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Wiskpyr', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Wiskpyr', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "signal.passive_decl.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Beluxanth', entries=(('tuthox', 'stivrham'), ('argonevi', 'xanthqen'), ('vorciv', 'dolmciv'), ('fexonda', 'wiskmi')), default='zamashk', ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Beluxanth', entries=(('tuthox', 'stivrham'), ('argonevi', 'xanthqen'), ('vorciv', 'dolmciv'), ('fexonda', 'wiskmi')), default='stivrham', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Beluxanth', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Beluxanth', Ref(name='x')))"
+      ]
+     }
+    ]
+   }
+  },
+  "mode": {
+   "by_shape": {
+    "apply_n": {
+     "n": 200,
+     "exact": 0.285,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.215,
+     "value_slip": 0.5,
+     "malformed": 0.0
+    },
+    "band_then_lookup": {
+     "n": 200,
+     "exact": 0.81,
+     "order_only": 0.0,
+     "same_answer": 0.05,
+     "shape_slip": 0.0,
+     "value_slip": 0.14,
+     "malformed": 0.0
+    },
+    "classify": {
+     "n": 200,
+     "exact": 0.005,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.005,
+     "malformed": 0.99
+    },
+    "compose": {
+     "n": 200,
+     "exact": 0.12,
+     "order_only": 0.0,
+     "same_answer": 0.31,
+     "shape_slip": 0.01,
+     "value_slip": 0.56,
+     "malformed": 0.0
+    },
+    "exclusion": {
+     "n": 200,
+     "exact": 0.145,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.71,
+     "malformed": 0.145
+    },
+    "inverse": {
+     "n": 200,
+     "exact": 0.535,
+     "order_only": 0.0,
+     "same_answer": 0.455,
+     "shape_slip": 0.0,
+     "value_slip": 0.01,
+     "malformed": 0.0
+    },
+    "iterate": {
+     "n": 200,
+     "exact": 0.52,
+     "order_only": 0.0,
+     "same_answer": 0.175,
+     "shape_slip": 0.0,
+     "value_slip": 0.305,
+     "malformed": 0.0
+    },
+    "lookup": {
+     "n": 200,
+     "exact": 0.535,
+     "order_only": 0.0,
+     "same_answer": 0.13,
+     "shape_slip": 0.0,
+     "value_slip": 0.335,
+     "malformed": 0.0
+    },
+    "lookup_general": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "lookup_then_band": {
+     "n": 200,
+     "exact": 0.03,
+     "order_only": 0.0,
+     "same_answer": 0.79,
+     "shape_slip": 0.0,
+     "value_slip": 0.12,
+     "malformed": 0.06
+    },
+    "pair": {
+     "n": 200,
+     "exact": 1.0,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.0,
+     "value_slip": 0.0,
+     "malformed": 0.0
+    },
+    "precedence": {
+     "n": 200,
+     "exact": 0.535,
+     "order_only": 0.0,
+     "same_answer": 0.0,
+     "shape_slip": 0.04,
+     "value_slip": 0.425,
+     "malformed": 0.0
+    },
+    "priority": {
+     "n": 200,
+     "exact": 0.51,
+     "order_only": 0.0,
+     "same_answer": 0.015,
+     "shape_slip": 0.015,
+     "value_slip": 0.42,
+     "malformed": 0.04
+    },
+    "sum_chain": {
+     "n": 200,
+     "exact": 0.02,
+     "order_only": 0.0,
+     "same_answer": 0.05,
+     "shape_slip": 0.0,
+     "value_slip": 0.925,
+     "malformed": 0.005
+    }
+   },
+   "examples": {
+    "compose": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.key_first.imperative.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Wiskwren', entries=(('brunharv', 'verxthox'), ('ulmplo', 'miqen'), ('ashkmi', 'stivdrav'), ('frikvand', 'xilonda')), default=None, ordered=False)",
+       "Table(name='Vandargo', entries=(('stivdrav', 'solokra'), ('verxthox', 'kapyr'), ('miqen', 'xilstiv'), ('xilonda', 'lumstiv')), default=None, ordered=False)",
+       "Table(name='Ondamel', entries=(('kapyr', 'gestgest'), ('lumstiv', 'embnak'), ('xilstiv', 'nakmel'), ('solokra', 'melzunt')), default=None, ordered=False)",
+       "Table(name='Civcinq', entries=(('gestgest', 'vandquil'), ('nakmel', 'wisklorn'), ('melzunt', 'ashkybor'), ('embnak', 'muthemb')), default=None, ordered=False)",
+       "Table(name='Nakokra', entries=(('vandquil', 'verxrham'), ('wisklorn', 'ulmka'), ('ashkybor', 'harvdolm'), ('muthemb', 'ulmulm')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Wiskwren', entries=(('brunharv', 'verxthox'), ('ulmplo', 'miqen'), ('ashkmi', 'stivdrav'), ('frikvand', 'xilonda')), default=None, ordered=False)",
+       "Table(name='Vandargo', entries=(('stivdrav', 'solokra'), ('verxthox', 'kapyr'), ('miqen', 'xilstiv'), ('xilonda', 'lumstiv')), default=None, ordered=False)",
+       "Table(name='Ondamel', entries=(('kapyr', 'gestgest'), ('xilstiv', 'embnak'), ('lumstiv', 'nakmel'), ('solokra', 'melzunt')), default=None, ordered=False)",
+       "Table(name='Civcinq', entries=(('melzunt', 'vandquil'), ('gestgest', 'wisklorn'), ('embnak', 'ashkybor'), ('nakmel', 'muthemb')), default=None, ordered=False)",
+       "Table(name='Nakokra', entries=(('vandquil', 'verxrham'), ('wisklorn', 'ulmka'), ('ashkybor', 'harvdolm'), ('muthemb', 'ulmulm')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Wiskwren', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Vandargo', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Ondamel', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Civcinq', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Nakokra', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Wiskwren', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Vandargo', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Ondamel', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Civcinq', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Nakokra', Ref(name='t4')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.key_first.inverted.scope_last",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Fexonda', entries=(('dolmvor', 'cinqqen'), ('nakka', 'melnid'), ('clolum', 'wisklorn'), ('tuclo', 'okramel')), default=None, ordered=False)",
+       "Table(name='Argogest', entries=(('okramel', 'dridri'), ('cinqqen', 'ijokresh'), ('melnid', 'kadri'), ('wisklorn', 'miashk')), default=None, ordered=False)",
+       "Table(name='Nidplo', entries=(('ijokresh', 'eskqen'), ('miashk', 'jarntu'), ('dridri', 'okrawisk'), ('kadri', 'embovi')), default=None, ordered=False)",
+       "Table(name='Civesk', entries=(('eskqen', 'yboryuk'), ('embovi', 'quiljarn'), ('jarntu', 'ashkijo'), ('okrawisk', 'nidlorn')), default=None, ordered=False)",
+       "Table(name='Ulmpyr', entries=(('yboryuk', 'closol'), ('quiljarn', 'nidmi'), ('nidlorn', 'ijostiv'), ('ashkijo', 'vandonda')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Fexonda', entries=(('dolmvor', 'cinqqen'), ('nakka', 'melnid'), ('clolum', 'wisklorn'), ('tuclo', 'okramel')), default=None, ordered=False)",
+       "Table(name='Argogest', entries=(('okramel', 'dridri'), ('wisklorn', 'ijokresh'), ('cinqqen', 'kadri'), ('melnid', 'miashk')), default=None, ordered=False)",
+       "Table(name='Nidplo', entries=(('ijokresh', 'eskqen'), ('dridri', 'jarntu'), ('miashk', 'okrawisk'), ('kadri', 'embovi')), default=None, ordered=False)",
+       "Table(name='Civesk', entries=(('eskqen', 'yboryuk'), ('jarntu', 'quiljarn'), ('embovi', 'ashkijo'), ('okrawisk', 'nidlorn')), default=None, ordered=False)",
+       "Table(name='Ulmpyr', entries=(('yboryuk', 'closol'), ('ashkijo', 'nidmi'), ('quiljarn', 'ijostiv'), ('nidlorn', 'vandonda')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Fexonda', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argogest', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Nidplo', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Civesk', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Ulmpyr', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Fexonda', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Argogest', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Nidplo', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Civesk', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Ulmpyr', Ref(name='t4')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Vandargo', entries=(('okrafrik', 'muthulm'), ('argoclo', 'kreshbra'), ('tarnargo', 'pravokra'), ('clostiv', 'melfex')), default=None, ordered=False)",
+       "Table(name='Nidverx', entries=(('pravokra', 'verxtez'), ('muthulm', 'kreshemb'), ('kreshbra', 'ovifex'), ('melfex', 'nakemb')), default=None, ordered=False)",
+       "Table(name='Wisktez', entries=(('nakemb', 'yborzunt'), ('kreshemb', 'oviwisk'), ('ovifex', 'haldvor'), ('verxtez', 'nidprav')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Vandargo', entries=(('muthulm', 'okrafrik'), ('kreshbra', 'argoclo'), ('pravokra', 'tarnargo'), ('melfex', 'clostiv')), default=None, ordered=False)",
+       "Table(name='Nidverx', entries=(('tarnargo', 'verxtez'), ('clostiv', 'kreshemb'), ('clostiv', 'ovifex'), ('okrafrik', 'nakemb')), default=None, ordered=False)",
+       "Table(name='Wisktez', entries=(('kreshemb', 'yborzunt'), ('ovifex', 'oviwisk'), ('nakemb', 'haldvor'), ('verxtez', 'nidprav')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Vandargo', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Nidverx', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Wisktez', Ref(name='t2')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Vandargo', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Nidverx', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Wisktez', Ref(name='t2')))"
+      ]
+     }
+    ],
+    "lookup_then_band": [
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.relative_clause.key_first.imperative.scope_last",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Xanthnak', entries=(('xanthdolm', 25), ('miclo', 48), ('vandwisk', 71), ('tutarn', 32), ('haldmuth', 52), ('dolmciv', 84)))",
+       "Bands(name='Lorntu', attr='Xanthnak', cuts=(35, 60), labels=('wrennid', 'nevirusk', 'jarnijo'))"
+      ],
+      "got_defs": [
+       "Weights(name='Xanthnak', entries=(('xanthdolm', 2), ('miclo', 54), ('vandwisk', 78), ('tutarn', 12), ('haldmuth', 35), ('dolmciv', 84)))",
+       "Bands(name='Lorntu', attr='Xanthnak', cuts=(35, 60), labels=('wrennid', 'nevirusk', 'jarnijo'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Xanthnak', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Lorntu', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Xanthnak', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Lorntu', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.relative_clause.key_first.inverted.scope_last",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Dravrusk', entries=(('wiskvand', 11), ('pravjarn', 38), ('civashk', 81), ('friklum', 6), ('gestverx', 44), ('lumvor', 68)))",
+       "Bands(name='Muthashk', attr='Dravrusk', cuts=(25, 55), labels=('ijotez', 'friktu', 'argoverx'))"
+      ],
+      "got_defs": [
+       "Weights(name='Dravrusk', entries=(('wiskvand', 11), ('pravjarn', 38), ('civashk', 18), ('friklum', 6), ('gestverx', 44), ('lumvor', 86)))",
+       "Bands(name='Muthashk', attr='Dravrusk', cuts=(25, 55), labels=('ijotez', 'friktu', 'argoverx'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Dravrusk', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Muthashk', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Dravrusk', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Muthashk', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "weigh",
+       "band"
+      ],
+      "got_ops": [
+       "weigh",
+       "band"
+      ],
+      "gold_defs": [
+       "Weights(name='Vordrav', entries=(('vorwren', 30), ('ijostiv', 69), ('frikbra', 98), ('ashkquil', 3), ('ondarham', 69), ('dolmkresh', 87)))",
+       "Bands(name='Xilyuk', attr='Vordrav', cuts=(40, 75), labels=('verxybor', 'xanthvor', 'ashkyuk'))"
+      ],
+      "got_defs": [
+       "Weights(name='Vordrav', entries=(('vorwren', 30), ('ijostiv', 90), ('frikbra', 89), ('ashkquil', 38), ('ondarham', 69), ('dolmkresh', 87)))",
+       "Bands(name='Xilyuk', attr='Vordrav', cuts=(40, 75), labels=('verxybor', 'xanthvor', 'ashkyuk'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='weigh', args=('Vordrav', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Xilyuk', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='weigh', args=('Vordrav', Ref(name='x')))",
+       "Step(out='t2', op='band', args=('Xilyuk', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "sum_chain": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.key_first.imperative.scope_last",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Plovand', entries=(('lornnak', 'haldemb'), ('solesk', 'ashkplo'), ('ovimel', 'xilvand'), ('okradolm', 'ulmovi')), default=None, ordered=False)",
+       "Weights(name='Plovand', entries=(('lornnak', 14), ('solesk', 34), ('ovimel', 29), ('okradolm', 8)))",
+       "Table(name='Zamxanth', entries=(('ulmovi', 'okraclo'), ('xilvand', 'yborxanth'), ('ashkplo', 'brunfex'), ('haldemb', 'vorgivo')), default=None, ordered=False)",
+       "Weights(name='Zamxanth', entries=(('ulmovi', 3), ('xilvand', 14), ('ashkplo', 6), ('haldemb', 40)))"
+      ],
+      "got_defs": [
+       "Table(name='Plovand', entries=(('lornnak', 'haldemb'), ('solesk', 'ashkplo'), ('ovimel', 'xilvand'), ('okradolm', 'ulmovi')), default=None, ordered=False)",
+       "Weights(name='Plovand', entries=(('lornnak', 14), ('solesk', 34), ('ovimel', 29), ('okradolm', 8)))",
+       "Table(name='Zamxanth', entries=(('ulmovi', 'okraclo'), ('xilvand', 'yborxanth'), ('ashkplo', 'brunfex'), ('haldemb', 'vorgivo')), default=None, ordered=False)",
+       "Weights(name='Zamxanth', entries=(('ulmovi', 23), ('xilvand', 4), ('ashkplo', 16), ('haldemb', 40)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Plovand', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Plovand', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Zamxanth', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Zamxanth', Ref(name='c1')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Plovand', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Plovand', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Zamxanth', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Zamxanth', Ref(name='c1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.key_first.inverted.scope_last",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Dravyuk', entries=(('vorstiv', 'verxargo'), ('yborgest', 'harvnid'), ('niddolm', 'xilprav'), ('ploijo', 'ashktu')), default=None, ordered=False)",
+       "Weights(name='Dravyuk', entries=(('vorstiv', 2), ('yborgest', 14), ('niddolm', 26), ('ploijo', 14)))",
+       "Table(name='Zuntfex', entries=(('ashktu', 'embijo'), ('verxargo', 'gestkresh'), ('harvnid', 'muthfex'), ('xilprav', 'verxfex')), default=None, ordered=False)",
+       "Weights(name='Zuntfex', entries=(('ashktu', 32), ('verxargo', 33), ('harvnid', 5), ('xilprav', 35)))"
+      ],
+      "got_defs": [
+       "Table(name='Dravyuk', entries=(('vorstiv', 'verxargo'), ('yborgest', 'harvnid'), ('niddolm', 'xilprav'), ('ploijo', 'ashktu')), default=None, ordered=False)",
+       "Weights(name='Dravyuk', entries=(('vorstiv', 2), ('yborgest', 14), ('niddolm', 26), ('ploijo', 14)))",
+       "Table(name='Zuntfex', entries=(('ashktu', 'embijo'), ('verxargo', 'gestkresh'), ('harvnid', 'muthfex'), ('xilprav', 'verxfex')), default=None, ordered=False)",
+       "Weights(name='Zuntfex', entries=(('ashktu', 23), ('verxargo', 33), ('harvnid', 35), ('xilprav', 35)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Dravyuk', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Dravyuk', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Zuntfex', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Zuntfex', Ref(name='c1')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Dravyuk', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Dravyuk', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Zuntfex', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Zuntfex', Ref(name='c1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "got_ops": [
+       "weigh",
+       "lookup",
+       "weigh",
+       "add",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Eskstiv', entries=(('dravhald', 'civverx'), ('muthmi', 'cinqnak'), ('rhamciv', 'fexharv'), ('xanthjarn', 'vorkresh')), default=None, ordered=False)",
+       "Weights(name='Eskstiv', entries=(('dravhald', 24), ('muthmi', 29), ('rhamciv', 34), ('xanthjarn', 7)))",
+       "Table(name='Zelthox', entries=(('vorkresh', 'xilmuth'), ('civverx', 'voresk'), ('cinqnak', 'ondanevi'), ('fexharv', 'muthonda')), default=None, ordered=False)",
+       "Weights(name='Zelthox', entries=(('vorkresh', 33), ('civverx', 8), ('cinqnak', 20), ('fexharv', 27)))"
+      ],
+      "got_defs": [
+       "Table(name='Eskstiv', entries=(('civverx', 'dravhald'), ('cinqnak', 'muthmi'), ('fexharv', 'rhamciv'), ('vorkresh', 'xanthjarn')), default=None, ordered=False)",
+       "Weights(name='Eskstiv', entries=(('civverx', 4), ('cinqnak', 29), ('fexharv', 24), ('vorkresh', 7)))",
+       "Table(name='Zelthox', entries=(('rhamciv', 'xilmuth'), ('xanthjarn', 'voresk'), ('muthmi', 'ondanevi'), ('dravhald', 'muthonda')), default=None, ordered=False)",
+       "Weights(name='Zelthox', entries=(('rhamciv', 33), ('xanthjarn', 38), ('muthmi', 27), ('dravhald', 20)))"
+      ],
+      "gold_steps": [
+       "Step(out='w1', op='weigh', args=('Eskstiv', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Eskstiv', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Zelthox', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Zelthox', Ref(name='c1')))"
+      ],
+      "got_steps": [
+       "Step(out='w1', op='weigh', args=('Eskstiv', Ref(name='x')))",
+       "Step(out='c1', op='lookup', args=('Eskstiv', Ref(name='x')))",
+       "Step(out='w2', op='weigh', args=('Zelthox', Ref(name='c1')))",
+       "Step(out='s2', op='add', args=(Ref(name='w1'), Ref(name='w2')))",
+       "Step(out='c2', op='lookup', args=('Zelthox', Ref(name='c1')))"
+      ]
+     }
+    ],
+    "apply_n": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.key_first.imperative.scope_last",
+      "gold_ops": [
+       "step",
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Fexqen', a=3, b=9, m=101)"
+      ],
+      "got_defs": [
+       "Affine(name='Fexqen', a=3, b=9, m=101)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Fexqen', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Fexqen', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Fexqen', Ref(name='t2')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Fexqen', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Fexqen', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Fexqen', Ref(name='t2')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "abstract.relative_clause.key_first.inverted.scope_last",
+      "gold_ops": [
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Lumcinq', a=2, b=11, m=251)"
+      ],
+      "got_defs": [
+       "Affine(name='Lumcinq', a=2, b=1, m=251)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Lumcinq', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Lumcinq', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Lumcinq', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.key_first.wh.scope_last",
+      "gold_ops": [
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "got_ops": [
+       "step",
+       "step",
+       "step",
+       "step"
+      ],
+      "gold_defs": [
+       "Affine(name='Embbrun', a=3, b=3, m=199)"
+      ],
+      "got_defs": [
+       "Affine(name='Embbrun', a=3, b=3, m=199)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='step', args=('Embbrun', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Embbrun', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Embbrun', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Embbrun', Ref(name='t3')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='step', args=('Embbrun', Ref(name='x')))",
+       "Step(out='t2', op='step', args=('Embbrun', Ref(name='t1')))",
+       "Step(out='t3', op='step', args=('Embbrun', Ref(name='t2')))",
+       "Step(out='t4', op='step', args=('Embbrun', Ref(name='t3')))"
+      ]
+     }
+    ],
+    "exclusion": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.key_first.inverted.scope_last",
+      "gold_ops": [
+       "odd_one_out"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Cinqmi', entries=(('verxcinq', 'rhamfrik'), ('ovihald', 'jarnjarn'), ('embzam', 'rhamfrik'), ('oviargo', 'rhamfrik')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Cinqmi', entries=(('verxcinq', 'rhamfrik'), ('ovihald', 'rhamfrik'), ('jarnjarn', 'rhamfrik'), ('embzam', 'oviargo')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Cinqmi', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Cinqmi', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "odd_one_out"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Givogivo', entries=(('nevigest', 'wrennid'), ('tuargo', 'wrennid'), ('embashk', 'haldyuk'), ('ulmclo', 'wrennid')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Givogivo', entries=(('wrennid', 'nevigest'), ('tuargo', 'haldyuk'), ('embashk', 'ulmclo')), default='wrennid', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Givogivo', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Givogivo', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.key_first.wh.scope_last",
+      "gold_ops": [
+       "odd_one_out"
+      ],
+      "got_ops": [
+       "odd_one_out"
+      ],
+      "gold_defs": [
+       "Table(name='Tarnfex', entries=(('thoxsol', 'tudolm'), ('zelharv', 'esklum'), ('jarnnak', 'tudolm'), ('voresk', 'tudolm')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Tarnfex', entries=(('thoxsol', 'tudolm'), ('zelharv', 'tudolm'), ('esklum', 'tudolm'), ('jarnnak', 'voresk')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Tarnfex', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='odd_one_out', args=('Tarnfex', Ref(name='x')))"
+      ]
+     }
+    ],
+    "lookup": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Bruntu', entries=(('xanthwren', 'tezsol'), ('lumbra', 'vandmuth'), ('kreshtez', 'ashklorn'), ('ulmgest', 'lornfex')), default='ulmdolm', ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Bruntu', entries=(('tezsol', 'xanthwren'), ('vandmuth', 'lumbra'), ('ashklorn', 'kreshtez'), ('lornfex', 'ulmgest')), default='ulmdolm', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Bruntu', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Bruntu', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.value_first.imperative.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Meltu', entries=(('dolmhald', 'vandhald'), ('dolmbelu', 'qennid'), ('nevimuth', 'harvonda'), ('kreshciv', 'givonevi')), default='civgest', ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Meltu', entries=(('vandhald', 'dolmhald'), ('qennid', 'dolmbelu'), ('harvonda', 'nevimuth'), ('givonevi', 'kreshciv')), default='civgest', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Meltu', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Meltu', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "assembly.relative_clause.value_first.inverted.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Brunulm', entries=(('vormi', 'civtarn'), ('wrenplo', 'lornnak'), ('tezsol', 'fexvand'), ('haldtu', 'ashkzunt')), default='wiskijo', ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Brunulm', entries=(('civtarn', 'vormi'), ('lornnak', 'wrenplo'), ('fexvand', 'tezsol'), ('ashkzunt', 'haldtu')), default='wiskijo', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Brunulm', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Brunulm', Ref(name='x')))"
+      ]
+     }
+    ],
+    "inverse": [
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "invert"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Xilzel', entries=(('ondavor', 'civwren'), ('nevistiv', 'vorgivo'), ('thoxciv', 'yborclo'), ('ijohald', 'clofex')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Xilzel', entries=(('civwren', 'ondavor'), ('vorgivo', 'nevistiv'), ('yborclo', 'thoxciv'), ('clofex', 'ijohald')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='invert', args=('Xilzel', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Xilzel', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "assembly.relative_clause.value_first.imperative.scope_first",
+      "gold_ops": [
+       "invert"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Civsol', entries=(('dolmbrun', 'gestxil'), ('frikjarn', 'nidquil'), ('ruskkresh', 'nakbelu'), ('harvybor', 'solmel')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Civsol', entries=(('gestxil', 'dolmbrun'), ('nidquil', 'frikjarn'), ('nakbelu', 'ruskkresh'), ('solmel', 'harvybor')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='invert', args=('Civsol', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Civsol', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "assembly.relative_clause.value_first.inverted.scope_first",
+      "gold_ops": [
+       "invert"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Pyrnid', entries=(('eskmel', 'zuntlorn'), ('dravonda', 'lornthox'), ('pravonda', 'ovijarn'), ('zelplo', 'xilonda')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Pyrnid', entries=(('zuntlorn', 'eskmel'), ('lornthox', 'dravonda'), ('ovijarn', 'pravonda'), ('xilonda', 'zelplo')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='invert', args=('Pyrnid', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Pyrnid', Ref(name='x')))"
+      ]
+     }
+    ],
+    "iterate": [
+     {
+      "bucket": "same_answer",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Stivbelu', entries=(('pyrlum', 'lummuth'), ('lummuth', 'drionda'), ('drionda', 'nakdrav'), ('nakdrav', 'pyrlum')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Stivbelu', entries=(('lummuth', 'pyrlum'), ('pyrlum', 'drionda'), ('drionda', 'nakdrav'), ('nakdrav', 'lummuth')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Stivbelu', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Stivbelu', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "same_answer",
+      "fid": "assembly.relative_clause.value_first.imperative.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Driyuk', entries=(('dravxanth', 'rhamdrav'), ('rhamdrav', 'pravmi'), ('pravmi', 'tarnprav'), ('tarnprav', 'solquil'), ('solquil', 'thoxbelu'), ('thoxbelu', 'melmuth'), ('melmuth', 'dravxanth')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Driyuk', entries=(('rhamdrav', 'dravxanth'), ('dravxanth', 'pravmi'), ('pravmi', 'tarnprav'), ('tarnprav', 'solquil'), ('solquil', 'thoxbelu'), ('thoxbelu', 'melmuth'), ('melmuth', 'rhamdrav')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Driyuk', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Driyuk', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Driyuk', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Driyuk', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Driyuk', Ref(name='t4')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Driyuk', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Driyuk', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Driyuk', Ref(name='t2')))",
+       "Step(out='t4', op='lookup', args=('Driyuk', Ref(name='t3')))",
+       "Step(out='t5', op='lookup', args=('Driyuk', Ref(name='t4')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.value_first.inverted.scope_first",
+      "gold_ops": [
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "got_ops": [
+       "lookup",
+       "lookup",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Verxnevi', entries=(('ondaquil', 'xanthzunt'), ('xanthzunt', 'qenvand'), ('qenvand', 'driokra'), ('driokra', 'dolmdrav'), ('dolmdrav', 'ondaquil')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Verxnevi', entries=(('xanthzunt', 'ondaquil'), ('ondaquil', 'qenvand'), ('qenvand', 'driokra'), ('driokra', 'dolmdrav'), ('dolmdrav', 'xanthzunt')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup', args=('Verxnevi', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Verxnevi', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Verxnevi', Ref(name='t2')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Verxnevi', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Verxnevi', Ref(name='t1')))",
+       "Step(out='t3', op='lookup', args=('Verxnevi', Ref(name='t2')))"
+      ]
+     }
+    ],
+    "priority": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "lookup_ordered"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Embdri', entries=(('brunkresh', 'vandvor'), ('clodolm', 'jarnharv'), ('ijogest', 'melthox'), ('braulm', 'vornevi')), default='vandvor', ordered=True)"
+      ],
+      "got_defs": [
+       "Table(name='Embdri', entries=(('vandvor', 'brunkresh'), ('jarnharv', 'clodolm'), ('melthox', 'ijogest'), ('vornevi', 'braulm')), default='brunkresh', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Embdri', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Embdri', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.value_first.imperative.scope_first",
+      "gold_ops": [
+       "lookup_ordered"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Zuntmel', entries=(('cinqnak', 'ondavor'), ('muthxanth', 'givoulm'), ('cloonda', 'lumverx'), ('gestbra', 'stivjarn')), default='ondavor', ordered=True)"
+      ],
+      "got_defs": [
+       "Table(name='Zuntmel', entries=(('ondavor', 'cinqnak'), ('givoulm', 'muthxanth'), ('lumverx', 'cloonda'), ('stivjarn', 'gestbra')), default='cinqnak', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Zuntmel', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Zuntmel', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.value_first.inverted.scope_first",
+      "gold_ops": [
+       "lookup_ordered"
+      ],
+      "got_ops": [
+       "lookup_ordered"
+      ],
+      "gold_defs": [
+       "Table(name='Brunnid', entries=(('kawisk', 'ovixil'), ('quilashk', 'xilbrun'), ('ijoxil', 'zamthox'), ('embgest', 'lornsol')), default='ovixil', ordered=True)"
+      ],
+      "got_defs": [
+       "Table(name='Brunnid', entries=(('ovixil', 'kawisk'), ('xilbrun', 'quilashk'), ('zamthox', 'ijoxil'), ('lornsol', 'embgest')), default='kawisk', ordered=True)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Brunnid', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup_ordered', args=('Brunnid', Ref(name='x')))"
+      ]
+     }
+    ],
+    "precedence": [
+     {
+      "bucket": "value_slip",
+      "fid": "abstract.relative_clause.value_first.cloze.scope_first",
+      "gold_ops": [
+       "prefer"
+      ],
+      "got_ops": [
+       "prefer"
+      ],
+      "gold_defs": [
+       "Table(name='Ondanid', entries=(('dravrham', 'dolmulm'), ('nevibelu', 'rhamcinq'), ('plonid', 'ulmverx'), ('driharv', 'ovimuth')), default=None, ordered=False)",
+       "Table(name='Ruskbra', entries=(('dravrham', 'melqen'), ('nevibelu', 'kreshbra'), ('plonid', 'wrenlorn'), ('driharv', 'cinqhald')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Ondanid', entries=(('dolmulm', 'dravrham'), ('rhamcinq', 'nevibelu'), ('ulmverx', 'plonid'), ('ovimuth', 'driharv')), default=None, ordered=False)",
+       "Table(name='Ruskbra', entries=(('dolmulm', 'melqen'), ('rhamcinq', 'kreshbra'), ('ulmverx', 'wrenlorn'), ('ovimuth', 'cinqhald')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='prefer', args=('Ondanid', 'Ruskbra', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='prefer', args=('Ondanid', 'Ruskbra', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "shape_slip",
+      "fid": "assembly.relative_clause.value_first.imperative.scope_first",
+      "gold_ops": [
+       "prefer"
+      ],
+      "got_ops": [
+       "lookup"
+      ],
+      "gold_defs": [
+       "Table(name='Haldybor', entries=(('sollorn', 'kaqen'), ('tuvor', 'bratarn'), ('vorxanth', 'stivonda'), ('verxijo', 'dravxil')), default=None, ordered=False)",
+       "Table(name='Zelkresh', entries=(('sollorn', 'zuntzam'), ('tuvor', 'ruskulm'), ('vorxanth', 'thoxnid'), ('verxijo', 'yukmel')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Haldybor', entries=(('kaqen', 'sollorn'), ('bratarn', 'tuvor'), ('stivonda', 'vorxanth'), ('dravxil', 'verxijo')), default='Zelkresh', ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='prefer', args=('Haldybor', 'Zelkresh', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='lookup', args=('Haldybor', Ref(name='x')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "assembly.relative_clause.value_first.inverted.scope_first",
+      "gold_ops": [
+       "prefer"
+      ],
+      "got_ops": [
+       "prefer"
+      ],
+      "gold_defs": [
+       "Table(name='Mixil', entries=(('zelstiv', 'nakplo'), ('cinqplo', 'yukfex'), ('ulmxil', 'givotarn'), ('dolmharv', 'pyrzunt')), default=None, ordered=False)",
+       "Table(name='Yborwren', entries=(('zelstiv', 'vorlum'), ('cinqplo', 'tarntu'), ('ulmxil', 'ijonevi'), ('dolmharv', 'zamwisk')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Table(name='Mixil', entries=(('nakplo', 'zelstiv'), ('yukfex', 'cinqplo'), ('givotarn', 'ulmxil'), ('pyrzunt', 'dolmharv')), default=None, ordered=False)",
+       "Table(name='Yborwren', entries=(('nakplo', 'vorlum'), ('yukfex', 'tarntu'), ('givotarn', 'ijonevi'), ('pyrzunt', 'zamwisk')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='prefer', args=('Mixil', 'Yborwren', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='prefer', args=('Mixil', 'Yborwren', Ref(name='x')))"
+      ]
+     }
+    ],
+    "band_then_lookup": [
+     {
+      "bucket": "value_slip",
+      "fid": "clinic.relative_clause.key_first.imperative.scope_last",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Drilum', attr='ulmhald', cuts=(25, 60), labels=('wisksol', 'plociv', 'vorjarn'))",
+       "Table(name='Vordolm', entries=(('wisksol', 'ashkijo'), ('plociv', 'kreshzel'), ('vorjarn', 'frikmi')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Drilum', attr='ulmhald', cuts=(25, 60), labels=('wisksol', 'plociv', 'vorjarn'))",
+       "Table(name='Vordolm', entries=(('wisksol', 'ashkijo'), ('plociv', 'kreshzel'), ('vorjarn', 'frikmi')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Drilum', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Vordolm', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Drilum', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Vordolm', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "ledger.relative_clause.key_first.imperative.scope_last",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Nidlorn', attr='tuashk', cuts=(40, 70), labels=('wrengest', 'gestdri', 'vorbrun'))",
+       "Table(name='Verxcinq', entries=(('wrengest', 'vandyuk'), ('gestdri', 'harvvand'), ('vorbrun', 'zelbelu')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Nidlorn', attr='tuashk', cuts=(40, 70), labels=('wrengest', 'gestdri', 'vorbrun'))",
+       "Table(name='Verxcinq', entries=(('wrengest', 'vandyuk'), ('gestdri', 'harvvand'), ('vorbrun', 'zelbelu')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Nidlorn', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Verxcinq', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Nidlorn', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Verxcinq', Ref(name='t1')))"
+      ]
+     },
+     {
+      "bucket": "value_slip",
+      "fid": "ledger.relative_clause.key_first.inverted.scope_last",
+      "gold_ops": [
+       "band",
+       "lookup"
+      ],
+      "got_ops": [
+       "band",
+       "lookup"
+      ],
+      "gold_defs": [
+       "Bands(name='Civrham', attr='givoplo', cuts=(30,), labels=('zelbrun', 'nakharv'))",
+       "Table(name='Cinqstiv', entries=(('zelbrun', 'fexhald'), ('nakharv', 'givozunt')), default=None, ordered=False)"
+      ],
+      "got_defs": [
+       "Bands(name='Civrham', attr='givoplo', cuts=(30,), labels=('zelbrun', 'nakharv'))",
+       "Table(name='Cinqstiv', entries=(('zelbrun', 'fexhald'), ('nakharv', 'givozunt')), default=None, ordered=False)"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Civrham', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Cinqstiv', Ref(name='t1')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Civrham', Ref(name='x')))",
+       "Step(out='t2', op='lookup', args=('Cinqstiv', Ref(name='t1')))"
+      ]
+     }
+    ],
+    "classify": [
+     {
+      "bucket": "value_slip",
+      "fid": "depot.relative_clause.value_first.imperative.scope_first",
+      "gold_ops": [
+       "band"
+      ],
+      "got_ops": [
+       "band"
+      ],
+      "gold_defs": [
+       "Bands(name='Tezlum', attr='tezbelu', cuts=(40,), labels=('argostiv', 'harvvand'))"
+      ],
+      "got_defs": [
+       "Bands(name='Tezlum', attr='tezbelu', cuts=(40,), labels=('argostiv', 'harvvand'))"
+      ],
+      "gold_steps": [
+       "Step(out='t1', op='band', args=('Tezlum', Ref(name='x')))"
+      ],
+      "got_steps": [
+       "Step(out='t1', op='band', args=('Tezlum', Ref(name='x')))"
+      ]
+     }
+    ]
+   }
+  }
+ }
+}

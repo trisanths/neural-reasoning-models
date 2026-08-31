@@ -7,12 +7,15 @@ happens in `src/norm/interp.py`, which is a program.
 
 The claim under test is that this job needs no world knowledge and should
 therefore be far smaller than a language model. That is measured here across
-four sizes rather than asserted, and the answer is mixed. A 404,608 parameter
-network with 232,192 parameters outside its embedding tables is exact on seven
-of the fourteen structure shapes on the training frames and above 0.91 on five
-more, in 200 items per shape. Five shapes are never read exactly by any size
-tried. The hand written parser reads all fourteen exactly, so the network does
-not beat the trivial program on the frames that program covers.
+four sizes rather than asserted, and the answer has two halves. On the wording
+the network was trained on it is small: 404,608 parameters read seven of the
+fourteen structure shapes without an error in 200 items each, and 113 times as
+many parameters move the pooled rate from 0.8982 to 0.9211 and move no shape
+across the line. On wording it was not trained on, parameters matter and the
+job is not solved: reading a held-out lexicon runs 0.5150 to 0.8125 across the
+same range, and reading a held-out sentence shape does not move at all. The
+hand written parser reads all fourteen shapes of every split exactly, so on the
+frames that program covers the network does not beat it.
 
 ## 1. Why this trains
 
@@ -177,30 +180,39 @@ Greedy, 2,800 items per split, 200 per shape, from
 
 SPLIT_TABLES
 
-On the withheld statement mode a group of shapes sits at 0.535 and stays there
-at every size: `inverse` 0.535 at 1.73M and 0.535 at 8.05M, `precedence` 0.535
-and 0.535, `lookup` 0.530 and 0.535, `priority` 0.520 and 0.535, `iterate`
-0.515 and 0.520. Twenty times the parameters moves those five shapes by at most
-0.015. Whatever bounds them is not capacity.
+On the training frames, 113 times the parameters between 0.40M and 45.48M moves
+the pooled rate from 0.8982 to 0.9211 and moves no shape across the line from
+inexact to exact. `compose` goes 0.540 to 0.545 and `sum_chain` goes 0.270 to
+0.420. Whatever those two shapes need, it is not width.
 
-The frame axis breakdown in each `summary.json` says what it is. Split by where
-the key sits in the sentence:
+On the withheld lexicon the same 113 times buys a great deal: 0.5150 to 0.8125.
+Reading a wording the network was never trained on is the one thing on this
+board that parameters buy.
 
-| size | `mode`, key first | `mode`, value first | `lexicon`, key first | `lexicon`, value first |
-|---|---|---|---|---|
-| xs 0.40M | 0.6075 | 0.2304 | 0.5476 | 0.4789 |
-| s 1.73M | 0.6776 | 0.2942 | 0.5551 | 0.2947 |
-| m 8.05M | 0.7497 | 0.3564 | 0.7122 | 0.6579 |
+On the withheld statement mode they buy nothing. The pooled rate runs 0.4321,
+0.4993, 0.5668, 0.5389 across the four sizes, and a group of shapes sits near
+0.535 at every one of them: `inverse` 0.535, 0.535, 0.535, `precedence` 0.535,
+0.535, 0.535, `lookup` 0.530, 0.535, 0.535 at 1.73M, 8.05M and 45.48M.
+
+The frame axis breakdown in each `summary.json` says why. Split by where the
+key sits in the sentence:
+
+| size | `mode`, key first | `mode`, value first | gap | `lexicon`, key first | `lexicon`, value first | gap |
+|---|---|---|---|---|---|---|
+| xs 0.40M | 0.6075 | 0.2304 | 0.377 | 0.5476 | 0.4789 | 0.069 |
+| s 1.73M | 0.6776 | 0.2942 | 0.383 | 0.5551 | 0.2947 | 0.260 |
+| m 8.05M | 0.7497 | 0.3564 | 0.393 | 0.7122 | 0.6579 | 0.054 |
+| l 45.48M | 0.7223 | 0.3280 | 0.394 | 0.8245 | 0.7992 | 0.026 |
 
 n is 1,498 and 1,302 on `mode`, 1,470 and 1,330 on `lexicon`.
 
 An unseen sentence shape read from the wrong end is barely read at all, and the
-gap is 0.38, 0.38 and 0.39 at the three sizes: parameters move both halves and
-close nothing between them. On the withheld lexicon the same gap does close,
-from 0.26 at 1.73M to 0.05 at 8.05M. So the two withheld groups fail for
-different reasons. A new lexicon is a capacity problem and the network is
-solving it. A new statement mode with the key in the unfamiliar position is
-not, and no size on record touches it.
+gap is 0.377, 0.383, 0.393, 0.394 across a 113 times parameter range. It does
+not move. On the withheld lexicon the same gap closes to 0.026. So the two
+withheld groups fail for different reasons. A new lexicon is a capacity problem
+and the network is solving it. A new statement mode with the key in the
+unfamiliar position is not a capacity problem, and no size on record touches
+it.
 
 ### The 1.73M point is an anomaly and it is not the learning rate
 
@@ -343,11 +355,19 @@ back as `order_only`, and hands it an ordered table and a changed value and
 requires them not to. The comparator can see a reordering; there are none to
 see.
 
-Mean over the fourteen shapes on training frames at 8.05M: `exact` 0.9075,
-`order_only` 0.0000, `same_answer` 0.0275, `shape_slip` 0.0007, `value_slip`
-0.0643. The plan is almost never wrong. `shape_slip`, where the emitted plan's
-operation sequence differs from the gold plan's, is 7 items in 10,000. What
-goes wrong is the contents.
+Mean over the fourteen shapes on the training frames, three sizes:
+
+| size | exact | order_only | same_answer | shape_slip | value_slip |
+|---|---|---|---|---|---|
+| s 1.73M | 0.7993 | 0.0000 | 0.0557 | 0.0207 | 0.1239 |
+| m 8.05M | 0.9075 | 0.0000 | 0.0275 | 0.0007 | 0.0643 |
+| l 45.48M | 0.9211 | 0.0000 | 0.0232 | 0.0007 | 0.0550 |
+
+The plan is almost never wrong. `shape_slip`, where the emitted plan's
+operation sequence differs from the gold plan's, is 7 items in 10,000 at both
+of the larger sizes, against a `value_slip` of 0.0643 and 0.0550. At 45.5M
+there are 79 copy errors for every parse error. What goes wrong is the
+contents, and it stays that way as the model grows.
 
 Two failures read in full, from `results/norm/ndiff/s.json`:
 
@@ -391,59 +411,83 @@ rather than guessed at.
 ATTACK_TABLES
 
 `silently_original` is the number that would kill the design: the page no
-longer says the original structure and the network emitted it anyway. It is 4
-in 880 at 1.73M and 10 in 880 at 8.05M. The network is reading.
+longer says the original structure and the network emitted it anyway. Under the
+`value` edit it is 6, 4, 10 and 16 of 880 across the four sizes, under 2% at
+every size, and rising with size rather than falling. The network is reading
+the page, and the larger it gets the more often it prefers the structure it
+expected to the one in front of it. Against the 678 of 678 the language model
+scored on transposed pages, 16 of 880 is a different regime, and it is not
+zero.
 
 `truncate` is the failure. With the question removed there is no structure to
 emit and the only right answer is silence, and the network writes a structure
-anyway on 88% of items at 1.73M and 90% at 8.05M. It has never been shown a
-page it should refuse, so it has no way to refuse one. That is a training data
-gap, not a capacity one, and it is the same finding as section 8 from a
-different direction.
+anyway on 1,077, 1,233, 1,255 and 1,283 of 1,400 items, which is 77%, 88%, 90%
+and 92% and rises monotonically with size. It has never been shown a page it
+should refuse, so it has no way to refuse one, and the bigger it is the more
+confidently it invents. That is a training data gap rather than a capacity one,
+and it is the same finding as section 8 reached from a different direction.
+
+`order_only` deserves one more line here. Across the four sizes, four splits
+and fourteen shapes, 44,800 scored emissions, not one of them was the gold
+structure written in a different order. The exact match numbers above lose
+nothing to serialisation.
 
 ## 11. What this says about the thesis
 
-What holds up is the size claim. A 1.73M parameter network with no pretraining
-and no world knowledge is exact on eight of the fourteen structure shapes, both
-on frames it was trained on and on the corpus's held-out question band, and
-8.05M puts a ninth at 1.000 and three more above 0.87. The perception job
-really is small: a network 47 times smaller than the checkpoint this project
-trained reads nine of the fourteen shapes without an error in 200 items each.
+What holds up is the size claim, and more strongly than expected. A 404,608
+parameter network with 232,192 parameters outside its embedding tables reads
+seven of the fourteen shapes without an error in 200 items each and is at
+0.8982 pooled on the training frames. Going to 45,483,008 parameters, 113 times
+as many, moves that to 0.9211 and moves no shape from inexact to exact. On the
+wording it was trained on, the perception job fits in four hundred thousand
+parameters, and the language model this project trained is 928 times larger
+than that.
 
-What does not hold up is the comparison with the trivial program taken whole.
-The parser is at 1.000 on all fourteen shapes of every split, and the best
-normalizer matches it on nine. On `classify`, `lookup_then_band` and `apply_n`
-it is within 0.10 of the parser and does not reach it. On `compose` 0.535 and
-`sum_chain` 0.380 it is nowhere near. The honest statement is the one the brief
-demanded: this system does not beat the hand written parser on the frames the
-parser covers.
+Parameters do buy one thing, and the measurement says exactly what. Reading a
+lexicon the network has never seen goes 0.5150, 0.4314, 0.6864, 0.8125 across
+the four sizes. That is the split where capacity matters and where 45.5M is
+still short of exact.
+
+What does not hold up is the comparison with the trivial program. The parser is
+at 1.000 on all fourteen shapes of every split. The largest normalizer matches
+it on eight, is at 0.995 on `band_then_lookup` and `classify`, 0.975 on
+`lookup_then_band` and 0.965 on `apply_n`, and is at 0.545 on `compose` and
+0.420 on `sum_chain`. The honest statement is the one the brief demanded: this
+system does not beat the hand written parser on the frames the parser covers,
+and on the two composite shapes it is not close.
 
 What the network buys is the two splits where the parser search refuses every
-single item. There the best size on record reaches 0.6864 pooled on the
-withheld lexicon and 0.5668 on the withheld statement mode, which is real,
-which the trivial program cannot get at all, and which is not exact.
+single item. There the largest size reaches 0.8125 on the withheld lexicon and
+0.5389 on the withheld statement mode. The first is real and large. The second
+is the one number in this file that does not move with anything: 0.4321,
+0.4993, 0.5668, 0.5389 across a 113 times parameter range, with a 0.39 gap by
+key position that is the same at every size. A sentence shape the network was
+not trained on is not something it learns to read by being made bigger.
 
 The cost of the design as built is that every failure on the ordinary case is a
-structure that executes. A system whose argument is that its core is exact has
-put the whole of its error budget in the one place that core cannot check.
+structure that executes. At 8.05M and at 45.5M, on the training frames and on
+the held-out question band, the interpreter declined nothing at all: 0 malformed
+and 0 refused in 2,800 items, against 0.0789 wrong at the larger size. A system
+whose argument is that its core is exact has put the whole of its error budget
+in the one place that core cannot check.
 
 Four things follow from the measurements rather than from taste. The network
-answers a page with no question on it 88% to 90% of the time, and it has never
-been shown a page it should refuse, so the training set needs unreadable pages
-with refusal as the target. `shape_slip` is 7 in 10,000 and `value_slip` is
-0.064, so what fails is the copy and not the parse, which is an argument for a
-pointer over the input rather than for more layers. The `mode` ceiling does not
-move across a twenty times parameter range and splits 0.75 against 0.36 on
-where the key sits, so it wants either that sentence shape in training or an
-inductive bias that does not care about word order. And the withheld lexicon
-peaks mid run and falls, so a checkpoint chosen on a held-out lexicon would
-report 0.06 to 0.17 more than any number here.
+answers a page with no question on it 77% to 92% of the time, rising with size,
+and it has never been shown a page it should refuse, so the training set needs
+unreadable pages with refusal as the target. `shape_slip` is 7 in 10,000 and
+`value_slip` is 0.055 at 45.5M, so what fails is the copy and not the parse,
+which is an argument for a pointer over the input rather than for more layers.
+The `mode` ceiling does not move across a 113 times parameter range and splits
+0.72 against 0.33 on where the key sits, so it wants either that sentence shape
+in training or an inductive bias that does not care about word order. And the
+withheld lexicon peaks mid run and falls at every size below 45.5M, so a
+checkpoint chosen on a held-out lexicon would report more than the numbers here.
 
 One thing this lane did not measure. The project's second metric is examples
 per acquired operation, and the version of it that belongs to the normalizer is
 examples per acquired frame: show a trained checkpoint N sentences in the
 withheld statement mode and read off the N at which it reads that mode. The
-`mode` split is the item set for it and the ceiling at 0.535 is the number to
+`mode` split is the item set for it and the ceiling at 0.5389 is the number to
 beat. Nothing here fine tunes a checkpoint, so that number does not exist yet.
 
 ## 12. How to run it
