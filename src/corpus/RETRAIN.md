@@ -862,3 +862,92 @@ The threat to the positive half is smaller and named: the frame result is on
 two `src/skillacq/` families, and the relation component's twelve structures
 show the same wording invariance only on the one-hop ones, because the
 multi-hop ones are at chance in every wording.
+
+## 10. The frame-distance curve over all thirty-two frames
+
+The two evaluation sets pooled, which is legitimate because they are the same
+instrument on the same two families and are only kept apart above so each can
+be read against its own generation. Frames are grouped by the smallest shape
+distance to any of the 72 the corpus trained; `seen` is distance zero by
+membership. Greedy, forced choice, chance from each cell's own option count.
+
+`substitution_rule`, chance 0.200:
+
+| bucket | frames | n | original | new | new none | new served |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| seen | 13 | 2600 | 0.140 | 0.990 | 0.007 | 0.993 |
+| 0.00-0.05 | 4 | 800 | 0.184 | 1.000 | 0.000 | 1.000 |
+| 0.05-0.12 | 3 | 600 | 0.083 | 0.998 | 0.000 | 1.000 |
+| 0.12-0.22 | 2 | 400 | 0.028 | 0.990 | 0.007 | 1.000 |
+| 0.22-0.30 | 5 | 1000 | 0.022 | 0.722 | 0.011 | 1.000 |
+| 0.30+ | 5 | 1000 | 0.009 | 0.997 | 0.000 | 1.000 |
+
+`exception_rule`, chance 0.500:
+
+| bucket | frames | n | original | new | new none | new served |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| seen | 13 | 2600 | 0.427 | 0.827 | 0.129 | 0.827 |
+| 0.00-0.05 | 2 | 400 | 0.360 | 0.605 | 0.080 | 0.610 |
+| 0.05-0.12 | 4 | 800 | 0.000 | 0.816 | 0.175 | 0.816 |
+| 0.12-0.22 | 4 | 800 | 0.414 | 0.863 | 0.128 | 0.863 |
+| 0.22-0.30 | 1 | 200 | 0.070 | 0.715 | 0.275 | 0.715 |
+| 0.30+ | 8 | 1600 | 0.516 | 0.989 | 0.004 | 0.993 |
+
+Sampled at temperature 0.7 the new checkpoint's `substitution_rule` row reads
+0.988, 0.998, 0.997, 0.980, 0.722 and 0.996, so the curve is not a greedy
+artifact anywhere.
+
+The curve is flat for the new checkpoint except at 0.22 to 0.30, and that
+bucket is not about distance: it holds both `tablepipe` frames, and dropping
+them leaves the bucket's remaining three frames at 0.985, 0.995 and 0.995. The
+honest statement is that this checkpoint is invariant to sentence frame across
+every axis of the generator except one shape, rather than that its accuracy
+decays with distance.
+
+For the original checkpoint the bucket label carries no meaning, because it
+never trained on the corpus and the grouping is by distance from a training set
+that is not its own. Its numbers are per frame in `curve.json` and the shape
+there is the recorded one: one cell at 0.940, `routing__native`, and everything
+else at or below its floor.
+
+## 11. Reproducing this
+
+    # corpus to training pack, five components in parallel, about 3 minutes
+    python -m src.corpus.sft build --corpus DIR --tokenizer TOK \
+      --component relation --out PACK/relation --take 128000 \
+      --lines 324261 --questions-per-episode 2
+    python -m src.corpus.sft merge --packs PACK/{relation,external,mathgen,plan_whole,plan_step} \
+      --out PACK/mix1
+
+    # the run, 85 minutes on one L40S
+    python -m src.corpus.sft train --checkpoint BASE --pack PACK/mix1 \
+      --out corpus-v1-8k.pt --log train.jsonl --steps 8000 --batch 32 \
+      --micro-batch 8 --lr 2e-5 --warmup 200 --min-lr-ratio 0.1
+
+    # the transposed pages and their trivial program
+    python -m src.corpus.transposed build --worlds 150 --out ep.jsonl
+    python -m src.corpus.transposed parsers --episodes ep.jsonl --out parsers.json
+
+    # everything else
+    bash battery.sh ; bash battery34.sh
+
+`src/opgraph/plan.py:MAX_STEPS` must be 128, not 32, or every emitted plan past
+32 steps counts as a parse failure.
+
+Freshness: `~/retrain/freshness.py` walks 33 record-and-report pairs and
+asserts each report is at least as new as the records it was scored from. It
+passes with 0 stale. `src/frames/cli.py score` enforces the same rule on its
+own dumps and refuses otherwise, and asserts a hedging canary at 0.000 forced
+on every one of its 64 cells.
+
+Graders were checked against oracles before any model number was read. The
+relation grader puts 14 candidate families at 1.000 forced and the 2 open
+numeric families at 1.000 exact on rows that answer the gold. The transposed
+grader puts a page-answering oracle at 1.000 toward the page and 0.000 toward
+training, and a training-answering oracle at the reverse. The plan grader puts
+the corpus's own gold plans at 1.000 accuracy, 1.000 parse and exactly the
+required emitted length at every length from 1 to 96.
+
+Checkpoint and every artifact quoted above:
+`s3://decoupled-reasoner-009398924577/runs/corpus-v1-8k/`, with `final.pt`,
+`RETRAIN.md` and `artifacts/` mirroring `~/retrain` minus the training pack.
