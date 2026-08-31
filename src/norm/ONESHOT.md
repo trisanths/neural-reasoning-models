@@ -409,8 +409,13 @@ space is complete.
     .venv/bin/python -m src.norm.opdoc
 
 `drive2.sh` and `drive3.sh` each wait for the one before it, so all three can be
-started at once. Together they are about two and a half hours on one L40S. The
-gates are `src/norm/tests/test_oneshot.py`.
+started at once. Together they are about two and a half hours on one L40S.
+
+The gates are `src/norm/tests/test_oneshot.py`. Two of them rebuild the item
+files into a temporary directory and compare the uncompressed bytes against the
+recorded ones, because a change that quietly redrew the items would leave the
+report built from two different item sets and the network runs cost hours to
+repeat.
 
 | record                   | path                                                                                     |
 | ------------------------ | ---------------------------------------------------------------------------------------- |
