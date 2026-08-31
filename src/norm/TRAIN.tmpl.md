@@ -175,159 +175,7 @@ program cannot reach.
 Greedy, 2,800 items per split, 200 per shape, from
 `results/norm/eval/<size>/summary.json`. Never pooled.
 
-#### train_frames_eval
-
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `band_then_lookup` | 0.960 | 0.860 | 1.000 | 0.010 | 1.000 |
-| `exclusion` | 1.000 | 1.000 | 1.000 | 0.140 | 1.000 |
-| `inverse` | 1.000 | 1.000 | 1.000 | 0.150 | 1.000 |
-| `iterate` | 0.995 | 1.000 | 1.000 | 0.030 | 1.000 |
-| `lookup` | 1.000 | 1.000 | 1.000 | 0.125 | 1.000 |
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.570 | 1.000 |
-| `pair` | 1.000 | 1.000 | 1.000 | 0.140 | 1.000 |
-| `precedence` | 1.000 | 1.000 | 1.000 | 0.160 | 1.000 |
-| `priority` | 1.000 | 1.000 | 1.000 | 0.070 | 1.000 |
-| `classify` | 0.915 | 0.775 | 0.980 | 0.010 | 1.000 |
-| `lookup_then_band` | 0.975 | 0.540 | 0.910 | 0.005 | 1.000 |
-| `apply_n` | 0.920 | 0.470 | 0.900 | 0.005 | 1.000 |
-| `compose` | 0.540 | 0.430 | 0.535 | 0.035 | 1.000 |
-| `sum_chain` | 0.270 | 0.115 | 0.380 | 0.005 | 1.000 |
-
-Shapes at exact 1.000, out of 14: xs 7, s 8, m 9, parser 14.
-
-| size | n | exact | malformed | refused | wrong | sampled exact |
-|---|---|---|---|---|---|---|
-| xs | 2800 | 0.8982 | 0.0004 | 0.0000 | 0.1014 | 0.8843 |
-| s | 2800 | 0.7993 | 0.0004 | 0.0000 | 0.2004 | 0.7700 |
-| m | 2800 | 0.9075 | 0.0000 | 0.0000 | 0.0925 | 0.8911 |
-
-#### qframe
-
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `exclusion` | 1.000 | 1.000 | 1.000 | 0.270 | 1.000 |
-| `inverse` | 1.000 | 1.000 | 1.000 | 0.305 | 1.000 |
-| `lookup` | 1.000 | 1.000 | 1.000 | 0.240 | 1.000 |
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.535 | 1.000 |
-| `pair` | 1.000 | 1.000 | 1.000 | 0.145 | 1.000 |
-| `precedence` | 1.000 | 1.000 | 1.000 | 0.280 | 1.000 |
-| `priority` | 1.000 | 1.000 | 1.000 | 0.090 | 1.000 |
-| `band_then_lookup` | 0.955 | 0.805 | 0.995 | 0.015 | 1.000 |
-| `iterate` | 0.995 | 1.000 | 0.995 | 0.050 | 1.000 |
-| `classify` | 0.870 | 0.715 | 0.975 | 0.010 | 1.000 |
-| `lookup_then_band` | 0.940 | 0.470 | 0.910 | 0.005 | 1.000 |
-| `apply_n` | 0.930 | 0.480 | 0.870 | 0.005 | 1.000 |
-| `compose` | 0.535 | 0.360 | 0.500 | 0.045 | 1.000 |
-| `sum_chain` | 0.260 | 0.100 | 0.300 | 0.005 | 1.000 |
-
-Shapes at exact 1.000, out of 14: xs 7, s 8, m 7, parser 14.
-
-| size | n | exact | malformed | refused | wrong | sampled exact |
-|---|---|---|---|---|---|---|
-| xs | 2800 | 0.8918 | 0.0000 | 0.0000 | 0.1082 | 0.8789 |
-| s | 2800 | 0.7807 | 0.0011 | 0.0000 | 0.2182 | 0.7632 |
-| m | 2800 | 0.8961 | 0.0000 | 0.0000 | 0.1039 | 0.8857 |
-
-#### lexicon
-
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.550 | 1.000 |
-| `classify` | 0.135 | 0.465 | 0.900 | 0.010 | 1.000 |
-| `precedence` | 0.940 | 0.205 | 0.895 | 0.150 | 1.000 |
-| `inverse` | 0.760 | 0.595 | 0.820 | 0.185 | 1.000 |
-| `pair` | 0.585 | 0.895 | 0.805 | 0.150 | 1.000 |
-| `priority` | 0.835 | 0.405 | 0.800 | 0.050 | 1.000 |
-| `iterate` | 0.660 | 0.525 | 0.795 | 0.030 | 1.000 |
-| `exclusion` | 0.615 | 0.490 | 0.740 | 0.160 | 1.000 |
-| `lookup` | 0.750 | 0.605 | 0.710 | 0.135 | 1.000 |
-| `band_then_lookup` | 0.210 | 0.560 | 0.705 | 0.010 | 1.000 |
-| `apply_n` | 0.410 | 0.110 | 0.685 | 0.005 | 1.000 |
-| `lookup_then_band` | 0.135 | 0.000 | 0.420 | 0.005 | 1.000 |
-| `compose` | 0.175 | 0.185 | 0.280 | 0.025 | 1.000 |
-| `sum_chain` | 0.000 | 0.000 | 0.055 | 0.005 | 1.000 |
-
-Shapes at exact 1.000, out of 14: xs 1, s 1, m 1, parser 14.
-
-| size | n | exact | malformed | refused | wrong | sampled exact |
-|---|---|---|---|---|---|---|
-| xs | 2800 | 0.5150 | 0.1086 | 0.0243 | 0.3521 | 0.4857 |
-| s | 2800 | 0.4314 | 0.0850 | 0.0379 | 0.4457 | 0.4171 |
-| m | 2800 | 0.6864 | 0.0811 | 0.0014 | 0.2311 | 0.6743 |
-
-#### mode
-
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.510 | 1.000 |
-| `pair` | 1.000 | 1.000 | 0.990 | 0.150 | 1.000 |
-| `classify` | 0.005 | 0.740 | 0.885 | 0.010 | 1.000 |
-| `band_then_lookup` | 0.810 | 0.740 | 0.785 | 0.010 | 1.000 |
-| `apply_n` | 0.285 | 0.185 | 0.640 | 0.005 | 1.000 |
-| `inverse` | 0.535 | 0.535 | 0.535 | 0.150 | 1.000 |
-| `lookup` | 0.535 | 0.530 | 0.535 | 0.145 | 1.000 |
-| `precedence` | 0.535 | 0.535 | 0.535 | 0.160 | 1.000 |
-| `priority` | 0.510 | 0.520 | 0.535 | 0.050 | 1.000 |
-| `lookup_then_band` | 0.030 | 0.320 | 0.525 | 0.005 | 1.000 |
-| `iterate` | 0.520 | 0.515 | 0.520 | 0.035 | 1.000 |
-| `exclusion` | 0.145 | 0.215 | 0.180 | 0.165 | 1.000 |
-| `compose` | 0.120 | 0.130 | 0.155 | 0.035 | 1.000 |
-| `sum_chain` | 0.020 | 0.025 | 0.115 | 0.005 | 1.000 |
-
-Shapes at exact 1.000, out of 14: xs 2, s 2, m 1, parser 14.
-
-| size | n | exact | malformed | refused | wrong | sampled exact |
-|---|---|---|---|---|---|---|
-| xs | 2800 | 0.4321 | 0.0886 | 0.0421 | 0.4371 | 0.4300 |
-| s | 2800 | 0.4993 | 0.0043 | 0.0432 | 0.4532 | 0.4836 |
-| m | 2800 | 0.5668 | 0.0086 | 0.0575 | 0.3671 | 0.5564 |
-
-#### mixed
-
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | modal_shape | parser |
-|---|---|---|---|---|---|
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.570 | 1.000 |
-| `classify` | 0.040 | 0.655 | 0.870 | 0.010 | 1.000 |
-| `pair` | 0.530 | 0.830 | 0.790 | 0.135 | 1.000 |
-| `band_then_lookup` | 0.450 | 0.560 | 0.680 | 0.015 | 1.000 |
-| `precedence` | 0.575 | 0.190 | 0.525 | 0.150 | 1.000 |
-| `inverse` | 0.470 | 0.410 | 0.490 | 0.190 | 1.000 |
-| `priority` | 0.550 | 0.295 | 0.490 | 0.050 | 1.000 |
-| `lookup` | 0.430 | 0.340 | 0.470 | 0.160 | 1.000 |
-| `apply_n` | 0.130 | 0.130 | 0.460 | 0.005 | 1.000 |
-| `iterate` | 0.370 | 0.295 | 0.430 | 0.030 | 1.000 |
-| `lookup_then_band` | 0.045 | 0.115 | 0.325 | 0.005 | 1.000 |
-| `exclusion` | 0.355 | 0.245 | 0.315 | 0.180 | 1.000 |
-| `compose` | 0.110 | 0.120 | 0.165 | 0.035 | 1.000 |
-| `sum_chain` | 0.000 | 0.000 | 0.045 | 0.005 | 1.000 |
-
-Shapes at exact 1.000, out of 14: xs 1, s 1, m 1, parser 14.
-
-| size | n | exact | malformed | refused | wrong | sampled exact |
-|---|---|---|---|---|---|---|
-| xs | 2800 | 0.3611 | 0.1268 | 0.0500 | 0.4621 | 0.3554 |
-| s | 2800 | 0.3704 | 0.0875 | 0.0575 | 0.4846 | 0.3518 |
-| m | 2800 | 0.5039 | 0.0707 | 0.0393 | 0.3861 | 0.4957 |
-
-#### answer_ok, the lenient companion, greedy, train frames
-
-| shape | xs (0.40M) | s (1.73M) | m (8.05M) | answer floor |
-|---|---|---|---|---|
-| `apply_n` | 0.920 | 0.475 | 0.900 | open |
-| `band_then_lookup` | 0.975 | 0.925 | 1.000 | 0.393 |
-| `classify` | 0.950 | 0.845 | 0.985 | 0.360 |
-| `compose` | 0.645 | 0.525 | 0.680 | 0.250 |
-| `exclusion` | 1.000 | 1.000 | 1.000 | 0.250 |
-| `inverse` | 1.000 | 1.000 | 1.000 | 0.250 |
-| `iterate` | 0.995 | 1.000 | 1.000 | 0.164 |
-| `lookup` | 1.000 | 1.000 | 1.000 | 0.200 |
-| `lookup_general` | 1.000 | 1.000 | 1.000 | 0.500 |
-| `lookup_then_band` | 1.000 | 1.000 | 0.995 | 0.385 |
-| `pair` | 1.000 | 1.000 | 1.000 | 0.111 |
-| `precedence` | 1.000 | 1.000 | 1.000 | 0.125 |
-| `priority` | 1.000 | 1.000 | 1.000 | 0.264 |
-| `sum_chain` | 0.440 | 0.200 | 0.530 | 0.250 |
+SPLIT_TABLES
 
 On the withheld statement mode a group of shapes sits at 0.535 and stays there
 at every size: `inverse` 0.535 at 1.73M and 0.535 at 8.05M, `precedence` 0.535
@@ -435,17 +283,7 @@ equal and only the number of times each example is revisited changes.
 | 480,000 | 2,991 | 10 |
 | 1,200,000 | 7,461 | 4 |
 
-| unique examples | shapes at 1.000 on training frames, of 14 | train frames | held-out question band | held-out lexicon | held-out mode |
-|---|---|---|---|---|---|
-| 30,000 | 5 | 0.7004 | 0.7014 | 0.6614 | 0.4339 |
-| 120,000 | 7 | 0.7550 | 0.7443 | 0.6743 | 0.4868 |
-| 480,000 | 5 | 0.7096 | 0.7075 | 0.3832 | 0.4586 |
-| 1,200,000 | 8 | 0.7993 | 0.7807 | 0.4314 | 0.4993 |
-
-Every rung is the `s` size at 1.0e-3 for 30,000 steps, scored on 2,800
-items per split, 200 per shape. The four right hand columns are pooled
-across shape and are here only because the ladder is a secondary axis;
-the per shape rows are in each `summary.json`.
+LADDER_TABLE
 
 Forty times the examples buys 0.099 on the training frames, from 0.7004 to
 0.7993, and it does not buy it monotonically: the 480,000 rung sits below the
@@ -474,23 +312,7 @@ that way on purpose so that one recipe produced every row.
 
 Pooled counts, greedy, n=2,800, marked as pooled and not used as a headline.
 
-| size | split | exact | malformed | refused | wrong (executes) | dangerous : safe |
-|---|---|---|---|---|---|---|
-| xs | `train_frames_eval` | 0.8982 | 0.0004 | 0.0000 | 0.1014 | 254 : 1 |
-| s | `train_frames_eval` | 0.7993 | 0.0004 | 0.0000 | 0.2004 | 501 : 1 |
-| m | `train_frames_eval` | 0.9075 | 0.0000 | 0.0000 | 0.0925 | all dangerous |
-| xs | `qframe` | 0.8918 | 0.0000 | 0.0000 | 0.1082 | all dangerous |
-| s | `qframe` | 0.7807 | 0.0011 | 0.0000 | 0.2182 | 198 : 1 |
-| m | `qframe` | 0.8961 | 0.0000 | 0.0000 | 0.1039 | all dangerous |
-| xs | `lexicon` | 0.5150 | 0.1086 | 0.0243 | 0.3521 | 2.6 : 1 |
-| s | `lexicon` | 0.4314 | 0.0850 | 0.0379 | 0.4457 | 3.6 : 1 |
-| m | `lexicon` | 0.6864 | 0.0811 | 0.0014 | 0.2311 | 2.8 : 1 |
-| xs | `mode` | 0.4321 | 0.0886 | 0.0421 | 0.4371 | 3.3 : 1 |
-| s | `mode` | 0.4993 | 0.0043 | 0.0432 | 0.4532 | 9.5 : 1 |
-| m | `mode` | 0.5668 | 0.0086 | 0.0575 | 0.3671 | 5.6 : 1 |
-| xs | `mixed` | 0.3611 | 0.1268 | 0.0500 | 0.4621 | 2.6 : 1 |
-| s | `mixed` | 0.3704 | 0.0875 | 0.0575 | 0.4846 | 3.3 : 1 |
-| m | `mixed` | 0.5039 | 0.0707 | 0.0393 | 0.3861 | 3.5 : 1 |
+SAFETY_TABLE
 
 This is the worst property of the design as it stands. On the frames it was
 trained on, the 8.05M normalizer never once emitted something the interpreter
@@ -558,26 +380,7 @@ line and keeps the heads and the padding. The reference parser is the oracle
 for what the edited text now says, and items it refuses are counted and dropped
 rather than guessed at.
 
-Edits that change what the page says, with the reference parser as the
-oracle for what it now says. `silently_original` is the network emitting
-the pre-edit structure anyway.
-
-| size | attack | edits scored | network changed its output | followed the edit exactly | silently_original | malformed |
-|---|---|---|---|---|---|---|
-| s | `value` | 880 | 819 | 427 | 4 | 57 |
-| m | `value` | 880 | 732 | 476 | 10 | 138 |
-| s | `delete` | 1083 | 483 | 40 | 74 | 526 |
-| m | `delete` | 1083 | 429 | 37 | 104 | 550 |
-
-Edits that leave no structure to emit, where the only right answer is
-silence.
-
-| size | attack | items | refused or malformed | answered anyway |
-|---|---|---|---|---|
-| s | `truncate` | 1400 | 167 | 1233 |
-| m | `truncate` | 1400 | 145 | 1255 |
-| s | `strip` | 1400 | 998 | 402 |
-| m | `strip` | 1400 | 1006 | 394 |
+ATTACK_TABLES
 
 `silently_original` is the number that would kill the design: the page no
 longer says the original structure and the network emitted it anyway. It is 4
