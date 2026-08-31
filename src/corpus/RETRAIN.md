@@ -246,3 +246,36 @@ degenerate queries.
 Artifacts: `~/retrain/gate/roll_gate_base.jsonl`,
 `~/retrain/gate/graded_gate_base.jsonl`, `~/retrain/gate/strict_gate_base.json`,
 log `~/retrain/logs/gate_base.log`.
+
+The same gate on the new checkpoint is not a harness check, it is a result, and
+it is reported here because it is the same table.
+
+| cell | nQ | nR | floor | ship | forced | first | c_frc | hedge | none | rounds | degen |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| substitution_rule greedy | 500 | 500 | 0.200 | 0.998 | 0.998 | 0.998 | 0.998 | 0.000 | 0.000 | 1.98 | 0.984 |
+| substitution_rule t1 x4 | 500 | 2000 | 0.200 | 0.995 | 0.995 | 0.995 | 0.993 | 0.000 | 0.003 | 1.98 | 0.983 |
+| threshold_rule greedy | 500 | 500 | 0.500 | 0.990 | 0.990 | 0.990 | 0.980 | 0.000 | 0.000 | 2.00 | 1.000 |
+| threshold_rule t1 x4 | 500 | 2000 | 0.500 | 0.987 | 0.987 | 0.987 | 0.973 | 0.000 | 0.003 | 2.00 | 0.995 |
+
+Two things move and one of them is large. `threshold_rule` forced choice goes
+from 0.008 to 0.990. The original checkpoint names both of its two candidates
+on 0.988 of greedy answers, which is why its 0.996 shipped score collapses to
+0.008 under a grader that requires one; the new checkpoint hedges on 0.000 and
+is right on 0.990. That is the hedging failure the project has carried since
+the forced-choice regrade, and it is gone. `substitution_rule` at temperature
+one goes from 0.866 forced to 0.995, so the gap between greedy and sampled
+closes as well.
+
+The `degen` column is a behaviour change, not an improvement. It counts
+rollouts with an empty or a repeated query. The training traces emit the same
+query on every round, because the query is the tail of the question and the
+question does not change between rounds, so the new policy repeats its query
+and the environment's shaping term calls that degenerate on 0.98 of rollouts.
+The retrieval service serves without replacement, so a repeated query still
+returns a new page, and accuracy does not suffer. It does mean the shaping
+term in `src/rl/env.py` would penalise this policy in RL, and anyone who
+resumes RL from this checkpoint has to know that.
+
+Artifacts: `~/retrain/gate/roll_gate_new.jsonl`,
+`~/retrain/gate/graded_gate_new.jsonl`, `~/retrain/gate/strict_gate_new.json`,
+log `~/retrain/logs/gate_new.log`.

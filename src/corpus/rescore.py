@@ -76,7 +76,8 @@ def cmd_transposed(args) -> int:
             if r["decode"] == "mc":
                 hits = [str(r["choice"])]
             else:
-                hits = named_numbers(r.get("answer", ""), r["candidates"])
+                hits = named_numbers(r.get("answer") or r.get("emitted", ""),
+                                     r["candidates"])
                 rounds += r.get("n_rounds", 0)
                 gen += r.get("n_generated", 0)
                 served += int(bool(r.get("chunks")))
