@@ -198,7 +198,21 @@ class Program:
         return [d for d in self.defs if d.kind == kind]
 
     def distinct_ops(self) -> int:
+        """Distinct plan operations used, e.g. lookup and band count as two."""
         return len({s.op for s in self.steps})
+
+    def distinct_operators(self) -> int:
+        """Distinct definitions invoked, which is what a plan calls.
+
+        Two `call` steps naming two different operators are two operators even
+        though both steps read `call`, and two `lookup` steps on one table are
+        one operator even though the plan is two steps long.
+        """
+        out = set()
+        for s in self.steps:
+            names = tuple(a for a in s.args if isinstance(a, str))
+            out.add((s.op, names) if names else (s.op, ()))
+        return len(out)
 
 
 # ----------------------------------------------------------- serialisation

@@ -1,0 +1,104 @@
+{
+  "generated_utc": "2026-08-31T05:59:55Z",
+  "note": "one ring walk per depth, against a reference computed by index arithmetic rather than by walking",
+  "recursionlimit": 1000,
+  "plan_depth": [
+    {
+      "depth": 2,
+      "steps": 2,
+      "ok": true,
+      "exact": true,
+      "seconds": 2.2e-05,
+      "us_per_step": 11.181
+    },
+    {
+      "depth": 4,
+      "steps": 4,
+      "ok": true,
+      "exact": true,
+      "seconds": 2.7e-05,
+      "us_per_step": 6.835
+    },
+    {
+      "depth": 8,
+      "steps": 8,
+      "ok": true,
+      "exact": true,
+      "seconds": 4.3e-05,
+      "us_per_step": 5.322
+    },
+    {
+      "depth": 16,
+      "steps": 16,
+      "ok": true,
+      "exact": true,
+      "seconds": 7.6e-05,
+      "us_per_step": 4.738
+    },
+    {
+      "depth": 48,
+      "steps": 48,
+      "ok": true,
+      "exact": true,
+      "seconds": 0.000217,
+      "us_per_step": 4.528
+    },
+    {
+      "depth": 128,
+      "steps": 128,
+      "ok": true,
+      "exact": true,
+      "seconds": 0.000532,
+      "us_per_step": 4.158
+    },
+    {
+      "depth": 512,
+      "steps": 512,
+      "ok": true,
+      "exact": true,
+      "seconds": 0.002108,
+      "us_per_step": 4.118
+    },
+    {
+      "depth": 2048,
+      "steps": 2048,
+      "ok": true,
+      "exact": true,
+      "seconds": 0.008273,
+      "us_per_step": 4.039
+    },
+    {
+      "depth": 8192,
+      "steps": 8192,
+      "ok": true,
+      "exact": true,
+      "seconds": 0.032842,
+      "us_per_step": 4.009
+    },
+    {
+      "depth": 32768,
+      "steps": 32768,
+      "ok": true,
+      "exact": true,
+      "seconds": 0.134246,
+      "us_per_step": 4.097
+    }
+  ],
+  "exact_at_every_depth": true,
+  "opgraph_plan": {
+    "MAX_STEPS": 128,
+    "parse_plan_at_128": "accepted",
+    "parse_plan_at_129": "refused: plan too long",
+    "parse_plan_at_130": "refused: plan too long"
+  },
+  "expression_nesting": {
+    "opdef_MAX_DEPTH": 64,
+    "norm_eval_at_64": "ok, 64",
+    "opdef_eval_at_64": "ok, 64",
+    "norm_eval_at_65": "ok, 65",
+    "opdef_eval_at_65": "OpError: expression too deep",
+    "norm_eval_at_1000": "ok, 1000",
+    "opdef_eval_at_1000": "OpError: expression too deep",
+    "norm_eval_at_100000": "ok, 100000"
+  }
+}

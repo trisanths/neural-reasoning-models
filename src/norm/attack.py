@@ -32,7 +32,7 @@ from collections import Counter
 
 from src.norm.gen import make_for
 from src.norm.lang import Table
-from src.norm.parse import parse
+from src.norm.parse import parse, patterns
 from src.norm.render import SHAPES, frames, render
 
 
@@ -62,13 +62,14 @@ def mutate(text: str, rng) -> str | None:
     return "\n\n".join(chunks)
 
 
-def delete(text: str, rng) -> str | None:
+def delete(text: str, rng):
+    """Drop one line of the first page's rule block. Returns (text, line)."""
     i, lines, chunks = _rule_lines(text)
     if i is None or len(lines) < 2:
-        return None
+        return None, None
     j = rng.randrange(len(lines))
     chunks[i] = "\n".join(lines[:j] + lines[j + 1:])
-    return "\n\n".join(chunks)
+    return "\n\n".join(chunks), lines[j]
 
 
 def main() -> int:
@@ -105,15 +106,23 @@ def main() -> int:
                 else:
                     c["mutate_refused"] += 1
 
-            d = delete(text, rng)
+            d, dropped = delete(text, rng)
             if d is not None and d != text:
                 c["delete_n"] += 1
                 got = parse(d, f.fid)
+                header = patterns(f.fid)["header"]
                 if got.ok and got.program == p:
-                    c["delete_unchanged"] += 1
-                    if len(examples) < 8:
-                        examples.append({"attack": "delete", "shape": shape,
-                                         "fid": f.fid})
+                    if header is not None and dropped == header:
+                        # The table header carries no structure, so dropping
+                        # it must leave the structure alone. That is the
+                        # attack passing, not failing.
+                        c["delete_header_unchanged"] += 1
+                    else:
+                        c["delete_unchanged"] += 1
+                        if len(examples) < 8:
+                            examples.append({"attack": "delete",
+                                             "shape": shape, "fid": f.fid,
+                                             "line": dropped})
                 elif got.ok:
                     c["delete_changed"] += 1
                 else:
@@ -126,7 +135,16 @@ def main() -> int:
                 if not got.ok:
                     c["crossframe_refused"] += 1
                 elif got.program == p:
-                    c["crossframe_same"] += 1
+                    # Two frames can write byte identical text for a given
+                    # structure, and then reading it with either is right.
+                    try:
+                        twin = render(p, other.fid, preamble_level=0)["text"]
+                        base = render(p, f.fid, preamble_level=0)["text"]
+                    except Exception:
+                        twin, base = None, ""
+                    key = ("crossframe_same_text" if twin == base
+                           else "crossframe_same_leak")
+                    c[key] += 1
                 else:
                     c["crossframe_other"] += 1
 
@@ -153,9 +171,14 @@ def main() -> int:
                    "silently_unchanged": c["mutate_unchanged"]},
         "delete": {"n": c["delete_n"], "structure_changed": c["delete_changed"],
                    "refused": c["delete_refused"],
+                   "dropped_the_table_header_no_structure_to_change":
+                       c["delete_header_unchanged"],
                    "silently_unchanged": c["delete_unchanged"]},
         "crossframe": {"n": c["crossframe_n"], "refused": c["crossframe_refused"],
-                       "returned_the_original": c["crossframe_same"],
+                       "returned_the_original_and_both_frames_write_the_same_text":
+                           c["crossframe_same_text"],
+                       "returned_the_original_on_text_the_other_frame_would_not_write":
+                           c["crossframe_same_leak"],
                        "returned_something_else": c["crossframe_other"]},
         "truncate": {"n": c["truncate_n"], "refused": c["truncate_refused"]},
         "equality": {"n": c["equality_n"],
