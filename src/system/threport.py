@@ -111,7 +111,7 @@ def axis_table(sums, group, mode, axis):
     return "\n".join(rows)
 
 
-def shape_by_axis(sums, group, mode, axis):
+def shape_by_axis(sums, group, mode, axis, rungs=RUNGS):
     """One rung's shapes against one axis, counted off the records file.
 
     The 45M rung is exact on several shapes of the held-out sentence mode at
@@ -120,7 +120,7 @@ def shape_by_axis(sums, group, mode, axis):
     """
     import gzip
     ai = FID_AXES.index(axis)
-    have = [r for r in RUNGS if sums.get(r)]
+    have = [r for r in rungs if sums.get(r)]
     blocks = []
     for r in have:
         try:
@@ -774,6 +774,70 @@ def keypos_extreme_facts(sums, group="mode", mode="greedy") -> dict:
     return out
 
 
+
+ALT = {"c45": {"data": "data/normC",
+               "held": "one whole value of the question-form axis, `wh`",
+               "group": "qframe"},
+       "b45": {"data": "data/normB",
+               "held": "a different statement mode, `table_row`",
+               "group": "mode"}}
+
+
+def alt_sums(evaldir):
+    out = {}
+    for tag in ALT:
+        d = load(os.path.join(evaldir, tag, "summary.json"))
+        if d:
+            out[tag] = d
+    return out
+
+
+def alt_manifest_table():
+    """What each split withholds and how many frames that leaves."""
+    rows = ["| split | data | withheld question frame | withheld lexicon | "
+            "withheld statement mode | training frames |",
+            "| --- | --- | --- | --- | --- | ---: |"]
+    seen = 0
+    for tag, meta in [("l45", {"data": "data/norm"})] + list(ALT.items()):
+        m = load(os.path.join(meta["data"], "manifest.json"))
+        if m is None:
+            continue
+        h = m.get("held", {"lexicon": "signal", "mode": "relative_clause",
+                           "qframe": "band, every 8th"})
+        rows.append(f"| {tag} | `{meta['data']}` | {h['qframe']} | "
+                    f"{h['lexicon']} | {h['mode']} | "
+                    f"{m['frames']['train']} |")
+        seen += 1
+    return "\n".join(rows) if seen else ""
+
+
+def alt_group_table(asums):
+    """Each alternative split on its own withheld group, by key position."""
+    rows = ["| split | withheld | group | n | key_first | value_first |",
+            "| --- | --- | --- | ---: | ---: | ---: |"]
+    seen = 0
+    for tag, meta in ALT.items():
+        s = asums.get(tag)
+        if s is None:
+            continue
+        for grp in (meta["group"], "mode", "train_frames_eval"):
+            try:
+                d = g(s, grp, "greedy")
+            except KeyError:
+                continue
+            ax = d["by_axis"].get("key_pos", {})
+            kf, vf = ax.get("key_first"), ax.get("value_first")
+            if not kf or not vf:
+                continue
+            rows.append(
+                f"| {tag} | {meta['held']} | {GROUP_LABEL.get(grp, grp)} | "
+                f"{d['pooled_do_not_headline']['n']} | "
+                f"{kf['exact']:.4f} ({kf['n']}) | "
+                f"{vf['exact']:.4f} ({vf['n']}) |")
+            seen += 1
+    return "\n".join(rows) if seen else ""
+
+
 def keypos_cells(evaldir, lmevaldir):
     """Key position inside every frame group, off each summary's own by_axis.
 
@@ -784,7 +848,7 @@ def keypos_cells(evaldir, lmevaldir):
     """
     out = {}
     seen = []
-    for r in RUNGS + CONTROLS:
+    for r in RUNGS + CONTROLS + tuple(ALT):
         seen.append((r, os.path.join(evaldir, r, "summary.json")))
     for t in ("corpus_nosft", "lm350"):
         seen.append((t, os.path.join(lmevaldir, t, "summary.json")))
@@ -998,6 +1062,26 @@ def main():
                   lm_table({**{r: sums[r] for r in RUNGS if r in sums}, **ctl}),
                   ""]
 
+    asums = alt_sums(a.eval)
+    altm = alt_manifest_table()
+    altg = alt_group_table(asums)
+    altshape = ""
+    for tag, meta in ALT.items():
+        if tag in asums:
+            b = shape_by_axis(asums, meta["group"], "greedy", "key_pos",
+                              rungs=(tag,))
+            if b:
+                altshape += (f"\n\n**{tag}, the {GROUP_LABEL.get(meta['group'], meta['group'])} "
+                             f"group, {meta['held']} withheld**\n\n" + b)
+    altshape = altshape.strip()
+    if altm:
+        parts += ["## The three frame splits", altm, ""]
+    if altg:
+        parts += ["## Each alternative split on its own withheld group", altg,
+                  ""]
+    if altshape:
+        parts += ["## Alternative splits, shape against key position",
+                  altshape, ""]
     kpg = keypos_group_table(keypos_cells(a.eval, a.lmeval))
     if kpg:
         parts += ["## Key position inside every frame group", kpg, ""]
@@ -1109,6 +1193,13 @@ def main():
         tmpl = tmpl.replace("{{KEYPOS}}",
                             axis_table(sums, "mode", "greedy", "key_pos"))
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
+        tmpl = tmpl.replace("{{ALT_SPLITS}}", blk(altm, "the alternative "
+                                                    "splits"))
+        tmpl = tmpl.replace("{{ALT_GROUP}}", blk(altg, "the alternative split "
+                                                 "rungs, queue3.sh steps 3 "
+                                                 "and 4"))
+        tmpl = tmpl.replace("{{ALT_SHAPE}}", blk(altshape, "the alternative "
+                                                 "split rungs"))
         tmpl = tmpl.replace("{{KEYPOS_GROUP}}", kpg)
         tmpl = tmpl.replace("{{PARSER_KEYPOS}}", pkp)
         tmpl = tmpl.replace("{{FAILCAT}}", fct)

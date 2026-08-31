@@ -183,6 +183,12 @@
 | l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
 
+## The three frame splits
+| split | data | withheld question frame | withheld lexicon | withheld statement mode | training frames |
+| --- | --- | --- | --- | --- | ---: |
+| l45 | `data/norm` | band, every 8th | signal | relative_clause | 490 |
+| b45 | `data/normB` | band, every 8th | signal | table_row | 490 |
+
 ## Key position inside every frame group
 | checkpoint | frame group | key_first | value_first |
 | --- | --- | ---: | ---: |

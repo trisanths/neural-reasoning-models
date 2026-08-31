@@ -73,6 +73,16 @@ frame, `lexicon` the symbol lexicon, `mode` the sentence mode, and `mixed`
 more than one at once. `mode` is the hard one and is the number the question
 is about.
 
+Every group's file carries 7,000 items and every number above reads all of
+them. An earlier pass read the first 2,800, which is a prefix and not a
+sample. The `qframe` file lists its 35 key-first frames before its 35
+value-first ones, so 2,800 of 7,000 was every key-first item and none of the
+value-first ones, and that column was a key-first score standing beside
+mixed-position scores from the other four groups. Both rungs were scored
+again on the whole file. The other four groups happened to interleave and
+their prefixes were close to balanced, but none of them was balanced by
+construction, so none of them is read off a prefix any more.
+
 ## 3. Per shape, never pooled
 
 `modal/shape` is what a system that always emits that shape's most common
@@ -358,6 +368,35 @@ sentence modes it trained on, reads that order zero times out of 93 on the
 sixth. What failed to transfer is the composition of two axes it saw
 separately and often, not a frequency it never saw. Rebuilding the draw
 balanced on key position would change nothing, because it is already balanced.
+
+### A second withheld mode, and a withheld value of a second axis
+
+A result that rests on one withheld constant is a result about that constant.
+Two more splits test it. Both are built by the same generator with the same
+seed and the same counts, and both are scored by the same grader.
+
+| split | data | withheld question frame | withheld lexicon | withheld statement mode | training frames |
+| --- | --- | --- | --- | --- | ---: |
+| l45 | `data/norm` | band, every 8th | signal | relative_clause | 490 |
+| b45 | `data/normB` | band, every 8th | signal | table_row | 490 |
+
+`b45` withholds `table_row` where the first split withholds
+`relative_clause` and is otherwise identical, down to the 490 training frames.
+It asks whether the collapse is about one sentence form.
+
+`c45` withholds one whole value of the question-form axis in place of the
+every-eighth-frame band. The band is the conjunction of `wh` and
+`scope_first`, and training contains both of those values separately, so the
+band's group asks whether two seen values compose and not whether an unseen
+value generalises. Those are different questions and only the second one
+matches what the statement-mode group asks. A whole withheld axis value gives
+the question-form axis the same kind of holdout, over 140 frames rather than
+70, and it asks whether the collapse is about the statement-mode axis or about
+any withheld axis value.
+
+*Not measured yet: the alternative split rungs, queue3.sh steps 3 and 4.*
+
+*Not measured yet: the alternative split rungs.*
 
 ### The transposed operand test is the opposite case
 
