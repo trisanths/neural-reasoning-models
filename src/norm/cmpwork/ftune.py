@@ -29,6 +29,9 @@ import torch.nn as nn
 from src.norm import ndata, nmodel
 
 LR = {"xs": 1.5e-4, "s": 1.0e-4, "m": 6e-5, "l": 4e-5}
+# The ladder rungs above 45M, a tenth of each rung's own peak, which is
+# the ratio the recorded 45M run used. src/system/sizes.py:ft_lr.
+LR.update({"xl93": 3.2e-5, "xxl167": 2.7e-5, "xxxl355": 2.0e-5})
 
 
 def load_npz(path):
@@ -70,7 +73,8 @@ def main():
     iv, ov = ndata._vocab()
     ck = torch.load(a.ckpt, map_location="cpu", weights_only=False)
     size = ck["size"]
-    model = nmodel.build(size, len(iv), len(ov)).to(device)
+    from src.system.sizes import build_any
+    model = build_any(size, len(iv), len(ov)).to(device)
     model.load_state_dict(ck["state"])
     out = a.out or f"results/norm/compare/ft_{size}_k{a.k}.pt"
     os.makedirs(os.path.dirname(out), exist_ok=True)

@@ -53,6 +53,27 @@ def build(size: str, src_vocab: int, tgt_vocab: int, **kw):
     return nmodel.Normalizer(cfg)
 
 
+def build_any(size: str, src_vocab: int, tgt_vocab: int, **kw):
+    """A rung of this ladder, or a checkpoint the norm lane's sizes wrote.
+
+    Both tables name the same model class built from the same `Config`, so a
+    checkpoint from either lane rebuilds here.
+    """
+    if size in LADDER:
+        return build(size, src_vocab, tgt_vocab, **kw)
+    return nmodel.build(size, src_vocab, tgt_vocab, **kw)
+
+
+def ft_lr(size: str) -> float:
+    """The continuation rate for the transposed-operand fine tune.
+
+    A tenth of the rung's peak. `results/norm/compare/ft_l_k1024.pt` was
+    written at 4e-5 against a 4.0e-4 peak, so the 45M rung keeps its recorded
+    value and every new rung takes the same ratio over its own peak.
+    """
+    return round(0.1 * LR[size], 8) if size in LR else None
+
+
 def counts(src_vocab: int = 923, tgt_vocab: int = 155) -> dict:
     """Parameter counts without building anything on a device."""
     out = {}

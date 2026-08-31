@@ -31,6 +31,7 @@ import torch
 from src.norm import ndata, neval, nmodel
 from src.norm.lang import program_load
 from src.norm.ntok import TokenizeError, deserialize
+from src.system.sizes import build_any
 
 
 def canonical_order(keys):
@@ -81,7 +82,7 @@ def main():
     rep = {"items": os.path.abspath(a.items), "runs": {}}
     for path in a.ckpts.split(","):
         ck = torch.load(path, map_location="cpu", weights_only=False)
-        model = nmodel.build(ck["size"], len(iv), len(ov)).cuda()
+        model = build_any(ck["size"], len(iv), len(ov)).cuda()
         model.load_state_dict(ck["state"])
         model.eval()
         live = [i for i, e in enumerate(enc) if e is not None]
