@@ -197,8 +197,11 @@ last directory wins, and disagrees with it otherwise.
 ## What refuses, and what happens when the page is attacked
 
 A system that answers 1.0000 everywhere is a bug until it has been attacked.
-Four attacks and two controls, all in `results/norm/oneshot/attack.json` and
-`report.json`.
+Five attacks and two controls, all in `results/norm/oneshot/attack.json` and
+`report.json`. The last of the five renames every invented word in the episode
+at once, directory names, keys, values, stated words and the operator's own
+name, so the renamed episode is the same operation written in a vocabulary
+nothing has seen.
 
 {{T_CONTROLS}}
 
@@ -231,8 +234,10 @@ answers rather than refusing.
 
 `enumerate_space` was only ever asked for one and two clause operations over two
 and three directories, and those are what the reader was written against. These
-are three and four clause operations, and operations over four and five
-directories, generated for the first time by this table.
+are three and four clause operations, operations over four and five directories,
+and episodes carrying a directory page the question never names, all generated
+for the first time by this table. Only the library systems answer these; the
+network was decoded on the main and ladder item sets and not on this one.
 
 {{T_STRESS}}
 
@@ -243,8 +248,8 @@ is a grammar and that the reader is general over it. It does not measure that
 arbitrary English can be normalized: the held out wording mode is refused on
 every item, and that is the number to look at before believing anything else
 here. The claim this lane supports is narrower and is the architectural one.
-Once a page is normalized, using what it says costs one page, holds at depth 16,
-composes, and follows the page against the training. Getting from arbitrary
+Once a page is normalized, using what it says costs one page, holds to a plan of
+256 steps, composes, and follows the page against the training. Getting from arbitrary
 wording to a normalized page is the network's job, and `src/norm/COMPARE.md`
 already measures how well the network does it on the shapes it was trained for.
 
@@ -268,6 +273,10 @@ space is complete.
     bash src/norm/drive.sh     # the data, the no gradient run and the first ladder
     bash src/norm/drive2.sh    # the ladder from the family trained network
     bash src/norm/drive3.sh    # the far end of the first ladder
+    .venv/bin/python -m src.norm.opdiag --vocab base --only compose \
+        --out results/norm/oneshot/diag_base_compose.json
+    .venv/bin/python -m src.norm.opdiag --ckpt results/norm/oneshot/ft_family.pt \
+        --vocab ext --only compose --out results/norm/oneshot/diag_family_compose.json
     .venv/bin/python -m src.norm.opreport
     .venv/bin/python -m src.norm.opdoc
 

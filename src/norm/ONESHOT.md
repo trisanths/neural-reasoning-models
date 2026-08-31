@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 13:31 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:34 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 21 record files, none newer than the report of 2026-08-31 13:31 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 22 record files, none newer than the report of 2026-08-31 13:34 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -156,7 +156,7 @@ how many examples that took.
 | acq/a2c2/187 | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0200              | -                      | -                              | -    |
 | acq/a3c1/26  | 100 | 0.3333 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0400              | -                      | 0.2600                         | 64   |
 | acq/a3c1/28  | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.8000 | 0.0300              | -                      | -                              | -    |
-| acq/a3c2/144 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0300              | -                      | -                              | -    |
+| acq/a3c2/144 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0300              | -                      | 0.0200                         | 1    |
 | acq/a3c2/146 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.2000 | 0.8000 | 0.0000              | -                      | -                              | -    |
 
 The k curve behind that last column, for the four operations a ladder was run
@@ -167,7 +167,7 @@ this operation, tested on the same operation in wordings it did not train on.
 | ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
 | acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
 | acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | 0.0500 | 0.2600 | -     | -      | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | -      | -      | -      | -      | -      | -     | -      | 0.0300      |
+| acq_a3c2_144 | acq/a3c2/144 | 0.0200 | -      | -      | -      | -      | -     | -      | 0.0300      |
 | acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
 
 The same ladder run again from the family trained network rather than from the
@@ -190,7 +190,7 @@ The metric this lane is named for, read off those tables.
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
 | network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
 | network | acq/a3c1/26           | 0.2600              | 0.3333 | not within 64               | not within 64            |
-| network | acq/a3c2/144          | -                   | 0.2500 | not within 0                | not within 0             |
+| network | acq/a3c2/144          | 0.0200              | 0.2500 | not within 1                | not within 1             |
 | network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
 
 ## Depth
@@ -219,13 +219,13 @@ measured over twenty runs of each plan.
 | applications | n  | floor  | L strict | L structure exact | S1     | S2     | microseconds to run the plan |
 | ------------ | -- | ------ | -------- | ----------------- | ------ | ------ | ---------------------------- |
 | 1            | 40 | 0.1913 | 1.0000   | 1.0000            | 0.4750 | 0.5500 | 11.5                         |
-| 2            | 40 | 0.2442 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 20.9                         |
-| 4            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 38.9                         |
-| 8            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 74.5                         |
-| 16           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 144.6                        |
-| 32           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.0750 | 288.9                        |
-| 48           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1500 | 0.0250 | 432.8                        |
-| 64           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 572.0                        |
+| 2            | 40 | 0.2442 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 20.5                         |
+| 4            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 38.4                         |
+| 8            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 75.6                         |
+| 16           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 146.4                        |
+| 32           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.0750 | 291.1                        |
+| 48           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1500 | 0.0250 | 434.5                        |
+| 64           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 576.9                        |
 
 ## Composing two operations from two pages
 
@@ -286,8 +286,11 @@ last directory wins, and disagrees with it otherwise.
 ## What refuses, and what happens when the page is attacked
 
 A system that answers 1.0000 everywhere is a bug until it has been attacked.
-Four attacks and two controls, all in `results/norm/oneshot/attack.json` and
-`report.json`.
+Five attacks and two controls, all in `results/norm/oneshot/attack.json` and
+`report.json`. The last of the five renames every invented word in the episode
+at once, directory names, keys, values, stated words and the operator's own
+name, so the renamed episode is the same operation written in a vocabulary
+nothing has seen.
 
 | check                                  | n   | rate   | where                                  |
 | -------------------------------------- | --- | ------ | -------------------------------------- |
@@ -341,8 +344,10 @@ answers rather than refusing.
 
 `enumerate_space` was only ever asked for one and two clause operations over two
 and three directories, and those are what the reader was written against. These
-are three and four clause operations, and operations over four and five
-directories, generated for the first time by this table.
+are three and four clause operations, operations over four and five directories,
+and episodes carrying a directory page the question never names, all generated
+for the first time by this table. Only the library systems answer these; the
+network was decoded on the main and ladder item sets and not on this one.
 
 | operation                            | n   | floor  | L strict | L structure exact | S1     | S2     | parser |
 | ------------------------------------ | --- | ------ | -------- | ----------------- | ------ | ------ | ------ |
@@ -359,8 +364,8 @@ is a grammar and that the reader is general over it. It does not measure that
 arbitrary English can be normalized: the held out wording mode is refused on
 every item, and that is the number to look at before believing anything else
 here. The claim this lane supports is narrower and is the architectural one.
-Once a page is normalized, using what it says costs one page, holds at depth 16,
-composes, and follows the page against the training. Getting from arbitrary
+Once a page is normalized, using what it says costs one page, holds to a plan of
+256 steps, composes, and follows the page against the training. Getting from arbitrary
 wording to a normalized page is the network's job, and `src/norm/COMPARE.md`
 already measures how well the network does it on the shapes it was trained for.
 
@@ -384,6 +389,10 @@ space is complete.
     bash src/norm/drive.sh     # the data, the no gradient run and the first ladder
     bash src/norm/drive2.sh    # the ladder from the family trained network
     bash src/norm/drive3.sh    # the far end of the first ladder
+    .venv/bin/python -m src.norm.opdiag --vocab base --only compose \
+        --out results/norm/oneshot/diag_base_compose.json
+    .venv/bin/python -m src.norm.opdiag --ckpt results/norm/oneshot/ft_family.pt \
+        --vocab ext --only compose --out results/norm/oneshot/diag_family_compose.json
     .venv/bin/python -m src.norm.opreport
     .venv/bin/python -m src.norm.opdoc
 
