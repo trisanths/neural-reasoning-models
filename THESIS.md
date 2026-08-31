@@ -649,3 +649,81 @@ lead in padding is variable length and a head query would vary with the frame.
 
 Freshness check passed on 33 record and report pairs, and every grader was oracle
 checked before any model number was read.
+
+## The first representational failure, 2026-08-31: axis composition
+
+Every failure this project had isolated until now dissolved when the training
+distribution was widened. This one does not, and it was established by counting
+the training draw rather than the frame bank.
+
+### The measurement
+
+Seven structure shapes score exactly 0.0000 reading a page whose value is named
+before its key, in a held-out sentence mode. Their training draw is balanced on
+that axis: between 42,567 and 42,917 value-first items per shape, a share between
+0.4978 and 0.5006, and between 8,362 and 8,910 value-first items inside each of
+the five trained sentence modes.
+
+The sharpest cell, at 45M: four shapes are exact on 107 of 107 key-first items
+and 0 of 93 value-first ones. Same shape, same group, same sentence mode, same
+gold structures. Only which of the two the sentence names first differs.
+
+### Three controls
+
+The reader handles value-first well where the mode is familiar: 0.9264 key-first
+against 0.9158 value-first on trained modes, and 0.8245 against 0.7992 on a
+held-out lexicon. It has the order. It loses it when the sentence mode changes,
+where the same split reads 0.7223 against 0.3280.
+
+The surface is unambiguous. A hand-written parser reads the value-first half of
+the held-out mode at 1302 of 1302, and 93 of 93 for each of the seven shapes.
+
+The failure is confident rather than confused. Over the seven shapes on value
+first in the held-out mode: exact 0 of 651, wrong but executable 531, refused
+120, malformed 0. It writes a well-formed structure with the binding swapped and
+the interpreter executes it.
+
+### Why this is not distributional
+
+What fails to transfer is the composition of an axis value seen about 42,800
+times per shape with an axis value never seen. Rebuilding the draw balanced on
+key position changes nothing, because it is already balanced and has been
+throughout. That is why no balanced-draw retrain was run for this case.
+
+### The case that IS distributional, kept separate
+
+The transposed-operand failure is a hole in a draw rather than the same thing.
+One fine tune listed its key pairs in row-major order on 4096 of 4096 pages and
+never showed the layout its test asks for. A balanced draw moves transposed exact
+from 0 of 750 to 462 of 750, at a cost: original page accuracy falls from 672 to
+404, and the gain is smallest on the held-out sentence mode, which ties it back
+to the compositional failure above.
+
+So the 678 of 678 page-following result has two separable causes, one of which is
+fixable data.
+
+### Scale does not help
+
+At matched learning rate the 93M rung has closed about 72 percent of its loss gap
+to the 45M rung and 45M is still ahead. The earlier reading that doubling
+parameters made every group worse was confounded by an inverse-width rate rule,
+caught because the larger rung was behind on its own training loss at every
+logged step with identical steps, batch, seed and data.
+
+### What is not yet known
+
+Whether the collapse is specific to sentence mode or general to axis
+composition. The held-out mode is a single constant, so a result resting on it is
+a result about it until a second axis is held out and measured the same way. That
+test is running.
+
+And whether corpus pretraining buys the composition a from-scratch reader lacks.
+The 350M corpus-initialised arm scored on the same key-position split is the cell
+that answers it.
+
+### A safety claim that was overstated
+
+The interpreter refusing malformed structures was reported as a property of the
+design. On trained frames the refusal ratio is 0.000: every failure there is a
+wrong structure that executes silently. Only on genuinely unfamiliar page shapes
+does roughly one failure in eight become a refusal.
