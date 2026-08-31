@@ -249,6 +249,11 @@ def cmd_plan(args) -> int:
         det_steps.append({
             "decode": key[0], "required_steps": key[1], "n": n,
             "accuracy": round(sum(r["correct"] for r in rs) / n, 4),
+            # The value can be right with the plan wrong. On items using the
+            # arity-four symbol that happens on 0.64 of the held-out band, so
+            # the two are always reported together and the gap is the
+            # collision rate.
+            "plan_exact": round(sum(r["gold_plan_correct"] for r in rs) / n, 4),
             "parse_rate": round(sum(r["parsed"] for r in rs) / n, 4),
             "emitted_steps_mean": round(sum(r["emitted_steps"] for r in rs) / n, 3),
             "emitted_steps_max": max(r["emitted_steps"] for r in rs),
@@ -261,6 +266,7 @@ def cmd_plan(args) -> int:
         det_syms.append({
             "decode": key[0], "required_symbols": key[1], "n": n,
             "accuracy": round(sum(r["correct"] for r in rs) / n, 4),
+            "plan_exact": round(sum(r["gold_plan_correct"] for r in rs) / n, 4),
             "emitted_symbols_mean": round(sum(r["emitted_symbols"] for r in rs) / n, 3),
             "enough_symbols": round(sum(r["emitted_symbols"] >= r["required_symbols"]
                                         for r in rs) / n, 4)})
@@ -300,20 +306,21 @@ def cmd_plan(args) -> int:
                  r["emitted_symbols_mean"], r["enough_symbols"]))
     print()
     print("determinate subset only, rate %.3f" % out["determinate_rate"])
-    print("%-7s %8s %5s %7s %9s %8s %9s"
-          % ("decode", "req_step", "n", "acc", "emit_mean", "emit_max",
-             "long_enuf"))
+    print("%-7s %8s %5s %7s %8s %9s %8s %9s"
+          % ("decode", "req_step", "n", "acc", "planEx", "emit_mean",
+             "emit_max", "long_enuf"))
     for r in det_steps:
-        print("%-7s %8d %5d %7.3f %9.2f %8d %9.3f"
+        print("%-7s %8d %5d %7.3f %8.3f %9.2f %8d %9.3f"
               % (r["decode"], r["required_steps"], r["n"], r["accuracy"],
-                 r["emitted_steps_mean"], r["emitted_steps_max"],
-                 r["long_enough"]))
-    print("%-7s %8s %5s %7s %11s %10s"
-          % ("decode", "req_syms", "n", "acc", "emit_syms", "enough"))
+                 r["plan_exact"], r["emitted_steps_mean"],
+                 r["emitted_steps_max"], r["long_enough"]))
+    print("%-7s %8s %5s %7s %8s %11s %10s"
+          % ("decode", "req_syms", "n", "acc", "planEx", "emit_syms", "enough"))
     for r in det_syms:
-        print("%-7s %8d %5d %7.3f %11.3f %10.3f"
+        print("%-7s %8d %5d %7.3f %8.3f %11.3f %10.3f"
               % (r["decode"], r["required_symbols"], r["n"], r["accuracy"],
-                 r["emitted_symbols_mean"], r["enough_symbols"]))
+                 r["plan_exact"], r["emitted_symbols_mean"],
+                 r["enough_symbols"]))
     print(f"wrote {args.out}")
     return 0
 

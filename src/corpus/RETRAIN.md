@@ -409,3 +409,132 @@ curve `~/retrain/frames/curve.json`. Every dump was written after the episode
 files it came from; `src/frames/cli.py score` refuses to score otherwise, and
 it asserts the hedging canary at 0.000 forced on all forty cells before any
 number above is read.
+
+## 4. Plan length
+
+Two item sets. The corpus's own held-out plan band, lengths 1 to 48, which is
+the grid the corpus trains on. And an extrapolation set at 56, 64, 72, 80 and
+96 steps, built by `src/corpus/build.py:build_plan_records` from seeds at
+760,000,000, outside every reserved range and both corpus bands, which nothing
+trains on.
+
+Everything below is the determinate subset, the items whose question determines
+the gold plan. `acc` is the executed answer against gold; `planEx` is the
+emitted plan string equal to the gold plan string. Both are given because the
+first can be right with the second wrong, and on this data that happens a lot;
+the next subsection is about how much.
+
+New checkpoint, held-out band, greedy:
+
+| required steps | n | acc | planEx | emitted steps, mean | emitted max | long enough |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 36 | 1.000 | 1.000 | 1.00 | 1 | 1.000 |
+| 2 | 49 | 1.000 | 1.000 | 2.00 | 2 | 1.000 |
+| 3 | 46 | 1.000 | 1.000 | 3.00 | 3 | 1.000 |
+| 4 | 55 | 1.000 | 1.000 | 4.00 | 4 | 1.000 |
+| 6 | 64 | 0.984 | 0.984 | 6.00 | 6 | 1.000 |
+| 8 | 60 | 0.983 | 0.983 | 8.00 | 8 | 1.000 |
+| 12 | 43 | 0.977 | 0.954 | 12.00 | 12 | 1.000 |
+| 16 | 35 | 0.829 | 0.800 | 16.06 | 18 | 1.000 |
+| 20 | 49 | 0.898 | 0.898 | 20.16 | 28 | 1.000 |
+| 24 | 39 | 0.744 | 0.744 | 24.20 | 28 | 1.000 |
+| 28 | 49 | 0.714 | 0.694 | 27.98 | 28 | 0.980 |
+| 32 | 36 | 0.694 | 0.667 | 32.00 | 32 | 1.000 |
+| 36 | 30 | 0.533 | 0.500 | 36.13 | 40 | 1.000 |
+| 40 | 33 | 0.545 | 0.545 | 40.36 | 48 | 1.000 |
+| 44 | 22 | 0.273 | 0.227 | 44.55 | 50 | 0.909 |
+| 48 | 26 | 0.154 | 0.154 | 47.69 | 50 | 0.885 |
+
+New checkpoint, extrapolation set, nothing trains past 48:
+
+| required steps | n | acc greedy | emitted mean greedy | emitted max | long enough greedy | emitted mean t1 | long enough t1 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 56 | 40 | 0.000 | 56.20 | 88 | 0.400 | 58.08 | 0.550 |
+| 64 | 15 | 0.000 | 64.33 | 90 | 0.467 | 61.13 | 0.467 |
+| 72 | 33 | 0.000 | 64.67 | 95 | 0.212 | 65.06 | 0.303 |
+| 80 | 52 | 0.000 | 72.85 | 96 | 0.250 | 70.96 | 0.192 |
+| 96 | 38 | 0.000 | 76.50 | 95 | 0.000 | 75.82 | 0.053 |
+
+The original checkpoint emits no plan at all on either set. Its emitted step
+count is 0.00 at every length, its accuracy and its plan-exact rate are 0.000
+everywhere, and what it writes is text like `Vramgrum`, `1.` and
+`1 add ops ops ops`. It has never seen the format, so it is a control on the
+harness rather than a comparison of capability.
+
+Three things are true and the first two are the answer to the question.
+
+The step count is no longer flat. Emitted length equals required length to two
+decimal places at every one of the eighteen trained lengths, from 1.00 at one
+step to 47.69 at forty-eight. On record the emitted count tracked the question
+to three and then sat on three exactly, so a depth-eight question got a
+three-step plan. Nothing like that survives here.
+
+It does not flatten at the new training maximum either. Past 48, where nothing
+trains, mean emitted length keeps rising: 56.20 at required 56 and 64.33 at 64,
+both above the training ceiling, with individual plans up to 111 steps. The
+extrapolation constant on record was zero, meaning no arm generalised one step;
+this one generalises about sixteen. Past 64 the emitted length falls behind the
+requirement, 64.67 where 72 is needed and 76.50 where 96 is, so there is a soft
+ceiling somewhere around seventy and it is not the training maximum.
+
+Accuracy is a different question from length and it does not follow. Within the
+trained band, accuracy decays smoothly from 1.000 at four steps to 0.154 at
+forty-eight, which is a decay and not the step function on record, where
+accuracy was 1.00 at and below the ceiling and chance above it. Past the
+training band accuracy is 0.000 at every length, on both decodes: the model
+writes a plan of roughly the right length and gets it wrong. The trivial
+program writes the exact gold plan at 1.000 on every one of those cells, so the
+loss is not in the question.
+
+Sampled decoding agrees with greedy throughout, so none of this is a greedy
+artifact.
+
+### The collision that makes the full-set number meaningless
+
+Items using the arity-four `score` are underdetermined, as described above.
+They are also collision-prone, and the two together make their accuracy column
+worthless. On the held-out band the new checkpoint's executed answer is right
+on 0.642 of those items while its plan is exactly right on 0.000 of them; on
+the extrapolation set the same numbers are 0.311 and 0.000. On the determinate
+items the two agree: 0.851 value-correct against 0.843 plan-exact, a gap of
+0.008.
+
+So a wrong plan lands on the right value about two times in three on the
+underdetermined items, and every accuracy figure that pools them is inflated by
+that. Every number in this section is the determinate subset only. Anything
+reported on the full set would exceed the ceiling a question-only reader can
+reach, which is the pattern this project treats as a bug until proven otherwise.
+
+## 5. Symbol count
+
+Distinct operator symbols emitted against required, same items, determinate
+subset, new checkpoint.
+
+| required symbols | n | acc greedy | emitted symbols greedy | enough greedy | emitted symbols t1 | enough t1 |
+| ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| 1 | 278 | 0.982 | 1.000 | 1.000 | 1.007 | 1.000 |
+| 2 | 280 | 0.868 | 2.000 | 1.000 | 2.032 | 1.000 |
+| 3 | 136 | 0.699 | 3.007 | 1.000 | 3.118 | 1.000 |
+| 4 | 42 | 0.262 | 4.000 | 1.000 | 4.119 | 1.000 |
+| 5 | 54 | 0.926 | 4.981 | 0.982 | 4.981 | 0.982 |
+
+On the extrapolation set, where the plans are longer than anything trained, the
+emitted symbol count is still right: 1.231, 2.462, 3.424 and 5.800 where 1, 2,
+3 and 5 are required, with `enough_symbols` at 1.000 in every cell.
+
+On record every arm emitted about 1.0 distinct symbols where 2 were needed, on
+novel composition, at chance. Here the emitted count equals the required count
+at every width from one to five, and the model reaches for a second, third,
+fourth and fifth symbol when the question needs one. The symbol-count ceiling
+is gone.
+
+Accuracy at four required symbols is 0.262, below both three and five, on 42
+items. That is not a symbol-count effect: the four-symbol cell in this sample
+is drawn from the longest plans, and length is what the accuracy tracks.
+
+Artifacts: `~/retrain/plan/all_{base,new}_{heldout_whole_sample,extrap_whole}.jsonl`,
+scores `~/retrain/plan/score_*`, per-item rows `~/retrain/plan/rows_*`,
+record sets `~/retrain/plan/heldout_whole_sample.jsonl` and
+`~/retrain/plan/extrap_whole.jsonl` with the `determinate` flag on every
+record, trivial program `~/retrain/plan/parser_*` and `score_parser_*`,
+oracle `~/retrain/plan/score_oracle_*`.
