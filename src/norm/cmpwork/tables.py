@@ -90,16 +90,21 @@ def t_depth(rep, cols, name, split="train"):
     w(name, head + body)
 
 
-def t_transpose(rep, name):
-    head = ["| version | split | system | n | follows the page | follows the other reading | names neither | declines |",
+def t_transpose(rep, name, only_all=True):
+    head = ["| version | frame group | system | n | follows the page | follows the other reading | names neither | declines |",
             "|---|---|---|---|---|---|---|---|"]
     body = []
-    for k in sorted(rep["cells"]):
+    order = {sp: i for i, sp in enumerate(SPLITS)}
+    order["all"] = -1
+    for k in sorted(rep["cells"], key=lambda k: (k.split("|")[0],
+                                                 order.get(k.split("|")[1], 9))):
         ver, sp = k.split("|")
-        if sp != "all":
+        if only_all and sp != "all":
+            continue
+        if not only_all and sp == "all":
             continue
         for s, r in sorted(rep["cells"][k].items()):
-            body.append(f"| {ver} | all | `{s}` | {r['n']} | "
+            body.append(f"| {ver} | `{sp}` | `{s}` | {r['n']} | "
                         f"{r['page_count']} = {r['follows_page']:.4f} | "
                         f"{r['alt_count']} = {r['follows_alt']:.4f} | "
                         f"{r['neither']:.4f} | {r['declined']:.4f} |")
@@ -149,6 +154,39 @@ def t_ladder_split(rep, name):
         body.append(f"| `{tag}` | {'none, shipped' if k < 0 else k} | "
                     + " | ".join(cells) + " |")
     w(name, head + body)
+
+
+def t_aharness(name):
+    import gzip
+    from collections import Counter
+    rows = [("the twelve shape set", "a_greedy"),
+            ("the twelve shape set", "a_sampled"),
+            ("the wh corner", "h_a_greedy"),
+            ("the wh corner", "h_a_sampled"),
+            ("the transposed grids", "x_a_greedy"),
+            ("the transposed grids", "x_a_sampled"),
+            ("the depth ladder", "nt_a_greedy")]
+    head = ["| item set | decoding | n | mean retrieval rounds | stopped at `<|eot|>` | "
+            "hit the token cap | answer boundary |",
+            "|---|---|---|---|---|---|---|"]
+    body = []
+    for label, stem in rows:
+        p2 = f"{ROOT}/{stem}.jsonl.gz"
+        if not os.path.exists(p2):
+            continue
+        c, tot, n = Counter(), 0, 0
+        for line in gzip.open(p2, "rt"):
+            r = json.loads(line)
+            c[r["stop"]] += 1
+            tot += r["rounds"]
+            n += 1
+        if not n:
+            continue
+        mode = "sampled, t=0.7 top k 50" if "sampled" in stem else "greedy"
+        body.append(f"| {label} | {mode} | {n} | {tot/n:.3f} | {c['eot']} | "
+                    f"{c['max_new_tokens']} | {c['answer_boundary']} |")
+    if body:
+        w(name, head + body)
 
 
 def t_xmode(name):
@@ -315,6 +353,7 @@ def main():
     x = load("report_transpose.json")
     if x:
         t_transpose(x, "t_transpose.md")
+        t_transpose(x, "t_transpose_split.md", only_all=False)
     for tag in ("xs", "l"):
         lr = load(f"ladder_{tag}.json")
         if lr:
@@ -324,6 +363,7 @@ def main():
     t_bcoverage("t_bcoverage.md")
     t_wdepth("t_wdepth.md")
     t_xmode("t_xmode.md")
+    t_aharness("t_aharness.md")
     t_interp("t_interp.md")
     t_aheader("t_aheader.md")
     t_aform("t_aform.md")

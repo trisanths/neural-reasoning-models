@@ -79,7 +79,8 @@ argmax is a token sampled from the real logits at temperature 0.7 and top k 50.
 
 Two things were checked before any number was kept. The header's domain string
 is not specified by the gate, and this checkpoint trained one family per
-domain, so four domains and an empty world were run over the same 32 items:
+domain, so five domain strings and an empty world dict were run over the same
+32 items:
 
 TABLE_AHEADER
 
@@ -92,15 +93,25 @@ TABLE_AFORM
 On `wh`, the form its own rollouts are written in, the checkpoint retrieves once
 per item and answers 0.3125 of them. On `cloze` and `imperative` it issues no
 retrieval at all and answers nothing. The zero is the checkpoint's behaviour and
-not the harness: the same code, the same header and the same items produce a
+not the harness: the same code, the same header and the same generator produce a
 non zero score as soon as the question is phrased the way it was trained. Adding
 the pages to the prompt as documents instead does not help it, and neither does
 forcing the answer marker.
 
-That is worth stating plainly. Eleven of the twelve shapes here and three of the
-four question forms are outside anything this checkpoint was rewarded on. The
-comparison below is a comparison of deployed systems on one corpus, and section
-8 puts A back on its own ground.
+The loop itself ran clean. Retrieval rounds, stop reasons and denominators for
+every pass the checkpoint made in this document:
+
+TABLE_AHARNESS
+
+Almost every trajectory ends at `<|eot|>` of its own accord, so the 256 token
+budget is not what is cutting the answers off, and on the wh corner of section
+10 the checkpoint retrieves once per item, which is what its own rollout log
+records.
+
+That said, nine of the twelve shapes here and three of the four question forms
+are outside anything this checkpoint was rewarded on. What follows is a
+comparison of deployed systems on one corpus, and section 10 puts A back on its
+own ground.
 
 ## 4. The comparison
 
@@ -126,6 +137,20 @@ reach and 0.0000 where they do not, with nothing in between.
 C is the only system whose score is a function of frame distance. It is not
 1.0000 anywhere, including on the training frames, and it does not fall to zero
 anywhere either.
+
+The two distance axes cost it differently, and the ordering is the one
+`src/frames/distance.py` was written to expose. The held out lexicon is far in
+words and identical in geometry, and costs the 45.5M reader almost nothing: its
+median cell is 0.990 against 1.000 on the training frames. The held out sentence
+mode is the other way round, ordinary words in a geometry a fifth of the way
+off, and it takes the median to 0.840. Moving the words is cheap and moving the
+geometry is not, which is the direction the wording ablation that module cites
+found for the checkpoint. At 404,608 parameters the two axes cost about the
+same, 0.710 and 0.730, so the asymmetry is something the larger reader buys.
+
+Distance columns in the group table are item weighted and the frame table in
+section 2 is frame weighted, so the two differ slightly and neither is a
+rounding of the other.
 
 The rate at which each system names nothing, in the same cells:
 
@@ -183,6 +208,11 @@ before the edit.
 
 TABLE_TRANSPOSE
 
+By frame group, which is where the restricted parser's 0.4000 comes from: two
+of the five groups are frames it holds templates for and three are not.
+
+TABLE_TRANSPOSE_SPLIT
+
 Neither the language nor the interpreter is what fails. On these same shared
 domain grids `serialize` and `deserialize` round trip 20 of 20 at every degree
 of overlap between the two key columns, and the reference parser recovers the
@@ -215,11 +245,12 @@ The 45,483,008 parameter reader:
 
 TABLE_LADDER_L
 
-The transposed column stops rising while the original column keeps going. At
-1,024 grids the larger reader answers the untransposed version of the page 672
-of 750 and the transposed version 40 of 750, from pages that differ only in
-which of two operands is named first on each line, and its structure is exact on
-0 of 750 transposed items at every rung of both ladders.
+On the smaller reader the transposed column peaks at 236 of 750 and then falls
+back while the original column keeps rising to 420. On the larger one, at 1,024
+grids, the original version of the page is answered 672 of 750 and the
+transposed version 40 of 750, from pages that differ only in which of two
+operands is named first on each line. The structure is exact on 0 of 750
+transposed items at every rung of both ladders.
 
 The structure level census says what it writes instead. Categories are disjoint;
 `keys in the untransposed order` means the nine values are the page's nine
@@ -301,16 +332,16 @@ And on a held out lexicon, where the restricted parser refuses every item:
 TABLE_DEPTH_NARROW_LEXICON
 
 So depth 48 is reachable by B and by the interpreter, at 1.0000 and at constant
-cost per step, and is not reachable by C at all: it is sixteen steps past what
-the output vocabulary can spell, and the ring that would make it an honest
-question is five times wider than any page the reader has read.
+cost per step, and is not reachable by C at all. It is thirty two steps past
+what the output vocabulary can spell, and the ring that would make it an honest
+question is nearly five times wider than the widest ring the generator draws.
 
 ## 10. The checkpoint on its own ground
 
 Section 3 showed that most of the item set is outside what A was rewarded on. So
 here is the corner that is not: the three structure shapes its three training
-families are, asked as `wh` questions, which is the form its rollouts use. 60
-items per cell, same generator, same grader, same three systems.
+families correspond to, asked as `wh` questions, which is the form its rollouts
+use. 60 items per cell, same generator, same grader, same three systems.
 
 TABLE_HOME
 
@@ -336,8 +367,8 @@ require a wording the grammar does not contain.
 
 What the normalizer buys is the case the grammar does not contain, and what it
 costs is exactness. That trade is real and it is measurable here: 542 of 600 on
-one held out axis for the parser against 0 of 600 on the other two, versus a
-reader that answers everywhere and is exact nowhere.
+one held out axis for the parser against 0 of 600 on each of the other three,
+versus a reader that answers everywhere and is exact nowhere.
 
 The transposed operand test says the harder thing. The architecture was built so
 that composition, depth, verification and termination stop being the network's
@@ -366,7 +397,7 @@ confident, which is worth something, and it did not make them go away.
     results/norm/compare/ladder_l.json           the example ladder, 45.5M
     results/norm/compare/xmode.json              the structure level census
     results/norm/compare/wdepth.json             width crossed with depth
-    results/norm/compare/header_ablation.json    five world headers
+    results/norm/compare/header_ablation.json    six world headers
     results/norm/compare/a_diagnostic.json       A by question form and condition
     results/norm/depth/summary.json              the interpreter to depth 32768
     results/norm/compare/tables/                 every table in this document
