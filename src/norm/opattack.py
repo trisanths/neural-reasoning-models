@@ -31,7 +31,7 @@ import random
 
 from src.norm import oplang, opitems, opread, opsay
 from src.norm.interp import run
-from src.norm.lang import def_load, program_json
+from src.norm.lang import def_load
 
 
 def _instance(row):

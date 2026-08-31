@@ -21,13 +21,18 @@ be answering a different question.
 `serialize` and `deserialize` here mirror the ones in `src/norm/ntok.py`; the
 plan, input and answer sections are unchanged, and only the definition section
 and the set of legal temporaries differ.
+
+One of the eleven, `endop`, is reserved and never written: the `;` that closes
+every other definition closes this one too. It stays in the list because the
+checkpoints on the ladder were trained with the vocabulary this size and
+removing it would renumber every token after it.
 """
 
 from __future__ import annotations
 
 from src.norm import ntok, oplang
-from src.norm.lang import Lit, NormError, OpDef, Program, Ref, Step
-from src.norm.ntok import DIGITS, SLOT_TOKENS, OutVocab, TokenizeError
+from src.norm.lang import Lit, NormError, Program, Ref, Step
+from src.norm.ntok import SLOT_TOKENS, OutVocab, TokenizeError
 
 EXTRA = ("op", "clause", "fb", "allsame", "alldiff", "same", "diff",
          "src", "shared", "word", "endop")
@@ -177,7 +182,7 @@ def _parse_op(c):
     c.expect("op")
     name = c.sym()
     arity = c.num()
-    if arity not in (2, 3):
+    if not 2 <= arity <= 6:
         raise NormError(f"an operation over {arity} readings")
     clauses = []
     while c.peek() == "clause":

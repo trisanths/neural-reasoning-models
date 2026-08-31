@@ -29,7 +29,7 @@ import torch
 
 from src.norm import ndata, neval, nmodel, ntok, optok
 from src.norm.interp import run
-from src.norm.lang import NormError, program_load
+from src.norm.lang import program_load
 from src.norm.ntok import TokenizeError
 from src.norm.opft import MAX_TGT
 
