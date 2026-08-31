@@ -597,6 +597,18 @@ it is exact 0 of 150 and
 150 of 150. Doubling the parameters moved
 none of it.
 
+### What would decide whether it is general
+
+The reading above is that the reader has the value-first order on every
+sentence mode it trained on and loses it on one it did not. It does not say
+whether that is about `relative_clause` in particular or about any unseen mode.
+`src/norm/ndata.py` withholds the mode through one constant, `HELD_MODE`, so
+the check is that constant, a rebuild of `data/norm`, one rung at 30,000 steps
+and the same scoring, which is about three hours on this card. If a different
+withheld mode also produces shapes exact on every key-first item and no
+value-first one, the failure is a property of the architecture and not of one
+sentence form.
+
 ### The ladder's parameter axis is not clean yet
 
 The 93M rung is behind the 45M rung on every frame group,
