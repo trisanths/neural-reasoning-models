@@ -1,6 +1,6 @@
 # Intelligence per example
 
-Built 2026-08-31 13:35 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:36 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
 Freshness at build time: 22 record files, none newer than the report of 2026-08-31 13:35 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
@@ -287,10 +287,11 @@ last directory wins, and disagrees with it otherwise.
 
 A system that answers 1.0000 everywhere is a bug until it has been attacked.
 Seven attacks and two controls, all in `results/norm/oneshot/attack.json` and
-`report.json`. The last of the five renames every invented word in the episode
-at once, directory names, keys, values, stated words and the operator's own
-name, so the renamed episode is the same operation written in a vocabulary
-nothing has seen.
+`report.json`. One of them renames every invented word in the episode at once,
+directory names, keys, values, stated words and the operator's own name, so the
+renamed episode is the same operation written in a vocabulary nothing has seen.
+Another cuts the last case off the definition, which leaves an operation that is
+not defined and must be refused rather than completed from anywhere else.
 
 | check                                       | n   | rate   | where                                  |
 | ------------------------------------------- | --- | ------ | -------------------------------------- |
