@@ -108,8 +108,9 @@ def t_transpose(rep, name):
 
 def t_ladder(rep, name):
     head = ["| checkpoint | grids seen | transposed page followed | original page followed | "
-            "structure exact, transposed | worst cell of the twelve shape set |",
-            "|---|---|---|---|---|---|"]
+            "structure exact, original | structure exact, transposed | "
+            "twelve shape set, median cell | its lowest cell |",
+            "|---|---|---|---|---|---|---|---|"]
     body = []
 
     def kof(e):
@@ -118,12 +119,15 @@ def t_ladder(rep, name):
 
     for tag, e in sorted(rep["runs"].items(), key=lambda kv: kof(kv[1])):
         g, o = e["grid_greedy"]["transposed|all"], e["grid_greedy"]["original|all"]
-        worst = min(v["strict"] for v in e["main_greedy"].values())
+        cells = sorted(v["strict"] for v in e["main_greedy"].values())
+        worst = cells[0]
+        med = st.median(cells)
         k = kof(e)
         body.append(f"| `{tag}` | {'none, shipped' if k < 0 else k} | "
                     f"{g['page_count']} = {g['follows_page']:.4f} | "
                     f"{o['page_count']} = {o['follows_page']:.4f} | "
-                    f"{g['structure_exact']:.4f} | {worst:.4f} |")
+                    f"{o['structure_exact']:.4f} | {g['structure_exact']:.4f} | "
+                    f"{med:.4f} | {worst:.4f} |")
     w(name, head + body)
 
 
@@ -144,6 +148,32 @@ def t_ladder_split(rep, name):
         k = kof(e)
         body.append(f"| `{tag}` | {'none, shipped' if k < 0 else k} | "
                     + " | ".join(cells) + " |")
+    w(name, head + body)
+
+
+def t_xmode(name):
+    rep = load("xmode.json")
+    if not rep:
+        return
+    head = ["| checkpoint | grids seen | version | n | exact | keys in the untransposed order | malformed | other |",
+            "|---|---|---|---|---|---|---|---|"]
+    body = []
+
+    def kof(e):
+        ft = e.get("finetune")
+        return -1 if not ft else ft["k"]
+
+    for tag, e in sorted(rep["runs"].items(), key=lambda kv: (kv[1]["size"], kof(kv[1]))):
+        c = e["counts"]
+        for ver in ("original", "transposed"):
+            n = sum(v for k, v in c.items() if k.startswith(ver + "|"))
+            if not n:
+                continue
+            g = lambda w: c.get(f"{ver}|{w}", 0)
+            k = kof(e)
+            body.append(f"| `{tag}` | {'none, shipped' if k < 0 else k} | {ver} | {n} | "
+                        f"{g('exact')} | {g('key_order_canonical')} | "
+                        f"{g('malformed')} | {g('other')} |")
     w(name, head + body)
 
 
@@ -270,6 +300,10 @@ def main():
                field="structure_exact")
         t_range(m, ALL, "t_range.md")
         t_main(m, ALL, "t_main_hedge.md", field="none")
+    h = load("report_home.json")
+    if h:
+        t_main(h, ALL, "t_home.md")
+        t_range(h, ALL, "t_home_range.md")
     d = load("report_depth.json")
     if d:
         for sp in SPLITS:
@@ -289,6 +323,7 @@ def main():
     t_distance("t_distance.md")
     t_bcoverage("t_bcoverage.md")
     t_wdepth("t_wdepth.md")
+    t_xmode("t_xmode.md")
     t_interp("t_interp.md")
     t_aheader("t_aheader.md")
     t_aform("t_aform.md")
