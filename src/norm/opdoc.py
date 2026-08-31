@@ -230,13 +230,14 @@ def t_compose(rep) -> str:
     rows = []
     c = rep["compose"]["L"]
     rows.append(["library, two pages", c["n"], f(c["floor"]),
-                 f(c["strict"]), f(c["lenient"]), f(c["declined"]), ""])
+                 f(c["strict"]), f(c["lenient"]), f(c["declined"]),
+                 f(c.get("structure_exact", 0))])
     for s in ("S1", "S2", "P"):
         d = rep["compose"][s]
         rows.append([{"S1": "shortcut, first line",
                       "S2": "shortcut, last line",
                       "P": "corpus parser"}[s], d["n"], f(d["floor"]),
-                     f(d["strict"]), f(d["lenient"]), f(d["declined"]), ""])
+                     f(d["strict"]), f(d["lenient"]), f(d["declined"]), "-"])
     for name, label in (("n_base_l", "network, no gradient"),
                         ("n_family", "network, family trained")):
         for mode in ("greedy", "sampled"):
@@ -249,6 +250,25 @@ def t_compose(rep) -> str:
                              f(d.get("structure_exact", 0))])
     return table(["system", "n", "floor", "strict", "lenient", "declined",
                   "structure exact"], rows)
+
+
+def t_diag(rep) -> str:
+    """How much of the needed structure the network actually writes down."""
+    rows = []
+    labels = {"base_compose": "network, no gradient",
+              "family_compose": "network, family trained"}
+    keys = ("ops", "calls", "distinct_called", "tables", "steps")
+    for tag in sorted(rep.get("diag", {})):
+        d = rep["diag"][tag]
+        g, e = d["means_over_gold"], d["means_over_emitted_that_read"]
+        rows.append(["what the item needs", d["n"], "-"]
+                    + [f(g[k]) for k in keys])
+        rows.append([labels.get(tag, tag), d["n"] - d["n_malformed"],
+                     d["n_malformed"]]
+                    + [f(e[k]) if e[k] is not None else "-" for k in keys])
+    return table(["row", "n", "malformed", "operator definitions", "calls",
+                  "distinct operators called", "directories", "plan steps"],
+                 rows)
 
 
 def t_contra(rep) -> str:
@@ -401,6 +421,7 @@ def main():
         "T_DEEP": t_deep(rep),
         "T_COMPOSE": t_compose(rep),
         "T_CONTRA": t_contra(rep),
+        "T_DIAG": t_diag(rep),
         "T_STRESS": t_stress(rep),
         "T_CONTROLS": t_controls(rep),
         "T_STATES": t_states(rep),

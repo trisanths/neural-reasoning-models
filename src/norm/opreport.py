@@ -168,7 +168,8 @@ def main():
                            os.path.join(D, "ladder_sys.jsonl.gz"))},
            "cells": {}, "acq": {}, "depth": {}, "compose": {},
            "contra": {}, "controls": {}, "ladder": {}, "neural": {},
-           "stress": {}, "attack": {}, "states": {}, "deep": {}}
+           "stress": {}, "attack": {}, "states": {}, "deep": {},
+           "diag": {}}
 
     # ---- the acquisition set, by family and by how many pages were served
     acq = [r for r in sysrows if r["cond"] == "acq"]
@@ -247,6 +248,13 @@ def main():
         rep["deep"]["_aligned_items"] = len(keep2)
         rep["deep"]["_depths"] = ns2
         rep["records"]["stress_sys"] = os.path.abspath(sp)
+
+    # ---- the structural diagnostics, carried through
+    for path in sorted(glob.glob(os.path.join(D, "diag_*.json"))):
+        tag = os.path.basename(path)[len("diag_"):-len(".json")]
+        d = json.load(open(path))
+        rep["diag"][tag] = {k: v for k, v in d.items() if k != "rows"}
+        rep["records"][f"diag_{tag}"] = os.path.abspath(path)
 
     # ---- the attacks, carried through from their own record file
     ap_ = os.path.join(D, "attack.json")

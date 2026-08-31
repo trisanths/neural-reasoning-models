@@ -17,7 +17,8 @@ exact at 1.0000 as well, unchanged when the same operation is stated on two
 pages and on four. The network, handed the same page in its context and taking
 no gradient step, scores 0.0000, 0.0194, 0.1200 and 0.0173 strict on those four
 families against floors of 0.3735, 0.3086, 0.3567 and 0.2879, which is below its
-own guessing floor in every one, and structure exact on none of 2,550 items.
+own guessing floor in every one. Across the whole item set it is structure exact
+on 0 of 6,736 items under greedy decoding and 0 of 6,736 under sampled.
 Given labelled examples of the one operation it will be tested on, and an output
 vocabulary extended for free so it can write an operation down at all, it climbs
 the ladder below rather than arriving at the first example.
@@ -161,10 +162,18 @@ measured over twenty runs of each plan.
 ## Composing two operations from two pages
 
 Two operations, each defined on its own page, the second reading the answers of
-the first. The plan is six steps: two directory reads and a call, then two more
-and a second call.
+the first. The plan is the reads for the first operation and a call, then the
+reads for the second and a second call, so six steps when both read two
+directories and eight when both read three.
 
 {{T_COMPOSE}}
+
+An accuracy says the network is wrong. This says what it wrote instead. A
+composition item needs a structure holding two operator definitions and a plan
+that calls two different operators, and the counts are averaged over the
+emissions that read back as a structure at all.
+
+{{T_DIAG}}
 
 ## The page that contradicts the training
 

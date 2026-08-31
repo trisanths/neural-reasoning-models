@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 13:29 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:31 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 18 record files, none newer than the report of 2026-08-31 13:28 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 21 record files, none newer than the report of 2026-08-31 13:31 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -17,7 +17,8 @@ exact at 1.0000 as well, unchanged when the same operation is stated on two
 pages and on four. The network, handed the same page in its context and taking
 no gradient step, scores 0.0000, 0.0194, 0.1200 and 0.0173 strict on those four
 families against floors of 0.3735, 0.3086, 0.3567 and 0.2879, which is below its
-own guessing floor in every one, and structure exact on none of 2,550 items.
+own guessing floor in every one. Across the whole item set it is structure exact
+on 0 of 6,736 items under greedy decoding and 0 of 6,736 under sampled.
 Given labelled examples of the one operation it will be tested on, and an output
 vocabulary extended for free so it can write an operation down at all, it climbs
 the ladder below rather than arriving at the first example.
@@ -153,7 +154,7 @@ how many examples that took.
 | acq/a2c1/5   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0100              | -                      | -                              | -    |
 | acq/a2c2/157 | 100 | 0.3333 | 1.0000  | 1.0000        | 0.0000 | 0.6000 | 0.0500              | -                      | -                              | -    |
 | acq/a2c2/187 | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0200              | -                      | -                              | -    |
-| acq/a3c1/26  | 100 | 0.3333 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0400              | -                      | 0.0300                         | 1    |
+| acq/a3c1/26  | 100 | 0.3333 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0400              | -                      | 0.2600                         | 64   |
 | acq/a3c1/28  | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.8000 | 0.0300              | -                      | -                              | -    |
 | acq/a3c2/144 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0300              | -                      | -                              | -    |
 | acq/a3c2/146 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.2000 | 0.8000 | 0.0000              | -                      | -                              | -    |
@@ -165,7 +166,7 @@ this operation, tested on the same operation in wordings it did not train on.
 | pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64   | k=256 | k=1024 | no gradient |
 | ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
 | acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
-| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | -      | -      | -     | -      | 0.0400      |
+| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | 0.0300 | 0.0500 | 0.2600 | -     | -      | 0.0400      |
 | acq_a3c2_144 | acq/a3c2/144 | -      | -      | -      | -      | -      | -     | -      | 0.0300      |
 | acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
 
@@ -188,7 +189,7 @@ The metric this lane is named for, read off those tables.
 | ------- | --------------------- | ------------------- | ------ | --------------------------- | ------------------------ |
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
 | network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
-| network | acq/a3c1/26           | 0.0300              | 0.3333 | not within 4                | not within 4             |
+| network | acq/a3c1/26           | 0.2600              | 0.3333 | not within 64               | not within 64            |
 | network | acq/a3c2/144          | -                   | 0.2500 | not within 0                | not within 0             |
 | network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
 
@@ -229,17 +230,28 @@ measured over twenty runs of each plan.
 ## Composing two operations from two pages
 
 Two operations, each defined on its own page, the second reading the answers of
-the first. The plan is six steps: two directory reads and a call, then two more
-and a second call.
+the first. The plan is the reads for the first operation and a call, then the
+reads for the second and a second call, so six steps when both read two
+directories and eight when both read three.
 
 | system                         | n   | floor  | strict | lenient | declined | structure exact |
 | ------------------------------ | --- | ------ | ------ | ------- | -------- | --------------- |
-| library, two pages             | 240 | 0.3915 | 1.0000 | 1.0000  | 0.0000   |                 |
-| shortcut, first line           | 240 | 0.3915 | 0.1375 | 0.1375  | 0.0000   |                 |
-| shortcut, last line            | 240 | 0.3915 | 0.1792 | 0.1792  | 0.0000   |                 |
-| corpus parser                  | 240 | 0.3915 | 0.0000 | 0.0000  | 1.0000   |                 |
+| library, two pages             | 240 | 0.3915 | 1.0000 | 1.0000  | 0.0000   | 1.0000          |
+| shortcut, first line           | 240 | 0.3915 | 0.1375 | 0.1375  | 0.0000   | -               |
+| shortcut, last line            | 240 | 0.3915 | 0.1792 | 0.1792  | 0.0000   | -               |
+| corpus parser                  | 240 | 0.3915 | 0.0000 | 0.0000  | 1.0000   | -               |
 | network, no gradient (greedy)  | 240 | 0.3915 | 0.0125 | 0.0125  | 0.5125   | 0.0000          |
 | network, no gradient (sampled) | 240 | 0.3915 | 0.0167 | 0.0167  | 0.5208   | 0.0000          |
+
+An accuracy says the network is wrong. This says what it wrote instead. A
+composition item needs a structure holding two operator definitions and a plan
+that calls two different operators, and the counts are averaged over the
+emissions that read back as a structure at all.
+
+| row                  | n   | malformed | operator definitions | calls  | distinct operators called | directories | plan steps |
+| -------------------- | --- | --------- | -------------------- | ------ | ------------------------- | ----------- | ---------- |
+| what the item needs  | 240 | -         | 2.0000               | 2.0000 | 2.0000                    | 5.5370      | 7.5370     |
+| network, no gradient | 135 | 105       | 0.0000               | 0.0000 | 0.0000                    | 2.3630      | 3.7630     |
 
 ## The page that contradicts the training
 
@@ -379,9 +391,10 @@ space is complete.
 started at once. Together they are about two and a half hours on one L40S. The
 gates are `src/norm/tests/test_oneshot.py`.
 
-| record     | path                                                                       |
-| ---------- | -------------------------------------------------------------------------- |
-| attack     | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json         |
-| ladder_sys | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz |
-| stress_sys | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz |
-| sys        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz        |
+| record            | path                                                                          |
+| ----------------- | ----------------------------------------------------------------------------- |
+| attack            | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/attack.json            |
+| diag_base_compose | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/diag_base_compose.json |
+| ladder_sys        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/ladder_sys.jsonl.gz    |
+| stress_sys        | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/stress_sys.jsonl.gz    |
+| sys               | /home/ec2-user/decoupled-reasoner/results/norm/oneshot/sys.jsonl.gz           |
