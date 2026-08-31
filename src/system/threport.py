@@ -334,6 +334,76 @@ def shapes_at_one(s, group, mode):
     return sum(1 for sh in by if by[sh]["exact"] >= 1.0), len(by)
 
 
+
+def rung_cfg_table(sums):
+    """What each rung is, read off the checkpoint the summary was written from."""
+    rows = ["| rung | d_model | heads | layers | parameters | non-embedding "
+            "| steps |",
+            "| --- | ---: | ---: | --- | ---: | ---: | ---: |"]
+    for r in RUNGS:
+        s = sums.get(r)
+        if s is None:
+            continue
+        c = s.get("cfg") or {}
+        rows.append(
+            f"| {r} | {c.get('d_model', '?')} | {c.get('n_head', '?')} | "
+            f"{c.get('n_enc', '?')}+{c.get('n_dec', '?')} | "
+            f"{s['params']['total']:,} | {s['params']['non_embedding']:,} | "
+            f"{s['steps']} |")
+    return "\n".join(rows)
+
+
+def artifacts_table(paths):
+    """Every file the document reports from, with the time it was written."""
+    rows = ["| artifact | bytes | written |",
+            "| --- | ---: | --- |"]
+    for p in paths:
+        if not p or not os.path.exists(p):
+            continue
+        rows.append(f"| `{os.path.relpath(p, os.getcwd())}` | "
+                    f"{os.path.getsize(p):,} | {_t(os.path.getmtime(p))} |")
+    return "\n".join(rows)
+
+
+def collect_artifacts(a, sums, lms):
+    out = []
+    for r in RUNGS:
+        p = os.path.join(a.eval, r, "summary.json")
+        if os.path.exists(p):
+            out.append(p)
+            s = load(p)
+            for sp in s["splits"].values():
+                for m in sp["modes"].values():
+                    out.append(m.get("records"))
+        p = os.path.join(a.eval, f"ft{r}", "summary.json")
+        if os.path.exists(p):
+            out.append(p)
+        p = os.path.join(a.tpose, f"xmode_{r}.json")
+        if os.path.exists(p):
+            out.append(p)
+        p = os.path.join("results/system/train", f"log_{r}.jsonl")
+        if os.path.exists(p):
+            out.append(p)
+    for tag, s in lms.items():
+        out.append(os.path.join(a.lmeval, tag, "summary.json"))
+        for sp in s["splits"].values():
+            for m in sp["modes"].values():
+                out.append(m.get("records"))
+    for p in ("results/system/lmframe/corpus_before_greedy.json",
+              "results/system/lmframe/corpus_after_greedy.json",
+              "results/system/gate/strict_gate_base.json",
+              "results/system/lm/train.jsonl",
+              "results/norm/compare/x_items.jsonl.gz",
+              "data/norm/grid_train.npz", "data/norm/manifest.json"):
+        out.append(p)
+    seen, uniq = set(), []
+    for p in out:
+        if p and p not in seen:
+            seen.add(p)
+            uniq.append(p)
+    return uniq
+
+
 def facts(sums, extra) -> dict:
     out = dict(extra)
     for r in RUNGS:
@@ -458,6 +528,12 @@ def main():
                 key = f"{{{{SHAPES_{GROUP_LABEL[grp]}_{mode}}}}}"
                 if key in tmpl:
                     tmpl = tmpl.replace(key, shape_table(sums, grp, mode))
+        tmpl = tmpl.replace("{{RUNG_CFG}}", rung_cfg_table(sums))
+        tmpl = tmpl.replace("{{ARTIFACTS}}", artifacts_table(
+            collect_artifacts(a, sums, lms)))
+        for ax, ph in (("qform", "QFORM"), ("scope_pos", "SCOPEPOS")):
+            tmpl = tmpl.replace("{{" + ph + "}}",
+                                axis_table(sums, "mode", "greedy", ax))
         tmpl = tmpl.replace("{{KEYPOS}}",
                             axis_table(sums, "mode", "greedy", "key_pos"))
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
