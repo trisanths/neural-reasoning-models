@@ -718,6 +718,52 @@ def parser_keypos_facts(path) -> dict:
     return out
 
 
+
+def keypos_extreme_facts(sums, group="mode", mode="greedy") -> dict:
+    """Shapes that are exact on every key-first item and on no value-first one.
+
+    The sharpest cell the ladder has. Same shape, same frame group, same
+    sentence mode, same gold structures: only which of the two the sentence
+    names first differs.
+    """
+    import gzip
+    out = {}
+    for r in RUNGS + CONTROLS:
+        s = sums.get(r)
+        if s is None:
+            continue
+        try:
+            path = g(s, group, mode)["records"]
+        except KeyError:
+            continue
+        if not os.path.exists(path):
+            continue
+        cells = defaultdict(Counter)
+        with gzip.open(path, "rt") as fh:
+            for line in fh:
+                rec = json.loads(line)
+                c = cells[(rec["shape"], rec["fid"].split(".")[2])]
+                c["n"] += 1
+                c["exact"] += bool(rec["exact"])
+        hit = []
+        for sh in SHAPES:
+            kf = cells.get((sh, "key_first"))
+            vf = cells.get((sh, "value_first"))
+            if not kf or not vf:
+                continue
+            if kf["exact"] == kf["n"] and vf["exact"] == 0:
+                hit.append((sh, kf["n"], vf["n"]))
+        if hit:
+            out[f"kpx_{r}_shapes"] = ", ".join(f"`{h[0]}`" for h in hit)
+            out[f"kpx_{r}_count"] = str(len(hit))
+            out[f"kpx_{r}_key_n"] = str(hit[0][1])
+            out[f"kpx_{r}_value_n"] = str(hit[0][2])
+        else:
+            out[f"kpx_{r}_shapes"] = "none"
+            out[f"kpx_{r}_count"] = "0"
+    return out
+
+
 def keypos_cells(evaldir, lmevaldir):
     """Key position inside every frame group, off each summary's own by_axis.
 
@@ -1023,6 +1069,7 @@ def main():
     GV = "results/system/grid_overlap.json"
     fx.update(draw_facts(KP, KM, GO))
     fx.update(keypos_group_facts(keypos_cells(a.eval, a.lmeval)))
+    fx.update(keypos_extreme_facts(sums))
     fx.update(parser_keypos_facts("results/system/parser_by_keypos.json"))
     fx.update(failcat_facts("results/system/failcat_mode_seven.json"))
     fx.update({("tpb" + k[2:]): v for k, v in

@@ -94,8 +94,13 @@ sharply on where the sentence puts the key.
 
 {{KEYPOS}}
 
-Per shape against the same axis. The cells that read 1.0000 and 0.0000 in one
-row are the finding: on a sentence mode it never trained on, the reader binds
+Per shape against the same axis. At 45M there are {{kpx_l45_count}} question
+shapes of this group where the reader is exact on {{kpx_l45_key_n}} of
+{{kpx_l45_key_n}} key-first items and on 0 of {{kpx_l45_value_n}} value-first
+ones: {{kpx_l45_shapes}}. At 93M there are {{kpx_xl93_count}},
+{{kpx_xl93_shapes}}. Same shape, same frame group, same sentence mode, same
+gold structures, and the only difference is which of the two the sentence names
+first. The cells that read 1.0000 and 0.0000 in one row are the finding: on a sentence mode it never trained on, the reader binds
 the key and the value by the position they had in training, and when the new
 mode puts the value first it binds them backwards on every item of that shape.
 

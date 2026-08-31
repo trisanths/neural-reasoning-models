@@ -184,8 +184,13 @@ sharply on where the sentence puts the key.
 | l45 | 0.7223 (1498) | 0.3280 (1302) |
 | xl93 | 0.6976 (1498) | 0.3203 (1302) |
 
-Per shape against the same axis. The cells that read 1.0000 and 0.0000 in one
-row are the finding: on a sentence mode it never trained on, the reader binds
+Per shape against the same axis. At 45M there are 4 question
+shapes of this group where the reader is exact on 107 of
+107 key-first items and on 0 of 93 value-first
+ones: `inverse`, `iterate`, `priority`, `precedence`. At 93M there are 2,
+`lookup`, `precedence`. Same shape, same frame group, same sentence mode, same
+gold structures, and the only difference is which of the two the sentence names
+first. The cells that read 1.0000 and 0.0000 in one row are the finding: on a sentence mode it never trained on, the reader binds
 the key and the value by the position they had in training, and when the new
 mode puts the value first it binds them backwards on every item of that shape.
 
@@ -536,8 +541,13 @@ them is a threshold.
 
 ### Positional binding survives its own data fix
 
-The seven shapes that are exact on no value-first item of the held-out sentence
-mode each saw between 42,567 and 42,918
+At 45M there are 4 question shapes of the held-out sentence
+mode where the reader is exact on 107 of 107
+key-first items and on 0 of 93 value-first ones:
+`inverse`, `iterate`, `priority`, `precedence`. Same shape, same group, same mode, same gold structures.
+Only which of the two the sentence names first differs.
+
+The seven shapes that are exact on no value-first item of that group each saw between 42,567 and 42,918
 value-first training items, 0.4978 to
 0.5006 of that shape's own draw, and between
 8,362 and 8,910 of them inside
