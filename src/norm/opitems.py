@@ -39,7 +39,6 @@ from src.norm.lang import def_json, program_json
 
 N_KEYS = 8
 N_ASK = 5
-KEY_SEED = 20260831
 
 _FRAMES = None
 
