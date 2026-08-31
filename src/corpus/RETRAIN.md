@@ -279,3 +279,133 @@ resumes RL from this checkpoint has to know that.
 Artifacts: `~/retrain/gate/roll_gate_new.jsonl`,
 `~/retrain/gate/graded_gate_new.jsonl`, `~/retrain/gate/strict_gate_new.json`,
 log `~/retrain/logs/gate_new.log`.
+
+## 2. The transposed rule, in the retrieval shape
+
+689 items kept of 750 proposed: 41 dropped because the page answer and the
+training answer coincide, 20 because the page answer can be copied out of the
+question. On record the same construction kept 678 of 750 with 51 and 21
+dropped. 294 of 300 transposed operators are distinguishable on eight probe
+pairs, against 290 of 300 on record. The prose reader recovers all 300 exactly
+and answers 1.000 toward the page.
+
+Generation, the retrieval loop, `chance` is one over the item's own five
+candidates:
+
+| checkpoint | decode | n | chance | page | training | other | hedge | none | rounds | emitted tokens |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| original | greedy | 689 | 0.200 | 0.000 | 0.000 | 0.000 | 0.000 | 1.000 | 0.00 | 14.0 |
+| original | t1 x4 | 2756 | 0.200 | 0.000 | 0.000 | 0.000 | 0.000 | 0.999 | 0.05 | 84.4 |
+| new | greedy | 689 | 0.200 | 0.007 | 0.010 | 0.019 | 0.000 | 0.964 | 0.98 | 14.3 |
+| new | t1 x4 | 2756 | 0.200 | 0.005 | 0.009 | 0.014 | 0.000 | 0.971 | 1.20 | 16.6 |
+
+Likelihood forced choice, the pages in the prompt, five candidates scored by
+summed negative log likelihood after an `<|a|>` marker. Under a uniform
+preference the three distractors would take 0.600 between them:
+
+| checkpoint | n | chance | page | training | other |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| original | 689 | 0.200 | 0.261 | 0.235 | 0.504 |
+| new | 689 | 0.200 | 0.287 | 0.247 | 0.466 |
+
+Read this carefully, because the honest reading is not the interesting one.
+
+Neither checkpoint answers this task by generating. The original names no
+candidate on 1.000 of greedy items and never issues a retrieval round on it;
+the new one retrieves once but still names no candidate on 0.964. In
+preference both sit within 0.09 of the 0.200 floor, tilted very slightly
+toward the page over the training identity, 0.261 against 0.235 and 0.287
+against 0.247. Neither is the 0 of 678 toward the page and 678 of 678 toward
+training that is on record.
+
+The reason is that the record's number was measured on `opgraph2.pt`, an arm
+fine-tuned on `src/opgraph/` worlds in the opgraph prompt shapes, and neither
+checkpoint here is that. The corpus does not train operator-page induction: its
+plan component hands the scheduler a signature line, `%/2/left */2/right ...`,
+and never a page that defines what `%` does. So this cell measures a lane the
+corpus does not cover, on checkpoints that cannot attempt it, and the movement
+in it is a tenth of a standard deviation of nothing. Section 6 runs the same
+transposed pages through the two shipped opgraph conditions on the opgraph arms
+themselves, which is where the recorded number lives.
+
+Artifacts: `~/retrain/transposed/ep.jsonl` and `.audit.json`,
+`~/retrain/transposed/all_base.jsonl`, `~/retrain/transposed/all_new.jsonl`,
+scores `~/retrain/transposed/score_base.json` and `score_new.json`,
+parser baseline `~/retrain/transposed/parsers.json`, grader oracle check
+`~/retrain/transposed/score_oracle.json`.
+
+## 3. Sentence frame, against distance
+
+Forced choice, 200 questions per cell, chance from each cell's own option
+count, on the twenty-frame set the sweep already evaluates. A frame is seen
+when it is one of the 72 the corpus trained on. Held-out frames are bucketed by
+the smallest shape distance to any of those 72; lexical distance is 0.53 to
+0.83 in every held-out bucket, so every one of them is a lexicon change as
+well as whatever shape change it carries.
+
+`substitution_rule`, greedy, chance 0.200:
+
+| bucket | frames | n | original forced | new forced | new none | new served |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| seen by the corpus | 13 | 2600 | 0.140 | 0.990 | 0.007 | 0.993 |
+| held out, shape 0.00-0.05 | 2 | 400 | 0.085 | 1.000 | 0.000 | 1.000 |
+| held out, shape 0.12-0.22 | 1 | 200 | 0.025 | 0.985 | 0.010 | 1.000 |
+| held out, shape 0.22-0.30 | 3 | 600 | 0.022 | 0.747 | 0.008 | 1.000 |
+| held out, shape 0.30+ | 1 | 200 | 0.000 | 0.995 | 0.000 | 1.000 |
+
+`exception_rule`, greedy, chance 0.500:
+
+| bucket | frames | n | original forced | new forced | new none | new served |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| seen by the corpus | 13 | 2600 | 0.427 | 0.827 | 0.129 | 0.827 |
+| held out, shape 0.00-0.05 | 1 | 200 | 0.310 | 0.505 | 0.035 | 0.515 |
+| held out, shape 0.05-0.12 | 1 | 200 | 0.000 | 0.990 | 0.000 | 0.990 |
+| held out, shape 0.12-0.22 | 2 | 400 | 0.463 | 0.980 | 0.000 | 0.980 |
+| held out, shape 0.22-0.30 | 1 | 200 | 0.070 | 0.715 | 0.275 | 0.715 |
+| held out, shape 0.30+ | 2 | 400 | 0.535 | 0.990 | 0.005 | 0.990 |
+
+Macro over the twenty frames within a family, both aggregation orders, greedy:
+
+| checkpoint | family | cells | macro acc | macro chance | A, corrected macro | B, mean of corrected |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| original | substitution_rule | 20 | 0.104 | 0.200 | -0.120 | -0.120 |
+| original | exception_rule | 20 | 0.396 | 0.500 | -0.208 | -0.208 |
+| new | substitution_rule | 20 | 0.955 | 0.200 | 0.943 | 0.943 |
+| new | exception_rule | 20 | 0.845 | 0.500 | 0.691 | 0.690 |
+
+At temperature 0.7 the same table reads -0.109 and -0.307 for the original and
+0.941 and 0.634 for the new one, so nothing here is a greedy artifact.
+
+The original checkpoint reproduces its recorded shape exactly. Its one high
+cell is `routing__native`, 0.940 forced on `substitution_rule`, which is the
+0.940 the frame ablation records; every other frame in the set is at or below
+its floor, and the macro over twenty frames is below chance in both families.
+`assembly__imperative` is the imperative-question frame the ablation reports as
+emitting no retrieve token: the original serves the answering page on 0.000 of
+its 200 rollouts in both families and names no candidate on 1.000 of them.
+
+The new checkpoint is at 0.985 or better in four of the five
+`substitution_rule` buckets, including the two furthest from anything it
+trained on. `assembly__imperative`, where the original could not retrieve at
+all, is 0.995 forced with the page served on 1.000. Held-out accuracy does not
+merely rise toward seen accuracy; in three buckets it is level with it.
+
+The exception is one bucket and it should not be smoothed over. Shape 0.22 to
+0.30 on `substitution_rule` is 0.747, held down by `abstract__tablepipe` at
+0.260 with the page served on 1.000 of its rollouts and no candidate named on
+only 0.015. That is a reading failure with the page in context, on the one
+held-out frame that is a pipe-delimited table, and it is the only cell in the
+new checkpoint's `substitution_rule` table below 0.90.
+
+Retrieval and reading come apart on `exception_rule` and the split is not about
+frames. Every cell where the new checkpoint scores below 0.9 on that family has
+`acc_forced` equal to `served_rate` to within 0.01, and four of the six such
+cells are frames the corpus trained on. That family's residual is a retrieval
+failure, not a wording failure.
+
+Artifacts: `~/retrain/frames/score_{base,new}-{greedy,t07}.json`, dumps under
+`~/retrain/frames/dump_*`, distances `~/retrain/frames/frame_distance.json`,
+curve `~/retrain/frames/curve.json`. Every dump was written after the episode
+files it came from; `src/frames/cli.py score` refuses to score otherwise, and
+it asserts the hedging canary at 0.000 forced on all forty cells before any
+number above is read.
