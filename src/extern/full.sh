@@ -27,7 +27,11 @@ done
 # is measured by the same code as the axis they do not.
 GOUT=results/extern/gen_${M}.jsonl.gz
 if [ ! -f "$GOUT" ]; then
-  $PY -m src.extern.run --model "$REPO" --variant worked --out "$GOUT" \
+  # The general questions get the plain formulation. The worked scaffold talks
+  # about definition pages and lookup maps, and pointing it at "what is the
+  # capital of Japan" would handicap the models on the one axis where they are
+  # expected to win.
+  $PY -m src.extern.run --model "$REPO" --variant bare --out "$GOUT" \
       --items results/extern/general_items.jsonl.gz --conds general \
       --pages 1 --batch 26 --max-new "$MAXNEW" $CARD \
       >> logs/extern/full_${M}.log 2>&1 || echo "FAILED $M general"

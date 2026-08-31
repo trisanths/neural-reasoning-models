@@ -64,6 +64,7 @@ def main():
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--dtype", default="bfloat16")
     ap.add_argument("--load-4bit", action="store_true")
+    ap.add_argument("--device", default="cuda")
     ap.add_argument("--max-batch-tokens", type=int, default=0)
     a = ap.parse_args()
 
@@ -87,7 +88,7 @@ def main():
         quant = "bnb-nf4-double"
     model = AutoModelForCausalLM.from_pretrained(a.model, **kw)
     if not a.load_4bit:
-        model = model.to("cuda")
+        model = model.to(a.device)
     model.eval()
 
     n_params = sum(p.numel() for p in model.parameters())
@@ -131,7 +132,7 @@ def main():
                 idx = idx[:len(idx) // 2]
         b += len(idx)
         enc = tok([rendered[i] for i in idx], return_tensors="pt",
-                  padding=True, add_special_tokens=False).to("cuda")
+                  padding=True, add_special_tokens=False).to(a.device)
         with torch.no_grad():
             gen = model.generate(**enc, **gkw)
         new = gen[:, enc["input_ids"].shape[1]:]
@@ -166,7 +167,7 @@ def main():
         "n_items": len(items), "conds": conds, "families": fams,
         "pages": pages, "stride": a.stride, "limit": a.limit,
         "batch": a.batch, "max_new_tokens": a.max_new,
-        "greedy": a.greedy, "gen_kwargs": {k: v for k, v in gkw.items()
+        "greedy": a.greedy, "device": a.device, "gen_kwargs": {k: v for k, v in gkw.items()
                                           if k != "pad_token_id"},
         "seed": a.seed,
         "generation_config": gc.to_diff_dict(),
