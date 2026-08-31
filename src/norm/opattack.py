@@ -166,6 +166,58 @@ def attack_row(rows, n=200):
     return out
 
 
+def attack_alpha(rows, n=200):
+    """Rename every invented word in the episode, consistently.
+
+    Directory names, key words, value words, stated words and the operator name
+    all change together. If the reader held any knowledge tied to a particular
+    word, this is where it would show, because the renamed episode is the same
+    operation written in a vocabulary nothing has seen.
+    """
+    out = {"n": 0, "renamed_gold": 0, "wrong": 0, "declined": 0}
+    for i, row in enumerate(rows[:n]):
+        inst = _instance(row)
+        spec = inst["spec"]
+        old = sorted({t.name for t in inst["tables"]}
+                     | {k for t in inst["tables"] for k, _ in t.entries}
+                     | {v for t in inst["tables"] for _, v in t.entries}
+                     | {spec.name} | {r[1] for _, r in spec.clauses
+                                      if r[0] == "word"}
+                     | ({spec.fallback[1]} if spec.fallback[0] == "word"
+                        else set()), key=len, reverse=True)
+        ren = {w: ("Q" + w[::-1].capitalize() if w[0].isupper()
+                   else "q" + w[::-1]) for w in old}
+        if len(set(ren.values())) != len(ren):
+            continue
+        tabs = tuple(type(t)(ren[t.name],
+                             tuple((ren[k], ren[v]) for k, v in t.entries))
+                     for t in inst["tables"])
+        spec2 = oplang.OpSpec(
+            ren[spec.name], tuple(ren[s] for s in spec.sources),
+            tuple((c, (r[0], ren[r[1]]) if r[0] == "word" else r)
+                  for c, r in spec.clauses),
+            (spec.fallback[0], ren[spec.fallback[1]])
+            if spec.fallback[0] == "word" else spec.fallback)
+        inst2 = dict(inst, spec=spec2, tables=tabs,
+                     keys=[ren[k] for k in inst["keys"]],
+                     page_name=ren.get(inst["page_name"],
+                                       "Q" + inst["page_name"][::-1]
+                                       .capitalize()))
+        b = opitems.episode(inst2, row["fid"], "single", ren[row["ask_key"]],
+                            mode=row["mode"], def_pos=row["def_pos"])
+        if b is None:
+            continue
+        out["n"] += 1
+        got = _ask(b["text"], row["fid"])
+        if got["state"] != "ran":
+            out["declined"] += 1
+        elif got["answer"] == b["gold"] == ren.get(row["gold"], None):
+            out["renamed_gold"] += 1
+        else:
+            out["wrong"] += 1
+    return out
+
+
 # ---------------------------------------------------------------- stress
 
 
@@ -247,7 +299,8 @@ def main():
            "mutate": attack_mutate(acq, a.n),
            "strip": attack_strip(acq, a.n),
            "rename": attack_rename(acq, a.n),
-           "row": attack_row(acq, a.n)}
+           "row": attack_row(acq, a.n),
+           "alpha": attack_alpha(acq, a.n)}
 
     rows, drops = build_stress()
     path = os.path.join(a.dir, "stress_items.jsonl.gz")

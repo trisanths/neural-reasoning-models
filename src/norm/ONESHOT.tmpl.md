@@ -114,7 +114,15 @@ same operation in wordings it did not train on.
 
 {{T_LADDER_OWN}}
 
-The metric this lane is named for, read off that table.
+The same ladder run again from the family trained network rather than from the
+shipped one. That network has already read a thousand examples of other
+operations of this family and already has the notation, so k here buys this
+operation and nothing else, which is the friendliest reading of the question a
+gradient learner can be given.
+
+{{T_SECOND}}
+
+The metric this lane is named for, read off those tables.
 
 {{T_COST}}
 
@@ -177,7 +185,8 @@ nothing to run.
 Three failures are different problems and only the first is a reading problem:
 the text was not turned into a structure at all, the interpreter refused the
 structure it was given, or a well formed structure was executed and computed
-something else.
+something else. For the library the first column is every refusal, wherever it
+happened, and the controls table above says at which step.
 
 {{T_STATES}}
 

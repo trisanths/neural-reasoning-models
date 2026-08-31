@@ -109,6 +109,22 @@ class RefusesRatherThanGuesses(unittest.TestCase):
             lib.get("nosuchop")
 
 
+class LibraryIsEpisodeScoped(unittest.TestCase):
+    def test_an_operation_does_not_carry_over(self):
+        """A second episode that does not define the operation must refuse."""
+        space = oplang.distinct_space(1)
+        inst = _instance(space[11], FIDS[0], 4242)
+        first = opitems.episode(inst, FIDS[0], "single", inst["keys"][0])
+        got = opread.read(first["text"], FIDS[0])
+        self.assertTrue(got.ok)
+        self.assertIn(inst["spec"].name, got.library.ops)
+        pages = [opsay.directory_page(t, FIDS[0]) for t in inst["tables"]]
+        q = opsay.question_single(inst["spec"], FIDS[0], inst["keys"][1])
+        again = opread.read(opsay.episode_text(pages, [], q), FIDS[0])
+        self.assertFalse(again.ok)
+        self.assertEqual(again.stage, "plan")
+
+
 class DepthIsAList(unittest.TestCase):
     def test_sixteen_rounds_run(self):
         closed = [s for s in oplang.distinct_space(1)

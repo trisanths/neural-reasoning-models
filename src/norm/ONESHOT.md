@@ -1,6 +1,6 @@
 # Intelligence per example
 
-Built 2026-08-31 13:14 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:18 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -136,24 +136,26 @@ rather than a trade.
 | network, control run | 0        | 800 | 0.3646 | 0.0225        | 0.0187         | 0.0000          |
 | network, acq_a2c1_2  | 1        | 800 | 0.3646 | 0.0288        | 0.0238         | 0.0000          |
 | network, acq_a2c1_2  | 2        | 800 | 0.3646 | 0.0150        | 0.0175         | 0.0000          |
+| network, acq_a2c1_2  | 4        | 800 | 0.3646 | 0.0150        | 0.0187         | 0.0000          |
+| network, acq_a2c1_2  | 16       | 800 | 0.3646 | 0.0400        | 0.0387         | 0.0000          |
 
 Each fine tuned network on its own operation, which is the cell where it has
 every advantage: k labelled examples of exactly this operation, tested on the
 same operation in wordings it did not train on.
 
-| pool         | operation    | k=1    | k=2    | k=4 | k=16 | k=64 | no gradient |
-| ------------ | ------------ | ------ | ------ | --- | ---- | ---- | ----------- |
-| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | -   | -    | -    | 0.0100      |
-| acq_a3c1_26  | acq/a3c1/26  | -      | -      | -   | -    | -    | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | -      | -      | -   | -    | -    | 0.0300      |
-| acq_a2c2_157 | acq/a2c2/157 | -      | -      | -   | -    | -    | 0.0500      |
+| pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64 | no gradient |
+| ------------ | ------------ | ------ | ------ | ------ | ------ | ---- | ----------- |
+| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | -    | 0.0100      |
+| acq_a3c1_26  | acq/a3c1/26  | -      | -      | -      | -      | -    | 0.0400      |
+| acq_a3c2_144 | acq/a3c2/144 | -      | -      | -      | -      | -    | 0.0300      |
+| acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -    | 0.0500      |
 
 The metric this lane is named for, read off that table.
 
 | system  | operation             | best strict reached | floor  | examples to clear the floor | examples to reach 0.9000 |
 | ------- | --------------------- | ------------------- | ------ | --------------------------- | ------------------------ |
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
-| network | acq/a2c1/2            | 0.0000              | 0.5000 | not within 64               | not within 64            |
+| network | acq/a2c1/2            | 0.1000              | 0.5000 | not within 64               | not within 64            |
 | network | acq/a3c1/26           | 0.0000              | 0.3333 | not within 64               | not within 64            |
 | network | acq/a3c2/144          | 0.0000              | 0.2500 | not within 64               | not within 64            |
 | network | acq/a2c2/157          | 0.0000              | 0.3333 | not within 64               | not within 64            |
@@ -234,6 +236,7 @@ Four attacks and two controls, all in `results/norm/oneshot/attack.json` and
 | definition page removed                | 300 | 1.0000 | plan 300                               |
 | operation renamed on page and question | 300 | 1.0000 | same answer                            |
 | one directory row changed              | 294 | 1.0000 | followed the new row, 142 golds moved  |
+| every invented word renamed            | 300 | 1.0000 | answered the renamed gold              |
 
 The two controls are the honest limits. A definition written in the wording mode
 the reader was not built for is refused at the definition stage, every time,

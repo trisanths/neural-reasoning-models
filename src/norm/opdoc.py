@@ -157,6 +157,27 @@ def t_cost(rep, tags, ks) -> str:
                   "examples to reach 0.9000"], rows)
 
 
+def t_second(rep, tags, ks) -> str:
+    """The same ladder started from the family trained network.
+
+    This network already knows the notation and has read a thousand examples of
+    other operations of the same family, so k here buys this operation and
+    nothing else.
+    """
+    rows = []
+    for tag in tags:
+        iid = "acq/" + "/".join(tag.split("_")[1:])
+        r = [tag, iid]
+        c0 = rep["neural"].get(f"family|greedy|{iid}")
+        r.append(f(c0["strict"]) if c0 else "-")
+        for k in ks:
+            c = rep["neural"].get(f"second_{tag}_k{k}|greedy|{iid}")
+            r.append(f(c["strict"]) if c else "-")
+        rows.append(r)
+    return table(["pool", "operation", "k=0 (family trained)"]
+                 + [f"k={k}" for k in ks], rows)
+
+
 def t_depth(rep) -> str:
     rows = []
     for n in rep["depth"]["_depths"]:
@@ -264,6 +285,11 @@ def t_controls(rep) -> str:
         rows.append(["one directory row changed", w["n"],
                      f(w["followed_new"] / w["n"]),
                      f"followed the new row, {w['gold_differs']} golds moved"])
+        al = a.get("alpha")
+        if al and al["n"]:
+            rows.append(["every invented word renamed", al["n"],
+                         f(al["renamed_gold"] / al["n"]),
+                         "answered the renamed gold"])
     return table(["check", "n", "rate", "where"], rows)
 
 
@@ -273,7 +299,8 @@ def t_states(rep) -> str:
     labels = {"L": "library", "n_base_l|greedy": "network, no gradient",
               "n_family|greedy": "network, family trained"}
     for who, label in labels.items():
-        for cond in ("acq", "depth", "compose", "contra", "unstated"):
+        for cond in ("acq", "depth", "compose", "contra", "held_mode",
+                     "unstated"):
             k = f"{who}|{cond}"
             if k not in rep["states"]:
                 continue
@@ -281,8 +308,9 @@ def t_states(rep) -> str:
             rows.append([label, cond, c["n"], f(c["malformed"]),
                          f(c["refused"]), f(c["ran_wrong"]),
                          f(c["ran_right"])])
-    return table(["system", "condition", "n", "unread", "interpreter refused",
-                  "ran the wrong structure", "ran the right one"], rows)
+    return table(["system", "condition", "n", "no structure produced",
+                  "interpreter refused", "ran the wrong structure",
+                  "ran the right one"], rows)
 
 
 def t_paths(rep) -> str:
@@ -309,6 +337,7 @@ def main():
         "T_LADDER": t_ladder(rep, tags, ks),
         "T_LADDER_OWN": t_ladder_own(rep, tags, ks),
         "T_COST": t_cost(rep, tags, ks),
+        "T_SECOND": t_second(rep, tags, [1, 2, 4]),
         "T_DEPTH": t_depth(rep),
         "T_COMPOSE": t_compose(rep),
         "T_CONTRA": t_contra(rep),

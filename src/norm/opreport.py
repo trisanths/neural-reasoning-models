@@ -256,8 +256,14 @@ def main():
     for line in gzip.open(os.path.join(D, "ladder_items.jsonl.gz"), "rt"):
         it = json.loads(line)
         inst_of[it["id"]] = it["inst_id"]
-    for path in sorted(glob.glob(os.path.join(D, "n_*_ladder.jsonl.gz"))):
-        tag = os.path.basename(path)[2:-len("_ladder.jsonl.gz")]
+    paths = (sorted(glob.glob(os.path.join(D, "n_*_ladder.jsonl.gz")))
+             + sorted(glob.glob(os.path.join(D, "n2_*_ladder.jsonl.gz"))))
+    for path in paths:
+        base = os.path.basename(path)
+        pre = "n2_" if base.startswith("n2_") else "n_"
+        tag = base[len(pre):-len("_ladder.jsonl.gz")]
+        if pre == "n2_":
+            tag = "second_" + tag
         rows = load(path)
         for r in rows:
             r["inst_id"] = inst_of[r["id"]]
