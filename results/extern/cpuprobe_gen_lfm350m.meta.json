@@ -1,0 +1,50 @@
+{
+  "model": "LiquidAI/LFM2.5-350M",
+  "variant": "bare",
+  "options_shown": false,
+  "params_total": 354483968,
+  "params_embedding": 67108864,
+  "params_non_embedding": 287375104,
+  "tie_word_embeddings": true,
+  "architectures": [
+    "Lfm2ForCausalLM"
+  ],
+  "model_type": "lfm2",
+  "quantization": null,
+  "dtype": "float32",
+  "n_items": 26,
+  "conds": [
+    "general"
+  ],
+  "families": [],
+  "pages": [
+    1
+  ],
+  "stride": 1,
+  "limit": 0,
+  "batch": 13,
+  "max_new_tokens": 64,
+  "greedy": false,
+  "device": "cpu",
+  "gen_kwargs": {
+    "max_new_tokens": 64,
+    "do_sample": true,
+    "temperature": 0.1,
+    "top_k": 50,
+    "repetition_penalty": 1.05
+  },
+  "seed": 0,
+  "generation_config": {
+    "pad_token_id": 0,
+    "bos_token_id": 1,
+    "eos_token_id": 7,
+    "_from_model_config": true,
+    "transformers_version": "5.15.1"
+  },
+  "chat_template_sha": 833837712,
+  "rendered_example": "<|startoftext|><|im_start|>user\nWhat is the capital city of Japan?\n\nChoose one of: tokyo, osaka, kyoto, seoul.\n\nReply with the single word that answers the question, and nothing else.<|im_end|>\n<|im_start|>assistant\n",
+  "max_prompt_tokens": 67,
+  "mean_new_tokens": 2.6,
+  "seconds": 8.3,
+  "out": "/home/ec2-user/decoupled-reasoner/results/extern/cpuprobe_gen_lfm350m.jsonl.gz"
+}
