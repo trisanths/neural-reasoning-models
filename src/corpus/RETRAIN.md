@@ -976,3 +976,35 @@ required emitted length at every length from 1 to 96.
 Checkpoint and every artifact quoted above:
 `s3://decoupled-reasoner-009398924577/runs/corpus-v1-8k/`, with `final.pt`,
 `RETRAIN.md` and `artifacts/` mirroring `~/retrain` minus the training pack.
+
+## 12. Sampled decoding, everywhere it was run
+
+Every cell above was run greedy and sampled. The sampled numbers are in the
+same score files and none of them changes a conclusion.
+
+| measurement | greedy | sampled |
+| --- | --- | --- |
+| relation held-out, macro chance-corrected, original | -0.276 A, -0.302 B | -0.326 A, -0.357 B |
+| relation held-out, macro chance-corrected, new | 0.419 A, 0.458 B | 0.408 A, 0.446 B |
+| relation train band, macro chance-corrected, original | -0.378 A, -0.417 B | -0.409 A, -0.451 B |
+| relation train band, macro chance-corrected, new | 0.555 A, 0.596 B | 0.549 A, 0.589 B |
+| frames 20, `substitution_rule` macro corrected, original | -0.120 | -0.109 |
+| frames 20, `substitution_rule` macro corrected, new | 0.943 | 0.941 |
+| frames 20, `exception_rule` macro corrected, original | -0.208 | -0.307 |
+| frames 20, `exception_rule` macro corrected, new | 0.691 | 0.634 |
+| gate, `substitution_rule` forced, original | 0.954 | 0.866 |
+| gate, `substitution_rule` forced, new | 0.998 | 0.995 |
+| gate, `threshold_rule` forced, original | 0.008 | 0.060 |
+| gate, `threshold_rule` forced, new | 0.990 | 0.987 |
+| transposed, opgraph arm, toward the page | 0 of 689 | 0 of 689 |
+| transposed, opgraph arm, toward training | 689 of 689 | 675 of 689 |
+| plan, new, emitted steps at 48 required | 47.69 | 47.69 |
+| plan, new, emitted steps at 96 required | 76.50 | 75.82 |
+| plan, opgraph arm, emitted steps at 48 required | 2.65 | 2.65 |
+
+Sampled decoding is temperature 1.0 with four rollouts per question on the gate
+and the transposed set, temperature 1.0 with one rollout on the plan and
+relation sets, and temperature 0.7 with one rollout on the frames sets, which
+is what those instruments record at. The one place greedy and sampled differ by
+more than 0.07 is the original checkpoint's `exception_rule` frame macro, and
+both values are below that family's chance floor.
