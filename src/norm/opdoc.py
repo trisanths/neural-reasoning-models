@@ -271,13 +271,14 @@ def t_compose(rep) -> str:
 def t_diag(rep) -> str:
     """How much of the needed structure the network actually writes down."""
     rows = []
-    labels = {"base_compose": "network, no gradient",
-              "family_compose": "network, family trained"}
+    labels = {"base_compose": "network, no gradient, on compose",
+              "family_compose": "network, family trained, on compose",
+              "family_acq": "network, family trained, on one application"}
     keys = ("ops", "calls", "distinct_called", "tables", "steps")
     for tag in sorted(rep.get("diag", {})):
         d = rep["diag"][tag]
         g, e = d["means_over_gold"], d["means_over_emitted_that_read"]
-        rows.append(["what the item needs", d["n"], "-"]
+        rows.append([f"what a {d['cond']} item needs", d["n"], "-"]
                     + [f(g[k]) for k in keys])
         rows.append([labels.get(tag, tag), d["n"] - d["n_malformed"],
                      d["n_malformed"]]

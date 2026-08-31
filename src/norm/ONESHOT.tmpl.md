@@ -285,12 +285,7 @@ space is complete.
     bash src/norm/drive.sh     # the data, the no gradient run and the first ladder
     bash src/norm/drive2.sh    # the ladder from the family trained network
     bash src/norm/drive3.sh    # the far end of the first ladder
-    .venv/bin/python -m src.norm.opdiag --vocab base --only compose \
-        --out results/norm/oneshot/diag_base_compose.json
-    .venv/bin/python -m src.norm.opdiag --ckpt results/norm/oneshot/ft_family.pt \
-        --vocab ext --only compose --out results/norm/oneshot/diag_family_compose.json
-    .venv/bin/python -m src.norm.opreport
-    .venv/bin/python -m src.norm.opdoc
+    bash src/norm/finish.sh    # the diagnostics, the report and this document
 
 `drive2.sh` and `drive3.sh` each wait for the one before it, so all three can be
 started at once. Together they are about two and a half hours on one L40S.
