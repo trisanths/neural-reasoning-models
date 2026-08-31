@@ -208,6 +208,12 @@ before the edit.
 
 TABLE_TRANSPOSE
 
+A's row is in the table for completeness and carries nothing. The `pair` shape
+is not one of the three it trained on, and it names neither cell on 98.8% of
+these pages, so it cannot be said to follow either the page or anything else.
+The checkpoint's own transposed result stays where `src/audit/VERDICT.md` put
+it, on the binary operator pages that test was built for.
+
 By frame group, which is where the restricted parser's 0.4000 comes from: two
 of the five groups are frames it holds templates for and three are not.
 
@@ -252,10 +258,10 @@ transposed version 40 of 750, from pages that differ only in which of two
 operands is named first on each line. The structure is exact on 0 of 750
 transposed items at every rung of both ladders.
 
-The structure level census says what it writes instead. Categories are disjoint;
-`keys in the untransposed order` means the nine values are the page's nine
-values in the page's order and the nine key pairs are the row major order of an
-untransposed grid:
+The structure level census says what it writes instead, greedy, over all 750
+pages of each version. Categories are disjoint; `keys in the untransposed order`
+means the nine values are the page's nine values in the page's order and the
+nine key pairs are the row major order of an untransposed grid:
 
 TABLE_XMODE
 
@@ -305,7 +311,8 @@ canonical" on a plan the interpreter answers exactly. That is a constant in the
 seam, not a property of the language or the interpreter, and no amount of
 training moves it.
 
-Crossing width against depth on purpose, on training frames, forty items a cell:
+Crossing width against depth on purpose, on training frames, forty items a
+cell, greedy:
 
 TABLE_WDEPTH
 
@@ -348,6 +355,26 @@ TABLE_HOME
 By frame group:
 
 TABLE_HOME_RANGE
+
+A is at or below the floor of its own cell in all fifteen of them. On `lookup`,
+floor 0.200, it scores 0.1000 on the training frames. On `lookup_general`, floor
+0.500, it scores 0.4333. On `classify`, floor 0.354, it scores 0.1000. Sampling
+moves individual cells by up to 0.1 in both directions and moves nothing across
+its floor. This is with the retrieval loop working: the mean rounds per item on
+this set is 1.000, which is what its own rollout log records, and 829 of 900
+trajectories end at `<|eot|>` rather than the token cap.
+
+The rate at which it names nothing is what puts it under the floor:
+
+TABLE_HOME_NONE
+
+One caveat belongs on this section. The question form here is the form the
+checkpoint trained on, and the three relations are the three it trained on, but
+the renderer is not: its rollouts were written by `src/skillacq/simple.py` and
+these pages are written by the corpus frame grammar. So this is its own question
+in another hand, which is the wording generalisation the whole corpus was built
+to test, and it is the same test `src/frames/SWEEP.md` recorded at 0.100 under
+a lexicon swap.
 
 ## 11. What this says
 
