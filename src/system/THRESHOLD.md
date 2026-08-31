@@ -43,13 +43,21 @@ capacity measurement, so the fit is beside the exactness rather than behind it.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
+| xl93lr40 | 0.0004 | 0.0832 | 0.039 | 0.0187 | 20.69 |
 
 The 93M rung under the ladder's inherited inverse-width rate is behind the 45M
 rung at every logged step, which is why `xl93lr40` exists: the same rung, the
 same seed, the same 30,000 steps, run again at the 45M rung's own peak. Where it has
 finished, its own row is here.
 
-*Not measured yet: the rate control, queue2.sh step 3.*
+| checkpoint | mode | train | qframe | lexicon | mode | mixed |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | greedy | 0.9211 | 0.9129 | 0.8125 | 0.5389 | 0.5525 |
+| l45 | sampled | 0.9139 | 0.9075 | 0.8039 | 0.5357 | 0.5454 |
+| xl93 | greedy | 0.8889 | 0.8839 | 0.6921 | 0.5221 | 0.4714 |
+| xl93 | sampled | 0.8779 | 0.8686 | 0.6796 | 0.5182 | 0.4675 |
+| xl93lr40 | greedy | 0.9024 | 0.8991 | 0.8273 | 0.4637 | 0.5444 |
+| xl93lr40 | sampled | 0.9009 | 0.8940 | 0.8227 | 0.4611 | 0.5411 |
 
 ## 2. Structure exact match by frame group
 
@@ -260,6 +268,11 @@ The same axis inside the groups whose sentence mode training did contain.
 | xl93 | lexicon | 0.6721 (1470) | 0.7143 (1330) |
 | xl93 | mode | 0.6976 (1498) | 0.3203 (1302) |
 | xl93 | mixed | 0.5328 (1190) | 0.4261 (1610) |
+| xl93lr40 | train | 0.9031 (3528) | 0.9018 (3472) |
+| xl93lr40 | qframe | 0.8986 (3500) | 0.8997 (3500) |
+| xl93lr40 | lexicon | 0.8325 (3528) | 0.8220 (3472) |
+| xl93lr40 | mode | 0.6375 (3528) | 0.2872 (3472) |
+| xl93lr40 | mixed | 0.6700 (3500) | 0.4189 (3500) |
 
 On trained frames the two positions are within about a point of each other at
 both rungs, 0.9264 against 0.9158 at
