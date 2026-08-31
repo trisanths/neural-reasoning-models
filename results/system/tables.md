@@ -183,6 +183,18 @@
 | l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
 
+## Key position inside every frame group
+| rung | frame group | key_first | value_first |
+| --- | --- | ---: | ---: |
+| l45 | train | 0.9264 (1386) | 0.9158 (1414) |
+| l45 | lexicon | 0.8245 (1470) | 0.7992 (1330) |
+| l45 | mode | 0.7223 (1498) | 0.3280 (1302) |
+| l45 | mixed | 0.7345 (1190) | 0.4180 (1610) |
+| xl93 | train | 0.8918 (1386) | 0.8861 (1414) |
+| xl93 | lexicon | 0.6721 (1470) | 0.7143 (1330) |
+| xl93 | mode | 0.6976 (1498) | 0.3203 (1302) |
+| xl93 | mixed | 0.5328 (1190) | 0.4261 (1610) |
+
 ## Key position in the training draw
 | shape | key_first | value_first | value_first share | scores 0.0000 on value_first |
 | --- | ---: | ---: | ---: | --- |
@@ -256,6 +268,26 @@
 | xl93 | transposed | mode | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | xl93 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | xl93 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+
+## The same test after a fine tune that showed both operand orders
+| rung | grids seen | version | n | exact | keys in the untransposed order | malformed | other |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | 1024 | original | 750 | 404 / 750 = 0.5387 | 0 / 750 = 0.0000 | 1 / 750 = 0.0013 | 345 / 750 = 0.4600 |
+| l45 | 1024 | transposed | 750 | 462 / 750 = 0.6160 | 258 / 750 = 0.3440 | 1 / 750 = 0.0013 | 29 / 750 = 0.0387 |
+
+## That test per frame group
+| rung | version | frame group | n | exact | keys in the untransposed order | malformed | other |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | original | lexicon | 150 | 68 / 150 = 0.4533 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 82 / 150 = 0.5467 |
+| l45 | original | mixed | 150 | 63 / 150 = 0.4200 | 0 / 150 = 0.0000 | 1 / 150 = 0.0067 | 86 / 150 = 0.5733 |
+| l45 | original | mode | 150 | 86 / 150 = 0.5733 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 64 / 150 = 0.4267 |
+| l45 | original | qframe | 150 | 98 / 150 = 0.6533 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 52 / 150 = 0.3467 |
+| l45 | original | train | 150 | 89 / 150 = 0.5933 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 61 / 150 = 0.4067 |
+| l45 | transposed | lexicon | 150 | 110 / 150 = 0.7333 | 31 / 150 = 0.2067 | 0 / 150 = 0.0000 | 9 / 150 = 0.0600 |
+| l45 | transposed | mixed | 150 | 76 / 150 = 0.5067 | 59 / 150 = 0.3933 | 1 / 150 = 0.0067 | 14 / 150 = 0.0933 |
+| l45 | transposed | mode | 150 | 55 / 150 = 0.3667 | 92 / 150 = 0.6133 | 0 / 150 = 0.0000 | 3 / 150 = 0.0200 |
+| l45 | transposed | qframe | 150 | 108 / 150 = 0.7200 | 42 / 150 = 0.2800 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| l45 | transposed | train | 150 | 113 / 150 = 0.7533 | 34 / 150 = 0.2267 | 0 / 150 = 0.0000 | 3 / 150 = 0.0200 |
 
 ## What the 1,024 grids cost the groups already read
 | rung | frame group | n | before the fine tune | after |

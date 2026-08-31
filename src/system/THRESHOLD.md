@@ -228,6 +228,27 @@ mode puts the value first it binds them backwards on every item of that shape.
 | apply_n | 0.5794 (107) | 0.5484 (93) |
 | precedence | 1.0000 (107) | 0.0000 (93) |
 
+The same axis inside the groups whose sentence mode training did contain.
+
+| rung | frame group | key_first | value_first |
+| --- | --- | ---: | ---: |
+| l45 | train | 0.9264 (1386) | 0.9158 (1414) |
+| l45 | lexicon | 0.8245 (1470) | 0.7992 (1330) |
+| l45 | mode | 0.7223 (1498) | 0.3280 (1302) |
+| l45 | mixed | 0.7345 (1190) | 0.4180 (1610) |
+| xl93 | train | 0.8918 (1386) | 0.8861 (1414) |
+| xl93 | lexicon | 0.6721 (1470) | 0.7143 (1330) |
+| xl93 | mode | 0.6976 (1498) | 0.3203 (1302) |
+| xl93 | mixed | 0.5328 (1190) | 0.4261 (1610) |
+
+On trained frames the two positions are within about a point of each other at
+both rungs, 0.9264 against 0.9158 at
+45M and 0.8918 against 0.8861 at
+93M, over 1386 and 1414
+items. On a held-out lexicon they stay together too. The reader has the
+value-first order and reads it well. It loses it when the sentence mode
+changes, and not before.
+
 The other axes of the same group, for comparison.
 
 | rung | cloze (n) | imperative (n) | inverted (n) | wh (n) |
@@ -385,6 +406,47 @@ page shape at all cannot be said to have failed to read the transposed version
 of it, so the transposed row is only interpretable where the original row is
 high.
 
+### The same test after a fine tune that showed both operand orders
+
+`grid_train` carries one key order. `grid_both` carries both, shares no page
+with it or with the item set, and is otherwise the same construction. Nothing
+else about the protocol moves.
+
+| rung | grids seen | version | n | exact | keys in the untransposed order | malformed | other |
+| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | 1024 | original | 750 | 404 / 750 = 0.5387 | 0 / 750 = 0.0000 | 1 / 750 = 0.0013 | 345 / 750 = 0.4600 |
+| l45 | 1024 | transposed | 750 | 462 / 750 = 0.6160 | 258 / 750 = 0.3440 | 1 / 750 = 0.0013 | 29 / 750 = 0.0387 |
+
+| rung | version | frame group | n | exact | keys in the untransposed order | malformed | other |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
+| l45 | original | lexicon | 150 | 68 / 150 = 0.4533 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 82 / 150 = 0.5467 |
+| l45 | original | mixed | 150 | 63 / 150 = 0.4200 | 0 / 150 = 0.0000 | 1 / 150 = 0.0067 | 86 / 150 = 0.5733 |
+| l45 | original | mode | 150 | 86 / 150 = 0.5733 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 64 / 150 = 0.4267 |
+| l45 | original | qframe | 150 | 98 / 150 = 0.6533 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 52 / 150 = 0.3467 |
+| l45 | original | train | 150 | 89 / 150 = 0.5933 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 61 / 150 = 0.4067 |
+| l45 | transposed | lexicon | 150 | 110 / 150 = 0.7333 | 31 / 150 = 0.2067 | 0 / 150 = 0.0000 | 9 / 150 = 0.0600 |
+| l45 | transposed | mixed | 150 | 76 / 150 = 0.5067 | 59 / 150 = 0.3933 | 1 / 150 = 0.0067 | 14 / 150 = 0.0933 |
+| l45 | transposed | mode | 150 | 55 / 150 = 0.3667 | 92 / 150 = 0.6133 | 0 / 150 = 0.0000 | 3 / 150 = 0.0200 |
+| l45 | transposed | qframe | 150 | 108 / 150 = 0.7200 | 42 / 150 = 0.2800 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| l45 | transposed | train | 150 | 113 / 150 = 0.7533 | 34 / 150 = 0.2267 | 0 / 150 = 0.0000 | 3 / 150 = 0.0200 |
+
+Reading the transposed page goes from 0 of 750 to
+462 of 750, and the untransposed key order the reader
+used to write instead goes from
+733 of 750 to
+258 of 750. That failure has a data fix and
+this is it.
+
+The fix is not free. The original version of the same page goes from
+672 of 750 to 404 of 750, so the reader
+gives up accuracy on the layout it had in exchange for reading either one, and
+it is noisier on both than it was on one. And the frame group where the
+untransposed order still wins is the held-out sentence mode:
+92 of 150 in the untransposed order
+against 55 of 150 exact, the worst of the five, which
+is the group section 4 is about. Balancing the layout in the fine tune does not
+reach the positional binding that a new sentence mode breaks.
+
 ## 7. The 350M arm
 
 The top rung of the ladder is trained from scratch. This arm is not: it starts
@@ -408,45 +470,69 @@ exactly one option named and it the gold one.
 
 ## 8. What this says
 
-Two things are settled on the part of the ladder that has run and neither of
+Three things are settled on the part of the ladder that has run and none of
 them is a threshold.
 
-The transposed-operand test does not move with scale. On the `train` frame
-group the fine tuned reader is exact on the original page
+### Positional binding survives its own data fix
+
+The seven shapes that are exact on no value-first item of the held-out sentence
+mode each saw between 42,567 and 42,918
+value-first training items, 0.4978 to
+0.5006 of that shape's own draw, and between
+8,362 and 8,910 of them inside
+every one of the 5 sentence modes training contained. On
+those modes the reader is 0.9158 exact on value-first
+items against 0.9264 on key-first ones, over
+1414 and 1386 items. It has
+the order and it reads it. On a sentence mode it never saw, the same reader is
+0.3280 on value first against
+0.7223 on key first, and on seven shapes it is exact on
+zero value-first items out of 93.
+
+Balancing key position in the training draw cannot fix that, because the draw
+is already balanced and has been all along. What failed to transfer is the
+combination of an axis value the network saw about forty thousand times per
+shape with an axis value it never saw at all, and no draw fixes that without
+giving up the held-out test. This is a representational failure and not a
+distributional one, and it is the first failure in this project that is known
+to survive the data fix that would be tried on it.
+
+### The transposed operand test is the other case and does have a data fix
+
+Its fine tuning draw carries one operand order on
+4,096 of 4,096 pages. Fine tuning on the
+balanced draw instead takes the reading of the transposed page from
+0 of 750 to 462 of 750 and the
+untransposed key order from 733 of 750 to
+258 of 750. That one was a hole in a draw.
+It costs the original version of the page,
+672 of 750 down to 404 of 750, and the
+group it helps least is the held-out sentence mode, where the untransposed
+order still wins 92 of 150 against
+55 of 150 exact.
+
+Under the original one-order draw the test does not move with scale at all. On
+the `train` frame group the fine tuned reader is exact on the original page
 149 of 150 at 45M and 148 of 150 at
-93M, so it has the page shape. On the transposed version of that same page it
-is exact 0 of 150 and
-0 of 150, and it writes the page's nine values onto
-the key layout an untransposed grid would have
+93M, so it has the page shape, and on the transposed version of that same page
+it is exact 0 of 150 and
+0 of 150 while writing the untransposed key order
 150 of 150 and
-150 of 150. Acquisition is not the
-explanation for the second number, because the first number is on the same 150
-pages. Over all 750 pages of each version the untransposed key order accounts
-for 733 of 750 at 45M and
-721 of 750 at 93M, against
-0 of 750 and 0 of 750 exact.
-Doubling the parameters moved none of it.
+150 of 150. Doubling the parameters moved
+none of it.
 
-The same failure is there without any fine tune, on the held-out sentence
-mode, and section 4 is where it shows. On `inverse`, `iterate`, `priority` and
-`precedence` the 45M reader is exact on every key-first item of that group and
-on no value-first item at all. Right keys, right values, wrong pairing, bound
-to the position the two had in training rather than the position the sentence
-in front of it gives them. That is the transposed-operand failure reached by a
-different road, and it is the reason the `mode` group sits near the key-first
-share of its own items rather than anywhere near the trained-frame score.
+### The ladder's parameter axis is not clean yet
 
-The second thing is that the ladder's parameter axis is not yet clean. The 93M
-rung is behind the 45M rung on every frame group,
+The 93M rung is behind the 45M rung on every frame group,
 0.8889 against 0.9211 on trained
 frames and 0.5221 against 0.5389 on the
-held-out sentence mode, and it is also behind on its own training loss at
-every logged step. A rung that fits its training file worse than a smaller rung
-is not a capacity measurement. `xl93lr40` is the same rung at the 45M rung's
-own peak rate, and `src/system/lrdecide.py` reads the two training losses and
-writes the rate the 167M and 355M rungs then run at. Until that lands, the
-right reading of the first two rungs is that nothing has been shown to move,
-not that scale has been shown not to help.
+held-out sentence mode, and it is also behind on its own training loss at every
+logged step. A rung that fits its training file worse than a smaller rung is
+not a capacity measurement. `xl93lr40` is the same rung at the 45M rung's own
+peak rate and `src/system/lrdecide.py` reads the two training losses and writes
+the rate the 167M and 355M rungs then run at. Until it lands, the reading of
+the first two rungs is that nothing has been shown to move, not that scale has
+been shown not to help.
 
 ## 9. Every artifact
 

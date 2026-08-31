@@ -230,7 +230,7 @@ def ft_cost_table(evaldir):
     return "\n".join(rows) if seen else ""
 
 
-def tpose_table(dirpath):
+def tpose_table(dirpath, suffix=""):
     """The transposed-operand census, per rung, per version, never pooled.
 
     Categories are disjoint and exhaustive and come from
@@ -243,7 +243,7 @@ def tpose_table(dirpath):
             "| --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |"]
     seen = 0
     for r in RUNGS:
-        rep = load(os.path.join(dirpath, f"xmode_{r}.json"))
+        rep = load(os.path.join(dirpath, f"xmode_{r}{suffix}.json"))
         if rep is None:
             continue
         for run in rep["runs"].values():
@@ -265,14 +265,14 @@ def tpose_table(dirpath):
     return "\n".join(rows) if seen else ""
 
 
-def tpose_group_table(dirpath):
+def tpose_group_table(dirpath, suffix=""):
     """The same census inside each frame group, 150 pages per cell."""
     rows = ["| rung | version | frame group | n | exact | keys in the "
             "untransposed order | malformed | other |",
             "| --- | --- | --- | ---: | ---: | ---: | ---: | ---: |"]
     seen = 0
     for r in RUNGS:
-        rep = load(os.path.join(dirpath, f"xmode_{r}.json"))
+        rep = load(os.path.join(dirpath, f"xmode_{r}{suffix}.json"))
         if rep is None:
             continue
         for run in rep["runs"].values():
@@ -640,6 +640,44 @@ def draw_facts(keypos_path, mode_path, order_path) -> dict:
     return out
 
 
+
+def keypos_group_table(path):
+    """Key position inside every frame group, from the same records.
+
+    The held-out sentence mode is the only group where the two positions come
+    apart. On the groups whose sentence mode training contained, the reader is
+    within a point of itself on both.
+    """
+    d = load(path)
+    if d is None:
+        return ""
+    rows = ["| rung | frame group | key_first | value_first |",
+            "| --- | --- | ---: | ---: |"]
+    for tag, groups in d["cells"].items():
+        for sp, c in groups.items():
+            rows.append(f"| {tag} | {GROUP_LABEL.get(sp, sp)} | "
+                        f"{c['key_first']['exact']:.4f} "
+                        f"({c['key_first']['n']}) | "
+                        f"{c['value_first']['exact']:.4f} "
+                        f"({c['value_first']['n']}) |")
+    return "\n".join(rows)
+
+
+def keypos_group_facts(path) -> dict:
+    d = load(path)
+    if d is None:
+        return {}
+    out = {}
+    for tag, groups in d["cells"].items():
+        for sp, c in groups.items():
+            base = f"kp_{tag}_{GROUP_LABEL.get(sp, sp)}"
+            out[f"{base}_key_first"] = f"{c['key_first']['exact']:.4f}"
+            out[f"{base}_value_first"] = f"{c['value_first']['exact']:.4f}"
+            out[f"{base}_key_first_n"] = str(c["key_first"]["n"])
+            out[f"{base}_value_first_n"] = str(c["value_first"]["n"])
+    return out
+
+
 def safety_facts(sums) -> dict:
     """The extreme cells of the safe-to-unsafe ratio, so prose can cite them.
 
@@ -672,7 +710,7 @@ def safety_facts(sums) -> dict:
                                        else ", ".join(zero))}
 
 
-def tpose_facts(dirpath) -> dict:
+def tpose_facts(dirpath, suffix="") -> dict:
     """Every cell of the transposed census as a fact, so prose can cite one.
 
     Keys are tp_RUNG_VERSION_GROUP_CATEGORY and the value is the count over
@@ -682,7 +720,7 @@ def tpose_facts(dirpath) -> dict:
     """
     out = {}
     for r in RUNGS:
-        rep = load(os.path.join(dirpath, f"xmode_{r}.json"))
+        rep = load(os.path.join(dirpath, f"xmode_{r}{suffix}.json"))
         if rep is None:
             continue
         for run in rep["runs"].values():
@@ -805,6 +843,9 @@ def main():
                   lm_table({**{r: sums[r] for r in RUNGS if r in sums}, **ctl}),
                   ""]
 
+    kpg = keypos_group_table("results/system/keypos_by_group.json")
+    if kpg:
+        parts += ["## Key position inside every frame group", kpg, ""]
     kpd = keypos_draw_table("results/system/keypos_train_draw.json")
     kpm = keypos_mode_table("results/system/keypos_by_mode.json")
     gro = grid_order_table("results/system/grid_key_order.json",
@@ -822,6 +863,13 @@ def main():
         parts += ["## The transposed operand test", tp, ""]
     if tpg:
         parts += ["## The transposed operand test, per frame group", tpg, ""]
+    tpb = tpose_table(a.tpose, "_both")
+    tpbg = tpose_group_table(a.tpose, "_both")
+    if tpb:
+        parts += ["## The same test after a fine tune that showed both "
+                  "operand orders", tpb, ""]
+    if tpbg:
+        parts += ["## That test per frame group", tpbg, ""]
     ftc = ft_cost_table(a.eval)
     if ftc:
         parts += ["## What the 1,024 grids cost the groups already read",
@@ -869,6 +917,9 @@ def main():
     GO = "results/system/grid_key_order.json"
     GV = "results/system/grid_overlap.json"
     fx.update(draw_facts(KP, KM, GO))
+    fx.update(keypos_group_facts("results/system/keypos_by_group.json"))
+    fx.update({("tpb" + k[2:]): v for k, v in
+               tpose_facts(a.tpose, "_both").items()})
     with open(os.path.join(a.out, "facts.json"), "w") as fh:
         json.dump(fx, fh, indent=1, sort_keys=True)
     print(f"{len(fx)} facts, {len(sums)} rungs")
@@ -893,6 +944,9 @@ def main():
         tmpl = tmpl.replace("{{KEYPOS}}",
                             axis_table(sums, "mode", "greedy", "key_pos"))
         tmpl = tmpl.replace("{{SHAPE_KEYPOS}}", sba)
+        tmpl = tmpl.replace("{{KEYPOS_GROUP}}", kpg)
+        tmpl = tmpl.replace("{{TPOSE_BOTH}}", tpb)
+        tmpl = tmpl.replace("{{TPOSE_BOTH_GROUP}}", tpbg)
         tmpl = tmpl.replace("{{KEYPOS_DRAW}}", kpd)
         tmpl = tmpl.replace("{{KEYPOS_MODE}}", kpm)
         tmpl = tmpl.replace("{{GRID_ORDER}}", gro)

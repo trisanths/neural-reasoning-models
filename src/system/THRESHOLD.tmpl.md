@@ -102,6 +102,18 @@ mode puts the value first it binds them backwards on every item of that shape.
 
 {{SHAPE_KEYPOS}}
 
+The same axis inside the groups whose sentence mode training did contain.
+
+{{KEYPOS_GROUP}}
+
+On trained frames the two positions are within about a point of each other at
+both rungs, {{kp_l45_train_key_first}} against {{kp_l45_train_value_first}} at
+45M and {{kp_xl93_train_key_first}} against {{kp_xl93_train_value_first}} at
+93M, over {{kp_l45_train_key_first_n}} and {{kp_l45_train_value_first_n}}
+items. On a held-out lexicon they stay together too. The reader has the
+value-first order and reads it well. It loses it when the sentence mode
+changes, and not before.
+
 The other axes of the same group, for comparison.
 
 {{QFORM}}
@@ -182,6 +194,33 @@ The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
 of it, so the transposed row is only interpretable where the original row is
 high.
+
+### The same test after a fine tune that showed both operand orders
+
+`grid_train` carries one key order. `grid_both` carries both, shares no page
+with it or with the item set, and is otherwise the same construction. Nothing
+else about the protocol moves.
+
+{{TPOSE_BOTH}}
+
+{{TPOSE_BOTH_GROUP}}
+
+Reading the transposed page goes from {{tp_l45_transposed_all_exact}} to
+{{tpb_l45_transposed_all_exact}}, and the untransposed key order the reader
+used to write instead goes from
+{{tp_l45_transposed_all_key_order_canonical}} to
+{{tpb_l45_transposed_all_key_order_canonical}}. That failure has a data fix and
+this is it.
+
+The fix is not free. The original version of the same page goes from
+{{tp_l45_original_all_exact}} to {{tpb_l45_original_all_exact}}, so the reader
+gives up accuracy on the layout it had in exchange for reading either one, and
+it is noisier on both than it was on one. And the frame group where the
+untransposed order still wins is the held-out sentence mode:
+{{tpb_l45_transposed_mode_key_order_canonical}} in the untransposed order
+against {{tpb_l45_transposed_mode_exact}} exact, the worst of the five, which
+is the group section 4 is about. Balancing the layout in the fine tune does not
+reach the positional binding that a new sentence mode breaks.
 
 ## 7. The 350M arm
 
