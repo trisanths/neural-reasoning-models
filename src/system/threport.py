@@ -718,19 +718,44 @@ def parser_keypos_facts(path) -> dict:
     return out
 
 
-def keypos_group_table(path):
-    """Key position inside every frame group, from the same records.
+def keypos_cells(evaldir, lmevaldir):
+    """Key position inside every frame group, off each summary's own by_axis.
 
-    The held-out sentence mode is the only group where the two positions come
-    apart. On the groups whose sentence mode training contained, the reader is
-    within a point of itself on both.
+    Read from the summaries rather than from a file beside them, so a
+    checkpoint scored later appears here without anything being rerun. The
+    350M arm goes through the same grader as the rungs and so has the same
+    axis, which is what makes the two comparable on this.
     """
-    d = load(path)
-    if d is None:
-        return ""
-    rows = ["| rung | frame group | key_first | value_first |",
+    out = {}
+    seen = []
+    for r in RUNGS + CONTROLS:
+        seen.append((r, os.path.join(evaldir, r, "summary.json")))
+    for t in ("corpus_nosft", "lm350"):
+        seen.append((t, os.path.join(lmevaldir, t, "summary.json")))
+    for tag, path in seen:
+        s = load(path)
+        if s is None:
+            continue
+        cells = {}
+        for sp in GROUPS:
+            try:
+                ax = g(s, sp, "greedy")["by_axis"].get("key_pos", {})
+            except KeyError:
+                continue
+            kf, vf = ax.get("key_first"), ax.get("value_first")
+            if kf and vf:
+                cells[sp] = {"key_first": kf, "value_first": vf}
+        if cells:
+            out[tag] = cells
+    return out
+
+
+def keypos_group_table(cells):
+    rows = ["| checkpoint | frame group | key_first | value_first |",
             "| --- | --- | ---: | ---: |"]
-    for tag, groups in d["cells"].items():
+    if not cells:
+        return ""
+    for tag, groups in cells.items():
         for sp, c in groups.items():
             rows.append(f"| {tag} | {GROUP_LABEL.get(sp, sp)} | "
                         f"{c['key_first']['exact']:.4f} "
@@ -740,12 +765,9 @@ def keypos_group_table(path):
     return "\n".join(rows)
 
 
-def keypos_group_facts(path) -> dict:
-    d = load(path)
-    if d is None:
-        return {}
+def keypos_group_facts(cells) -> dict:
     out = {}
-    for tag, groups in d["cells"].items():
+    for tag, groups in cells.items():
         for sp, c in groups.items():
             base = f"kp_{tag}_{GROUP_LABEL.get(sp, sp)}"
             out[f"{base}_key_first"] = f"{c['key_first']['exact']:.4f}"
@@ -920,7 +942,7 @@ def main():
                   lm_table({**{r: sums[r] for r in RUNGS if r in sums}, **ctl}),
                   ""]
 
-    kpg = keypos_group_table("results/system/keypos_by_group.json")
+    kpg = keypos_group_table(keypos_cells(a.eval, a.lmeval))
     if kpg:
         parts += ["## Key position inside every frame group", kpg, ""]
     fct = failcat_table("results/system/failcat_mode_seven.json")
@@ -1000,7 +1022,7 @@ def main():
     GO = "results/system/grid_key_order.json"
     GV = "results/system/grid_overlap.json"
     fx.update(draw_facts(KP, KM, GO))
-    fx.update(keypos_group_facts("results/system/keypos_by_group.json"))
+    fx.update(keypos_group_facts(keypos_cells(a.eval, a.lmeval)))
     fx.update(parser_keypos_facts("results/system/parser_by_keypos.json"))
     fx.update(failcat_facts("results/system/failcat_mode_seven.json"))
     fx.update({("tpb" + k[2:]): v for k, v in

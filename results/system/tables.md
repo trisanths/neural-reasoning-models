@@ -184,7 +184,7 @@
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
 
 ## Key position inside every frame group
-| rung | frame group | key_first | value_first |
+| checkpoint | frame group | key_first | value_first |
 | --- | --- | ---: | ---: |
 | l45 | train | 0.9264 (1386) | 0.9158 (1414) |
 | l45 | lexicon | 0.8245 (1470) | 0.7992 (1330) |

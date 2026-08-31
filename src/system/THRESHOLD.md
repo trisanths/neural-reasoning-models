@@ -229,7 +229,7 @@ mode puts the value first it binds them backwards on every item of that shape.
 
 The same axis inside the groups whose sentence mode training did contain.
 
-| rung | frame group | key_first | value_first |
+| checkpoint | frame group | key_first | value_first |
 | --- | --- | ---: | ---: |
 | l45 | train | 0.9264 (1386) | 0.9158 (1414) |
 | l45 | lexicon | 0.8245 (1470) | 0.7992 (1330) |
