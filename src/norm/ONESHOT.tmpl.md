@@ -114,6 +114,10 @@ same operation in wordings it did not train on.
 
 {{T_LADDER_OWN}}
 
+The metric this lane is named for, read off that table.
+
+{{T_COST}}
+
 ## Depth
 
 One acquired operation applied n times over, on directories closed under their
@@ -167,6 +171,22 @@ the architecture puts a network in front of the library to close, and this lane
 does not close it. A question naming an operation no page defines is refused at
 the plan stage, every time, because a library that has not read a definition has
 nothing to run.
+
+## Where the wrong answers went wrong
+
+Three failures are different problems and only the first is a reading problem:
+the text was not turned into a structure at all, the interpreter refused the
+structure it was given, or a well formed structure was executed and computed
+something else.
+
+{{T_STATES}}
+
+The network's failures are mostly the first and the third. Its commonest
+malformed emission names a copy slot the text does not have, which is a stream
+that never became a structure. Where it does emit a structure, it usually runs:
+the interpreter refuses only a few percent of them, and what comes out is the
+answer to a different question. On the control where no operation is defined, it
+answers rather than refusing.
 
 ## Operations past the shapes the reader was built on
 

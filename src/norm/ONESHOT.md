@@ -1,6 +1,6 @@
 # Intelligence per example
 
-Built 2026-08-31 13:09 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:14 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -76,12 +76,12 @@ key, which is the baseline that matters for an agreement page because two
 directories both state the key. `parser` is `src/norm/parse.py`, the project's
 hand written parser for the fourteen corpus shapes.
 
-| operation family               | n   | floor  | L 1 page | L 2 pages | L 4 pages | S1     | S2     | parser |
-| ------------------------------ | --- | ------ | -------- | --------- | --------- | ------ | ------ | ------ |
-| two directories, one clause    | 110 | 0.3735 | 1.0000   | 1.0000    | 1.0000    | 0.2636 | 0.2182 | 0.0000 |
-| three directories, one clause  | 310 | 0.3086 | 1.0000   | 1.0000    | 1.0000    | 0.3194 | 0.4129 | 0.0000 |
-| two directories, two clauses   | 25  | 0.3567 | 1.0000   | 1.0000    | 1.0000    | 0.2800 | 0.2400 | 0.0000 |
-| three directories, two clauses | 405 | 0.2879 | 1.0000   | 1.0000    | 1.0000    | 0.3654 | 0.3358 | 0.0000 |
+| operation family               | n   | floor  | L 1 page | L 2 pages | L 4 pages | L structure exact | S1     | S2     | parser |
+| ------------------------------ | --- | ------ | -------- | --------- | --------- | ----------------- | ------ | ------ | ------ |
+| two directories, one clause    | 110 | 0.3735 | 1.0000   | 1.0000    | 1.0000    | 1.0000            | 0.2636 | 0.2182 | 0.0000 |
+| three directories, one clause  | 310 | 0.3086 | 1.0000   | 1.0000    | 1.0000    | 1.0000            | 0.3194 | 0.4129 | 0.0000 |
+| two directories, two clauses   | 25  | 0.3567 | 1.0000   | 1.0000    | 1.0000    | 1.0000            | 0.2800 | 0.2400 | 0.0000 |
+| three directories, two clauses | 405 | 0.2879 | 1.0000   | 1.0000    | 1.0000    | 1.0000            | 0.3654 | 0.3358 | 0.0000 |
 
 The three library columns are the curve. One page, two pages and four pages of
 the same operation give the same number, because the second page carries nothing
@@ -134,17 +134,29 @@ rather than a trade.
 | library, 1 page      |          | 800 | 0.3646 | 1.0000        | 1.0000         |                 |
 | network, no gradient | 0        | 800 | 0.3646 | 0.0238        | 0.0125         | 0.0000          |
 | network, control run | 0        | 800 | 0.3646 | 0.0225        | 0.0187         | 0.0000          |
+| network, acq_a2c1_2  | 1        | 800 | 0.3646 | 0.0288        | 0.0238         | 0.0000          |
+| network, acq_a2c1_2  | 2        | 800 | 0.3646 | 0.0150        | 0.0175         | 0.0000          |
 
 Each fine tuned network on its own operation, which is the cell where it has
 every advantage: k labelled examples of exactly this operation, tested on the
 same operation in wordings it did not train on.
 
-| pool         | operation    | k=1 | k=2 | k=4 | k=16 | k=64 | no gradient |
-| ------------ | ------------ | --- | --- | --- | ---- | ---- | ----------- |
-| acq_a2c1_2   | acq/a2c1/2   | -   | -   | -   | -    | -    | 0.0100      |
-| acq_a3c1_26  | acq/a3c1/26  | -   | -   | -   | -    | -    | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | -   | -   | -   | -    | -    | 0.0300      |
-| acq_a2c2_157 | acq/a2c2/157 | -   | -   | -   | -    | -    | 0.0500      |
+| pool         | operation    | k=1    | k=2    | k=4 | k=16 | k=64 | no gradient |
+| ------------ | ------------ | ------ | ------ | --- | ---- | ---- | ----------- |
+| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | -   | -    | -    | 0.0100      |
+| acq_a3c1_26  | acq/a3c1/26  | -      | -      | -   | -    | -    | 0.0400      |
+| acq_a3c2_144 | acq/a3c2/144 | -      | -      | -   | -    | -    | 0.0300      |
+| acq_a2c2_157 | acq/a2c2/157 | -      | -      | -   | -    | -    | 0.0500      |
+
+The metric this lane is named for, read off that table.
+
+| system  | operation             | best strict reached | floor  | examples to clear the floor | examples to reach 0.9000 |
+| ------- | --------------------- | ------------------- | ------ | --------------------------- | ------------------------ |
+| library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
+| network | acq/a2c1/2            | 0.0000              | 0.5000 | not within 64               | not within 64            |
+| network | acq/a3c1/26           | 0.0000              | 0.3333 | not within 64               | not within 64            |
+| network | acq/a3c2/144          | 0.0000              | 0.2500 | not within 64               | not within 64            |
+| network | acq/a2c2/157          | 0.0000              | 0.3333 | not within 64               | not within 64            |
 
 ## Depth
 
@@ -231,6 +243,33 @@ does not close it. A question naming an operation no page defines is refused at
 the plan stage, every time, because a library that has not read a definition has
 nothing to run.
 
+## Where the wrong answers went wrong
+
+Three failures are different problems and only the first is a reading problem:
+the text was not turned into a structure at all, the interpreter refused the
+structure it was given, or a well formed structure was executed and computed
+something else.
+
+| system               | condition | n    | unread | interpreter refused | ran the wrong structure | ran the right one |
+| -------------------- | --------- | ---- | ------ | ------------------- | ----------------------- | ----------------- |
+| library              | acq       | 2550 | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
+| library              | depth     | 3246 | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
+| library              | compose   | 240  | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
+| library              | contra    | 460  | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
+| library              | unstated  | 120  | 1.0000 | 0.0000              | 0.0000                  | 0.0000            |
+| network, no gradient | acq       | 2550 | 0.5541 | 0.0255              | 0.4047                  | 0.0157            |
+| network, no gradient | depth     | 3246 | 0.4421 | 0.0499              | 0.4920                  | 0.0160            |
+| network, no gradient | compose   | 240  | 0.4375 | 0.0750              | 0.4750                  | 0.0125            |
+| network, no gradient | contra    | 460  | 0.2630 | 0.0370              | 0.6935                  | 0.0065            |
+| network, no gradient | unstated  | 120  | 0.3750 | 0.0583              | 0.5667                  | 0.0000            |
+
+The network's failures are mostly the first and the third. Its commonest
+malformed emission names a copy slot the text does not have, which is a stream
+that never became a structure. Where it does emit a structure, it usually runs:
+the interpreter refuses only a few percent of them, and what comes out is the
+answer to a different question. On the control where no operation is defined, it
+answers rather than refusing.
+
 ## Operations past the shapes the reader was built on
 
 `enumerate_space` was only ever asked for one and two clause operations over two
@@ -238,12 +277,13 @@ and three directories, and those are what the reader was written against. These
 are three and four clause operations, and operations over four and five
 directories, generated for the first time by this table.
 
-| operation        | n   | floor  | L strict | S1     | S2     | parser |
-| ---------------- | --- | ------ | -------- | ------ | ------ | ------ |
-| three clauses    | 120 | 0.2704 | 1.0000   | 0.4417 | 0.3750 | 0.0000 |
-| four clauses     | 120 | 0.2983 | 1.0000   | 0.4917 | 0.3667 | 0.0000 |
-| four directories | 120 | 0.2908 | 1.0000   | 0.3250 | 0.4750 | 0.0000 |
-| five directories | 120 | 0.2500 | 1.0000   | 0.3833 | 0.4167 | 0.0000 |
+| operation                            | n   | floor  | L strict | L structure exact | S1     | S2     | parser |
+| ------------------------------------ | --- | ------ | -------- | ----------------- | ------ | ------ | ------ |
+| three clauses                        | 120 | 0.2904 | 1.0000   | 1.0000            | 0.4417 | 0.3583 | 0.0000 |
+| four clauses                         | 120 | 0.2883 | 1.0000   | 1.0000            | 0.4417 | 0.3833 | 0.0000 |
+| four directories                     | 120 | 0.3117 | 1.0000   | 1.0000            | 0.4000 | 0.3583 | 0.0000 |
+| five directories                     | 120 | 0.2475 | 1.0000   | 1.0000            | 0.4000 | 0.4333 | 0.0000 |
+| a directory the question never names | 120 | 0.3275 | 1.0000   | 1.0000            | 0.3750 | 0.0000 | 0.0000 |
 
 ## What this does not show
 

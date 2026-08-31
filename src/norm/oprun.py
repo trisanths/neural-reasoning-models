@@ -27,6 +27,7 @@ import re
 import time
 
 from src.norm import opread, parse
+from src.norm.lang import program_load
 from src.norm.render import frame_by_id
 
 
@@ -57,6 +58,7 @@ def main():
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     t0 = time.time()
     counts = {"L": {}, "P": {}}
+    lens = {}
     with gzip.open(a.out, "wt") as fh:
         for it in items:
             key = it["prog"]["inputs"][0][1]
@@ -66,8 +68,11 @@ def main():
                    "options": it["options"], "n_pages": it["n_pages"],
                    "n": it["n"], "item_key": it["item_key"]}
             got = opread.answer(it["text"], it["fid"])
+            exact = 0
+            if got.get("program") is not None:
+                exact = int(got["program"] == program_load(it["prog"]))
             rec["L"] = {"answer": got["answer"], "state": got["state"],
-                        "stage": got.get("stage", ""),
+                        "stage": got.get("stage", ""), "exact": exact,
                         "reason": got.get("reason", "")[:160]}
             counts["L"][got["state"]] = counts["L"].get(got["state"], 0) + 1
             p = parse.parse(it["text"], it["fid"])
@@ -86,9 +91,13 @@ def main():
                                             "first"), "state": "ran"}
             rec["S2"] = {"answer": shortcut(it["text"], key, it["fid"],
                                             "last"), "state": "ran"}
+            k = (it["cond"], it["n_pages"])
+            lens.setdefault(k, []).append(len(it["text"]))
             fh.write(json.dumps(rec) + "\n")
     meta = {"items": os.path.abspath(a.items), "out": os.path.abspath(a.out),
             "n": len(items), "states": counts,
+            "text_chars_mean": {f"{c}|pages{p}": round(sum(v) / len(v), 1)
+                                for (c, p), v in sorted(lens.items())},
             "seconds": round(time.time() - t0, 1)}
     with open(a.out.replace(".jsonl.gz", ".meta.json"), "w") as fh:
         json.dump(meta, fh, indent=2)

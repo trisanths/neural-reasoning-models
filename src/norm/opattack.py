@@ -169,7 +169,8 @@ def attack_row(rows, n=200):
 # ---------------------------------------------------------------- stress
 
 
-STRESS = (("c3", 3, 3), ("c4", 4, 3), ("a4", 1, 4), ("a5", 1, 5))
+STRESS = (("c3", 3, 3), ("c4", 4, 3), ("a4", 1, 4), ("a5", 1, 5),
+          ("distract", 1, 3))
 
 
 def build_stress(seed0=515151, per=40, keys_asked=3):
@@ -194,8 +195,14 @@ def build_stress(seed0=515151, per=40, keys_asked=3):
                 continue
             got += 1
             mode = opsay.READ_MODES[si % len(opsay.READ_MODES)]
+            extra = None
+            if name == "distract":
+                extra = oplang.make_tables(
+                    random.Random(seed0 + si * 7), [inst["lex"].name()],
+                    inst["keys"], [inst["lex"].word() for _ in range(4)])[0]
             for ki, key in enumerate(inst["keys"][:keys_asked]):
                 e = opitems.episode(inst, fid, "single", key, mode=mode,
+                                    distractor=extra,
                                     def_pos=("first", "last")[si % 2])
                 if e is None:
                     continue

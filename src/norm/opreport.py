@@ -110,6 +110,33 @@ def contra_cell(rows, get) -> dict:
             "floor": round(floor / n, 4)}
 
 
+def states_cell(rows, get, gold_is_answer=True) -> dict:
+    """Where an answer went wrong: unread, refused, or the wrong structure.
+
+    Those are three different problems and only the first is a reading problem,
+    so they are counted apart rather than added into one error rate.
+    """
+    n = len(rows)
+    if not n:
+        return {"n": 0}
+    out = {"n": n, "malformed": 0, "refused": 0, "ran_right": 0,
+           "ran_wrong": 0, "unreadable_input": 0}
+    for r in rows:
+        g = get(r)
+        st = g.get("state", "?")
+        if st == "ran":
+            ok = (g.get("answer", "") == r["gold"]) if gold_is_answer else False
+            out["ran_right" if ok else "ran_wrong"] += 1
+        elif st in out:
+            out[st] += 1
+        elif st == "misread":
+            out["malformed"] += 1
+    for k in ("malformed", "refused", "ran_right", "ran_wrong",
+              "unreadable_input"):
+        out[k] = round(out[k] / n, 4)
+    return out
+
+
 def refusal_cell(rows, get) -> dict:
     """A control whose only right answer is a refusal, and where it refused."""
     n = len(rows)
@@ -141,7 +168,7 @@ def main():
                            os.path.join(D, "ladder_sys.jsonl.gz"))},
            "cells": {}, "acq": {}, "depth": {}, "compose": {},
            "contra": {}, "controls": {}, "ladder": {}, "neural": {},
-           "stress": {}, "attack": {}}
+           "stress": {}, "attack": {}, "states": {}}
 
     # ---- the acquisition set, by family and by how many pages were served
     acq = [r for r in sysrows if r["cond"] == "acq"]
@@ -195,6 +222,11 @@ def main():
         rows = [r for r in sysrows if r["cond"] == cond]
         rep["controls"][f"{cond}|L"] = refusal_cell(rows, getter("L"))
         rep["controls"][f"{cond}|L_scored"] = cell(rows, getter("L"))
+
+    # ---- where each system's wrong answers went wrong
+    for cond in sorted({r["cond"] for r in sysrows}):
+        sub = [r for r in sysrows if r["cond"] == cond]
+        rep["states"][f"L|{cond}"] = states_cell(sub, getter("L"))
 
     # ---- operations past the shapes the reader was written on
     sp = os.path.join(D, "stress_sys.jsonl.gz")
@@ -274,6 +306,13 @@ def main():
                     continue
                 rep["neural"][f"{name}|{mode}|{cond}"] = cell(sub,
                                                               getter("", mode))
+        for mode in ("greedy", "sampled"):
+            if mode not in rows[0]:
+                continue
+            for cond in sorted({r["cond"] for r in rows}):
+                sub = [r for r in rows if r["cond"] == cond]
+                rep["states"][f"{name}|{mode}|{cond}"] = \
+                    states_cell(sub, getter("", mode))
 
     with open(a.out, "w") as fh:
         json.dump(rep, fh, indent=1)

@@ -49,11 +49,13 @@ def t_acq(rep) -> str:
         r = [label, base["n"], f(base["floor"])]
         for npg in (1, 2, 4):
             r.append(f(rep["acq"][f"{fam}|pages{npg}|L"]["strict"]))
+        r.append(f(base.get("structure_exact", 0)))
         for s in ("S1", "S2", "P"):
             r.append(f(rep["acq"][f"{fam}|pages1|{s}"]["strict"]))
         rows.append(r)
     return table(["operation family", "n", "floor", "L 1 page", "L 2 pages",
-                  "L 4 pages", "S1", "S2", "parser"], rows)
+                  "L 4 pages", "L structure exact", "S1", "S2", "parser"],
+                 rows)
 
 
 def t_split(rep) -> str:
@@ -124,6 +126,37 @@ def t_ladder_own(rep, tags, ks) -> str:
                  + ["no gradient"], rows)
 
 
+def t_cost(rep, tags, ks) -> str:
+    """Examples per acquired operation, which is what this lane is named for.
+
+    For the library the answer is one page and no examples. For the network it
+    is the smallest k on the ladder whose strict score clears the item set's own
+    chance floor, and the smallest that clears 0.9000.
+    """
+    rows = []
+    lad = rep["ladder"]["all|L"]
+    rows.append(["library", "one page, no examples", f(lad["strict"]),
+                 f(lad["floor"]), "0", "0"])
+    for tag in tags:
+        iid = "acq/" + "/".join(tag.split("_")[1:])
+        best, over, nine = 0.0, "not within 64", "not within 64"
+        for k in ks:
+            c = rep["neural"].get(f"{tag}_k{k}|greedy|{iid}")
+            if not c:
+                continue
+            best = max(best, c["strict"])
+            if over == "not within 64" and c["strict"] > c["floor"]:
+                over = str(k)
+            if nine == "not within 64" and c["strict"] >= 0.9:
+                nine = str(k)
+        c0 = rep["neural"].get(f"base_l|greedy|{iid}", {})
+        rows.append(["network", iid, f(best), f(c0.get("floor", 0)),
+                     over, nine])
+    return table(["system", "operation", "best strict reached", "floor",
+                  "examples to clear the floor",
+                  "examples to reach 0.9000"], rows)
+
+
 def t_depth(rep) -> str:
     rows = []
     for n in rep["depth"]["_depths"]:
@@ -190,18 +223,20 @@ def t_contra(rep) -> str:
 def t_stress(rep) -> str:
     rows = []
     labels = {"c3": "three clauses", "c4": "four clauses",
-              "a4": "four directories", "a5": "five directories"}
-    for fam in ("c3", "c4", "a4", "a5"):
+              "a4": "four directories", "a5": "five directories",
+              "distract": "a directory the question never names"}
+    for fam in ("c3", "c4", "a4", "a5", "distract"):
         k = f"{fam}|L"
         if k not in rep["stress"]:
             continue
         c = rep["stress"][k]
         rows.append([labels[fam], c["n"], f(c["floor"]), f(c["strict"]),
+                     f(c.get("structure_exact", 0)),
                      f(rep["stress"][f"{fam}|S1"]["strict"]),
                      f(rep["stress"][f"{fam}|S2"]["strict"]),
                      f(rep["stress"][f"{fam}|P"]["strict"])])
-    return table(["operation", "n", "floor", "L strict", "S1", "S2",
-                  "parser"], rows)
+    return table(["operation", "n", "floor", "L strict", "L structure exact",
+                  "S1", "S2", "parser"], rows)
 
 
 def t_controls(rep) -> str:
@@ -232,6 +267,24 @@ def t_controls(rep) -> str:
     return table(["check", "n", "rate", "where"], rows)
 
 
+def t_states(rep) -> str:
+    """Where a wrong answer went wrong, for each system on each condition."""
+    rows = []
+    labels = {"L": "library", "n_base_l|greedy": "network, no gradient",
+              "n_family|greedy": "network, family trained"}
+    for who, label in labels.items():
+        for cond in ("acq", "depth", "compose", "contra", "unstated"):
+            k = f"{who}|{cond}"
+            if k not in rep["states"]:
+                continue
+            c = rep["states"][k]
+            rows.append([label, cond, c["n"], f(c["malformed"]),
+                         f(c["refused"]), f(c["ran_wrong"]),
+                         f(c["ran_right"])])
+    return table(["system", "condition", "n", "unread", "interpreter refused",
+                  "ran the wrong structure", "ran the right one"], rows)
+
+
 def t_paths(rep) -> str:
     rows = [[k, v] for k, v in sorted(rep["records"].items())]
     return table(["record", "path"], rows)
@@ -255,11 +308,13 @@ def main():
         "T_SPLIT": t_split(rep),
         "T_LADDER": t_ladder(rep, tags, ks),
         "T_LADDER_OWN": t_ladder_own(rep, tags, ks),
+        "T_COST": t_cost(rep, tags, ks),
         "T_DEPTH": t_depth(rep),
         "T_COMPOSE": t_compose(rep),
         "T_CONTRA": t_contra(rep),
         "T_STRESS": t_stress(rep),
         "T_CONTROLS": t_controls(rep),
+        "T_STATES": t_states(rep),
         "T_PATHS": t_paths(rep),
         "BUILT": time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime()),
     }
