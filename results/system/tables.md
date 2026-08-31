@@ -218,6 +218,18 @@
 | mode | key_first | 1498 | 1498 / 1498 = 1.0000 |
 | mode | value_first | 1302 | 1302 / 1302 = 1.0000 |
 
+## The reference parser on every split, by key position
+| split | frame group | key_first | value_first |
+| --- | --- | ---: | ---: |
+| `norm` | train | 1386 / 1386 = 1.0000 | 1414 / 1414 = 1.0000 |
+| `norm` | mode | 1498 / 1498 = 1.0000 | 1302 / 1302 = 1.0000 |
+| `normB` | mode | 3528 / 3528 = 1.0000 | 3472 / 3472 = 1.0000 |
+| `normB` | qframe | 3500 / 3500 = 1.0000 | 3500 / 3500 = 1.0000 |
+| `normB` | train | 3528 / 3528 = 1.0000 | 3472 / 3472 = 1.0000 |
+| `normC` | qframe | 3500 / 3500 = 1.0000 | 3500 / 3500 = 1.0000 |
+| `normC` | mode | 3528 / 3528 = 1.0000 | 3472 / 3472 = 1.0000 |
+| `normC` | train | 3528 / 3528 = 1.0000 | 3472 / 3472 = 1.0000 |
+
 ## Key position in the training draw
 | shape | key_first | value_first | value_first share | scores 0.0000 on value_first |
 | --- | ---: | ---: | ---: | --- |

@@ -691,6 +691,38 @@ def failcat_facts(path) -> dict:
     return out
 
 
+
+PARSER_FILES = (("data/norm", "results/system/parser_by_keypos.json"),
+                ("data/normB", "results/system/parser_normB.json"),
+                ("data/normC", "results/system/parser_normC.json"))
+
+
+def parser_splits_table():
+    """The reference parser on every split, by key position.
+
+    The same control on all three: if the parser reads a group exactly in both
+    key positions, the binding is in the text of that group and whatever a
+    network does with it is about the network.
+    """
+    rows = ["| split | frame group | key_first | value_first |",
+            "| --- | --- | ---: | ---: |"]
+    seen = 0
+    for data, path in PARSER_FILES:
+        d = load(path)
+        if d is None:
+            continue
+        for split, c in d["splits"].items():
+            cells = []
+            for kp in ("key_first", "value_first"):
+                n, ex = c.get(f"{kp}|n"), c.get(f"{kp}|exact")
+                cells.append(f"{ex} / {n} = {ex / n:.4f}" if n else "n/a")
+            rows.append(f"| `{os.path.basename(data)}` | "
+                        f"{GROUP_LABEL.get(split, split)} | "
+                        + " | ".join(cells) + " |")
+            seen += 1
+    return "\n".join(rows) if seen else ""
+
+
 def parser_keypos_table(path):
     """The reference parser on the same items, split by key position."""
     d = load(path)
@@ -1096,6 +1128,10 @@ def main():
     pkp = parser_keypos_table("results/system/parser_by_keypos.json")
     if pkp:
         parts += ["## The reference parser on the same split", pkp, ""]
+    pall = parser_splits_table()
+    if pall:
+        parts += ["## The reference parser on every split, by key position",
+                  pall, ""]
     kpd = keypos_draw_table("results/system/keypos_train_draw.json")
     kpm = keypos_mode_table("results/system/keypos_by_mode.json")
     gro = grid_order_table("results/system/grid_key_order.json",
@@ -1207,6 +1243,8 @@ def main():
                                                  "split rungs"))
         tmpl = tmpl.replace("{{KEYPOS_GROUP}}", kpg)
         tmpl = tmpl.replace("{{PARSER_KEYPOS}}", pkp)
+        tmpl = tmpl.replace("{{PARSER_ALL}}", blk(pall, "the parser control on "
+                                                  "the alternative splits"))
         tmpl = tmpl.replace("{{FAILCAT}}", fct)
         tmpl = tmpl.replace("{{TPOSE_BOTH}}", blk(tpb, "the balanced-draw fine tune"))
         tmpl = tmpl.replace("{{TPOSE_BOTH_GROUP}}", blk(tpbg, "the balanced-draw fine tune"))

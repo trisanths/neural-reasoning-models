@@ -258,6 +258,13 @@ anyway, then unfamiliar surface anywhere degrades role binding and the failure
 is broader than the statement template. If `b45` does not collapse, the whole
 reading is about `relative_clause` and much narrower than it looks.
 
+The same control the first split has, run on both new ones before their rungs
+finished. Where the parser reads a group exactly in both key positions, the
+binding is in that group's text and whatever the network does with it is about
+the network.
+
+{{PARSER_ALL}}
+
 {{ALT_GROUP}}
 
 {{ALT_SHAPE}}
