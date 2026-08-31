@@ -37,7 +37,14 @@ import numpy as np
 from src.norm import ndata, ntok
 from src.norm.lang import program_load
 
-TOKENIZER = "data/tokenizer_v2.json"
+_TOKENIZER_REPO = "data/tokenizer_v2.json"
+_TOKENIZER_BOX = "/home/ec2-user/data/tokenizer_v2.json"
+# The repo copy is preferred and the box copy is where it actually lives here.
+# src/system/lmeval.py takes this as its default, and a relative path that
+# does not exist made it die on the tokenizer rather than on anything it was
+# measuring.
+TOKENIZER = (_TOKENIZER_REPO if os.path.exists(_TOKENIZER_REPO)
+             else _TOKENIZER_BOX)
 
 
 def slotted(text: str, slots) -> str:
