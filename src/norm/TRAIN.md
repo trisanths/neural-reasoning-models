@@ -402,9 +402,11 @@ sitting under all of them for a reason this lane did not find.
 
 ### Greedy against sampled
 
-Sampled decoding at temperature 1.0 is below greedy on every split and every
-size, by 0.008 to 0.029 pooled. Greedy has produced false zeros elsewhere on
-this project and does not here. Both are in every `summary.json`.
+Sampled decoding at temperature 1.0 is below greedy on all twenty size and
+split combinations, by 0.0021 at the narrowest and 0.0293 at the widest, and is
+above it on none. Greedy has produced false zeros elsewhere on this project and
+does not here. Both are in every `summary.json`, and the per shape rows for both
+are in every one as well.
 
 ### The held-out lexicon gets worse as training goes on
 
