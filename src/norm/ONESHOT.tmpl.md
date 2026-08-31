@@ -197,7 +197,7 @@ last directory wins, and disagrees with it otherwise.
 ## What refuses, and what happens when the page is attacked
 
 A system that answers 1.0000 everywhere is a bug until it has been attacked.
-Five attacks and two controls, all in `results/norm/oneshot/attack.json` and
+Seven attacks and two controls, all in `results/norm/oneshot/attack.json` and
 `report.json`. The last of the five renames every invented word in the episode
 at once, directory names, keys, values, stated words and the operator's own
 name, so the renamed episode is the same operation written in a vocabulary

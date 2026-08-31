@@ -342,6 +342,17 @@ def t_controls(rep) -> str:
             rows.append(["every invented word renamed", al["n"],
                          f(al["renamed_gold"] / al["n"]),
                          "answered the renamed gold"])
+        ic = a.get("incomplete")
+        if ic and ic["n"]:
+            rows.append(["the last case cut off the definition", ic["n"],
+                         f(ic["refused"] / ic["n"]),
+                         ", ".join(f"{k} {v}"
+                                   for k, v in sorted(ic["stages"].items()))])
+        ex = a.get("extra_definition")
+        if ex and ex["n"]:
+            rows.append(["a second operation the question never names",
+                         ex["n"], f(ex["same_answer"] / ex["n"]),
+                         "same answer"])
     return table(["check", "n", "rate", "where"], rows)
 
 

@@ -1,8 +1,8 @@
 # Intelligence per example
 
-Built 2026-08-31 13:34 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:35 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
-Freshness at build time: 22 record files, none newer than the report of 2026-08-31 13:34 UTC. `opdoc` refuses to build when any record
+Freshness at build time: 22 record files, none newer than the report of 2026-08-31 13:35 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -219,13 +219,13 @@ measured over twenty runs of each plan.
 | applications | n  | floor  | L strict | L structure exact | S1     | S2     | microseconds to run the plan |
 | ------------ | -- | ------ | -------- | ----------------- | ------ | ------ | ---------------------------- |
 | 1            | 40 | 0.1913 | 1.0000   | 1.0000            | 0.4750 | 0.5500 | 11.5                         |
-| 2            | 40 | 0.2442 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 20.5                         |
-| 4            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 38.4                         |
-| 8            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 75.6                         |
-| 16           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 146.4                        |
-| 32           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.0750 | 291.1                        |
-| 48           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1500 | 0.0250 | 434.5                        |
-| 64           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 576.9                        |
+| 2            | 40 | 0.2442 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 20.8                         |
+| 4            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 38.9                         |
+| 8            | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1250 | 0.0500 | 76.1                         |
+| 16           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 146.3                        |
+| 32           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.0750 | 291.5                        |
+| 48           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1500 | 0.0250 | 435.6                        |
+| 64           | 40 | 0.2992 | 1.0000   | 1.0000            | 0.1000 | 0.1000 | 576.6                        |
 
 ## Composing two operations from two pages
 
@@ -286,21 +286,23 @@ last directory wins, and disagrees with it otherwise.
 ## What refuses, and what happens when the page is attacked
 
 A system that answers 1.0000 everywhere is a bug until it has been attacked.
-Five attacks and two controls, all in `results/norm/oneshot/attack.json` and
+Seven attacks and two controls, all in `results/norm/oneshot/attack.json` and
 `report.json`. The last of the five renames every invented word in the episode
 at once, directory names, keys, values, stated words and the operator's own
 name, so the renamed episode is the same operation written in a vocabulary
 nothing has seen.
 
-| check                                  | n   | rate   | where                                  |
-| -------------------------------------- | --- | ------ | -------------------------------------- |
-| definition in the held out wording     | 120 | 1.0000 | definition 120                         |
-| question names no defined operation    | 120 | 1.0000 | plan 120                               |
-| last case of the definition moved      | 300 | 1.0000 | followed the new page, 159 golds moved |
-| definition page removed                | 300 | 1.0000 | plan 300                               |
-| operation renamed on page and question | 300 | 1.0000 | same answer                            |
-| one directory row changed              | 294 | 1.0000 | followed the new row, 142 golds moved  |
-| every invented word renamed            | 300 | 1.0000 | answered the renamed gold              |
+| check                                       | n   | rate   | where                                  |
+| ------------------------------------------- | --- | ------ | -------------------------------------- |
+| definition in the held out wording          | 120 | 1.0000 | definition 120                         |
+| question names no defined operation         | 120 | 1.0000 | plan 120                               |
+| last case of the definition moved           | 300 | 1.0000 | followed the new page, 159 golds moved |
+| definition page removed                     | 300 | 1.0000 | plan 300                               |
+| operation renamed on page and question      | 300 | 1.0000 | same answer                            |
+| one directory row changed                   | 294 | 1.0000 | followed the new row, 142 golds moved  |
+| every invented word renamed                 | 300 | 1.0000 | answered the renamed gold              |
+| the last case cut off the definition        | 300 | 1.0000 | definition 300                         |
+| a second operation the question never names | 300 | 1.0000 | same answer                            |
 
 The two controls are the honest limits. A definition written in the wording mode
 the reader was not built for is refused at the definition stage, every time,
@@ -351,11 +353,11 @@ network was decoded on the main and ladder item sets and not on this one.
 
 | operation                            | n   | floor  | L strict | L structure exact | S1     | S2     | parser |
 | ------------------------------------ | --- | ------ | -------- | ----------------- | ------ | ------ | ------ |
-| three clauses                        | 120 | 0.2625 | 1.0000   | 1.0000            | 0.4583 | 0.4333 | 0.0000 |
-| four clauses                         | 120 | 0.2921 | 1.0000   | 1.0000            | 0.4500 | 0.4833 | 0.0000 |
-| four directories                     | 120 | 0.3050 | 1.0000   | 1.0000            | 0.3833 | 0.4167 | 0.0000 |
-| five directories                     | 120 | 0.2667 | 1.0000   | 1.0000            | 0.3583 | 0.4000 | 0.0000 |
-| a directory the question never names | 120 | 0.3233 | 1.0000   | 1.0000            | 0.4500 | 0.0000 | 0.0000 |
+| three clauses                        | 120 | 0.2900 | 1.0000   | 1.0000            | 0.4750 | 0.3833 | 0.0000 |
+| four clauses                         | 120 | 0.3042 | 1.0000   | 1.0000            | 0.4583 | 0.3250 | 0.0000 |
+| four directories                     | 120 | 0.2771 | 1.0000   | 1.0000            | 0.4000 | 0.3750 | 0.0000 |
+| five directories                     | 120 | 0.2629 | 1.0000   | 1.0000            | 0.3917 | 0.5000 | 0.0000 |
+| a directory the question never names | 120 | 0.3042 | 1.0000   | 1.0000            | 0.4333 | 0.0000 | 0.0000 |
 
 ## What this does not show
 

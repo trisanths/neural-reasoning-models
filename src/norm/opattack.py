@@ -218,6 +218,68 @@ def attack_alpha(rows, n=200):
     return out
 
 
+def attack_incomplete(rows, n=200):
+    """Cut the last case off the definition. A refusal is the only right answer.
+
+    An operation whose page does not say what happens when no clause fires is
+    not defined, and a reader that fills that in from anywhere is guessing.
+    """
+    out = {"n": 0, "refused": 0, "answered": 0, "stages": {}}
+    for row in rows[:n]:
+        inst = _instance(row)
+        page = opsay.definition_page(inst["spec"], row["fid"], row["mode"],
+                                     inst["page_name"])
+        head, body = page.split("\n\n", 1)
+        lines = body.split("\n")
+        if len(lines) < 3:
+            continue
+        cut = head + "\n\n" + "\n".join(lines[:-1])
+        pages = [opsay.directory_page(t, row["fid"]) for t in inst["tables"]]
+        q = opsay.question_single(inst["spec"], row["fid"], row["ask_key"])
+        got = _ask(opsay.episode_text(pages, [cut], q, row["def_pos"]),
+                   row["fid"])
+        out["n"] += 1
+        if got["state"] == "ran":
+            out["answered"] += 1
+        else:
+            out["refused"] += 1
+            st = got.get("stage", "?")
+            out["stages"][st] = out["stages"].get(st, 0) + 1
+    return out
+
+
+def attack_extra_definition(rows, n=200):
+    """Serve a second operation the question never names.
+
+    A library that is a store rather than a guess should read both, use the one
+    the question names and be unmoved by the other.
+    """
+    out = {"n": 0, "same_answer": 0, "declined": 0, "other": 0}
+    for i, row in enumerate(rows[:n]):
+        inst = _instance(row)
+        spec = inst["spec"]
+        other = oplang.OpSpec("zz" + spec.name, spec.sources,
+                              spec.clauses,
+                              ("src", 1) if spec.fallback != ("src", 1)
+                              else ("src", 2))
+        a = opitems.episode(inst, row["fid"], "single", row["ask_key"],
+                            mode=row["mode"], def_pos=row["def_pos"])
+        if a is None:
+            continue
+        extra = opsay.definition_page(other, row["fid"], row["mode"],
+                                      "Zz" + inst["page_name"])
+        text = a["text"].replace(a["question"], extra + "\n\n" + a["question"])
+        out["n"] += 1
+        got = _ask(text, row["fid"])
+        if got["state"] != "ran":
+            out["declined"] += 1
+        elif got["answer"] == a["gold"]:
+            out["same_answer"] += 1
+        else:
+            out["other"] += 1
+    return out
+
+
 # ---------------------------------------------------------------- stress
 
 
@@ -351,7 +413,9 @@ def main():
            "strip": attack_strip(acq, a.n),
            "rename": attack_rename(acq, a.n),
            "row": attack_row(acq, a.n),
-           "alpha": attack_alpha(acq, a.n)}
+           "alpha": attack_alpha(acq, a.n),
+           "incomplete": attack_incomplete(acq, a.n),
+           "extra_definition": attack_extra_definition(acq, a.n)}
 
     rows, drops = build_stress()
     deep, timing = build_deep()
