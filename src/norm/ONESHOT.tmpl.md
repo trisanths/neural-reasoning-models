@@ -268,9 +268,11 @@ already measures how well the network does it on the shapes it was trained for.
 The neural baseline here is the normalizer of `src/norm/nmodel.py` at size `l`,
 45,483,008 parameters, which is the stronger of this project's two networks on
 every cell of the main comparison. The corpus checkpoint that scored 678 of 678
-on the transposed pages was not run on these items; it is at or below 0.1 strict
-on most cells of `src/norm/COMPARE.md` and adding it would not change what the
-tables above say.
+on the transposed pages was not run on these items. Its greedy strict score in
+`results/norm/compare/report_main.json` has a median of 0.02 over that lane's 60
+cells and is at or below 0.1 in 50 of them, so adding it here would not change
+what the tables above say, and its serving format is the corpus episode rather
+than a page of text, which is a harness this lane does not have.
 
 The two clause space is sampled, not enumerated: 120 of 4,528. The one clause
 space is complete.
