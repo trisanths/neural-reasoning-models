@@ -217,6 +217,15 @@ the question-form axis the same kind of holdout, over 140 frames rather than
 70, and it asks whether the collapse is about the statement-mode axis or about
 any withheld axis value.
 
+All three rungs are the same 45M model, the same 30,000 steps, the same 32,768
+token batch, the same seed and the same peak rate, and all three train on
+1,200,000 examples. `b45` also matches on training frames at 490. `c45` has
+420, because withholding a whole question form removes more frames than the
+band did, so its absolute scores sit a little below the other two for a reason
+that has nothing to do with what it is testing. The contrast that matters
+inside `c45` is between its own two key positions on its own withheld group,
+which that difference does not touch.
+
 How the frame grammar is built says what each of the two should be expected to
 do, and the expectation is written here before the runs finished.
 
