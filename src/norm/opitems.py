@@ -9,7 +9,7 @@ rather than assumed.
 
 Six conditions are built, and they are never pooled:
 
-    acq        every operation statable with one clause, 165 of them, plus a
+    acq        every operation statable with one clause, 144 of them, plus a
                sample of the two clause space, each with one, two and four
                definition pages over the same question items
     depth      one operation applied 1, 2, 4, 8 and 16 times over, on

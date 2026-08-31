@@ -12,9 +12,10 @@ What a page may state is fixed here; which operator it states is not. A
 definition names its own operator, says which directories it reads and in what
 order, and gives an ordered list of clauses, each a condition on the readings
 and a result. The condition and result vocabularies are small and closed. The
-operators they compose are not: `enumerate_space` writes out every operation
-statable with one clause, 165 of them, and that whole set is what the
-acquisition measurement runs over rather than a hand-picked example.
+operators they compose are not: `distinct_space` writes out every operation
+statable with one clause, 144 of them once the two and three reading
+enumerations stop double counting, and that whole set is what the acquisition
+measurement runs over rather than a hand picked example.
 
 Nothing here evaluates an operator. Gold answers and option sets both come from
 `src/norm/interp.py` running the assembled program, so this lane has one
