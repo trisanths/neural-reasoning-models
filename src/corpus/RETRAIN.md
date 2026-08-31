@@ -12,10 +12,35 @@ length ceiling moves from three to forty-eight, and if the emitted symbol count
 reaches two, the limits were data. If they do not move, the substrate claim has
 evidence for the first time.
 
-## Status
+## The answer in one table
 
-Numbers land in this file as they finish. Every section names the file its
-numbers were read from.
+Every number is forced choice or exact structure, greedy, with the matched
+control run under the same harness on the same items. Sections below carry the
+denominators, the chance floors, the sampled decodes and the hedge and none
+rates.
+
+| failure | before | after | moved |
+| --- | --- | --- | --- |
+| sentence frame, 32 frames, macro chance-corrected | -0.120 and -0.208 | 0.943 and 0.691 | yes |
+| held-out frame, worst shape bucket, `substitution_rule` | 0.009 | 0.722 | yes |
+| imperative frames, retrieval rounds | 0 of 1200 | page served on 1.000 | yes |
+| emitted plan steps at 48 required | 2.65, max 3 | 47.69 | yes |
+| emitted plan steps at 96 required | 2.16, max 3 | 76.50 | yes |
+| emitted distinct symbols where 5 needed | 1.06 | 4.98 | yes |
+| `threshold_rule` forced choice | 0.008 | 0.990 | yes |
+| transposed page, operator level | 0 of 293 toward the page | untestable, see 7 | not tested |
+| transposed page, item level | 0 of 689 toward the page | untestable, see 7 | not tested |
+| `chain_rule` at two hops, in distribution | n/a | 0.220 against 0.250 | no |
+| `weighted_chain` at two hops, in distribution | n/a | 0.039 against 0.000 | no |
+| four structurally new relations | n/a | at or below their floors | no |
+
+The `before` column is the original checkpoint where it can attempt the task
+and `~/opg/runs/opgraph.pt` on the plan and transposed rows, because the
+original emits no plan and no operator at all. Section 7 shows that arm
+reproducing both recorded failures on the exact items the new checkpoint is
+measured on.
+
+Every section names the file its numbers were read from.
 
 ## What was trained
 
