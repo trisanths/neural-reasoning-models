@@ -58,6 +58,24 @@ def t_acq(rep) -> str:
                  rows)
 
 
+def t_acq_net(rep) -> str:
+    """The network on the same acquisition items, one row per family."""
+    rows = []
+    for fam, label2 in FAMS:
+        for name, label in (("n_base_l", "no gradient"),
+                            ("n_family", "family trained")):
+            k = f"{name}|greedy|acq|{fam}|pages1"
+            if k not in rep["neural"]:
+                continue
+            g = rep["neural"][k]
+            sm = rep["neural"].get(f"{name}|sampled|acq|{fam}|pages1", {})
+            rows.append([label, label2, g["n"], f(g["floor"]),
+                         f(g["strict"]), f(sm.get("strict", 0)),
+                         f(g.get("structure_exact", 0)), f(g["declined"])])
+    return table(["network", "family", "n", "floor", "strict greedy",
+                  "strict sampled", "structure exact", "declined"], rows)
+
+
 def t_split(rep) -> str:
     rows = []
     for k in sorted(rep["cells"]):
@@ -73,41 +91,32 @@ def t_split(rep) -> str:
 
 
 def t_ladder(rep, tags, ks) -> str:
+    """One row per ladder operation, so nothing is pooled across operations."""
     rows = []
-    lad = rep["ladder"]["all|L"]
-    rows.append(["library, 1 page", "", lad["n"], f(lad["floor"]),
-                 f(lad["strict"]), f(lad["strict"]), ""])
-    base = rep["neural"].get("base_l|greedy|all")
-    if base:
-        sm = rep["neural"].get("base_l|sampled|all", {})
-        rows.append(["network, no gradient", 0, base["n"], f(base["floor"]),
-                     f(base["strict"]), f(sm.get("strict", 0)),
-                     f(base.get("structure_exact", 0))])
-    k0 = rep["neural"].get("k0|greedy|all")
-    if k0:
-        sm = rep["neural"].get("k0|sampled|all", {})
-        rows.append(["network, control run", 0, k0["n"], f(k0["floor"]),
-                     f(k0["strict"]), f(sm.get("strict", 0)),
-                     f(k0.get("structure_exact", 0))])
-    for tag in tags:
+    iids = sorted({k.rsplit("|", 1)[0] for k in rep["ladder"]
+                   if k.startswith("acq/") and k.endswith("|L")})
+    for iid in iids:
+        lib = rep["ladder"][f"{iid}|L"]
+        s1 = rep["ladder"][f"{iid}|S1"]
+        s2 = rep["ladder"][f"{iid}|S2"]
+        base = rep["neural"].get(f"base_l|greedy|{iid}")
+        fam = rep["neural"].get(f"family|greedy|{iid}")
+        tag = "acq_" + "_".join(iid.split("/")[1:])
+        best, at = 0.0, "-"
         for k in ks:
-            key = f"{tag}_k{k}|greedy|all"
-            if key not in rep["neural"]:
-                continue
-            g = rep["neural"][key]
-            s = rep["neural"].get(f"{tag}_k{k}|sampled|all", {})
-            rows.append([f"network, {tag}", k, g["n"], f(g["floor"]),
-                         f(g["strict"]), f(s.get("strict", 0)),
-                         f(g.get("structure_exact", 0))])
-    fam = rep["neural"].get("family|greedy|all")
-    if fam:
-        s = rep["neural"].get("family|sampled|all", {})
-        rows.append(["network, family trained", 1024, fam["n"],
-                     f(fam["floor"]), f(fam["strict"]),
-                     f(s.get("strict", 0)),
-                     f(fam.get("structure_exact", 0))])
-    return table(["system", "examples", "n", "floor", "strict greedy",
-                  "strict sampled", "structure exact"], rows)
+            c = rep["neural"].get(f"{tag}_k{k}|greedy|{iid}")
+            if c and c["strict"] > best:
+                best, at = c["strict"], str(k)
+        rows.append([iid, lib["n"], f(lib["floor"]), f(lib["strict"]),
+                     f(lib.get("structure_exact", 0)),
+                     f(s1["strict"]), f(s2["strict"]),
+                     f(base["strict"]) if base else "-",
+                     f(fam["strict"]) if fam else "-",
+                     f(best) if at != "-" else "-", at])
+    return table(["operation", "n", "floor", "library", "library exact",
+                  "S1", "S2", "network no gradient",
+                  "network family trained", "network best on its own ladder",
+                  "at k"], rows)
 
 
 def t_ladder_own(rep, tags, ks) -> str:
@@ -137,24 +146,31 @@ def t_cost(rep, tags, ks) -> str:
     lad = rep["ladder"]["all|L"]
     rows.append(["library", "one page, no examples", f(lad["strict"]),
                  f(lad["floor"]), "0", "0"])
+    ks = list(ks)
     for tag in tags:
         iid = "acq/" + "/".join(tag.split("_")[1:])
-        best, over, nine = 0.0, "not within 64", "not within 64"
+        best, over, nine, seen = 0.0, None, None, []
         for k in ks:
             c = rep["neural"].get(f"{tag}_k{k}|greedy|{iid}")
             if not c:
                 continue
+            seen.append(k)
             best = max(best, c["strict"])
-            if over == "not within 64" and c["strict"] > c["floor"]:
+            if over is None and c["strict"] > c["floor"]:
                 over = str(k)
-            if nine == "not within 64" and c["strict"] >= 0.9:
+            if nine is None and c["strict"] >= 0.9:
                 nine = str(k)
-        c0 = rep["neural"].get(f"base_l|greedy|{iid}", {})
-        rows.append(["network", iid, f(best), f(c0.get("floor", 0)),
-                     over, nine])
+        top = max(seen) if seen else 0
+        c0 = rep["neural"].get(f"base_l|greedy|{iid}") or {}
+        rows.append(["network", iid, f(best) if seen else "-",
+                     f(c0.get("floor", 0)),
+                     over or f"not within {top}", nine or f"not within {top}"])
     return table(["system", "operation", "best strict reached", "floor",
                   "examples to clear the floor",
                   "examples to reach 0.9000"], rows)
+
+
+
 
 
 def t_second(rep, tags, ks) -> str:
@@ -325,7 +341,7 @@ def main():
     ap.add_argument("--out", default="src/norm/ONESHOT.md")
     ap.add_argument("--tags", default="acq_a2c1_2,acq_a3c1_26,"
                                       "acq_a3c2_144,acq_a2c2_157")
-    ap.add_argument("--ks", default="1,2,4,16,64")
+    ap.add_argument("--ks", default="1,2,4,16,64,256,1024")
     a = ap.parse_args()
 
     rep = json.load(open(a.report))
@@ -333,6 +349,7 @@ def main():
     ks = [int(x) for x in a.ks.split(",")]
     subs = {
         "T_ACQ": t_acq(rep),
+        "T_ACQ_NET": t_acq_net(rep),
         "T_SPLIT": t_split(rep),
         "T_LADDER": t_ladder(rep, tags, ks),
         "T_LADDER_OWN": t_ladder_own(rep, tags, ks),

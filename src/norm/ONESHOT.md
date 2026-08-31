@@ -1,6 +1,6 @@
 # Intelligence per example
 
-Built 2026-08-31 13:18 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-08-31 13:25 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
 
 The measurement. A person reads one page and can then use what it says. A
@@ -10,13 +10,15 @@ This lane invents operations the system has never seen, states each one on a
 single page of text, and asks both systems to use it.
 
 The answer. One page is enough for the library system and it is enough on the
-first page: 1.0000 strict on all four operation families, unchanged when the
-same operation is stated on two pages and on four. The network, given the same
-page in its context and no gradient step, is at 0.0157 strict against a floor
-of 0.3085, which is below its own guessing floor. Given labelled examples of the
-one operation it will be tested on, and an output vocabulary extended for free
-so it can write the operation down at all, it climbs the ladder in the table
-below rather than arriving at the first example.
+first page: 1.0000 strict on each of the four operation families, and structure
+exact at 1.0000 as well, unchanged when the same operation is stated on two
+pages and on four. The network, handed the same page in its context and taking
+no gradient step, scores 0.0000, 0.0194, 0.1200 and 0.0173 strict on those four
+families against floors of 0.3735, 0.3086, 0.3567 and 0.2879, which is below its
+own guessing floor in every one, and structure exact on none of 2,550 items.
+Given labelled examples of the one operation it will be tested on, and an output
+vocabulary extended for free so it can write an operation down at all, it climbs
+the ladder below rather than arriving at the first example.
 
 ## The operation, and why it is new to everything here
 
@@ -83,6 +85,15 @@ hand written parser for the fourteen corpus shapes.
 | two directories, two clauses   | 25  | 0.3567 | 1.0000   | 1.0000    | 1.0000    | 1.0000            | 0.2800 | 0.2400 | 0.0000 |
 | three directories, two clauses | 405 | 0.2879 | 1.0000   | 1.0000    | 1.0000    | 1.0000            | 0.3654 | 0.3358 | 0.0000 |
 
+The same items, answered by the network.
+
+| network     | family                         | n   | floor  | strict greedy | strict sampled | structure exact | declined |
+| ----------- | ------------------------------ | --- | ------ | ------------- | -------------- | --------------- | -------- |
+| no gradient | two directories, one clause    | 110 | 0.3735 | 0.0000        | 0.0091         | 0.0000          | 0.4364   |
+| no gradient | three directories, one clause  | 310 | 0.3086 | 0.0194        | 0.0161         | 0.0000          | 0.7323   |
+| no gradient | two directories, two clauses   | 25  | 0.3567 | 0.1200        | 0.0000         | 0.0000          | 0.5200   |
+| no gradient | three directories, two clauses | 405 | 0.2879 | 0.0173        | 0.0074         | 0.0000          | 0.5852   |
+
 The three library columns are the curve. One page, two pages and four pages of
 the same operation give the same number, because the second page carries nothing
 the first did not and the library says so by construction: a repeat that agrees
@@ -129,36 +140,55 @@ training keys are disjoint from the five the items ask about, and half of every
 batch is replay from the original training file so the run measures acquisition
 rather than a trade.
 
-| system               | examples | n   | floor  | strict greedy | strict sampled | structure exact |
-| -------------------- | -------- | --- | ------ | ------------- | -------------- | --------------- |
-| library, 1 page      |          | 800 | 0.3646 | 1.0000        | 1.0000         |                 |
-| network, no gradient | 0        | 800 | 0.3646 | 0.0238        | 0.0125         | 0.0000          |
-| network, control run | 0        | 800 | 0.3646 | 0.0225        | 0.0187         | 0.0000          |
-| network, acq_a2c1_2  | 1        | 800 | 0.3646 | 0.0288        | 0.0238         | 0.0000          |
-| network, acq_a2c1_2  | 2        | 800 | 0.3646 | 0.0150        | 0.0175         | 0.0000          |
-| network, acq_a2c1_2  | 4        | 800 | 0.3646 | 0.0150        | 0.0187         | 0.0000          |
-| network, acq_a2c1_2  | 16       | 800 | 0.3646 | 0.0400        | 0.0387         | 0.0000          |
+One row per operation, because eight operations averaged into one number would
+hide which of them moved. `network best on its own ladder` is the highest strict
+score any of that operation's fine tuned checkpoints reached, and `at k` says
+how many examples that took.
 
-Each fine tuned network on its own operation, which is the cell where it has
-every advantage: k labelled examples of exactly this operation, tested on the
-same operation in wordings it did not train on.
+| operation    | n   | floor  | library | library exact | S1     | S2     | network no gradient | network family trained | network best on its own ladder | at k |
+| ------------ | --- | ------ | ------- | ------------- | ------ | ------ | ------------------- | ---------------------- | ------------------------------ | ---- |
+| acq/a2c1/2   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0100              | -                      | 0.3300                         | 64   |
+| acq/a2c1/5   | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0100              | -                      | -                              | -    |
+| acq/a2c2/157 | 100 | 0.3333 | 1.0000  | 1.0000        | 0.0000 | 0.6000 | 0.0500              | -                      | -                              | -    |
+| acq/a2c2/187 | 100 | 0.5000 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0200              | -                      | -                              | -    |
+| acq/a3c1/26  | 100 | 0.3333 | 1.0000  | 1.0000        | 0.2000 | 0.2000 | 0.0400              | -                      | 0.0300                         | 1    |
+| acq/a3c1/28  | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.8000 | 0.0300              | -                      | -                              | -    |
+| acq/a3c2/144 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.0000 | 0.0000 | 0.0300              | -                      | -                              | -    |
+| acq/a3c2/146 | 100 | 0.2500 | 1.0000  | 1.0000        | 0.2000 | 0.8000 | 0.0000              | -                      | -                              | -    |
 
-| pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64 | no gradient |
-| ------------ | ------------ | ------ | ------ | ------ | ------ | ---- | ----------- |
-| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | -    | 0.0100      |
-| acq_a3c1_26  | acq/a3c1/26  | -      | -      | -      | -      | -    | 0.0400      |
-| acq_a3c2_144 | acq/a3c2/144 | -      | -      | -      | -      | -    | 0.0300      |
-| acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -    | 0.0500      |
+The k curve behind that last column, for the four operations a ladder was run
+for. This is the cell where the network has every advantage: k labelled examples of exactly
+this operation, tested on the same operation in wordings it did not train on.
 
-The metric this lane is named for, read off that table.
+| pool         | operation    | k=1    | k=2    | k=4    | k=16   | k=64   | k=256 | k=1024 | no gradient |
+| ------------ | ------------ | ------ | ------ | ------ | ------ | ------ | ----- | ------ | ----------- |
+| acq_a2c1_2   | acq/a2c1/2   | 0.0000 | 0.0000 | 0.0100 | 0.1000 | 0.3300 | -     | -      | 0.0100      |
+| acq_a3c1_26  | acq/a3c1/26  | 0.0300 | 0.0300 | -      | -      | -      | -     | -      | 0.0400      |
+| acq_a3c2_144 | acq/a3c2/144 | -      | -      | -      | -      | -      | -     | -      | 0.0300      |
+| acq_a2c2_157 | acq/a2c2/157 | -      | -      | -      | -      | -      | -     | -      | 0.0500      |
+
+The same ladder run again from the family trained network rather than from the
+shipped one. That network has already read a thousand examples of other
+operations of this family and already has the notation, so k here buys this
+operation and nothing else, which is the friendliest reading of the question a
+gradient learner can be given.
+
+| pool         | operation    | k=0 (family trained) | k=1 | k=2 | k=4 |
+| ------------ | ------------ | -------------------- | --- | --- | --- |
+| acq_a2c1_2   | acq/a2c1/2   | -                    | -   | -   | -   |
+| acq_a3c1_26  | acq/a3c1/26  | -                    | -   | -   | -   |
+| acq_a3c2_144 | acq/a3c2/144 | -                    | -   | -   | -   |
+| acq_a2c2_157 | acq/a2c2/157 | -                    | -   | -   | -   |
+
+The metric this lane is named for, read off those tables.
 
 | system  | operation             | best strict reached | floor  | examples to clear the floor | examples to reach 0.9000 |
 | ------- | --------------------- | ------------------- | ------ | --------------------------- | ------------------------ |
 | library | one page, no examples | 1.0000              | 0.3646 | 0                           | 0                        |
-| network | acq/a2c1/2            | 0.1000              | 0.5000 | not within 64               | not within 64            |
-| network | acq/a3c1/26           | 0.0000              | 0.3333 | not within 64               | not within 64            |
-| network | acq/a3c2/144          | 0.0000              | 0.2500 | not within 64               | not within 64            |
-| network | acq/a2c2/157          | 0.0000              | 0.3333 | not within 64               | not within 64            |
+| network | acq/a2c1/2            | 0.3300              | 0.5000 | not within 64               | not within 64            |
+| network | acq/a3c1/26           | 0.0300              | 0.3333 | not within 2                | not within 2             |
+| network | acq/a3c2/144          | -                   | 0.2500 | not within 0                | not within 0             |
+| network | acq/a2c2/157          | -                   | 0.3333 | not within 0                | not within 0             |
 
 ## Depth
 
@@ -251,20 +281,23 @@ nothing to run.
 Three failures are different problems and only the first is a reading problem:
 the text was not turned into a structure at all, the interpreter refused the
 structure it was given, or a well formed structure was executed and computed
-something else.
+something else. For the library the first column is every refusal, wherever it
+happened, and the controls table above says at which step.
 
-| system               | condition | n    | unread | interpreter refused | ran the wrong structure | ran the right one |
-| -------------------- | --------- | ---- | ------ | ------------------- | ----------------------- | ----------------- |
-| library              | acq       | 2550 | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
-| library              | depth     | 3246 | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
-| library              | compose   | 240  | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
-| library              | contra    | 460  | 0.0000 | 0.0000              | 0.0000                  | 1.0000            |
-| library              | unstated  | 120  | 1.0000 | 0.0000              | 0.0000                  | 0.0000            |
-| network, no gradient | acq       | 2550 | 0.5541 | 0.0255              | 0.4047                  | 0.0157            |
-| network, no gradient | depth     | 3246 | 0.4421 | 0.0499              | 0.4920                  | 0.0160            |
-| network, no gradient | compose   | 240  | 0.4375 | 0.0750              | 0.4750                  | 0.0125            |
-| network, no gradient | contra    | 460  | 0.2630 | 0.0370              | 0.6935                  | 0.0065            |
-| network, no gradient | unstated  | 120  | 0.3750 | 0.0583              | 0.5667                  | 0.0000            |
+| system               | condition | n    | no structure produced | interpreter refused | ran the wrong structure | ran the right one |
+| -------------------- | --------- | ---- | --------------------- | ------------------- | ----------------------- | ----------------- |
+| library              | acq       | 2550 | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library              | depth     | 3246 | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library              | compose   | 240  | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library              | contra    | 460  | 0.0000                | 0.0000              | 0.0000                  | 1.0000            |
+| library              | held_mode | 120  | 1.0000                | 0.0000              | 0.0000                  | 0.0000            |
+| library              | unstated  | 120  | 1.0000                | 0.0000              | 0.0000                  | 0.0000            |
+| network, no gradient | acq       | 2550 | 0.5541                | 0.0255              | 0.4047                  | 0.0157            |
+| network, no gradient | depth     | 3246 | 0.4421                | 0.0499              | 0.4920                  | 0.0160            |
+| network, no gradient | compose   | 240  | 0.4375                | 0.0750              | 0.4750                  | 0.0125            |
+| network, no gradient | contra    | 460  | 0.2630                | 0.0370              | 0.6935                  | 0.0065            |
+| network, no gradient | held_mode | 120  | 0.0333                | 0.1000              | 0.8167                  | 0.0500            |
+| network, no gradient | unstated  | 120  | 0.3750                | 0.0583              | 0.5667                  | 0.0000            |
 
 The network's failures are mostly the first and the third. Its commonest
 malformed emission names a copy slot the text does not have, which is a stream

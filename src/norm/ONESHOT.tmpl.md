@@ -10,13 +10,15 @@ This lane invents operations the system has never seen, states each one on a
 single page of text, and asks both systems to use it.
 
 The answer. One page is enough for the library system and it is enough on the
-first page: 1.0000 strict on all four operation families, unchanged when the
-same operation is stated on two pages and on four. The network, given the same
-page in its context and no gradient step, is at 0.0157 strict against a floor
-of 0.3085, which is below its own guessing floor. Given labelled examples of the
-one operation it will be tested on, and an output vocabulary extended for free
-so it can write the operation down at all, it climbs the ladder in the table
-below rather than arriving at the first example.
+first page: 1.0000 strict on each of the four operation families, and structure
+exact at 1.0000 as well, unchanged when the same operation is stated on two
+pages and on four. The network, handed the same page in its context and taking
+no gradient step, scores 0.0000, 0.0194, 0.1200 and 0.0173 strict on those four
+families against floors of 0.3735, 0.3086, 0.3567 and 0.2879, which is below its
+own guessing floor in every one, and structure exact on none of 2,550 items.
+Given labelled examples of the one operation it will be tested on, and an output
+vocabulary extended for free so it can write an operation down at all, it climbs
+the ladder below rather than arriving at the first example.
 
 ## The operation, and why it is new to everything here
 
@@ -78,6 +80,10 @@ hand written parser for the fourteen corpus shapes.
 
 {{T_ACQ}}
 
+The same items, answered by the network.
+
+{{T_ACQ_NET}}
+
 The three library columns are the curve. One page, two pages and four pages of
 the same operation give the same number, because the second page carries nothing
 the first did not and the library says so by construction: a repeat that agrees
@@ -106,11 +112,16 @@ training keys are disjoint from the five the items ask about, and half of every
 batch is replay from the original training file so the run measures acquisition
 rather than a trade.
 
+One row per operation, because eight operations averaged into one number would
+hide which of them moved. `network best on its own ladder` is the highest strict
+score any of that operation's fine tuned checkpoints reached, and `at k` says
+how many examples that took.
+
 {{T_LADDER}}
 
-Each fine tuned network on its own operation, which is the cell where it has
-every advantage: k labelled examples of exactly this operation, tested on the
-same operation in wordings it did not train on.
+The k curve behind that last column, for the four operations a ladder was run
+for. This is the cell where the network has every advantage: k labelled examples of exactly
+this operation, tested on the same operation in wordings it did not train on.
 
 {{T_LADDER_OWN}}
 

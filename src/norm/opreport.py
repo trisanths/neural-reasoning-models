@@ -243,7 +243,16 @@ def main():
         rep["attack"] = json.load(open(ap_))
         rep["records"]["attack"] = os.path.abspath(ap_)
 
-    # ---- the ladder: the library on the ladder items
+    # ---- the ladder: the library on the ladder items, one operation at a time
+    inst_of = {}
+    for line in gzip.open(os.path.join(D, "ladder_items.jsonl.gz"), "rt"):
+        it = json.loads(line)
+        inst_of[it["id"]] = it["inst_id"]
+    for r in ladder_sys:
+        r["inst_id"] = inst_of[r["id"]]
+    for iid, rows in sorted(by(ladder_sys, lambda r: r["inst_id"]).items()):
+        for s in SYSTEMS:
+            rep["ladder"][f"{iid}|{s}"] = cell(rows, getter(s))
     for fam, rows in sorted(by(ladder_sys, lambda r: r["family"]).items()):
         for s in SYSTEMS:
             rep["ladder"][f"L0|{fam}|{s}"] = cell(rows, getter(s))
@@ -252,10 +261,6 @@ def main():
     rep["ladder"]["all|S2"] = cell(ladder_sys, getter("S2"))
 
     # ---- the ladder: the network at each k, on the same rows
-    inst_of = {}
-    for line in gzip.open(os.path.join(D, "ladder_items.jsonl.gz"), "rt"):
-        it = json.loads(line)
-        inst_of[it["id"]] = it["inst_id"]
     paths = (sorted(glob.glob(os.path.join(D, "n_*_ladder.jsonl.gz")))
              + sorted(glob.glob(os.path.join(D, "n2_*_ladder.jsonl.gz"))))
     for path in paths:
