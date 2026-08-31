@@ -157,7 +157,7 @@ def t_cost(rep, tags, ks) -> str:
     """
     rows = []
     lad = rep["ladder"]["all|L"]
-    rows.append(["library", "one page, no examples", f(lad["strict"]),
+    rows.append(["library", "all eight, one page each", f(lad["strict"]),
                  f(lad["floor"]), "0", "0"])
     ks = list(ks)
     for tag in tags:
@@ -181,9 +181,6 @@ def t_cost(rep, tags, ks) -> str:
     return table(["system", "operation", "best strict reached", "floor",
                   "examples to clear the floor",
                   "examples to reach 0.9000"], rows)
-
-
-
 
 
 def t_second(rep, tags, ks) -> str:
