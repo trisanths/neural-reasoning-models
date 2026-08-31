@@ -68,8 +68,14 @@ operation.
 The directories themselves are ordinary corpus pages. They are written by
 `src/corpus/frames_default.py` through `Frame.page`, so they are byte identical
 to what the corpus writes for a two directory agreement instance, and the
-normalizer has read thousands of them. Only the definition page and the question
-are new.
+normalizer has read thousands of them, in all 768 frames. Only the definition
+page and the question are new.
+
+The definition page has a grammar of its own, in `src/norm/opsay.py`, and it is
+smaller than the corpus grammar: four wording modes rather than 768 frames, with
+the nouns taken from the frame's own lexicon and the question form following the
+frame's question axis. Four modes is the whole of the wording variation a
+definition page gets here, and one of the four is never read.
 
 ## The acquisition curve
 
