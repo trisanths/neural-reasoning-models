@@ -209,7 +209,8 @@ def score(items, emitted, ov: OutVocab, tag: str, want_parser=True):
             c[k] += int(rec[k])
         if gr.ok:
             c["gold_exec"] += 1
-            c["answer_ok"] += int(rec["answer"] == gr.text and rec["answer"])
+            c["answer_ok"] += int(bool(rec["answer"])
+                                  and rec["answer"] == gr.text)
         cand = candidates(gold)
         if cand:
             floors[sh].append(1.0 / len(cand))
@@ -218,8 +219,8 @@ def score(items, emitted, ov: OutVocab, tag: str, want_parser=True):
             mr = classify_emission(ov.decode(list(seq)), it["slots"], gold)
             c[f"{name}_exact"] += int(mr["exact"])
             if gr.ok:
-                c[f"{name}_answer_ok"] += int(mr["answer"] == gr.text
-                                              and mr["answer"])
+                c[f"{name}_answer_ok"] += int(bool(mr["answer"])
+                                              and mr["answer"] == gr.text)
         if want_parser and it["text"]:
             pp = parse(it["text"], it["fid"])
             c["parser_read"] += int(pp.ok)
@@ -239,14 +240,18 @@ def score(items, emitted, ov: OutVocab, tag: str, want_parser=True):
         n = c["n"]
         row = {"n": n}
         for k in ("exact", "malformed", "refused", "wrong", "modal_exact",
-                  "modal_shape_exact", "parser_exact"):
+                  "modal_shape_exact"):
             row[k] = round(c[k] / n, 4)
+        row["parser_exact"] = round(c["parser_exact"] / n, 4) if want_parser \
+            else None
         ge = c["gold_exec"]
         row["n_gold_executes"] = ge
-        for k in ("answer_ok", "modal_answer_ok", "modal_shape_answer_ok",
-                  "parser_answer_ok"):
+        for k in ("answer_ok", "modal_answer_ok", "modal_shape_answer_ok"):
             row[k] = round(c[k] / ge, 4) if ge else None
-        row["parser_read"] = round(c["parser_read"] / n, 4)
+        row["parser_answer_ok"] = (round(c["parser_answer_ok"] / ge, 4)
+                                   if ge and want_parser else None)
+        row["parser_read"] = (round(c["parser_read"] / n, 4) if want_parser
+                              else None)
         row["answer_chance_floor"] = (round(float(np.mean(floors[sh])), 4)
                                       if floors[sh] else None)
         out["by_shape"][sh] = row
@@ -258,7 +263,8 @@ def score(items, emitted, ov: OutVocab, tag: str, want_parser=True):
         "malformed": round(tot["malformed"] / n, 4),
         "refused": round(tot["refused"] / n, 4),
         "wrong": round(tot["wrong"] / n, 4),
-        "parser_exact": round(tot["parser_exact"] / n, 4),
+        "parser_exact": (round(tot["parser_exact"] / n, 4) if want_parser
+                         else None),
     }
     return out, records
 
