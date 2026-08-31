@@ -553,3 +553,99 @@ wording.
 Still standing: that emitted plan length saturates exactly at the training
 ceiling and the extrapolation constant is zero, which is measured on emitted
 structure rather than on accuracy and is independent of the induction question.
+
+## Result, 2026-08-30: three ceilings were data, and the real failure is chaining
+
+Fine tune of the 350M base on corpus v1, 8000 steps at batch 32 reached as micro
+batch 8 with 4 accumulations. Harness gate passed first: substitution_rule 0.976
+shipped and 0.954 forced against 0.969 and 0.950 on record, threshold_rule 0.996
+shipped and 0.008 forced against 1.000 and 0.009, including the known forced
+choice collapse. Full report src/corpus/RETRAIN.md, artifacts mirrored to
+s3://decoupled-reasoner-009398924577/runs/corpus-v1-8k/.
+
+### Frame boundedness was a corpus property
+
+substitution_rule, forced choice, greedy, 32 frames, chance 0.200:
+
+| shape distance from trained | frames | n | original | retrained |
+|---|---:|---:|---:|---:|
+| seen | 13 | 2600 | 0.140 | 0.990 |
+| 0.00 to 0.05 | 4 | 800 | 0.184 | 1.000 |
+| 0.05 to 0.12 | 3 | 600 | 0.083 | 0.998 |
+| 0.12 to 0.22 | 2 | 400 | 0.028 | 0.990 |
+| 0.22 to 0.30 | 5 | 1000 | 0.022 | 0.722 |
+| 0.30 and above | 5 | 1000 | 0.009 | 0.997 |
+
+Macro chance corrected moves from -0.120 to 0.943 on substitution_rule and from
+-0.208 to 0.691 on exception_rule. All four held out lexicons transfer
+completely. Three of four never trained sentence shapes read at ceiling. The
+three imperative frames where the original served the page on 0 of 1200 rollouts
+now read 0.995 to 1.000.
+
+The dip at 0.22 to 0.30 is not distance. It is two tablepipe frames, one of which
+differs from a trained frame by a colon becoming a pipe.
+
+### Plan length and symbol count also moved
+
+Matched items against the depth-3 opgraph arm, determinate subset:
+
+| required steps | opgraph arm emitted | retrained emitted |
+|---:|---:|---:|
+| 4 | 2.64, max 3 | 4.00 |
+| 48 | 2.65, max 3 | 47.69 |
+| 96 | 2.16, max 3 | 76.50 |
+
+Emitted steps track required exactly at all 18 trained lengths and extrapolate
+past the 48 training maximum: 56.20 at 56, 64.33 at 64, plans to 111 steps. The
+extrapolation constant is no longer zero. Symbols go from 1.00 to 1.06 regardless
+of need, to exactly 1, 2, 3, 4 and 4.98.
+
+Accuracy past 48 is 0.000 even where the emitted length is right, so length and
+correctness came apart.
+
+### The failure that is not an artifact
+
+Multi-hop chaining fails inside the training distribution. chain_rule 1.000 at
+one hop and 0.220 at two against a 0.250 floor. inverse_chain 0.760 and 0.180.
+weighted_chain 1.000 and 0.039. All were trained at those depths.
+
+The same checkpoint writes a correct 48 step plan over an expression printed in
+its prompt. So it composes over material in front of it and fails when a step's
+input must come from a previous step's retrieved result. That is the distinction
+this project has been circling since the minimal repro, now isolated in
+distribution rather than at an extrapolation boundary.
+
+The four structurally new relations sit at or below their floors. exclusion is
+0.000 with the page served 1.000: it reads the list and not the negation.
+
+### What this run could not test
+
+Page semantics induction is a fifth axis the corpus does not widen. Neither
+checkpoint emits an operator definition and parsed is 0 of 298 for both, because
+the plan component hands the scheduler a signature line and carries no page
+stating what an operator does. The 0 of 689 toward the page stands unmoved
+because nothing aimed at it. The rebuilt instrument reproduces the record exactly
+on the opgraph arm, 0 of 689 at item level and 0 of 293 at operator level, with a
+prose reader at 1.000, so it is ready for whoever does aim at it.
+
+### A generator defect found, and its size
+
+src/corpus/plans.py render_tree writes binary infix for any node with more than
+two children, so score/4 items print two of four operands. 11,887 of 32,000
+training and 1,196 of 3,199 held out whole plan items are underdetermined, and on
+those a wrong plan lands on the right value 0.642 of the time. Every plan table
+reports the determinate subset only. Separately, modular_apply and weighted_chain
+carry no candidate set, which returned a spurious 0.000 under forced choice until
+they were split into an exact match block.
+
+### Deviations from the standard budget
+
+Batch 32 reached as micro batch 8 with 4 accumulations, since 32 by 1024 logits
+are 4.3 GB in fp32. MAX_STEPS raised from 32 to 128 in src/opgraph/plan.py. Frame
+evaluation used 192 new tokens rather than 96, because four rounds of a 24 token
+query cost 104 emitted tokens before the answer; both checkpoints ran at 192.
+Training queries are the question's tail rather than its head, because the corpus
+lead in padding is variable length and a head query would vary with the frame.
+
+Freshness check passed on 33 record and report pairs, and every grader was oracle
+checked before any model number was read.
