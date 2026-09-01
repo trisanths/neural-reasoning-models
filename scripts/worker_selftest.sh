@@ -12,13 +12,20 @@
 set -euo pipefail
 
 N="${1:-8}"
-# Whatever the RL base checkpoint got named when it was staged.
+# This suite is calibrated against the RL base checkpoint, so it resolves that
+# one or nothing. Grading some other model with it would produce a number that
+# looks like a result and is not one.
 if [ -z "${CKPT:-}" ]; then
-  for c in "$HOME"/ckpt/*rlsimple*final.pt "$HOME"/ckpt/final.pt "$HOME"/ckpt/*.pt; do
+  for c in "$HOME"/ckpt/*rlsimple*final.pt "$HOME"/ckpt/final.pt; do
     [ -s "$c" ] && { CKPT="$c"; break; }
   done
 fi
-CKPT="${CKPT:-$HOME/ckpt/final.pt}"
+if [ -z "${CKPT:-}" ]; then
+  echo "no RL base checkpoint in ~/ckpt. Stage it first:"
+  echo "  CKPTS=s3://decoupled-reasoner-009398924577/runs/final/rlsimple-503-921/final.pt"
+  echo "and re-run the bootstrap, or pass CKPT=<path> to grade a specific file."
+  exit 1
+fi
 TOK="${TOK:-$HOME/data/tokenizer_v2.json}"
 OUT="${OUT:-$HOME/results/selftest}"
 UV="$HOME/.local/bin/uv"
