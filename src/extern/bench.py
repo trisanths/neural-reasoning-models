@@ -32,6 +32,12 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 LETTERS = ["A", "B", "C", "D", "E"]
 
+# Set from --bos. lm-eval prepends the bos token for models that define one,
+# and LFM2 defines <|startoftext|>. Leaving it off shifts every position by
+# one relative to how the model was trained to read a document start, so it is
+# a candidate whenever a reproduction comes in under its published figure.
+PREPEND_BOS = False
+
 
 def read_parquet(path):
     return pq.read_table(path).to_pylist()
@@ -146,6 +152,8 @@ def loglik(model, tok, pairs, device, batch=8):
         ctx_ids, full_ids = [], []
         for c, k in chunk:
             a = tok(c, add_special_tokens=False)["input_ids"]
+            if PREPEND_BOS and tok.bos_token_id is not None:
+                a = [tok.bos_token_id] + a
             b = tok(k, add_special_tokens=False)["input_ids"]
             if not b:
                 b = tok(" " + k.strip(), add_special_tokens=False)["input_ids"]
@@ -190,6 +198,8 @@ def loglik_shared_ctx(model, tok, pairs, device, batch=4):
     if any(len(i) != 1 for i in ids):
         return None
     a = tok(ctxs[0], add_special_tokens=False)["input_ids"]
+    if PREPEND_BOS and tok.bos_token_id is not None:
+        a = [tok.bos_token_id] + a
     inp = torch.tensor([a], dtype=torch.long, device=device)
     logits = model(input_ids=inp).logits.float()
     lp = torch.log_softmax(logits[0, -1], dim=-1)
@@ -209,8 +219,14 @@ def main():
     ap.add_argument("--dtype", default="float32")
     ap.add_argument("--batch", type=int, default=8)
     ap.add_argument("--no-fast-path", action="store_true")
+    ap.add_argument("--bos", action="store_true",
+                    help="prepend the tokenizer's bos token to the context, "
+                         "which lm-eval does by default for models that "
+                         "define one")
     a = ap.parse_args()
 
+    global PREPEND_BOS
+    PREPEND_BOS = a.bos
     rows = TASKS[a.task](a.root, a.n, a.seed)
     tok = AutoTokenizer.from_pretrained(a.model)
     if tok.pad_token_id is None:
@@ -251,7 +267,7 @@ def main():
            "floor": round(floor, 4), "dtype": a.dtype,
            "seconds": round(time.time() - t0, 1),
            "shots": 5 if (a.task == "mmlu" and a.fmt == "completion") else 0,
-           "fast_path": not a.no_fast_path,
+           "fast_path": not a.no_fast_path, "bos": a.bos,
            "records": recs}
     os.makedirs(os.path.dirname(a.out), exist_ok=True)
     json.dump(res, open(a.out, "w"), indent=1)
