@@ -727,3 +727,48 @@ The interpreter refusing malformed structures was reported as a property of the
 design. On trained frames the refusal ratio is 0.000: every failure there is a
 wrong structure that executes silently. Only on genuinely unfamiliar page shapes
 does roughly one failure in eight become a refusal.
+
+## The pre-registered prediction held, 2026-08-31: role order lives in the statement template
+
+Two frame splits were built to test whether the axis-composition collapse is
+general or specific. The prediction was derived from the generator's own code
+and written into src/system/THRESHOLD.md before either arm ran.
+
+`src/corpus/frames_default.py` renders the statement from ASSOC, a twelve entry
+table keyed on the PAIR (statement mode, key position). Withholding a statement
+mode therefore removes both of that mode's key-position templates. The question
+comes from a different table, indexed by question form inside scope position,
+and key position is not part of that key at all.
+
+So b45, which withholds a statement mode, should collapse. c45, which withholds
+a whole question-form value, should not.
+
+### Result, key-first against value-first, n about 3500 per cell
+
+| split | group | key first | value first |
+|---|---|---:|---:|
+| b45, withholds statement mode table_row | mode | 0.6165 | 0.2471 |
+| c45, withholds question form wh | qframe | 0.7440 | 0.7611 |
+
+Both predictions held. The held-out statement mode loses two thirds of its
+accuracy when the value is named first. The held-out question form is balanced,
+with value-first fractionally higher.
+
+Every other group in both splits is balanced. b45 trained frames 0.9269 against
+0.9332, c45 trained frames 0.8688 against 0.8652, lexicon balanced in both. The
+collapse appears in exactly one place, and it is the place the code predicted.
+
+### What this changes
+
+The failure is not general compositional collapse. Unfamiliar surface does not
+degrade role binding. Unfamiliar surface on the axis carrying the role-order
+template does, and only that.
+
+That is narrower than the earlier reading and more actionable. Which token is
+the key and which is the value is currently implied by a surface template. When
+the model has never seen that template, it has no other channel through which
+the roles are stated, so it falls back on position. The fix is a representation
+in which role is named rather than positioned.
+
+Both splits also collapse on their own held-out mode group, which is the
+within-axis replication and rules out relative_clause being a special case.
