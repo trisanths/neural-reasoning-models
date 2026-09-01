@@ -772,3 +772,62 @@ in which role is named rather than positioned.
 
 Both splits also collapse on their own held-out mode group, which is the
 within-axis replication and rules out relative_clause being a special case.
+
+## The positional collapse flips with scale, 2026-09-01
+
+The matched-token-budget rung settles two questions at once, and the second was
+not one anyone had asked.
+
+### More parameters help, except on the compositional axis
+
+Both rungs at 4.0e-4, matched on tokens per parameter rather than on steps, so
+the larger rung trains 61,724 steps against the smaller one's 30,000. Structure
+exact match, greedy, n=7,000 per group:
+
+| rung | train | qframe | lexicon | mode | mixed |
+|---|---:|---:|---:|---:|---:|
+| l45, 45,483,008 | 0.9209 | 0.9161 | 0.8181 | 0.5256 | 0.5834 |
+| xl93match, 93,579,520 | 0.9574 | 0.9569 | 0.7951 | 0.5231 | 0.5644 |
+
+The earlier reading that doubling parameters made every group worse was an
+artifact of training both rungs on the same token budget, which left the larger
+one at half the tokens per parameter it needed. Corrected, it gains 3.7 points
+on trained frames and 4.1 on the held-out question frame.
+
+It gains nothing on the held-out sentence mode. The two rungs are within noise
+there, 0.5231 against 0.5256, while separating cleanly everywhere else. That is
+the dissociation: parameters buy reading and buy nothing on axis composition.
+
+### The collapse flips position with scale
+
+The aggregate above conceals the finding. Split by which of the pair the
+sentence names first:
+
+| rung | group | key first | value first |
+|---|---|---:|---:|
+| l45 | mode | 0.7302 (3528) | 0.3177 (3472) |
+| xl93match | mode | 0.3243 (3528) | 0.7252 (3472) |
+
+The smaller rung handles key-first and fails value-first. The larger rung does
+the exact opposite, on the same data, the same task and the same axis.
+
+So the model commits to one positional convention and applies it regardless of
+what the sentence says, and which convention it commits to is arbitrary, a
+property of the training run rather than of the language. Scale does not teach it
+that role is distinct from position. It changes which position it commits to.
+
+Pooled, the two rungs read 0.5231 and 0.5256 and look identical. An aggregate
+would report no effect and miss that both models fail completely, in opposite
+directions, on half their items each. That is the second time on this project
+that a split has revealed something an average erased.
+
+The lexicon column carries the same asymmetry in the same direction, 0.8294 and
+0.8067 at the smaller rung against 0.7494 and 0.8416 at the larger, so this is
+not specific to the mode group.
+
+### What follows
+
+Role order has no representation of its own. It is inferred from a surface
+template, and when that template is absent the model falls back on a positional
+habit fixed during training. The fix is a representation in which role is named
+rather than positioned, and no amount of scale substitutes for it.
