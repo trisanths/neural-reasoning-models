@@ -191,6 +191,7 @@
 | l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
 | xl93lr40 | 0.0004 | 0.0832 | 0.039 | 0.0187 | 20.69 |
+| xl93match | 0.0004 | 0.1063 | 0.0575 | 0.0188 | 20.69 |
 
 ## The learning rate control
 | checkpoint | mode | train | qframe | lexicon | mode | mixed |
@@ -201,6 +202,8 @@
 | xl93 | sampled | 0.8794 | 0.8731 | 0.6899 | 0.4997 | 0.5007 |
 | xl93lr40 | greedy | 0.9024 | 0.8991 | 0.8273 | 0.4637 | 0.5444 |
 | xl93lr40 | sampled | 0.9009 | 0.8940 | 0.8227 | 0.4611 | 0.5411 |
+| xl93match | greedy | 0.9574 | 0.9569 | 0.7951 | 0.5231 | 0.5644 |
+| xl93match | sampled | 0.9560 | 0.9537 | 0.7906 | 0.5231 | 0.5629 |
 
 ## The three frame splits
 | split | data | withheld question frame | withheld lexicon | withheld statement mode | training frames |
@@ -280,6 +283,11 @@
 | xl93lr40 | lexicon | 0.8325 (3528) | 0.8220 (3472) |
 | xl93lr40 | mode | 0.6375 (3528) | 0.2872 (3472) |
 | xl93lr40 | mixed | 0.6700 (3500) | 0.4189 (3500) |
+| xl93match | train | 0.9555 (3528) | 0.9594 (3472) |
+| xl93match | qframe | 0.9563 (3500) | 0.9574 (3500) |
+| xl93match | lexicon | 0.7494 (3528) | 0.8416 (3472) |
+| xl93match | mode | 0.3243 (3528) | 0.7252 (3472) |
+| xl93match | mixed | 0.4051 (3500) | 0.7237 (3500) |
 | c45 | train | 0.8688 (3528) | 0.8652 (3472) |
 | c45 | qframe | 0.7440 (3500) | 0.7611 (3500) |
 | c45 | lexicon | 0.8220 (3528) | 0.8154 (3472) |
