@@ -165,6 +165,12 @@ Over all 600,000 slots of two:
 | pairs with the same invented words | 394,367 |
 | pairs whose gold targets differ | 342,796 |
 
+What the draw does not change is the marginal. Both files use all 490 training
+frames, and the value-first share is 0.4978 to 0.5020 per shape and 0.4969 to
+0.5010 per statement mode in the baseline, against 0.4983 to 0.5014 and 0.4990
+to 0.5009 in the paired draw. Arm B changes which items sit next to which, not
+how often each key position appears. In `results/role/draw_balance.json`.
+
 The 51,571 pairs whose targets agree are `band_then_lookup` and
 `lookup_then_band` in `table_row`, where the symbols of the rule lines have
 already been given slot numbers by an earlier page, so flipping the sentence
