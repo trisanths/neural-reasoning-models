@@ -152,7 +152,11 @@ def main():
 
     rows = TASKS["mmlu"](a.root, a.n, a.seed)
     client, kind = make_retriever(a.retriever, a.num_results)
-    cache = Cache(a.cache)
+    # The cache is namespaced by retriever. A mock run writes empty results
+    # under the same query keys a live run uses, and a later live run would
+    # then take those empties as cache hits and score the question with no
+    # retrieved text at all. Keeping the two apart makes that impossible.
+    cache = Cache(a.cache if kind == "exa" else os.path.join(a.cache, kind))
     budget = {"spent": 0, "max": a.budget}
 
     tok = AutoTokenizer.from_pretrained(a.model)
