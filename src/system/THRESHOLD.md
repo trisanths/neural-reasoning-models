@@ -25,6 +25,7 @@ pooled across frame group and nothing is pooled across shape.
 | --- | ---: | ---: | --- | ---: | ---: | ---: |
 | l45 | 512 | 8 | 6+6 | 45,483,008 | 44,103,680 | 30000 |
 | xl93 | 640 | 10 | 8+8 | 93,579,520 | 91,855,360 | 30000 |
+| xxl167 | 768 | 12 | 10+10 | 167,376,384 | 165,307,392 | 110271 |
 
 The token budget per step is 32,768 for every rung. The rungs above 45M reach
 it by gradient accumulation rather than in one micro batch, because a rung at
@@ -43,6 +44,7 @@ capacity measurement, so the fit is beside the exactness rather than behind it.
 | --- | ---: | ---: | ---: | ---: | ---: |
 | l45 | 0.0004 | 0.0843 | 0.0417 | 0.0126 | n/a |
 | xl93 | 0.00032 | 0.1009 | 0.0525 | 0.0182 | 20.69 |
+| xxl167 | 0.0004 | 0.1023 | 0.0535 | 0.034 | 17.42 |
 | xl93lr40 | 0.0004 | 0.0832 | 0.039 | 0.0187 | 20.69 |
 | xl93match | 0.0004 | 0.1063 | 0.0575 | 0.0188 | 20.69 |
 
@@ -57,6 +59,8 @@ finished, its own row is here.
 | l45 | sampled | 0.9163 | 0.9093 | 0.8124 | 0.5167 | 0.5781 |
 | xl93 | greedy | 0.8907 | 0.8841 | 0.7004 | 0.5076 | 0.5047 |
 | xl93 | sampled | 0.8794 | 0.8731 | 0.6899 | 0.4997 | 0.5007 |
+| xxl167 | greedy | 0.9277 | 0.9251 | 0.8841 | 0.6203 | 0.7123 |
+| xxl167 | sampled | 0.9229 | 0.9209 | 0.8820 | 0.6196 | 0.7094 |
 | xl93lr40 | greedy | 0.9024 | 0.8991 | 0.8273 | 0.4637 | 0.5444 |
 | xl93lr40 | sampled | 0.9009 | 0.8940 | 0.8227 | 0.4611 | 0.5411 |
 | xl93match | greedy | 0.9574 | 0.9569 | 0.7951 | 0.5231 | 0.5644 |
@@ -70,6 +74,7 @@ Greedy.
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | l45 | 45,483,008 | 0.9209 | 0.9161 | 0.8181 | 0.5256 | 0.5834 |
 | xl93 | 93,579,520 | 0.8907 | 0.8841 | 0.7004 | 0.5076 | 0.5047 |
+| xxl167 | 167,376,384 | 0.9277 | 0.9251 | 0.8841 | 0.6203 | 0.7123 |
 
 Sampled at temperature 1.0, because greedy has produced false zeros in this
 project.
@@ -78,6 +83,7 @@ project.
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | l45 | 45,483,008 | 0.9163 | 0.9093 | 0.8124 | 0.5167 | 0.5781 |
 | xl93 | 93,579,520 | 0.8794 | 0.8731 | 0.6899 | 0.4997 | 0.5007 |
+| xxl167 | 167,376,384 | 0.9229 | 0.9209 | 0.8820 | 0.6196 | 0.7094 |
 
 `train` is held-out items on trained frames. `qframe` holds out the question
 frame, `lexicon` the symbol lexicon, `mode` the sentence mode, and `mixed`
@@ -107,98 +113,98 @@ structure gets, which is the floor a structure-level score is read against.
 
 ### Trained frames
 
-| shape | n | parser | modal/shape | l45 | xl93 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 500 | 1.0000 | 0.1160 | 1.0000 | 1.0000 |
-| lookup_general | 500 | 1.0000 | 0.5200 | 1.0000 | 1.0000 |
-| classify | 500 | 1.0000 | 0.0040 | 0.9980 | 0.9320 |
-| inverse | 500 | 1.0000 | 0.1420 | 1.0000 | 1.0000 |
-| compose | 500 | 1.0000 | 0.0300 | 0.5540 | 0.5360 |
-| iterate | 500 | 1.0000 | 0.0300 | 1.0000 | 0.9980 |
-| pair | 500 | 1.0000 | 0.1280 | 1.0000 | 1.0000 |
-| priority | 500 | 1.0000 | 0.0620 | 1.0000 | 1.0000 |
-| exclusion | 500 | 1.0000 | 0.1440 | 1.0000 | 1.0000 |
-| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.9720 | 0.8140 |
-| band_then_lookup | 500 | 1.0000 | 0.0060 | 0.9980 | 0.9840 |
-| sum_chain | 500 | 1.0000 | 0.0020 | 0.4020 | 0.2620 |
-| apply_n | 500 | 1.0000 | 0.0040 | 0.9680 | 0.9440 |
-| precedence | 500 | 1.0000 | 0.1480 | 1.0000 | 1.0000 |
+| shape | n | parser | modal/shape | l45 | xl93 | xxl167 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lookup | 500 | 1.0000 | 0.1160 | 1.0000 | 1.0000 | 1.0000 |
+| lookup_general | 500 | 1.0000 | 0.5200 | 1.0000 | 1.0000 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0040 | 0.9980 | 0.9320 | 1.0000 |
+| inverse | 500 | 1.0000 | 0.1420 | 1.0000 | 1.0000 | 1.0000 |
+| compose | 500 | 1.0000 | 0.0300 | 0.5540 | 0.5360 | 0.4680 |
+| iterate | 500 | 1.0000 | 0.0300 | 1.0000 | 0.9980 | 1.0000 |
+| pair | 500 | 1.0000 | 0.1280 | 1.0000 | 1.0000 | 1.0000 |
+| priority | 500 | 1.0000 | 0.0620 | 1.0000 | 1.0000 | 1.0000 |
+| exclusion | 500 | 1.0000 | 0.1440 | 1.0000 | 1.0000 | 1.0000 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.9720 | 0.8140 | 1.0000 |
+| band_then_lookup | 500 | 1.0000 | 0.0060 | 0.9980 | 0.9840 | 1.0000 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.4020 | 0.2620 | 0.5200 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.9680 | 0.9440 | 1.0000 |
+| precedence | 500 | 1.0000 | 0.1480 | 1.0000 | 1.0000 | 1.0000 |
 
 ### Held-out question frame
 
-| shape | n | parser | modal/shape | l45 | xl93 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 500 | 1.0000 | 0.1120 | 1.0000 | 1.0000 |
-| lookup_general | 500 | 1.0000 | 0.5020 | 1.0000 | 1.0000 |
-| classify | 500 | 1.0000 | 0.0040 | 0.9880 | 0.9320 |
-| inverse | 500 | 1.0000 | 0.1580 | 1.0000 | 1.0000 |
-| compose | 500 | 1.0000 | 0.0280 | 0.5360 | 0.5000 |
-| iterate | 500 | 1.0000 | 0.0280 | 1.0000 | 1.0000 |
-| pair | 500 | 1.0000 | 0.1340 | 1.0000 | 1.0000 |
-| priority | 500 | 1.0000 | 0.0440 | 1.0000 | 1.0000 |
-| exclusion | 500 | 1.0000 | 0.1420 | 1.0000 | 1.0000 |
-| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.9620 | 0.8180 |
-| band_then_lookup | 500 | 1.0000 | 0.0060 | 1.0000 | 0.9920 |
-| sum_chain | 500 | 1.0000 | 0.0020 | 0.3760 | 0.2580 |
-| apply_n | 500 | 1.0000 | 0.0040 | 0.9640 | 0.8780 |
-| precedence | 500 | 1.0000 | 0.1360 | 1.0000 | 1.0000 |
+| shape | n | parser | modal/shape | l45 | xl93 | xxl167 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lookup | 500 | 1.0000 | 0.1120 | 1.0000 | 1.0000 | 1.0000 |
+| lookup_general | 500 | 1.0000 | 0.5020 | 1.0000 | 1.0000 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0040 | 0.9880 | 0.9320 | 1.0000 |
+| inverse | 500 | 1.0000 | 0.1580 | 1.0000 | 1.0000 | 1.0000 |
+| compose | 500 | 1.0000 | 0.0280 | 0.5360 | 0.5000 | 0.4140 |
+| iterate | 500 | 1.0000 | 0.0280 | 1.0000 | 1.0000 | 1.0000 |
+| pair | 500 | 1.0000 | 0.1340 | 1.0000 | 1.0000 | 1.0000 |
+| priority | 500 | 1.0000 | 0.0440 | 1.0000 | 1.0000 | 1.0000 |
+| exclusion | 500 | 1.0000 | 0.1420 | 1.0000 | 1.0000 | 1.0000 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.9620 | 0.8180 | 1.0000 |
+| band_then_lookup | 500 | 1.0000 | 0.0060 | 1.0000 | 0.9920 | 1.0000 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.3760 | 0.2580 | 0.5380 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.9640 | 0.8780 | 1.0000 |
+| precedence | 500 | 1.0000 | 0.1360 | 1.0000 | 1.0000 | 1.0000 |
 
 ### Held-out lexicon
 
-| shape | n | parser | modal/shape | l45 | xl93 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 500 | 1.0000 | 0.1140 | 0.9640 | 0.3600 |
-| lookup_general | 500 | 1.0000 | 0.5240 | 1.0000 | 0.8860 |
-| classify | 500 | 1.0000 | 0.0040 | 0.9700 | 0.8040 |
-| inverse | 500 | 1.0000 | 0.1460 | 0.9560 | 0.9580 |
-| compose | 500 | 1.0000 | 0.0280 | 0.3620 | 0.3900 |
-| iterate | 500 | 1.0000 | 0.0260 | 0.9740 | 0.9020 |
-| pair | 500 | 1.0000 | 0.1260 | 1.0000 | 0.8940 |
-| priority | 500 | 1.0000 | 0.0540 | 0.8900 | 0.9160 |
-| exclusion | 500 | 1.0000 | 0.1420 | 0.9800 | 0.8700 |
-| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.5060 | 0.3860 |
-| band_then_lookup | 500 | 1.0000 | 0.0080 | 0.9700 | 0.8860 |
-| sum_chain | 500 | 1.0000 | 0.0020 | 0.1720 | 0.0740 |
-| apply_n | 500 | 1.0000 | 0.0040 | 0.7120 | 0.7780 |
-| precedence | 500 | 1.0000 | 0.1560 | 0.9980 | 0.7020 |
+| shape | n | parser | modal/shape | l45 | xl93 | xxl167 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lookup | 500 | 1.0000 | 0.1140 | 0.9640 | 0.3600 | 0.9560 |
+| lookup_general | 500 | 1.0000 | 0.5240 | 1.0000 | 0.8860 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0040 | 0.9700 | 0.8040 | 0.9980 |
+| inverse | 500 | 1.0000 | 0.1460 | 0.9560 | 0.9580 | 0.9560 |
+| compose | 500 | 1.0000 | 0.0280 | 0.3620 | 0.3900 | 0.3600 |
+| iterate | 500 | 1.0000 | 0.0260 | 0.9740 | 0.9020 | 0.9120 |
+| pair | 500 | 1.0000 | 0.1260 | 1.0000 | 0.8940 | 1.0000 |
+| priority | 500 | 1.0000 | 0.0540 | 0.8900 | 0.9160 | 0.9720 |
+| exclusion | 500 | 1.0000 | 0.1420 | 0.9800 | 0.8700 | 0.9860 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.5060 | 0.3860 | 0.9440 |
+| band_then_lookup | 500 | 1.0000 | 0.0080 | 0.9700 | 0.8860 | 0.9920 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.1720 | 0.0740 | 0.3200 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.7120 | 0.7780 | 0.9980 |
+| precedence | 500 | 1.0000 | 0.1560 | 0.9980 | 0.7020 | 0.9840 |
 
 ### Held-out sentence mode
 
-| shape | n | parser | modal/shape | l45 | xl93 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 500 | 1.0000 | 0.1360 | 0.4980 | 0.5040 |
-| lookup_general | 500 | 1.0000 | 0.5120 | 1.0000 | 1.0000 |
-| classify | 500 | 1.0000 | 0.0080 | 0.8380 | 0.6800 |
-| inverse | 500 | 1.0000 | 0.1380 | 0.5040 | 0.5040 |
-| compose | 500 | 1.0000 | 0.0320 | 0.1960 | 0.1060 |
-| iterate | 500 | 1.0000 | 0.0280 | 0.5020 | 0.4860 |
-| pair | 500 | 1.0000 | 0.1300 | 0.9760 | 1.0000 |
-| priority | 500 | 1.0000 | 0.0440 | 0.5040 | 0.5200 |
-| exclusion | 500 | 1.0000 | 0.1460 | 0.2320 | 0.1820 |
-| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.5300 | 0.3800 |
-| band_then_lookup | 500 | 1.0000 | 0.0100 | 0.7120 | 0.6440 |
-| sum_chain | 500 | 1.0000 | 0.0020 | 0.0640 | 0.0520 |
-| apply_n | 500 | 1.0000 | 0.0020 | 0.2980 | 0.5420 |
-| precedence | 500 | 1.0000 | 0.1340 | 0.5040 | 0.5060 |
+| shape | n | parser | modal/shape | l45 | xl93 | xxl167 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lookup | 500 | 1.0000 | 0.1360 | 0.4980 | 0.5040 | 0.4680 |
+| lookup_general | 500 | 1.0000 | 0.5120 | 1.0000 | 1.0000 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0080 | 0.8380 | 0.6800 | 0.9900 |
+| inverse | 500 | 1.0000 | 0.1380 | 0.5040 | 0.5040 | 0.4960 |
+| compose | 500 | 1.0000 | 0.0320 | 0.1960 | 0.1060 | 0.0760 |
+| iterate | 500 | 1.0000 | 0.0280 | 0.5020 | 0.4860 | 0.4640 |
+| pair | 500 | 1.0000 | 0.1300 | 0.9760 | 1.0000 | 0.9380 |
+| priority | 500 | 1.0000 | 0.0440 | 0.5040 | 0.5200 | 0.6180 |
+| exclusion | 500 | 1.0000 | 0.1460 | 0.2320 | 0.1820 | 0.3300 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.5300 | 0.3800 | 0.8760 |
+| band_then_lookup | 500 | 1.0000 | 0.0100 | 0.7120 | 0.6440 | 1.0000 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.0640 | 0.0520 | 0.0240 |
+| apply_n | 500 | 1.0000 | 0.0020 | 0.2980 | 0.5420 | 0.9460 |
+| precedence | 500 | 1.0000 | 0.1340 | 0.5040 | 0.5060 | 0.4580 |
 
 ### More than one held out
 
-| shape | n | parser | modal/shape | l45 | xl93 |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| lookup | 500 | 1.0000 | 0.1160 | 0.6060 | 0.3340 |
-| lookup_general | 500 | 1.0000 | 0.5220 | 1.0000 | 0.8480 |
-| classify | 500 | 1.0000 | 0.0060 | 0.8480 | 0.6580 |
-| inverse | 500 | 1.0000 | 0.1500 | 0.6380 | 0.6360 |
-| compose | 500 | 1.0000 | 0.0300 | 0.2140 | 0.1720 |
-| iterate | 500 | 1.0000 | 0.0260 | 0.6320 | 0.5540 |
-| pair | 500 | 1.0000 | 0.1420 | 0.9660 | 0.8800 |
-| priority | 500 | 1.0000 | 0.0420 | 0.5880 | 0.6660 |
-| exclusion | 500 | 1.0000 | 0.1400 | 0.4400 | 0.3760 |
-| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.3940 | 0.2960 |
-| band_then_lookup | 500 | 1.0000 | 0.0080 | 0.8060 | 0.6840 |
-| sum_chain | 500 | 1.0000 | 0.0020 | 0.0960 | 0.0460 |
-| apply_n | 500 | 1.0000 | 0.0040 | 0.3060 | 0.4200 |
-| precedence | 500 | 1.0000 | 0.1360 | 0.6340 | 0.4960 |
+| shape | n | parser | modal/shape | l45 | xl93 | xxl167 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lookup | 500 | 1.0000 | 0.1160 | 0.6060 | 0.3340 | 0.6860 |
+| lookup_general | 500 | 1.0000 | 0.5220 | 1.0000 | 0.8480 | 1.0000 |
+| classify | 500 | 1.0000 | 0.0060 | 0.8480 | 0.6580 | 0.9980 |
+| inverse | 500 | 1.0000 | 0.1500 | 0.6380 | 0.6360 | 0.6860 |
+| compose | 500 | 1.0000 | 0.0300 | 0.2140 | 0.1720 | 0.1400 |
+| iterate | 500 | 1.0000 | 0.0260 | 0.6320 | 0.5540 | 0.5840 |
+| pair | 500 | 1.0000 | 0.1420 | 0.9660 | 0.8800 | 0.9740 |
+| priority | 500 | 1.0000 | 0.0420 | 0.5880 | 0.6660 | 0.8260 |
+| exclusion | 500 | 1.0000 | 0.1400 | 0.4400 | 0.3760 | 0.4880 |
+| lookup_then_band | 500 | 1.0000 | 0.0020 | 0.3940 | 0.2960 | 0.8900 |
+| band_then_lookup | 500 | 1.0000 | 0.0080 | 0.8060 | 0.6840 | 0.9880 |
+| sum_chain | 500 | 1.0000 | 0.0020 | 0.0960 | 0.0460 | 0.0980 |
+| apply_n | 500 | 1.0000 | 0.0040 | 0.3060 | 0.4200 | 0.9560 |
+| precedence | 500 | 1.0000 | 0.1360 | 0.6340 | 0.4960 | 0.6580 |
 
 ## 4. What the held-out sentence mode actually fails at
 
@@ -210,6 +216,7 @@ sharply on where the sentence puts the key.
 | --- | ---: | ---: |
 | l45 | 0.7302 (3528) | 0.3177 (3472) |
 | xl93 | 0.6959 (3528) | 0.3162 (3472) |
+| xxl167 | 0.6341 (3528) | 0.6063 (3472) |
 
 Per shape against the same axis. At 45M there are 3 question
 shapes of this group where the reader is exact on 252 of
@@ -259,6 +266,25 @@ mode puts the value first it binds them backwards on every item of that shape.
 | apply_n | 0.5397 (252) | 0.5444 (248) |
 | precedence | 1.0000 (252) | 0.0040 (248) |
 
+### xxl167
+
+| shape | key_first | value_first |
+| --- | ---: | ---: |
+| lookup | 0.5238 (252) | 0.4113 (248) |
+| lookup_general | 1.0000 (252) | 1.0000 (248) |
+| classify | 0.9921 (252) | 0.9879 (248) |
+| inverse | 0.5794 (252) | 0.4113 (248) |
+| compose | 0.0873 (252) | 0.0645 (248) |
+| iterate | 0.4286 (252) | 0.5000 (248) |
+| pair | 0.9405 (252) | 0.9355 (248) |
+| priority | 0.6310 (252) | 0.6048 (248) |
+| exclusion | 0.4841 (252) | 0.1734 (248) |
+| lookup_then_band | 0.8452 (252) | 0.9073 (248) |
+| band_then_lookup | 1.0000 (252) | 1.0000 (248) |
+| sum_chain | 0.0238 (252) | 0.0242 (248) |
+| apply_n | 0.9484 (252) | 0.9435 (248) |
+| precedence | 0.3929 (252) | 0.5242 (248) |
+
 The same axis inside the groups whose sentence mode training did contain.
 
 | checkpoint | frame group | key_first | value_first |
@@ -273,6 +299,11 @@ The same axis inside the groups whose sentence mode training did contain.
 | xl93 | lexicon | 0.6811 (3528) | 0.7200 (3472) |
 | xl93 | mode | 0.6959 (3528) | 0.3162 (3472) |
 | xl93 | mixed | 0.5523 (3500) | 0.4571 (3500) |
+| xxl167 | train | 0.9294 (3528) | 0.9260 (3472) |
+| xxl167 | qframe | 0.9266 (3500) | 0.9237 (3500) |
+| xxl167 | lexicon | 0.8727 (3528) | 0.8957 (3472) |
+| xxl167 | mode | 0.6341 (3528) | 0.6063 (3472) |
+| xxl167 | mixed | 0.6829 (3500) | 0.7417 (3500) |
 | xl93lr40 | train | 0.9031 (3528) | 0.9018 (3472) |
 | xl93lr40 | qframe | 0.8986 (3500) | 0.8997 (3500) |
 | xl93lr40 | lexicon | 0.8325 (3528) | 0.8220 (3472) |
@@ -318,11 +349,13 @@ The other axes of the same group, for comparison.
 | --- | ---: | ---: | ---: | ---: |
 | l45 | 0.5248 (2016) | 0.5312 (1988) | 0.5206 (1988) | 0.5258 (1008) |
 | xl93 | 0.5129 (2016) | 0.5086 (1988) | 0.5101 (1988) | 0.4901 (1008) |
+| xxl167 | 0.6220 (2016) | 0.6157 (1988) | 0.6212 (1988) | 0.6240 (1008) |
 
 | rung | scope_first (n) | scope_last (n) |
 | --- | ---: | ---: |
 | l45 | 0.5217 (2996) | 0.5285 (4004) |
 | xl93 | 0.5087 (2996) | 0.5067 (4004) |
+| xxl167 | 0.6162 (2996) | 0.6234 (4004) |
 
 Taken together over the seven shapes, the reader is exact on
 0 of 651 value-first items of that group at 45M and
@@ -585,7 +618,7 @@ On trained frames that ratio is zero. At 45M the malformed rate is
 0.0000, 0.0000 and
 0.1093. Every failure on surface the reader was trained on
 is a structure the interpreter accepts and executes to a wrong answer. The
-cells that sit at exactly zero are l45 train, l45 qframe, xl93 train. Anything that
+cells that sit at exactly zero are l45 train, l45 qframe, xl93 train, xxl167 train, xxl167 qframe. Anything that
 says this design declines rather than answering wrongly is false on that
 surface, and `src/norm/COMPARE.md`'s safe-failure result holds for a page shape
 the reader had never seen rather than for the shapes it reads every day.
@@ -593,7 +626,7 @@ the reader had never seen rather than for the shapes it reads every day.
 Refusals appear only as the surface moves away from training, and even there
 they stay the minority. The highest ratio in the table is
 0.419 at xl93 lexicon, and
-10 of 10 cells are below one.
+15 of 15 cells are below one.
 
 | rung | group | exact | malformed | refused | wrong | safe/unsafe |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
@@ -607,6 +640,11 @@ they stay the minority. The highest ratio in the table is
 | xl93 | lexicon | 0.7004 | 0.0843 | 0.0041 | 0.2111 | 0.419 |
 | xl93 | mode | 0.5076 | 0.0019 | 0.0593 | 0.4313 | 0.142 |
 | xl93 | mixed | 0.5047 | 0.0727 | 0.0437 | 0.3789 | 0.307 |
+| xxl167 | train | 0.9277 | 0.0000 | 0.0000 | 0.0723 | 0.000 |
+| xxl167 | qframe | 0.9251 | 0.0000 | 0.0000 | 0.0749 | 0.000 |
+| xxl167 | lexicon | 0.8841 | 0.0017 | 0.0019 | 0.1123 | 0.032 |
+| xxl167 | mode | 0.6203 | 0.0021 | 0.0369 | 0.3407 | 0.114 |
+| xxl167 | mixed | 0.7123 | 0.0031 | 0.0231 | 0.2614 | 0.100 |
 
 ## 6. The transposed operand test
 
@@ -627,6 +665,8 @@ have. Keys right, values right, pairing wrong.
 | l45 | 1024 | transposed | 750 | 0 / 750 = 0.0000 | 733 / 750 = 0.9773 | 17 / 750 = 0.0227 | 0 / 750 = 0.0000 |
 | xl93 | 1024 | original | 750 | 534 / 750 = 0.7120 | 0 / 750 = 0.0000 | 20 / 750 = 0.0267 | 196 / 750 = 0.2613 |
 | xl93 | 1024 | transposed | 750 | 0 / 750 = 0.0000 | 721 / 750 = 0.9613 | 22 / 750 = 0.0293 | 7 / 750 = 0.0093 |
+| xxl167 | 1024 | original | 750 | 629 / 750 = 0.8387 | 0 / 750 = 0.0000 | 5 / 750 = 0.0067 | 116 / 750 = 0.1547 |
+| xxl167 | 1024 | transposed | 750 | 0 / 750 = 0.0000 | 743 / 750 = 0.9907 | 7 / 750 = 0.0093 | 0 / 750 = 0.0000 |
 
 The item file carries 150 pages per frame group per version. Those 150 are
 distinct structures and the five groups are the same 150 structures under five
@@ -656,6 +696,16 @@ that reason.
 | xl93 | transposed | mode | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | xl93 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | xl93 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| xxl167 | original | lexicon | 150 | 135 / 150 = 0.9000 | 0 / 150 = 0.0000 | 1 / 150 = 0.0067 | 14 / 150 = 0.0933 |
+| xxl167 | original | mixed | 150 | 89 / 150 = 0.5933 | 0 / 150 = 0.0000 | 4 / 150 = 0.0267 | 57 / 150 = 0.3800 |
+| xxl167 | original | mode | 150 | 124 / 150 = 0.8267 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 26 / 150 = 0.1733 |
+| xxl167 | original | qframe | 150 | 131 / 150 = 0.8733 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 19 / 150 = 0.1267 |
+| xxl167 | original | train | 150 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| xxl167 | transposed | lexicon | 150 | 0 / 150 = 0.0000 | 148 / 150 = 0.9867 | 2 / 150 = 0.0133 | 0 / 150 = 0.0000 |
+| xxl167 | transposed | mixed | 150 | 0 / 150 = 0.0000 | 147 / 150 = 0.9800 | 3 / 150 = 0.0200 | 0 / 150 = 0.0000 |
+| xxl167 | transposed | mode | 150 | 0 / 150 = 0.0000 | 148 / 150 = 0.9867 | 2 / 150 = 0.0133 | 0 / 150 = 0.0000 |
+| xxl167 | transposed | qframe | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
+| xxl167 | transposed | train | 150 | 0 / 150 = 0.0000 | 150 / 150 = 1.0000 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 
 The `original` rows are the acquisition control. A rung that did not learn the
 page shape at all cannot be said to have failed to read the transposed version
@@ -923,6 +973,20 @@ answered is narrower and is the part the card can pay for.
 | `results/system/eval/ftxl93/summary.json` | 79,603 | 2026-08-31 20:06 |
 | `results/system/tpose/xmode_xl93.json` | 1,474 | 2026-08-31 20:03 |
 | `results/system/train/log_xl93.jsonl` | 15,652 | 2026-08-31 19:50 |
+| `results/system/eval/xxl167/summary.json` | 82,635 | 2026-09-01 22:09 |
+| `results/system/eval/xxl167/records_train_frames_eval_greedy.jsonl.gz` | 81,453 | 2026-09-01 21:43 |
+| `results/system/eval/xxl167/records_train_frames_eval_sampled.jsonl.gz` | 81,724 | 2026-09-01 21:46 |
+| `results/system/eval/xxl167/records_qframe_greedy.jsonl.gz` | 79,352 | 2026-09-01 21:49 |
+| `results/system/eval/xxl167/records_qframe_sampled.jsonl.gz` | 79,670 | 2026-09-01 21:53 |
+| `results/system/eval/xxl167/records_lexicon_greedy.jsonl.gz` | 81,789 | 2026-09-01 21:56 |
+| `results/system/eval/xxl167/records_lexicon_sampled.jsonl.gz` | 82,252 | 2026-09-01 21:59 |
+| `results/system/eval/xxl167/records_mode_greedy.jsonl.gz` | 90,776 | 2026-09-01 22:01 |
+| `results/system/eval/xxl167/records_mode_sampled.jsonl.gz` | 91,346 | 2026-09-01 22:04 |
+| `results/system/eval/xxl167/records_mixed_greedy.jsonl.gz` | 87,904 | 2026-09-01 22:06 |
+| `results/system/eval/xxl167/records_mixed_sampled.jsonl.gz` | 88,174 | 2026-09-01 22:09 |
+| `results/system/eval/ftxxl167/summary.json` | 79,538 | 2026-09-01 22:16 |
+| `results/system/tpose/xmode_xxl167.json` | 1,421 | 2026-09-01 22:13 |
+| `results/system/train/log_xxl167.jsonl` | 56,655 | 2026-09-01 21:39 |
 | `results/system/lmeval/corpus_nosft/summary.json` | 41,170 | 2026-09-01 07:19 |
 | `results/system/lmeval/corpus_nosft/records_train_frames_eval_greedy.jsonl.gz` | 17,669 | 2026-09-01 07:16 |
 | `results/system/lmeval/corpus_nosft/records_qframe_greedy.jsonl.gz` | 17,106 | 2026-09-01 07:17 |
@@ -957,8 +1021,10 @@ a records file newer than the summary that reports it.
 | --- | --- | ---: | --- | --- |
 | l45 | 2026-08-31 22:51 | 10 | 2026-08-31 22:51 | yes |
 | xl93 | 2026-08-31 23:11 | 10 | 2026-08-31 23:11 | yes |
+| xxl167 | 2026-09-01 22:09 | 10 | 2026-09-01 22:09 | yes |
 | ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
 | ftxl93 | 2026-08-31 20:06 | 10 | 2026-08-31 20:06 | yes |
+| ftxxl167 | 2026-09-01 22:16 | 10 | 2026-09-01 22:16 | yes |
 | corpus_nosft | 2026-09-01 07:19 | 5 | 2026-09-01 07:19 | yes |
 | lm350 | 2026-09-01 10:08 | 10 | 2026-09-01 10:08 | yes |
 
