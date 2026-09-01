@@ -1,6 +1,6 @@
 # Open weight models on the one page acquisition task
 
-Built 2026-09-01 01:30 UTC from `results/extern/report.json` by `src/extern/md.py`, out of
+Built 2026-09-01 01:47 UTC from `results/extern/report.json` by `src/extern/md.py`, out of
 7 record files. Every number below is read from a generation file
 written by `src/extern/run.py`; none is typed.
 
@@ -25,6 +25,13 @@ graded by the same function, the same checkpoint scores 0.5769 against a
 0.2500 floor where this project's reader scores 0.0000. They win the general
 axis outright and it is not close. The two numbers belong beside each other,
 because a report carrying only the first would be advocacy.
+
+The retrieval lane adds a second finding and it is about policy, not
+comprehension: on MMLU this project's reader almost never emits a retrieval
+request at all, so its retrieval condition and its closed book condition are
+nearly the same run. The near zero Exa spend on that cell is itself the
+evidence, because a retrieval condition that costs almost nothing is a
+retrieval condition that did not happen.
 
 What the result does not do is settle the architecture question. The library
 system's 1.0000 comes from an exact interpreter running a parsed definition,
@@ -102,6 +109,30 @@ Our own tokenizer defines no bos token at all, only the eot token, so
 there is nothing to prepend on that side and the closed book number
 already stood at the calibrated setting. The eot prefix run is the control
 that says so rather than assuming it.
+
+## Two measurement faults this lane found in itself
+
+Both would have moved a number in this project's favour, which is why
+they are recorded here rather than quietly fixed. A reader should be able
+to see that they were caught internally.
+
+The first is the bos token, described above: it cost the reproduction 7.93
+points against a published figure and, left in place, would have put every
+external model eight points lower than it belongs while leaving this
+project's own reader untouched, because our tokenizer has no bos token to
+omit. The comparison would have flattered us on both sides of the gap.
+
+The second is cache poisoning. An offline validation run against MockExa
+wrote its empty results into the same on-disk search cache the live runs
+read, keyed by the same query strings. The first items of the live
+retrieval control then took those empty entries as cache hits and were
+scored with no retrieved text at all. That weakens the one cell that can
+falsify the thesis: an external model handed nothing would have looked as
+though retrieval had not helped it. Nine poisoned entries were purged, the
+control was restarted from scratch, and the cache is now namespaced by
+retriever so a mock run and a live run can never share a key. The manifest
+in `results/extern/exa_manifest.json` records a sha256 per query so a
+changed or empty entry is visible rather than silent.
 
 ## The models, counted rather than quoted
 

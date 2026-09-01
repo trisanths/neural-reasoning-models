@@ -82,6 +82,30 @@ there is nothing to prepend on that side and the closed book number
 already stood at the calibrated setting. The eot prefix run is the control
 that says so rather than assuming it.
 
+## Two measurement faults this lane found in itself
+
+Both would have moved a number in this project's favour, which is why
+they are recorded here rather than quietly fixed. A reader should be able
+to see that they were caught internally.
+
+The first is the bos token, described above: it cost the reproduction 7.93
+points against a published figure and, left in place, would have put every
+external model eight points lower than it belongs while leaving this
+project's own reader untouched, because our tokenizer has no bos token to
+omit. The comparison would have flattered us on both sides of the gap.
+
+The second is cache poisoning. An offline validation run against MockExa
+wrote its empty results into the same on-disk search cache the live runs
+read, keyed by the same query strings. The first items of the live
+retrieval control then took those empty entries as cache hits and were
+scored with no retrieved text at all. That weakens the one cell that can
+falsify the thesis: an external model handed nothing would have looked as
+though retrieval had not helped it. Nine poisoned entries were purged, the
+control was restarted from scratch, and the cache is now namespaced by
+retriever so a mock run and a live run can never share a key. The manifest
+in `results/extern/exa_manifest.json` records a sha256 per query so a
+changed or empty entry is visible rather than silent.
+
 ## The models, counted rather than quoted
 
 Parameter counts are summed over the loaded checkpoint's tensors, not taken

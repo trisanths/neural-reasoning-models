@@ -15,6 +15,13 @@ graded by the same function, the same checkpoint scores 0.5769 against a
 axis outright and it is not close. The two numbers belong beside each other,
 because a report carrying only the first would be advocacy.
 
+The retrieval lane adds a second finding and it is about policy, not
+comprehension: on MMLU this project's reader almost never emits a retrieval
+request at all, so its retrieval condition and its closed book condition are
+nearly the same run. The near zero Exa spend on that cell is itself the
+evidence, because a retrieval condition that costs almost nothing is a
+retrieval condition that did not happen.
+
 What the result does not do is settle the architecture question. The library
 system's 1.0000 comes from an exact interpreter running a parsed definition,
 and the comparison here is against a model that was never built to parse one.

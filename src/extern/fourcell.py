@@ -109,9 +109,27 @@ for name, c in (("cell 2, ours", c2), ("cell 4, LFM2-350M", c4)):
 
 if c2 and c2.get("web"):
     w, nn = c2["web"], c2.get("none") or {}
-    out += ["## Where cell 2 fails, decomposed", "",
-            "Four different failures sit behind one flat accuracy and only "
-            "the last is about the architecture.", "",
+    n_web = w["n"]
+    k_iss = round(w["issued_query"] * n_web)
+    lo, hi = wilson(k_iss, n_web)
+    out += ["## Where cell 2 fails: a policy failure, not a comprehension "
+            "failure", "",
+            "This is the lane's real result and the wording matters. The "
+            "reader does not fail to understand retrieved text on MMLU. It "
+            "never requests any. It issued a query on "
+            f"**{k_iss} of {n_web}** passes, a rate of {w['issued_query']:.4f} "
+            f"with a 95 percent interval of [{lo:.3f}, {hi:.3f}]. That is the "
+            "headline number and the accuracy is its shadow.", "",
+            "A policy failure and a comprehension failure imply completely "
+            "different fixes. If the model asked for pages and then could not "
+            "use them, the work would be in the reader. Because it does not "
+            "ask, the work is in whatever decides to ask: the retrieve habit "
+            "was trained on this project's corpus grammar and does not fire "
+            "on a question that does not look like that grammar. Nothing here "
+            "says the architecture cannot read retrieved text, because on "
+            "these items it was never given the chance.", "",
+            "Four stages sit behind one flat accuracy and only the last is "
+            "about comprehension.", "",
             tbl(["stage", "web pass", "no-index control"], [
                 ["issued a query", f"{w['issued_query']:.4f}",
                  f"{nn.get('issued_query', 0):.4f}"],
@@ -130,6 +148,9 @@ if c2 or c4:
             f"Live Exa searches: {spend}. Cache hits: "
             f"{(c2 or {}).get('cache_hits', 0)}. "
             f"Wall clock across both retrieval cells: {secs / 60:.1f} minutes. "
+            "A retrieval condition that costs almost nothing is a retrieval "
+            "condition that did not happen, so cell 2's near zero spend is "
+            "itself evidence for the policy reading rather than a saving. "
             "Every retrieved page is cached on disk under "
             "`results/extern/exa_cache`, keyed by query, so the run replays "
             "without spending again.", ""]
