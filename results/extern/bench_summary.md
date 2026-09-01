@@ -4,4 +4,5 @@ Every cell states its own n and chance floor. Nothing is pooled across benchmark
 
 | model              | task | format     | shots | n   | floor  | acc    | acc % | published | delta | other       | parameters  |
 | ------------------ | ---- | ---------- | ----- | --- | ------ | ------ | ----- | --------- | ----- | ----------- | ----------- |
+| LiquidAI/LFM2-350M | mmlu | chat       | 0     | 200 | 0.2500 | 0.3950 | 39.50 | 43.43     | -3.93 | norm 0.3950 | 354,483,968 |
 | LiquidAI/LFM2-350M | mmlu | completion | 5     | 200 | 0.2500 | 0.3550 | 35.50 | 43.43     | -7.93 | norm 0.3550 | 354,483,968 |

@@ -1,0 +1,51 @@
+{
+  "model": "LiquidAI/LFM2.5-350M",
+  "variant": "worked",
+  "options_shown": false,
+  "params_total": 354483968,
+  "params_embedding": 67108864,
+  "params_non_embedding": 287375104,
+  "tie_word_embeddings": true,
+  "architectures": [
+    "Lfm2ForCausalLM"
+  ],
+  "model_type": "lfm2",
+  "quantization": null,
+  "dtype": "float32",
+  "n_items": 850,
+  "conds": [
+    "acq"
+  ],
+  "families": [],
+  "pages": [
+    1
+  ],
+  "stride": 1,
+  "limit": 0,
+  "batch": 16,
+  "max_new_tokens": 128,
+  "greedy": false,
+  "device": "cpu",
+  "gen_kwargs": {
+    "max_new_tokens": 128,
+    "do_sample": true,
+    "temperature": 0.1,
+    "top_k": 50,
+    "repetition_penalty": 1.05
+  },
+  "seed": 0,
+  "generation_config": {
+    "pad_token_id": 0,
+    "bos_token_id": 1,
+    "eos_token_id": 7,
+    "_from_model_config": true,
+    "transformers_version": "5.15.1"
+  },
+  "chat_template_sha": 2061653435,
+  "rendered_example": "<|startoftext|><|im_start|>system\nYou read a document and answer a question about it. The document defines an operation you have not seen before and gives the lookup tables it reads. Work through the definition step by step, then give the answer.<|im_end|>\n<|im_start|>user\nThe Solxanth assembly.\n\nOperation: givorusk.\nThe givorusk of a item is computed from its unit at the Argoclo stage and its unit at the Nakfex stage.\nRule 1. When the two readings are the same, givorusk is kaesk.\nRule 2. In any other case, givorusk is the reading at the Nakfex stage.\n\nThe Argoclo stage.\n\nThis page states the processing for the Argoclo stage.\n\nIf an incoming item is wisknevi, then the quilbra unit takes it.\nIf an incoming item is solybor, then the muthovi unit takes it.\nIf an incoming item is ybortarn, then the muthovi unit takes it.\nIf an incoming item is ijofrik, then the soltez unit takes it.\nIf an incoming item is beluzunt, then the ondabelu unit takes it.\nIf an incoming item is wisktu, then the soltez unit takes it.\nIf an incoming item is ruskthox, then the soltez unit takes it.\nIf an incoming item is muthharv, then the quilbra unit takes it.\n\nThe Nakfex stage.\n\nThis page states the processing for the Nakfex stage.\n\nIf an incoming item is wisknevi, then the muthovi unit takes it.\nIf an incoming item is solybor, then the quilbra unit takes it.\nIf an incoming item is ybortarn, then the muthovi unit takes it.\nIf an incoming item is ijofrik, then the muthovi unit takes it.\nIf an incoming item is beluzunt, then the ondabelu unit takes it.\nIf an incoming item is wisktu, then the ondabelu unit takes it.\nIf an incoming item is ruskthox, then the muthovi unit takes it.\nIf an incoming item is muthharv, then the ondabelu unit takes it.\n\nWhat is the givorusk of the wisknevi item?\n\nAnswer the question by following the definition given above.\nWork through it in this order:\n1. Find the sentence that defines the operation named in the question, and note which maps it reads and in what order.\n2. Look up the token named in the question in each of those maps, and write down the value each map sends it to.\n3. Take the clauses of the definition in the order they are written, and find the first one whose condition holds of those values.\n4. Give what that clause says to answer. If no clause holds, give what the definition says to answer in every other case.\nFinish with a final line of the form:\nAnswer: <word><|im_end|>\n<|im_start|>assistant\n",
+  "prefill": "",
+  "max_prompt_tokens": 918,
+  "mean_new_tokens": 6.3,
+  "seconds": 5101.6,
+  "out": "/home/ec2-user/decoupled-reasoner/results/extern/full_lfm350m_worked_p1.jsonl.gz"
+}
