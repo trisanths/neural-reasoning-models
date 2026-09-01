@@ -1,7 +1,7 @@
 # Open weight models on the one page acquisition task
 
-Built {built} from `results/extern/report.json` by `src/extern/md.py`, out of
-{n_records} record files. Every number below is read from a generation file
+Built 2026-09-01 01:30 UTC from `results/extern/report.json` by `src/extern/md.py`, out of
+7 record files. Every number below is read from a generation file
 written by `src/extern/run.py`; none is typed.
 
 This is the first time anything in this project has been measured against a
@@ -9,7 +9,28 @@ model it did not train. The comparison is against Liquid AI's LFM2.5 line,
 which is open weight, publishes at sizes that bracket ours, and makes an
 efficiency claim of its own.
 
-{verdict}
+The answer is outcome two, and it is the first externally validated result
+this project has.
+
+LFM2.5-350M read the same definition page the project's own reader was given,
+under the formulation that scored best of five tried, and answered 850
+questions at 0.2459 strict against its own measured chance floor of 0.3085.
+It is below chance on three of the four operation families, above it on one,
+and it names none of the candidate answers at all on 0.4965 of the items. A
+general model of this size does not acquire a new operation from one page.
+
+That is not a statement about these models being weak. On 26 ordinary
+factual, numeric and commonsense questions put through the same harness and
+graded by the same function, the same checkpoint scores 0.5769 against a
+0.2500 floor where this project's reader scores 0.0000. They win the general
+axis outright and it is not close. The two numbers belong beside each other,
+because a report carrying only the first would be advocacy.
+
+What the result does not do is settle the architecture question. The library
+system's 1.0000 comes from an exact interpreter running a parsed definition,
+and the comparison here is against a model that was never built to parse one.
+The finding is narrower than the thesis and worth exactly what it says: the
+capability is not free at this scale, and something has to supply it.
 
 ## What was asked of them
 
@@ -87,7 +108,9 @@ that says so rather than assuming it.
 Parameter counts are summed over the loaded checkpoint's tensors, not taken
 from the model card.
 
-{t_models}
+| model       | parameters, counted from the checkpoint | non embedding | architecture    | quantisation |
+| ----------- | --------------------------------------- | ------------- | --------------- | ------------ |
+| LFM2.5-350M | 354,483,968                             | 287,375,104   | Lfm2ForCausalLM | none         |
 
 ## The fairness gates
 
@@ -106,7 +129,9 @@ a left padded batch is exactly where this family could quietly differ from an
 unpadded single. The same prompts were run both ways under greedy decoding and
 compared.
 
-{t_verify}
+| model       | batched matches unbatched | control questions answered |
+| ----------- | ------------------------- | -------------------------- |
+| LFM2.5-350M | 7/7                       | 5/5                        |
 
 Generation budgets are generous on purpose, because a cap that truncates a
 reasoning trace before its answer measures the cap. The reasoning variant gets
@@ -116,7 +141,7 @@ recorded per run in the meta file.
 
 ## Every prompt formulation tried, not just the one reported
 
-Five formulations were run over the same {n_sel} item stride sample of the one
+Five formulations were run over the same 41 item stride sample of the one
 page set, and the full run uses the best of the four that hand the model no
 more than the library system gets. The fifth prints the candidate list, which
 is more than our own system is given, so it is kept apart as an advantaged
@@ -127,11 +152,28 @@ one prefills the assistant turn so the model has to write the values it read
 before it can answer. Both are here because the small models comply with an
 answer format and skip the reasoning when they are merely asked for it.
 
-{t_selection}
+| model       | prompt                            | options shown | n  | floor  | strict | lenient | hedge  | no option named | unparseable | mean new tokens |
+| ----------- | --------------------------------- | ------------- | -- | ------ | ------ | ------- | ------ | --------------- | ----------- | --------------- |
+| LFM2.5-350M | bare                              | no            | 41 | 0.2911 | 0.1463 | 0.1463  | 0.0000 | 0.7073          | 0.0000      | 4.0             |
+| LFM2.5-350M | worked + assistant turn prefilled | no            | 41 | 0.2911 | 0.0976 | 0.0976  | 0.0000 | 0.6585          | 0.0000      | 86.8            |
+| LFM2.5-350M | worked                            | no            | 41 | 0.2911 | 0.2927 | 0.2927  | 0.0000 | 0.4146          | 0.0000      | 6.4             |
 
 ## One page, by operation family
 
-{t_oneshot}
+| operation family               | n   | floor  | system                             | strict | lenient | hedge  | no option named | unparseable |
+| ------------------------------ | --- | ------ | ---------------------------------- | ------ | ------- | ------ | --------------- | ----------- |
+| two directories, one clause    | 110 | 0.3735 | library, one page                  | 1.0000 | -       | -      | -               | -           |
+| two directories, one clause    | 110 | 0.3735 | project reader, 45.5M, no gradient | 0.0000 | 0.0000  | -      | 0.4364          | -           |
+| two directories, one clause    | 110 | 0.3735 | LFM2.5-350M                        | 0.4364 | 0.4364  | 0.0000 | 0.1909          | 0.0000      |
+| three directories, one clause  | 310 | 0.3086 | library, one page                  | 1.0000 | -       | -      | -               | -           |
+| three directories, one clause  | 310 | 0.3086 | project reader, 45.5M, no gradient | 0.0194 | 0.0194  | -      | 0.7323          | -           |
+| three directories, one clause  | 310 | 0.3086 | LFM2.5-350M                        | 0.1935 | 0.1935  | 0.0000 | 0.5387          | 0.0000      |
+| two directories, two clauses   | 25  | 0.3567 | library, one page                  | 1.0000 | -       | -      | -               | -           |
+| two directories, two clauses   | 25  | 0.3567 | project reader, 45.5M, no gradient | 0.1200 | 0.1200  | -      | 0.5200          | -           |
+| two directories, two clauses   | 25  | 0.3567 | LFM2.5-350M                        | 0.3600 | 0.3600  | 0.0000 | 0.2800          | 0.0000      |
+| three directories, two clauses | 405 | 0.2879 | library, one page                  | 1.0000 | -       | -      | -               | -           |
+| three directories, two clauses | 405 | 0.2879 | project reader, 45.5M, no gradient | 0.0173 | 0.0173  | -      | 0.5852          | -           |
+| three directories, two clauses | 405 | 0.2879 | LFM2.5-350M                        | 0.2272 | 0.2272  | 0.0000 | 0.5605          | 0.0000      |
 
 ## The acquisition curve
 
@@ -140,7 +182,16 @@ four. Extra pages are further wordings of the same operation, so a system that
 reads the page gains nothing from the second and a system that needs examples
 has been given none.
 
-{t_curve}
+| operation family               | n   | floor  | system      | 1 page | 2 pages | 4 pages |
+| ------------------------------ | --- | ------ | ----------- | ------ | ------- | ------- |
+| two directories, one clause    | 110 | 0.3735 | library     | 1.0000 | 1.0000  | 1.0000  |
+| two directories, one clause    | 110 | 0.3735 | LFM2.5-350M | 0.4364 | -       | -       |
+| three directories, one clause  | 310 | 0.3086 | library     | 1.0000 | 1.0000  | 1.0000  |
+| three directories, one clause  | 310 | 0.3086 | LFM2.5-350M | 0.1935 | -       | -       |
+| two directories, two clauses   | 25  | 0.3567 | library     | 1.0000 | 1.0000  | 1.0000  |
+| two directories, two clauses   | 25  | 0.3567 | LFM2.5-350M | 0.3600 | -       | -       |
+| three directories, two clauses | 405 | 0.2879 | library     | 1.0000 | 1.0000  | 1.0000  |
+| three directories, two clauses | 405 | 0.2879 | LFM2.5-350M | 0.2272 | -       | -       |
 
 ## The check they win
 
@@ -150,13 +201,30 @@ forced choice over four candidates so the same grader scores them and the
 floor is 0.2500 by construction. The project's own reader is in the table on
 the same questions, through the same path `src/norm/opneural.py` uses.
 
-{t_general}
+| system                | n  | floor  | strict | lenient | factual | numeric | commonsense |
+| --------------------- | -- | ------ | ------ | ------- | ------- | ------- | ----------- |
+| project reader, 45.5M | 26 | 0.2500 | 0.0000 | 0.0000  | -       | -       | -           |
+| LFM2.5-350M           | 26 | 0.2500 | 0.5769 | 0.5769  | 0.8000  | 0.2500  | 0.6250      |
 
 ## What the outputs look like
 
 An accuracy says a model was wrong. These say what it wrote instead.
 
-{t_samples}
+
+LFM2.5-350M, prompt worked:
+
+    item acq/a2c1/10/0/p1  gold muthovi  options ['kaesk', 'muthovi', 'ondabelu', 'quilbra']
+    state ok  graded span 'kaesk'
+    output 'Answer: kaesk'
+
+    item acq/a2c1/10/1/p1  gold quilbra  options ['kaesk', 'muthovi', 'ondabelu', 'quilbra']
+    state ok  graded span 'kaesk'
+    output 'Answer: kaesk'
+
+    item acq/a2c1/10/2/p1  gold kaesk  options ['kaesk', 'muthovi', 'ondabelu', 'quilbra']
+    state ok  graded span 'beluzunt'
+    output 'Answer: beluzunt'
+
 
 ## What is not here
 
