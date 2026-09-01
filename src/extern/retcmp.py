@@ -39,6 +39,10 @@ def main():
     rows = {}
     for f in sorted(glob.glob(os.path.join(a.dir, "*.json"))):
         d = json.load(open(f))
+        # The fetch only summaries written by retrun live in the same
+        # directory and carry no condition name or per item records.
+        if "name" not in d.get("summary", {}) or "records" not in d:
+            continue
         name = d["summary"]["name"]
         if want and name not in want:
             continue
