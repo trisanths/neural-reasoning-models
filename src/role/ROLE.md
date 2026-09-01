@@ -1,9 +1,36 @@
 # Does giving role an explicit representation fix the positional collapse
 
-Status: the four arms are queued behind the 167M ladder rung on the one card.
-This document holds the method, the verification of the two new training draws,
-and the reference numbers the arms are measured against. Results per arm land in
-the results section as each arm finishes.
+Status: the four arms are running on a second card, i-07781a7e6ee1537ca, which
+has nothing else on it. This document holds the method, the verification of the
+two new training draws, and the reference numbers the arms are measured against.
+Results per arm land in the results section as each arm finishes.
+
+## Where this ran, and what makes the two boxes comparable
+
+The arms train and score on i-07781a7e6ee1537ca. That box is an unpacked
+tarball with no git history, so nothing there is safe until it is back on
+i-00b1114be36214a6c, which has one, and every artifact is shipped to
+`s3://decoupled-reasoner-009398924577/role-back` as each arm finishes.
+
+Three things were checked before an arm was allowed to start.
+
+The code is the same code. `src/role`, `src/norm`, `src/system`, `src/corpus`
+and `src/opgraph` hash identically on the two boxes over every `.py` and `.sh`
+they contain: `13ad6b26d33b945252626f074a506efc`,
+`37526dbcc9337dd9c894108e842f388c`, `d3d5c778fdc4e410e315fa184c0e8170`,
+`33e285350385f726f5d98abe041596ea` and `c1c540d6694f0f68e880f55992ab3e83`.
+
+The data is the same data. Twenty files moved through S3 and all twenty verify
+against the md5 manifest written before the upload, including
+`data/norm/train.npz`, `data/norm/train.roles.npy`,
+`data/role/paired_train.npz` and the four evaluation splits with their sidecars.
+
+And the box gives the published answer. `results/norm/train/ckpt_l.pt` scored
+there through `src/system/sreport.py` on the held-out sentence mode reads
+key first 0.7302 and value first 0.3177 greedy, 0.7171 and 0.3131 sampled, and
+the failure decomposition comes out at 1103 exact, 2034 wrong, 328 refused and 7
+malformed on the value-first half, which is the published run to the item. In
+`results/role/split_l45check.json`.
 
 ## What is being attacked
 
