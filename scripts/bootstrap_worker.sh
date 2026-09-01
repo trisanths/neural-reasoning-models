@@ -117,6 +117,13 @@ for d in data runs results logs ckpt; do
   link_dir "$HOME_DIR/$d" "$d"
 done
 
+# The HuggingFace cache is 11 GB on the dev box and grows with every dataset a
+# lane touches, so it goes on the instance store too. The uv cache stays on the
+# root volume: uv hardlinks from it into .venv, and a cross-filesystem cache
+# turns every install into a copy.
+mkdir -p "$HOME_DIR/.cache"
+link_dir "$HOME_DIR/.cache/huggingface" hf-cache
+
 # ------------------------------------------------------------------------- uv
 if [ ! -x "$UV" ]; then
   say "installing uv"
