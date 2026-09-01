@@ -12,6 +12,12 @@
 set -euo pipefail
 
 N="${1:-8}"
+# Whatever the RL base checkpoint got named when it was staged.
+if [ -z "${CKPT:-}" ]; then
+  for c in "$HOME"/ckpt/*rlsimple*final.pt "$HOME"/ckpt/final.pt "$HOME"/ckpt/*.pt; do
+    [ -s "$c" ] && { CKPT="$c"; break; }
+  done
+fi
 CKPT="${CKPT:-$HOME/ckpt/final.pt}"
 TOK="${TOK:-$HOME/data/tokenizer_v2.json}"
 OUT="${OUT:-$HOME/results/selftest}"

@@ -157,7 +157,13 @@ say "tokenizer at $HOME_DIR/data/$(basename "$TOKENIZER_KEY")"
 
 for u in $CKPTS; do
   case "$u" in s3://*) src="$u";; *) src="$BUCKET/$u";; esac
-  dst="$HOME_DIR/ckpt/$(basename "$src")"
+  # Half the runs call their checkpoint final.pt, so a bare basename would make
+  # two different models collide in ~/ckpt. Keep the run name on the front.
+  base=$(basename "$src")
+  case "$base" in
+    final.pt|latest.pt|model.pt|best.pt) base="$(basename "$(dirname "$src")")-$base";;
+  esac
+  dst="$HOME_DIR/ckpt/$base"
   if [ -s "$dst" ]; then say "checkpoint already present: $dst"; continue; fi
   say "pulling checkpoint $src"
   aws s3 cp "$src" "$dst" --region "$REGION" --quiet || die "checkpoint $src"

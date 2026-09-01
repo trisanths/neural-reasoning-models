@@ -26,13 +26,20 @@ if [ ! -s "$TMP/inst" ]; then
   echo "no instances match $NAMES"; exit 0
 fi
 
-RUNNING=$(awk '$4=="running"{print $2}' "$TMP/inst")
-
 # SSM agent reachability
 aws ssm describe-instance-information --region "$REGION" \
   --query 'InstanceInformationList[].[InstanceId,PingStatus]' --output text 2>/dev/null > "$TMP/ping" || true
+touch "$TMP/ping"
 
-# One probe, fanned out to every running instance.
+# Probe only the boxes SSM can actually reach. A box that is running but still
+# booting would otherwise reject the whole fan-out and blank the healthy rows.
+RUNNING=""
+for i in $(awk '$4=="running"{print $2}' "$TMP/inst"); do
+  awk -v i="$i" '$1==i && $2=="Online"{f=1} END{exit !f}' "$TMP/ping" && RUNNING="$RUNNING $i"
+done
+RUNNING="${RUNNING# }"
+
+# One probe, fanned out to every reachable instance.
 if [ -n "$RUNNING" ]; then
   PROBE='G=$(nvidia-smi --query-gpu=utilization.gpu,memory.used,memory.total --format=csv,noheader,nounits 2>/dev/null | head -1 | tr -d " "); \
 L=$(cut -d" " -f1-3 /proc/loadavg); \
