@@ -45,7 +45,7 @@ if [ -n "$RUNNING" ]; then
 L=$(cut -d" " -f1-3 /proc/loadavg); \
 R=$(df -h --output=avail / | tail -1 | tr -d " "); \
 V=$(df -h --output=avail /mnt/nvme 2>/dev/null | tail -1 | tr -d " "); \
-B=none; [ -f ~/BOOTSTRAP_OK ] && B=ok; [ -f ~/BOOTSTRAP_FAILED ] && B=FAILED; \
+B=manual; [ -f ~/bootstrap.log ] && B=running; [ -f ~/BOOTSTRAP_OK ] && B=ok; [ -f ~/BOOTSTRAP_FAILED ] && B=FAILED; \
 [ -z "$V" ] && V=-; \
 P=$(pgrep -c -f "python" 2>/dev/null || echo 0); \
 U=$(cut -d. -f1 /proc/uptime); \
@@ -105,6 +105,7 @@ done < "$TMP/inst"
 if [ "$JSON" = 0 ]; then
   NRUN=$(echo "$RUNNING" | wc -w | tr -d ' ')
   echo
-  echo "$NRUN running. GPU% and load are instantaneous; BOOT is the bootstrap marker."
+  echo "$NRUN reachable. GPU% and load are instantaneous. BOOT: ok, running, FAILED,"
+  echo "or manual for a box this fleet's bootstrap never touched."
   echo "Reach one with: bash scripts/worker_run.sh <1|2|3|dev> 'CMD'"
 fi
