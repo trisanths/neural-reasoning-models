@@ -54,7 +54,12 @@ def load(p):
 B = "results/extern/bench"
 c1 = load(f"{B}/ours_corpus-v1-8k_mmlu.json")
 c3 = load(f"{B}/lfm2_350m_mmlu_completion_bos.json")
-c2 = load(f"{B}/cell2_ours_mmlu_retrieval_n200.json")
+# Cell 2 was cut to n=100 once its answer was clear: the reader issues
+# essentially no queries, so the accuracy is predictable and the
+# informative content is the per item decomposition. Whichever cell 2
+# file is present is the one reported, and its n is in the table.
+_c2 = sorted(glob.glob(f"{B}/cell2_ours_mmlu_retrieval_n*.json"))
+c2 = load(_c2[0]) if _c2 else None
 c4 = load(f"{B}/cell4_lfm2_mmlu_retrieval_n200.json")
 
 rows = []
