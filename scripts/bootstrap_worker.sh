@@ -21,6 +21,16 @@
 # worth keeping to S3.
 set -uo pipefail
 
+# Unpacking the code snapshot overwrites this file when it is run from the repo
+# copy, and bash reads a script as it executes it, so the rest of the run would
+# come from whatever bytes landed at those offsets. Work from a copy instead.
+if [ "${BOOTSTRAP_RELOCATED:-0}" != "1" ]; then
+  _self=$(mktemp /tmp/bootstrap_worker.XXXXXX)
+  cat "$0" > "$_self"
+  BOOTSTRAP_RELOCATED=1 BOOTSTRAP_SELF="$_self" exec bash "$_self" "$@"
+fi
+[ -n "${BOOTSTRAP_SELF:-}" ] && trap 'rm -f "$BOOTSTRAP_SELF"' EXIT
+
 BUCKET="${BUCKET:-s3://decoupled-reasoner-009398924577}"
 REGION="${AWS_REGION:-us-east-1}"
 HOME_DIR="${HOME:-/home/ec2-user}"
