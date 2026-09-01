@@ -239,6 +239,12 @@ PACKERS = {"sequential": pack_sequential, "even": pack_even,
 
 
 def pack(kind: str, pages, max_chars: int, query: str = "", options=None) -> str:
+    """`passages` scores windows against the question and every option.
+    `passages_q` scores them against the question alone, which is the
+    control for a selector that could be favouring windows merely
+    because they repeat option strings."""
     if kind == "passages":
         return pack_passages(pages, max_chars, query, options)
+    if kind == "passages_q":
+        return pack_passages(pages, max_chars, query, [])
     return PACKERS[kind](pages, max_chars)
