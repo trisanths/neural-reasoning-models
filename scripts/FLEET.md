@@ -118,7 +118,12 @@ and two runs cannot collide.
 
 To add a payload to a worker that is already up, run the bootstrap again with
 the extra URIs. It is safe to re-run: every step checks for its own result
-first. Run it from the copy outside the repo, since a run started from
+first, and it leaves the code tree alone when the box is already on the snapshot
+it is being pointed at, so adding a dataset does not rewrite the code under a
+job that is training. Pass `FORCE_CODE=1` to overwrite the tree anyway, and only
+do that when the box is idle.
+
+Run it from the copy outside the repo, since a run started from
 `scripts/bootstrap_worker.sh` would be overwriting its own file as it unpacks
 the snapshot:
 

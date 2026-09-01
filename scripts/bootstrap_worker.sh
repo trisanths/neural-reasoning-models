@@ -137,15 +137,22 @@ if [ -z "${CODE_KEY:-}" ]; then
   CODE_KEY=$(aws s3 cp "$BUCKET/code/LATEST" - --region "$REGION" 2>/dev/null | tr -d '[:space:]')
   [ -n "$CODE_KEY" ] || die "cannot read $BUCKET/code/LATEST and CODE_KEY was not set"
 fi
-say "code snapshot $CODE_KEY"
-TARBALL="/tmp/$(basename "$CODE_KEY")"
-aws s3 cp "$BUCKET/$CODE_KEY" "$TARBALL" --region "$REGION" --quiet || die "download $CODE_KEY"
-mkdir -p "$REPO"
-tar xzf "$TARBALL" -C "$REPO" || die "unpack $CODE_KEY"
-rm -f "$TARBALL"
 COMMIT=$(basename "$CODE_KEY" .tar.gz | sed 's/^repo-//')
-printf '%s\n' "$COMMIT" > "$REPO/.snapshot_commit"
-say "unpacked $(find "$REPO" -type f | wc -l) files at commit $COMMIT"
+say "code snapshot $CODE_KEY"
+HAVE=$(cat "$REPO/.snapshot_commit" 2>/dev/null || true)
+if [ "$HAVE" = "$COMMIT" ] && [ "${FORCE_CODE:-0}" != "1" ]; then
+  # Re-running this to add a payload must not rewrite the code out from under a
+  # job that is already training on this box. Same snapshot means nothing to do.
+  say "already at commit $COMMIT, leaving the code tree alone (FORCE_CODE=1 to overwrite)"
+else
+  TARBALL="/tmp/$(basename "$CODE_KEY")"
+  aws s3 cp "$BUCKET/$CODE_KEY" "$TARBALL" --region "$REGION" --quiet || die "download $CODE_KEY"
+  mkdir -p "$REPO"
+  tar xzf "$TARBALL" -C "$REPO" || die "unpack $CODE_KEY"
+  rm -f "$TARBALL"
+  printf '%s\n' "$COMMIT" > "$REPO/.snapshot_commit"
+  say "unpacked $(find "$REPO" -type f | wc -l) files at commit $COMMIT"
+fi
 
 # The repo's own generated trees are not in the snapshot. Create them, on the
 # instance store when there is one.
