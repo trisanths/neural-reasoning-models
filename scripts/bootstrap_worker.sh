@@ -209,6 +209,9 @@ if [ "$NEED_EXA" = "1" ]; then
   umask 022
   say "wrote ~/.exa_env mode 600"
 else
+  # Only the lanes that ask for it get to hold the key, so a worker that stops
+  # needing it stops having it.
+  rm -f "$HOME_DIR/.exa_env"
   say "no Exa key requested for this worker"
 fi
 
