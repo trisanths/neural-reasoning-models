@@ -56,3 +56,22 @@ configurations and has not moved off the closed book score of 0.4300 [0.363,
 Retrieval spend for this rerun and the sweep behind it: 652 live Exa searches
 at 20 results each, cached under `results/extern/exa_sweep_cache`, namespaced
 by the whole request rather than by the query string.
+
+### The answer cell against the same items closed book
+
+The split compares item sets, not treatments. An item whose answer is findable
+on the web is also an item this model tends to know, and the closed book run on
+these 200 items settles which effect the split was showing.
+
+| arm | cell | n | with pages | closed book, same items | closed only | retrieval only | McNemar p |
+| --- | ---- | --- | --- | --- | --- | --- | --- |
+| published | answer | 20 | 0.7500 | 0.7000 | 0 | 1 | 1.000 |
+| control | answer | 21 | 0.6667 | 0.6667 | 1 | 1 | 1.000 |
+| new | answer | 42 | 0.6429 | 0.6190 | 2 | 3 | 1.000 |
+| new | all | 200 | 0.4850 | 0.4300 | 9 | 20 | 0.061 |
+
+The 20 items behind the published 0.7500 score 0.7000 without any pages at all.
+The distance between the answer cell and the neither cell is which items land
+in each, not what the page did. The split still has to be kept, because it
+keeps a lookup result from being reported as a reasoning result, but the effect
+of retrieval has to be read from the paired columns.

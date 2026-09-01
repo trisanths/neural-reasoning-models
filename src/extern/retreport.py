@@ -57,6 +57,8 @@ def main():
                                       "cell4c_lfm2_mmlu_seq5_n200.json")
     ap.add_argument("--published", default="results/extern/bench/"
                                            "cell4_lfm2_mmlu_retrieval_n200.json")
+    ap.add_argument("--closed", default="results/extern/bench/"
+                                        "lfm2_350m_mmlu_completion_bos.json")
     ap.add_argument("--out", default="results/extern/retreport.json")
     a = ap.parse_args()
 
@@ -138,7 +140,67 @@ def main():
         print(f"  {tag}: n={len(sub)} acc={k/len(sub):.4f} "
               f"{wilson(k, len(sub))}")
 
-    out = {"published": pub_cells,
+    # The comparison the contamination split cannot make on its own. An item
+    # whose answer is findable on the web is also an item this model tends to
+    # know, so a cell where the page carries the answer is a cell of easier
+    # items. Scoring the same items closed book separates the two.
+    closed = {r["id"]: (r["pred"] == r["gold"])
+              for r in json.load(open(a.closed))["records"]}
+
+    def mcnemar(b, c):
+        from math import comb
+        nd = b + c
+        if nd == 0:
+            return 1.0
+        return min(1.0, 2 * sum(comb(nd, i)
+                                for i in range(0, min(b, c) + 1)) / 2 ** nd)
+
+    def against_closed(recs, labeller):
+        out = {}
+        tb = tc = 0
+        for lab in ("verbatim", "answer", "neither", "all"):
+            sub = recs if lab == "all" else [r for r in recs
+                                             if labeller(r) == lab]
+            if not sub:
+                out[lab] = {"n": 0}
+                continue
+            n = len(sub)
+            k = sum(r["pred"] == r["gold"] for r in sub)
+            kc = sum(closed[r["id"]] for r in sub)
+            b = sum(1 for r in sub
+                    if closed[r["id"]] and r["pred"] != r["gold"])
+            c = sum(1 for r in sub
+                    if not closed[r["id"]] and r["pred"] == r["gold"])
+            if lab != "all":
+                tb, tc = tb + b, tc + c
+            out[lab] = {"n": n, "retrieval": round(k / n, 4),
+                        "retrieval_ci": wilson(k, n),
+                        "closed_book_same_items": round(kc / n, 4),
+                        "closed_book_ci": wilson(kc, n),
+                        "closed_only": b, "retrieval_only": c,
+                        "mcnemar_p": round(mcnemar(b, c), 4)}
+        return out
+
+    print("\nretrieval against closed book on the same items, per cell")
+    arms = (("published", pub["records"],
+             lambda r: r["contamination"]),
+            ("control", ctrl["records"], lab_token),
+            ("new", new["records"], lab_token))
+    vs_closed = {}
+    for nm, recs, lb in arms:
+        vs_closed[nm] = against_closed(recs, lb)
+        print(f"  {nm}")
+        for lab in ("all", "verbatim", "answer", "neither"):
+            d = vs_closed[nm][lab]
+            if not d.get("n"):
+                continue
+            print(f"    {lab:9} n={d['n']:3d} retrieval={d['retrieval']:.4f} "
+                  f"closed_book_same_items={d['closed_book_same_items']:.4f} "
+                  f"closed_only={d['closed_only']} "
+                  f"retrieval_only={d['retrieval_only']} "
+                  f"p={d['mcnemar_p']:.3f}")
+
+    out = {"published": pub_cells, "vs_closed_book": vs_closed,
            "control_token": cells(ctrl["records"], lab_token),
            "new_token": cells(new["records"], lab_token),
            "new_chars": cells(new["records"], lab_chars),

@@ -16,19 +16,21 @@ What came out of it:
   0.310 under a whole token detector, and the published answer label, which
   excludes contexts carrying the exam question itself, from 0.100 to 0.210.
 - Most of that was not a search problem. Of the 176 items whose context missed
-  the answer, 48 had it in a page that search had already returned and the
-  packer threw away. Passage selection at the same 6,000 character budget
-  recovers 22 of those on the original cached pages, at no spend.
-- The 0.7500 on the answer bearing cell was 20 items. Better powered it is
-  0.6429 [0.492, 0.770] on 42, with an independent 0.6667 on 21 from the
-  control arm.
-- The cell that speaks to reasoning did not move and has not moved in three
-  configurations now: 0.4226, 0.4125, 0.4242, against 0.4300 closed book.
+  the answer, 48 had it in a page search had already returned and the packer
+  threw away. Passage selection at the same 6,000 character budget recovers 22
+  of those on the original cached pages, at no spend.
+- Overall accuracy went 0.4450 to 0.4850 on identical pages, McNemar exact two
+  sided p = 0.115, against 0.4300 closed book.
+- The 0.7500 that motivated this work is not what it looked like. Those 20
+  items score 0.7000 closed book. Across three retrieval runs, the answer
+  bearing cell beats the same items without pages by one item, zero items and
+  one item. The gap between the answer cell and the neither cell is item
+  selection, not the value of the page.
+- The cell that speaks to reasoning has not moved in three configurations:
+  0.4226, 0.4125, 0.4242, against 0.4300 closed book.
 - The highest raw hit rate in the sweep, Exa's auto search type at 0.400, is
   test set leakage. A third of its contexts contain the MMLU question itself
   and its clean rate is the worst measured.
-- Overall accuracy went 0.4450 to 0.4850 on identical pages, McNemar exact two
-  sided p = 0.115. Directionally right, not resolvable at n=200.
 
 Everything below carries its n, its measured chance floor where an accuracy is
 involved, and a Wilson 95 percent interval. The contamination cells are never
@@ -335,32 +337,99 @@ and the 9 that carry every option score 0.6667 [0.354, 0.879]. The two are the
 same within noise, so the option-aware selection is finding text about the
 answer rather than text repeating the options.
 
+## The answer present cell was measuring which items are easy
+
+The finding this work started from was that answer bearing pages take the model
+to 0.7500 while the rest leave it at its closed book score. That comparison is
+between two different sets of items, and an item whose answer is findable on
+the web is also an item a model tends to know. Scoring the same items closed
+book separates the two, and the closed book run on these 200 items already
+exists.
+
+Retrieval against closed book, same items, same cell, paired.
+
+| arm | cell | n | with pages | closed book, same items | closed only | retrieval only | McNemar p |
+|---|---|---|---|---|---|---|---|
+| published | answer | 20 | 0.7500 | 0.7000 | 0 | 1 | 1.000 |
+| published | neither | 168 | 0.4226 | 0.3929 | 8 | 13 | 0.383 |
+| published | verbatim | 12 | 0.3333 | 0.5000 | 2 | 0 | 0.500 |
+| control | answer | 21 | 0.6667 | 0.6667 | 1 | 1 | 1.000 |
+| control | neither | 160 | 0.4125 | 0.4000 | 10 | 12 | 0.832 |
+| control | verbatim | 19 | 0.4737 | 0.4211 | 2 | 3 | 1.000 |
+| new | answer | 42 | 0.6429 | 0.6190 | 2 | 3 | 1.000 |
+| new | neither | 132 | 0.4242 | 0.3788 | 7 | 13 | 0.263 |
+| new | verbatim | 26 | 0.5385 | 0.3846 | 0 | 4 | 0.125 |
+| new | all | 200 | 0.4850 | 0.4300 | 9 | 20 | 0.061 |
+| control | all | 200 | 0.4450 | 0.4300 | 13 | 16 | 0.711 |
+| published | all | 200 | 0.4500 | 0.4300 | 10 | 14 | 0.541 |
+
+The 20 items behind the published 0.7500 score 0.7000 closed book. The page
+changed one item out of twenty. In the control arm the answer cell is 0.6667
+with pages and 0.6667 without, one item each way. In the new arm, with the cell
+at n=42, it is 0.6429 with and 0.6190 without, three items gained and two lost.
+
+So the gap between 0.75 and 0.42 across the contamination split was almost
+entirely item selection. Questions whose answers sit on a web page are
+questions this model already answers at about 0.65, and questions whose answers
+do not are questions it answers at about 0.39. Reading the split as "a page
+carrying the answer is worth 0.33 accuracy" reads a property of the items as a
+property of the retrieval.
+
+That does not make the split useless. It remains the right way to keep a lookup
+result from being reported as a reasoning result. But the effect of retrieval
+has to be measured within items, against the same items closed book, and that
+comparison says the pages are worth little in every cell. The largest paired
+effect anywhere in the table is the new arm overall, 20 items gained against 9
+lost, p = 0.061, and the cell contributing most of it is `neither`, where by
+construction the answer is not on the page.
+
+It also revises what to do next. The brief for this work assumed the model's
+ability to read retrieved text was not the bottleneck, on the strength of that
+0.7500. The paired numbers say otherwise: even when the answer is in the
+context the model reads, accuracy moves by about two points. Raising the answer
+present rate further, from 0.21 toward 0.4, would be worth perhaps another two
+points of accuracy on this arrangement. The larger question is why a 350M model
+scored by log likelihood over four letters, given a 6,000 character reference
+block that states the answer, gains so little from it.
+
 ## What is left, and what cannot be fixed
 
-The answer present rate on all 200 items went from 0.120 to 0.310 under the
-token detector, and the answer label, which excludes contexts carrying the exam
-question itself, from 0.100 to 0.210. Recall over the full text of the fetched
-pages is 0.370 at 20 results, so passage selection now delivers 84 percent of
-what search finds. The remaining loss inside the pipeline is small. The
-remaining loss outside it is not.
+Inside the pipeline the remaining loss is small. Recall over the full text of
+the fetched pages is 0.370 at 20 results and passage selection delivers 0.310
+of it, so 84 percent of what search finds now reaches the model. Outside the
+pipeline the loss is structural.
 
 Of the 122 step 1 search failures, 26 are professional law, every professional
 law item in the sample. Their gold answers are conclusions about fact patterns
-written for the exam, and no page on the web states them. Formal logic
+written for the exam and no page on the web states them. Formal logic
 translations, arithmetic results and option-phrased ethical conclusions behave
-the same way. On a hand read of 8 sampled search failures, 8 were of this kind.
-A retriever cannot raise the answer present rate on an item whose answer is not
-a fact that anything has written down, which puts a ceiling on this metric well
-below 1.0 and means the honest target is the lookup shaped subset, not the 200.
+the same way, and 8 of 8 hand read search failures were of that kind. The
+answer present rate has a ceiling on MMLU set by the item types, not by the
+retriever, and the honest target is the lookup shaped subset rather than the
+200.
 
-Three things would be worth trying next, in this order. Read the retrieved
-pages with a reranker rather than a bm25 window score, since the selector is
-now the binding constraint on delivering what search found. Ask a second query
-per item only for items where the first returned nothing that matched any
-option, which spends where the first query failed instead of doubling spend
-everywhere. And measure the lookup shaped subset separately, because pooling a
-professional law fact pattern with a medical genetics fact question reports an
-average of two different things.
+What to do next, in this order.
+
+Measure retrieval within items from now on. Every accuracy in this report that
+compares contamination cells to each other is comparing item sets, and the only
+comparison that isolates the pages is the same item with and without them. That
+is one extra closed book run per item set, it already exists for these 200, and
+it changed the reading of the central finding.
+
+Then find out why the pages are worth so little when they do carry the answer.
+Three candidates, all cheap to separate: the reference block sits in front of a
+five shot prompt whose shots have no reference blocks, so the format may be
+teaching the model to ignore it; the block is a concatenation of 900 character
+windows from up to 20 sites, which is not prose; and a 350M model scored by the
+log probability of one letter may simply not condition on 1,500 tokens of
+preamble. Reordering the block after the shots, packing one coherent page
+instead of many windows, and scoring a generated answer instead of a letter are
+each a single arm on the existing pages, at no retrieval spend.
+
+Only after that is it worth pushing the hit rate further, and the way to do it
+is a reranker over the retrieved windows rather than more searches, since
+search now finds more than the packer delivers and both find more than the
+model uses.
 
 ## Reproducing this
 
