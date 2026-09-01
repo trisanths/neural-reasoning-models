@@ -215,6 +215,9 @@
 | c45 | one whole value of the question-form axis, `wh` | qframe | 7000 | 0.7440 (3500) | 0.7611 (3500) |
 | c45 | one whole value of the question-form axis, `wh` | mode | 7000 | 0.6865 (3528) | 0.2736 (3472) |
 | c45 | one whole value of the question-form axis, `wh` | train | 7000 | 0.8688 (3528) | 0.8652 (3472) |
+| b45 | a different statement mode, `table_row` | mode | 7000 | 0.6165 (3528) | 0.2471 (3472) |
+| b45 | a different statement mode, `table_row` | mode | 7000 | 0.6165 (3528) | 0.2471 (3472) |
+| b45 | a different statement mode, `table_row` | train | 7000 | 0.9269 (3528) | 0.9332 (3472) |
 
 ## Alternative splits, shape against key position
 **c45, the qframe group, one whole value of the question-form axis, `wh` withheld**
@@ -237,6 +240,27 @@
 | sum_chain | 0.1520 (250) | 0.1720 (250) |
 | apply_n | 0.1120 (250) | 0.0960 (250) |
 | precedence | 1.0000 (250) | 1.0000 (250) |
+
+**b45, the mode group, a different statement mode, `table_row` withheld**
+
+### b45
+
+| shape | key_first | value_first |
+| --- | ---: | ---: |
+| lookup | 1.0000 (252) | 0.0000 (248) |
+| lookup_general | 1.0000 (252) | 1.0000 (248) |
+| classify | 0.7500 (252) | 0.7419 (248) |
+| inverse | 0.9365 (252) | 0.0000 (248) |
+| compose | 0.1587 (252) | 0.0000 (248) |
+| iterate | 0.8810 (252) | 0.0000 (248) |
+| pair | 0.9444 (252) | 0.9476 (248) |
+| priority | 0.9008 (252) | 0.0000 (248) |
+| exclusion | 0.4405 (252) | 0.0161 (248) |
+| lookup_then_band | 0.0119 (252) | 0.0040 (248) |
+| band_then_lookup | 0.4960 (252) | 0.6048 (248) |
+| sum_chain | 0.0000 (252) | 0.0000 (248) |
+| apply_n | 0.1151 (252) | 0.1452 (248) |
+| precedence | 0.9960 (252) | 0.0000 (248) |
 
 ## Key position inside every frame group
 | checkpoint | frame group | key_first | value_first |
@@ -261,6 +285,11 @@
 | c45 | lexicon | 0.8220 (3528) | 0.8154 (3472) |
 | c45 | mode | 0.6865 (3528) | 0.2736 (3472) |
 | c45 | mixed | 0.6732 (3556) | 0.4126 (3444) |
+| b45 | train | 0.9269 (3528) | 0.9332 (3472) |
+| b45 | qframe | 0.9226 (3500) | 0.9257 (3500) |
+| b45 | lexicon | 0.7378 (3528) | 0.6959 (3472) |
+| b45 | mode | 0.6165 (3528) | 0.2471 (3472) |
+| b45 | mixed | 0.6184 (3514) | 0.3328 (3486) |
 
 ## What the value-first failures are made of
 | rung | key position | n | exact | wrong | refused | malformed |
