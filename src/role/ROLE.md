@@ -29,6 +29,42 @@ its own, and is inferred from a surface template keyed on the pair (statement
 mode, key position). When that template is unseen there is no other channel
 stating the roles, and one positional convention takes over.
 
+## Where the collapse lives
+
+Key position selects the `ASSOC` rule sentence and the `table_row` column header
+and nothing else, so it does not reach every shape's page, and a shape whose two
+renderings are byte identical cannot show the effect either way. Grouping by
+what the templates do, rather than by what the scores do, `src/role/rshapes.py`
+puts l45 on the held-out sentence mode like this:
+
+| group | key first | value first | gap |
+|---|---:|---:|---:|
+| new keys, 8 shapes | 0.7450 (n=2016) | 0.0000 (n=1984) | +0.7450 |
+| seen keys, `band_then_lookup` | 0.6627 (n=252) | 0.7621 (n=248) | -0.0994 |
+| header only, `lookup_then_band` | 0.5198 (n=252) | 0.5403 (n=248) | -0.0205 |
+| out of reach, 4 shapes | 0.7698 (n=1008) | 0.7863 (n=992) | -0.0165 |
+
+Sampled decoding gives 0.7366 against 0.0000 for the first row and leaves the
+other three unchanged in sign. The floor for these cells is 0.1026 key first and
+0.0864 value first, and the parser reads all of them at 1.0000.
+
+The three groups that are not collapsed say what the collapsed one is missing.
+`band_then_lookup` states rule lines whose key is a band label the previous page
+already named, so which of the two words is the key is recoverable without
+reading the rule line, and that shape is read slightly better value first than
+key first. The four out-of-reach shapes render identically in the two frames and
+score identically. The collapse sits exactly where the wording of the rule line
+is the only thing that says which word is the key.
+
+Inside that group every shape is at 0.0000 on value first and eight of them are,
+not seven: `lookup`, `inverse`, `iterate`, `compose`, `exclusion`, `sum_chain`,
+`precedence` and `priority`. `priority` reads 1.0000 key first and 0.0000 value
+first over 252 and 248 items and belongs with the rest. Per shape in
+`results/role/shapes_l45_mode.json`.
+
+So the number an arm has to move is 0.0000 of 1,984, and the number it must not
+break is 0.7450 of 2,016.
+
 Two things already argue against the nearest competing account. Nearest-template
 transfer would carry the binding over from whichever trained sentence the new one
 most resembles, and it predicts the opposite of what happens.
@@ -277,6 +313,7 @@ and this section will say so instead.
     src/role/rswap.py          the exchanged structure test
     src/role/rtmpl.py          the held-out sentence against the trained ones
     src/role/rparity.py        the slot parity shortcut
+    src/role/rshapes.py        the collapse by shape and by what the axis reaches
     src/role/rcheck_full.py    the pair invariant over the whole file
     src/role/rcheck_pairs.py   the pair invariant on a sample that keeps text
     src/role/rcheck_labels.py  the labels against the sidecar structure
