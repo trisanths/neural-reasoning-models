@@ -17,9 +17,11 @@ Two matches are counted, and they answer different questions.
               a stated Jaccard threshold with the worst offenders listed, so
               the number can be argued with rather than trusted.
 
-Both run over training questions and over every document in every training
-bundle, because a page that states an MMLU answer contaminates just as much
-as a question that repeats its stem.
+Both run over the text that actually reaches the model: the training
+question and the pages the trace serves. A document sitting unserved in a
+bundle never appears in any training example, so scanning it would inflate
+the denominator without covering anything the model reads. Pass
+--all-documents to scan the whole bundle anyway.
 
 Topical overlap is not contamination. TriviaQA asks about history and so
 does MMLU; that is the point of the experiment. What is checked is whether
@@ -85,6 +87,7 @@ def main() -> int:
     ap.add_argument("--root", default="data/extern")
     ap.add_argument("--out", required=True)
     ap.add_argument("--near-threshold", type=float, default=NEAR_THRESHOLD)
+    ap.add_argument("--all-documents", action="store_true")
     a = ap.parse_args()
 
     t0 = time.time()
@@ -115,10 +118,14 @@ def main() -> int:
                 ep = json.loads(line)
                 q = ep["questions"][0]
                 fields = [("question", q["text"])]
-                for di, d in enumerate(ep["documents"]):
-                    fields.append((f"doc{di}", d["text"]))
+                if a.all_documents:
+                    picks = list(range(len(ep["documents"])))
+                else:
+                    picks = list(dict.fromkeys(int(p[1]) for p in q["plan"]))
+                for di in picks:
+                    fields.append((f"doc{di}", ep["documents"][di]["text"]))
                 n_q += 1
-                n_doc += len(ep["documents"])
+                n_doc += len(picks)
                 for field, text in fields:
                     s = norm(text)
                     scanned_chars += len(s)
@@ -155,6 +162,7 @@ def main() -> int:
         "near_threshold": a.near_threshold,
         "training_questions_scanned": n_q,
         "training_documents_scanned": n_doc,
+        "all_documents": a.all_documents,
         "training_chars_scanned": scanned_chars,
         "exact_matches": len(exact_hits),
         "near_matches": len(near_hits),

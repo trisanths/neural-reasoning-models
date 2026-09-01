@@ -27,9 +27,23 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import random
 import time
 
 import numpy as np
+
+
+def pick(total: int, want: int, seed: int) -> set:
+    """Which line numbers a quota of `want` out of `total` takes.
+
+    A seeded sample over the whole range, not a stride and not a prefix. A
+    stride of one degenerates to reading the head of the file, which is
+    exactly the mistake that has produced two wrong numbers on this project,
+    and it degenerates silently whenever the quota is more than half the file.
+    """
+    if want >= total:
+        return set(range(total))
+    return set(random.Random(seed).sample(range(total), want))
 
 
 class Pack:
@@ -99,7 +113,7 @@ def cmd_build(args) -> int:
     tok = load_tokenizer(args.tokenizer)
     total = sum(1 for _ in open(args.episodes))
     want = args.take or total
-    stride = max(1, total // want)
+    chosen = pick(total, want, args.seed)
     os.makedirs(os.path.dirname(args.out) or ".", exist_ok=True)
     pack = Pack(args.out)
     drops = {"prompt": 0, "length": 0}
@@ -108,10 +122,8 @@ def cmd_build(args) -> int:
     t0 = time.time()
     with open(args.episodes) as fh:
         for line_no, line in enumerate(fh):
-            if line_no % stride:
+            if line_no not in chosen:
                 continue
-            if kept >= want:
-                break
             ep = json.loads(line)
             q = ep["questions"][0]
             tr, why = episode_trace(ep, q, tok, args.max_prompt_tokens,
@@ -132,7 +144,8 @@ def cmd_build(args) -> int:
                       flush=True)
     stats = pack.close()
     summary = {"episodes": args.episodes, "total_lines": total,
-               "stride": stride, "take": args.take, "kept": kept,
+               "selected": len(chosen), "seed": args.seed,
+               "take": args.take, "kept": kept,
                "drops": drops, "tokens": stats["tokens"],
                "rounds_hist": {str(k): v for k, v in sorted(rounds_hist.items())},
                "mean_len": round(stats["tokens"] / max(1, kept), 1),
@@ -144,24 +157,21 @@ def cmd_build(args) -> int:
 
 
 def cmd_subsample(args) -> int:
-    """A strided sample of an existing pack, written as a pack.
+    """A sample of an existing pack, written as a pack.
 
     `src/corpus/sft.py merge` takes whole packs, and the synthetic side of
-    the mixture is half of one. The stride runs over the whole file rather
-    than taking its head: the corpus pack is already shuffled, so a stride
-    keeps its component proportions, and reading the first N lines of an
-    ordered file has produced two wrong numbers on this project.
+    the mixture is half of one. The sample is drawn over the whole index
+    rather than off its head, so the component proportions survive whatever
+    order the source pack happens to be in.
     """
     toks = np.memmap(args.pack + ".tokens.u16", dtype=np.uint16, mode="r")
     msk = np.memmap(args.pack + ".mask.u8", dtype=np.uint8, mode="r")
     amk = np.memmap(args.pack + ".amask.u8", dtype=np.uint8, mode="r")
     index = [json.loads(l) for l in open(args.pack + ".index.jsonl")]
-    stride = max(1, len(index) // max(1, args.take))
+    chosen = sorted(pick(len(index), args.take, args.seed))
     out = Pack(args.out)
     counts: dict = {}
-    for i in range(0, len(index), stride):
-        if out.n >= args.take:
-            break
+    for i in chosen:
         r = index[i]
         a, b = r["off"], r["off"] + r["len"]
         tr = {"tokens": toks[a:b].tolist(), "mask": msk[a:b].tolist(),
@@ -173,7 +183,8 @@ def cmd_subsample(args) -> int:
         out.add(tr, meta)
         counts[r.get("component")] = counts.get(r.get("component"), 0) + 1
     stats = out.close()
-    summary = {"pack": args.pack, "source_n": len(index), "stride": stride,
+    summary = {"pack": args.pack, "source_n": len(index),
+               "selected": len(chosen), "seed": args.seed,
                "take": args.take, "n": stats["n"], "tokens": stats["tokens"],
                "per_component": counts}
     with open(args.out + ".summary.json", "w") as fh:
@@ -189,12 +200,14 @@ def main() -> int:
     s.add_argument("--pack", required=True)
     s.add_argument("--out", required=True)
     s.add_argument("--take", type=int, required=True)
+    s.add_argument("--seed", type=int, default=5150)
     s.set_defaults(fn=cmd_subsample)
     b = sub.add_parser("build")
     b.add_argument("--episodes", required=True)
     b.add_argument("--out", required=True)
     b.add_argument("--tokenizer", default="/home/ec2-user/data/tokenizer_v2.json")
     b.add_argument("--take", type=int, default=0)
+    b.add_argument("--seed", type=int, default=5150)
     b.add_argument("--max-prompt-tokens", type=int, default=384)
     b.add_argument("--max-len", type=int, default=1024)
     b.set_defaults(fn=cmd_build)

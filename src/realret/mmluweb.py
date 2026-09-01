@@ -50,11 +50,50 @@ from src.extern.retrieval_mmlu import (Cache, context_block, label_contamination
                                        make_retriever, query_for, search)
 
 
+class CachedSearch:
+    """The Exa client behind the same on-disk cache the scored cells use.
+
+    A model that drives its own retrieval writes its own queries, so a run
+    can spend one search per round per item. Caching means a rerun of the
+    same checkpoint costs nothing and a second checkpoint asking the same
+    question gets the same pages, which is the only way two agentic cells
+    are comparable at all.
+    """
+
+    def __init__(self, client, cache, budget: int):
+        self.client = client
+        self.cache = cache
+        self.budget = {"spent": 0, "max": budget}
+
+    def search(self, query: str, num_results: int = 10, text: bool = True):
+        key = f"agentic:{num_results}:{query}"
+        hit = self.cache.get(key)
+        if hit is not None:
+            return hit
+        if self.budget["spent"] >= self.budget["max"]:
+            raise RuntimeError("search budget exhausted")
+        self.budget["spent"] += 1
+        res = self.client.search(query, num_results=num_results, text=text)
+        out = [{"url": r.get("url", ""), "title": r.get("title", ""),
+                "text": (r.get("text") or "")} for r in (res or [])]
+        self.cache.put(key, out)
+        return out
+
+
 @torch.no_grad()
 def letters_ours(model, tok, ctx: str, n_choices: int, device, max_seq: int,
                  prefix=()):
-    """Log probability of " A" .. " D" as the next token after ctx."""
+    """Log probability of " A" .. " D" as the next token after ctx.
+
+    Returns the scores and how long the context was before cropping. The
+    crop keeps the tail, and the retrieved pages sit at the head, so an
+    overflow silently deletes the evidence the cell is supposed to measure.
+    The length is recorded per item and the overflow count is reported, so a
+    cell that measured a cropped prompt cannot be read as a cell that
+    measured the pages.
+    """
     ids = list(prefix) + tok.encode(ctx)
+    full = len(ids)
     ids = ids[-max_seq:]
     x = torch.tensor([ids], dtype=torch.long, device=device)
     lp = torch.log_softmax(model(x)[0].float()[0, -1], dim=-1)
@@ -62,7 +101,7 @@ def letters_ours(model, tok, ctx: str, n_choices: int, device, max_seq: int,
     for i in range(n_choices):
         t = tok.encode(" " + LETTERS[i])
         out.append(float(lp[t[0]]) if len(t) == 1 else float("-inf"))
-    return out
+    return out, full
 
 
 def native_context(row, pages, tok, chunk_tokens: int, max_chunks: int):
@@ -142,10 +181,10 @@ def cmd_score(args) -> int:
         closed = (head + shots + body)
         opened = (("Reference material:\n" + block + "\n\n") if block else "") \
             + head + shots + body
-        lp_closed = letters_ours(model, tok, closed, len(row["choices"]),
-                                 device, max_seq, prefix)
-        lp_open = letters_ours(model, tok, opened, len(row["choices"]),
-                               device, max_seq, prefix)
+        lp_closed, len_closed = letters_ours(
+            model, tok, closed, len(row["choices"]), device, max_seq, prefix)
+        lp_open, len_open = letters_ours(
+            model, tok, opened, len(row["choices"]), device, max_seq, prefix)
 
         ids, n_chunks = native_context(row, pages, tok, args.chunk_tokens,
                                        args.max_chunks)
@@ -157,6 +196,8 @@ def cmd_score(args) -> int:
             "n_choices": len(row["choices"]), "contamination": lab,
             "n_pages": len(pages), "context_chars": len(block),
             "n_native_chunks": n_chunks, "query": q,
+            "ctx_tokens_closed": len_closed, "ctx_tokens_open": len_open,
+            "cropped": bool(len_open > max_seq),
             "urls": [p["url"] for p in pages][:5],
             "pred_closed": int(max(range(len(lp_closed)),
                                    key=lambda i: lp_closed[i])),
@@ -183,6 +224,13 @@ def cmd_score(args) -> int:
                                            for r in recs) / len(recs), 1),
            "mean_pages": round(sum(r["n_pages"] for r in recs) / len(recs), 2),
            "pages_empty": sum(1 for r in recs if r["n_pages"] == 0),
+           "max_seq_len": max_seq,
+           "mean_ctx_tokens_open": round(sum(r["ctx_tokens_open"]
+                                             for r in recs) / len(recs), 1),
+           "max_ctx_tokens_open": max(r["ctx_tokens_open"] for r in recs),
+           "prompts_cropped": sum(1 for r in recs if r["cropped"]),
+           "matched_uncropped": summarise(
+               [r for r in recs if not r["cropped"]], "pred"),
            "closed_book": summarise(recs, "pred_closed"),
            "matched": summarise(recs, "pred"),
            "native": summarise(recs, "pred_native"),
@@ -210,12 +258,13 @@ def cmd_agentic(args) -> int:
     tok = load_tokenizer(args.tokenizer)
     step_fn, model, _ = make_checkpoint_step_fn(args.ckpt, args.device)
     sid = tok.special_ids
-    client = MockExa() if args.retriever == "mock" else ExaClient()
+    client = CachedSearch(MockExa() if args.retriever == "mock" else ExaClient(),
+                          Cache(args.cache), args.budget)
 
     recs, t0 = [], time.time()
     for k, row in enumerate(rows):
         tier = WebRetrievalTier(client, tok, num_results=args.num_results,
-                                chunk_tokens=args.chunk_tokens)
+                                max_chunk_tokens=args.chunk_tokens)
         index = WebTierIndex(tier)
         body = mmlu_block(row["question"], row["choices"])
         prompt = [sid["<|world|>"]]
@@ -271,6 +320,7 @@ def cmd_agentic(args) -> int:
                sum(r["served_chars"] > 0 for r in recs) / n, 4),
            "named_a_choice": round(sum(r["pred"] >= 0 for r in recs) / n, 4),
            "errors": sum(1 for r in recs if r["error"]),
+           "live_searches": client.budget["spent"],
            "stop_reasons": {s: sum(1 for r in recs if r["stop_reason"] == s)
                             for s in {r["stop_reason"] for r in recs}},
            "acc": round(sum(r["pred"] == r["gold"] for r in recs) / n, 4),
@@ -314,6 +364,8 @@ def main() -> int:
             p.add_argument("--max-rounds", type=int, default=4)
             p.add_argument("--max-new-tokens", type=int, default=192)
             p.add_argument("--query-max-tokens", type=int, default=24)
+            p.add_argument("--cache", default="/home/ec2-user/realret/exa_cache")
+            p.add_argument("--budget", type=int, default=800)
     args = ap.parse_args()
     return args.fn(args)
 
