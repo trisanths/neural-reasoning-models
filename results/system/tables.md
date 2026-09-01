@@ -209,6 +209,35 @@
 | c45 | `data/normC` | wh | signal | relative_clause | 420 |
 | b45 | `data/normB` | band, every 8th | signal | table_row | 490 |
 
+## Each alternative split on its own withheld group
+| split | withheld | group | n | key_first | value_first |
+| --- | --- | --- | ---: | ---: | ---: |
+| c45 | one whole value of the question-form axis, `wh` | qframe | 7000 | 0.7440 (3500) | 0.7611 (3500) |
+| c45 | one whole value of the question-form axis, `wh` | mode | 7000 | 0.6865 (3528) | 0.2736 (3472) |
+| c45 | one whole value of the question-form axis, `wh` | train | 7000 | 0.8688 (3528) | 0.8652 (3472) |
+
+## Alternative splits, shape against key position
+**c45, the qframe group, one whole value of the question-form axis, `wh` withheld**
+
+### c45
+
+| shape | key_first | value_first |
+| --- | ---: | ---: |
+| lookup | 1.0000 (250) | 1.0000 (250) |
+| lookup_general | 1.0000 (250) | 1.0000 (250) |
+| classify | 0.6600 (250) | 0.5840 (250) |
+| inverse | 0.5960 (250) | 0.8160 (250) |
+| compose | 0.3080 (250) | 0.3200 (250) |
+| iterate | 1.0000 (250) | 0.9840 (250) |
+| pair | 1.0000 (250) | 0.9920 (250) |
+| priority | 0.9960 (250) | 1.0000 (250) |
+| exclusion | 0.9240 (250) | 1.0000 (250) |
+| lookup_then_band | 0.7440 (250) | 0.7480 (250) |
+| band_then_lookup | 0.9240 (250) | 0.9440 (250) |
+| sum_chain | 0.1520 (250) | 0.1720 (250) |
+| apply_n | 0.1120 (250) | 0.0960 (250) |
+| precedence | 1.0000 (250) | 1.0000 (250) |
+
 ## Key position inside every frame group
 | checkpoint | frame group | key_first | value_first |
 | --- | --- | ---: | ---: |
@@ -227,6 +256,11 @@
 | xl93lr40 | lexicon | 0.8325 (3528) | 0.8220 (3472) |
 | xl93lr40 | mode | 0.6375 (3528) | 0.2872 (3472) |
 | xl93lr40 | mixed | 0.6700 (3500) | 0.4189 (3500) |
+| c45 | train | 0.8688 (3528) | 0.8652 (3472) |
+| c45 | qframe | 0.7440 (3500) | 0.7611 (3500) |
+| c45 | lexicon | 0.8220 (3528) | 0.8154 (3472) |
+| c45 | mode | 0.6865 (3528) | 0.2736 (3472) |
+| c45 | mixed | 0.6732 (3556) | 0.4126 (3444) |
 
 ## What the value-first failures are made of
 | rung | key position | n | exact | wrong | refused | malformed |
