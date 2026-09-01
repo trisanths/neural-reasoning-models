@@ -1,58 +1,10 @@
-[W831 20:18:01.096081035 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 65011712 bytes (free: 50331648, total: 47667740672).
-[W831 20:18:02.608196217 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 67108864 bytes (free: 48234496, total: 47667740672).
-[W831 20:18:02.771749759 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 58720256 bytes (free: 44040192, total: 47667740672).
-[W831 20:18:03.931540593 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 69206016 bytes (free: 4194304, total: 47667740672).
-[W831 20:18:04.696605250 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 2097152 bytes (free: 2097152, total: 47667740672).
-[W831 20:18:05.798153207 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 113246208 bytes (free: 65011712, total: 47667740672).
-[W831 20:18:11.668913142 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 71303168 bytes (free: 60817408, total: 47667740672).
-[W831 20:18:11.826559449 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 2097152 bytes (free: 2097152, total: 47667740672).
-[W831 20:18:11.826688975 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 2097152 bytes (free: 2097152, total: 47667740672).
-Traceback (most recent call last):
-  File "<frozen runpy>", line 198, in _run_module_as_main
-  File "<frozen runpy>", line 88, in _run_code
-  File "/home/ec2-user/decoupled-reasoner/src/norm/cmpwork/ftune.py", line 134, in <module>
-    raise SystemExit(main())
-                     ^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/src/norm/cmpwork/ftune.py", line 110, in main
-    glogits = model(gsrc, gpad, gtgt[:, :-1])
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/src/norm/nmodel.py", line 160, in forward
-    return self.decode(tgt_in, mem, mask)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/src/norm/nmodel.py", line 155, in decode
-    x = layer(x, mem, src_mask)
-        ^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/src/norm/nmodel.py", line 111, in forward
-    x = x + self.ca(self.n2(x), mem=mem, mask=src_mask)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/src/norm/nmodel.py", line 66, in forward
-    k = self._split(self.k(src))
-                    ^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
-    return self._call_impl(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
-    return forward_call(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/ec2-user/decoupled-reasoner/.venv/lib/python3.12/site-packages/torch/nn/modules/linear.py", line 134, in forward
-    return F.linear(input, self.weight, self.bias)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.00 MiB. GPU 0 has a total capacity of 44.39 GiB of which 2.00 MiB is free. Process 180771 has 37.18 GiB memory in use. Including non-PyTorch memory, this process has 7.20 GiB memory in use. Of the allocated memory 6.37 GiB is allocated by PyTorch, and 331.37 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+/home/ec2-user/decoupled-reasoner/src/norm/cmpwork/ftune.py:119: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:822.)
+  log.append({"step": step, "loss": round(float(loss), 5)})
+{"step": 250, "loss": 0.02721}
+{"step": 500, "loss": 0.02234}
+{"step": 750, "loss": 0.01414}
+{"step": 1000, "loss": 0.0101}
+{"step": 1250, "loss": 0.00071}
+{"step": 1500, "loss": 0.01171}
+{"out": "results/system/tpose/ft_xl93_both_k1024.pt", "k": 1024, "size": "xl93", "lr": 3.2e-05, "steps": 1500, "seconds": 133.8, "log": [{"step": 1000, "loss": 0.0101}, {"step": 1250, "loss": 0.00071}, {"step": 1500, "loss": 0.01171}]}

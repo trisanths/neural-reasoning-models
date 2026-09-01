@@ -298,6 +298,11 @@ The same axis inside the groups whose sentence mode training did contain.
 | corpus_nosft | lexicon | 0.0000 (705) | 0.0000 (695) |
 | corpus_nosft | mode | 0.0000 (705) | 0.0000 (695) |
 | corpus_nosft | mixed | 0.0000 (712) | 0.0000 (688) |
+| lm350 | train | 1.0000 (704) | 1.0000 (696) |
+| lm350 | qframe | 1.0000 (700) | 1.0000 (700) |
+| lm350 | lexicon | 1.0000 (705) | 1.0000 (695) |
+| lm350 | mode | 1.0000 (705) | 1.0000 (695) |
+| lm350 | mixed | 1.0000 (712) | 1.0000 (688) |
 
 On trained frames the two positions are within about a point of each other at
 both rungs, 0.9206 against 0.9211 at
@@ -667,6 +672,8 @@ else about the protocol moves.
 | --- | ---: | --- | ---: | ---: | ---: | ---: | ---: |
 | l45 | 1024 | original | 750 | 404 / 750 = 0.5387 | 0 / 750 = 0.0000 | 1 / 750 = 0.0013 | 345 / 750 = 0.4600 |
 | l45 | 1024 | transposed | 750 | 462 / 750 = 0.6160 | 258 / 750 = 0.3440 | 1 / 750 = 0.0013 | 29 / 750 = 0.0387 |
+| xl93 | 1024 | original | 750 | 288 / 750 = 0.3840 | 0 / 750 = 0.0000 | 11 / 750 = 0.0147 | 451 / 750 = 0.6013 |
+| xl93 | 1024 | transposed | 750 | 457 / 750 = 0.6093 | 60 / 750 = 0.0800 | 16 / 750 = 0.0213 | 217 / 750 = 0.2893 |
 
 | rung | version | frame group | n | exact | keys in the untransposed order | malformed | other |
 | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
@@ -680,6 +687,16 @@ else about the protocol moves.
 | l45 | transposed | mode | 150 | 55 / 150 = 0.3667 | 92 / 150 = 0.6133 | 0 / 150 = 0.0000 | 3 / 150 = 0.0200 |
 | l45 | transposed | qframe | 150 | 108 / 150 = 0.7200 | 42 / 150 = 0.2800 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 |
 | l45 | transposed | train | 150 | 113 / 150 = 0.7533 | 34 / 150 = 0.2267 | 0 / 150 = 0.0000 | 3 / 150 = 0.0200 |
+| xl93 | original | lexicon | 150 | 22 / 150 = 0.1467 | 0 / 150 = 0.0000 | 7 / 150 = 0.0467 | 121 / 150 = 0.8067 |
+| xl93 | original | mixed | 150 | 16 / 150 = 0.1067 | 0 / 150 = 0.0000 | 4 / 150 = 0.0267 | 130 / 150 = 0.8667 |
+| xl93 | original | mode | 150 | 34 / 150 = 0.2267 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 116 / 150 = 0.7733 |
+| xl93 | original | qframe | 150 | 102 / 150 = 0.6800 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 48 / 150 = 0.3200 |
+| xl93 | original | train | 150 | 114 / 150 = 0.7600 | 0 / 150 = 0.0000 | 0 / 150 = 0.0000 | 36 / 150 = 0.2400 |
+| xl93 | transposed | lexicon | 150 | 120 / 150 = 0.8000 | 0 / 150 = 0.0000 | 9 / 150 = 0.0600 | 21 / 150 = 0.1400 |
+| xl93 | transposed | mixed | 150 | 63 / 150 = 0.4200 | 15 / 150 = 0.1000 | 7 / 150 = 0.0467 | 65 / 150 = 0.4333 |
+| xl93 | transposed | mode | 150 | 44 / 150 = 0.2933 | 32 / 150 = 0.2133 | 0 / 150 = 0.0000 | 74 / 150 = 0.4933 |
+| xl93 | transposed | qframe | 150 | 101 / 150 = 0.6733 | 8 / 150 = 0.0533 | 0 / 150 = 0.0000 | 41 / 150 = 0.2733 |
+| xl93 | transposed | train | 150 | 129 / 150 = 0.8600 | 5 / 150 = 0.0333 | 0 / 150 = 0.0000 | 16 / 150 = 0.1067 |
 
 Reading the transposed page goes from 0 of 750 to
 462 of 750, and the untransposed key order the reader
@@ -711,6 +728,8 @@ Structure exact match, on the same grader every rung goes through.
 | checkpoint | mode | train | qframe | lexicon | mode | mixed |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | corpus_nosft | greedy | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+| lm350 | greedy | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
+| lm350 | sampled | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 1.0000 |
 
 | checkpoint | group | n | exact | malformed | refused | wrong | safe/unsafe |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -719,6 +738,11 @@ Structure exact match, on the same grader every rung goes through.
 | corpus_nosft | lexicon | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
 | corpus_nosft | mode | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
 | corpus_nosft | mixed | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| lm350 | train | 1400 | 1.0000 | 0.0000 | 0.0000 | 0.0000 | inf |
+| lm350 | qframe | 1400 | 1.0000 | 0.0000 | 0.0000 | 0.0000 | inf |
+| lm350 | lexicon | 1400 | 1.0000 | 0.0000 | 0.0000 | 0.0000 | inf |
+| lm350 | mode | 1400 | 1.0000 | 0.0000 | 0.0000 | 0.0000 | inf |
+| lm350 | mixed | 1400 | 1.0000 | 0.0000 | 0.0000 | 0.0000 | inf |
 
 Forced choice on held-out frames, the same checkpoint before and after the
 structure fine tune. Each cell carries its own chance floor, which is the mean
@@ -727,11 +751,11 @@ exactly one option named and it the gold one.
 
 | split | n | floor | strict, before | corrected, before | strict, after | corrected, after |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| lexicon | 300 | 0.2686 | 0.5300 | 0.3574 | n/a | n/a |
-| mixed | 300 | 0.2686 | 0.5133 | 0.3346 | n/a | n/a |
-| mode | 300 | 0.2686 | 0.5633 | 0.4030 | n/a | n/a |
-| qframe | 300 | 0.2686 | 0.5333 | 0.3620 | n/a | n/a |
-| train | 300 | 0.2686 | 0.5367 | 0.3665 | n/a | n/a |
+| lexicon | 300 | 0.2686 | 0.5300 | 0.3574 | 0.1467 | -0.1667 |
+| mixed | 300 | 0.2686 | 0.5133 | 0.3346 | 0.2333 | -0.0482 |
+| mode | 300 | 0.2686 | 0.5633 | 0.4030 | 0.2100 | -0.0801 |
+| qframe | 300 | 0.2686 | 0.5333 | 0.3620 | 0.2067 | -0.0847 |
+| train | 300 | 0.2686 | 0.5367 | 0.3665 | 0.1367 | -0.1804 |
 
 ## 8. What this says
 
@@ -905,8 +929,21 @@ answered is narrower and is the part the card can pay for.
 | `results/system/lmeval/corpus_nosft/records_lexicon_greedy.jsonl.gz` | 17,173 | 2026-09-01 07:17 |
 | `results/system/lmeval/corpus_nosft/records_mode_greedy.jsonl.gz` | 16,360 | 2026-09-01 07:18 |
 | `results/system/lmeval/corpus_nosft/records_mixed_greedy.jsonl.gz` | 14,069 | 2026-09-01 07:19 |
+| `results/system/lmeval/lm350/summary.json` | 81,639 | 2026-09-01 10:08 |
+| `results/system/lmeval/lm350/records_train_frames_eval_greedy.jsonl.gz` | 40,706 | 2026-09-01 09:07 |
+| `results/system/lmeval/lm350/records_train_frames_eval_sampled.jsonl.gz` | 40,699 | 2026-09-01 09:14 |
+| `results/system/lmeval/lm350/records_qframe_greedy.jsonl.gz` | 37,406 | 2026-09-01 09:20 |
+| `results/system/lmeval/lm350/records_qframe_sampled.jsonl.gz` | 37,445 | 2026-09-01 09:27 |
+| `results/system/lmeval/lm350/records_lexicon_greedy.jsonl.gz` | 38,699 | 2026-09-01 09:34 |
+| `results/system/lmeval/lm350/records_lexicon_sampled.jsonl.gz` | 38,786 | 2026-09-01 09:41 |
+| `results/system/lmeval/lm350/records_mode_greedy.jsonl.gz` | 36,849 | 2026-09-01 09:48 |
+| `results/system/lmeval/lm350/records_mode_sampled.jsonl.gz` | 36,848 | 2026-09-01 09:55 |
+| `results/system/lmeval/lm350/records_mixed_greedy.jsonl.gz` | 33,632 | 2026-09-01 10:02 |
+| `results/system/lmeval/lm350/records_mixed_sampled.jsonl.gz` | 33,640 | 2026-09-01 10:08 |
 | `results/system/lmframe/corpus_before_greedy.json` | 11,887 | 2026-09-01 07:16 |
+| `results/system/lmframe/corpus_after_greedy.json` | 12,011 | 2026-09-01 10:21 |
 | `results/system/gate/strict_gate_base.json` | 3,393 | 2026-09-01 07:04 |
+| `results/system/lm/train.jsonl` | 40,099 | 2026-09-01 09:00 |
 | `results/norm/compare/x_items.jsonl.gz` | 292,011 | 2026-08-31 10:52 |
 | `data/norm/grid_train.npz` | 3,459,112 | 2026-08-31 11:10 |
 | `data/norm/manifest.json` | 1,336 | 2026-08-31 06:27 |
@@ -923,6 +960,7 @@ a records file newer than the summary that reports it.
 | ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
 | ftxl93 | 2026-08-31 20:06 | 10 | 2026-08-31 20:06 | yes |
 | corpus_nosft | 2026-09-01 07:19 | 5 | 2026-09-01 07:19 | yes |
+| lm350 | 2026-09-01 10:08 | 10 | 2026-09-01 10:08 | yes |
 
 ## 10. How to run it
 
