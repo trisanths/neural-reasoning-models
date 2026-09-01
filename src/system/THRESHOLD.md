@@ -293,6 +293,11 @@ The same axis inside the groups whose sentence mode training did contain.
 | b45 | lexicon | 0.7378 (3528) | 0.6959 (3472) |
 | b45 | mode | 0.6165 (3528) | 0.2471 (3472) |
 | b45 | mixed | 0.6184 (3514) | 0.3328 (3486) |
+| corpus_nosft | train | 0.0000 (704) | 0.0000 (696) |
+| corpus_nosft | qframe | 0.0000 (700) | 0.0000 (700) |
+| corpus_nosft | lexicon | 0.0000 (705) | 0.0000 (695) |
+| corpus_nosft | mode | 0.0000 (705) | 0.0000 (695) |
+| corpus_nosft | mixed | 0.0000 (712) | 0.0000 (688) |
 
 On trained frames the two positions are within about a point of each other at
 both rungs, 0.9206 against 0.9211 at
@@ -703,16 +708,30 @@ write the structure down, and does it still generalise afterwards.
 
 Structure exact match, on the same grader every rung goes through.
 
-*Not measured yet: the 350M arm, queue2.sh step 6.*
+| checkpoint | mode | train | qframe | lexicon | mode | mixed |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| corpus_nosft | greedy | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
 
-*Not measured yet: the 350M arm, queue2.sh step 6.*
+| checkpoint | group | n | exact | malformed | refused | wrong | safe/unsafe |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| corpus_nosft | train | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | qframe | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | lexicon | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | mode | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | mixed | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
 
 Forced choice on held-out frames, the same checkpoint before and after the
 structure fine tune. Each cell carries its own chance floor, which is the mean
 over that cell's items of one over that item's option count. `strict` requires
 exactly one option named and it the gold one.
 
-*Not measured yet: the frame reading before and after the structure fine tune.*
+| split | n | floor | strict, before | corrected, before | strict, after | corrected, after |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lexicon | 300 | 0.2686 | 0.5300 | 0.3574 | n/a | n/a |
+| mixed | 300 | 0.2686 | 0.5133 | 0.3346 | n/a | n/a |
+| mode | 300 | 0.2686 | 0.5633 | 0.4030 | n/a | n/a |
+| qframe | 300 | 0.2686 | 0.5333 | 0.3620 | n/a | n/a |
+| train | 300 | 0.2686 | 0.5367 | 0.3665 | n/a | n/a |
 
 ## 8. What this says
 
@@ -880,6 +899,14 @@ answered is narrower and is the part the card can pay for.
 | `results/system/eval/ftxl93/summary.json` | 79,603 | 2026-08-31 20:06 |
 | `results/system/tpose/xmode_xl93.json` | 1,474 | 2026-08-31 20:03 |
 | `results/system/train/log_xl93.jsonl` | 15,652 | 2026-08-31 19:50 |
+| `results/system/lmeval/corpus_nosft/summary.json` | 41,170 | 2026-09-01 07:19 |
+| `results/system/lmeval/corpus_nosft/records_train_frames_eval_greedy.jsonl.gz` | 17,669 | 2026-09-01 07:16 |
+| `results/system/lmeval/corpus_nosft/records_qframe_greedy.jsonl.gz` | 17,106 | 2026-09-01 07:17 |
+| `results/system/lmeval/corpus_nosft/records_lexicon_greedy.jsonl.gz` | 17,173 | 2026-09-01 07:17 |
+| `results/system/lmeval/corpus_nosft/records_mode_greedy.jsonl.gz` | 16,360 | 2026-09-01 07:18 |
+| `results/system/lmeval/corpus_nosft/records_mixed_greedy.jsonl.gz` | 14,069 | 2026-09-01 07:19 |
+| `results/system/lmframe/corpus_before_greedy.json` | 11,887 | 2026-09-01 07:16 |
+| `results/system/gate/strict_gate_base.json` | 3,393 | 2026-09-01 07:04 |
 | `results/norm/compare/x_items.jsonl.gz` | 292,011 | 2026-08-31 10:52 |
 | `data/norm/grid_train.npz` | 3,459,112 | 2026-08-31 11:10 |
 | `data/norm/manifest.json` | 1,336 | 2026-08-31 06:27 |
@@ -895,6 +922,7 @@ a records file newer than the summary that reports it.
 | xl93 | 2026-08-31 23:11 | 10 | 2026-08-31 23:11 | yes |
 | ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
 | ftxl93 | 2026-08-31 20:06 | 10 | 2026-08-31 20:06 | yes |
+| corpus_nosft | 2026-09-01 07:19 | 5 | 2026-09-01 07:19 | yes |
 
 ## 10. How to run it
 

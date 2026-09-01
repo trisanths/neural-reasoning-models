@@ -298,6 +298,11 @@
 | b45 | lexicon | 0.7378 (3528) | 0.6959 (3472) |
 | b45 | mode | 0.6165 (3528) | 0.2471 (3472) |
 | b45 | mixed | 0.6184 (3514) | 0.3328 (3486) |
+| corpus_nosft | train | 0.0000 (704) | 0.0000 (696) |
+| corpus_nosft | qframe | 0.0000 (700) | 0.0000 (700) |
+| corpus_nosft | lexicon | 0.0000 (705) | 0.0000 (695) |
+| corpus_nosft | mode | 0.0000 (705) | 0.0000 (695) |
+| corpus_nosft | mixed | 0.0000 (712) | 0.0000 (688) |
 
 ## What the value-first failures are made of
 | rung | key position | n | exact | wrong | refused | malformed |
@@ -436,6 +441,119 @@
 | xl93 | lexicon | 700 | 0.6871 | 0.6986 |
 | xl93 | mode | 700 | 0.5529 | 0.5186 |
 
+## The 350M arm, structure exact match
+| checkpoint | mode | train | qframe | lexicon | mode | mixed |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| corpus_nosft | greedy | 0.0000 | 0.0000 | 0.0000 | 0.0000 | 0.0000 |
+
+## The 350M arm, safe failure, greedy
+| checkpoint | group | n | exact | malformed | refused | wrong | safe/unsafe |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| corpus_nosft | train | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | qframe | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | lexicon | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | mode | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+| corpus_nosft | mixed | 1400 | 0.0000 | 1.0000 | 0.0000 | 0.0000 | inf |
+
+## Per shape, corpus_nosft, train, greedy exact
+| shape | n | parser | modal/shape | corpus_nosft |
+| --- | ---: | ---: | ---: | ---: |
+| lookup | 100 | 1.0000 | 0.1800 | 0.0000 |
+| lookup_general | 100 | 1.0000 | 0.5100 | 0.0000 |
+| classify | 100 | 1.0000 | 0.0200 | 0.0000 |
+| inverse | 100 | 1.0000 | 0.1600 | 0.0000 |
+| compose | 100 | 1.0000 | 0.0500 | 0.0000 |
+| iterate | 100 | 1.0000 | 0.0400 | 0.0000 |
+| pair | 100 | 1.0000 | 0.1500 | 0.0000 |
+| priority | 100 | 1.0000 | 0.0800 | 0.0000 |
+| exclusion | 100 | 1.0000 | 0.2000 | 0.0000 |
+| lookup_then_band | 100 | 1.0000 | 0.0100 | 0.0000 |
+| band_then_lookup | 100 | 1.0000 | 0.0200 | 0.0000 |
+| sum_chain | 100 | 1.0000 | 0.0100 | 0.0000 |
+| apply_n | 100 | 1.0000 | 0.0100 | 0.0000 |
+| precedence | 100 | 1.0000 | 0.1600 | 0.0000 |
+
+## Per shape, corpus_nosft, qframe, greedy exact
+| shape | n | parser | modal/shape | corpus_nosft |
+| --- | ---: | ---: | ---: | ---: |
+| lookup | 100 | 1.0000 | 0.1200 | 0.0000 |
+| lookup_general | 100 | 1.0000 | 0.5100 | 0.0000 |
+| classify | 100 | 1.0000 | 0.0200 | 0.0000 |
+| inverse | 100 | 1.0000 | 0.2200 | 0.0000 |
+| compose | 100 | 1.0000 | 0.0600 | 0.0000 |
+| iterate | 100 | 1.0000 | 0.0400 | 0.0000 |
+| pair | 100 | 1.0000 | 0.1600 | 0.0000 |
+| priority | 100 | 1.0000 | 0.0600 | 0.0000 |
+| exclusion | 100 | 1.0000 | 0.1500 | 0.0000 |
+| lookup_then_band | 100 | 1.0000 | 0.0100 | 0.0000 |
+| band_then_lookup | 100 | 1.0000 | 0.0200 | 0.0000 |
+| sum_chain | 100 | 1.0000 | 0.0100 | 0.0000 |
+| apply_n | 100 | 1.0000 | 0.0100 | 0.0000 |
+| precedence | 100 | 1.0000 | 0.1400 | 0.0000 |
+
+## Per shape, corpus_nosft, lexicon, greedy exact
+| shape | n | parser | modal/shape | corpus_nosft |
+| --- | ---: | ---: | ---: | ---: |
+| lookup | 100 | 1.0000 | 0.1400 | 0.0000 |
+| lookup_general | 100 | 1.0000 | 0.5000 | 0.0000 |
+| classify | 100 | 1.0000 | 0.0200 | 0.0000 |
+| inverse | 100 | 1.0000 | 0.1600 | 0.0000 |
+| compose | 100 | 1.0000 | 0.0400 | 0.0000 |
+| iterate | 100 | 1.0000 | 0.0500 | 0.0000 |
+| pair | 100 | 1.0000 | 0.1500 | 0.0000 |
+| priority | 100 | 1.0000 | 0.0800 | 0.0000 |
+| exclusion | 100 | 1.0000 | 0.1500 | 0.0000 |
+| lookup_then_band | 100 | 1.0000 | 0.0100 | 0.0000 |
+| band_then_lookup | 100 | 1.0000 | 0.0200 | 0.0000 |
+| sum_chain | 100 | 1.0000 | 0.0100 | 0.0000 |
+| apply_n | 100 | 1.0000 | 0.0100 | 0.0000 |
+| precedence | 100 | 1.0000 | 0.1800 | 0.0000 |
+
+## Per shape, corpus_nosft, mode, greedy exact
+| shape | n | parser | modal/shape | corpus_nosft |
+| --- | ---: | ---: | ---: | ---: |
+| lookup | 100 | 1.0000 | 0.1500 | 0.0000 |
+| lookup_general | 100 | 1.0000 | 0.5100 | 0.0000 |
+| classify | 100 | 1.0000 | 0.0200 | 0.0000 |
+| inverse | 100 | 1.0000 | 0.1800 | 0.0000 |
+| compose | 100 | 1.0000 | 0.0300 | 0.0000 |
+| iterate | 100 | 1.0000 | 0.0600 | 0.0000 |
+| pair | 100 | 1.0000 | 0.1600 | 0.0000 |
+| priority | 100 | 1.0000 | 0.0600 | 0.0000 |
+| exclusion | 100 | 1.0000 | 0.1600 | 0.0000 |
+| lookup_then_band | 100 | 1.0000 | 0.0100 | 0.0000 |
+| band_then_lookup | 100 | 1.0000 | 0.0200 | 0.0000 |
+| sum_chain | 100 | 1.0000 | 0.0100 | 0.0000 |
+| apply_n | 100 | 1.0000 | 0.0100 | 0.0000 |
+| precedence | 100 | 1.0000 | 0.1600 | 0.0000 |
+
+## Per shape, corpus_nosft, mixed, greedy exact
+| shape | n | parser | modal/shape | corpus_nosft |
+| --- | ---: | ---: | ---: | ---: |
+| lookup | 100 | 1.0000 | 0.1400 | 0.0000 |
+| lookup_general | 100 | 1.0000 | 0.5600 | 0.0000 |
+| classify | 100 | 1.0000 | 0.0200 | 0.0000 |
+| inverse | 100 | 1.0000 | 0.2200 | 0.0000 |
+| compose | 100 | 1.0000 | 0.0300 | 0.0000 |
+| iterate | 100 | 1.0000 | 0.0400 | 0.0000 |
+| pair | 100 | 1.0000 | 0.1700 | 0.0000 |
+| priority | 100 | 1.0000 | 0.0600 | 0.0000 |
+| exclusion | 100 | 1.0000 | 0.2500 | 0.0000 |
+| lookup_then_band | 100 | 1.0000 | 0.0100 | 0.0000 |
+| band_then_lookup | 100 | 1.0000 | 0.0200 | 0.0000 |
+| sum_chain | 100 | 1.0000 | 0.0100 | 0.0000 |
+| apply_n | 100 | 1.0000 | 0.0100 | 0.0000 |
+| precedence | 100 | 1.0000 | 0.2000 | 0.0000 |
+
+## Held-out frames, forced choice, before and after the structure fine tune
+| split | n | floor | strict, before | corrected, before | strict, after | corrected, after |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| lexicon | 300 | 0.2686 | 0.5300 | 0.3574 | n/a | n/a |
+| mixed | 300 | 0.2686 | 0.5133 | 0.3346 | n/a | n/a |
+| mode | 300 | 0.2686 | 0.5633 | 0.4030 | n/a | n/a |
+| qframe | 300 | 0.2686 | 0.5333 | 0.3620 | n/a | n/a |
+| train | 300 | 0.2686 | 0.5367 | 0.3665 | n/a | n/a |
+
 ## Records against the reports beside them
 | report | written | records | newest record | ok |
 | --- | --- | ---: | --- | --- |
@@ -443,3 +561,4 @@
 | xl93 | 2026-08-31 23:11 | 10 | 2026-08-31 23:11 | yes |
 | ftl45 | 2026-08-31 20:01 | 10 | 2026-08-31 20:01 | yes |
 | ftxl93 | 2026-08-31 20:06 | 10 | 2026-08-31 20:06 | yes |
+| corpus_nosft | 2026-09-01 07:19 | 5 | 2026-09-01 07:19 | yes |
