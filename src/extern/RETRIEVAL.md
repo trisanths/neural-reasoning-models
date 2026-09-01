@@ -253,8 +253,10 @@ from text. The step 1 diagnosis and every packing, context length and merge
 result cost nothing, because a condition is fetched once and scored offline as
 many times as needed.
 
-The sweep cache is at `results/extern/exa_sweep_cache` on the box, 257 MB,
-gitignored. It is namespaced by the whole request rather than by the query
+The sweep cache is at `results/extern/exa_sweep_cache` on the box, 650
+entries and 340 MB, gitignored. The two smoke test searches were deleted
+before the sweep began, which is why the entry count is 650 and the spend
+is 652. It is namespaced by the whole request rather than by the query
 string, so a run with different options writes a different key and can never
 be served an entry fetched under other options. Every entry records how many
 results came back and how many carried text, and an entry whose stored request
@@ -464,7 +466,7 @@ Artifacts, all on the box under `~/decoupled-reasoner`:
 | `results/extern/bench/cell4b_lfm2_mmlu_passages_n200.json` | the new scored arm |
 | `results/extern/bench/cell4c_lfm2_mmlu_seq5_n200.json` | the matched packing control |
 | `results/extern/retreport.json` | the step 3 cells |
-| `results/extern/exa_sweep_cache/` | every fetched search, gitignored, 257 MB |
+| `results/extern/exa_sweep_cache/` | every fetched search, gitignored, 340 MB |
 | `data/extern/gen_queries.json` | the 50 generated queries, written from stems alone |
 
 Code, all under `src/extern/`: `retpack.py` packing and detection,
