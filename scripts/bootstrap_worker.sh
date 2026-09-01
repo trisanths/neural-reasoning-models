@@ -148,10 +148,11 @@ else
   TARBALL="/tmp/$(basename "$CODE_KEY")"
   aws s3 cp "$BUCKET/$CODE_KEY" "$TARBALL" --region "$REGION" --quiet || die "download $CODE_KEY"
   mkdir -p "$REPO"
+  NFILES=$(tar tzf "$TARBALL" | grep -cv '/$')
   tar xzf "$TARBALL" -C "$REPO" || die "unpack $CODE_KEY"
   rm -f "$TARBALL"
   printf '%s\n' "$COMMIT" > "$REPO/.snapshot_commit"
-  say "unpacked $(find "$REPO" -type f | wc -l) files at commit $COMMIT"
+  say "unpacked $NFILES files at commit $COMMIT"
 fi
 
 # The repo's own generated trees are not in the snapshot. Create them, on the
