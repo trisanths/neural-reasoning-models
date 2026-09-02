@@ -58,28 +58,49 @@ def mmlu_table(tags, out):
 
 
 def curve_table(out):
+    """The curve against tokens seen.
+
+    Every row is a checkpoint pulled mid-cosine. The schedule is sized for
+    26,700 steps, so an intermediate checkpoint sits near the peak learning
+    rate and reads lower than its token count deserves. That is a fact about
+    the schedule and the rows are labelled with it rather than corrected for
+    it; only the last row is annealed.
+
+    Modal share is the fraction of predictions landing on the single most
+    chosen letter. Uniform guessing is 0.25 and the old checkpoint is 0.695 to
+    0.730. It moves before accuracy does, so it is the earlier signal.
+    """
     p = R / "curve.jsonl"
     if not p.exists():
         return []
     rows = [json.loads(l) for l in p.read_text().splitlines() if l.strip()]
     if not rows:
         return []
+    final_step = 26700
     out.append("### MMLU against tokens seen\n")
+    out.append("Rows are mid-anneal unless the step column reads %d; the "
+               "cosine is sized for that step, so earlier checkpoints sit "
+               "near peak learning rate and read low for their token count. "
+               "Reference points: corpus-v1-8k 0.2450 at n=1000 with modal "
+               "share 0.695, LFM2-350M 0.4300 at n=200.\n" % final_step)
     out.append("| step | tokens | tok/param | n=1000 acc | 95% Wilson | "
-               "issued query | letter counts A/B/C/D |")
-    out.append("| ---: | ---: | ---: | ---: | --- | ---: | --- |")
+               "modal share | issued query | anneal |")
+    out.append("| ---: | ---: | ---: | ---: | --- | ---: | ---: | --- |")
     for r in sorted(rows, key=lambda x: x["step"]):
         m = r.get("mmlu_n1000") or {}
         ret = r.get("retrieval_none_n200") or {}
-        out.append("| %d | %.2fB | %.2f | %s | %s | %s | %s |"
+        counts = m.get("pred_letter_counts") or []
+        tot = sum(counts)
+        modal = ("%.3f" % (max(counts) / tot)) if tot else "-"
+        out.append("| %d | %.2fB | %.2f | %s | %s | %s | %s | %s |"
                    % (r["step"], r["tokens_seen"] / 1e9,
                       r["tokens_per_param"],
                       ("%.4f" % m["acc"]) if m.get("acc") is not None else "-",
                       fmt_ci(m) if m.get("ci95") else "-",
+                      modal,
                       ("%.3f" % ret["issued_query"])
                       if ret.get("issued_query") is not None else "-",
-                      "/".join(str(c) for c in m.get("pred_letter_counts",
-                                                     []))))
+                      "complete" if r["step"] >= final_step else "mid"))
     out.append("")
     return [("curve.jsonl", os.path.getmtime(p))]
 
