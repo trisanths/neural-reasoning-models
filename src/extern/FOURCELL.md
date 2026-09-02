@@ -268,6 +268,20 @@ Shown the same eight shot chain of thought text LFM2 reads, through its own toke
 
 So the plain statement is this. Our reader does not solve GSM8K. It parses the problems in the weak sense that it emits a number when a number is asked for, on 190 of 200 items, and closed book that number is right 3 times in 200. Both figures belong in the same sentence, because the score above is over all 200 items and not over the 190 it managed to format; that is what makes it the number the published table can be held next to, and quoting the parse rate as the accuracy would be a different and better sounding claim.
 
+### A floor for a reader that only emits a number
+
+GSM8K has no chance floor in the multiple choice sense and the tables above carry 0.0000, which is the convention. That convention is the wrong yardstick for a model whose entire output is one number. A policy that writes some number already in front of it is not reasoning, and how often that lands is measurable: draw uniformly from the numbers in the problem, or from the numbers in the retrieved block, and score it. Each row is 200 draws per item.
+
+| strategy                                   | draws | rate   | numbers available per block |
+| ------------------------------------------ | ----- | ------ | --------------------------- |
+| a number drawn from the problem text       | 40000 | 0.0209 | -                           |
+| a number drawn from the method block       | 40000 | 0.0182 | 78.3                        |
+| a number drawn from the problem-text block | 40000 | 0.0153 | 82.3                        |
+
+Against that yardstick our reader has no result on GSM8K under any condition. Closed book it scores 0.0150, below the 0.0209 a uniform draw from the problem's own numbers gets. With method retrieval it scores 0.0300 against 0.0182 for a uniform draw from the block, and with problem-text retrieval 0.0350 against 0.0153. Every one of those intervals covers its floor. The apparent doubling from 0.0150 to 0.0300 under retrieval is a doubling relative to a baseline that also moves, and the paired test below does not separate it from nothing.
+
+LFM2-350M is nowhere near this problem. At 0.3650 it is more than seventeen times the highest of these floors, which is the difference between a model that solves the problems and a model that emits plausible numbers.
+
 ### Contamination split, per condition
 
 Labelled on the pages actually placed in the context: the verbatim problem, its gold answer, or neither. Never pooled. Correct with the answer on the page is a lookup; correct with neither is the reasoning result.
@@ -362,4 +376,4 @@ That pricing reproduces the project's own experience on the earlier sweep: 652 s
 - `results/extern/bench/gsm4_ours_native_a_n200.json`, written 2026-09-02 06:09 UTC
 - `results/extern/bench/gsm4_ours_native_n200.json`, written 2026-09-02 06:13 UTC
 - `results/extern/bench/gsm4_ours_shots_a_n200.json`, written 2026-09-02 06:14 UTC
-- `results/extern/bench/gsm4_controls.json`, written 2026-09-02 06:17 UTC
+- `results/extern/bench/gsm4_controls.json`, written 2026-09-02 06:22 UTC

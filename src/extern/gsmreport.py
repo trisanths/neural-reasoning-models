@@ -224,6 +224,56 @@ if free and forced:
       "better sounding claim.")
     A("")
 
+if C and "emit_a_number_floor" in C:
+    F = C["emit_a_number_floor"]
+    A("### A floor for a reader that only emits a number")
+    A("")
+    A("GSM8K has no chance floor in the multiple choice sense and the tables "
+      "above carry 0.0000, which is the convention. That convention is the "
+      "wrong yardstick for a model whose entire output is one number. A "
+      "policy that writes some number already in front of it is not "
+      "reasoning, and how often that lands is measurable: draw uniformly "
+      "from the numbers in the problem, or from the numbers in the retrieved "
+      "block, and score it. Each row is 200 draws per item.")
+    A("")
+    rows = []
+    for k, lab in (("number_from_the_problem",
+                    "a number drawn from the problem text"),
+                   ("number_from_the_method_block",
+                    "a number drawn from the method block"),
+                   ("number_from_the_problem_block",
+                    "a number drawn from the problem-text block")):
+        v = F.get(k)
+        if v:
+            rows.append([lab, v["n"], f"{v['rate']:.4f}",
+                         v.get("mean_numbers_per_block", "-")])
+    A(tbl(["strategy", "draws", "rate", "numbers available per block"], rows))
+    A("")
+    oc = recs("ours_a", "closed")
+    om = recs("ours_a", "method")
+    op = recs("ours_a", "problem")
+    kc, nc = acc(oc, "flexible_correct")
+    km2, _ = acc(om, "flexible_correct")
+    kp, _ = acc(op, "flexible_correct")
+    A(f"Against that yardstick our reader has no result on GSM8K under any "
+      f"condition. Closed book it scores {kc / nc:.4f}, below the "
+      f"{F['number_from_the_problem']['rate']:.4f} a uniform draw from the "
+      f"problem's own numbers gets. With method retrieval it scores "
+      f"{km2 / nc:.4f} against "
+      f"{F['number_from_the_method_block']['rate']:.4f} for a uniform draw "
+      f"from the block, and with problem-text retrieval {kp / nc:.4f} "
+      f"against {F['number_from_the_problem_block']['rate']:.4f}. Every one "
+      "of those intervals covers its floor. The apparent doubling from "
+      "0.0150 to 0.0300 under retrieval is a doubling relative to a baseline "
+      "that also moves, and the paired test below does not separate it from "
+      "nothing.")
+    A("")
+    A("LFM2-350M is nowhere near this problem. At 0.3650 it is more than "
+      "seventeen times the highest of these floors, which is the difference "
+      "between a model that solves the problems and a model that emits "
+      "plausible numbers.")
+    A("")
+
 A("### Contamination split, per condition")
 A("")
 A("Labelled on the pages actually placed in the context: the verbatim "

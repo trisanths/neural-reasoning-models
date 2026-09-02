@@ -98,6 +98,52 @@ for cond in ("method", "problem"):
         "correct_with_gold_in_block": sum(
             1 for i in corr if present(recs[i]["flexible"], blocks[i]))}
 
+# An informative floor for a reader whose whole behaviour is to emit a number.
+# GSM8K has no chance floor in the multiple choice sense, but a model that
+# writes one of the numbers already in front of it is not reasoning, and how
+# often that strategy lands is measurable. Two versions: draw from the numbers
+# in the problem, and draw from the numbers in the retrieved block.
+NUMS = re.compile(r"-?\d[\d,]*\.?\d*")
+
+
+def numbers_in(text):
+    out = []
+    for m in NUMS.findall(text or ""):
+        try:
+            out.append(float(m.replace(",", "")))
+        except ValueError:
+            pass
+    return out
+
+
+rng = random.Random(4242)
+TRIALS = 200
+floors = {}
+prob_nums = [numbers_in(r["question"]) for r in test]
+hit = 0
+for _ in range(TRIALS):
+    for i, ns in enumerate(prob_nums):
+        if ns and rng.choice(ns) == gold[i]:
+            hit += 1
+floors["number_from_the_problem"] = {
+    "n": len(test) * TRIALS, "k": hit,
+    "rate": round(hit / (len(test) * TRIALS), 4), "trials": TRIALS}
+for cond in ("method", "problem"):
+    blocks = [fetch_block(client, cond, r, d["num_results"],
+                          d["max_context_chars"])[0] for r in test]
+    blk_nums = [numbers_in(b) for b in blocks]
+    hit = 0
+    for _ in range(TRIALS):
+        for i, ns in enumerate(blk_nums):
+            if ns and rng.choice(ns) == gold[i]:
+                hit += 1
+    floors[f"number_from_the_{cond}_block"] = {
+        "n": len(test) * TRIALS, "k": hit,
+        "rate": round(hit / (len(test) * TRIALS), 4), "trials": TRIALS,
+        "mean_numbers_per_block": round(
+            sum(len(x) for x in blk_nums) / len(blk_nums), 1)}
+res["emit_a_number_floor"] = floors
+
 res["live_searches"] = client.live
 res["cache_hits"] = client.hits
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
