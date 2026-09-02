@@ -20,7 +20,11 @@ from collections import defaultdict
 from src.e3.interval import summarise as interval
 from src.frames import score as sc
 
-HOP_KEYS = ("hops", "n_hops", "depth", "derivation_steps")
+# The rollout records call the derivation-step count plan_len. It is 1 to 4
+# on the chaining families and 1 on the single-lookup ones, and it is the
+# axis RETRAIN.md reports as depth. The other spellings are accepted so the
+# scorer keeps working if the field is ever renamed.
+HOP_KEYS = ("plan_len", "hops", "n_hops", "depth", "derivation_steps")
 
 
 def hop_of(rec: dict):
@@ -46,6 +50,8 @@ def main() -> int:
     ap.add_argument("--rolls", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--families", default="")
+    ap.add_argument("--min-cell", type=int, default=1,
+                    help="drop cells smaller than this")
     a = ap.parse_args()
 
     want = set(f for f in a.families.split(",") if f)
@@ -59,11 +65,14 @@ def main() -> int:
         h = hop_of(r)
         cells[(r.get("decode", "?"), fam, h)].append(r)
 
+
     out = {"rolls": a.rolls, "hop_field_candidates": sorted(
         k for k in seen_keys if k in HOP_KEYS), "cells": {}}
     for key in sorted(cells, key=lambda k: (k[0], k[1], -1 if k[2] is None
                                             else k[2])):
         rows = cells[key]
+        if len(rows) < a.min_cell:
+            continue
         # Open numeric families carry no candidate set; forced choice is not
         # defined on them, so they are reported by exact match with floor 0.
         has_cand = any(r.get("candidates") for r in rows)
