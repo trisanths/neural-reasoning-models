@@ -565,6 +565,12 @@ was reading the training distribution, and that includes the plan-head
 comparison, the vocabulary ladder and the latent-recurrence sweep, all of which
 train through depth three and evaluate past it.
 
+With one caveat that has to travel with this entry: no artifact for those eight
+arms could be located anywhere. See the unverifiable section. The capacity
+reading stays dead, because it never had positive evidence, but the
+distributional reading that replaced it currently rests on a prose table, and
+the evidence to cite for it is the corpus retrain's plan-length result instead.
+
 ### The positional collapse as a substrate result
 
 I argued this from three flips: the 93M rung reverses against the 45M rung, arm
@@ -686,6 +692,52 @@ that the checkpoint's apparent score is a positional prior rather than reading,
 and that is established at n=200 from a surviving artifact: predictions split
 A/B/C/D as 146/7/35/12, 0.730 of the mass on the first option, against a gold-A
 share of 0.300 in the drawn sample. Every interval at every n contains chance.
+
+### The training-ceiling arms, which are what killed H10
+
+This is the most consequential entry here and it was found while writing this
+document.
+
+`PREREGISTERED.md` records "H12 result, 2026-08-29: the composition wall was the
+training ceiling": eight arms from the same 350M base, same worlds, same seeds,
+8000 steps at batch 32, varying only the maximum plan depth in training, with a
+table of mean emitted plan steps and accuracy for arms `d1s1`, `d3s1`, `d6s1`
+and `d8s1` at evaluation depths 3 to 32. It is the result that declares H10 dead
+and reframes the composition wall as distributional, and `THESIS.md` and the
+rest of the programme are written on top of it.
+
+No artifact for it could be found. Searched, all negative:
+
+- no record file under `results/` matching the arm names; `results/opgraph/`
+  holds the earlier direct / trace / plan_execute / oracle_plan experiment,
+  which is the one correction 3 audited, and not these arms
+- no object anywhere under `s3://decoupled-reasoner-009398924577/`
+- no script or config in `src/` or `scripts/` referencing `d1s1`, `d3s1`,
+  `d6s1` or `d8s1`
+- nothing in `logs/` or `~/logs`
+- `git log --all --diff-filter=A --name-only` shows no file ever added to the
+  repository whose name contains `ceiling`, `d8s1` or `h12`
+- the working directories that hold other sweeps, `~/sweep`, `~/opg`, `~/runs`,
+  hold different experiments
+
+The only occurrence of the arm names anywhere on the box is the table in
+`PREREGISTERED.md` itself.
+
+What follows. The claim that the composition wall was a capacity limit is still
+dead, because a claim of a capacity limit needs positive evidence and never had
+it. But the distributional reading that replaced it is not currently supported
+by a locatable artifact either, and the confident statements built on it
+("H10 is dead", "the extrapolation constant is zero rather than small", "any
+depth curve that stops near three is measuring the training distribution")
+should be read as resting on an unlocatable table until the arms are found or
+re-run.
+
+Partial independent corroboration does exist and should be weighed. The corpus
+retrain, a separate experiment with artifacts, reports emitted plan steps
+tracking required steps at all 18 trained lengths and extrapolating past the 48
+training maximum, with accuracy past 48 at 0.000. That supports the general
+shape of the distributional reading, on different arms, and it is the evidence
+to cite instead. It does not reproduce the H12 table.
 
 ### The 0.680 rule-application headline
 
