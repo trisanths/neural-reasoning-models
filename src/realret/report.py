@@ -126,7 +126,11 @@ def main() -> int:
     for rel in ("pack/hotpot_qa.summary.json",
                 "pack/natural_questions.summary.json",
                 "pack/trivia_qa.summary.json",
-                "pack/synthetic.summary.json",
+                "pack/syn_relation.summary.json",
+                "pack/syn_plan_step.summary.json",
+                "pack/syn_plan_whole.summary.json",
+                "pack/syn_external.summary.json",
+                "pack/syn_mathgen.summary.json",
                 "pack/mix_real1.summary.json"):
         d, m = get(rel)
         if not d:
@@ -229,6 +233,29 @@ def main() -> int:
                          f"{json.dumps(da.get(k))} | "
                          f"`{mb['path']}`, `{ma['path']}` |")
 
+    lines += ["", "# The named surviving failure: synthetic two-hop chaining",
+              "",
+              "`src/corpus/RETRAIN.md` records `chain_rule` at 0.220 against a "
+              "0.250 floor and `weighted_chain` at 0.039 against 0.000 as the "
+              "cells the diversity corpus did not move. `weighted_chain` "
+              "carries no candidates, so it has a generation cell only, which "
+              "is how that document reports it too.", "",
+              "| cell | instrument | n | floor | acc | 95% Wilson | "
+              "chance corrected | issued a query | mean rounds | file |",
+              "| --- | --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | --- |"]
+    d, m = get("results/chain_summary.json")
+    if d:
+        for k in sorted(d):
+            v = d[k]
+            name = k.replace("chain_", "").replace(".jsonl", "")
+            lines.append(
+                f"| {name} | {v['instrument']} | {v['n']} | "
+                f"{v.get('floor', 0.0)} | {v['acc']} | "
+                f"{v['ci'][0]}-{v['ci'][1]} | "
+                f"{v.get('chance_corrected', '')} | "
+                f"{v.get('issued_query', '')} | {v.get('mean_rounds', '')} | "
+                f"`{m['path']}` |")
+
     lines += ["", "# Held-out synthetic frames, after real-document training",
               "",
               "| checkpoint | decode | family | cells | macro accuracy | "
@@ -259,8 +286,6 @@ def main() -> int:
     lines.append("| --- | --- | ---: | --- | ---: |")
 
     named = [
-        "results/harness_ours_n200_cuda.json",
-        "results/harness_lfm2_n200_cuda_bos.json",
         "results/mmlu_closed_corpus-v1-8k_n500.json",
         "results/mmlu_closed_corpus-v1-8k_n500_eot.json",
         "results/mmlu_closed_real-v1-8k_n500.json",
@@ -274,6 +299,9 @@ def main() -> int:
         "results/mmlu_agentic_real-v1-8k_n200.json",
         "results/real_scores_corpus-v1-8k.json",
         "results/real_scores_real-v1-8k.json",
+        "results/chain_summary.json",
+        "results/frames_score_corpus-v1-8k_greedy.json",
+        "results/frames_score_real-v1-8k_greedy.json",
         "reports/verify.json",
         "reports/stage_manifest.json",
         "reports/decontam.json",
@@ -284,7 +312,7 @@ def main() -> int:
         "pack/hotpot_qa.summary.json",
         "pack/natural_questions.summary.json",
         "pack/trivia_qa.summary.json",
-        "pack/synthetic.summary.json",
+        "pack/syn_relation.summary.json",
     ]
     loaded = {}
     for rel in named:
@@ -308,10 +336,7 @@ def main() -> int:
             ("LFM2-350M, bos", "results/mmlu_closed_lfm2-350m_n500_bos.json"),
             ("LFM2-350M, no bos",
              "results/mmlu_closed_lfm2-350m_n500_nobos.json"),
-            ("harness check: ours corpus-v1-8k n=200 cuda",
-             "results/harness_ours_n200_cuda.json"),
-            ("harness check: LFM2-350M n=200 cuda bos",
-             "results/harness_lfm2_n200_cuda_bos.json")]:
+            ]:
         d, m = loaded[rel]
         lines.append(acc_row(name, d, m))
 

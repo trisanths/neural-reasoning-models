@@ -37,7 +37,11 @@ The same question on held-out real documents, where the pages come from the epis
 | hotpot_qa | 55982 | 17506306 | 312.7 | {"2": 47126, "3": 8856} | `/mnt/nvme/realret/pack/hotpot_qa.summary.json` |
 | natural_questions | 36000 | 6304714 | 175.1 | {"1": 17401, "2": 18599} | `/mnt/nvme/realret/pack/natural_questions.summary.json` |
 | trivia_qa | 35993 | 8379737 | 232.8 | {"1": 14489, "2": 21504} | `/mnt/nvme/realret/pack/trivia_qa.summary.json` |
-| pack/synthetic.summary.json | file missing | | | | `/mnt/nvme/realret/pack/synthetic.summary.json` |
+| syn_relation | 64001 | 24957523 | 390.0 | {} | `/mnt/nvme/realret/pack/syn_relation.summary.json` |
+| syn_plan_step | 24000 | 4596060 | 191.5 | {} | `/mnt/nvme/realret/pack/syn_plan_step.summary.json` |
+| syn_plan_whole | 16000 | 4559358 | 285.0 | {} | `/mnt/nvme/realret/pack/syn_plan_whole.summary.json` |
+| syn_external | 11489 | 1883437 | 163.9 | {} | `/mnt/nvme/realret/pack/syn_external.summary.json` |
+| syn_mathgen | 11001 | 4334318 | 394.0 | {} | `/mnt/nvme/realret/pack/syn_mathgen.summary.json` |
 | mix_real1 | 254466 | 72521453 | 285.0 | {"relation": 64001, "natural_questions": 36000, "mathgen": 11001, "hotpot_qa": 55982, "trivia_qa": 35993, "external": 11489, "plan_whole": 16000, "plan_step": 24000} | `/mnt/nvme/realret/pack/mix_real1.summary.json` |
 
 ## Episode build, per source and split
@@ -116,6 +120,19 @@ Both scans cover every document of every bundle, not only the ones a planned tra
 | near_matches | 19 | 17 | `/mnt/nvme/realret/reports/contamination_before.json`, `/mnt/nvme/realret/reports/contamination.json` |
 | near_by_task | {"mmlu": 19, "arc": 0, "winogrande": 0, "gsm8k": 0} | {"mmlu": 17, "arc": 0, "winogrande": 0, "gsm8k": 0} | `/mnt/nvme/realret/reports/contamination_before.json`, `/mnt/nvme/realret/reports/contamination.json` |
 
+# The named surviving failure: synthetic two-hop chaining
+
+`src/corpus/RETRAIN.md` records `chain_rule` at 0.220 against a 0.250 floor and `weighted_chain` at 0.039 against 0.000 as the cells the diversity corpus did not move. `weighted_chain` carries no candidates, so it has a generation cell only, which is how that document reports it too.
+
+| cell | instrument | n | floor | acc | 95% Wilson | chance corrected | issued a query | mean rounds | file |
+| --- | --- | ---: | ---: | ---: | --- | ---: | ---: | ---: | --- |
+| gen_rule_corpus-v1-8k | generation, env grader | 384 | 0.0 | 0.4922 | 0.4425-0.542 |  | 1.0 | 1.021 | `/mnt/nvme/realret/results/chain_summary.json` |
+| gen_rule_real-v1-8k | generation, env grader | 384 | 0.0 | 0.4609 | 0.4117-0.5109 |  | 1.0 | 1.021 | `/mnt/nvme/realret/results/chain_summary.json` |
+| gen_weighted_corpus-v1-8k | generation, env grader | 1536 | 0.0 | 0.2051 | 0.1856-0.226 |  | 1.0 | 3.311 | `/mnt/nvme/realret/results/chain_summary.json` |
+| gen_weighted_real-v1-8k | generation, env grader | 1536 | 0.0 | 0.1849 | 0.1663-0.2051 |  | 1.0 | 3.304 | `/mnt/nvme/realret/results/chain_summary.json` |
+| mc_rule_corpus-v1-8k | forced choice | 1536 | 0.25 | 0.252 | 0.2309-0.2743 | 0.0026 |  |  | `/mnt/nvme/realret/results/chain_summary.json` |
+| mc_rule_real-v1-8k | forced choice | 1536 | 0.25 | 0.2441 | 0.2233-0.2662 | -0.0078 |  |  | `/mnt/nvme/realret/results/chain_summary.json` |
+
 # Held-out synthetic frames, after real-document training
 
 | checkpoint | decode | family | cells | macro accuracy | macro chance | chance corrected | file |
@@ -141,57 +158,63 @@ Both scans cover every document of every bundle, not only the ones a planned tra
 
 | file | exists | bytes | modified (UTC) | age at report, minutes |
 | --- | --- | ---: | --- | ---: |
-| `/mnt/nvme/realret/results/mmlu_agentic_corpus-v1-8k_n200.json` | True | 69909 | 2026-09-02T02:22:06Z | 215.4 |
-| `/mnt/nvme/realret/results/mmlu_agentic_real-v1-8k_n200.json` | True | 77223 | 2026-09-02T05:09:27Z | 48.0 |
-| `/mnt/nvme/realret/results/real_scores_corpus-v1-8k.json` | True | 6299 | 2026-09-02T02:53:49Z | 183.7 |
-| `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` | True | 5973 | 2026-09-02T05:34:57Z | 22.5 |
-| `/mnt/nvme/realret/pack/hotpot_qa.summary.json` | True | 311 | 2026-09-02T02:16:49Z | 220.7 |
-| `/mnt/nvme/realret/pack/natural_questions.summary.json` | True | 318 | 2026-09-02T02:17:01Z | 220.5 |
-| `/mnt/nvme/realret/pack/trivia_qa.summary.json` | True | 310 | 2026-09-02T02:17:17Z | 220.2 |
-| `/mnt/nvme/realret/pack/synthetic.summary.json` | False |  |  | None |
-| `/mnt/nvme/realret/pack/mix_real1.summary.json` | True | 601 | 2026-09-02T02:19:56Z | 217.6 |
-| `/mnt/nvme/realret/eps/hotpot_qa.train.jsonl.summary.json` | True | 428 | 2026-09-02T02:00:33Z | 236.9 |
-| `/mnt/nvme/realret/eps/hotpot_qa.validation.jsonl.summary.json` | True | 428 | 2026-09-02T02:00:47Z | 236.7 |
-| `/mnt/nvme/realret/eps/natural_questions.train.jsonl.summary.json` | True | 424 | 2026-09-02T02:02:37Z | 234.9 |
-| `/mnt/nvme/realret/eps/natural_questions.validation.jsonl.summary.json` | True | 424 | 2026-09-02T02:02:48Z | 234.7 |
-| `/mnt/nvme/realret/eps/trivia_qa.train.jsonl.summary.json` | True | 402 | 2026-09-02T02:05:32Z | 232.0 |
-| `/mnt/nvme/realret/eps/trivia_qa.validation.jsonl.summary.json` | True | 404 | 2026-09-02T02:05:50Z | 231.7 |
-| `/mnt/nvme/realret/reports/stage_manifest.json` | True | 1967 | 2026-09-02T01:55:45Z | 241.7 |
-| `/mnt/nvme/realret/reports/decontam.json` | True | 11599 | 2026-09-02T02:13:52Z | 223.6 |
-| `/mnt/nvme/realret/reports/leakage.json` | True | 1284 | 2026-09-02T02:16:14Z | 221.3 |
-| `/mnt/nvme/realret/reports/verify.json` | True | 2056 | 2026-09-02T02:16:04Z | 221.4 |
-| `/mnt/nvme/realret/reports/contamination_before.json` | True | 16357 | 2026-09-02T02:11:58Z | 225.5 |
-| `/mnt/nvme/realret/reports/contamination.json` | True | 7157 | 2026-09-02T02:15:46Z | 221.7 |
-| `/mnt/nvme/realret/results/frames_score_corpus-v1-8k_greedy.json` | True | 24879 | 2026-09-02T03:08:04Z | 169.4 |
-| `/mnt/nvme/realret/results/frames_score_corpus-v1-8k_t1.json` | True | 25540 | 2026-09-02T03:20:31Z | 157.0 |
-| `/mnt/nvme/realret/results/frames_score_real-v1-8k_greedy.json` | True | 24923 | 2026-09-02T05:45:06Z | 12.4 |
-| `/mnt/nvme/realret/results/frames_score_real-v1-8k_t1.json` | True | 25674 | 2026-09-02T05:57:28Z | 0.0 |
-| `/mnt/nvme/realret/results/harness_ours_n200_cuda.json` | False |  |  | None |
-| `/mnt/nvme/realret/results/harness_lfm2_n200_cuda_bos.json` | False |  |  | None |
-| `/mnt/nvme/realret/results/mmlu_closed_corpus-v1-8k_n500.json` | True | 132455 | 2026-09-02T02:54:13Z | 183.3 |
-| `/mnt/nvme/realret/results/mmlu_closed_corpus-v1-8k_n500_eot.json` | True | 132443 | 2026-09-02T02:54:37Z | 182.9 |
-| `/mnt/nvme/realret/results/mmlu_closed_real-v1-8k_n500.json` | True | 131975 | 2026-09-02T05:35:20Z | 22.2 |
-| `/mnt/nvme/realret/results/mmlu_closed_real-v1-8k_n500_eot.json` | True | 131948 | 2026-09-02T05:35:45Z | 21.7 |
-| `/mnt/nvme/realret/results/mmlu_closed_lfm2-350m_n500_bos.json` | True | 132830 | 2026-09-02T02:55:02Z | 182.5 |
-| `/mnt/nvme/realret/results/mmlu_closed_lfm2-350m_n500_nobos.json` | True | 132749 | 2026-09-02T02:55:22Z | 182.1 |
-| `/mnt/nvme/realret/results/mmlu_web_lfm2-350m_n500.json` | False |  |  | None |
-| `/mnt/nvme/realret/results/mmlu_web_corpus-v1-8k_n500.json` | True | 600136 | 2026-09-02T03:01:26Z | 176.1 |
-| `/mnt/nvme/realret/results/mmlu_web_real-v1-8k_n500.json` | True | 599871 | 2026-09-02T05:38:40Z | 18.8 |
-| `/mnt/nvme/realret/results/mmlu_agentic_corpus-v1-8k_n200.json` | True | 69909 | 2026-09-02T02:22:06Z | 215.4 |
-| `/mnt/nvme/realret/results/mmlu_agentic_real-v1-8k_n200.json` | True | 77223 | 2026-09-02T05:09:27Z | 48.0 |
-| `/mnt/nvme/realret/results/real_scores_corpus-v1-8k.json` | True | 6299 | 2026-09-02T02:53:49Z | 183.7 |
-| `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` | True | 5973 | 2026-09-02T05:34:57Z | 22.5 |
-| `/mnt/nvme/realret/reports/verify.json` | True | 2056 | 2026-09-02T02:16:04Z | 221.4 |
-| `/mnt/nvme/realret/reports/stage_manifest.json` | True | 1967 | 2026-09-02T01:55:45Z | 241.7 |
-| `/mnt/nvme/realret/reports/decontam.json` | True | 11599 | 2026-09-02T02:13:52Z | 223.6 |
-| `/mnt/nvme/realret/reports/contamination_before.json` | True | 16357 | 2026-09-02T02:11:58Z | 225.5 |
-| `/mnt/nvme/realret/reports/leakage.json` | True | 1284 | 2026-09-02T02:16:14Z | 221.3 |
-| `/mnt/nvme/realret/reports/contamination.json` | True | 7157 | 2026-09-02T02:15:46Z | 221.7 |
-| `/mnt/nvme/realret/pack/mix_real1.summary.json` | True | 601 | 2026-09-02T02:19:56Z | 217.6 |
-| `/mnt/nvme/realret/pack/hotpot_qa.summary.json` | True | 311 | 2026-09-02T02:16:49Z | 220.7 |
-| `/mnt/nvme/realret/pack/natural_questions.summary.json` | True | 318 | 2026-09-02T02:17:01Z | 220.5 |
-| `/mnt/nvme/realret/pack/trivia_qa.summary.json` | True | 310 | 2026-09-02T02:17:17Z | 220.2 |
-| `/mnt/nvme/realret/pack/synthetic.summary.json` | False |  |  | None |
+| `/mnt/nvme/realret/results/mmlu_agentic_corpus-v1-8k_n200.json` | True | 69909 | 2026-09-02T02:22:06Z | 330.6 |
+| `/mnt/nvme/realret/results/mmlu_agentic_real-v1-8k_n200.json` | True | 77223 | 2026-09-02T05:09:27Z | 163.3 |
+| `/mnt/nvme/realret/results/real_scores_corpus-v1-8k.json` | True | 6299 | 2026-09-02T02:53:49Z | 298.9 |
+| `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` | True | 5973 | 2026-09-02T05:34:57Z | 137.8 |
+| `/mnt/nvme/realret/pack/hotpot_qa.summary.json` | True | 311 | 2026-09-02T02:16:49Z | 335.9 |
+| `/mnt/nvme/realret/pack/natural_questions.summary.json` | True | 318 | 2026-09-02T02:17:01Z | 335.7 |
+| `/mnt/nvme/realret/pack/trivia_qa.summary.json` | True | 310 | 2026-09-02T02:17:17Z | 335.4 |
+| `/mnt/nvme/realret/pack/syn_relation.summary.json` | True | 277 | 2026-09-02T02:18:17Z | 334.4 |
+| `/mnt/nvme/realret/pack/syn_plan_step.summary.json` | True | 272 | 2026-09-02T02:18:23Z | 334.3 |
+| `/mnt/nvme/realret/pack/syn_plan_whole.summary.json` | True | 273 | 2026-09-02T02:18:28Z | 334.2 |
+| `/mnt/nvme/realret/pack/syn_external.summary.json` | True | 271 | 2026-09-02T02:18:35Z | 334.1 |
+| `/mnt/nvme/realret/pack/syn_mathgen.summary.json` | True | 270 | 2026-09-02T02:19:44Z | 333.0 |
+| `/mnt/nvme/realret/pack/mix_real1.summary.json` | True | 601 | 2026-09-02T02:19:56Z | 332.8 |
+| `/mnt/nvme/realret/eps/hotpot_qa.train.jsonl.summary.json` | True | 428 | 2026-09-02T02:00:33Z | 352.2 |
+| `/mnt/nvme/realret/eps/hotpot_qa.validation.jsonl.summary.json` | True | 428 | 2026-09-02T02:00:47Z | 351.9 |
+| `/mnt/nvme/realret/eps/natural_questions.train.jsonl.summary.json` | True | 424 | 2026-09-02T02:02:37Z | 350.1 |
+| `/mnt/nvme/realret/eps/natural_questions.validation.jsonl.summary.json` | True | 424 | 2026-09-02T02:02:48Z | 349.9 |
+| `/mnt/nvme/realret/eps/trivia_qa.train.jsonl.summary.json` | True | 402 | 2026-09-02T02:05:32Z | 347.2 |
+| `/mnt/nvme/realret/eps/trivia_qa.validation.jsonl.summary.json` | True | 404 | 2026-09-02T02:05:50Z | 346.9 |
+| `/mnt/nvme/realret/reports/stage_manifest.json` | True | 1967 | 2026-09-02T01:55:45Z | 357.0 |
+| `/mnt/nvme/realret/reports/decontam.json` | True | 11599 | 2026-09-02T02:13:52Z | 338.8 |
+| `/mnt/nvme/realret/reports/leakage.json` | True | 1284 | 2026-09-02T02:16:14Z | 336.5 |
+| `/mnt/nvme/realret/reports/verify.json` | True | 2056 | 2026-09-02T02:16:04Z | 336.6 |
+| `/mnt/nvme/realret/reports/contamination_before.json` | True | 16357 | 2026-09-02T02:11:58Z | 340.7 |
+| `/mnt/nvme/realret/reports/contamination.json` | True | 7157 | 2026-09-02T02:15:46Z | 336.9 |
+| `/mnt/nvme/realret/results/chain_summary.json` | True | 1204 | 2026-09-02T07:47:55Z | 4.8 |
+| `/mnt/nvme/realret/results/frames_score_corpus-v1-8k_greedy.json` | True | 24879 | 2026-09-02T03:08:04Z | 284.6 |
+| `/mnt/nvme/realret/results/frames_score_corpus-v1-8k_t1.json` | True | 25540 | 2026-09-02T03:20:31Z | 272.2 |
+| `/mnt/nvme/realret/results/frames_score_real-v1-8k_greedy.json` | True | 24923 | 2026-09-02T05:45:06Z | 127.6 |
+| `/mnt/nvme/realret/results/frames_score_real-v1-8k_t1.json` | True | 25674 | 2026-09-02T05:57:28Z | 115.2 |
+| `/mnt/nvme/realret/results/mmlu_closed_corpus-v1-8k_n500.json` | True | 132455 | 2026-09-02T02:54:13Z | 298.5 |
+| `/mnt/nvme/realret/results/mmlu_closed_corpus-v1-8k_n500_eot.json` | True | 132443 | 2026-09-02T02:54:37Z | 298.1 |
+| `/mnt/nvme/realret/results/mmlu_closed_real-v1-8k_n500.json` | True | 131975 | 2026-09-02T05:35:20Z | 137.4 |
+| `/mnt/nvme/realret/results/mmlu_closed_real-v1-8k_n500_eot.json` | True | 131948 | 2026-09-02T05:35:45Z | 137.0 |
+| `/mnt/nvme/realret/results/mmlu_closed_lfm2-350m_n500_bos.json` | True | 132830 | 2026-09-02T02:55:02Z | 297.7 |
+| `/mnt/nvme/realret/results/mmlu_closed_lfm2-350m_n500_nobos.json` | True | 132749 | 2026-09-02T02:55:22Z | 297.3 |
+| `/mnt/nvme/realret/results/mmlu_web_lfm2-350m_n500.json` | True | 412684 | 2026-09-02T07:16:11Z | 36.5 |
+| `/mnt/nvme/realret/results/mmlu_web_corpus-v1-8k_n500.json` | True | 600136 | 2026-09-02T03:01:26Z | 291.3 |
+| `/mnt/nvme/realret/results/mmlu_web_real-v1-8k_n500.json` | True | 599871 | 2026-09-02T05:38:40Z | 134.0 |
+| `/mnt/nvme/realret/results/mmlu_agentic_corpus-v1-8k_n200.json` | True | 69909 | 2026-09-02T02:22:06Z | 330.6 |
+| `/mnt/nvme/realret/results/mmlu_agentic_real-v1-8k_n200.json` | True | 77223 | 2026-09-02T05:09:27Z | 163.3 |
+| `/mnt/nvme/realret/results/real_scores_corpus-v1-8k.json` | True | 6299 | 2026-09-02T02:53:49Z | 298.9 |
+| `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` | True | 5973 | 2026-09-02T05:34:57Z | 137.8 |
+| `/mnt/nvme/realret/results/chain_summary.json` | True | 1204 | 2026-09-02T07:47:55Z | 4.8 |
+| `/mnt/nvme/realret/results/frames_score_corpus-v1-8k_greedy.json` | True | 24879 | 2026-09-02T03:08:04Z | 284.6 |
+| `/mnt/nvme/realret/results/frames_score_real-v1-8k_greedy.json` | True | 24923 | 2026-09-02T05:45:06Z | 127.6 |
+| `/mnt/nvme/realret/reports/verify.json` | True | 2056 | 2026-09-02T02:16:04Z | 336.6 |
+| `/mnt/nvme/realret/reports/stage_manifest.json` | True | 1967 | 2026-09-02T01:55:45Z | 357.0 |
+| `/mnt/nvme/realret/reports/decontam.json` | True | 11599 | 2026-09-02T02:13:52Z | 338.8 |
+| `/mnt/nvme/realret/reports/contamination_before.json` | True | 16357 | 2026-09-02T02:11:58Z | 340.7 |
+| `/mnt/nvme/realret/reports/leakage.json` | True | 1284 | 2026-09-02T02:16:14Z | 336.5 |
+| `/mnt/nvme/realret/reports/contamination.json` | True | 7157 | 2026-09-02T02:15:46Z | 336.9 |
+| `/mnt/nvme/realret/pack/mix_real1.summary.json` | True | 601 | 2026-09-02T02:19:56Z | 332.8 |
+| `/mnt/nvme/realret/pack/hotpot_qa.summary.json` | True | 311 | 2026-09-02T02:16:49Z | 335.9 |
+| `/mnt/nvme/realret/pack/natural_questions.summary.json` | True | 318 | 2026-09-02T02:17:01Z | 335.7 |
+| `/mnt/nvme/realret/pack/trivia_qa.summary.json` | True | 310 | 2026-09-02T02:17:17Z | 335.4 |
+| `/mnt/nvme/realret/pack/syn_relation.summary.json` | True | 277 | 2026-09-02T02:18:17Z | 334.4 |
 
 # MMLU, closed book, five shot completion
 
@@ -203,8 +226,6 @@ Both scans cover every document of every bundle, not only the ones a planned tra
 | ours real-v1-8k, eot prefix | 500 | 0.25 | 0.288 | 0.25-0.3292 | 0.038 | `/mnt/nvme/realret/results/mmlu_closed_real-v1-8k_n500_eot.json` |
 | LFM2-350M, bos | 500 | 0.25 | 0.436 | 0.3932-0.4798 | 0.186 | `/mnt/nvme/realret/results/mmlu_closed_lfm2-350m_n500_bos.json` |
 | LFM2-350M, no bos | 500 | 0.25 | 0.314 | 0.2749-0.356 | 0.064 | `/mnt/nvme/realret/results/mmlu_closed_lfm2-350m_n500_nobos.json` |
-| harness check: ours corpus-v1-8k n=200 cuda | file missing | | | | | `/mnt/nvme/realret/results/harness_ours_n200_cuda.json` |
-| harness check: LFM2-350M n=200 cuda bos | file missing | | | | | `/mnt/nvme/realret/results/harness_lfm2_n200_cuda_bos.json` |
 
 # MMLU with live web pages
 
@@ -212,6 +233,10 @@ Same items, same queries, same cached pages on every row.
 
 | model | condition | contamination | n | floor | acc | file |
 | --- | --- | --- | ---: | ---: | ---: | --- |
+| LFM2-350M | pages in context | all | 500 | 0.25 | 0.478 | `/mnt/nvme/realret/results/mmlu_web_lfm2-350m_n500.json` |
+| LFM2-350M | pages in context | verbatim | 24 | 0.25 | 0.375 | `/mnt/nvme/realret/results/mmlu_web_lfm2-350m_n500.json` |
+| LFM2-350M | pages in context | answer | 57 | 0.25 | 0.6316 | `/mnt/nvme/realret/results/mmlu_web_lfm2-350m_n500.json` |
+| LFM2-350M | pages in context | neither | 419 | 0.25 | 0.463 | `/mnt/nvme/realret/results/mmlu_web_lfm2-350m_n500.json` |
 | ours corpus-v1-8k | context overflow | prompts cropped 4 of 500, mean 2193.7 tokens, max 4840, window 4096 | | | | `/mnt/nvme/realret/results/mmlu_web_corpus-v1-8k_n500.json` |
 | ours corpus-v1-8k | closed_book | all | 500 | 0.25 | 0.264 | `/mnt/nvme/realret/results/mmlu_web_corpus-v1-8k_n500.json` |
 | ours corpus-v1-8k | closed_book | verbatim | 24 | 0.25 | 0.125 | `/mnt/nvme/realret/results/mmlu_web_corpus-v1-8k_n500.json` |
