@@ -16,7 +16,7 @@ families, and no lenient grader score without the forced-choice score beside it.
 
 ## What we would tell someone outside this project
 
-Six statements, each at the strength its interval supports and no further.
+Seven statements, each at the strength its interval supports and no further.
 
 1. A 45M encoder-decoder trained to read invented rule pages into a typed
    structure reads them at 0.9209 exact on trained sentence forms and 0.8181 on
@@ -56,12 +56,63 @@ Six statements, each at the strength its interval supports and no further.
    input must come from a previous step's retrieved result is where this
    architecture stops.
 
-6. Nothing here beats a comparable off-the-shelf model at anything. On MMLU our
+6. The strict form of the thesis is dead by its own pre-registered rule. A
+   substrate trained with no natural language at all, only synthetic worlds with
+   within-episode retrieval, scores 0.0000 on naturalized reading against 0.2053
+   for the same size trained on ordinary text, three seeds each, bootstrap
+   interval [0.0000, 0.0000]. Everything measured since runs on a model that has
+   read ordinary text.
+
+7. Nothing here beats a comparable off-the-shelf model at anything. On MMLU our
    375M checkpoint is at chance at every sample size measured, and LFM2-350M,
    which is smaller, reads 0.4300.
 
 Everything else in this document is either a measurement of how something fails,
 a correction to a claim we made, or an account of an instrument.
+
+## The pre-registered kill test
+
+### Claim K1. The strict form of the thesis was killed by its own pre-registered rule on 2026-08-26
+
+Confirmed, and it is the most consequential result in the repository.
+
+`SPEC.md` section 7 fixes the rule before the test: compare regime C against
+regime A at the 350M class on the naturalized reading suite; at or above 90
+percent of A's score the strict form survives, between 60 and 90 percent it is
+weakened, below 60 percent "the strict form is dead; Phase 2 tests only the
+weakened form and the writeup says so plainly."
+
+Regime C is the thesis in its strict form: procedural warm-up, then randomized
+synthetic worlds with within-episode retrieval, no natural corpus and no
+real-world entities, with facts mutated every episode so memorising them has
+zero expected value. Regime A is the conventional baseline, FineWeb-Edu plus
+Wikipedia.
+
+Gate metric, naturalized reading, contains-answer, clean variant, 250 items,
+three seeds per regime, from `results/killtest-2026-08-26/verdict.json`:
+
+| regime | per seed | mean | std |
+|---|---|---:|---:|
+| A, natural text | 0.2280, 0.1960, 0.1920 | 0.2053 | 0.0197 |
+| C, the strict thesis | 0.0000, 0.0000, 0.0000 | 0.0000 | 0.0000 |
+
+Ratio of means 0.0000, bootstrap 95 percent interval over items and seeds
+[0.0000, 0.0000] on 10,000 replicates with 0 dropped. Exact match on the same
+variant gives A 0.0027 and C 0.0000, so A's own score is small and C is at zero
+either way. The leakage rule was applied and every regime C checkpoint's
+knowledge probes read at chance, so C's zero is not being masked by
+contamination in the other direction.
+
+Zero is below 0.6. Under the pre-registered rule the strict form is dead, and
+the verdict file says so.
+
+Two things this does and does not settle. It does not say a small substrate
+cannot reason; it says a substrate trained with no natural language at all
+cannot read a naturalized page, which is the input side of every downstream
+experiment. And it is why everything measured since runs on the weakened form,
+a model that has seen ordinary text. Any statement in `THESIS.md` about a
+"fact-free" model should be read against this: the checkpoints in current use
+are not fact-free, and the fact-free ones scored zero.
 
 ## Role order and key position
 
@@ -748,6 +799,23 @@ stale with no provenance before this document, and it is repeated here because
 it is the origin case for the rule that every number must have a persisted
 artifact and the path must be named.
 
+### The 4B against 27B comparison
+
+`THESIS.md` twice states that a controlled comparison of a 4B against a 27B of
+the same generation shows factual knowledge retaining 92 percent under a 6.75x
+parameter cut while search depth retains 30 to 69 percent, and `PREREGISTERED.md`
+gives it as one of three bases for P1, the composition-first prediction.
+
+No artifact for it could be found: nothing in `results/`, nothing anywhere under
+`s3://decoupled-reasoner-009398924577/`, no script that would produce it. The
+only hits when grepping `results/` for the model name are inside a checkpoint
+zip and a gzipped rollout dump, which is binary noise rather than a record.
+
+It is quoted as a measurement made here. It should either be re-sourced as a
+citation to somebody else's published numbers, with the reference, or dropped.
+As it stands it is the second of the two foundations of P1 that cannot be
+checked.
+
 ### Cell 2's original finding
 
 The pass behind the published cell 2 was killed at 10 items and its conclusion
@@ -960,6 +1028,14 @@ of A to D on 18 of 400 items, and on those 18 it is at chance: 0.2222 [0.090,
 stacked on a chance-level reader, and the two have to be reported apart. The
 grader was exercised on synthetic answer shapes before that number was
 believed, and one of those checks has a hole (fault 11).
+
+The strict form of the thesis was already dead before most of this work. The
+pre-registered kill test of 2026-08-26 put a substrate trained with no natural
+language at 0.0000 against 0.2053 for the same size trained on ordinary text,
+and `SPEC.md` section 7 says what that means. Every checkpoint measured since is
+the weakened form: a model that has read ordinary text. Descriptions of a
+"fact-free" model elsewhere in `THESIS.md` do not describe anything currently in
+use.
 
 Milestone A, genuine acquisition of an unseen skill with controls ruling out
 memorisation, was declared provisionally met and is withdrawn. Milestones B
