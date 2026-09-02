@@ -831,3 +831,59 @@ Role order has no representation of its own. It is inferred from a surface
 template, and when that template is absent the model falls back on a positional
 habit fixed during training. The fix is a representation in which role is named
 rather than positioned, and no amount of scale substitutes for it.
+
+## Four interventions, none fix the positional collapse, 2026-09-02
+
+The role experiment ran four matched arms from the same base, same data volume,
+same 30,000 steps, changing only how role order is supplied. Held-out sentence
+mode, structure exact match, greedy, n about 3,500 per cell.
+
+| arm | key first | value first | gap |
+|---|---:|---:|---:|
+| l45 baseline, published | 0.7302 | 0.3177 | 0.413 |
+| A, reproduction and gate | 0.7112 | 0.3119 | 0.399 |
+| B, minimal pairs | 0.7863 | 0.3787 | 0.408 |
+| C, auxiliary role head | 0.5519 | 0.2632 | 0.289 |
+| D, pairs plus auxiliary head | 0.2639 | 0.5942 | -0.330 |
+
+Arm A reproduces the published split, so the gate passes and the rest is
+interpretable.
+
+Minimal pairs lift both positions by about five points and leave the gap
+unchanged. That arm was the strongest candidate, since pairing removes the
+per-template positional shortcut rather than merely balancing its marginal, and
+the draw was verified as 394,367 pairs over all 600,000 slots with every pair
+differing in the key-position field alone. The model learned the task slightly
+better and learned nothing about role.
+
+The auxiliary role head lowers both cells. Its narrower gap is both numbers
+falling, not a repair.
+
+Arm D flips the direction entirely, with the same magnitude of asymmetry
+pointing the other way.
+
+Trained frames stay balanced in every arm, 0.9354 and 0.9404 at A through 0.8688
+and 0.8701 at D, so this is specific to unseen sentence forms rather than a
+general degradation.
+
+### The reading
+
+On a sentence form it has never seen, this architecture commits to one
+positional convention and applies it regardless of what the sentence says.
+Balanced data does not prevent it. Minimal pairs do not prevent it. An auxiliary
+objective predicting role does not prevent it. Every intervention changed which
+convention was chosen and none changed whether one was chosen.
+
+This is the third flip observed. The 93M rung flips against the 45M rung at a
+matched token budget, and arm D flips against its own baseline. A property that
+reverses under scale and under training-signal changes, while never disappearing,
+is a property of the substrate rather than of the data.
+
+### What this does not establish
+
+These four arms are four specific interventions, not the space of them. The
+auxiliary head predicts role as a side objective; it does not force the
+representation through a role-typed channel, and nothing here tests an
+architecture in which role is a structural field the decoder must fill rather
+than a label a head must guess. That is the remaining version of the hypothesis
+and it is untested.
