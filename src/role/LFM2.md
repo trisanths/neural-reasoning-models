@@ -1,23 +1,36 @@
-# A properly trained reader of the same size does the same thing
+# LFM2-350M has the same collapse, and English is not what fixes it
 
 The 45M normalizer binds role to position on a held-out sentence mode, and
 four interventions moved which convention it picked without moving whether it
-picked one (`src/role/ROLE.md`). That result has a confound. Our checkpoints
+picked one (`src/role/ROLE.md`). That result had a confound. Our checkpoints
 are trained at about 5.24 target tokens per parameter against a compute
 optimal 20, and the 375M corpus model reads MMLU at 0.2750 against LFM2-350M's
 0.4300, so "a transformer reader cannot represent role independently of
 position" and "our reader never saw enough English to generalise role marking
-syntax" predict the same table.
+syntax" predicted the same table.
 
-LFM2-350M separates them. It has 354,483,968 parameters, essentially the size
-of our largest checkpoint, it is trained to convergence by someone else, and
-it has never seen this corpus. Put on the same items it reads the roles of a
-key-first rule sentence at 0.8805 and the roles of a value-first rule sentence
-at 0.3479, against a 0.5 floor and a parser that reads every cell at 1.0000.
-It is not undertraining. A properly trained reader of this size copies the
-surface order of a rule sentence into the direction of the relation it writes
-down, and the collapse the arms could not close is a property of the reader
-rather than of our token budget.
+LFM2-350M kills the second one. It has 354,483,968 parameters, essentially the
+size of our largest checkpoint, it is trained to convergence by someone else,
+and it has never seen this corpus. Put on the same items it writes the roles
+of a key-first rule sentence the right way round on 0.8805 of the pairs it
+reproduces and a value-first one on 0.3479, against a 0.5 floor and a parser
+that reads every cell at 1.0000. Four splits, six statement modes, five
+shapes, greedy and sampled, two parsers, all the same direction. Ample English
+does not buy a reader the ability to take role from what a rule sentence says
+rather than from where the words sit in it.
+
+That is the whole of what this measurement shows, and it is smaller than it
+looks. `THESIS.md` correction 4 landed today, from the ladder rung running
+next to this: at 167,376,384 parameters on a matched token budget our own
+reader reads 0.6341 key first and 0.6063 value first on this split, verified
+here from `results/system/eval/xxl167/records_mode_greedy.jsonl.gz`, and the
+asymmetry is gone. So the collapse is not a fixed property of a transformer
+reader at this size. It goes away with capacity, given training on the task.
+LFM2 is 354M and collapses because it has no training on the task; xxl167 is
+167M and does not because it has. The two results are consistent and together
+they say something narrower than either alone: reading role off the syntax of
+an unfamiliar rule sentence is learned from this task, it is not inherited
+from English pretraining, and below about 167M our reader does not learn it.
 
 ## What the model is and how it was prompted
 
@@ -299,12 +312,17 @@ keeps the roles or swaps them, on the same items, on the same split.
 | l45, 45,483,008 params, ours | structure exact | 0.7302 (n=3,528) | 0.3177 (n=3,472) |
 | l45 | symbol role kept | 0.9880 (22,835 symbols) | 0.5128 (22,464 symbols) |
 | l45 | symbol role flipped | 0.0119 | 0.3920 |
+| xl93match, 93,579,520 params, ours | structure exact | 0.3243 (n=3,528) | 0.7252 (n=3,472) |
+| xxl167, 167,376,384 params, ours | structure exact | 0.6341 (n=3,528) | 0.6063 (n=3,472) |
 | LFM2-350M, 354,483,968 params | pair direction | 0.8805 (1,213 pairs) | 0.3479 (1,233 pairs) |
 
-Our reader keeps the role of 0.9880 of key-first symbols and 0.5128 of
+Our 45M reader keeps the role of 0.9880 of key-first symbols and 0.5128 of
 value-first ones. LFM2 writes 0.8805 of key-first pairs the right way round
 and 0.3479 of value-first ones. Same sign, same rough size, one model
-undertrained by a factor of four and the other not.
+undertrained by a factor of four and the other not. The rung that breaks the
+pattern is ours: xxl167 reads 0.6341 against 0.6063, a gap of 0.028, at less
+than half LFM2's parameter count. Capacity plus training on the task is doing
+something that four times the parameters and a proper English budget do not.
 
 The difference that remains is which sentences it happens on. Our reader is at
 0.9206 against 0.9211 on the five trained sentence modes and collapses only on
@@ -317,20 +335,40 @@ what buys our reader its way out of it on that shape.
 
 ## Which outcome this is
 
-The second of the three the task set out. LFM2-350M shows the same asymmetry.
-A properly trained model of essentially our parameter count, on our items,
-reads a key-first rule sentence's roles at 0.88 to 0.97 and a value-first
-one's at 0.29 to 0.35, against a 0.5 floor, on four splits, six sentence
-modes, five shapes, greedy and sampled, under two parsers. The undertraining
-account does not explain that, because LFM2 is not undertrained.
+Of the three the task set out, the second, on the measurement. LFM2-350M shows
+the same asymmetry, at full strength, and the undertraining account of our own
+45M collapse does not survive it: a model with four times the size and a
+proper English budget does the same thing on the same items.
+
+The inference the task attached to that outcome does not follow, and the
+reason is our own ladder rather than anything LFM2 did. "A real property of
+transformer readers rather than of our training budget" is refuted by
+xxl167, which is a transformer reader of this family at 167M and reads
+0.6341 against 0.6063. This is not the strongest substrate result on the
+project. There is no substrate result here. The correct statement is the
+narrow one:
+
+    Role-independent-of-position reading of an unfamiliar rule sentence is
+    something this task teaches, not something English pretraining supplies.
+    LFM2-350M, with the English and without the task, fails it. xxl167, with
+    the task and a third of the parameters, passes it. The 45M and 93M rungs
+    have the task and fail it, so what they lack is capacity.
 
 Three things this does not say. It does not say the two models fail for the
 same mechanical reason, only that they fail the same way on the same items.
-It does not compare like tasks: ours emits a typed structure after 30,000
-training steps on the corpus and LFM2 writes arrows zero shot, so the levels
+It does not compare like tasks: xxl167 emits a typed structure after 110,271
+training steps on this corpus and LFM2 writes arrows zero shot, so the levels
 are not comparable and only the shape of the split is. And it does not rescue
 the four arms, which remain four interventions that changed a convention
-without removing one.
+without removing one, at a rung where correction 4 now says capacity was the
+binding constraint.
+
+What LFM2 is still good for. It is the only reading in this lane of what an
+untrained-on-task reader does with these sentences, and it says the default is
+surface order, strongly and consistently, at a size where our own trained
+reader has already stopped doing it. Any claim that a retrieval-fed small
+reasoner will pick up role marking from a general checkpoint has to answer
+0.3479.
 
 On the control the task asked for. LFM2 has no trained sentence forms here,
 so a trained against held-out ratio would be a ratio of two things that mean
