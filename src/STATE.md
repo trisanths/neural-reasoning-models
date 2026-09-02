@@ -16,12 +16,16 @@ families, and no lenient grader score without the forced-choice score beside it.
 
 ## What we would tell someone outside this project
 
-Seven statements, each at the strength its interval supports and no further.
+Eight statements, each at the strength its interval supports and no further.
 
 1. A 45M encoder-decoder trained to read invented rule pages into a typed
    structure reads them at 0.9209 exact on trained sentence forms and 0.8181 on
    a held-out symbol lexicon, against a hand-written parser at 1.0000 on every
-   cell. Surface generalisation over vocabulary is real at this size.
+   cell. That headline is pooled over an item set half of which the reader has
+   already seen: split, it is 0.9997 on structures present in the training file
+   and 0.7859 on structures absent from it. The second number is the one about
+   reading. Surface generalisation over vocabulary is real at this size, and
+   smaller than the headline.
 
 2. On a sentence form it has never seen, that reader binds which word is the key
    and which is the value to where the words sit rather than to what the
@@ -47,7 +51,15 @@ Seven statements, each at the strength its interval supports and no further.
    over the same pages beats it. What is supported is frame-conditioned value
    binding, not inference-time skill acquisition.
 
-5. Chaining is the failure that has survived every intervention tried on it.
+5. A symbolic library, with no gradient step anywhere in its path, reads an
+   operation defined on one page of prose and applies it at 1.0000 forced choice
+   against floors of 0.29 to 0.37, on 850 items over 170 distinct operations,
+   where the neural reader on the same items is at 0.00 to 0.12 and never once
+   emits the right structure in 6,736 attempts. This is the clearest positive
+   result on the project and it is a result about a symbolic reader, not about a
+   network. Its gold answers and its own answers come from the same interpreter.
+
+6. Chaining is the failure that has survived every intervention tried on it.
    Widening the training distribution fixed frame boundedness and fixed the
    plan-length ceiling and did not fix this. Training on real multi-hop
    retrieval moved HotpotQA from 0.004 to 0.278 and left `chain_rule` at its
@@ -56,14 +68,14 @@ Seven statements, each at the strength its interval supports and no further.
    input must come from a previous step's retrieved result is where this
    architecture stops.
 
-6. The strict form of the thesis is dead by its own pre-registered rule. A
+7. The strict form of the thesis is dead by its own pre-registered rule. A
    substrate trained with no natural language at all, only synthetic worlds with
    within-episode retrieval, scores 0.0000 on naturalized reading against 0.2053
    for the same size trained on ordinary text, three seeds each, bootstrap
    interval [0.0000, 0.0000]. Everything measured since runs on a model that has
    read ordinary text.
 
-7. Nothing here beats a comparable off-the-shelf model at anything. On MMLU our
+8. Nothing here beats a comparable off-the-shelf model at anything. On MMLU our
    375M checkpoint is at chance at every sample size measured, and LFM2-350M,
    which is smaller, reads 0.4300.
 
@@ -265,11 +277,14 @@ cannot find them from the repository. And `src/role/ROLE.md`'s results section
 still reads "Pending" while `THESIS.md` reports all four arms; the lane report
 was never updated after the arms landed.
 
-The planned control for arm B, the question-form-paired draw in
-`data/role/qpaired_train`, was to run only if arm B moved the split. Arm B did
-not move the split, and no qpaired run appears in `role-back/`. Correct by the
-pre-registered rule, and it means the repetition confound arm B carries was
-never separately measured.
+The planned control for arm B was to run only if arm B moved the split. Arm B
+did not, and no qpaired run appears in `role-back/`. That is correct by the
+pre-registered rule, and it means the repetition confound arm B carries, that
+seeing the same structure twice in a batch is a different training signal
+whatever axis the two renderings differ on, was never separately measured. The
+draw itself was built and survives at
+`s3://decoupled-reasoner-009398924577/role-xfer/data/role/qpaired_train.npz`;
+it is not in the checkout, where `data/role/qpaired_train` no longer exists.
 
 ### Claim R6. Reading role off the syntax of an unfamiliar rule sentence is taught by this task, not inherited from English pretraining
 
@@ -338,6 +353,168 @@ does not reach the positional binding that a new sentence mode breaks.
 
 From `results/system/tpose/xmode_{l45,xl93,xxl167}.json` and the per-group tables
 in `src/system/THRESHOLD.md` section 6.
+
+## One-shot acquisition
+
+### Claim N1. The reported one-shot figure of 0.9644 does not exist
+
+The number 0.9644 appears in no document in this repository, in no record file,
+and in no commit. `git log --all -S"0.9644"` returns nothing. Grepping every
+markdown file returns nothing. The only matches for the digit string `9644`
+anywhere under `results/` are substrings inside longer floats in unrelated lanes
+(`results/killtest-2026-08-26`, `results/curve-350md`, `results/latentret`,
+`results/pointer`).
+
+This was checked twice, independently. It is the third number on this project to
+have been quoted after the records stopped supporting it, alongside the 0.680
+headline and the one-in-twenty query rate, and it is recorded here in the same
+terms.
+
+The one-shot lane's actual headline is 1.0000, not 0.9644, and it is a stronger
+number attached to a much narrower claim. It is set out next.
+
+### Claim N2. An operation stated on one page of prose is installed and applied at 1.0000 forced choice, with no gradient step
+
+Confirmed by recount from
+`results/norm/oneshot/sys.jsonl.gz`.
+
+The task: an operation is defined on a single page of English prose, in one of
+four wording modes. The system reads the page, installs the operation in an
+episode-scoped library, and answers a question requiring it. Nothing in the
+corpus, renderer, parser or normalizer target vocabulary could previously state
+such an operation. No gradient step anywhere in the library path.
+
+Forced-choice strict, floors computed per item from that item's own option count
+and averaged:
+
+| family | n | floor | 1 page | 2 pages | 4 pages | structure exact | hedge | declined |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2 directories, 1 clause | 110 | 0.3735 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 | 0.0000 |
+| 3 directories, 1 clause | 310 | 0.3086 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 | 0.0000 |
+| 2 directories, 2 clauses | 25 | 0.3567 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 | 0.0000 |
+| 3 directories, 2 clauses | 405 | 0.2879 | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0000 | 0.0000 |
+
+The network on the same items is the contrast that makes the row worth having:
+greedy 0.0000, 0.0194, 0.1200 and 0.0173 by family, and structure exact 0 of
+6,736 greedy and 0 of 6,736 sampled, from
+`results/norm/oneshot/n_base_l.jsonl.gz`.
+
+The grader is the one place on this project where the containment bug is
+properly defended. `src/norm/cmpwork/grade.py` matches word tokens rather than
+substrings, explicitly so that `emb` does not score correct on a page whose
+answer is `embqen`, handles multi-token candidates as contiguous runs, and
+suppresses a candidate wholly contained in a longer one at the same position.
+
+### The caveats, which are large enough that the 1.0000 must not travel alone
+
+Five, and the first three are not in the lane's own document.
+
+The effective denominator is 170, not 850. The 850 items are 170 distinct
+operations at 5 items each, one frame id per operation. For the question "did it
+acquire the operation" the independent unit is the operation.
+
+The parser baseline is vacuous rather than passed. `src/norm/parse.py` scores
+0.0000 with declined at 1.0000, because it has no template for a definition page
+and never attempts an answer. Reporting 0.0000 as a trivial-program baseline
+beaten by 1.0000 overstates the comparison. The informative trivial baselines are
+the shortcut readers S1 and S2, which take the first or last line stating the
+question key: they read 0.2182 to 0.4129 against floors of 0.2879 to 0.3735, so
+they sit at or barely above chance, and against those the 1.0000 is genuinely far
+above every trivial competitor on this item set.
+
+On the eight-operation ladder set, however, the shortcut wins. S2 scores 0.6000,
+0.8000 and 0.8000 on three of the ladder operations, against the fine-tuned
+network's best ladder score of 0.5500. `ONESHOT.md` prints those S2 numbers and
+does not remark that a one-line heuristic outscores the gradient learner on the
+learner's own test.
+
+Gold and the library's answer come from the same interpreter.
+`src/norm/opitems.py` takes the gold answer to be what `src/norm/interp.py`
+returns for the generator's program, and `src/norm/opread.py` imports `run` from
+that same `src/norm/interp.py`. So the 1.0000 certifies that the reader recovered
+the generator's program. It does not independently verify the semantics. The
+round-trip gate is the only thing in the lane that breaks a shared-code path and
+it does not cover the definition pages.
+
+The circularity check is narrower than it reads. `~/verify_oneshot_circularity.py`
+replaces the definition grammar's English with nonsense, regenerates and re-reads,
+and returns strict 1.0 on 200 episodes, which does establish that no branch of
+the reader is keyed to the particular English words. But it reads the first 200
+rows of an ordered 800-row file, and those rows are two operations from one of
+the four families. It is an uncommitted file in `$HOME` whose output was never
+persisted; it had to be re-run to learn what it says.
+
+### Claim N3. The round-trip gate passes at 10,752 of 10,752, and it is the strongest artifact in the lane
+
+Confirmed by recount from `results/norm/roundtrip/records.jsonl.gz`: 10,752
+items, 768 distinct frames, 14 shapes, exactly 768 per shape, four checks each
+at 1.0000 and their conjunction at 1.0000.
+
+The four checks are parse, structural identity, re-render and execute. The
+re-render leg is the one that matters, because it requires the recovered
+structure to re-render byte-identical text and so does not pass through shared
+generator and parser code. No chance floor applies; it is a self-consistency
+gate and `CORE.md` says so rather than dressing it as an accuracy.
+
+### Claim N4. The typed core is exact everywhere except one relation family, and that exception is disclosed
+
+Confirmed. `results/norm/corpus/`: 161,280 items, 768 frames, 16 relation
+families, depths 1 to 8. All 41 cells read 1.000 on unambiguous items except
+`inverse_chain`, which reads 1.000 at depth 1 and 0.000 at depths 2, 3, 4, 6 and
+8. Exactly 114 items of 161,280 carry a "two pages are called X" refusal. Overall
+raw accuracy 145,830 of 161,280 = 0.9042, and the entire 15,336 shortfall is
+`inverse_chain` at depth 2 and above.
+
+`CORE.md` also states in bold that the interpreter does not beat the hand-written
+parser on `substitution_rule`, 0.988 against 0.992 over 23,400 items with hedge
+rate 0.000 and a hedging canary at 0.000 forced. An honest negative, correctly
+reported, and rarer than it should be.
+
+### Claim N5, corrected. The reader's exactness on trained frames is pooled over an item set that is half memorisation-eligible
+
+`src/norm/TRAIN.md` reports the 0.40M reader at 0.8982 and the 45M reader at
+0.9211 exact on trained frames, and 0.5150 and 0.8125 on a held-out lexicon,
+2,800 items each. All four recounted from
+`results/norm/eval/{xs,l}/records_*_greedy.jsonl.gz` and confirmed.
+
+What is not in that document, and exists on disk in `results/norm/verify/`
+written four hours after it:
+
+- `fresh.json` gives the rate at which a freshly drawn evaluation structure is
+  already present in the 1,200,000-item training file: `lookup_general` 1.0000,
+  `precedence` 1.0000, `exclusion` 0.9993, `inverse` 0.9987, `pair` 0.9987,
+  `lookup` 0.9807, `priority` 0.7400, then falling away to `sum_chain` 0.0000.
+- `novel.json` splits the headline: 3,674 seen items at 0.9997 exact, 3,326
+  unseen items at 0.7859, pooling to the reported 0.8982.
+
+The seven shapes `TRAIN.md` reports at 1.000 for the small reader on trained
+frames are the same seven that `fresh.json` says are 74 to 100 percent already in
+the training file. The words leak, novel, seen-in-training and duplicate appear
+in none of `TRAIN.md`, `COMPARE.md` or `ONESHOT.md`.
+
+So the correct statement of claim 1 in the outward-facing list is not 0.9209 flat.
+It is 0.9997 on structures the reader has already seen and 0.7859 on structures it
+has not, and the second number is the one that means anything about reading.
+
+One thing checked and benign: `novel.json` carries both the first-2,800 pooled
+value 0.898214 and the full-7,000 value 0.898143, so the prefix-reading practice
+did not distort this particular number.
+
+### Claim N6. The safe-failure result holds only for a page shape the reader has never seen
+
+Confirmed at artifact level, and this bounds a claim that reads much more
+broadly than it is.
+
+`COMPARE.md` section 8 reports the shipped normalizer declining on 750 of 750
+rather than naming a cell, and calls that a safe failure. Those 750 items are
+shared-domain `pair` grids, a page shape the reader has never seen; `COMPARE.md`
+says so two paragraphs earlier.
+
+On trained frames the refusal rate is 0.0000. Over all twelve `train`-split cells
+in `results/norm/compare/report_main.json`, the 45M reader has maximum none rate
+0.0000, maximum hedge 0.0000, maximum declined 0.0000. On the frames it trained
+on the normalizer answers every item and never declines. The safe-failure
+property belongs to the unseen page shape, not to the system.
 
 ## Retrieval and the external comparison
 
@@ -790,6 +967,19 @@ training maximum, with accuracy past 48 at 0.000. That supports the general
 shape of the distributional reading, on different arms, and it is the evidence
 to cite instead. It does not reproduce the H12 table.
 
+### The one-shot figure of 0.9644
+
+Checked twice, independently, and it is in nothing. Not in any markdown file,
+not in `results/norm/**`, not in any template, and `git log --all -S"0.9644"`
+returns no commit. The digit string `9644` occurs under `results/` only as a
+substring of longer floats in unrelated lanes.
+
+The one-shot lane's own headline is 1.0000 forced-choice strict on each of four
+operation families, which is a different and stronger number attached to a much
+narrower claim, and it is set out in claim N2 with its five caveats. Anyone
+holding 0.9644 should replace it with 1.0000 on 850 items over 170 operations,
+and read the caveats before quoting either.
+
 ### The 0.680 rule-application headline
 
 Recorded in `THESIS.md` and propagated for days. A falsification lane re-ran the
@@ -983,9 +1173,90 @@ reason any surviving number here is worth anything.
     memorised training items. `src/realret/decontam.py` removed 41 episodes of
     182,556 and the trained pack scans clean at 0.
 
+17. A report generator that splices the wrong table under five headings.
+    `scripts/norm_compare_md.py` substitutes markers by plain `str.replace` over
+    a sorted set, and `str.replace` has no word boundary, so `TABLE_MAIN` is
+    substituted inside `TABLE_MAIN_EXACT` and `TABLE_MAIN_HEDGE`, `TABLE_HOME`
+    inside `TABLE_HOME_NONE` and `TABLE_HOME_RANGE`, and `TABLE_TRANSPOSE`
+    inside `TABLE_TRANSPOSE_SPLIT`, leaving the residue `_EXACT`, `_HEDGE`,
+    `_SPLIT`, `_RANGE`, `_NONE` glued to the wrong table. The generator's own
+    guard passes because the residue no longer begins with `TABLE_`. Visible in
+    the committed `src/norm/COMPARE.md` at lines 311, 407, 475, 745 and 773.
+    Effect, and it is the worst in this list because it inverts a meaning rather
+    than shifting a value: under the heading "the rate at which each system names
+    nothing" the document displays the forced-choice accuracy table, so a reader
+    sees the 45M reader "naming nothing" at 1.0000 on training frames when the
+    true none rate is 0.0000 and 1.0000 is its accuracy. Four other sections
+    likewise display a table that does not support the sentence above it. And
+    the file named `t_main_hedge.md` in fact holds the none rate, so no table
+    anywhere in `COMPARE.md` reports the hedge field at all, despite the
+    document's own section 1 promising that the hedge rate travels with every
+    cell.
+
+18. A chance floor taken from the item's option count where the correct null is
+    the majority class. `~/oneshot_floor_check.json` records the four one-shot
+    ladder pools with stated floors of 0.5000, 0.3333, 0.2500 and 0.3333 against
+    majority-class baselines of 0.80, 0.80, 0.60 and 0.60, because each pool has
+    only five distinct question keys. Effect: `ONESHOT.md` says the network
+    "clears the floor" at k=256 on one operation, 0.5500 against 0.5000, and at
+    k=1024 on a second, 0.3800 against 0.3333. Against the correct null those are
+    0.5500 against 0.80 and 0.3800 against 0.80, and `beats_majority` is false in
+    all 26 recorded rungs. The network clears nothing at any rung. The library's
+    1.0000 survives either null. The floor check exists and says this; the
+    document predates it and was never updated. Compounding it, the 100 rows per
+    pool are 5 keys by 20 wording draws, and the standard error in the same file
+    is computed as though they were 100 independent items; the script computes a
+    per-key breakdown and then discards it without writing it out.
+
+19. A training-set-overlap audit that exists on disk and is in no document.
+    `results/norm/verify/fresh.json` gives the rate at which a freshly drawn
+    evaluation structure is already in the 1.2M-item training file: 1.0000 for
+    `lookup_general` and `precedence`, 0.9807 to 0.9993 for four more.
+    `results/norm/verify/novel.json` splits the headline into 0.9997 on 3,674
+    seen structures and 0.7859 on 3,326 unseen ones. The seven shapes `TRAIN.md`
+    reports at 1.000 are the same seven that are 74 to 100 percent memorisable.
+    Effect: the reported 0.8982 is a pool over an item set that is 52.5 percent
+    memorisation-eligible, and the honest decomposition was measured, persisted,
+    and never written down. The words leak, novel and seen-in-training appear in
+    none of the three lane documents.
+
+20. A freshness guard with a non-recursive glob, hiding a control that qualifies
+    the headline. `src/norm/opdoc.py:check_fresh` globs `oneshot/*.jsonl.gz` and
+    cannot see `results/norm/oneshot/verify/`, which holds five newer record
+    files written two hours after the report. Those files are the frame-novelty
+    control for the one-shot ladder: the same fine tune at the same k reads
+    0.5200 on held-out frames and 0.7200 on trained frames. Effect: `ONESHOT.md`
+    states the ladder items come from frames the normalizer never trained on and
+    then compares library against network on them, and about a third of the gap
+    is frame novelty rather than operation novelty. The control was run, it is
+    persisted, and it is in no document.
+
+21. Twelve of twenty-eight generated tables never reach their document. Five are
+    swallowed by fault 17; seven more are written on every build with no marker
+    referencing them at all, including the whole composition-depth-by-frame-group
+    measurement, which exists only as five files on disk. Effect: no number is
+    wrong, but a measurement that was made and paid for is invisible, and the
+    fact that the files regenerate every run is why nobody noticed.
+
+22. A failure dump that a passing run does not clear.
+    `src/norm/roundtrip.py` writes `failures.json` only when there are failures,
+    so a clean run leaves the previous run's file in place. The directory
+    currently presents a 1.0000 summary written at 05:59 beside a 134 KB
+    failures file written at 05:39. No reported number is affected; it is a trap
+    laid for the next reader.
+
+Fault 1 has now appeared three times in three lanes, which is why it is first.
+Its third instance is `~/verify_oneshot_circularity.py`, which reads the first
+200 rows of an ordered 800-row file and so covers two of eight operations from
+one of four families, while its conclusion is generalised to the whole set.
+
 Faults 3 through 9, 11 and 14 were found by an adversarial verification pass over
 the external-comparison lane; 1, 12 and 13 in the system and retrieval lanes; 2,
-15 and 16 in the e3, corpus and real-document lanes.
+15 and 16 in the e3, corpus and real-document lanes; 17 through 22 in the
+normalisation lane. Faults 17 to 22 are concentrated in the plumbing between
+artifact and document rather than in the measurement code, which is the pattern
+worth noticing: the graders in that lane are the best on the project and the
+documents built from them are the least reliable.
 
 ### Two standing hazards that are not yet faults
 
@@ -1150,11 +1421,22 @@ are required to reproduce a prior run cell for cell before their new numbers are
 read. Sixteen measurement faults have been found and named, several of which
 flattered us, and they were found here rather than by anyone else.
 
-Two positive results at full strength. Value reading: a page with identical
-wording and permuted values moves the answer with the page. And role binding
-from syntax is learned from this task rather than supplied by English
-pretraining, which is a statement about what pretraining does not give you and
-is carried by a 354M model failing where a 167M model passes.
+Three positive results at full strength, and the strongest of them is not
+neural. A symbolic library reads an operation off one page of prose and applies
+it at 1.0000 forced choice on 850 items over 170 operations, against floors of
+0.29 to 0.37, where the network on the same items is at 0.00 to 0.12 and emits
+the right structure zero times in 6,736 attempts. That is the acquisition the
+thesis is about, performed by the part of the system that has no weights. Value
+reading: a page with identical wording and permuted values moves the answer with
+the page. And role binding from syntax is learned from this task rather than
+supplied by English pretraining, carried by a 354M model failing where a 167M
+model passes.
+
+The uncomfortable reading of the first of those, which should be stated rather
+than left implicit: on the one axis where this project has a clean acquisition
+result, the neural substrate contributes nothing and a symbolic reader does all
+of it. That is evidence for the decoupling thesis in a form the thesis did not
+ask for, and it is not evidence that a small network can acquire anything.
 
 One clean negative that cost real compute and is worth more than a weak
 positive: chaining a step's input from a previous step's retrieved result does
@@ -1170,8 +1452,7 @@ characterise it above was dropped as unaffordable rather than measured.
 
 ## Lanes not yet re-verified in this document
 
-Verification of `src/norm/` (the one-shot acquisition figure and the round-trip
-gate), `src/disc/` with `src/falsify/`, and `src/corpus/` with `src/e3/` is in
-progress. Claims from those lanes appear below marked with the status they
-currently have, and any of them marked "from the lane report, not yet recounted"
-is prose, not a verified number, until this section is removed.
+Verification of `src/disc/` with `src/falsify/`, and `src/corpus/` with
+`src/e3/`, is still in progress. Claims drawn from those two lanes and not
+recounted here are marked in place; everything else in this document was read
+out of the artifact it names.
