@@ -887,3 +887,58 @@ representation through a role-typed channel, and nothing here tests an
 architecture in which role is a structural field the decoder must fill rather
 than a label a head must guess. That is the remaining version of the hypothesis
 and it is untested.
+
+## Correction 4, 2026-09-02: the positional collapse is capacity, and it resolves between 93M and 167M
+
+Recorded earlier today as a property of the substrate, on the grounds that it
+reversed under scale and under four training-signal interventions while never
+disappearing. That conclusion was wrong. It disappears; we had not looked above
+93M.
+
+### The ladder, all rungs at a matched tokens-per-parameter budget
+
+Held-out sentence mode, structure exact match, greedy, n about 3,500 per cell.
+
+| rung | parameters | steps | key first | value first | gap |
+|---|---:|---:|---:|---:|---:|
+| l45 | 45,483,008 | 30,000 | 0.7302 | 0.3177 | 0.413 |
+| xl93match | 93,579,520 | 61,724 | 0.3243 | 0.7252 | -0.330 |
+| xxl167 | 167,376,384 | 110,271 | 0.6341 | 0.6063 | 0.028 |
+
+At 167M both positions read near 0.62 and the asymmetry is gone.
+
+Every other group improves with it. Held-out sentence mode overall goes 0.5256,
+0.5231, 0.6203. Lexicon goes 0.8181, 0.7951, 0.8841. Mixed goes 0.5834, 0.5644,
+0.7123. Trained frames and the held-out question frame stay near 0.92 to 0.96
+throughout.
+
+### So there is a perception threshold and it sits between 93M and 167M
+
+That is the number this ladder was commissioned to find. Below it the reader
+commits to one positional convention on a sentence form it has never seen and
+applies it regardless, with the direction of the commitment varying by run.
+Above it the reader handles both orders.
+
+### What the four failed role interventions now mean
+
+They still stand as measurements: at 45M, balanced data, minimal pairs, an
+auxiliary role head, and pairs plus head all leave the gap intact, and only
+change which convention is chosen. The reading changes. It is not that role
+cannot be represented. It is that at 45M nothing done to the training signal
+substitutes for the capacity, and at 167M the capacity makes the intervention
+unnecessary.
+
+### An oddity kept in view rather than smoothed
+
+The 167M rung's final training loss is 0.034 against the 45M rung's 0.0126, so it
+fits its training data worse while generalising substantially better. With about
+four passes over a 1.2 million example file that is consistent with the smaller
+rungs memorising more, and it is a reason to prefer held-out numbers over
+training loss when comparing rungs here.
+
+### What this does not settle
+
+The 355M rung was not run; a matched budget there is about 234,000 steps, some 64
+hours on one L40S, and it was dropped as unaffordable rather than measured. So
+the threshold is bracketed between 93M and 167M from below and is not
+characterised above 167M.
