@@ -46,6 +46,7 @@ import re
 import time
 
 from src.extern.bench_gsm import build_prompt, extract, gold_of, load
+from src.retrieval_web.tier import chunk_text
 from src.extern.gsm_retrieval import method_query
 from src.extern.retrieval_ours import CachedExa
 
@@ -174,7 +175,7 @@ class OursReader:
     def _prompt(self, question, block):
         from src.rl.env import build_prompt as rl_build_prompt
         text = question
-        if self.a.ours_prompt == "shots":
+        if self.a.ours_prompt.startswith("shots"):
             head = ""
             for s in self.shots:
                 head += f"Question: {s['question']}\nAnswer: {s['answer']}\n\n"
@@ -188,6 +189,8 @@ class OursReader:
         assert sid["<|q|>"] in ids
         if block:
             assert sid["<|doc|>"] in ids, "document channel missing"
+        if self.a.ours_prompt.endswith("_a"):
+            ids = ids + [sid["<|a|>"]]
         return ids
 
     def run(self, question, block, decode):
@@ -200,8 +203,14 @@ class OursReader:
             fn = sampling_step(self.step_fn, decode["temperature"],
                                decode["top_p"],
                                decode["seed"] + (len(ids) % 997))
+        # The retrieved pages are also handed to the loop as episode
+        # documents, so a <|retrieve|> in a retrieval condition is served out
+        # of the same material rather than ending the trajectory at the
+        # index-is-None guard. In the closed condition there is nothing to
+        # serve and that guard is the honest outcome.
+        docs = chunk_text(block, self.tok, 512) if block else []
         o = generate_with_retrieval(
-            fn, self.tok, [], ids, max_rounds=self.a.max_rounds,
+            fn, self.tok, docs, ids, max_rounds=self.a.max_rounds,
             max_new_tokens=self.a.max_new, seed=decode.get("seed", 0),
             index=None)
         # The whole generation is what gets parsed. Scoring only the span
@@ -209,7 +218,10 @@ class OursReader:
         # an answer span, which is the failure mode most worth counting here.
         full = self.tok.decode(o["generated"])
         return {"raw": full,
-                "answer_span": o.get("answer_text", ""),
+                "answer_span": (full if self.a.ours_prompt.endswith("_a")
+                                else o.get("answer_text", "")),
+                "answer_prefilled": int(self.a.ours_prompt.endswith("_a")),
+                "n_rounds": o.get("n_rounds", 0),
                 "prompt_tokens": len(ids),
                 "emitted_a": int(o.get("answer_start") is not None),
                 "emitted_retrieve": int(
@@ -227,8 +239,14 @@ def main():
     ap.add_argument("--tag", default="corpus-v1-8k")
     ap.add_argument("--tokenizer",
                     default="/home/ec2-user/data/tokenizer_v2.json")
-    ap.add_argument("--ours-prompt", default="native",
-                    choices=("native", "shots"))
+    ap.add_argument("--ours-prompt", default="native_a",
+                    choices=("native", "native_a", "shots", "shots_a"),
+                    help="`_a` prefills the <|a|> answer marker. Without it "
+                         "this checkpoint emits <|retrieve|> as its first "
+                         "token on essentially every GSM8K prompt and the "
+                         "trajectory ends at the guard with nothing "
+                         "generated, which measures the harness rather than "
+                         "the model.")
     ap.add_argument("--n", type=int, default=200)
     ap.add_argument("--shots", type=int, default=8)
     ap.add_argument("--seed", type=int, default=1234)
@@ -316,6 +334,8 @@ def main():
                     "query": b["query"], "n_pages": len(b["pages"]),
                     "prompt_tokens": g.get("prompt_tokens", 0),
                     "emitted_a": g.get("emitted_a", 0),
+                    "answer_prefilled": g.get("answer_prefilled", 0),
+                    "n_rounds": g.get("n_rounds", 0),
                     "emitted_retrieve": g.get("emitted_retrieve", 0),
                     "stop_reason": g.get("stop_reason", ""),
                     "n_generated": g.get("n_generated", 0),

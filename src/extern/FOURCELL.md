@@ -216,3 +216,150 @@ On 2 items of the 256 token web arm, and 4 across both web arms, the policy wrot
 Live Exa searches: 73. Cache hits: 255. Queries the 256 token web arm sent: 173, of which 73 live and 98 cache hits. Empty queries never sent, both web arms: 4. API errors: 0. Cache hits that returned no page text: 0. Every served query came back with pages carrying text, the thinnest of them 9,209 characters, so nothing was scored against an empty cache entry. Wall clock 11.5 minutes for all five arms on one L40S.
 
 Record file `results/extern/bench/cell2_ours_mmlu_retrieval_n400.json`, written 2026-09-02 04:19 UTC. Cache audit `src/extern/cache_audit.py`, grader check `src/extern/gradecheck.py`, runner `src/extern/cell2.py`.
+
+## GSM8K with method retrieval
+
+`src/extern/gsm_retrieval.py` set the design and `src/extern/gsm4.py` runs it over both readers. The query is built from the problem's method rather than its wording: numbers and proper names are stripped and what is left is the operation being asked for, which is what a worked example would be indexed under. The gold number cannot appear in that query, so a page it finds was not found by carrying the answer. The raw problem text is kept beside it as the contaminated control, which shows what lookup would buy.
+
+The retrieved material is identical between the two readers by construction: the query comes from the same function over the same item list in the same order, and the page cache is keyed on the query. Each context block is hashed per item and the hashes are compared across the record files below.
+
+GSM8K is generated rather than ranked, so the chance floor is 0.0000 and an unparseable generation is counted apart from a wrong answer. Strict is the number after the `#### ` marker the shots demonstrate; flexible is the last number anywhere, which is lm-eval's flexible-extract. The two prompts are not the same prompt and the rows are never pooled or subtracted: neither format is available to both models.
+
+### The four conditions
+
+| model             | prompt                   | condition              | decode       | n   | floor  | strict [95% CI]       | flexible [95% CI]     | no number at all |
+| ----------------- | ------------------------ | ---------------------- | ------------ | --- | ------ | --------------------- | --------------------- | ---------------- |
+| ours corpus-v1-8k | native, answer prefilled | closed book            | greedy       | 200 | 0.0000 | 0.0000 [0.000, 0.019] | 0.0150 [0.005, 0.043] | 0.0500           |
+| ours corpus-v1-8k | native, answer prefilled | closed book            | T=0.8,p=0.95 | 200 | 0.0000 | 0.0000 [0.000, 0.019] | 0.0150 [0.005, 0.043] | 0.0700           |
+| ours corpus-v1-8k | native, answer prefilled | method retrieval       | greedy       | 200 | 0.0000 | 0.0000 [0.000, 0.019] | 0.0300 [0.014, 0.064] | 0.0500           |
+| ours corpus-v1-8k | native, answer prefilled | method retrieval       | T=0.8,p=0.95 | 200 | 0.0000 | 0.0000 [0.000, 0.019] | 0.0200 [0.008, 0.050] | 0.0550           |
+| ours corpus-v1-8k | native, answer prefilled | problem-text retrieval | greedy       | 200 | 0.0000 | 0.0000 [0.000, 0.019] | 0.0350 [0.017, 0.070] | 0.0550           |
+| ours corpus-v1-8k | native, answer prefilled | problem-text retrieval | T=0.8,p=0.95 | 200 | 0.0000 | 0.0000 [0.000, 0.019] | 0.0300 [0.014, 0.064] | 0.0450           |
+| LFM2-350M         | 8 shot CoT, bos          | closed book            | greedy       | 200 | 0.0000 | 0.3650 [0.301, 0.434] | 0.3650 [0.301, 0.434] | 0.0000           |
+| LFM2-350M         | 8 shot CoT, bos          | closed book            | T=0.8,p=0.95 | 200 | 0.0000 | 0.2900 [0.232, 0.356] | 0.2900 [0.232, 0.356] | 0.0000           |
+| LFM2-350M         | 8 shot CoT, bos          | method retrieval       | greedy       | 200 | 0.0000 | 0.3450 [0.283, 0.413] | 0.3450 [0.283, 0.413] | 0.0000           |
+| LFM2-350M         | 8 shot CoT, bos          | method retrieval       | T=0.8,p=0.95 | 200 | 0.0000 | 0.3400 [0.278, 0.408] | 0.3400 [0.278, 0.408] | 0.0000           |
+| LFM2-350M         | 8 shot CoT, bos          | problem-text retrieval | greedy       | 200 | 0.0000 | 0.3450 [0.283, 0.413] | 0.3450 [0.283, 0.413] | 0.0000           |
+| LFM2-350M         | 8 shot CoT, bos          | problem-text retrieval | T=0.8,p=0.95 | 200 | 0.0000 | 0.3400 [0.278, 0.408] | 0.3400 [0.278, 0.408] | 0.0000           |
+
+### Against the published 30.1
+
+LFM2-350M closed book is 0.3650 [0.301, 0.434] strict on 200 items against a published 30.1. The published figure falls just outside the interval, whose lower bound is 0.3014.
+
+This is not the MMLU situation and should not be read as one. There the harness was calibrated against the published number and matched it to within 0.43 once the start token was handled, which is the credential the rest of this work rests on. Here it reads above the published figure by 0.0640. Three differences could carry that and this run does not separate them: the score is over a 200 item sample of the test split rather than all 1,319 items, the eight shots come from the train split under a fixed seed rather than from a published shot list, and a published GSM8K number for a small instruct model is not always the eight shot completion score. What the row supports is a comparison against the retrieval rows beside it, which share every one of those choices. It is not a reproduction claim.
+
+The bos control, the same items and prompt with the start token left off, scores 0.2600 [0.204, 0.325], 0.1050 below the row above. On MMLU that token was worth several points and its absence was what put the first reproduction under the published figure. It moves this number too, in the same direction, and the two intervals overlap. The calibrated convention is to prepend it, which is what lm-eval does for a model that defines one, so the bos row is the one every comparison in this section is made against. A GSM8K number quoted off this harness without it would be the low one.
+
+### What our reader can and cannot do here
+
+Left to run its own loop closed book, this checkpoint emits `<|retrieve|>` as its first token on 200 of 200 GSM8K prompts, and that is the end of the trajectory: on 200 of 200 it generates nothing at all, because with no episode documents there is nothing to serve and the loop stops at the index-is-None guard. A zero read off that arm would be a fact about the harness rather than about the model.
+
+| condition | n   | emitted the retrieve token | produced a number | rounds served | flexible [95% CI]     |
+| --------- | --- | -------------------------- | ----------------- | ------------- | --------------------- |
+| closed    | 200 | 200/200                    | 0/200             | 0             | 0.0000 [0.000, 0.019] |
+| method    | 200 | 138/200                    | 160/200           | 137           | 0.0200 [0.008, 0.050] |
+| problem   | 200 | 132/200                    | 168/200           | 129           | 0.0150 [0.005, 0.043] |
+
+Given something to serve, the loop completes. The emission rate falls in the retrieval conditions because the pages sit in the prompt and the trajectory is no longer the same one. In those two conditions the conditions the same pages are handed to the loop as episode documents as well as placed in the context, so a retrieval request is answered out of the retrieved material instead of ending the run, and the reader then writes a number on four items in five. What it does not do is get them right.
+
+With the `<|a|>` answer marker prefilled, so the answer channel is open before decoding starts, it produces a number on 190 of 200 prompts and scores 0.0150 [0.005, 0.043] flexible. It writes a bare number and stops. It emits no chain of reasoning, no `#### ` marker and, on the evidence of the strict column, nothing that resembles the worked format the shots demonstrate.
+
+Shown the same eight shot chain of thought text LFM2 reads, through its own tokenizer and with the answer channel open, it scores 0.0300 [0.014, 0.064] flexible. The format was not what was missing.
+
+So the plain statement is this. Our reader does not solve GSM8K. It parses the problems in the weak sense that it emits a number when a number is asked for, on 190 of 200 items, and closed book that number is right 3 times in 200. Both figures belong in the same sentence, because the score above is over all 200 items and not over the 190 it managed to format; that is what makes it the number the published table can be held next to, and quoting the parse rate as the accuracy would be a different and better sounding claim.
+
+### Contamination split, per condition
+
+Labelled on the pages actually placed in the context: the verbatim problem, its gold answer, or neither. Never pooled. Correct with the answer on the page is a lookup; correct with neither is the reasoning result.
+
+| model             | condition              | pages contained | n   | strict [95% CI]       | flexible [95% CI]     |
+| ----------------- | ---------------------- | --------------- | --- | --------------------- | --------------------- |
+| ours corpus-v1-8k | method retrieval       | verbatim        | 0   | -                     | -                     |
+| ours corpus-v1-8k | method retrieval       | answer          | 59  | 0.0000 [0.000, 0.061] | 0.1017 [0.047, 0.205] |
+| ours corpus-v1-8k | method retrieval       | neither         | 141 | 0.0000 [0.000, 0.027] | 0.0000 [0.000, 0.027] |
+| ours corpus-v1-8k | problem-text retrieval | verbatim        | 1   | 0.0000 [0.000, 0.793] | 0.0000 [0.000, 0.793] |
+| ours corpus-v1-8k | problem-text retrieval | answer          | 60  | 0.0000 [0.000, 0.060] | 0.1167 [0.058, 0.222] |
+| ours corpus-v1-8k | problem-text retrieval | neither         | 139 | 0.0000 [0.000, 0.027] | 0.0000 [0.000, 0.027] |
+| LFM2-350M         | method retrieval       | verbatim        | 0   | -                     | -                     |
+| LFM2-350M         | method retrieval       | answer          | 59  | 0.3898 [0.276, 0.517] | 0.3898 [0.276, 0.517] |
+| LFM2-350M         | method retrieval       | neither         | 141 | 0.3262 [0.254, 0.407] | 0.3262 [0.254, 0.407] |
+| LFM2-350M         | problem-text retrieval | verbatim        | 1   | 1.0000 [0.207, 1.000] | 1.0000 [0.207, 1.000] |
+| LFM2-350M         | problem-text retrieval | answer          | 60  | 0.3667 [0.256, 0.493] | 0.3667 [0.256, 0.493] |
+| LFM2-350M         | problem-text retrieval | neither         | 139 | 0.3309 [0.258, 0.413] | 0.3309 [0.258, 0.413] |
+
+### Is the answer label real
+
+The label fires when the gold number appears as a bare token anywhere in 4,000 characters of web text. GSM8K answers are small integers and 4,000 characters of prose contains a lot of small integers, so before the split is read the label is checked against a seeded derangement: each item scored against another item's pages, which destroys any relationship between problem and page and leaves the page lengths and the number distribution alone.
+
+| condition | label    | n   | real pairing [95% CI] | permuted pairing [95% CI] |
+| --------- | -------- | --- | --------------------- | ------------------------- |
+| method    | verbatim | 200 | 0.0000 [0.000, 0.019] | 0.0000 [0.000, 0.019]     |
+| method    | answer   | 200 | 0.2950 [0.236, 0.362] | 0.2650 [0.209, 0.330]     |
+| method    | neither  | 200 | 0.7050 [0.638, 0.764] | 0.7350 [0.670, 0.791]     |
+| problem   | verbatim | 200 | 0.0050 [0.001, 0.028] | 0.0000 [0.000, 0.019]     |
+| problem   | answer   | 200 | 0.3000 [0.241, 0.367] | 0.2800 [0.222, 0.346]     |
+| problem   | neither  | 200 | 0.6950 [0.628, 0.755] | 0.7200 [0.654, 0.778]     |
+
+The answer label fires on 59 of 200 real pairings and 53 of 200 deranged ones. Almost all of it is coincidence. The label is close to useless as evidence that a page is about the problem, and a split built on it separates two nearly arbitrary subsets. Reporting the split is still right, because a correct answer sitting beside its own number must never be counted as reasoning, but no weight goes on the difference between its rows.
+
+What survives that is the mechanism, and it is measurable. The number our reader emits, right or wrong, is checked against its own context block and against another item's.
+
+| condition | n with a number | number is in its own block | number is in another item's block | correct | correct with gold in the block |
+| --------- | --------------- | -------------------------- | --------------------------------- | ------- | ------------------------------ |
+| method    | 190             | 0.8263 [0.766, 0.874]      | 0.7105 [0.642, 0.770]             | 6       | 6                              |
+| problem   | 189             | 0.8889 [0.836, 0.926]      | 0.7831 [0.719, 0.836]             | 7       | 7                              |
+
+It reads a number off the page. Every one of the 6 answers it gets right under method retrieval is an item whose block contained the gold number, and it gets none right where the block did not. The excess over the deranged block is small because a block of that size almost always contains some number the model might have written anyway, but the direction is consistent and the correct-answer column is unambiguous. Its score under retrieval is lookup, and the reasoning cell beside it is the one in the table below reading 0.0000.
+
+### The paired control
+
+Each retrieval condition against the same model on the same items closed book, item by item. A contamination split alone compares item sets, not treatments, so the split above cannot separate a page effect from item selection and this table is what decides it.
+
+| model             | condition | n   | with pages | same items closed book | retrieval only | closed only | McNemar p |
+| ----------------- | --------- | --- | ---------- | ---------------------- | -------------- | ----------- | --------- |
+| ours corpus-v1-8k | method    | 200 | 0.0300     | 0.0150                 | 5              | 2           | 0.453     |
+| ours corpus-v1-8k | problem   | 200 | 0.0350     | 0.0150                 | 7              | 3           | 0.344     |
+| LFM2-350M         | method    | 200 | 0.3450     | 0.3650                 | 12             | 16          | 0.572     |
+| LFM2-350M         | problem   | 200 | 0.3450     | 0.3650                 | 11             | 15          | 0.557     |
+
+Method retrieval does not help LFM2-350M. It is 0.3450 with the pages against 0.3650 on the same items closed book, 12 items gained and 16 lost, McNemar p = 0.572. Retrieving on the raw problem text, the contaminated control, does not help either. Neither does it hurt enough to call a cost. Four thousand characters of web prose in front of an eight shot chain of thought prompt is close to inert for this model on this task.
+
+And the same comparison inside each contamination class, which is where the MMLU lane found that an 0.75 answer-present cell was item selection rather than the pages.
+
+| model             | condition | pages contained | n   | with pages | same items closed book | retrieval only | closed only | McNemar p |
+| ----------------- | --------- | --------------- | --- | ---------- | ---------------------- | -------------- | ----------- | --------- |
+| ours corpus-v1-8k | method    | answer          | 59  | 0.1017     | 0.0339                 | 5              | 1           | 0.219     |
+| ours corpus-v1-8k | method    | neither         | 141 | 0.0000     | 0.0071                 | 0              | 1           | 1.000     |
+| ours corpus-v1-8k | problem   | verbatim        | 1   | 0.0000     | 0.0000                 | 0              | 0           | 1.000     |
+| ours corpus-v1-8k | problem   | answer          | 60  | 0.1167     | 0.0333                 | 7              | 2           | 0.180     |
+| ours corpus-v1-8k | problem   | neither         | 139 | 0.0000     | 0.0072                 | 0              | 1           | 1.000     |
+| LFM2-350M         | method    | answer          | 59  | 0.3898     | 0.4068                 | 6              | 7           | 1.000     |
+| LFM2-350M         | method    | neither         | 141 | 0.3262     | 0.3475                 | 6              | 9           | 0.607     |
+| LFM2-350M         | problem   | verbatim        | 1   | 1.0000     | 1.0000                 | 0              | 0           | 1.000     |
+| LFM2-350M         | problem   | answer          | 60  | 0.3667     | 0.4000                 | 4              | 6           | 0.754     |
+| LFM2-350M         | problem   | neither         | 139 | 0.3309     | 0.3453                 | 7              | 9           | 0.804     |
+
+The answer-present class repeats what the MMLU lane found. For LFM2 it reads 0.3898 with the pages and 0.4068 on the same items closed book: the class is not a treatment effect, it is a set of items, and the paired column is the only thing that could have shown that. For our reader the same class runs the other way, 0.1017 against 0.0339, and the copy control above says what is happening there. In both cases the split alone would have been read wrongly and in opposite directions.
+
+### Verification and spend
+
+Context blocks matching byte for byte between the two readers: method 200/200, problem 200/200. The two models read the same pages.
+
+Live Exa searches across the GSM8K runs: 340, all of them in the fetch stage of the first run; every later run read them back. Cache hits: 1060. Wall clock 99.6 minutes on one L40S.
+
+Cost, priced at 0.005 dollars for a neural search and 0.001 dollars per page of text, which is what Exa lists:
+
+| job             | live searches | results per search | estimated cost |
+| --------------- | ------------- | ------------------ | -------------- |
+| cell 2 at n=400 | 73            | 5                  | $0.73          |
+| GSM8K at n=200  | 340           | 4                  | $3.06          |
+| total this pass | 413           | -                  | $3.79          |
+
+That pricing reproduces the project's own experience on the earlier sweep: 652 searches at 20 results each comes to $16.30 under it, against the $16 to $29 that sweep was reckoned to have cost. This pass costs about 4.3 times less than that sweep, because it asks for four or five results rather than twenty and because most of what it needed was already on disk.
+
+- `results/extern/bench/gsm4_lfm2_350m_bos_n200.json`, written 2026-09-02 05:55 UTC
+- `results/extern/bench/gsm4_lfm2_350m_nobos_n200.json`, written 2026-09-02 06:08 UTC
+- `results/extern/bench/gsm4_ours_native_a_n200.json`, written 2026-09-02 06:09 UTC
+- `results/extern/bench/gsm4_ours_native_n200.json`, written 2026-09-02 06:13 UTC
+- `results/extern/bench/gsm4_ours_shots_a_n200.json`, written 2026-09-02 06:14 UTC
+- `results/extern/bench/gsm4_controls.json`, written 2026-09-02 06:17 UTC
