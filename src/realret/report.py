@@ -75,7 +75,49 @@ def main() -> int:
             k: v for k, v in d.items() if k not in ("records",)}
         return d, m
 
+    # -------------------------------------------- the number that leads
+    lines.append("# Does the policy ask at all")
+    lines.append("")
+    lines.append("MMLU questions, the model driving its own retrieval through "
+                 "the live web tier. `issued a query` is the fraction of "
+                 "rollouts emitting at least one retrieve token; its "
+                 "denominator is `n`.")
+    lines.append("")
+    lines.append("| checkpoint | n | issued a query | rollouts that asked | "
+                 "mean rounds | pages entered context | named a choice | "
+                 "live searches | file |")
+    lines.append("| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |")
+    for tag in ("corpus-v1-8k", "real-v1-8k"):
+        d, m = get(f"results/mmlu_agentic_{tag}_n200.json")
+        if not d:
+            lines.append(f"| {tag} | file missing | | | | | | | "
+                         f"`{m['path']}` |")
+            continue
+        n = d["n"]
+        lines.append(
+            f"| {tag} | {n} | {d['issued_query']} | "
+            f"{int(round(d['issued_query'] * n))} of {n} | "
+            f"{d['mean_rounds']} | {d['pages_entered_context']} | "
+            f"{d['named_a_choice']} | {d.get('live_searches')} | "
+            f"`{m['path']}` |")
+    lines += ["", "The same question on held-out real documents, where the "
+              "pages come from the episode's own bundle rather than the web.",
+              "",
+              "| checkpoint | source | decode | n | issued a query | "
+              "mean rounds | file |",
+              "| --- | --- | --- | ---: | ---: | ---: | --- |"]
+    for tag in ("corpus-v1-8k", "real-v1-8k"):
+        d, m = get(f"results/real_scores_{tag}.json")
+        if not d:
+            continue
+        for key, c in sorted(d["cells"].items()):
+            src, dec, kind = key.split("|")
+            lines.append(f"| {tag} | {src} {kind} | {dec} | {c['n']} | "
+                         f"{c['issued_query']} | {c['mean_rounds']} | "
+                         f"`{m['path']}` |")
+
     # ------------------------------------------------------------ the data
+    lines.append("")
     lines.append("# The data")
     lines.append("")
     lines.append("| pack | examples | tokens | mean tokens per example | "
@@ -112,6 +154,36 @@ def main() -> int:
                 f"{json.dumps(d.get('rounds_hist'))} | "
                 f"{d.get('query_trimmed')} | `{m['path']}` |")
 
+    lines += ["", "## Datasets staged onto the worker", "",
+              "| check | value | file |", "| --- | --- | --- |"]
+    d, m = get("reports/stage_manifest.json")
+    if d:
+        lines.append(f"| files staged | {d['n']} | `{m['path']}` |")
+        lines.append(f"| md5 re-verified after write | {d.get('verified_ok')} "
+                     f"| `{m['path']}` |")
+        lines.append(f"| mismatches | {d.get('verified_bad')} | `{m['path']}` |")
+        for e in d["entries"]:
+            lines.append(f"| `{os.path.basename(e['path'])}` | {e['bytes']} "
+                         f"bytes, md5 {e['md5']}, from {e['source']} | "
+                         f"`{m['path']}` |")
+
+    lines += ["", "## Episodes removed before packing", "",
+              "| file | in | kept | benchmark exact | benchmark near | "
+              "train/eval duplicate | report |",
+              "| --- | ---: | ---: | ---: | ---: | ---: | --- |"]
+    d, m = get("reports/decontam.json")
+    if d:
+        for path, v in d["files"].items():
+            r = v["removed"]
+            lines.append(f"| `{os.path.basename(path)}` | {v['in']} | "
+                         f"{v['kept']} | {r['benchmark_exact']} | "
+                         f"{r['benchmark_near']} | {r['split_dup']} | "
+                         f"`{m['path']}` |")
+        t = d["totals"]
+        lines.append(f"| total | {d['in_total']} | {d['kept_total']} | "
+                     f"{t['benchmark_exact']} | {t['benchmark_near']} | "
+                     f"{t['split_dup']} | `{m['path']}` |")
+
     lines += ["", "## Train and eval split, leakage by content hash", "",
               "| pair | train episodes | eval episodes | shared question "
               "hashes | shared as fraction of eval | shared document keys | "
@@ -140,15 +212,22 @@ def main() -> int:
                 f"`{m['path']}` |")
 
     lines += ["", "## Benchmark contamination", "",
-              "| check | value | file |", "| --- | --- | --- |"]
-    d, m = get("reports/contamination.json")
-    if d:
+              "Both scans cover every document of every bundle, not only the "
+              "ones a planned trace serves. `before` is the raw build; "
+              "`after` is what is packed and trained on.", "",
+              "| check | before | after | files |",
+              "| --- | --- | --- | --- |"]
+    db, mb = get("reports/contamination_before.json")
+    da, ma = get("reports/contamination.json")
+    if da:
         for k in ("benchmark_stems", "benchmark_stems_total",
                   "training_questions_scanned", "training_documents_scanned",
                   "training_chars_scanned", "ngram", "min_stem_words",
                   "near_threshold", "exact_matches", "exact_by_task",
                   "near_matches", "near_by_task"):
-            lines.append(f"| {k} | {json.dumps(d.get(k))} | `{m['path']}` |")
+            lines.append(f"| {k} | {json.dumps((db or {}).get(k))} | "
+                         f"{json.dumps(da.get(k))} | "
+                         f"`{mb['path']}`, `{ma['path']}` |")
 
     lines += ["", "# Held-out synthetic frames, after real-document training",
               "",
@@ -196,6 +275,9 @@ def main() -> int:
         "results/real_scores_corpus-v1-8k.json",
         "results/real_scores_real-v1-8k.json",
         "reports/verify.json",
+        "reports/stage_manifest.json",
+        "reports/decontam.json",
+        "reports/contamination_before.json",
         "reports/leakage.json",
         "reports/contamination.json",
         "pack/mix_real1.summary.json",
