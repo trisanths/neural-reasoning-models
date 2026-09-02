@@ -59,14 +59,17 @@ Eight statements, each at the strength its interval supports and no further.
    result on the project and it is a result about a symbolic reader, not about a
    network. Its gold answers and its own answers come from the same interpreter.
 
-6. Chaining is the failure that has survived every intervention tried on it.
-   Widening the training distribution fixed frame boundedness and fixed the
-   plan-length ceiling and did not fix this. Training on real multi-hop
-   retrieval moved HotpotQA from 0.004 to 0.278 and left `chain_rule` at its
-   floor, 0.2520 before and 0.2441 after against 0.250, n=1,536. Making the
-   needed page 33 times more reachable moved accuracy by nothing. A step whose
-   input must come from a previous step's retrieved result is where this
-   architecture stops.
+6. Chaining is the failure that has survived every intervention tried on it, and
+   it fails inside the training distribution rather than past its edge. The pack
+   the model consumed holds 1,228 two-hop `chain_rule` items and 1,232 two-hop
+   `inverse_chain` items, and on held-out items of those same depths it reads
+   1.000 at one hop and 0.220 at two, and 0.760 and 0.180, against a 0.250
+   floor at n=50. Widening the training distribution fixed frame boundedness and
+   fixed the plan-length ceiling and did not fix this. Training on real
+   multi-hop retrieval moved HotpotQA from 0.004 to 0.278 and left `chain_rule`
+   at its floor, 0.2520 to 0.2441. Making the needed page 33 times more
+   reachable moved accuracy by nothing. A step whose input must come from a
+   previous step's retrieved result is where this architecture stops.
 
 7. The strict form of the thesis is dead by its own pre-registered rule. A
    substrate trained with no natural language at all, only synthetic worlds with
@@ -516,6 +519,148 @@ in `results/norm/compare/report_main.json`, the 45M reader has maximum none rate
 on the normalizer answers every item and never declines. The safe-failure
 property belongs to the unseen page shape, not to the system.
 
+## Corpus width, chaining, and the from-scratch pretrain
+
+### Claim C1. Frame boundedness was a property of the training corpus, not of the architecture
+
+Confirmed, every row, from `/home/ec2-user/retrain/frames/curve.json`.
+`substitution_rule`, forced choice, greedy, 32 frames, chance floor 0.200 in
+every bucket.
+
+| shape distance from trained | frames | n | original | retrained |
+|---|---:|---:|---:|---:|
+| seen | 13 | 2,600 | 0.1404 | 0.9904 |
+| 0.00 to 0.05 | 4 | 800 | 0.1837 | 1.0000 |
+| 0.05 to 0.12 | 3 | 600 | 0.0833 | 0.9983 |
+| 0.12 to 0.22 | 2 | 400 | 0.0275 | 0.9900 |
+| 0.22 to 0.30 | 5 | 1,000 | 0.0220 | 0.7220 |
+| 0.30 and above | 5 | 1,000 | 0.0090 | 0.9970 |
+
+Macro chance-corrected moves from -0.11969 to 0.94344 on `substitution_rule`
+and from -0.20750 to 0.69050 on `exception_rule`, from
+`frames/score_{base,new}-greedy.json`.
+
+The dip at 0.22 to 0.30 is not distance, and this is confirmed rather than
+asserted: the bucket's five frames read 0.985, 0.260, 0.995, 0.995 and 0.375,
+and the two low ones are both `tablepipe`. One of them, `archive__tablepipe`,
+has lexical distance 0.000 from a trained frame, `archive__tablecolon`. Drop the
+two and the bucket is 0.985 to 0.995.
+
+This is the cleanest positive result the corpus lane has, and it is a result
+about data rather than about a model.
+
+### Claim C2. Chaining fails inside the training distribution, and the depths really were trained
+
+Confirmed for two families of three, and the third is contradicted.
+
+Recomputed with the project's own scorer over
+`/home/ec2-user/retrain/relation/all_new_heldout.jsonl` and cross-checked
+against `s3://.../runs/e3-350m/eval/hops_ref_heldout.json`, which agrees cell
+for cell:
+
+| family | one hop | two hops | n per cell | floor | status |
+|---|---:|---:|---:|---:|---|
+| chain_rule | 1.000 | 0.220 | 50 | 0.250 | confirmed |
+| inverse_chain | 0.760 | 0.180 | 50 | 0.250 | confirmed |
+| weighted_chain | 1.000 | 0.053 (2 of 38) | 38 | 0.000 | reported as 0.039, contradicted |
+
+The trained-depth claim is the important one and it was checked against the
+training draw rather than the prose. The pack the run actually consumed,
+`/home/ec2-user/retrain/pack/relation.index.jsonl`, contains 1,228 `chain_rule`
+items at depth 2, 1,232 `inverse_chain` at depth 2 and 4,902 `weighted_chain` at
+plan length 4. The failure is inside the distribution the model trained on.
+
+That is what makes this the surviving negative. The same checkpoint writes a
+correct 48-step plan over an expression printed in its prompt, so it composes
+over material in front of it and fails when a step's input must come from a
+previous step's retrieved result.
+
+`exclusion` is the sharpest single cell: forced 0.000 at n=200 against a 0.250
+floor, with the page served on 1.000 of items and a candidate named on 0.980.
+It reads the list and not the negation. Hedging canary 0.000.
+
+### Claim C3. Emitted plan length tracks required length and extrapolates past the training maximum, while accuracy does not
+
+Confirmed with two qualifications.
+
+`plan/score_new_heldout_whole_sample.json` carries 18 length cells; emitted mean
+equals required at 1, 2, 3, 4, 5, 6, 8, 10 and 12 and is within 0.6 at every
+longer cell. Two of the 18, lengths 5 and 10, are in the record and omitted from
+the report without a note.
+
+`plan/score_new_extrap_whole.json` gives 56.20 emitted at required 56 (n=40) and
+64.333 at 64 (n=15), with accuracy 0.000 at all five extrapolation lengths on
+both decodes. So length and correctness came apart, which is the finding.
+
+The widely quoted "plans to 111 steps" is a sampled-decode figure quoted inside
+a greedy paragraph; the greedy maximum is 96.
+
+### Claim C4. The plan generator prints two of four operands, and a wrong plan then lands on the right value two times in three
+
+Confirmed in full. `src/corpus/plans.py:148` renders `kids[0] sym kids[1]` for
+any node while the builder gives an arity-4 operator four children, so the
+printed question loses two operands.
+
+Recounted from the corpus files: 11,887 of 32,000 training whole-plan items are
+underdetermined (0.3715) and 1,196 of 3,199 held-out (0.3739). On the
+underdetermined subset, greedy, value accuracy is 0.6423 with plan-exact 0.000;
+on the determinate subset value accuracy is 0.8506 against plan-exact 0.843, a
+gap of 0.008. The plan tables do report the determinate subset only and both
+subsets are kept in the score files.
+
+### Claim C5. The rebuilt transposed instrument reproduces the earlier record exactly
+
+Confirmed in full, and it matters because it is the project's clearest instance
+of an instrument being validated before its new numbers were read.
+
+From `retrain/transposed/`: operator level n=298, 293 distinguishable, follows
+the page 0 of 293 and follows training 293 of 293. Item level under
+`oracle_plan`, greedy: 689 ran, 0 of 689 toward the page, 689 of 689 toward
+training, with per-depth splits 127/140/140/139/143 summing to 689. Operator
+definitions parsed 0 of 298 for both checkpoints on both decodes. The prose
+reader on the identical rows reads the page on 689 of 689 with no parse
+failures, so the items are answerable and the failure belongs to the model.
+
+### Claim C6. The from-scratch 375M pretrain is a third of the way through and has established nothing about accuracy
+
+Confirmed, and two live readings in the lane document are now contradicted by
+later rows of its own curve.
+
+State at the time of writing, from
+`s3://.../runs/e3-350m/loss.jsonl`: step 9,160 of a planned 26,700, 34.3
+percent, 2.40B tokens, 6.40 tokens per parameter, loss 2.7505, 57,025 seconds
+elapsed. `src/e3/E3.md`'s loss-curve section still ends at step 600 and says
+"in flight beyond step 680", so it is about 8,480 steps stale.
+
+MMLU n=1000 across nine evaluated checkpoints reads 0.244, 0.225, 0.225, 0.238,
+0.233, 0.246, 0.245, 0.248, 0.248. Every interval contains the 0.2500 floor and
+none is above it. Through a third of the budget, accuracy is flat at chance,
+which is expected at this token count and on which no claim rests.
+
+The two readings that do not survive their own curve:
+
+Modal share was reported as walking toward the old checkpoint's degenerate
+0.695. Over nine rows it goes 0.464, 0.589, 0.600, 0.681, 0.607, 0.475, 0.406,
+0.452, 0.404. It peaks at step 4,000 and reverses. The trend was read off the
+first two rows.
+
+Retrieval emission was reported as the one axis clearly improving, having
+"nearly reproduced" the old rate at 0.205. Over nine rows it goes 0.000, 0.070,
+0.205, 0.195, 0.365, 0.005, 0.125, 0.050, 0.030. It spikes at step 5,000 and
+collapses. There is no trend here to report in either direction.
+
+Both are the same fault the same document names and corrects for its own ETA:
+reading a rate off the window where it looks like something. That is fault 2
+below, recurring inside the lane that found it.
+
+What E3 has established: the rebuilt battery reproduces the corpus-v1-8k
+numbers on the checkpoint they were recorded on, 40 of 40 frame cells and a
+byte-identical relation score file; and the hop curve now carries intervals
+showing `chain_rule` at depths 2, 3 and 4 is indistinguishable from chance
+rather than below it, so any future claim of movement between 0.220 and 0.280
+is noise. What it has not established: anything about Stage B, which has not
+started, and anything about whether the token budget fixes the answer policy.
+
 ## Retrieval and the external comparison
 
 ### Claim T0. The external harness is calibrated, and it was wrong before it was
@@ -708,9 +853,17 @@ episodes of 182,556.
 
 Confirmed, and this is the most useful negative in the lane.
 
-`chain_rule` forced choice, held-out band, n=1,536, floor 0.250: 0.2520 before,
-0.2441 after. Chance corrected that is 0.003 to -0.008, at the floor on both
-sides. `weighted_chain` generation, n=1,536: 0.2051 to 0.1849.
+Recounted from `s3://.../runs/real-v1-8k/results/chain_summary.json`:
+
+| cell | instrument | n | floor | before | after |
+|---|---|---:|---:|---|---|
+| chain_rule | forced choice | 1,536 | 0.250 | 0.2520 [0.2309, 0.2743] | 0.2441 [0.2233, 0.2662] |
+| chain_rule | generation, env grader | 384 | 0.000 | 0.4922 [0.4425, 0.5420] | 0.4609 [0.4117, 0.5109] |
+| weighted_chain | generation, env grader | 1,536 | 0.000 | 0.2051 [0.1856, 0.2260] | 0.1849 [0.1663, 0.2051] |
+
+Chance corrected, `chain_rule` forced choice goes from 0.0026 to -0.0078. Both
+intervals contain the floor. Every cell moves the wrong way, none of them
+significantly.
 
 The same checkpoint that moved HotpotQA from 0.004 to 0.278 and started taking
 its second hop did not move this cell at all. Whatever `chain_rule` requires, it
@@ -875,9 +1028,17 @@ never reaches one in fifteen cells.
 ### That frame boundedness is a property of this architecture
 
 Killed by the corpus retrain, which moved macro chance-corrected accuracy on
-`substitution_rule` from -0.120 to 0.943 by widening the training distribution.
-Three of four never-trained sentence shapes read at ceiling afterwards. It was a
-corpus property.
+`substitution_rule` from -0.11969 to 0.94344 and on `exception_rule` from
+-0.20750 to 0.69050 by widening the training distribution alone. Every row of
+the shape-distance table was recounted from `retrain/frames/curve.json`. It was
+a corpus property.
+
+### That the 0.22-to-0.30 shape-distance dip is a distance effect
+
+Killed by the per-frame split. That bucket's five frames read 0.985, 0.260,
+0.995, 0.995 and 0.375, and the two low ones are both `tablepipe`; one of them
+has lexical distance 0.000 from a trained frame. The bucket mean of 0.722 is two
+frames, not a distance.
 
 ### That milestone A is met
 
@@ -900,8 +1061,11 @@ they should be quoted with that attached or not quoted.
 `src/e3/E3.md` re-measures the 375M corpus checkpoint at three sample sizes and
 records 0.2750 at n=200, 0.2640 at n=500 and 0.2450 at n=1000, citing
 `/mnt/nvme/e3eval/mmlu_ref_n{200,500,1000}.json`. `/mnt/nvme` is instance store
-on worker 2, which has been terminated, and there is no mirror anywhere under
-`s3://decoupled-reasoner-009398924577/`. The n=1000 row cannot be checked.
+on worker 2, which has been terminated. A recursive listing of all 39,334
+objects in `s3://decoupled-reasoner-009398924577/` returns no match for
+`mmlu_ref` or `e3eval`, so these were never mirrored. The n=1000 row cannot be
+checked, and neither can the n=200 and n=500 rows as that lane measured them,
+nor the eot-prefix control.
 
 What does survive, read directly:
 
@@ -1245,15 +1409,94 @@ reason any surviving number here is worth anything.
     failures file written at 05:39. No reported number is affected; it is a trap
     laid for the next reader.
 
-Fault 1 has now appeared three times in three lanes, which is why it is first.
-Its third instance is `~/verify_oneshot_circularity.py`, which reads the first
-200 rows of an ordered 800-row file and so covers two of eight operations from
-one of four families, while its conclusion is generalised to the whole set.
+23. The relation depth table, which is the run's central negative result, has no
+    record file. Nothing under `/home/ec2-user/retrain/` computes or stores a
+    per-depth relation breakdown; the numbers in `RETRAIN.md` section 6 were
+    computed ad hoc and not persisted. Effect: two of them do not survive
+    reconstruction, which is faults 24 and 25, and the only persisted copy is
+    `hops_ref_heldout.json`, written later by a different lane and covering the
+    held-out band only. The finding survives; two of its numbers did not.
+
+24. `weighted_chain` at two hops is reported as 0.039 in three places and the
+    artifact says 0.053, which is 2 of 38. Confirmed twice, from the raw
+    rollouts and from the later mirrored score file. Effect: the direction is
+    unchanged and the conclusion stands, but the number is wrong by 36 percent
+    of its own value and its n=38 is stated nowhere.
+
+25. A table with two rows cut on different axes and no denominators. The
+    train-band "depth 4" column pools depths 4, 5 and 6 (chain_rule 24 of 100,
+    inverse_chain 6 of 100) while the held-out row beside it is depth 4 alone at
+    n=50. Effect: the two columns of that cell are not comparable, which is the
+    comparison the row exists to make. Related, in the same paragraph:
+    "`transitive` falls to 0.019 at depth 48" is 0.000 at n=8 in the artifact,
+    and the 0.167 floor quoted beside it belongs to depths 1 to 4, where the
+    floor at depth 48 is 0.020.
+
+26. Two evaluation sets that confound the axis under test with the axis being
+    controlled. `retrain/mkplaneval.py` takes `by_len[n][:60]` from a file
+    written in (length, symbol-count) blocks of 40, so each length gets a
+    near-arbitrary two or three of the five symbol counts. Effect: length is
+    confounded with symbol count through the whole decay curve, and it shows:
+    length 20 scores 0.898 while the shorter length 16 scores 0.829, an
+    inversion in a curve described as smooth decay. The report explains the
+    related anomaly at four required symbols as "drawn from the longest plans"
+    without identifying the sampler as the cause. Separately,
+    `retrain/mkextrap.py` sets `n_symbols = min(5, 1 + n % 5)`, making symbol
+    count a deterministic function of length, so the extrapolation symbol table
+    is the length table relabelled and no cell in it separates the two axes.
+
+27. A stated interval that is not what the record holds. `RETRAIN.md` says the
+    opgraph arm emits "between 2.43 and 2.92 at every one of the twenty-three
+    lengths"; the record has 1.86 at length 80. The companion sentence "0.000 or
+    0.029 at every length above" misses 0.020 at length 10. Effect: the ceiling
+    claim itself, that the arm never emits more than 3 steps, is confirmed and
+    unaffected. The interval quoted around it is wrong.
+
+28. Sampled-decode figures quoted inside greedy paragraphs, twice. The
+    extrapolation symbol counts 1.231 / 2.462 / 3.424 / 5.800 are the sampled
+    rows; greedy is 1.038 / 2.013 / 3.030 / 5.067. The "plans to 111 steps"
+    figure is likewise sampled, where greedy reaches 96. Effect: small, and in
+    the conservative direction for the symbol counts, but the decode is not
+    labelled in either place and a reader cannot tell.
+
+29. A trend read off two rows of a curve that later reverses, inside the lane
+    that had just corrected the same fault for its own ETA. `E3.md` states the
+    modal share is walking toward the old checkpoint's 0.695 and that retrieval
+    has nearly reproduced the old rate at 0.205. Over the nine rows now in
+    `eval/curve.jsonl`, modal share goes 0.464, 0.589, 0.600, 0.681, 0.607,
+    0.475, 0.406, 0.452, 0.404, peaking at step 4,000 and reversing; retrieval
+    goes 0.000, 0.070, 0.205, 0.195, 0.365, 0.005, 0.125, 0.050, 0.030, spiking
+    at step 5,000 and collapsing. Effect: two directional claims that the curve
+    does not support, one of which I repeated in an earlier draft of this
+    document.
+
+30. An internal contradiction thirty lines wide. `E3.md`'s loss-curve section
+    estimates the remaining time from 5.42 s/step, the quiet-window rate, thirty
+    lines after the section titled for the fact that the quiet-window rate is
+    wrong. Effect: about six hours understated, in a document that elsewhere
+    states the correct figure.
+
+31. A freshness checker with two blind spots, named here because it is otherwise
+    the best guard on the project. `retrain/freshness.py` re-run today returns
+    33 pairs checked, 0 stale, 18 not present. It compares mtimes only, so a
+    report regenerated from a different rollout file passes; and a report whose
+    record file has been deleted counts as "not present" rather than as a
+    failure, which is exactly the state the E3 MMLU reference files are in.
+    Effect: the guard would not have caught fault 8, and did not.
+
+Fault 1 has now appeared four times in four lanes, which is why it is first. Its
+third instance is `~/verify_oneshot_circularity.py`, which reads the first 200
+rows of an ordered 800-row file and so covers two of eight operations from one
+of four families while its conclusion is generalised to the whole set. Its
+fourth is `retrain/mkplaneval.py` in fault 26. Fault 2, reading a rate off the
+window where it looks best, has appeared three times: the ETA, the modal-share
+trend and the retrieval trend, the last two inside the document that corrected
+the first.
 
 Faults 3 through 9, 11 and 14 were found by an adversarial verification pass over
 the external-comparison lane; 1, 12 and 13 in the system and retrieval lanes; 2,
 15 and 16 in the e3, corpus and real-document lanes; 17 through 22 in the
-normalisation lane. Faults 17 to 22 are concentrated in the plumbing between
+normalisation lane; 23 through 31 in the corpus and e3 lanes. Faults 17 to 22 are concentrated in the plumbing between
 artifact and document rather than in the measurement code, which is the pattern
 worth noticing: the graders in that lane are the best on the project and the
 documents built from them are the least reliable.
@@ -1398,14 +1641,23 @@ memorisation, was declared provisionally met and is withdrawn. Milestones B
 through F have not been attempted.
 
 The 375M from-scratch pretrain on `regime_e3` is the current attempt to move the
-first number. It is at step 9,060 of a planned 26,700, about 34 percent, loss
-2.677, 15.6 hours in against an end-to-end estimate of 46.1. At step 2,000 it
-read MMLU 0.2250 [0.2002, 0.2519] and its modal share had gone from 0.464 at
-step 1,000 to 0.589, walking toward the old checkpoint's 0.695 rather than away
-from it. No claim rests on either accuracy at that budget and the lane says so.
-The one axis moving the right way is retrieval, which the model is picking up
-out of the pretraining mixture with no fine-tuning teaching it: 0.000 at step
-1,000, 0.070 at step 2,000.
+first number. It is at step 9,160 of a planned 26,700, 34.3 percent, 2.40B
+tokens, 6.40 tokens per parameter, loss 2.7505, 15.8 hours in against an
+end-to-end estimate of 46.1.
+
+Across nine evaluated checkpoints MMLU n=1000 reads 0.244, 0.225, 0.225, 0.238,
+0.233, 0.246, 0.245, 0.248, 0.248. Every interval contains the floor and none is
+above it. That is expected at this token count and no claim rests on it.
+
+Nothing else on that curve is moving either, and two earlier readings of it were
+wrong, including in an earlier draft of this document. Modal share was reported
+as walking toward the old checkpoint's degenerate 0.695; over nine rows it goes
+0.464, 0.589, 0.600, 0.681, 0.607, 0.475, 0.406, 0.452, 0.404, peaking at step
+4,000 and reversing. Retrieval emission was reported as the one axis clearly
+improving; over the same rows it goes 0.000, 0.070, 0.205, 0.195, 0.365, 0.005,
+0.125, 0.050, 0.030, spiking at step 5,000 and collapsing. Both readings were
+taken from the first two or three rows. There is no trend on either axis to
+report in either direction.
 
 ### What remains standing
 
@@ -1450,9 +1702,10 @@ forms, above it it does not. That is the only threshold this project has
 located, it is bracketed from below only, and the 355M rung that would
 characterise it above was dropped as unaffordable rather than measured.
 
-## Lanes not yet re-verified in this document
+## The lane not yet re-verified in this document
 
-Verification of `src/disc/` with `src/falsify/`, and `src/corpus/` with
-`src/e3/`, is still in progress. Claims drawn from those two lanes and not
-recounted here are marked in place; everything else in this document was read
-out of the artifact it names.
+Verification of `src/disc/` and `src/falsify/` is still running. Two claims in
+this document draw on that lane without a recount and are marked here so they
+are not mistaken for verified: the value-permutation result quoted in
+outward-facing statement 4, and the renderer-swap figures in the entry for
+milestone A. Everything else was read out of the artifact it names.
