@@ -170,10 +170,13 @@ Every retrieval condition is compared against the same model on the same items w
 | comparison                                  | n   | web only | no index only | both | neither | McNemar p |
 | ------------------------------------------- | --- | -------- | ------------- | ---- | ------- | --------- |
 | all items, strict                           | 400 | 0        | 0             | 4    | 396     | 1.000     |
+| items that asked, strict                    | 102 | 0        | 0             | 0    | 102     | 1.000     |
 | chunks reached the context, strict          | 88  | 0        | 0             | 0    | 88      | 1.000     |
 | chunks reached the context, named an option | 88  | 0        | 0             | 0    | 88      | 1.000     |
 
-There is not one discordant pair anywhere in the table. On the 88 items where a chunk actually entered the trace the reader named an option zero times, with the pages and without them. Retrieval moved nothing, and the split cannot be read as a treatment effect because there is no effect to attribute.
+The first row is the weakest of the four and it is the one to distrust. On the 298 items where the policy never asks, the two arms are the same trajectory: greedy decoding is deterministic and the index is never consulted, and 298 of 298 agree token for token on answer text, generated length and stop reason. Those items cannot disagree, so counting them inflates the denominator without adding information. The informative comparison is the 102 items that asked.
+
+On those there is not one discordant pair either, and on the 88 where a chunk actually entered the trace the reader named an option zero times, with the pages and without them. Retrieval moved nothing, and the split cannot be read as a treatment effect because there is no effect to attribute.
 
 ### Contamination split, on the items where pages arrived
 
@@ -198,17 +201,18 @@ Every item this cell scores correctly is an item where retrieval served nothing 
 | no index, sampled T=0.8 p=0.95, 256 tokens | 400 | 300 | 2               | 98         | 0              | 1.4                                 |
 | web index, greedy, 64 tokens               | 400 | 366 | 2               | 4          | 28             | 36.5                                |
 
+When the policy asks, it asks at once: `<|retrieve|>` is the very first token generated on 84 of the 102 items that ask, and the latest it ever arrives is token 19. The behaviour is close to bimodal. Either the first token is a retrieval request, or the model writes about eight tokens of free text and stops. It does not read the question and then decide.
+
 The web arm ends on `<|eot|>` on 380 of 400 items, so nothing here is a truncation artefact: served chunk tokens never count against `max_new_tokens`, and a trajectory that asked for a page still stops on its own after about 54 emitted tokens without opening an answer span. The no-index arm cannot say anything about what happens after a query, because its trajectories end at the guard after about one token; only the web arm reaches that part of the trace.
 
 On 2 items of the 256 token web arm, and 4 across both web arms, the policy wrote `<|retrieve|>` and then `<|result|>` with no query text between them. An empty query is a degenerate query rather than a search that failed, so it is recorded and never sent: the API rejects an empty query string with an HTTP 400, and the original runner had no guard, so it would have ended the run there.
 
 ### What this changes in the reading above
 
-The published cell 2 text says the reader never requests any retrieved text. At 400 items it requests on 0.2550 [0.215, 0.300] of them and gets real pages into its context on 88. The policy fires less often than a reader that always retrieves, and it fires. What does not happen is anything downstream: on those items the reader names no option, with or without pages, and on the items where it does name one it is indistinguishable from guessing. Calling this a policy failure rather than a comprehension failure was resting on a counter that undercounted the policy, and the corrected counter does not support the claim. What the run supports is narrower: this checkpoint cannot produce an MMLU answer, and its retrieval behaviour is not what stands between it and one.
+`src/extern/fourcell.py` emits, whenever a cell 2 record file is present, a section saying the reader never requests any retrieved text and that the failure is therefore a policy failure rather than a comprehension failure. At 400 items it requests on 0.2550 [0.215, 0.300] of them and gets real pages into its context on 88. The policy fires less often than a reader that always retrieves, and it fires. What does not happen is anything downstream: on those items the reader names no option, with or without pages, and on the items where it does name one it is indistinguishable from guessing. Calling this a policy failure rather than a comprehension failure was resting on a counter that undercounted the policy, and the corrected counter does not support the claim. What the run supports is narrower: this checkpoint cannot produce an MMLU answer, and its retrieval behaviour is not what stands between it and one.
 
 ### Retrieval spend, cell 2
 
 Live Exa searches: 73. Cache hits: 255. Queries the 256 token web arm sent: 173, of which 73 live and 98 cache hits. Empty queries never sent, both web arms: 4. API errors: 0. Cache hits that returned no page text: 0. Every served query came back with pages carrying text, the thinnest of them 9,209 characters, so nothing was scored against an empty cache entry. Wall clock 11.5 minutes for all five arms on one L40S.
 
 Record file `results/extern/bench/cell2_ours_mmlu_retrieval_n400.json`, written 2026-09-02 04:19 UTC. Cache audit `src/extern/cache_audit.py`, grader check `src/extern/gradecheck.py`, runner `src/extern/cell2.py`.
-

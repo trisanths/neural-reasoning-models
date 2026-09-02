@@ -182,6 +182,13 @@ A("Every retrieval condition is compared against the same model on the same "
   "items with retrieval unavailable, item by item.")
 A("")
 pw = paired([r["strict"] for r in wg], [r["strict"] for r in ng])
+ask = [(x, y) for x, y in zip(wg, ng) if x["emitted_retrieve"]]
+noask = [(x, y) for x, y in zip(wg, ng) if not x["emitted_retrieve"]]
+ident = sum(1 for x, y in noask
+            if x["answer"] == y["answer"]
+            and x["n_generated"] == y["n_generated"]
+            and x["stop_reason"] == y["stop_reason"])
+pa = paired([x["strict"] for x, y in ask], [y["strict"] for x, y in ask])
 served = [r for r in wg if r["context_entered"]]
 by = {r["id"]: r for r in ng}
 ps = paired([r["strict"] for r in served],
@@ -192,16 +199,27 @@ A(tbl(["comparison", "n", "web only", "no index only", "both", "neither",
        "McNemar p"],
       [["all items, strict", pw["n"], pw["a_only"], pw["b_only"], pw["both"],
         pw["neither"], f"{pw['p']:.3f}"],
+       ["items that asked, strict", pa["n"], pa["a_only"], pa["b_only"],
+        pa["both"], pa["neither"], f"{pa['p']:.3f}"],
        ["chunks reached the context, strict", ps["n"], ps["a_only"],
         ps["b_only"], ps["both"], ps["neither"], f"{ps['p']:.3f}"],
        ["chunks reached the context, named an option", pn["n"], pn["a_only"],
         pn["b_only"], pn["both"], pn["neither"], f"{pn['p']:.3f}"]]))
 A("")
-A(f"There is not one discordant pair anywhere in the table. On the "
-  f"{len(served)} items where a chunk actually entered the trace the reader "
-  f"named an option zero times, with the pages and without them. Retrieval "
-  "moved nothing, and the split cannot be read as a treatment effect because "
-  "there is no effect to attribute.")
+A(f"The first row is the weakest of the four and it is the one to distrust. "
+  f"On the {len(noask)} items where the policy never asks, the two arms are "
+  f"the same trajectory: greedy decoding is deterministic and the index is "
+  f"never consulted, and {ident} of {len(noask)} agree token for token on "
+  "answer text, generated length and stop reason. Those items cannot "
+  "disagree, so counting them inflates the denominator without adding "
+  f"information. The informative comparison is the {pa['n']} items that "
+  "asked.")
+A("")
+A(f"On those there is not one discordant pair either, and on the "
+  f"{len(served)} where a chunk actually entered the trace the reader named "
+  "an option zero times, with the pages and without them. Retrieval moved "
+  "nothing, and the split cannot be read as a treatment effect because there "
+  "is no effect to attribute.")
 A("")
 
 A("### Contamination split, on the items where pages arrived")
@@ -245,6 +263,14 @@ for nm in NAMES:
                 [f"{sum(r['n_generated'] for r in e) / max(len(e), 1):.1f}"])
 A(tbl(["arm", "n", "eot", "answer_boundary", "max_rounds", "max_new_tokens",
        "mean tokens generated when it asked"], rows))
+A("")
+first = sum(1 for r in ng if r["emitted_retrieve"] and r["n_generated"] == 0)
+A(f"When the policy asks, it asks at once: `<|retrieve|>` is the very first "
+  f"token generated on {first} of the {len(ask)} items that ask, and the "
+  "latest it ever arrives is token 19. The behaviour is close to bimodal. "
+  "Either the first token is a retrieval request, or the model writes about "
+  "eight tokens of free text and stops. It does not read the question and "
+  "then decide.")
 A("")
 A("The web arm ends on `<|eot|>` on 380 of 400 items, so nothing here is a "
   "truncation artefact: served chunk tokens never count against "
