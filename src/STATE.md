@@ -16,7 +16,7 @@ families, and no lenient grader score without the forced-choice score beside it.
 
 ## What we would tell someone outside this project
 
-Eight statements, each at the strength its interval supports and no further.
+Nine statements, each at the strength its interval supports and no further.
 
 1. A 45M encoder-decoder trained to read invented rule pages into a typed
    structure reads them at 0.9209 exact on trained sentence forms and 0.8181 on
@@ -44,14 +44,29 @@ Eight statements, each at the strength its interval supports and no further.
    against a 0.5 floor, on the same items. A 167M model trained on the task does
    not show that split.
 
-4. A model can read values off a page it has never seen and answer with them: a
-   page with identical wording and permuted values moves the answer with the
-   page. It cannot tell which system's page it is reading, it does not
-   generalise to relation types it was not trained on, and a fifty-line regex
-   over the same pages beats it. What is supported is frame-conditioned value
-   binding, not inference-time skill acquisition.
+4. A model can read values off a page it has never seen and answer with them.
+   With page wording held byte-identical and only the values cyclically
+   permuted, the answer follows the page: 0.9380 against 0.0078 toward the
+   original for one family, n=258 and floor 0.201, and 0.9608 against 0.0120 for
+   another, n=332 and floor 0.503. A position-based copier produces the opposite
+   pattern, 0.713 toward the original, and hedging cannot produce it. This is
+   the strongest positive evidence in the project. Its honest ceiling is that
+   for these families, applying the rule and reading the row that names the key
+   are the same operation, so what is shown is value-sensitivity, not rule
+   execution. The same model cannot tell which system's page it is reading, does
+   not generalise to untrained relation types, and loses to a fifty-line regex
+   on the pages where that regex's anchors survive.
 
-5. A symbolic library, with no gradient step anywhere in its path, reads an
+5. When the environment hands back a chained lookup's intermediate result as a
+   fresh key, the composition cell moves off zero: depth-two chains go from
+   0.0000 to 0.2050 pass@1 and from 0.000 to 0.560 pass@4, on the same
+   questions, pages, retriever and grader, against a 0.0278 chain floor over 400
+   chains. The substrate executes a lookup keyed by a value it was handed at the
+   same rate as one keyed by a value in the question, 0.4575 against 0.4850. It
+   cannot write its own previous answer into its next query. That localises the
+   chaining failure to producing the key rather than to using it.
+
+6. A symbolic library, with no gradient step anywhere in its path, reads an
    operation defined on one page of prose and applies it at 1.0000 forced choice
    against floors of 0.29 to 0.37, on 850 items over 170 distinct operations,
    where the neural reader on the same items is at 0.00 to 0.12 and never once
@@ -59,7 +74,7 @@ Eight statements, each at the strength its interval supports and no further.
    result on the project and it is a result about a symbolic reader, not about a
    network. Its gold answers and its own answers come from the same interpreter.
 
-6. Chaining is the failure that has survived every intervention tried on it, and
+7. Chaining is the failure that has survived every intervention tried on it, and
    it fails inside the training distribution rather than past its edge. The pack
    the model consumed holds 1,228 two-hop `chain_rule` items and 1,232 two-hop
    `inverse_chain` items, and on held-out items of those same depths it reads
@@ -71,14 +86,14 @@ Eight statements, each at the strength its interval supports and no further.
    reachable moved accuracy by nothing. A step whose input must come from a
    previous step's retrieved result is where this architecture stops.
 
-7. The strict form of the thesis is dead by its own pre-registered rule. A
+8. The strict form of the thesis is dead by its own pre-registered rule. A
    substrate trained with no natural language at all, only synthetic worlds with
    within-episode retrieval, scores 0.0000 on naturalized reading against 0.2053
    for the same size trained on ordinary text, three seeds each, bootstrap
    interval [0.0000, 0.0000]. Everything measured since runs on a model that has
    read ordinary text.
 
-8. Nothing here beats a comparable off-the-shelf model at anything. On MMLU our
+9. Nothing here beats a comparable off-the-shelf model at anything. On MMLU our
    375M checkpoint is at chance at every sample size measured, and LFM2-350M,
    which is smaller, reads 0.4300.
 
@@ -128,6 +143,233 @@ experiment. And it is why everything measured since runs on the weakened form,
 a model that has seen ordinary text. Any statement in `THESIS.md` about a
 "fact-free" model should be read against this: the checkpoints in current use
 are not fact-free, and the fact-free ones scored zero.
+
+## The rule-acquisition headline, and what is left of it
+
+### Claim D1, and this corrects a correction. The 0.680 had provenance after all: it is a step-250 checkpoint
+
+The record says the 0.680 headline is stale and its provenance could not be
+found. That retraction was right about the number and wrong about the reason,
+and the reason matters because it is the difference between a fabricated figure
+and a real measurement of the wrong checkpoint.
+
+The artifact exists in two places:
+`/home/ec2-user/registry-mirror/runs/rule-test/rule_test.json`, mirrored at
+`s3://decoupled-reasoner-009398924577/runs/rule-test/rule_test.json`, and the
+committed `registry/runs.jsonl` row `rule-test-rlsimple-503-921`. It records
+textbook 0.68, wrong textbook 0.002, no documents 0.0, n=500, temperature 0.7,
+and it reproduces the headline triple exactly.
+
+The checkpoint field is what was missed: `rl-000250.pt`, RL step 250. The
+re-measurement used `final.pt`, step 3000. Same script, same generator, same
+seed base, same temperature, same n. So 0.680 against 0.958 is a step-250
+against step-3000 gap, not an unexplained discrepancy. The step-250 checkpoint
+no longer exists and the earliest surviving one is step 750, so the exact figure
+cannot be re-run.
+
+The chance floor for that item set is 0.4018 and was never stated beside 0.680
+in any document.
+
+So the headline was a real measurement of an intermediate checkpoint, promoted
+to the project's established result, and then withdrawn for the wrong reason.
+Both halves of that are worth keeping in view.
+
+### Claim D2. The re-measurement and its scoring ladder
+
+Confirmed. `results/falsify/headline_rerun.json` gives textbook 0.958, wrong
+textbook 0.002, blank 0.000 at n=500. `results/falsify/conditions.json` gives
+0.968, 0.0010 and 0.0000 at n=1000.
+
+The scoring ladder, all six rows confirmed against
+`results/falsify/ladder_textbook.json`:
+
+| scoring | value |
+|---|---:|
+| published grader, contains with six token slack | 0.968 |
+| forced choice, first candidate named | 0.7953 |
+| naming more than one candidate counts wrong | 0.6464 |
+| non-trivial items only, 416 of 1000 kept | 0.6396 |
+| chance floor quoted for that row | 0.4014 |
+| chance corrected | 0.2923 |
+
+The floors are computed per item from that item's own candidate list, in both
+`scripts/falsify/ladder.py` and `scripts/falsify/survive.py`. The non-round
+values, 0.5030, 0.2012, 0.2512, 0.3343 and 0.4018, are the signature of that.
+This lane is clean on the module-constant fault.
+
+Two presentation faults inside the corrected table itself, both recorded below
+as faults 32 and 33: the 0.4014 floor belongs to the 1000-item set, not to the
+416-item row it sits under, whose floor is 0.3419; and the 0.2923 is a macro over
+three families in which the artifact family contributes -0.9818 against the two
+real families' 0.9256 and 0.9331. The correction repeats the pooling its own
+consequences section forbids.
+
+### Claim D3. The value-permutation result survives every attack put to it, and it is the strongest positive evidence in this lane
+
+Confirmed, and checked hardest because it is the one that travels.
+
+A page with byte-identical wording and a cyclic permutation of its value set
+moves the answer with the page. From
+`results/falsify/conditions.json`, `conditions.swapped.informative_only`:
+
+| family | n | toward the page's permuted answer | toward the original answer | hedge | per-item floor |
+|---|---:|---:|---:|---:|---:|
+| substitution_rule | 258 | 0.9380 | 0.0078 | 0.031 | 0.2012 |
+| exception_rule | 332 | 0.9608 | 0.0120 | 0.000 | 0.5030 |
+
+The construction is sound: one simultaneous whole-word substitution applied to
+the pages only, question text untouched, and the 74 dropped substitution items
+are those whose answer is invariant under the permutation.
+
+Three attacks, all failed:
+
+Copying does not explain it, and the check is sharp. On the same items the
+generic proximity heuristic scores 0.7132 toward the original answer on
+substitution and 0.2248 toward the page answer. A position-based copier lands on
+the pre-permutation answer 71 percent of the time; the model lands there 0.8
+percent of the time. The two are inverses.
+
+Hedging cannot produce it: hedge rates are 0.000 and 0.031, and the metric is
+forced choice. The hedging family, `threshold_rule`, sits at its coin-flip floor
+in both directions, 0.467 toward the page and 0.524 toward the original, and is
+correctly excluded.
+
+The hand-written parser only reaches 0.2229 on the swapped pages, because the
+word swap breaks its anchors. This is the one condition in the project where the
+model beats the parser.
+
+The honest ceiling, which should travel with the number: for these two families
+"apply the rule" and "read the value on the row naming the key" are the same
+operation. What is established is value-sensitivity within a trained sentence
+frame, not rule execution.
+
+### Claim D4. The re-keying rescue moves the composition cell off zero, and locates the failure in writing the key rather than in using it
+
+Confirmed, and it is the second surviving positive result. It was not in
+`THESIS.md`.
+
+The minimal repro puts depth two at 0.0000 pass@1 and 0.000 pass@4 over 400
+chains, against a 0.0278 chain floor. Splicing the gold intermediate back in as
+a fresh key takes the same questions, pages, retriever and grader to 0.2050
+pass@1 and 0.560 pass@4.
+
+The decomposition is what makes it a localisation rather than a lift. The
+substrate executes a lookup keyed by a value it was handed at essentially the
+same rate as one keyed by a value in the original question, 0.4575 against
+0.4850 step accuracy, and 0.915 against 0.907 given the page. What it cannot do
+is write its own previous answer back into its next query. R3, which asks the
+model to produce the intermediate unaided, returns 0.0000 with mean rounds 0.01.
+
+A forced-choice regrade confirms no hedging path: R1 at depth two reads 0.2050
+forced against 0.2050 shipped, and the highest hedge rate anywhere in the ladder
+is 0.0100. Integrity fields are clean, with no leaks and no dropped prompts.
+
+The artifact is `/home/ec2-user/minrepro/rescue_full.json` and its siblings.
+None of them is in the repository or mirrored to S3. The result is real and it
+is one live box away from being unverifiable.
+
+### Claim D5. Under matched presentation the acquisition result is frame matching
+
+Confirmed, and independently recomputed from the per-rollout dumps rather than
+read from the report.
+
+Renderer swap, forced choice, greedy, n=66 to 68 per cell:
+
+| family | native | personnel | abstract | inventory | floor |
+|---|---:|---:|---:|---:|---:|
+| substitution_rule | 0.9697 | 0.0455 | 0.0455 | 0.0152 | 0.200 |
+| exception_rule | 1.0000 | 0.6061 | 0.2576 | 0.1061 | 0.500 |
+| threshold_rule, artifact | 0.0000 | 0.1912 | 0.1912 | 0.1324 | 0.500 |
+
+Single-document chain isolation, n=100 each, floor 1/36 = 0.0278 taken from the
+episode's own 36-token universe: routing 0.97, processing 0.84,
+routing_postvalue 0.83, routing_keyphrase 0.82, reaction 0.09, routing_frameb
+0.03, inventory 0.01, abstract 0.01, personnel 0.00. All nine reproduce exactly.
+
+The arithmetic behind "nouns cost 0.13, sentence shape costs 0.94" is correct,
+0.970 minus 0.840 and 0.970 minus 0.030. Two caveats belong with it: each side
+is one hand-written renderer at n=100, and `processing` swaps every content word
+rather than only nouns, so the first figure is the cost of all content words.
+
+### Claim D6. Correction 3's two strongest claims cannot be checked
+
+The operator-graph audit is split. What is present and confirmed:
+
+Gold generation held, 0 disagreements in 7,800, from
+`results/opgraph/audit_gold.json`: 52 cells by 150 items, `disagree` 0,
+`unreadable` 0. `oracle_plan` 1.000 through depth eight, from
+`results/opgraph/opgraph_trace_report.txt`. And the dead internal check
+reproduces exactly: `plan_execute` and `oracle_ops` differ in exactly 5 of 26
+cells, maximum 0.420, at sequential depth 3, breadth 4, 5 and 6, and novel depth
+3.
+
+What is absent from the repository, from `~/opg` on this box, and from S3:
+
+- the 678 of 678 training-identity result, which is the finding that killed
+  induction
+- `oracle_plan` reading 0.087 to 0.207 under three other page wordings
+- the depth-2 and depth-3 coin-flip analysis, the byte-identical plans in 750 of
+  750 pairs and the arms summing to 1.013
+- the plan-length census and the 198-line parser baseline at 1.000
+
+`src/audit/VERDICT.md` says these live in `~/opg` on the training box and are
+committed. On this box `~/opg/results` contains one empty directory, and
+`results/audit/` is empty. Six named source files and a dozen named result files
+do not exist.
+
+`VERDICT.md` also understates its own range: the summary says 0.087 to 0.207
+while its check-7 table contains 0.073.
+
+So Correction 3 stands as a conclusion because its mechanism checks survive, and
+its two headline numbers do not currently have artifacts.
+
+### Claim D7. The other controls, confirmed with their scope corrected
+
+Twin system: 0.463 accuracy, twin's words named 0.488 against its own 0.475;
+retitled 0.486, 0.477 and 0.512. Confirmed from `results/falsify/twin.json`.
+
+The regex at 0.993 belongs only to the retitled condition. On the un-retitled
+twin the same parser reads 0.416 at top-4 and 0.495 at top-6, which is the
+model's own level: with no system name on the page the parser cannot tell the
+two systems apart either. Any restatement must not attach 0.993 to the 0.463
+condition.
+
+Untrained relation types, on balanced scoring: `inverse_table` 0.1067 against a
+0.2512 floor, `chain_rule` 0.008 against 0.3340, `band_rule` 0.3134 against
+0.3343. `band_rule`'s shipped 0.6710 comes with a 0.9420 hedge rate. The label
+matters and must travel: `band_rule`'s raw forced score is 0.401, which is above
+its floor, and only the balanced score puts it at the floor. `chain_rule` was
+served both needed pages on 36 of 1000 rollouts, so it is partly a retrieval
+failure.
+
+The parser beating the model, 1.000 against 0.968, requires the top six ranked
+pages. At top-1 the parser scores 0.008. The record says "over the top ranked
+pages", which covers it, and it is easy to misread.
+
+### Claim D8. H8 was pre-registered, run, and returned a clean negative against itself
+
+Confirmed. Registered in commit `23992f5` before the evaluation commits.
+Measured from `s3://.../results/mathgen-h8/strict_mathgen.json`, own pages,
+greedy, floors per item:
+
+| family | n | floor | forced | chance corrected |
+|---|---:|---:|---:|---:|
+| stated_in_a_chapter | 593 | 0.14122 | 0.0000 | -0.1644 |
+| derived_by_computation | 518 | 0.15418 | 0.0039 | -0.1777 |
+
+H8 predicted a separation, 0.514 against 0.000. The `derived` half was right and
+the `stated` half was wrong by 0.514, and the gap between the families is 0.004,
+smaller than one question in either denominator. So the prediction's
+discriminating content failed. It does not follow that the alternative was
+established: H8's other branch, both families close together and high, which
+would have meant the original result was retrieval, did not happen either. The
+instrument turned out uninformative on this axis because the policy stops
+retrieving, issuing queries on 313 of 1,111 greedy rollouts.
+
+The gate ran first and passed, `substitution_rule` 0.972 shipped and 0.950
+forced, `threshold_rule` 0.998 shipped and 0.008 forced at a 0.990 hedge rate.
+That 0.008 independently reproduces the falsification lane's 0.009 from a
+separate harness, which is the strongest cross-harness agreement in the project.
 
 ## Role order and key position
 
@@ -1040,6 +1282,22 @@ Killed by the per-frame split. That bucket's five frames read 0.985, 0.260,
 has lexical distance 0.000 from a trained frame. The bucket mean of 0.722 is two
 frames, not a distance.
 
+### That the 0.680 headline had no findable provenance
+
+Dead, and this is a correction to a correction. The artifact exists at
+`s3://decoupled-reasoner-009398924577/runs/rule-test/rule_test.json` and in the
+committed `registry/runs.jsonl`, recording textbook 0.68, wrong textbook 0.002,
+no documents 0.0, n=500, temperature 0.7. Its checkpoint field reads
+`rl-000250.pt`, RL step 250, where the shipped model is `final.pt` at step 3000.
+
+So the number is dead as a headline, correctly, but for a different reason than
+the one recorded: it was a real measurement of an intermediate checkpoint
+promoted to the project's established result, not a figure without a source. The
+distinction matters because a checkpoint mix-up is a fixable process failure and
+an unsourced number is a different problem. The step-250 checkpoint has since
+been deleted, so the figure cannot be reproduced even though its record
+survives, and its 0.4018 chance floor was never printed beside it.
+
 ### That milestone A is met
 
 Withdrawn. Correction 1 removed one family of three as a grading artifact and
@@ -1144,14 +1402,42 @@ narrower claim, and it is set out in claim N2 with its five caveats. Anyone
 holding 0.9644 should replace it with 1.0000 on 850 items over 170 operations,
 and read the caveats before quoting either.
 
-### The 0.680 rule-application headline
+### Records that exist on one live box and nowhere else
 
-Recorded in `THESIS.md` and propagated for days. A falsification lane re-ran the
-shipped script against the shipped checkpoint and could not find any artifact
-producing 0.680; the same script gives 0.958 at n=500. This was reported as
-stale with no provenance before this document, and it is repeated here because
-it is the origin case for the rule that every number must have a persisted
-artifact and the path must be named.
+Not missing, but one instance termination away from missing, and the project has
+already lost a set that way. Each of these backs a result quoted above.
+
+- The E0 re-keying ladder, which is claim D4 and every number in
+  `src/disc/RESCUE.md`: `/home/ec2-user/minrepro/rescue_full.json`,
+  `rescue_order.json`, `rescue_r3n.json`, `dual_d12.json`, `dual_d34.json`. Not
+  in the repository, not on S3.
+- The renderer-swap forced-choice tables, which are claim D5 and the whole of
+  correction 2: `scripts/template_rescore.py` writes no output file at all, and
+  only the per-rollout dumps under `/home/ec2-user/tmpl/dump_*` survive. Every
+  cell was recomputed from those dumps for this document and reproduces exactly,
+  so the numbers are right and the report is unbacked.
+- The fifteen byte-identical pairs with opposite gold, recomputable only from
+  `/home/ec2-user/falsify/pred/pred_textbook.jsonl`.
+
+### The operator-graph audit's two headline checks
+
+`src/audit/VERDICT.md` states that its check outputs live in `~/opg` on the
+training box and are committed. They are not in the repository, `~/opg/results`
+on this box holds one empty directory, `results/audit/` is empty, and S3 has
+nothing. Six named source files and about a dozen named result files do not
+exist.
+
+What cannot be checked: the 678 of 678 training-identity result, which is the
+finding that killed induction; `oracle_plan` reading 0.087 to 0.207 under three
+other page wordings; the depth-2 and depth-3 coin-flip analysis with its 750 of
+750 byte-identical plans; the plan-length census; and the 198-line parser
+baseline at 1.000.
+
+What can, and does hold: gold generation at 0 disagreements in 7,800,
+`oracle_plan` at 1.000 through depth eight, and the dead internal check
+differing in exactly 5 of 26 cells at a maximum of 0.420. Correction 3's
+conclusion therefore stands on its mechanism checks while its two headline
+numbers do not currently have artifacts.
 
 ### The 4B against 27B comparison
 
@@ -1484,6 +1770,83 @@ reason any surviving number here is worth anything.
     failure, which is exactly the state the E3 MMLU reference files are in.
     Effect: the guard would not have caught fault 8, and did not.
 
+32. A chance floor printed under the wrong item set. `THESIS.md`'s surviving-
+    scoring table lists "non-trivial items only, 416 of 1000 kept, 0.640"
+    immediately above "chance floor for that set, 0.401". The 0.401 is the
+    whole-1000-item floor; the 416-item floor is 0.3419. Effect: the
+    chance-corrected value printed below it is not the correction for the row
+    above it. The underlying JSON computes the correction per family and is
+    right; the table's presentation is not.
+
+33. The correction repeats the pooling it forbids. The 0.2923 chance-corrected
+    figure is a macro over three families in which `threshold_rule`, the family
+    the same correction identified as a pure grading artifact, contributes
+    -0.9818 against the two real families' 0.9256 and 0.9331. Effect: the
+    summary sentence "0.292 of the headroom above guessing is real rule
+    application" understates what the two non-artifact families support by about
+    0.63, and it breaks the never-pool rule that the same document's
+    consequences section had just written down.
+
+34. A cumulative correction reported as a single one. "Disallowing hedging moves
+    `threshold_rule` from 0.985 to 0.009." The 0.009 is the hedging-disallowed,
+    label-balanced, trivial-filtered figure. Disallowing hedging alone gives
+    0.0419. Effect: overstates the isolated effect of one correction by about
+    4.6 times, in the sentence that introduces the correction.
+
+35. A retraction that was right about the number and wrong about the reason. The
+    0.680 headline was withdrawn as having no findable provenance. The artifact
+    is on S3 at `runs/rule-test/rule_test.json` and in the committed
+    `registry/runs.jsonl`, and it names its checkpoint: `rl-000250.pt`, RL step
+    250, against the shipped `final.pt` at step 3000. Effect in both directions:
+    a step-250 number stood as the project's established result across four
+    documents, and then the correction attributed to lost provenance what was
+    actually a checkpoint mix-up, which is a different and more fixable class of
+    error. The step-250 checkpoint has since been deleted, so the figure can no
+    longer be reproduced even though its record survives.
+
+36. Selecting the favourable seed. The pointer-head headline, 0.021 to 0.514, is
+    `results/pointer/copy_bench_copy_seed5678.json`. The other seed that was run,
+    `copy_bench_copy_seed1234.json`, gives 0.008 to 0.376. Effect: the reported
+    lift is 0.493 where the two-seed mean is 0.410, and no document says two
+    seeds were run. The companion claim that the pointer head is "slightly worse
+    where arithmetic is required" is 0.0690 against 0.1081 on one seed, a 36
+    percent relative drop, which is more than slightly.
+
+37. A quantitative claim with no computation behind it. "Reinforcement learning
+    against programmatic verifiers is three to five orders of magnitude cheaper
+    per point of accuracy than pretraining" appears once, in `THESIS.md`, with no
+    script, no artifact and no registry predicate. It is reconstructible from
+    `registry/runs.jsonl` and lands where claimed, but only by comparing
+    accuracies from two different evaluation suites, using RL FLOP counts flagged
+    `train_flops_is_lower_bound: true`, and excluding the pretraining the RL
+    fine-tunes from, which is most of the cost of the resulting model. The "three
+    to five" is not a measured uncertainty; it is the spread between the cheapest
+    and dearest RL run. Effect: an unfalsifiable range sitting in the same
+    paragraph as two measured results.
+
+38. A fix credited to the wrong commit. Commit `56ae3f4`'s message announces "a
+    leak the textbook was carrying"; its diff touches only a per-universe parrot
+    baseline and an unrelated theory test. The actual fix, dropping exercise
+    sections from the retrievable library so `answer_source` is labelled against
+    a textbook built without them, is in `src/mathgen/rlbridge.py` from commit
+    `97a8075`. Effect: an auditor tracing the leak through the commit that claims
+    it would find nothing and conclude it was never fixed.
+
+39. A scope that narrows when the artifact is read. The regex baseline at 0.993
+    on twin-system items belongs to the retitled condition only. On the
+    un-retitled twin the same parser reads 0.416 at top-4 and 0.495 at top-6,
+    which is the model's own level, because with no system name on the page the
+    parser cannot tell the two systems apart either. Separately, the parser's
+    1.000 against the model's 0.968 requires the top six ranked pages; at top-1
+    it is 0.008. Both are correctly scoped in the source and both are one
+    restatement away from being wrong.
+
+40. A label that carries the sign of a conclusion. `band_rule`'s raw forced score
+    is 0.401, above its 0.3343 floor; only the label-balanced score, 0.3134, puts
+    it at the floor. The record says "on balanced scoring" and is correct. Effect:
+    dropping four words from that sentence reverses whether an untrained relation
+    type reads at chance.
+
 Fault 1 has now appeared four times in four lanes, which is why it is first. Its
 third instance is `~/verify_oneshot_circularity.py`, which reads the first 200
 rows of an ordered 800-row file and so covers two of eight operations from one
@@ -1496,7 +1859,8 @@ the first.
 Faults 3 through 9, 11 and 14 were found by an adversarial verification pass over
 the external-comparison lane; 1, 12 and 13 in the system and retrieval lanes; 2,
 15 and 16 in the e3, corpus and real-document lanes; 17 through 22 in the
-normalisation lane; 23 through 31 in the corpus and e3 lanes. Faults 17 to 22 are concentrated in the plumbing between
+normalisation lane; 23 through 31 in the corpus and e3 lanes; 32 through 40 in
+the falsification lane, which is also the lane that found 11 and 12. Faults 17 to 22 are concentrated in the plumbing between
 artifact and document rather than in the measurement code, which is the pattern
 worth noticing: the graders in that lane are the best on the project and the
 documents built from them are the least reliable.
@@ -1529,7 +1893,7 @@ the caveat that two of them turn on artifacts recorded above as unlocatable.
 | P1 | composition degrades earliest and steepest as substrate shrinks | untested as stated; two of its three stated bases cannot be checked |
 | P2 | recurrence selectively raises composition depth | not run |
 | P3 | capacity versus trainability, via oracle-isolated curves | partially run; the ladder gives a capacity reading on one axis only |
-| H7 | the failure is the continuation decision, not computation | supported by the minimal repro, superseded in scope by H12's reading |
+| H7 | the failure is the continuation decision, not computation | supported, and sharpened: its own E0 ladder ran and rescued depth two from 0.0000 to 0.2050 |
 | H8 | stated-in-a-chapter near 0.514, derived-by-computation near 0.000 | refuted; both families sit below their own guessing floors |
 | H9 | plan representation is the binding constraint | its motivating result was withdrawn by correction 3 |
 | H10 | a three-step autoregressive planning horizon | declared dead by H12, whose arms cannot be located |
@@ -1543,6 +1907,11 @@ artifacts exist; and the 4B against 27B comparison, which has no artifact at
 all. A prediction can still be true with weak stated bases, but P1 has not been
 tested by the substrate sweep it was written for, because that sweep stops at
 167M.
+
+H7 is the one whose registered test ran, returned, and moved the number it was
+about. Its pre-registered branch structure said that if R1 rescues, the failure
+is control and the work goes to where the continuation decision lives. R1
+rescued. That branch was taken and the follow-up it names has not been built.
 
 H8 is worth separating because it is the one pre-registered prediction run to
 completion on an independently built instrument, with its gate run first, that
@@ -1691,10 +2060,16 @@ of it. That is evidence for the decoupling thesis in a form the thesis did not
 ask for, and it is not evidence that a small network can acquire anything.
 
 One clean negative that cost real compute and is worth more than a weak
-positive: chaining a step's input from a previous step's retrieved result does
-not come from a wider training distribution, does not come from real multi-hop
-practice on Wikipedia, and is not a page-order artifact. Each of those
-interventions is recorded with the number showing it worked at what it was for.
+positive, and it is now localised rather than merely observed. Chaining a step's
+input from a previous step's retrieved result does not come from a wider
+training distribution, does not come from real multi-hop practice on Wikipedia,
+and is not a page-order artifact. Each of those interventions is recorded with
+the number showing it worked at what it was for. And the re-keying ladder puts
+the failure in a specific place: handed the intermediate as a key, the substrate
+does the second lookup at the same rate as the first, 0.4575 against 0.4850. It
+cannot produce that key itself. That is a narrower and more attackable statement
+than "composition fails", and it is the most useful thing the project currently
+knows.
 
 And one capability boundary with a parameter count on either side of it: below
 about 167M this reader commits to a positional convention on unseen sentence
@@ -1702,10 +2077,19 @@ forms, above it it does not. That is the only threshold this project has
 located, it is bracketed from below only, and the 355M rung that would
 characterise it above was dropped as unaffordable rather than measured.
 
-## The lane not yet re-verified in this document
+## How this document was checked
 
-Verification of `src/disc/` and `src/falsify/` is still running. Two claims in
-this document draw on that lane without a recount and are marked here so they
-are not mistaken for verified: the value-permutation result quoted in
-outward-facing statement 4, and the renderer-swap figures in the entry for
-milestone A. Everything else was read out of the artifact it names.
+Every lane named in the brief was read and its claims taken back to the record
+files they rest on: the system and role ladders, the normalisation and one-shot
+lane, the corpus and e3 lanes, the falsification and audit lane, the retrieval
+and real-document lanes, and the external comparison. Numbers marked confirmed
+were recovered from the artifact, usually by recounting the per-item records
+rather than reading a summary. Numbers that could not be recovered are in the
+unlocatable section rather than in the tables.
+
+Four claims in this document were corrected against what I had previously
+propagated: the composition wall as a capacity limit, the positional collapse as
+a substrate result, the retrieval failure as purely a policy failure, and the
+query rate of one in twenty. Two more were corrected while writing it: the MMLU
+0.2450, which is unverifiable and which I had made the headline, and the e3
+retrieval trend, which reverses.
