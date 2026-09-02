@@ -5,8 +5,20 @@ Every cell states its n, its measured chance floor and a Wilson 95 percent inter
 | cell | model                    | condition             | scoring        | n   | floor  | accuracy [95% CI]     | note            |
 | ---- | ------------------------ | --------------------- | -------------- | --- | ------ | --------------------- | --------------- |
 | 1    | ours corpus-v1-8k (375M) | closed book           | log likelihood | 200 | 0.2500 | 0.2750 [0.218, 0.341] | -               |
+| 1b   | ours corpus-v1-8k (375M) | closed book (control) | generation     | 400 | 0.2500 | 0.0100 [0.004, 0.025] | -               |
+| 2    | ours corpus-v1-8k (375M) | live web retrieval    | generation     | 400 | 0.2500 | 0.0100 [0.004, 0.025] | 73 searches     |
 | 3    | LFM2-350M                | closed book           | log likelihood | 200 | 0.2500 | 0.4300 [0.363, 0.499] | published 43.43 |
 | 4    | LFM2-350M                | same pages in context | log likelihood | 200 | 0.2500 | 0.4500 [0.383, 0.519] | 179 searches    |
+
+## Contamination split, cell 2, ours
+
+Never pooled. A page carrying the answer makes the item a lookup; the row that speaks to reasoning is `neither`. The rows cover only the items that actually received served text; an item served nothing has no pages to be contaminated by and folding those in would inflate `neither` with items retrieval never touched.
+
+| retrieved pages contained | n  | floor  | accuracy [95% CI]     |
+| ------------------------- | -- | ------ | --------------------- |
+| verbatim                  | 2  | 0.2500 | 0.0000 [0.000, 0.658] |
+| answer                    | 4  | 0.2500 | 0.0000 [0.000, 0.490] |
+| neither                   | 82 | 0.2500 | 0.0000 [0.000, 0.045] |
 
 ## Contamination split, cell 4, LFM2-350M
 
@@ -18,10 +30,29 @@ Never pooled. A page carrying the answer makes the item a lookup; the row that s
 | answer                    | 20  | 0.2500 | 0.7500 [0.531, 0.888] |
 | neither                   | 168 | 0.2500 | 0.4226 [0.350, 0.498] |
 
+## Cell 2, the stages behind one flat accuracy
+
+The reader emitted `<|retrieve|>` on **102 of 400** passes, a rate of 0.2550 with a 95 percent interval of [0.215, 0.300]. That is the headline number and the accuracy is its shadow. The counter is the emission itself and is the same event with a serving surface attached and without one; an earlier counter inferred it from the stop reason and read low in the web pass. The section further down reconciles the two figures that produced.
+
+Four stages sit behind one flat accuracy and only the last is about comprehension.
+
+| stage                      | web pass | no-index control |
+| -------------------------- | -------- | ---------------- |
+| emitted the retrieve token | 0.2550   | 0.2550           |
+| query returned a chunk     | 0.2200   | -                |
+| chunk entered the trace    | 0.2200   | -                |
+| mean rounds served         | 0.43     | -                |
+| mean served characters     | 878.4    | -                |
+| named no option at all     | 0.9550   | 0.9550           |
+
+A policy failure and a comprehension failure imply different fixes, and this table no longer picks one. The reader does ask, on one pass in four, and chunks do reach its trace. What does not follow is an answer: it names no option on the items where pages arrived, with them or without them. The paired control in the cell 2 section below is what settles that, not this split.
+
 ## Retrieval spend
 
-Live Exa searches: 179. Cache hits: 0. Wall clock across both retrieval cells: 86.6 minutes. A retrieval condition that costs almost nothing is a retrieval condition that did not happen, so cell 2's near zero spend is itself evidence for the policy reading rather than a saving. Every retrieved page is cached on disk under `results/extern/exa_cache`, keyed by query, so the run replays without spending again.
+Cell 2: 73 live Exa searches and 255 cache hits. Cell 4: 179 live searches. Wall clock across both retrieval cells: 98.1 minutes. Every retrieved page is cached on disk under `results/extern/exa_cache`, keyed by query, so a rerun replays without spending again, and every cache entry is checked for non-empty page text by `src/extern/cache_audit.py` before anything is scored against it.
 
+
+<!-- appended sections follow; fourcell.py preserves everything below -->
 
 ## Cell 4 rerun, better retrieval, same items
 

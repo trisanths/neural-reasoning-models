@@ -266,8 +266,10 @@ A("")
 
 A("### What this changes in the reading above")
 A("")
-A("The published cell 2 text says the reader never requests any retrieved "
-  f"text. At {d['n_items']} items it requests on {ci(kwg, nwg)} of them and "
+A("`src/extern/fourcell.py` emits, whenever a cell 2 record file is present, "
+  "a section saying the reader never requests any retrieved text and that "
+  "the failure is therefore a policy failure rather than a comprehension "
+  f"failure. At {d['n_items']} items it requests on {ci(kwg, nwg)} of them and "
   f"gets real pages into its context on {len(served)}. The policy fires less "
   "often than a reader that always retrieves, and it fires. What does not "
   "happen is anything downstream: on those items the reader names no option, "
