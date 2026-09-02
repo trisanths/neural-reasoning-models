@@ -106,9 +106,23 @@ Recounted from `results/system/eval/b45/records_mode_greedy.jsonl.gz` and
 `results/system/eval/c45/`. Both predictions held. Trained frames stay balanced
 in both splits (b45 0.9269/0.9332, c45 0.8688/0.8652).
 
-This is the strongest methodological result on the project: a prediction derived
-from generator source, written into `src/system/THRESHOLD.md` before the runs
-finished, and confirmed on both arms.
+The pre-registration is verifiable and was checked rather than taken on trust.
+The prediction text entered `src/system/THRESHOLD.tmpl.md` in commit `e58ffcf`,
+"What the frame grammar says the two new splits should do, written first", at
+2026-08-31 20:46:33 UTC. `results/system/eval/c45/summary.json` was written
+2026-09-01 00:40 and `results/system/eval/b45/summary.json` 2026-09-01 02:05, so
+the prediction predates the first result by three hours fifty-four minutes and
+the second by five hours nineteen. It is the strongest methodological result on
+the project: a prediction derived from generator source, committed before either
+arm returned, and confirmed on both.
+
+The grouping used here and in claim R4 is the generator's, not the scores'.
+`src/role/rshapes.py` fixes the eight shapes in a constant, `new keys`, defined
+as those whose rule lines state a key that appears nowhere else, so the sentence
+wording is the only channel carrying role. The other six are four whose two
+renderings are byte identical, one whose key is a band label an earlier page
+already named, and one where the axis reaches only a column header. Read from
+`results/role/shapes_l45_mode.json`, field `definition`.
 
 ### Claim R3, superseded. The collapse is a property of the substrate
 
@@ -274,7 +288,36 @@ does not reach the positional binding that a new sentence mode breaks.
 From `results/system/tpose/xmode_{l45,xl93,xxl167}.json` and the per-group tables
 in `src/system/THRESHOLD.md` section 6.
 
-## Retrieval
+## Retrieval and the external comparison
+
+### Claim T0. The external harness is calibrated, and it was wrong before it was
+
+Confirmed, and this is what makes every LFM2 comparison in this document
+readable. All figures n=200 seed 1234 unless stated, floor 0.2500, read directly
+from the record files in `results/extern/bench/`.
+
+| configuration | shots | accuracy | artifact |
+|---|---:|---:|---|
+| LFM2-350M, completion, bos token present | 5 | 0.4300 | `lfm2_350m_mmlu_completion_bos.json` |
+| LFM2-350M, completion, no bos token | 5 | 0.3550 | `lfm2_350m_mmlu_completion.json` |
+| LFM2-350M, chat template | 0 | 0.3950 | `lfm2_350m_mmlu_chat.json` |
+
+The bos token is worth 7.5 points at n=200 and 12.2 at n=500 (0.4360 against
+0.3140). The check that the calibrated configuration is the right one is that it
+reproduces the model's published MMLU figure, 43.43, at 0.4300 and 0.4360. Every
+comparison against LFM2 in this document uses the calibrated row.
+
+Two things this calibration does not cover, and both matter. It fixes the
+prompt format, not the scoring method: our generation-scored cells and the
+log-likelihood cells are never subtracted from each other, because a model that
+names no option scores zero on the first and cannot on the second. And it says
+nothing about the two lanes' differing n: our checkpoint's best-supported figure
+is at n=500 and LFM2's published-reproducing figure is quoted at both n=200 and
+n=500, so a comparison should name which pair it is using.
+
+The calibration is also the fault most likely to be re-introduced, because the
+generated summary that many readers would reach for holds only the two
+uncalibrated rows. See fault 3.
 
 ### Claim T1. Given the same pages, a matched-size general model converts them into accuracy and ours does not
 
@@ -400,9 +443,20 @@ exactly those rollouts in both cases. Verified in
 question-derived terms.
 
 Reading. On held-out real-document episodes, greedy, free-text answers so the
-floor is 0.000: hotpot_qa 0.004 to 0.278 (n=568), natural_questions 0.003 to
-0.279 (n=599), trivia_qa 0.020 to 0.417 (n=600). Mean rounds on the multi-hop
-source go 1.40 to 2.11, so the policy takes its second hop.
+floor is 0.000. Recounted from
+`s3://.../runs/real-v1-8k/results/real_scores_{corpus,real}-v1-8k.json`:
+
+| source | n | shipped before | shipped after | strict after | given gold page served |
+|---|---:|---:|---:|---:|---:|
+| hotpot_qa open | 568 | 0.0035 | 0.2782 [0.2429, 0.3164] | 0.2500 | 0.4051 |
+| natural_questions open | 599 | 0.0033 | 0.2788 [0.2444, 0.3160] | 0.2354 | 0.4514 |
+| trivia_qa open | 600 | 0.020 | 0.417 | 0.398 | 0.561 |
+
+The lenient and strict columns are within 0.045 of each other, so this is not a
+grader effect. Mean rounds on the multi-hop source go 1.40 to 2.11, so the
+policy takes its second hop. The HotpotQA yes/no sub-cell, n=32, is reported
+separately at 0.5625 against a 0.5 floor and carries nothing; pooling it into
+the open cell would have inflated the headline, and the lane does not.
 
 MMLU. Closed book, n=500, floor 0.250: 0.2640 to 0.2820. Both intervals contain
 chance. Verified at `acc: 0.264` and `acc: 0.282` in
@@ -410,6 +464,12 @@ chance. Verified at `acc: 0.264` and `acc: 0.282` in
 same web pages both checkpoints stay flat, 0.2600 matched format and 0.2340
 native for the older one, 0.2700 and 0.2620 for the newer. Naming a letter at
 all goes from 0.02 to 0.045.
+
+This lane is also the counterexample to the archiving hazard. Its report cites
+every record under `/mnt/nvme/realret/...`, which no longer exists, but all 57
+objects including the per-rollout jsonl files were separately archived to
+`s3://decoupled-reasoner-009398924577/runs/real-v1-8k/`, so every number above
+was recomputable after the box was terminated.
 
 Contamination was checked rather than assumed: 16,630 benchmark stems of eight
 words or more scanned against 2.03 million documents, 37 exact matches in the
