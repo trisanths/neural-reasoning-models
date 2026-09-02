@@ -118,7 +118,8 @@ def frames_table(tags, out):
             if d is None:
                 continue
             seen.append((f"score_{tag}-{dec}.json", mt))
-            for fam, mv in (d.get("macro") or {}).items():
+            macro = d.get("macro_by_family") or d.get("macro") or {}
+            for fam, mv in macro.items():
                 out.append("| %s | %s | %s | %d | %.3f | %.3f | %.3f | %.3f |"
                            % (tag, dec, fam, mv["cells"],
                               mv["macro_accuracy"], mv["macro_chance"],
