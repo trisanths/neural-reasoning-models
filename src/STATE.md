@@ -816,6 +816,21 @@ citation to somebody else's published numbers, with the reference, or dropped.
 As it stands it is the second of the two foundations of P1 that cannot be
 checked.
 
+### The six objectives that failed at zero
+
+Stated in `THESIS.md`, in `PREREGISTERED.md` as the first basis for P1, and in
+`src/opgraph/README.md`. This one is partially locatable and the distinction
+matters: RL run artifacts do exist, locally under `~/runs/rl-350m-{a,b}` and
+`~/runs/rl-probe` and in S3 under `runs/rlskill/`, `rlskill2/`, `rlvr/`,
+`rlweb/` and `rule-test/`, so the underlying runs are real. What does not exist
+is any record enumerating the six objectives and their scores together. Only one
+of the six is named anywhere, in `src/disc/SLATE.md`: multi-attempt revision
+against a programmatic verifier.
+
+So "six objectives ended at 0.000" cannot be checked as stated. It should be
+replaced by a table naming each objective, its run and its number, which the
+runs appear to support.
+
 ### Cell 2's original finding
 
 The pass behind the published cell 2 was killed at 10 items and its conclusion
@@ -987,6 +1002,76 @@ record files under `/mnt/nvme/realret/...`, which was worker 2 and is now
 terminated. That lane survives only because it was separately archived to
 `s3://.../runs/real-v1-8k/`. The e3 lane was not so lucky; see the unverifiable
 section.
+
+## What is open
+
+### The pre-registered hypotheses, and which of them still have a test
+
+`PREREGISTERED.md` carries P1 to P3 and H7 to H12. Their current status, with
+the caveat that two of them turn on artifacts recorded above as unlocatable.
+
+| id | claim | status |
+|---|---|---|
+| P1 | composition degrades earliest and steepest as substrate shrinks | untested as stated; two of its three stated bases cannot be checked |
+| P2 | recurrence selectively raises composition depth | not run |
+| P3 | capacity versus trainability, via oracle-isolated curves | partially run; the ladder gives a capacity reading on one axis only |
+| H7 | the failure is the continuation decision, not computation | supported by the minimal repro, superseded in scope by H12's reading |
+| H8 | stated-in-a-chapter near 0.514, derived-by-computation near 0.000 | refuted; both families sit below their own guessing floors |
+| H9 | plan representation is the binding constraint | its motivating result was withdrawn by correction 3 |
+| H10 | a three-step autoregressive planning horizon | declared dead by H12, whose arms cannot be located |
+| H11 | the vocabulary bottleneck between reasoning steps | not run |
+| H12 | the wall is a plan-length and symbol-count generalisation failure | the arms cannot be located; corroborated in shape by the corpus retrain |
+
+P1 deserves naming because it is the project's first prediction and the one the
+programme was built around. Its three stated bases are the six objectives at
+zero, which is partially locatable but never enumerated; the pointer head, whose
+artifacts exist; and the 4B against 27B comparison, which has no artifact at
+all. A prediction can still be true with weak stated bases, but P1 has not been
+tested by the substrate sweep it was written for, because that sweep stops at
+167M.
+
+H8 is worth separating because it is the one pre-registered prediction run to
+completion on an independently built instrument, with its gate run first, that
+returned a clean negative against itself. It predicted `stated_in_a_chapter`
+near 0.514 and `derived_by_computation` near 0.000. On the universe's own pages,
+greedy, from `src/mathgen/EVAL.md`:
+
+| family | n | floor | accuracy | chance corrected |
+|---|---:|---:|---:|---:|
+| stated_in_a_chapter | 593 | 0.141 | 0.000 | -0.164 |
+| derived_by_computation | 518 | 0.154 | 0.004 | -0.178 |
+
+Both families sit below their own guessing floors, so the split the instrument
+was built to measure carries no signal at all. Under the pre-registration that
+is the third outcome: not that answer source does not matter, but that this
+instrument is harder than the skillacq families for a reason that is not answer
+source. The prediction was wrong and the pre-registration says what to conclude,
+which is the point of writing it down.
+
+### The measurements that would move things
+
+The 355M rung of the ladder, which would bracket the perception threshold from
+above rather than only from below. It needs about 234,000 steps, some 64 hours
+on one L40S, and was dropped as unaffordable rather than measured. Everything
+said about a threshold here is bracketed on one side only.
+
+An architecture in which role is a structural field the decoder must fill,
+rather than a label an auxiliary head guesses. The four role arms tested four
+specific interventions on the training signal, and correction 4 shows capacity
+does the job at 167M, but nothing has tested making role a typed channel at a
+size where the positional habit still appears.
+
+The chaining failure, which is the one negative that has survived four
+independent interventions and is where the project's remaining value sits. What
+has not been tried is the obvious next thing: whether an external structure that
+holds the intermediate result, rather than a token stream that must carry it,
+moves the two-hop cell off its floor.
+
+Re-running or locating the training-ceiling arms, since a claim that reframed
+the whole composition question should not rest on a table.
+
+The e3 pretrain reaching its budget, which is the only thing that would tell us
+whether a from-scratch 375M can read at all. It is a third of the way there.
 
 ## The state of the thesis
 
