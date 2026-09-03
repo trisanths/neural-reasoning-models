@@ -1,0 +1,4678 @@
+{
+ "tag": "xxl167",
+ "split": "mode",
+ "device": "cuda",
+ "ckpt": "/home/ec2-user/decoupled-reasoner/results/system/train/ckpt_xxl167.pt",
+ "size": "xxl167",
+ "params": {
+  "total": 167376384,
+  "embeddings": 2068992,
+  "non_embedding": 165307392
+ },
+ "steps": 110271,
+ "groups": {
+  "new keys": [
+   "lookup",
+   "inverse",
+   "iterate",
+   "compose",
+   "exclusion",
+   "sum_chain",
+   "precedence",
+   "priority"
+  ],
+  "seen keys": [
+   "band_then_lookup"
+  ],
+  "header only": [
+   "lookup_then_band"
+  ],
+  "out of reach": [
+   "apply_n",
+   "classify",
+   "lookup_general",
+   "pair"
+  ]
+ },
+ "built": "2026-09-03 02:04 UTC",
+ "modes": {
+  "greedy": {
+   "by_shape_position": {
+    "apply_n": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 239,
+       "share": 0.9484,
+       "ci": [
+        0.9138,
+        0.9696
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 13,
+       "share": 0.0516,
+       "ci": [
+        0.0304,
+        0.0862
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 239,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 234,
+       "share": 0.9435,
+       "ci": [
+        0.9075,
+        0.9661
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 14,
+       "share": 0.0565,
+       "ci": [
+        0.0339,
+        0.0925
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 234,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "band_then_lookup": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 252,
+       "share": 1.0,
+       "ci": [
+        0.985,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 252,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 248,
+       "share": 1.0,
+       "ci": [
+        0.9847,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "classify": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 250,
+       "share": 0.9921,
+       "ci": [
+        0.9715,
+        0.9978
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 2,
+       "share": 0.0079,
+       "ci": [
+        0.0022,
+        0.0285
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 250,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 245,
+       "share": 0.9879,
+       "ci": [
+        0.965,
+        0.9959
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 3,
+       "share": 0.0121,
+       "ci": [
+        0.0041,
+        0.035
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 247,
+      "wrong_but_right_answer": 2,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "compose": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 22,
+       "share": 0.0873,
+       "ci": [
+        0.0584,
+        0.1286
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 50,
+       "share": 0.1984,
+       "ci": [
+        0.1539,
+        0.252
+       ]
+      },
+      "wrong kind": {
+       "k": 22,
+       "share": 0.0873,
+       "ci": [
+        0.0584,
+        0.1286
+       ]
+      },
+      "wrong binding": {
+       "k": 95,
+       "share": 0.377,
+       "ci": [
+        0.3194,
+        0.4382
+       ]
+      },
+      "wrong content": {
+       "k": 63,
+       "share": 0.25,
+       "ci": [
+        0.2006,
+        0.3069
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 82,
+      "wrong_but_right_answer": 60,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 16,
+       "share": 0.0645,
+       "ci": [
+        0.0401,
+        0.1022
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 23,
+       "share": 0.0927,
+       "ci": [
+        0.0626,
+        0.1353
+       ]
+      },
+      "wrong kind": {
+       "k": 25,
+       "share": 0.1008,
+       "ci": [
+        0.0692,
+        0.1446
+       ]
+      },
+      "wrong binding": {
+       "k": 105,
+       "share": 0.4234,
+       "ci": [
+        0.3635,
+        0.4856
+       ]
+      },
+      "wrong content": {
+       "k": 79,
+       "share": 0.3185,
+       "ci": [
+        0.2637,
+        0.3789
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 93,
+      "wrong_but_right_answer": 77,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "exclusion": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 122,
+       "share": 0.4841,
+       "ci": [
+        0.4231,
+        0.5456
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 33,
+       "share": 0.131,
+       "ci": [
+        0.0948,
+        0.1782
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 97,
+       "share": 0.3849,
+       "ci": [
+        0.327,
+        0.4463
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 122,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 20,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 43,
+       "share": 0.1734,
+       "ci": [
+        0.1313,
+        0.2254
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 101,
+       "share": 0.4073,
+       "ci": [
+        0.348,
+        0.4694
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 104,
+       "share": 0.4194,
+       "ci": [
+        0.3596,
+        0.4815
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 43,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 73,
+      "binding_all_swapped": 0
+     }
+    },
+    "inverse": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 146,
+       "share": 0.5794,
+       "ci": [
+        0.5177,
+        0.6387
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 106,
+       "share": 0.4206,
+       "ci": [
+        0.3613,
+        0.4823
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 247,
+      "wrong_but_right_answer": 101,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 102,
+       "share": 0.4113,
+       "ci": [
+        0.3519,
+        0.4734
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 146,
+       "share": 0.5887,
+       "ci": [
+        0.5266,
+        0.6481
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 146,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "iterate": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 108,
+       "share": 0.4286,
+       "ci": [
+        0.369,
+        0.4903
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 132,
+       "share": 0.5238,
+       "ci": [
+        0.4623,
+        0.5847
+       ]
+      },
+      "wrong content": {
+       "k": 12,
+       "share": 0.0476,
+       "ci": [
+        0.0274,
+        0.0814
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 155,
+      "wrong_but_right_answer": 47,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 124,
+       "share": 0.5,
+       "ci": [
+        0.4382,
+        0.5618
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 121,
+       "share": 0.4879,
+       "ci": [
+        0.4264,
+        0.5498
+       ]
+      },
+      "wrong content": {
+       "k": 3,
+       "share": 0.0121,
+       "ci": [
+        0.0041,
+        0.035
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 170,
+      "wrong_but_right_answer": 46,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "lookup": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 132,
+       "share": 0.5238,
+       "ci": [
+        0.4623,
+        0.5847
+       ]
+      },
+      "malformed": {
+       "k": 2,
+       "share": 0.0079,
+       "ci": [
+        0.0022,
+        0.0285
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 108,
+       "share": 0.4286,
+       "ci": [
+        0.369,
+        0.4903
+       ]
+      },
+      "wrong content": {
+       "k": 10,
+       "share": 0.0397,
+       "ci": [
+        0.0217,
+        0.0715
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 157,
+      "wrong_but_right_answer": 25,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 108
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 102,
+       "share": 0.4113,
+       "ci": [
+        0.3519,
+        0.4734
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 144,
+       "share": 0.5806,
+       "ci": [
+        0.5185,
+        0.6404
+       ]
+      },
+      "wrong content": {
+       "k": 2,
+       "share": 0.0081,
+       "ci": [
+        0.0022,
+        0.0289
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 140,
+      "wrong_but_right_answer": 38,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 144
+     }
+    },
+    "lookup_general": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 252,
+       "share": 1.0,
+       "ci": [
+        0.985,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 252,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 248,
+       "share": 1.0,
+       "ci": [
+        0.9847,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "lookup_then_band": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 213,
+       "share": 0.8452,
+       "ci": [
+        0.7954,
+        0.8847
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 39,
+       "share": 0.1548,
+       "ci": [
+        0.1153,
+        0.2046
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 251,
+      "wrong_but_right_answer": 38,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 225,
+       "share": 0.9073,
+       "ci": [
+        0.8647,
+        0.9374
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "wrong content": {
+       "k": 22,
+       "share": 0.0887,
+       "ci": [
+        0.0593,
+        0.1307
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 245,
+      "wrong_but_right_answer": 20,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "pair": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 237,
+       "share": 0.9405,
+       "ci": [
+        0.9041,
+        0.9636
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.0119,
+       "ci": [
+        0.0041,
+        0.0344
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 12,
+       "share": 0.0476,
+       "ci": [
+        0.0274,
+        0.0814
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 237,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 232,
+       "share": 0.9355,
+       "ci": [
+        0.8978,
+        0.9599
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.0121,
+       "ci": [
+        0.0041,
+        0.035
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 13,
+       "share": 0.0524,
+       "ci": [
+        0.0309,
+        0.0876
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 232,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "precedence": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 99,
+       "share": 0.3929,
+       "ci": [
+        0.3346,
+        0.4543
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 31,
+       "share": 0.123,
+       "ci": [
+        0.088,
+        0.1693
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 79,
+       "share": 0.3135,
+       "ci": [
+        0.2594,
+        0.3732
+       ]
+      },
+      "wrong content": {
+       "k": 43,
+       "share": 0.1706,
+       "ci": [
+        0.1292,
+        0.2219
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 99,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 1
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 130,
+       "share": 0.5242,
+       "ci": [
+        0.4621,
+        0.5855
+       ]
+      },
+      "malformed": {
+       "k": 4,
+       "share": 0.0161,
+       "ci": [
+        0.0063,
+        0.0407
+       ]
+      },
+      "refused": {
+       "k": 16,
+       "share": 0.0645,
+       "ci": [
+        0.0401,
+        0.1022
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.0121,
+       "ci": [
+        0.0041,
+        0.035
+       ]
+      },
+      "wrong binding": {
+       "k": 65,
+       "share": 0.2621,
+       "ci": [
+        0.2113,
+        0.3202
+       ]
+      },
+      "wrong content": {
+       "k": 30,
+       "share": 0.121,
+       "ci": [
+        0.0861,
+        0.1674
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 130,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 3
+     }
+    },
+    "priority": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 159,
+       "share": 0.631,
+       "ci": [
+        0.5698,
+        0.6881
+       ]
+      },
+      "malformed": {
+       "k": 9,
+       "share": 0.0357,
+       "ci": [
+        0.0189,
+        0.0665
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 84,
+       "share": 0.3333,
+       "ci": [
+        0.278,
+        0.3937
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 161,
+      "wrong_but_right_answer": 2,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 150,
+       "share": 0.6048,
+       "ci": [
+        0.5428,
+        0.6636
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 98,
+       "share": 0.3952,
+       "ci": [
+        0.3364,
+        0.4572
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 150,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "sum_chain": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 6,
+       "share": 0.0238,
+       "ci": [
+        0.011,
+        0.051
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 32,
+       "share": 0.127,
+       "ci": [
+        0.0914,
+        0.1738
+       ]
+      },
+      "wrong content": {
+       "k": 214,
+       "share": 0.8492,
+       "ci": [
+        0.7998,
+        0.8881
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 37,
+      "wrong_but_right_answer": 31,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 6,
+       "share": 0.0242,
+       "ci": [
+        0.0111,
+        0.0518
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 4,
+       "share": 0.0161,
+       "ci": [
+        0.0063,
+        0.0407
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 26,
+       "share": 0.1048,
+       "ci": [
+        0.0726,
+        0.1492
+       ]
+      },
+      "wrong content": {
+       "k": 212,
+       "share": 0.8548,
+       "ci": [
+        0.8056,
+        0.8933
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 33,
+      "wrong_but_right_answer": 27,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    }
+   },
+   "by_group_position": {
+    "header only": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 213,
+       "share": 0.8452,
+       "ci": [
+        0.7954,
+        0.8847
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 39,
+       "share": 0.1548,
+       "ci": [
+        0.1153,
+        0.2046
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 251,
+      "wrong_but_right_answer": 38,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 225,
+       "share": 0.9073,
+       "ci": [
+        0.8647,
+        0.9374
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "wrong content": {
+       "k": 22,
+       "share": 0.0887,
+       "ci": [
+        0.0593,
+        0.1307
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 245,
+      "wrong_but_right_answer": 20,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "new keys": {
+     "key_first": {
+      "n": 2016,
+      "exact": {
+       "k": 794,
+       "share": 0.3938,
+       "ci": [
+        0.3727,
+        0.4154
+       ]
+      },
+      "malformed": {
+       "k": 11,
+       "share": 0.0055,
+       "ci": [
+        0.003,
+        0.0097
+       ]
+      },
+      "refused": {
+       "k": 114,
+       "share": 0.0565,
+       "ci": [
+        0.0473,
+        0.0675
+       ]
+      },
+      "wrong kind": {
+       "k": 128,
+       "share": 0.0635,
+       "ci": [
+        0.0537,
+        0.075
+       ]
+      },
+      "wrong binding": {
+       "k": 543,
+       "share": 0.2693,
+       "ci": [
+        0.2504,
+        0.2891
+       ]
+      },
+      "wrong content": {
+       "k": 426,
+       "share": 0.2113,
+       "ci": [
+        0.194,
+        0.2297
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0019
+       ]
+      },
+      "answer_ok": 1060,
+      "wrong_but_right_answer": 266,
+      "refused_that_are_transpositions": 20,
+      "binding_all_swapped": 109
+     },
+     "value_first": {
+      "n": 1984,
+      "exact": {
+       "k": 673,
+       "share": 0.3392,
+       "ci": [
+        0.3187,
+        0.3603
+       ]
+      },
+      "malformed": {
+       "k": 4,
+       "share": 0.002,
+       "ci": [
+        0.0008,
+        0.0052
+       ]
+      },
+      "refused": {
+       "k": 144,
+       "share": 0.0726,
+       "ci": [
+        0.062,
+        0.0848
+       ]
+      },
+      "wrong kind": {
+       "k": 174,
+       "share": 0.0877,
+       "ci": [
+        0.076,
+        0.101
+       ]
+      },
+      "wrong binding": {
+       "k": 565,
+       "share": 0.2848,
+       "ci": [
+        0.2654,
+        0.305
+       ]
+      },
+      "wrong content": {
+       "k": 424,
+       "share": 0.2137,
+       "ci": [
+        0.1962,
+        0.2323
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0019
+       ]
+      },
+      "answer_ok": 1007,
+      "wrong_but_right_answer": 334,
+      "refused_that_are_transpositions": 73,
+      "binding_all_swapped": 147
+     }
+    },
+    "out of reach": {
+     "key_first": {
+      "n": 1008,
+      "exact": {
+       "k": 978,
+       "share": 0.9702,
+       "ci": [
+        0.9578,
+        0.9791
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.003,
+       "ci": [
+        0.001,
+        0.0087
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "wrong content": {
+       "k": 27,
+       "share": 0.0268,
+       "ci": [
+        0.0185,
+        0.0387
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "answer_ok": 978,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 992,
+      "exact": {
+       "k": 959,
+       "share": 0.9667,
+       "ci": [
+        0.9537,
+        0.9762
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.003,
+       "ci": [
+        0.001,
+        0.0089
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "wrong content": {
+       "k": 30,
+       "share": 0.0302,
+       "ci": [
+        0.0213,
+        0.0428
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "answer_ok": 961,
+      "wrong_but_right_answer": 2,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "seen keys": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 252,
+       "share": 1.0,
+       "ci": [
+        0.985,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 252,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 248,
+       "share": 1.0,
+       "ci": [
+        0.9847,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    }
+   },
+   "swapped_detail": {},
+   "gate": {
+    "prior_record": "/home/ec2-user/decoupled-reasoner/results/system/eval/xxl167/records_mode_greedy.jsonl.gz",
+    "prior_mtime": "2026-09-01 22:01 UTC",
+    "counts": {
+     "agree": 7000
+    }
+   },
+   "records": "/home/ec2-user/decoupled-reasoner/results/norm/gap/records_xxl167_mode_greedy.jsonl.gz"
+  },
+  "sampled": {
+   "by_shape_position": {
+    "apply_n": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 237,
+       "share": 0.9405,
+       "ci": [
+        0.9041,
+        0.9636
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 15,
+       "share": 0.0595,
+       "ci": [
+        0.0364,
+        0.0959
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 237,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 234,
+       "share": 0.9435,
+       "ci": [
+        0.9075,
+        0.9661
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 14,
+       "share": 0.0565,
+       "ci": [
+        0.0339,
+        0.0925
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 234,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "band_then_lookup": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 252,
+       "share": 1.0,
+       "ci": [
+        0.985,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 252,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 248,
+       "share": 1.0,
+       "ci": [
+        0.9847,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "classify": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 250,
+       "share": 0.9921,
+       "ci": [
+        0.9715,
+        0.9978
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 2,
+       "share": 0.0079,
+       "ci": [
+        0.0022,
+        0.0285
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 251,
+      "wrong_but_right_answer": 1,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 244,
+       "share": 0.9839,
+       "ci": [
+        0.9593,
+        0.9937
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 4,
+       "share": 0.0161,
+       "ci": [
+        0.0063,
+        0.0407
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 246,
+      "wrong_but_right_answer": 2,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "compose": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 22,
+       "share": 0.0873,
+       "ci": [
+        0.0584,
+        0.1286
+       ]
+      },
+      "malformed": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0221
+       ]
+      },
+      "refused": {
+       "k": 48,
+       "share": 0.1905,
+       "ci": [
+        0.1468,
+        0.2435
+       ]
+      },
+      "wrong kind": {
+       "k": 22,
+       "share": 0.0873,
+       "ci": [
+        0.0584,
+        0.1286
+       ]
+      },
+      "wrong binding": {
+       "k": 96,
+       "share": 0.381,
+       "ci": [
+        0.3232,
+        0.4423
+       ]
+      },
+      "wrong content": {
+       "k": 63,
+       "share": 0.25,
+       "ci": [
+        0.2006,
+        0.3069
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 85,
+      "wrong_but_right_answer": 63,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 16,
+       "share": 0.0645,
+       "ci": [
+        0.0401,
+        0.1022
+       ]
+      },
+      "malformed": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "refused": {
+       "k": 24,
+       "share": 0.0968,
+       "ci": [
+        0.0659,
+        0.14
+       ]
+      },
+      "wrong kind": {
+       "k": 25,
+       "share": 0.1008,
+       "ci": [
+        0.0692,
+        0.1446
+       ]
+      },
+      "wrong binding": {
+       "k": 105,
+       "share": 0.4234,
+       "ci": [
+        0.3635,
+        0.4856
+       ]
+      },
+      "wrong content": {
+       "k": 77,
+       "share": 0.3105,
+       "ci": [
+        0.2562,
+        0.3706
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 81,
+      "wrong_but_right_answer": 65,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "exclusion": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 128,
+       "share": 0.5079,
+       "ci": [
+        0.4466,
+        0.5691
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 32,
+       "share": 0.127,
+       "ci": [
+        0.0914,
+        0.1738
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 92,
+       "share": 0.3651,
+       "ci": [
+        0.3081,
+        0.4261
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 128,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 18,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 43,
+       "share": 0.1734,
+       "ci": [
+        0.1313,
+        0.2254
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 100,
+       "share": 0.4032,
+       "ci": [
+        0.3441,
+        0.4653
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 105,
+       "share": 0.4234,
+       "ci": [
+        0.3635,
+        0.4856
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 43,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 71,
+      "binding_all_swapped": 0
+     }
+    },
+    "inverse": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 149,
+       "share": 0.5913,
+       "ci": [
+        0.5296,
+        0.6502
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 102,
+       "share": 0.4048,
+       "ci": [
+        0.346,
+        0.4664
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0221
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 246,
+      "wrong_but_right_answer": 97,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 104,
+       "share": 0.4194,
+       "ci": [
+        0.3596,
+        0.4815
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 143,
+       "share": 0.5766,
+       "ci": [
+        0.5144,
+        0.6365
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 247,
+      "wrong_but_right_answer": 143,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "iterate": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 108,
+       "share": 0.4286,
+       "ci": [
+        0.369,
+        0.4903
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 132,
+       "share": 0.5238,
+       "ci": [
+        0.4623,
+        0.5847
+       ]
+      },
+      "wrong content": {
+       "k": 12,
+       "share": 0.0476,
+       "ci": [
+        0.0274,
+        0.0814
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 155,
+      "wrong_but_right_answer": 47,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 122,
+       "share": 0.4919,
+       "ci": [
+        0.4303,
+        0.5538
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 121,
+       "share": 0.4879,
+       "ci": [
+        0.4264,
+        0.5498
+       ]
+      },
+      "wrong content": {
+       "k": 5,
+       "share": 0.0202,
+       "ci": [
+        0.0086,
+        0.0463
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 169,
+      "wrong_but_right_answer": 47,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "lookup": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 130,
+       "share": 0.5159,
+       "ci": [
+        0.4544,
+        0.5769
+       ]
+      },
+      "malformed": {
+       "k": 4,
+       "share": 0.0159,
+       "ci": [
+        0.0062,
+        0.0401
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 107,
+       "share": 0.4246,
+       "ci": [
+        0.3652,
+        0.4863
+       ]
+      },
+      "wrong content": {
+       "k": 11,
+       "share": 0.0437,
+       "ci": [
+        0.0245,
+        0.0765
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 155,
+      "wrong_but_right_answer": 25,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 107
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 100,
+       "share": 0.4032,
+       "ci": [
+        0.3441,
+        0.4653
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 145,
+       "share": 0.5847,
+       "ci": [
+        0.5225,
+        0.6443
+       ]
+      },
+      "wrong content": {
+       "k": 3,
+       "share": 0.0121,
+       "ci": [
+        0.0041,
+        0.035
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 139,
+      "wrong_but_right_answer": 39,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 145
+     }
+    },
+    "lookup_general": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 252,
+       "share": 1.0,
+       "ci": [
+        0.985,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 252,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 248,
+       "share": 1.0,
+       "ci": [
+        0.9847,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "lookup_then_band": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 211,
+       "share": 0.8373,
+       "ci": [
+        0.7867,
+        0.8777
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0221
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 40,
+       "share": 0.1587,
+       "ci": [
+        0.1188,
+        0.2089
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 250,
+      "wrong_but_right_answer": 39,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 225,
+       "share": 0.9073,
+       "ci": [
+        0.8647,
+        0.9374
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "wrong content": {
+       "k": 22,
+       "share": 0.0887,
+       "ci": [
+        0.0593,
+        0.1307
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 244,
+      "wrong_but_right_answer": 19,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "pair": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 234,
+       "share": 0.9286,
+       "ci": [
+        0.8899,
+        0.9543
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 6,
+       "share": 0.0238,
+       "ci": [
+        0.011,
+        0.051
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 12,
+       "share": 0.0476,
+       "ci": [
+        0.0274,
+        0.0814
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 234,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 233,
+       "share": 0.9395,
+       "ci": [
+        0.9026,
+        0.963
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.0121,
+       "ci": [
+        0.0041,
+        0.035
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 12,
+       "share": 0.0484,
+       "ci": [
+        0.0279,
+        0.0827
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 233,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "precedence": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 97,
+       "share": 0.3849,
+       "ci": [
+        0.327,
+        0.4463
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 30,
+       "share": 0.119,
+       "ci": [
+        0.0847,
+        0.1649
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 78,
+       "share": 0.3095,
+       "ci": [
+        0.2557,
+        0.3691
+       ]
+      },
+      "wrong content": {
+       "k": 47,
+       "share": 0.1865,
+       "ci": [
+        0.1433,
+        0.2392
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 97,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 2
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 130,
+       "share": 0.5242,
+       "ci": [
+        0.4621,
+        0.5855
+       ]
+      },
+      "malformed": {
+       "k": 9,
+       "share": 0.0363,
+       "ci": [
+        0.0192,
+        0.0675
+       ]
+      },
+      "refused": {
+       "k": 23,
+       "share": 0.0927,
+       "ci": [
+        0.0626,
+        0.1353
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 49,
+       "share": 0.1976,
+       "ci": [
+        0.1528,
+        0.2516
+       ]
+      },
+      "wrong content": {
+       "k": 37,
+       "share": 0.1492,
+       "ci": [
+        0.1102,
+        0.1989
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 130,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 4
+     }
+    },
+    "priority": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 155,
+       "share": 0.6151,
+       "ci": [
+        0.5537,
+        0.673
+       ]
+      },
+      "malformed": {
+       "k": 11,
+       "share": 0.0437,
+       "ci": [
+        0.0245,
+        0.0765
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 86,
+       "share": 0.3413,
+       "ci": [
+        0.2855,
+        0.4018
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 157,
+      "wrong_but_right_answer": 2,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 153,
+       "share": 0.6169,
+       "ci": [
+        0.5551,
+        0.6752
+       ]
+      },
+      "malformed": {
+       "k": 2,
+       "share": 0.0081,
+       "ci": [
+        0.0022,
+        0.0289
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 93,
+       "share": 0.375,
+       "ci": [
+        0.3171,
+        0.4367
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 153,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "sum_chain": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 6,
+       "share": 0.0238,
+       "ci": [
+        0.011,
+        0.051
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 30,
+       "share": 0.119,
+       "ci": [
+        0.0847,
+        0.1649
+       ]
+      },
+      "wrong content": {
+       "k": 216,
+       "share": 0.8571,
+       "ci": [
+        0.8086,
+        0.895
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 35,
+      "wrong_but_right_answer": 29,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 6,
+       "share": 0.0242,
+       "ci": [
+        0.0111,
+        0.0518
+       ]
+      },
+      "malformed": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "refused": {
+       "k": 5,
+       "share": 0.0202,
+       "ci": [
+        0.0086,
+        0.0463
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 24,
+       "share": 0.0968,
+       "ci": [
+        0.0659,
+        0.14
+       ]
+      },
+      "wrong content": {
+       "k": 212,
+       "share": 0.8548,
+       "ci": [
+        0.8056,
+        0.8933
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 35,
+      "wrong_but_right_answer": 29,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    }
+   },
+   "by_group_position": {
+    "header only": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 211,
+       "share": 0.8373,
+       "ci": [
+        0.7867,
+        0.8777
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0221
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 40,
+       "share": 0.1587,
+       "ci": [
+        0.1188,
+        0.2089
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 250,
+      "wrong_but_right_answer": 39,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 225,
+       "share": 0.9073,
+       "ci": [
+        0.8647,
+        0.9374
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 1,
+       "share": 0.004,
+       "ci": [
+        0.0007,
+        0.0225
+       ]
+      },
+      "wrong content": {
+       "k": 22,
+       "share": 0.0887,
+       "ci": [
+        0.0593,
+        0.1307
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 244,
+      "wrong_but_right_answer": 19,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "new keys": {
+     "key_first": {
+      "n": 2016,
+      "exact": {
+       "k": 795,
+       "share": 0.3943,
+       "ci": [
+        0.3732,
+        0.4159
+       ]
+      },
+      "malformed": {
+       "k": 16,
+       "share": 0.0079,
+       "ci": [
+        0.0049,
+        0.0129
+       ]
+      },
+      "refused": {
+       "k": 110,
+       "share": 0.0546,
+       "ci": [
+        0.0455,
+        0.0654
+       ]
+      },
+      "wrong kind": {
+       "k": 124,
+       "share": 0.0615,
+       "ci": [
+        0.0518,
+        0.0729
+       ]
+      },
+      "wrong binding": {
+       "k": 535,
+       "share": 0.2654,
+       "ci": [
+        0.2466,
+        0.2851
+       ]
+      },
+      "wrong content": {
+       "k": 436,
+       "share": 0.2163,
+       "ci": [
+        0.1988,
+        0.2348
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0019
+       ]
+      },
+      "answer_ok": 1058,
+      "wrong_but_right_answer": 263,
+      "refused_that_are_transpositions": 18,
+      "binding_all_swapped": 109
+     },
+     "value_first": {
+      "n": 1984,
+      "exact": {
+       "k": 674,
+       "share": 0.3397,
+       "ci": [
+        0.3192,
+        0.3608
+       ]
+      },
+      "malformed": {
+       "k": 13,
+       "share": 0.0066,
+       "ci": [
+        0.0038,
+        0.0112
+       ]
+      },
+      "refused": {
+       "k": 152,
+       "share": 0.0766,
+       "ci": [
+        0.0657,
+        0.0892
+       ]
+      },
+      "wrong kind": {
+       "k": 168,
+       "share": 0.0847,
+       "ci": [
+        0.0732,
+        0.0977
+       ]
+      },
+      "wrong binding": {
+       "k": 549,
+       "share": 0.2767,
+       "ci": [
+        0.2575,
+        0.2968
+       ]
+      },
+      "wrong content": {
+       "k": 428,
+       "share": 0.2157,
+       "ci": [
+        0.1982,
+        0.2344
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0019
+       ]
+      },
+      "answer_ok": 997,
+      "wrong_but_right_answer": 323,
+      "refused_that_are_transpositions": 71,
+      "binding_all_swapped": 149
+     }
+    },
+    "out of reach": {
+     "key_first": {
+      "n": 1008,
+      "exact": {
+       "k": 973,
+       "share": 0.9653,
+       "ci": [
+        0.9521,
+        0.9749
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "wrong kind": {
+       "k": 6,
+       "share": 0.006,
+       "ci": [
+        0.0027,
+        0.0129
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "wrong content": {
+       "k": 29,
+       "share": 0.0288,
+       "ci": [
+        0.0201,
+        0.041
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0038
+       ]
+      },
+      "answer_ok": 974,
+      "wrong_but_right_answer": 1,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 992,
+      "exact": {
+       "k": 959,
+       "share": 0.9667,
+       "ci": [
+        0.9537,
+        0.9762
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "wrong kind": {
+       "k": 3,
+       "share": 0.003,
+       "ci": [
+        0.001,
+        0.0089
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "wrong content": {
+       "k": 30,
+       "share": 0.0302,
+       "ci": [
+        0.0213,
+        0.0428
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0039
+       ]
+      },
+      "answer_ok": 961,
+      "wrong_but_right_answer": 2,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    },
+    "seen keys": {
+     "key_first": {
+      "n": 252,
+      "exact": {
+       "k": 252,
+       "share": 1.0,
+       "ci": [
+        0.985,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.015
+       ]
+      },
+      "answer_ok": 252,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     },
+     "value_first": {
+      "n": 248,
+      "exact": {
+       "k": 248,
+       "share": 1.0,
+       "ci": [
+        0.9847,
+        1.0
+       ]
+      },
+      "malformed": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "refused": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong kind": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong binding": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "wrong content": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "downstream": {
+       "k": 0,
+       "share": 0.0,
+       "ci": [
+        0.0,
+        0.0153
+       ]
+      },
+      "answer_ok": 248,
+      "wrong_but_right_answer": 0,
+      "refused_that_are_transpositions": 0,
+      "binding_all_swapped": 0
+     }
+    }
+   },
+   "swapped_detail": {},
+   "gate": {
+    "prior_record": "/home/ec2-user/decoupled-reasoner/results/system/eval/xxl167/records_mode_sampled.jsonl.gz",
+    "prior_mtime": "2026-09-01 22:04 UTC",
+    "counts": {
+     "agree": 7000
+    }
+   },
+   "records": "/home/ec2-user/decoupled-reasoner/results/norm/gap/records_xxl167_mode_sampled.jsonl.gz"
+  }
+ }
+}
