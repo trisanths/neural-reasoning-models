@@ -10,6 +10,8 @@ Every cell states its n, its measured chance floor and a Wilson 95 percent inter
 | 3    | LFM2-350M                | closed book           | log likelihood | 200 | 0.2500 | 0.4300 [0.363, 0.499] | published 43.43 |
 | 4    | LFM2-350M                | same pages in context | log likelihood | 200 | 0.2500 | 0.4500 [0.383, 0.519] | 179 searches    |
 
+The rows above are cells 1, 1b and 2, 3, and 4 in that order, from `results/extern/bench/ours_corpus-v1-8k_mmlu.json` written 2026-09-01 00:54 UTC; `results/extern/bench/cell2_ours_mmlu_retrieval_n400.json` written 2026-09-02 04:19 UTC; `results/extern/bench/lfm2_350m_mmlu_completion_bos.json` written 2026-09-01 00:37 UTC; `results/extern/bench/cell4_lfm2_mmlu_retrieval_n200.json` written 2026-09-01 02:54 UTC. Cell 2's record is chosen by the n in its file name rather than by sorting the names, because `n1000` sorts before `n400`.
+
 ## Contamination split, cell 2, ours
 
 Never pooled. A page carrying the answer makes the item a lookup; the row that speaks to reasoning is `neither`. The rows cover only the items that actually received served text; an item served nothing has no pages to be contaminated by and folding those in would inflate `neither` with items retrieval never touched.

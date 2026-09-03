@@ -16,6 +16,8 @@ import glob
 import json
 import math
 import os
+import re
+import time
 
 
 def wilson(k, n, z=1.96):
@@ -102,15 +104,47 @@ def load(p):
 
 
 B = "results/extern/bench"
+
+CELL2_GLOB = f"{B}/cell2_ours_mmlu_retrieval_n*.json"
+CELL2_N = re.compile(r"cell2_ours_mmlu_retrieval_n(\d+)\.json$")
+
+
+def pick_cell2(pattern=CELL2_GLOB):
+    """The cell 2 record this table means, chosen by n and not by name.
+
+    This was `sorted(glob(...))[-1]`, a lexicographic sort in which `n1000`
+    sorts before `n400`, so the larger run would have been the one dropped and
+    nothing would have said so. The n is read out of the file name, the largest
+    wins, the runs not chosen are named in the document beside the row they did
+    not fill, and a file matching the glob whose name carries no n is an error
+    rather than a silent exclusion.
+    """
+    files = sorted(glob.glob(pattern))
+    unparsed = [f for f in files if not CELL2_N.search(f)]
+    if unparsed:
+        raise SystemExit(
+            "cell 2 record files whose name does not state an n: "
+            + ", ".join(os.path.basename(f) for f in unparsed)
+            + ". Rename them or narrow the glob; this script will not guess "
+              "which run a table row means.")
+    ranked = sorted(((int(CELL2_N.search(f).group(1)), f) for f in files),
+                    reverse=True)
+    if not ranked:
+        return None, []
+    return ranked[0][1], [f for _, f in ranked[1:]]
+
+
 c1 = load(f"{B}/ours_corpus-v1-8k_mmlu.json")
 c3 = load(f"{B}/lfm2_350m_mmlu_completion_bos.json")
-# Cell 2 was cut to n=100 once its answer was clear: the reader issues
-# essentially no queries, so the accuracy is predictable and the
-# informative content is the per item decomposition. Whichever cell 2
-# file is present is the one reported, and its n is in the table.
-_c2 = sorted(glob.glob(f"{B}/cell2_ours_mmlu_retrieval_n*.json"))
-c2 = adapt_cell2(load(_c2[-1]) if _c2 else None)
+CELL2_PATH, CELL2_UNUSED = pick_cell2()
+c2 = adapt_cell2(load(CELL2_PATH) if CELL2_PATH else None)
 c4 = load(f"{B}/cell4_lfm2_mmlu_retrieval_n200.json")
+
+
+def stamp(p):
+    return (f"`{p}` written "
+            + time.strftime("%Y-%m-%d %H:%M UTC",
+                            time.gmtime(os.path.getmtime(p))))
 
 rows = []
 if c1:
@@ -144,6 +178,21 @@ out = ["# The four cell MMLU table", "",
        "row 1b, the same model on the same items with retrieval unavailable.",
        "", tbl(["cell", "model", "condition", "scoring", "n", "floor",
                 "accuracy [95% CI]", "note"], rows), ""]
+
+prov = [stamp(p) for p in (f"{B}/ours_corpus-v1-8k_mmlu.json", CELL2_PATH,
+                           f"{B}/lfm2_350m_mmlu_completion_bos.json",
+                           f"{B}/cell4_lfm2_mmlu_retrieval_n200.json")
+        if p and os.path.exists(p)]
+out += ["The rows above are cells 1, 1b and 2, 3, and 4 in that order, from "
+        + "; ".join(prov) + ". Cell 2's record is chosen by the n in its file "
+        "name rather than by sorting the names, because `n1000` sorts before "
+        "`n400`."]
+if CELL2_UNUSED:
+    out += ["", "Cell 2 has more than one record file and the largest n is "
+            "the one reported. Not used: "
+            + ", ".join(sorted(os.path.basename(p) for p in CELL2_UNUSED))
+            + "."]
+out += [""]
 
 for name, c in (("cell 2, ours", c2), ("cell 4, LFM2-350M", c4)):
     if not c:
