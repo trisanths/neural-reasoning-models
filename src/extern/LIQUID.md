@@ -1,6 +1,6 @@
 # Open weight models on the one page acquisition task
 
-Built 2026-09-01 01:47 UTC from `results/extern/report.json` by `src/extern/md.py`, out of
+Built 2026-09-03 01:55 UTC from `results/extern/report.json` by `src/extern/md.py`, out of
 7 record files. Every number below is read from a generation file
 written by `src/extern/run.py`; none is typed.
 
@@ -9,35 +9,52 @@ model it did not train. The comparison is against Liquid AI's LFM2.5 line,
 which is open weight, publishes at sizes that bracket ours, and makes an
 efficiency claim of its own.
 
-The answer is outcome two, and it is the first externally validated result
-this project has.
+A general model of this size does not acquire a new operation from one page,
+and this is the first externally validated result the project has.
 
 LFM2.5-350M read the same definition page the project's own reader was given,
-under the formulation that scored best of five tried, and answered 850
-questions at 0.2459 strict against its own measured chance floor of 0.3085.
-It is below chance on three of the four operation families, above it on one,
-and it names none of the candidate answers at all on 0.4965 of the items. A
-general model of this size does not acquire a new operation from one page.
+under the formulation that scored best of the five tried, and answered 850
+questions at 0.2459 strict against its own measured chance floor of 0.3085. It
+names none of the candidate answers at all on 0.4965 of the items. Split by
+operation family, and these are never pooled, it is above its own floor on two
+of the four and below it on two: 0.4364 against a 0.3735 floor at n=110 and
+0.3600 against 0.3567 at n=25, then 0.1935 against 0.3086 at n=310 and 0.2272
+against 0.2879 at n=405. The second of the two above-floor cells sits a third
+of a point over its floor on 25 items and carries no weight. The two families
+with the item counts to say anything are both below chance.
 
-That is not a statement about these models being weak. On 26 ordinary
-factual, numeric and commonsense questions put through the same harness and
-graded by the same function, the same checkpoint scores 0.5769 against a
-0.2500 floor where this project's reader scores 0.0000. They win the general
-axis outright and it is not close. The two numbers belong beside each other,
-because a report carrying only the first would be advocacy.
+That is not a statement about these models being weak. On 26 ordinary factual,
+numeric and commonsense questions put through the same harness and graded by
+the same function, the same checkpoint scores 0.5769 against a 0.2500 floor
+where this project's reader scores 0.0000. That 0.0000 needs its states beside
+it. Of the 26 items handed to the reader, 7 produced a structure the
+interpreter ran, 17 came back malformed and 2 were refused, so the cell is
+mostly items the reader could not be prompted on rather than items it answered
+wrongly. LFM2.5-350M wins the general axis, and it wins it on a comparison
+whose losing arm rests on 7 scored answers. The two numbers belong beside each
+other, because a report carrying only the first would be advocacy.
 
-The retrieval lane adds a second finding and it is about policy, not
-comprehension: on MMLU this project's reader almost never emits a retrieval
-request at all, so its retrieval condition and its closed book condition are
-nearly the same run. The near zero Exa spend on that cell is itself the
-evidence, because a retrieval condition that costs almost nothing is a
-retrieval condition that did not happen.
+The retrieval lane adds a second finding, and an earlier version of this
+paragraph had it backwards. On MMLU the project's reader emits the retrieval
+token on 102 of 400 items, a rate of 0.2550 with a 95 percent interval of
+[0.215, 0.300], and chunks reach its trace on 88 of those. What was once read
+as evidence of near silence is the spend: 73 live Exa searches beside 255 cache
+hits, and a cache hit is invisible to a spend counter by construction, so the
+cost of a retrieval cell says nothing about the rate at which it was asked for.
+The reader asks on about one item in four. What the paired arms show is that
+asking buys nothing. The cell scores 0.0100 with a live web index and 0.0100
+with retrieval unavailable, 4 of 400 either way, and on the 88 items where a
+chunk entered the trace the reader named an option zero times with pages and
+zero times without. The failure is downstream of the request, not upstream of
+it.
 
 What the result does not do is settle the architecture question. The library
 system's 1.0000 comes from an exact interpreter running a parsed definition,
 and the comparison here is against a model that was never built to parse one.
 The finding is narrower than the thesis and worth exactly what it says: the
 capability is not free at this scale, and something has to supply it.
+
+Every numeral in the verdict above was checked against its record file when this document was built: 36 claims over 3 files, 1 of them a stated constant rather than a measurement. Sources and their write times: `cell2_ours_mmlu_retrieval_n400.json` 2026-09-02 04:19 UTC, `ours_oneshot.json` 2026-09-01 01:30 UTC, `report.json` 2026-09-01 01:30 UTC. The check is in `src/extern/md.py:check_verdict` and it raises rather than warns.
 
 ## What was asked of them
 
