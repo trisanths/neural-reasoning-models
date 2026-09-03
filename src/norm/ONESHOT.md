@@ -1,6 +1,6 @@
 # Intelligence per example
 
-Built 2026-08-31 15:29 UTC from `results/norm/oneshot/report.json`. Every table below is
+Built 2026-09-03 02:12 UTC from `results/norm/oneshot/report.json`. Every table below is
 rendered by `src/norm/opdoc.py` out of the record files named at the end.
 Freshness at build time: 70 record files, none newer than the report of 2026-08-31 15:29 UTC. `opdoc` refuses to build when any record
 file is newer than the report, so no table here is a rescore of an older run.
@@ -14,7 +14,15 @@ single page of text, and asks both systems to use it.
 The answer. One page is enough for the library system and it is enough on the
 first page: 1.0000 strict on each of the four operation families, and structure
 exact at 1.0000 as well, unchanged when the same operation is stated on two
-pages and on four. The network, handed the same page in its context and taking
+pages and on four. That 1.0000 is forced choice over 850 items, and the 850
+items are 170 distinct operations at five questions each with one frame id per
+operation, counted off `results/norm/oneshot/sys.jsonl.gz`. For the question
+this lane asks, whether an operation was acquired, the independent unit is the
+operation, so the denominator that travels with the headline is 170 as well as
+850. A figure of 0.9644 has been quoted for this lane and belongs to nothing:
+it is in no record file, no document and no commit in this repository, and what
+the records hold is 1.0000 forced choice on 850 items over 170 operations. The
+network, handed the same page in its context and taking
 no gradient step, scores 0.0000 on the two directory one clause family against a
 floor of 0.3735, 0.0194 on three directories and one clause against 0.3086,
 0.1200 on two directories and two clauses against 0.3567, and 0.0173 on three

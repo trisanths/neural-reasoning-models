@@ -1337,6 +1337,20 @@ So the best-supported figure is 0.2640 at n=500, and 0.2750 at n=200 is the one
 the repository can produce on its own. 0.2450 should be recorded as
 unverifiable rather than quoted, and I had been propagating it as the headline.
 
+It is now marked in `src/e3/E3.md` at all four places it appears, with the
+reason, and kept rather than deleted. Two things were recovered while marking
+it. The n=200 and n=500 accuracies and their prediction distributions were
+recounted item by item off the `pred` and `gold` fields of the two surviving
+record files and reproduce every cell, 146/7/35/12 at n=200 and 353/23/91/33 at
+n=500. And the eot-prefix control, whose n=500 arm went with the instance
+store, exists at n=200 in the checkout as
+`results/extern/bench/ours_mmlu_eotprefix_n200.json`: 0.2700 with 144/8/37/11
+against the no-prefix 0.2750 with 146/7/35/12, so the prefix moves accuracy by
+0.005 and the modal share by 0.010 and the control can be re-run after all. One
+claim was withdrawn rather than marked: that the point estimate walks toward
+the floor as n grows was read off three points, can now be checked at two, and
+two points are not a trend.
+
 The reading it was used for survives without it. The point of the n=1000 row was
 that the checkpoint's apparent score is a positional prior rather than reading,
 and that is established at n=200 from a surviving artifact: predictions split
@@ -1401,6 +1415,13 @@ operation families, which is a different and stronger number attached to a much
 narrower claim, and it is set out in claim N2 with its five caveats. Anyone
 holding 0.9644 should replace it with 1.0000 on 850 items over 170 operations,
 and read the caveats before quoting either.
+
+`src/norm/ONESHOT.md` now carries both denominators where it states the
+headline, together with the fact that 0.9644 is in no record file, no document
+and no commit here. The two denominators were recounted from
+`results/norm/oneshot/sys.jsonl.gz`: the one-page acquisition cell holds 850
+items over 170 distinct operations at exactly five items each, one frame id per
+operation, and the library is exact on 850 of 850.
 
 ### Records that exist on one live box and nowhere else
 
@@ -1515,6 +1536,12 @@ reason any surviving number here is worth anything.
    `lfm2_350m_mmlu_completion.json` acc 0.355,
    `lfm2_350m_mmlu_completion_bos.json` acc 0.430, all n=200 seed 1234. Its
    generator would now crash on 11 of 12 record files before writing a row.
+   Fixed in `df838fb`. The generator classifies each record by the fields it
+   holds rather than indexing `acc` and `model` on everything under the
+   directory, and it raises rather than writing a table with no closed book row
+   or with no row matching the calibrated configuration, which is the state the
+   stale file was in. The regenerated table carries 0.4300 and names the eleven
+   record files that do not make a closed book row.
 
 4. A generator that rewrote its own report on every run. `src/extern/fourcell.py`
    wrote the whole of `FOURCELL.md` each time it ran. Effect: it would have
@@ -1529,6 +1556,16 @@ reason any surviving number here is worth anything.
    copied into `LIQUID.md` on every run. The n=400 record shows 0.2550 emission,
    73 live searches and 255 cache hits. Effect: a retracted claim that
    re-propagates on every regeneration rather than decaying.
+   Fixed in `435db6f`. The verdict now reports the emission rate, the searches
+   and the cache hits, and `src/extern/md.py:check_verdict` binds every numeral
+   in the hand-written prose to a record file and a field. It raises when a
+   stated value is not what the file holds, when a numeral appears in the prose
+   that no line accounts for, when a claimed value has dropped out of the prose,
+   and when a cited record file is newer than the verdict quoting it. Two
+   further claims in the same file did not survive the recount that came with
+   the fix: the family split read below chance on three families and above on
+   one where the artifact has two above and two below, and the general cell's
+   0.0000 at n=26 now carries its states, 7 ran, 17 malformed, 2 refused.
 
 6. A spend counter read as a policy rate. The claim that the reader asks on about
    one item in twenty came from the live Exa search count on one log line of a
@@ -1847,6 +1884,19 @@ reason any surviving number here is worth anything.
     dropping four words from that sentence reverses whether an untrained relation
     type reads at chance.
 
+41. A record selected by sorting file names, where the names carry a number.
+    `src/extern/fourcell.py` took its cell 2 record as
+    `sorted(glob("cell2_ours_mmlu_retrieval_n*.json"))[-1]`. The sort is
+    lexicographic, so `n1000` sorts before `n400` and the larger run is the one
+    that would have been dropped, silently, with the table saying only "cell 2"
+    and not which run it meant. Checked against three names in a scratch
+    directory: the old expression selects n400 where the corrected one selects
+    n1000. Effect: no published number is wrong, because only the n=400 file
+    exists today. The hazard was live for the next larger run, which is the one
+    a reader would most want. Fixed in `3c89cc0`: the n is parsed out of the
+    name, the largest wins, the runs not chosen are named under the table, and
+    a matching file whose name carries no n raises.
+
 Fault 1 has now appeared four times in four lanes, which is why it is first. Its
 third instance is `~/verify_oneshot_circularity.py`, which reads the first 200
 rows of an ordered 800-row file and so covers two of eight operations from one
@@ -1860,7 +1910,8 @@ Faults 3 through 9, 11 and 14 were found by an adversarial verification pass ove
 the external-comparison lane; 1, 12 and 13 in the system and retrieval lanes; 2,
 15 and 16 in the e3, corpus and real-document lanes; 17 through 22 in the
 normalisation lane; 23 through 31 in the corpus and e3 lanes; 32 through 40 in
-the falsification lane, which is also the lane that found 11 and 12. Faults 17 to 22 are concentrated in the plumbing between
+the falsification lane, which is also the lane that found 11 and 12; 41 was
+found while fixing 3, 4 and 5, in the same file as 4. Faults 17 to 22 are concentrated in the plumbing between
 artifact and document rather than in the measurement code, which is the pattern
 worth noticing: the graders in that lane are the best on the project and the
 documents built from them are the least reliable.
