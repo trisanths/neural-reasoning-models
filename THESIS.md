@@ -942,3 +942,59 @@ The 355M rung was not run; a matched budget there is about 234,000 steps, some 6
 hours on one L40S, and it was dropped as unaffordable rather than measured. So
 the threshold is bracketed between 93M and 167M from below and is not
 characterised above 167M.
+
+## The undertraining hypothesis is dead, 2026-09-04
+
+A 350M model trained from scratch on regime_e3 to its full budget reads MMLU at
+chance. Architecture matched to the corpus-v1-8k checkpoint by reading it off
+that checkpoint's own stored config, same tokenizer, same objective. 26,700
+steps, 6,999,244,800 tokens, 18.64 tokens per parameter, cosine fully annealed,
+final loss 2.5409, zero restarts.
+
+MMLU n=500, chance floor 0.2500, measured on the harness calibrated to reproduce
+LFM2-350M's published 43.43 to within 0.43:
+
+| step | tokens per parameter | accuracy | 95% Wilson |
+|---:|---:|---:|---|
+| 21,000 | 14.66 | 0.262 | [0.2254, 0.3023] |
+| 22,000 | 15.36 | 0.270 | [0.2329, 0.3106] |
+| 23,000 | 16.06 | 0.280 | [0.2424, 0.3209] |
+| 24,000 | 16.76 | 0.288 | [0.2500, 0.3292] |
+| 25,000 | 17.46 | 0.268 | [0.2311, 0.3085] |
+| 26,000 | 18.15 | 0.272 | [0.2348, 0.3126] |
+
+Every interval contains the floor. The highest point, 0.288 at step 24,000, has a
+lower bound sitting exactly on 0.2500. Six adjacent points scatter around 0.27
+with no trend.
+
+The old checkpoint, trained on roughly a fourteenth of this budget, reads 0.2750
+at n=200 and 0.2640 at n=500. Five and a half times the tokens moved nothing.
+
+### What this settles
+
+The reading that our results were artifacts of a starved model does not survive.
+It was the largest open ambiguity in the project and the reason the remaining
+budget was withheld from a 1B pretrain. A model at compute-optimal data for its
+size, on a corpus built for this thesis, does not read a public benchmark above
+chance.
+
+### What it does not settle
+
+Stage B has not run at the time of writing. The comparison designed to be clean
+applies the identical mix1 SFT pack to this checkpoint and to corpus-v1-8k, so
+the pair differs only in the pretrain beneath. Stage A carries no RL and no SFT,
+while corpus-v1-8k carries both, so the closed-book rows above are the honest
+data-volume reading and the frame and hop measurements belong to Stage B.
+
+The gap decomposition predicted this. Binding failures are about 0.58 of the
+reader's gap, they are structural, they do not fall with capacity, and four
+training interventions could not move them. A pretrain was always testing the
+smaller half of the problem, and it did not move that half either.
+
+### An operational note worth keeping
+
+The unattended driver died at some point after launch and Stage B never fired.
+The trainer wrote its sentinel and its final checkpoint, and the box then sat
+idle with only a watcher process alive. Detached supervision that is itself
+unsupervised fails silently, and the failure looks identical to work in progress
+from outside.
