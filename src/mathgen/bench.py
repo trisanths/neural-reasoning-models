@@ -226,9 +226,13 @@ class Guard:
 
     def corpus_mode(self, shape: str) -> str | None:
         if shape not in self._mode:
+            # Each chunk's token set is sorted before it is counted. Counting
+            # the set directly broke ties between equally frequent tokens in
+            # hash order, so which problems this check refused, and so the
+            # whole problem set, changed with PYTHONHASHSEED.
             counts = Counter()
             for chunk in self.library:
-                counts.update(shaped_tokens(chunk["text"], shape))
+                counts.update(sorted(shaped_tokens(chunk["text"], shape)))
             self._mode[shape] = counts.most_common(1)[0][0] if counts else None
         return self._mode[shape]
 
@@ -317,7 +321,7 @@ class Guard:
 
         counts: Counter = Counter()
         for chunk in served:
-            counts.update(shaped_tokens(chunk["text"], shape))
+            counts.update(sorted(shaped_tokens(chunk["text"], shape)))
         if counts and normalize(counts.most_common(1)[0][0]) == gold:
             return GuardVerdict(False, "not_corpus_mode")
 
@@ -828,7 +832,7 @@ def scripted_parrot(ps: ProblemSet, seed: int = 0) -> ModelFn:
     for uid, u in ps.universes.items():
         counts: Counter = Counter()
         for chunk in u.library():
-            counts.update(shaped_tokens(chunk["text"], "int"))
+            counts.update(sorted(shaped_tokens(chunk["text"], "int")))
         modes[uid] = counts.most_common(1)[0][0] if counts else "0"
     lookup = {p.text.strip(): p.universe_id for p in ps.problems}
     fallback = Counter(modes.values()).most_common(1)[0][0] if modes else "0"

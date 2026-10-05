@@ -245,6 +245,31 @@ def throughput_probe(backend, items: list[dict], n: int, out_dir: str,
 # --------------------------------------------------------------------------
 # entry points
 # --------------------------------------------------------------------------
+def reap_engines(wait: float = 60.0) -> list[str]:
+    """Stop vLLM engine processes a finished child left behind.
+
+    A vLLM engine core is a separate process and survives its parent when the
+    parent is killed, holding the GPU memory the next model needs. Only this
+    user's processes are touched. Returns the pids it signalled.
+    """
+    uid = str(os.getuid())
+    r = subprocess.run(["pgrep", "-u", uid, "-f", "VLLM::EngineCore"],
+                       capture_output=True, text=True)
+    pids = [p for p in r.stdout.split() if p.strip()]
+    for p in pids:
+        subprocess.run(["kill", p], capture_output=True)
+    deadline = time.time() + wait
+    while pids and time.time() < deadline:
+        r = subprocess.run(["pgrep", "-u", uid, "-f", "VLLM::EngineCore"],
+                           capture_output=True, text=True)
+        if not r.stdout.strip():
+            break
+        time.sleep(1)
+    if pids:
+        print(f"reaped leftover engine processes {pids}", flush=True)
+    return pids
+
+
 def _child(args) -> int:
     from src.pilot.vllm_model import MODELS, VLLMModel
 
@@ -253,6 +278,7 @@ def _child(args) -> int:
     lock = os.path.join(args.out, "RUNNING.lock")
     with open(lock, "w") as fh:
         json.dump({"pid": os.getpid(), "model": spec.name, "since": _utc()}, fh)
+    backend = None
     try:
         backend = VLLMModel(spec, max_model_len=args.max_model_len,
                             gpu_memory_utilization=args.gpu_mem)
@@ -275,6 +301,8 @@ def _child(args) -> int:
             st = run_popqa(backend, pitems, args.out, file_sha(args.popqa), args.s3)
             print(json.dumps(st), flush=True)
     finally:
+        if backend is not None:
+            backend.close()
         if os.path.exists(lock):
             os.remove(lock)
         for name in ("throughput.jsonl", "throughput_probe.jsonl"):
@@ -333,6 +361,7 @@ def main(argv=None) -> int:
         t0 = time.time()
         print(f"== {name} start {_utc()}", flush=True)
         rc = subprocess.run(cmd, cwd=REPO_ROOT).returncode
+        reap_engines()
         print(f"== {name} exit {rc} after {time.time() - t0:.0f}s", flush=True)
         append_jsonl(os.path.join(args.out, "run_log.jsonl"), [{
             "model": name, "exit": rc, "seconds": round(time.time() - t0, 1),

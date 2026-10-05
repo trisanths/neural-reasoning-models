@@ -131,6 +131,13 @@ class VLLMModel:
             self.think_end = self.tok.convert_tokens_to_ids("</think>")
         self.thinking = False
 
+    def close(self) -> None:
+        """Shut the engine process down so the GPU is free for the next model."""
+        try:
+            self.llm.llm_engine.engine_core.shutdown()
+        except Exception as exc:                          # noqa: BLE001
+            print(f"engine shutdown: {type(exc).__name__}: {exc}", flush=True)
+
     # -- the ModelFn face ---------------------------------------------------
     def __call__(self, prompt: str) -> str:
         return self.generate([prompt])[0].text

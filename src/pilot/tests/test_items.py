@@ -114,3 +114,23 @@ def test_skill_universe_passes_the_guard_and_its_sibling_reads_differently():
         assert any(sib.reference_answer(p) != p.answer for p in probs)
         assert any(g.check(p).ok for p in probs)
         assert sib.system.name == u.system.name
+
+
+def test_the_item_set_does_not_depend_on_the_hash_seed():
+    import os
+    import subprocess
+    import sys
+
+    code = ("import hashlib, json; from src.pilot.items import build_items; "
+            "b = build_items(smoke=True); "
+            "print(hashlib.sha256(json.dumps(b['items'], sort_keys=True)"
+            ".encode()).hexdigest())")
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__)))))
+    digests = set()
+    for seed in ("1", "2", "3"):
+        env = {**os.environ, "PYTHONHASHSEED": seed}
+        out = subprocess.run([sys.executable, "-c", code], cwd=root, env=env,
+                             capture_output=True, text=True, check=True)
+        digests.add(out.stdout.strip())
+    assert len(digests) == 1
