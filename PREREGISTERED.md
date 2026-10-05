@@ -605,3 +605,165 @@ past it, so each would produce a wall at three regardless of its mechanism.
 
 Where an architecture claim still has something to measure: symbol selection, and
 paraphrase induction robustness, especially the trade-off above.
+
+## Acquisition pilot, registered 2026-10-05 before any scoring
+
+Inference only, no training. The question is whether sub-1B base models acquire
+procedures they have never seen from textbook pages, and how much entity
+knowledge they hold, so that the knowledge-removal experiment can pick its
+treatment base. This section was committed before any record from the item set
+below was graded. The smoke run that proves the pipeline used a separate
+24-item set built from seeds 5,000,000 above the ones used here.
+
+### The instrument
+
+Item file `/mnt/nvme/pilot/items/items.jsonl` on the pilot box, sha256
+`8cd3a4733f94119ca4d1621356a1bf9bfea1dcde27191e2ae86c1babb8eef064`, 1,440
+items, written by `python -m src.pilot.items` at commit 1b0a6d7 with its
+manifest beside it. Two builds under PYTHONHASHSEED 11 and 12 are byte
+identical.
+Mirrored to `s3://decoupled-reasoner-009398924577/runs/pilot-acq/items/`.
+
+| family | cells | items | floor per item | universes |
+| --- | --- | ---: | --- | ---: |
+| refuniverse | levels 1 to 8 | 800, 100 per level | 1/M, M a prime in 97..131, mean 0.009 | 119 |
+| algebra (src/mathgen/adapter.py) | levels 2 to 5 | 440, 110 per level | 1/guess space, cell means 0.154, 0.105, 0.080, 0.223 | 72 |
+| binary_op | one cell | 50 | 1/distinct answers of the generator, mean 0.021 | 25 |
+| threshold_rule | one cell | 50 | 0.5, gold labels 25/25 | 38 |
+| substitution_rule | one cell | 50 | 0.2, gold labels 10 each | 26 |
+| exception_rule | one cell | 50 | 0.5, gold labels 25/25 | 25 |
+
+Refuniverse runs with `int_answers`, so every level answers one whole number
+below its modulus. It needed 119 universes rather than 100 because level 8
+asks one question per universe and 19 of those printed their answer somewhere
+in the library and were refused by `level8_absent`.
+
+Seeds start at 910,000,000 (refuniverse), 920,000,000 (algebra) and
+930,000,000 to 933,000,000 (the four rule families). Every scanned range was
+checked against the three manifests in `runs/data-manifests` (base seeds
+51515, 61616 and 20260827, worldgen index ranges up to 39,800,000, and the
+derived episode seed ranges) and overlaps none of them.
+
+Four page conditions per item, all sharing one prompt layout ("Reference.",
+chapter slots labelled `[chN]`, "Problem.", the instruction, "Answer:"):
+
+    closed_book  no reference block
+    oracle       the chapters the derivation needs
+    sibling      the same slots filled from a structurally matched rival
+                 system: same system name, invented words and glyphs, other
+                 definitions (another modulus and product for refuniverse,
+                 Structure.sibling tables with the notion words kept for
+                 algebra, other constants or reassigned labels for the rule
+                 families)
+    blank        the same slots, empty
+
+Every item passed the eight-check guard of `src/mathgen/bench.py` against its
+own library and again (`Guard.check_served`) against what its sibling and
+blank conditions serve; the ablation check, restated for a control, requires
+the sibling system's own answer to differ from the gold. Integer items also
+passed a naive-arithmetic screen (the gold is not reachable from the
+question's integers with ordinary +, - and *), and no item is answered by the
+hedging canary.
+
+PopQA forced choice: `/mnt/nvme/pilot/items/popqa_fc.jsonl`, sha256
+`d014be06215a724709f18050ebd4163d7a0ccd463339beb785d5e78514ea9438`, 1,000
+items, 250 per s_pop quartile (edges 235, 975, 5785), all 16 relations, three
+distractors per item drawn from objects of the same relation and matching no
+alias of the gold. Options are scored by mean NLL per option token after
+"Q: <question>\nA:", option order and ties drawn from a per-item seeded RNG
+(`src/evals/mc.py`). Floor 0.25.
+
+### Models and decoding
+
+LFM2.5-350M-Base, LFM2.5-350M, Qwen3-0.6B-Base, Qwen3-0.6B, Qwen3-1.7B-Base,
+Qwen3-1.7B, Qwen3-4B, Qwen3-8B, all through vLLM 0.31.0 in bfloat16 on one
+L40S. Base models complete the prompt greedily for 24 tokens, the tokenizer's
+bos token kept; the answer is the first non-empty line. Instruct models get
+the chat template with the prompt as one user turn, thinking off greedily for
+up to 512 tokens. Qwen3 instruct models also run with thinking on: thinking
+is capped at 4,096 tokens (a truncated block is closed by force), then up to
+512 answer tokens, sampled at temperature 0.6, top-p 0.95, top-k 20 with a
+seed fixed per prompt. LFM2.5-350M's template has no thinking switch, so it
+runs with thinking off only. PopQA is scored once per model by likelihood.
+
+### Grading
+
+Strict forced choice. The answer line is the last "Answer:" line (the first
+non-empty line of a base model's continuation). An item is correct only when
+the candidates named on that line are exactly the gold: one integer for
+integer items, the gold set of names for name items. Naming more than the gold
+is a hedge and is wrong. The lenient score, the hedge rate, the rate of
+replies with no answer line, the per-item floor and the cell's majority-answer
+rate are printed beside every accuracy. Nothing is pooled across families.
+
+### Decision rules, as agreed
+
+(1) Validity: on every model and level, the Wilson upper bound on closed-book
+and blank accuracy is at most floor + 0.03. If this fails, the guard leaks:
+fix it and spend nothing else.
+
+(2) Go: at least one of the two base candidates (LFM2.5-350M-Base,
+Qwen3-0.6B-Base) shows oracle minus sibling of at least 0.20 on at least two
+levels or families, and its PopQA forced-choice margin over floor is at least
+0.15. That model becomes the treatment base.
+
+(3) Fallback: if neither clears rule 2, use Qwen3-1.7B-Base (included in this
+run). If nothing at 2B or below clears it, the small-reader premise fails on
+this instrument and the paper becomes the size-ladder study.
+
+Recorded without gating: the thinking gain at 1.7B against the 1.7B-to-8B
+scaling gain on levels 4 to 8.
+
+### How the rules are computed
+
+`src/pilot/report.py` applies them from the stored records and nothing else.
+
+A cell is one model configuration crossed with one family-level: refuniverse
+levels 1 to 8, algebra levels 2 to 5, and each rule family as one cell, 16
+cells per configuration. A configuration is a model with thinking off, or a
+Qwen3 instruct model with thinking on; "every model" in rule 1 means every
+configuration. A cell's floor is the mean of its items' floors. Wilson
+intervals use z = 1.96 (`src/extern/stats.py`).
+
+Rule 2 uses point estimates of oracle accuracy minus sibling accuracy on the
+same items, base models having no thinking mode; "levels or families" counts
+any of the 16 cells. The PopQA margin is accuracy over all 1,000 items minus
+0.25. McNemar p values are printed beside each gap and do not gate. If both
+base candidates clear rule 2, the agreed text does not choose between them;
+the report says so and the choice is left to the owner.
+
+Rule 3's "nothing at 2B or below" is read as the three base models at or below
+2B. Instruct models at that size are printed for information.
+
+The recorded comparison is on refuniverse levels 4 to 8 in the oracle
+condition. Thinking gain is Qwen3-1.7B with thinking on minus the same model
+with thinking off. Scaling gain is Qwen3-8B minus Qwen3-1.7B, printed with
+thinking off and with thinking on. Each is given per level and as the mean of
+the five per-level differences.
+
+The report refuses to build if a run is still writing, if any records file is
+newer than the build or older than the item file, if any record's item-file
+hash or prompt hash disagrees with the current item file, or if the hedging
+canary scores above zero.
+
+### A property of rule 1, written down before any record is read
+
+This does not change the rule; it records what the rule does at these sample
+sizes, so that a failure can be read correctly.
+
+At n = 100 and a floor near 0.009, a refuniverse cell passes only with zero
+correct answers: one correct answer puts the Wilson upper bound at 0.054
+against a threshold of 0.039. A guesser exactly at the floor gets at least one
+right in a cell of 100 with probability 0.59. At the higher floors the rule
+fails for a model that sits exactly on its floor: algebra level 5 (floor 0.223,
+n = 110) has an upper bound of 0.309 at floor accuracy against a threshold of
+0.253, substitution_rule (0.2, n = 50) 0.330 against 0.232, and threshold_rule
+and exception_rule (0.5, n = 50) 0.634 against 0.530.
+
+So rule 1 is applied as written, and every failing cell is printed with the
+exact binomial probability of a count that high from a guesser at the floor.
+If the failures are confined to cells where that probability is unremarkable,
+that reads as the rule lacking power at these sample sizes rather than as a
+leak, though the verdict line still reports rule 1 as failed. Any amendment to
+the rule is the owner's decision and gets its own dated entry here before it
+is applied.
