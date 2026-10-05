@@ -350,24 +350,106 @@ def _chapters(p: Params, calc: RefCalculus) -> tuple[list[Chapter], dict[str, It
     return [ch1, ch2, ch3, ch4, ch5, ch6], items
 
 
-class ReferenceUniverse:
-    """One invented calculus, its corpus, its theory graph, its problems."""
+def _admissible(calc: RefCalculus) -> bool:
+    return len(calc.census_stable()) == 2 and calc.check_translate_law()
 
-    def __init__(self, seed: int):
+
+class ReferenceUniverse:
+    """One invented calculus, its corpus, its theory graph, its problems.
+
+    int_answers asks levels three, seven and eight for a single reading
+    instead of a pair, a census list or a reading:conductor pair, so every
+    level answers with one whole number below the modulus and its chance
+    floor is one over the modulus. The default keeps the original shapes.
+    """
+
+    def __init__(self, seed: int, int_answers: bool = False,
+                 params: Params | None = None, universe_id: str | None = None):
         self.seed = seed
-        rng = random.Random(seed * 1_000_003 + 17)
-        for _ in range(64):
-            p = _draw(rng)
-            calc = RefCalculus(p)
-            if len(calc.census_stable()) == 2 and calc.check_translate_law():
-                break
+        self.int_answers = int_answers
+        if params is None:
+            rng = random.Random(seed * 1_000_003 + 17)
+            for _ in range(64):
+                p = _draw(rng)
+                calc = RefCalculus(p)
+                if _admissible(calc):
+                    break
+            else:
+                raise RuntimeError("no admissible parameters for seed %d" % seed)
         else:
-            raise RuntimeError("no admissible parameters for seed %d" % seed)
+            p = params
+            calc = RefCalculus(p)
         self.p = p
         self.calc = calc
-        self.universe_id = f"ref-{seed:07d}-M{p.modulus}"
+        self.universe_id = universe_id or f"ref-{seed:07d}-M{p.modulus}"
         self.chapters, self.items = _chapters(p, calc)
         self.by_id = {c.chapter_id: c for c in self.chapters}
+
+    # -- the sibling control ----------------------------------------------
+    def sibling(self, offset: int = 1) -> "ReferenceUniverse":
+        """A rival calculus wearing exactly this one's names and glyphs.
+
+        The system name, every invented word and every glyph are copied. The
+        modulus is moved to another prime from the same list and the product
+        constants are redrawn, so every chapter, the plain marks of chapter
+        one included, defines something else. Pages from here have the shape
+        of the right pages and answer this universe's questions only by
+        coincidence, which the guard checks per problem.
+        """
+        rng = random.Random((self.seed * 1_000_003 + 17) ^ (0x51B * offset))
+        others = [m for m in PRIMES if m != self.p.modulus]
+        for _ in range(256):
+            m = rng.choice(others)
+            q = Params(**{**self.p.__dict__, "modulus": m,
+                          "a": rng.randrange(2, m), "b": rng.randrange(1, m),
+                          "c": rng.randrange(0, m)})
+            if _admissible(RefCalculus(q)):
+                break
+        else:
+            raise RuntimeError("no admissible sibling for seed %d offset %d"
+                               % (self.seed, offset))
+        return ReferenceUniverse(self.seed, int_answers=self.int_answers,
+                                 params=q,
+                                 universe_id=f"{self.universe_id}-sib{offset}")
+
+    def reference_answer(self, problem: Problem) -> str | None:
+        """What this universe's own definitions make of another's question.
+
+        The question is re-solved from the inputs its generator recorded in
+        meta, with this universe's calculus. For a problem generated here it
+        returns the stated answer.
+        """
+        c, m, lv = self.calc, problem.meta, problem.level
+        if lv == 1:
+            if m["shape"] == "scale_join":
+                return str(c.scale(m["k"], c.join(m["x"], m["y"])))
+            return str(c.join(c.join(m["x"], m["y"]), c.scale(m["k"], m["z"])))
+        if lv == 2:
+            if m["kind"] == "pivot":
+                return str(c.pivot(m["x"]))
+            if m["kind"] == "product":
+                return str(c.core(m["x"], m["y"]))
+            return str(c.pivot(c.pivot(m["x"])))
+        if lv == 3:
+            u, v = c.annihilator(), c.annihilator_value()
+            return f"{u},{v}" if m["phrasing"] == "pair" else str(v)
+        if lv == 4:
+            y = c.unwind(m["x"], m["z"])
+            return None if y is None else str(y)
+        if lv == 5:
+            return str(c.conductor(m["x"] % c.M))
+        if lv == 6:
+            y = c.unwind(c.offset(), m["z"])
+            return None if y is None else str(y)
+        if lv == 7:
+            cens = c.census_stable()
+            if m.get("form") == "last_entry":
+                return str(cens[-1]) if cens else None
+            return ",".join(str(v) for v in cens) if cens else "none"
+        if lv == 8:
+            x, n = c.max_conductor()
+            return str(x) if m.get("form") == "reading" else f"{x}:{n}"
+        raise ValueError(f"no level {lv}")
 
     # -- corpus -----------------------------------------------------------
     def library(self) -> list[dict]:
@@ -448,11 +530,13 @@ class ReferenceUniverse:
             ans = c.join(c.join(x, y), c.scale(k, z))
         return self._mk(1, idx, text, str(ans),
                         ["i_carrier", "i_join", "i_scale"], ["ch1"],
-                        meta={"shape": shape})
+                        meta={"shape": shape, "k": k, "x": x, "y": y,
+                              "z": z if shape == "join_scale" else None})
 
     def _level2(self, rng, idx) -> Problem:
         p, c = self.p, self.calc
         kind = rng.choice(["pivot", "product", "pivot_twice"])
+        y = None
         if kind == "pivot":
             x = rng.randrange(2, p.modulus)
             text = (f"In the {p.name} calculus, what is the {p.w_pivot} of "
@@ -469,13 +553,16 @@ class ReferenceUniverse:
                     f"What is the result?")
             ans = c.pivot(c.pivot(x))
         return self._mk(2, idx, text, str(ans),
-                        ["i_core", "i_pivot"], ["ch2"], meta={"kind": kind})
+                        ["i_core", "i_pivot"], ["ch2"],
+                        meta={"kind": kind, "x": x, "y": y})
 
     def _level3(self, rng, idx) -> Problem:
         """Derivable from chapter two, stated nowhere in the corpus."""
         p, c = self.p, self.calc
         u, v = c.annihilator(), c.annihilator_value()
         phrasing = rng.choice(["pair", "value_only"])
+        if self.int_answers:
+            phrasing = "value_only"
         if phrasing == "pair":
             text = (f"In the {p.name} calculus there is exactly one {p.w_reading} u "
                     f"for which u {p.g_core} y is the same {p.w_reading} for every "
@@ -530,6 +617,14 @@ class ReferenceUniverse:
         """Every ingredient is in the corpus; the statement is not."""
         p, c = self.p, self.calc
         cens = c.census_stable()
+        if self.int_answers:
+            # The census has exactly two entries (the draw requires it), so
+            # its last entry is one reading and still needs both chapters.
+            text = (f"Take the {p.w_census} of the {p.w_stable} {p.w_reading}s "
+                    f"of the {p.name} calculus. Report its last entry.")
+            return self._mk(7, idx, text, str(cens[-1]),
+                            ["i_stable", "i_census"], ["ch2", "ch6"],
+                            meta={"size": len(cens), "form": "last_entry"})
         ans = ",".join(str(v) for v in cens) if cens else "none"
         text = (f"Report the {p.w_census} of the {p.w_stable} {p.w_reading}s of "
                 f"the {p.name} calculus.")
@@ -540,6 +635,15 @@ class ReferenceUniverse:
         """The field is established; the answer is nowhere and needs a scan."""
         p, c = self.p, self.calc
         x, n = c.max_conductor()
+        if self.int_answers:
+            text = (f"Across all {p.w_reading}s of the {p.name} calculus, which "
+                    f"has the greatest {p.w_conductor}? Where several tie, take "
+                    f"the smallest such {p.w_reading}. Report that "
+                    f"{p.w_reading}.")
+            return self._mk(8, idx, text, str(x), ["i_conductor"], ["ch5"],
+                            search=True,
+                            meta={"reading": x, "conductor": n,
+                                  "form": "reading"})
         text = (f"Across all {p.w_reading}s of the {p.name} calculus, which has "
                 f"the greatest {p.w_conductor}? Where several tie, take the "
                 f"smallest such {p.w_reading}. Answer in the form "
@@ -550,4 +654,4 @@ class ReferenceUniverse:
 
 
 def build_universe(seed: int, **kwargs) -> ReferenceUniverse:
-    return ReferenceUniverse(seed)
+    return ReferenceUniverse(seed, int_answers=kwargs.get("int_answers", False))

@@ -48,7 +48,8 @@ class MathgenUniverse:
     """One of the mathgen agent's universes, wearing the harness's contract."""
 
     def __init__(self, seed: int, n_siblings: int = 4, variants: int = 3,
-                 exclude_section_kinds: tuple = ("exercises",)):
+                 exclude_section_kinds: tuple = ("exercises",),
+                 theory=None, universe_id: str | None = None):
         from src.mathgen.exercises import build_exercises
         from src.mathgen.textbook import build_textbook
         from src.mathgen.theory import build
@@ -59,11 +60,14 @@ class MathgenUniverse:
         # retriever the target chapter for free on every problem. They are
         # dropped from what a model can read; nothing else changes.
         self.excluded = tuple(exclude_section_kinds)
-        self.theory = build(seed)
-        self.exercises = build_exercises(self.theory, n_siblings=n_siblings,
-                                         variants=variants)
+        # A universe built around a given theory is a sibling control: it
+        # serves pages and answers questions but poses none of its own.
+        self.theory = theory if theory is not None else build(seed)
+        self.exercises = ([] if theory is not None else
+                          build_exercises(self.theory, n_siblings=n_siblings,
+                                          variants=variants))
         self.textbook = build_textbook(self.theory, self.exercises)
-        self.universe_id = f"mathgen-{seed:07d}"
+        self.universe_id = universe_id or f"mathgen-{seed:07d}"
 
         self.items: dict[str, Item] = {}
         for nid in self.theory.order:
@@ -174,6 +178,61 @@ class MathgenUniverse:
         pool = list(self._problems.get(level, []))
         rng.shuffle(pool)
         return pool[:n]
+
+    # -- the sibling control ----------------------------------------------
+    def sibling(self, offset: int = 1) -> "MathgenUniverse":
+        """The rival system from Structure.sibling, written up as a textbook.
+
+        Structure.sibling keeps the system name, object names, glyphs and
+        relation symbol and swaps the tables. The sibling structure is given
+        this structure's seed back, because the theory draws its invented
+        notion words from the seed; with the seed kept, the sibling's book
+        names its notions with the same words this one does, and only what
+        the words mean changes.
+        """
+        import dataclasses
+
+        from src.mathgen.theory import build_theory
+
+        s = self.theory.structure
+        sib = dataclasses.replace(s.sibling(offset), seed=s.seed)
+        return MathgenUniverse(self.seed, theory=build_theory(sib),
+                               exclude_section_kinds=self.excluded,
+                               universe_id=f"{self.universe_id}-sib{offset}")
+
+    def reference_answer(self, problem: Problem) -> str | None:
+        """The problem's recipe run against this universe's structure."""
+        from src.mathgen.exercises import Undefined, compute
+
+        try:
+            return compute(self.theory.structure, problem.meta["recipe"])
+        except (Undefined, KeyError, IndexError):
+            return None
+
+    def matching_chapters(self, problem: Problem, origin, wanted) -> list[str]:
+        """This book's chapters that hold the nodes the oracle's chapters hold.
+
+        Two systems with different tables satisfy different axioms, so their
+        theories are cut into chapters differently. A node is matched by its
+        key (the same notion, axiom or theorem in both books); a chapter of
+        the origin with no matched node falls back to the chapter with the
+        same number when this book has one.
+        """
+        out: list[str] = []
+        for cid in wanted:
+            keys = [origin.theory.nodes[i].key
+                    for i in origin.by_id[cid].item_ids]
+            mine = []
+            for key in keys:
+                node = self.theory.by_key(key)
+                if node is not None:
+                    mine.append(_chapter_id(node.chapter))
+            if not mine and cid in self.by_id:
+                mine = [cid]
+            for c in sorted(set(mine), key=lambda c: self.by_id[c].index):
+                if c not in out:
+                    out.append(c)
+        return out
 
     # The battery's probes are written against a reference implementation's
     # parameters, and there are none for these families yet.

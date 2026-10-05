@@ -1,9 +1,16 @@
-"""The eight-level generator and the four-condition harness.
+"""The eight-level generator and the six-condition harness.
 
 Two halves. The first builds a problem set and refuses to emit a problem it
 cannot prove is unanswerable without the material it targets. The second runs
-any model callable through four presentations of the same problem and reports
+any model callable through six presentations of the same problem and reports
 per level and per chapter, never pooled.
+
+Two of the six are controls for the oracle condition. Sibling serves the same
+chapter slots filled from a structurally matched rival system: same names,
+same glyphs, same page shapes, different definitions, so a reader that only
+pattern-matches the shape of a page scores there what it scores on the right
+pages. Blank serves the same chapter slots with nothing in them, so the prompt
+layout is held fixed and only the content is removed.
 
 The guard, which exists because this project has already been fooled once by
 scores that pooled a dead task family with a live one and by items whose
@@ -25,6 +32,13 @@ answer could be copied out of the question:
   level7_no_single_chunk  no chunk carries the answer next to the question's
                       own words, so retrieval alone cannot land it
   level8_absent       the answer occurs nowhere in the library
+
+The same eight checks are run a second time against what each control serves
+(Guard.check_served). For sibling pages the ablation check becomes "the rival
+system's own reference answer differs from the gold", since a sibling whose
+definitions happen to give the same answer is not a control. Blank pages must
+carry no answer-shaped token at all. A control discard is counted under
+"sibling:<check>" or "blank:<check>".
 
 Every discard is counted by level and by which check refused it, and the
 report carries the rate. A level whose discard rate is near one is a level
@@ -278,6 +292,63 @@ class Guard:
 
         return GuardVerdict(True, None)
 
+    def check_served(self, p: Problem, condition: str, served: list[dict],
+                     served_answer: str | None) -> GuardVerdict:
+        """The eight checks again, against the pages one control serves.
+
+        served is the list of chunks the condition puts in front of the model
+        (dicts with a "text" key), and served_answer is what the system those
+        pages describe says the answer is: the gold for the oracle, the rival
+        system's reference answer for a sibling, None for blank pages. The
+        checks keep their names so a control discard reads the same way as a
+        library discard.
+        """
+        if not p.closed_over(self.u.items):
+            return GuardVerdict(False, "closed_derivation")
+        text = "\n".join(c["text"] for c in served)
+        flat = " ".join(text.split())
+        if flat and " ".join(p.text.split()) in flat:
+            return GuardVerdict(False, "prompt_in_corpus")
+
+        shape = answer_shape(p.answer)
+        gold = normalize(p.answer)
+        if gold in {normalize(t) for t in shaped_tokens(p.text, shape)}:
+            return GuardVerdict(False, "answer_not_copyable", {"where": "whole"})
+
+        counts: Counter = Counter()
+        for chunk in served:
+            counts.update(shaped_tokens(chunk["text"], shape))
+        if counts and normalize(counts.most_common(1)[0][0]) == gold:
+            return GuardVerdict(False, "not_corpus_mode")
+
+        if served:
+            near = BM25(served).top(p.text, self.keyword_k)
+            guess, joined = keyword_nearest_guess(near, shape)
+            if guess is not None and normalize(guess) == gold:
+                return GuardVerdict(False, "keyword_nearest", {"guess": guess})
+
+        # The ablation check, restated for a control: the pages served must
+        # not themselves determine the gold. For the oracle this is the one
+        # condition allowed to, so it is skipped there.
+        if condition != "oracle":
+            if served_answer is not None and normalize(served_answer) == gold:
+                return GuardVerdict(False, "ablation",
+                                    {"served_answer": served_answer})
+
+        if p.level == 7 and condition != "oracle":
+            qterms = {t for t in norm_terms(p.text) if len(t) > 4}
+            for chunk in served:
+                if gold in {normalize(t) for t in
+                            shaped_tokens(chunk["text"], shape)}:
+                    if len(qterms & set(norm_terms(chunk["text"]))) >= 2:
+                        return GuardVerdict(False, "level7_no_single_chunk")
+
+        if (p.level == 8 or condition == "blank") and text:
+            if re.search(rf"(?<![\w.:]){re.escape(p.answer)}(?![\w.:])", text):
+                return GuardVerdict(False, "level8_absent")
+
+        return GuardVerdict(True, None)
+
 
 # --------------------------------------------------------------------------
 # problem sets
@@ -288,6 +359,9 @@ class ProblemSet:
     universes: dict
     discards: dict
     baselines: dict
+    # problem_id -> the sibling universe whose pages the sibling condition
+    # serves for that problem, filled when the set was built with controls.
+    siblings: dict = field(default_factory=dict)
 
     def by_level(self) -> dict[int, list[Problem]]:
         out: dict[int, list[Problem]] = defaultdict(list)
@@ -312,20 +386,36 @@ def majority_baseline(problems: list[Problem]) -> dict:
 PER_UNIVERSE_CAP = {3: 2, 7: 1, 8: 1}
 
 
+CONTROL_CONDITIONS = ("sibling", "blank")
+
+
 def build_problem_set(seeds, per_level: int = 4, levels=LEVELS,
                       universe_module: str | None = None,
-                      oversample: int = 6, rng_seed: int = 0) -> ProblemSet:
-    """Generate, guard, dedupe. Discards are counted, never hidden."""
+                      oversample: int = 6, rng_seed: int = 0,
+                      controls: tuple = (), max_sibling_offsets: int = 4,
+                      screen=None,
+                      universe_kwargs: dict | None = None) -> ProblemSet:
+    """Generate, guard, dedupe. Discards are counted, never hidden.
+
+    controls names the control conditions ("sibling", "blank") whose served
+    pages must also pass the guard. A problem is kept only when a sibling
+    among the first max_sibling_offsets offsets passes; the one used is kept
+    in ProblemSet.siblings. screen, when given, is a callable taking a
+    problem and returning the name of a pre-guard check it fails or None;
+    its refusals are counted like the guard's.
+    """
     rng = random.Random(rng_seed)
     kept: list[Problem] = []
     universes: dict = {}
+    siblings: dict = {}
     discards = {lv: Counter() for lv in levels}
     emitted = {lv: 0 for lv in levels}
     duplicates = {lv: 0 for lv in levels}
     seen: set[tuple[str, str, str]] = set()
 
     for seed in seeds:
-        u = load_universe(seed, module=universe_module)
+        u = load_universe(seed, module=universe_module,
+                          **(universe_kwargs or {}))
         universes[u.universe_id] = u
         guard = Guard(u)
         for lv in levels:
@@ -338,10 +428,23 @@ def build_problem_set(seeds, per_level: int = 4, levels=LEVELS,
                     continue
                 seen.add(key)
                 emitted[lv] += 1
+                if screen is not None:
+                    failed = screen(cand)
+                    if failed:
+                        discards[lv][failed] += 1
+                        continue
                 verdict = guard.check(cand)
                 if not verdict.ok:
                     discards[lv][verdict.failed] += 1
                     continue
+                if controls:
+                    failed, sib = guard_controls(guard, u, cand, controls,
+                                                 max_sibling_offsets)
+                    if failed:
+                        discards[lv][failed] += 1
+                        continue
+                    if sib is not None:
+                        siblings[cand.problem_id] = sib
                 kept.append(cand)
                 got += 1
                 if got >= want:
@@ -366,7 +469,42 @@ def build_problem_set(seeds, per_level: int = 4, levels=LEVELS,
         }
     baselines = {LEVEL_NAMES[lv]: majority_baseline(by_level.get(lv, []))
                  for lv in levels}
-    return ProblemSet(kept, universes, report_discards, baselines)
+    return ProblemSet(kept, universes, report_discards, baselines, siblings)
+
+
+def guard_controls(guard: Guard, universe, p: Problem, controls,
+                   max_sibling_offsets: int = 4):
+    """Run check_served for each control. Returns (failed_check, sibling).
+
+    For the sibling control the offsets are tried in order and the first
+    sibling that passes is returned. If none passes, the failure reported is
+    the one from the last offset tried.
+    """
+    sib_used = None
+    for cond in controls:
+        if cond == "blank":
+            v = guard.check_served(p, "blank", served_blank(p, universe), None)
+            if not v.ok:
+                return f"blank:{v.failed}", None
+        elif cond == "sibling":
+            last = "no_sibling"
+            for offset in range(1, max_sibling_offsets + 1):
+                try:
+                    sib = sibling_of(universe, offset)
+                except (NotImplementedError, RuntimeError):
+                    break
+                v = guard.check_served(p, "sibling",
+                                       served_sibling(p, universe, sib),
+                                       sib.reference_answer(p))
+                if v.ok:
+                    sib_used = sib
+                    break
+                last = v.failed
+            if sib_used is None:
+                return f"sibling:{last}", None
+        else:
+            raise ValueError(f"unknown control {cond!r}")
+    return None, sib_used
 
 
 # --------------------------------------------------------------------------
@@ -394,6 +532,68 @@ def prompt_oracle(p: Problem, universe) -> str:
     parts = [f"[{cid}] {universe.chapter_text([cid])}"
              for cid in required_chapters(p, universe)]
     body = "\n\n".join(parts)
+    return (f"Reference.\n{body}\n\nProblem.\n{p.text}\n\n{INSTRUCTION}\nAnswer:")
+
+
+def sibling_of(universe, offset: int = 1):
+    """A structurally matched rival universe: same names, other definitions.
+
+    A universe opts in by implementing sibling(offset) and, on the returned
+    object, reference_answer(problem), which says what the rival's own
+    definitions make of the same question (None when they do not answer it).
+    """
+    make = getattr(universe, "sibling", None)
+    if make is None:
+        raise NotImplementedError(
+            f"{type(universe).__name__} has no sibling(); the sibling "
+            f"condition needs one")
+    return make(offset)
+
+
+def sibling_chapters(p: Problem, universe, sibling) -> list[str]:
+    """The sibling's chapters that stand where the oracle's chapters stand.
+
+    A sibling may lay its theory out differently, so it can say which of its
+    chapters correspond (matching_chapters); otherwise the same ids are used.
+    """
+    wanted = required_chapters(p, universe)
+    match = getattr(sibling, "matching_chapters", None)
+    if match is not None:
+        return match(p, universe, wanted)
+    return [cid for cid in wanted if cid in sibling.by_id]
+
+
+def served_oracle(p: Problem, universe) -> list[dict]:
+    return [{"chapter_id": cid, "text": universe.chapter_text([cid])}
+            for cid in required_chapters(p, universe)]
+
+
+def served_sibling(p: Problem, universe, sibling) -> list[dict]:
+    # Each chapter is labelled with the sibling's own id. Where the sibling
+    # lays its theory out the same way (the reference universe always does)
+    # these are the oracle's ids, so the slots are identical and only what
+    # fills them differs.
+    return [{"chapter_id": cid, "text": sibling.chapter_text([cid])}
+            for cid in sibling_chapters(p, universe, sibling)]
+
+
+def served_blank(p: Problem, universe) -> list[dict]:
+    return [{"chapter_id": cid, "text": ""}
+            for cid in required_chapters(p, universe)]
+
+
+def _reference_block(served: list[dict]) -> str:
+    return "\n\n".join(f"[{c['chapter_id']}] {c['text']}".rstrip()
+                        for c in served)
+
+
+def prompt_sibling(p: Problem, universe, sibling) -> str:
+    body = _reference_block(served_sibling(p, universe, sibling))
+    return (f"Reference.\n{body}\n\nProblem.\n{p.text}\n\n{INSTRUCTION}\nAnswer:")
+
+
+def prompt_blank(p: Problem, universe) -> str:
+    body = _reference_block(served_blank(p, universe))
     return (f"Reference.\n{body}\n\nProblem.\n{p.text}\n\n{INSTRUCTION}\nAnswer:")
 
 
@@ -433,7 +633,7 @@ def run_acquisition(model: ModelFn, p: Problem, index: BM25,
     return out, queries
 
 
-CONDITIONS = ("closed_book", "oracle", "rag", "acquisition")
+CONDITIONS = ("closed_book", "oracle", "rag", "acquisition", "sibling", "blank")
 
 
 def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
@@ -441,6 +641,7 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
           record: list | None = None) -> dict:
     """Every problem through every condition. Reported per level and chapter."""
     indexes = {uid: BM25(u.library()) for uid, u in ps.universes.items()}
+    default_sib: dict = {}
     hits: dict = {c: defaultdict(list) for c in conditions}
     chap: dict = {c: defaultdict(list) for c in conditions}
     # A zero in the agent condition means one of two different things, so the
@@ -459,6 +660,17 @@ def score(model: ModelFn, ps: ProblemSet, conditions=CONDITIONS,
                 extra = {}
             elif cond == "rag":
                 raw = model(prompt_rag(p, idx, rag_k))
+                extra = {}
+            elif cond == "sibling":
+                sib = ps.siblings.get(p.problem_id)
+                if sib is None:
+                    if p.universe_id not in default_sib:
+                        default_sib[p.universe_id] = sibling_of(u, 1)
+                    sib = default_sib[p.universe_id]
+                raw = model(prompt_sibling(p, u, sib))
+                extra = {}
+            elif cond == "blank":
+                raw = model(prompt_blank(p, u))
                 extra = {}
             else:
                 raw, queries = run_acquisition(model, p, idx, max_rounds)
@@ -568,7 +780,8 @@ def scripted_reader(ps: ProblemSet, competence: float = 1.0, seed: int = 0) -> M
     pool = [normalize(p.answer) for p in ps.problems]
 
     def present(chapter_id: str, supplied: str) -> bool:
-        return f"[{chapter_id}]" in supplied
+        # A label with nothing after it is a blank slot, not a chapter.
+        return re.search(rf"\[{re.escape(chapter_id)}\] \S", supplied) is not None
 
     def find(prompt: str):
         # A textbook can print its own exercises, so a problem's words can

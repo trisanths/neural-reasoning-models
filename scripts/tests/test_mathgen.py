@@ -160,7 +160,7 @@ def test_report_is_not_pooled(problem_set):
     result = score(scripted_parrot(problem_set), problem_set)
     assert "accuracy" not in result
     assert set(result["per_level"]) == {"closed_book", "oracle", "rag",
-                                        "acquisition"}
+                                        "acquisition", "sibling", "blank"}
     for cond in result["per_level"]:
         assert len(result["per_level"][cond]) == len(LEVELS)
 
@@ -304,3 +304,134 @@ def test_controls_behave_on_the_mathgen_universes():
 
 def test_battery_reports_no_probes_for_a_universe_without_any(mathgen_universe):
     assert run_battery(lambda prompt: "Answer: 0", mathgen_universe) == []
+
+
+# --------------------------------------------------------------------------
+# the sibling and blank controls
+# --------------------------------------------------------------------------
+from src.mathgen.bench import (CONTROL_CONDITIONS, prompt_blank, prompt_sibling,
+                               served_blank, served_sibling, sibling_of)
+
+
+@pytest.fixture(scope="module")
+def controlled_set():
+    return build_problem_set(range(600, 606), per_level=1,
+                             controls=CONTROL_CONDITIONS,
+                             universe_kwargs={"int_answers": True})
+
+
+def test_sibling_wears_the_same_words_and_means_something_else(universe):
+    sib = sibling_of(universe, 1)
+    for field in ("name", "w_reading", "w_pivot", "w_stable", "w_conductor",
+                  "w_census", "g_core", "g_join", "g_scale"):
+        assert getattr(sib.p, field) == getattr(universe.p, field)
+    assert sib.p.modulus != universe.p.modulus
+    assert [c.chapter_id for c in sib.chapters] == \
+        [c.chapter_id for c in universe.chapters]
+    assert sib.chapter_text(["ch2"]) != universe.chapter_text(["ch2"])
+
+
+def test_reference_answer_reproduces_every_stated_answer(problem_set):
+    for p in problem_set.problems:
+        u = problem_set.universes[p.universe_id]
+        assert u.reference_answer(p) == p.answer, p.problem_id
+
+
+def test_int_answers_gives_one_number_at_every_level():
+    u = load_universe(601, int_answers=True)
+    rng = random.Random(0)
+    for lv in LEVELS:
+        for p in u.problems(lv, 3, rng):
+            assert p.answer.isdigit(), (lv, p.answer)
+            assert 0 <= int(p.answer) < u.p.modulus
+            assert u.reference_answer(p) == p.answer
+
+
+def test_controls_keep_only_problems_the_sibling_answers_differently(controlled_set):
+    assert controlled_set.problems
+    for p in controlled_set.problems:
+        sib = controlled_set.siblings[p.problem_id]
+        assert sib.reference_answer(p) != p.answer
+
+
+def test_sibling_and_blank_prompts_keep_the_oracle_layout(controlled_set):
+    for p in controlled_set.problems:
+        u = controlled_set.universes[p.universe_id]
+        sib = controlled_set.siblings[p.problem_id]
+        oracle, sibling, blank = (prompt_oracle(p, u), prompt_sibling(p, u, sib),
+                                  prompt_blank(p, u))
+        tail = oracle.split("Problem.\n", 1)[1]
+        assert sibling.split("Problem.\n", 1)[1] == tail
+        assert blank.split("Problem.\n", 1)[1] == tail
+        labels = [c["chapter_id"] for c in served_blank(p, u)]
+        assert labels == [c["chapter_id"] for c in served_sibling(p, u, sib)]
+        for cid in labels:
+            assert f"[{cid}]" in oracle and f"[{cid}]" in blank
+        body = blank.split("Problem.\n", 1)[0]
+        assert body == "Reference.\n" + "\n\n".join(f"[{c}]" for c in labels) + "\n\n"
+
+
+def test_blank_pages_carry_no_answer_shaped_token(controlled_set):
+    for p in controlled_set.problems:
+        u = controlled_set.universes[p.universe_id]
+        assert all(c["text"] == "" for c in served_blank(p, u))
+
+
+def test_check_served_refuses_a_sibling_that_agrees_with_the_gold(universe):
+    guard = Guard(universe)
+    rng = random.Random(3)
+    p = universe.problems(2, 1, rng)[0]
+    sib = sibling_of(universe, 1)
+    served = served_sibling(p, universe, sib)
+    verdict = guard.check_served(p, "sibling", served, p.answer)
+    assert not verdict.ok and verdict.failed == "ablation"
+
+
+def test_check_served_refuses_blank_pages_that_print_the_answer(universe):
+    guard = Guard(universe)
+    p = universe.problems(5, 1, random.Random(4))[0]
+    verdict = guard.check_served(
+        p, "blank", [{"chapter_id": "ch5", "text": f"See {p.answer}."}], None)
+    assert not verdict.ok
+
+
+def test_reader_and_parrot_on_the_controls(controlled_set):
+    reader = score(scripted_reader(controlled_set), controlled_set,
+                   conditions=("closed_book", "oracle", "sibling", "blank"))
+    for name, entry in reader["per_level"]["oracle"].items():
+        assert entry["accuracy"] == 1.0, name
+    # The scripted reader answers whenever the right chapter ids are on the
+    # page, so it cannot tell a sibling from the real book. That is the
+    # plumbing check: a reader that does not read scores the same on both.
+    for name, entry in reader["per_level"]["sibling"].items():
+        assert entry["accuracy"] == 1.0, name
+    # Blank slots carry the labels and nothing else, and the reader treats
+    # an empty slot as missing, so blank lands where closed book does.
+    blank = sum(e["accuracy"] * e["n"] for e in reader["per_level"]["blank"].values())
+    n = sum(e["n"] for e in reader["per_level"]["blank"].values())
+    assert n and blank / n < 0.5
+    parrot = score(scripted_parrot(controlled_set), controlled_set,
+                   conditions=("closed_book", "oracle", "sibling", "blank"))
+    for cond, levels in parrot["per_level"].items():
+        for name, entry in levels.items():
+            assert entry["accuracy"] == 0.0, (cond, name)
+
+
+def test_mathgen_sibling_names_its_notions_with_the_same_words(mathgen_universe):
+    sib = mathgen_universe.sibling(1)
+    assert sib.theory.notion_names == mathgen_universe.theory.notion_names
+    s, t = mathgen_universe.theory.structure, sib.theory.structure
+    assert s.elements == t.elements and s.op_glyphs == t.op_glyphs
+    assert s.tables[0] != t.tables[0]
+
+
+def test_mathgen_controls_build_and_disagree():
+    ps = build_problem_set(range(11, 14), per_level=1, levels=(2, 3, 4, 5),
+                           universe_module=MATHGEN, controls=CONTROL_CONDITIONS)
+    assert ps.problems
+    for p in ps.problems:
+        u = ps.universes[p.universe_id]
+        sib = ps.siblings[p.problem_id]
+        assert u.reference_answer(p) == p.answer
+        assert sib.reference_answer(p) != p.answer
+        assert served_sibling(p, u, sib)

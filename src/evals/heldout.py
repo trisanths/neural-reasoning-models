@@ -137,7 +137,10 @@ def run_heldout(model, tokenizer, episodes, device, seed=0,
                 rounds_sum += n_rounds
             else:
                 context = build_context_ids(ep, q, tokenizer, max_seq_len)
-            best, _ = score_mc(model, tokenizer, context, options, device)
+            # One seed per question, so option order and tie breaks are
+            # drawn independently across items and reproduce on a rerun.
+            best, _ = score_mc(model, tokenizer, context, options, device,
+                               seed=seed * 1_000_003 + n_total)
             correct = best == true_idx
             n_correct += int(correct)
             n_total += 1
