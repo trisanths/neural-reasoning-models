@@ -1,6 +1,7 @@
 from src.pilot.grade import answer_line, canary_reply, grade, named_ints
 
-INT_ITEM = {"answer": "42", "answer_kind": "int", "answer_space": 101}
+INT_ITEM = {"answer": "42", "answer_kind": "int", "answer_space": 101,
+            "modulus": 101}
 NAMES_ITEM = {"answer": "vorka, mizel", "answer_kind": "names",
               "candidates": ["vorka", "mizel", "tubra", "solqen"]}
 LABEL_ITEM = {"answer": "kavor", "answer_kind": "names",
@@ -40,8 +41,23 @@ def test_two_numbers_on_the_answer_line_are_a_hedge():
 
 
 def test_a_modulus_clause_is_not_a_second_answer():
-    assert named_ints("42 (mod 101)") == ["42"]
+    assert named_ints("42 (mod 101)", 101) == ["42"]
     assert grade("Answer: 42 mod 101", INT_ITEM)["correct"]
+
+
+def test_a_mod_clause_with_another_number_is_a_second_answer():
+    assert named_ints("33 (mod 34)", 101) == ["33", "34"]
+    assert named_ints("42 (mod 101)") == ["42", "101"]
+    g = grade("Answer: 42 (mod 34)", INT_ITEM)
+    assert g["hedge"] and not g["correct"]
+
+
+def test_answered_says_whether_any_candidate_was_named():
+    g = grade("1. The claim is not", {"answer": "vorka", "answer_kind": "names",
+                                       "candidates": ["vorka", "mizel"]},
+              completion=True)
+    assert g["answer_found"] and not g["answered"]
+    assert grade(" 42", INT_ITEM, completion=True)["answered"]
 
 
 def test_names_need_the_exact_gold_set():

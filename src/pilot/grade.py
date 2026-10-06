@@ -6,8 +6,10 @@ named. Naming more than the gold is a hedge and scores wrong, which is the
 DISCOVERY.md rule against containment graders.
 
   int     the gold is one whole number. Every integer on the answer line is a
-          candidate named; "mod 101" style clauses are removed first because
-          they restate the modulus rather than offer a second answer.
+          candidate named; a "mod 101" style clause is removed first when it
+          names the item's own modulus, because it restates the modulus
+          rather than offering a second answer. A mod clause naming any
+          other number counts that number as a candidate.
   names   the gold is one or more names from a closed candidate list (object
           names of an algebra, labels of a rule family). The set of
           candidates named must equal the gold set.
@@ -21,7 +23,9 @@ emphasis allowed), or, for a base model continuing a prompt that already
 ends in "Answer:", the first non-empty line of the continuation. When an
 instruct reply has no answer line the last non-empty line stands in and
 answer_found is False, so the rate of replies that ignored the format is
-visible rather than folded into accuracy.
+visible rather than folded into accuracy. A base model's first line always
+counts as found, so answered (the line names at least one candidate) is the
+column that shows how often a reply gives any answer at all.
 """
 
 from __future__ import annotations
@@ -31,7 +35,7 @@ import re
 _ANSWER_RE = re.compile(
     r"^[\s>*_#`-]*(?:final\s+)?answer[\s*_`]*[:=]\s*(.*)$", re.I)
 _INT_RE = re.compile(r"(?<![\w.])-?\d+(?![\w])")
-_MOD_RE = re.compile(r"\(?\s*(?:mod(?:ulo)?|\\pmod|\\bmod)\s*\{?\s*\d+\s*\}?\s*\)?",
+_MOD_RE = re.compile(r"\(?\s*(?:mod(?:ulo)?|\\pmod|\\bmod)\s*\{?\s*(\d+)\s*\}?\s*\)?",
                      re.I)
 _BOXED_RE = re.compile(r"\\boxed\s*\{([^{}]*)\}")
 
@@ -71,8 +75,13 @@ def answer_line(text: str, completion: bool = False) -> tuple[str, bool]:
     return "", False
 
 
-def named_ints(line: str) -> list[str]:
-    line = _MOD_RE.sub(" ", line)
+def named_ints(line: str, modulus: int | None = None) -> list[str]:
+    """Every distinct integer on the line. A "mod M" clause naming the
+    item's own modulus restates it and is removed first; a mod clause with
+    any other number names that number like any other integer."""
+    if modulus:
+        line = _MOD_RE.sub(lambda m: " " if int(m.group(1)) == int(modulus)
+                           else m.group(0), line)
     out: list[str] = []
     for tok in _INT_RE.findall(line):
         v = str(int(tok))
@@ -100,7 +109,7 @@ def grade(text: str, item: dict, completion: bool = False) -> dict:
     line, found = answer_line(text, completion=completion)
     kind = item["answer_kind"]
     if kind == "int":
-        named = named_ints(line)
+        named = named_ints(line, item.get("modulus"))
         gold = str(int(item["answer"]))
         hedge = len(named) > 1
         parsed = named[0] if len(named) == 1 else (",".join(named) or None)
@@ -118,6 +127,7 @@ def grade(text: str, item: dict, completion: bool = False) -> dict:
     else:
         raise ValueError(f"unknown answer kind {kind!r}")
     return {"answer_line": line[:300], "answer_found": found,
+            "answered": bool(named),
             "parsed": parsed, "n_named": len(named), "hedge": hedge,
             "correct": bool(correct), "correct_lenient": bool(lenient)}
 

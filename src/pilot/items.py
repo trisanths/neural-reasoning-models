@@ -2,27 +2,33 @@
 
   refuniverse  src/mathgen/refuniverse.py with int_answers, levels 1 to 8,
                one item per level per universe. Every answer is one whole
-               number below a prime modulus between 97 and 131, so the floor
-               of an item is 1/M, between 0.0076 and 0.0103.
+               number below a prime modulus between 97 and 131.
   algebra      src/mathgen/adapter.py, levels 2 to 5, at most two items per
                level per universe. Answers are object names, lists of them,
-               or counts; the floor is one over exercises.GUESS_SPACE.
+               or counts.
   skillacq     src/pilot/skills.py over binary_op and the three simple rule
-               families. Floors are one over the candidate labels, or one over
-               the number of distinct answers the generator can produce for
-               binary_op.
+               families.
+
+Floors are per item and per condition; the section "floors" below says how
+they are made. In short: an integer item's floor is the larger of one over
+its answer space and the best single answer's rate in a pool of items the
+same pipeline emits from separate seeds; a names item's floor is one over its
+answer space where the names can be read, and zero in closed book and blank,
+where they cannot.
 
 Every item passes the eight-check guard in src/mathgen/bench.py against its
 own library, and again (Guard.check_served) against the pages its sibling and
-blank conditions serve. Integer items pass one more screen first,
+blank conditions serve. The sibling must also serve the oracle's chapter
+ids, carry every question word the oracle pages carry, and answer the
+question (bench.sibling_match). Integer items pass one more screen first,
 naive_arithmetic: the gold must not be reachable by combining the integers
-printed in the question with ordinary +, - and *. A model that reads an
-invented glyph as plus or times and skips the modular reduction would
-otherwise land some level one answers closed book, which is a leak of prior
-knowledge rather than of the pages, and rule 1 of the pilot would read it as
-a broken guard. And an item the hedging canary answers (an algebra extension
-that holds of every object, so naming all of them is the gold) is dropped,
-because the strict grader cannot tell knowing from hedging on it.
+printed in the question with real operators (+ - * % / ^ & | and |a - b|).
+A model that reads an invented glyph as one of those and skips the modular
+reduction would otherwise land some answers closed book, which is a leak of
+prior knowledge rather than of the pages, and rule 1 of the pilot would read
+it as a broken guard. And an item the hedging canary answers (an algebra
+extension that holds of every object, so naming all of them is the gold) is
+dropped, because the strict grader cannot tell knowing from hedging on it.
 
 Rule families pose their fallback case far more often than their stated case,
 so their gold labels are balanced: each label is capped at an equal share of
@@ -35,6 +41,7 @@ range [0, chunks * episode_stride), and the derived episode seed range
 base * 1,000,003 plus that index range.
 
   python -m src.pilot.items --manifests /mnt/nvme/pilot/data-manifests \\
+      --floor-table /mnt/nvme/pilot/items/floor_table.json \\
       --out /mnt/nvme/pilot/items/items.jsonl
 """
 
@@ -42,9 +49,9 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import itertools
 import json
 import os
+import re
 import subprocess
 import time
 from collections import Counter, defaultdict
@@ -131,36 +138,55 @@ def check_seed_ranges(seed_ranges: dict, ranges: list[dict]) -> list[str]:
 # --------------------------------------------------------------------------
 # the naive-arithmetic screen
 # --------------------------------------------------------------------------
-def _combos(nums: list[int]) -> set[int]:
-    """Every value reachable from the numbers with +, - and *, each used once."""
-    if len(nums) == 1:
-        return {nums[0]}
-    out: set[int] = set()
-    for i, j in itertools.permutations(range(len(nums)), 2):
-        rest = [nums[k] for k in range(len(nums)) if k not in (i, j)]
-        a, b = nums[i], nums[j]
-        for v in (a + b, a - b, a * b):
-            out |= _combos(rest + [v])
-    return out
+# Every glyph in skillacq.systems.GLYPHS that is also a real operator gets
+# its ordinary reading here: + - * for arithmetic, % as remainder, / as
+# whole division, ^ as a power (and as exclusive or), & and | as bitwise
+# and/or, and | also as the absolute difference |a - b|.
+_POW_MAX_EXP = 4
+_VALUE_CAP = 10 ** 7
+
+
+def _apply_ops(a: int, b: int) -> set[int]:
+    out = {a + b, a - b, a * b, abs(a - b), a & b, a | b, a ^ b}
+    if b != 0:
+        out.add(a % b)
+        out.add(a // b)
+    if 0 <= b <= _POW_MAX_EXP and abs(a) <= 10 ** 4:
+        out.add(a ** b)
+    return {v for v in out if abs(v) <= _VALUE_CAP}
 
 
 def naive_values(text: str) -> set[int]:
-    import re
+    """Every value reachable from the question's integers with real operators.
 
-    nums = [int(v) for v in re.findall(r"(?<![\w.])-?\d+(?![\w])", text)]
+    Any subset of the first four integers, combined in any order and any
+    bracketing (a dynamic programme over index subsets), each number used
+    at most once.
+    """
+    nums = [int(v) for v in re.findall(r"(?<![\w.])-?\d+(?![\w])", text)][:4]
     if not nums:
         return set()
-    nums = nums[:4]
-    out: set[int] = set(nums)
-    for r in range(2, len(nums) + 1):
-        for sub in itertools.combinations(nums, r):
-            out |= _combos(list(sub))
+    vals: dict[int, set[int]] = {1 << i: {v} for i, v in enumerate(nums)}
+    full = (1 << len(nums)) - 1
+    for mask in sorted(range(1, full + 1), key=lambda m: bin(m).count("1")):
+        if mask in vals:
+            continue
+        acc: set[int] = set()
+        sub = (mask - 1) & mask
+        while sub:
+            rest = mask ^ sub
+            for a in vals[sub]:
+                for b in vals[rest]:
+                    acc |= _apply_ops(a, b)
+            sub = (sub - 1) & mask
+        vals[mask] = acc
+    out: set[int] = set()
+    for v in vals.values():
+        out |= v
     return out
 
 
 def naive_screen(p) -> str | None:
-    import re
-
     if not re.fullmatch(r"-?\d+", p.answer.strip()):
         return None
     if int(p.answer) in naive_values(p.text):
@@ -183,7 +209,7 @@ def _answer_fields(family: str, p, universe) -> dict:
     if family == "refuniverse":
         m = universe.p.modulus
         return {"answer_kind": "int", "candidates": None, "answer_space": m,
-                "floor": 1.0 / m, "modulus": m}
+                "floor_space": 1.0 / m, "modulus": m}
     if family == "algebra":
         from src.mathgen.exercises import GUESS_SPACE
 
@@ -192,21 +218,131 @@ def _answer_fields(family: str, p, universe) -> dict:
         space = GUESS_SPACE[kind](s)
         if kind == "count":
             return {"answer_kind": "int", "candidates": None,
-                    "answer_space": space, "floor": 1.0 / space,
-                    "algebra_kind": kind}
+                    "answer_space": space, "floor_space": 1.0 / space,
+                    "algebra_kind": kind, "modulus": None}
         return {"answer_kind": "names", "candidates": list(s.elements),
-                "answer_space": space, "floor": 1.0 / space,
-                "algebra_kind": kind}
+                "answer_space": space, "floor_space": 1.0 / space,
+                "algebra_kind": kind, "modulus": None}
     cands = p.meta.get("candidates")
     space = p.meta["answer_space"]
     if cands:
         return {"answer_kind": "names", "candidates": cands,
-                "answer_space": len(cands), "floor": 1.0 / len(cands)}
+                "answer_space": len(cands), "floor_space": 1.0 / len(cands),
+                "modulus": None}
     return {"answer_kind": "int", "candidates": None, "answer_space": space,
-            "floor": 1.0 / space}
+            "floor_space": 1.0 / space,
+            "modulus": getattr(universe.system, "modulus", None) or None}
 
 
-def item_record(family: str, p, universe, sibling) -> dict:
+# --------------------------------------------------------------------------
+# floors
+# --------------------------------------------------------------------------
+# An integer item's floor is the larger of two rates: one over its answer
+# space, and the rate of the best single answer across a pool of items the
+# same pipeline (generator, guard, controls, screen) emits from seeds kept
+# for that purpose. The pool rate is what a reader who has never seen the
+# item's pages can reach by always giving the commonest gold of the item's
+# level or question kind; one over the modulus is far below it wherever the
+# generator's answers are not uniform (a conductor is an orbit length, a
+# tied argmax is often 0 or 1). The pool is read by bucket:
+#
+#   refuniverse|L<level>          every refuniverse level
+#   algebra|L<level>|count        algebra count questions
+#   binary_op|<kind>              direct, nested and solve_for questions
+#
+# A names item's floor is one over its answer space where the candidate
+# names can be read. Where the prompt does not show every gold name (closed
+# book, and blank pages, for every names item in this set: the guard keeps
+# the gold out of the question), no reader that has not seen the pages can
+# produce the gold, so the floor in those two conditions is zero.
+FLOOR_FAMILIES = ("refuniverse", "algebra", "binary_op")
+FLOOR_SEED_BASE = {"refuniverse": 945_000_000, "algebra": 946_000_000,
+                   "binary_op": 947_000_000}
+FLOOR_POOL_UNIVERSES = {"refuniverse": 3000, "algebra": 400, "binary_op": 1500}
+
+
+def floor_bucket(family: str, level, answer_kind: str, meta: dict) -> str | None:
+    if answer_kind != "int":
+        return None
+    if family == "refuniverse":
+        return f"refuniverse|L{level}"
+    if family == "algebra":
+        return f"algebra|L{level}|{meta.get('answer_kind')}"
+    if family == "binary_op":
+        return f"binary_op|{meta.get('kind')}"
+    return None
+
+
+def _family_build(family: str):
+    """(universe module, universe kwargs, levels, per_level) for a family."""
+    if family == "refuniverse":
+        return None, {"int_answers": True}, tuple(range(1, 9)), 1
+    if family == "algebra":
+        return "src.mathgen.adapter", {}, (2, 3, 4, 5), ALGEBRA_PER_LEVEL
+    return "src.pilot.skills", {"family": family}, (1,), SKILL_CANDIDATES
+
+
+def compute_floor_table(n_universes: dict | None = None,
+                        families=FLOOR_FAMILIES) -> dict:
+    """The best-single-answer rate per bucket, over a pool of guarded items."""
+    n_universes = {**FLOOR_POOL_UNIVERSES, **(n_universes or {})}
+    counts: dict = defaultdict(Counter)
+    seeds: dict = {}
+    for fam in families:
+        module, kwargs, levels, per_level = _family_build(fam)
+        if fam == "algebra":
+            per_level = 50          # every guarded exercise of the level
+        base = FLOOR_SEED_BASE[fam]
+        seeds[fam] = [base, base + n_universes[fam]]
+        for seed in range(base, base + n_universes[fam]):
+            ps = build_problem_set([seed], per_level=per_level, levels=levels,
+                                   universe_module=module, rng_seed=seed,
+                                   controls=("sibling", "blank"),
+                                   screen=naive_screen, universe_kwargs=kwargs)
+            for p in ps.problems:
+                if not re.fullmatch(r"-?\d+", p.answer.strip()):
+                    continue
+                key = floor_bucket(fam, p.level, "int", p.meta)
+                if key:
+                    counts[key][str(int(p.answer))] += 1
+    table = {}
+    for key, c in sorted(counts.items()):
+        n = sum(c.values())
+        mode, top = min(c.items(), key=lambda kv: (-kv[1], int(kv[0])))
+        table[key] = {"n": n, "mode": mode, "rate": top / n,
+                      "n_distinct": len(c)}
+    return {"buckets": table, "seed_ranges": seeds,
+            "pool_universes": {f: n_universes[f] for f in families}}
+
+
+def _gold_visible(rec: dict, cond: str) -> bool:
+    prompt = rec["prompts"][cond].lower()
+    golds = [g.strip().lower() for g in rec["answer"].split(",") if g.strip()]
+    return all(re.search(rf"(?<![\w]){re.escape(g)}(?![\w])", prompt)
+               for g in golds)
+
+
+def item_floors(rec: dict, floor_table: dict | None) -> dict:
+    """Per-condition floors, and what they were made from."""
+    key = floor_bucket(rec["family"], rec["level"], rec["answer_kind"],
+                       rec["meta"])
+    best = None
+    if key and floor_table:
+        entry = floor_table.get("buckets", {}).get(key)
+        best = entry["rate"] if entry else None
+    open_floor = max(rec["floor_space"], best or 0.0)
+    floors = {"oracle": open_floor, "sibling": open_floor}
+    for cond in ("closed_book", "blank"):
+        if rec["answer_kind"] == "names" and not _gold_visible(rec, cond):
+            floors[cond] = 0.0
+        else:
+            floors[cond] = open_floor
+    return {"floor": open_floor, "floors": floors, "floor_bucket": key,
+            "floor_best_constant": best}
+
+
+def item_record(family: str, p, universe, sibling,
+                floor_table: dict | None = None) -> dict:
     prompts = {
         "closed_book": prompt_closed_book(p),
         "oracle": prompt_oracle(p, universe),
@@ -238,6 +374,7 @@ def item_record(family: str, p, universe, sibling) -> dict:
         "meta": _json_safe(p.meta),
     }
     rec.update(_answer_fields(family, p, universe))
+    rec.update(item_floors(rec, floor_table))
     return rec
 
 
@@ -262,7 +399,8 @@ def _label(rec: dict):
 
 def _fill(family: str, quota: dict, base: int, module: str | None,
           kwargs: dict, per_level: int, max_seeds: int,
-          per_universe: int | None = None, balance_labels: bool = False):
+          per_universe: int | None = None, balance_labels: bool = False,
+          floor_table: dict | None = None):
     """Draw universes from base upward until every level's quota is met.
 
     Each universe is asked only for the levels still short, so a level whose
@@ -304,7 +442,7 @@ def _fill(family: str, quota: dict, base: int, module: str | None,
             if per_universe is not None and took >= per_universe:
                 break
             sib = ps.siblings.get(p.problem_id) or sibling_of(u, 1)
-            rec = item_record(family, p, u, sib)
+            rec = item_record(family, p, u, sib, floor_table)
             # An item whose gold is every candidate at once (an algebra
             # extension that holds of every object) is answered by the
             # hedging canary, so the strict grader cannot tell knowing from
@@ -332,7 +470,10 @@ def _fill(family: str, quota: dict, base: int, module: str | None,
     return items, discards, used_seeds, (base, seed)
 
 
-def build_items(smoke: bool = False, families=None) -> dict:
+def build_items(smoke: bool = False, families=None,
+                floor_table: dict | None = None) -> dict:
+    """The item set. floor_table comes from compute_floor_table; without
+    one, integer floors are one over the answer space alone."""
     quota = SMOKE_QUOTA if smoke else FULL_QUOTA
     offset = SMOKE_OFFSET if smoke else 0
     families = families or list(quota)
@@ -342,17 +483,18 @@ def build_items(smoke: bool = False, families=None) -> dict:
         if fam == "refuniverse":
             items, disc, used, rng_ = _fill(
                 fam, quota[fam], base, None, {"int_answers": True},
-                per_level=1, max_seeds=2000)
+                per_level=1, max_seeds=2000, floor_table=floor_table)
         elif fam == "algebra":
             items, disc, used, rng_ = _fill(
                 fam, quota[fam], base, "src.mathgen.adapter", {},
-                per_level=ALGEBRA_PER_LEVEL, max_seeds=2000)
+                per_level=ALGEBRA_PER_LEVEL, max_seeds=2000,
+                floor_table=floor_table)
         else:
             items, disc, used, rng_ = _fill(
                 fam, quota[fam], base, "src.pilot.skills", {"family": fam},
                 per_level=SKILL_CANDIDATES, max_seeds=2000,
                 per_universe=SKILL_PER_UNIVERSE,
-                balance_labels=fam != "binary_op")
+                balance_labels=fam != "binary_op", floor_table=floor_table)
         out["items"].extend(items)
         out["discards"][fam] = {k: dict(v) for k, v in disc.items()}
         out["seeds_used"][fam] = used
@@ -361,12 +503,15 @@ def build_items(smoke: bool = False, families=None) -> dict:
 
 
 def summarize(items: list[dict]) -> dict:
-    cells: dict = defaultdict(lambda: {"n": 0, "floor_sum": 0.0})
+    cells: dict = defaultdict(lambda: {"n": 0, "floor_sum": 0.0,
+                                       "closed_sum": 0.0})
     for it in items:
         key = f"{it['family']}|{it['level']}"
         cells[key]["n"] += 1
         cells[key]["floor_sum"] += it["floor"]
-    return {k: {"n": v["n"], "mean_floor": round(v["floor_sum"] / v["n"], 5)}
+        cells[key]["closed_sum"] += it["floors"]["closed_book"]
+    return {k: {"n": v["n"], "mean_floor": round(v["floor_sum"] / v["n"], 5),
+                "mean_closed_book_floor": round(v["closed_sum"] / v["n"], 5)}
             for k, v in sorted(cells.items())}
 
 
@@ -378,7 +523,8 @@ def _git_head() -> str | None:
         return None
 
 
-def write_items(path: str, built: dict, manifest_dir: str, smoke: bool) -> dict:
+def write_items(path: str, built: dict, manifest_dir: str, smoke: bool,
+                floor_table: dict | None = None) -> dict:
     os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
     tmp = path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
@@ -399,6 +545,7 @@ def write_items(path: str, built: dict, manifest_dir: str, smoke: bool) -> dict:
         "manifest_dir": manifest_dir,
         "manifest_ranges": manifest_ranges(manifest_dir),
         "conditions": list(CONDITIONS),
+        "floor_table": floor_table,
         "git_head": _git_head(),
         "written_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
@@ -428,24 +575,40 @@ def main(argv=None) -> int:
     ap.add_argument("--smoke", action="store_true",
                     help="the small smoke set, from seeds offset by 5,000,000")
     ap.add_argument("--families", default=None)
+    ap.add_argument("--floor-table", required=True,
+                    help="json file of pool floors; computed and written "
+                         "there when it does not exist yet, read otherwise")
     args = ap.parse_args(argv)
 
     ranges = manifest_ranges(args.manifests)
     offset = SMOKE_OFFSET if args.smoke else 0
     planned = {f: (b + offset, b + offset + 2000) for f, b in SEED_BASE.items()}
+    planned.update({f"floor_pool_{f}": (b, b + FLOOR_POOL_UNIVERSES[f])
+                    for f, b in FLOOR_SEED_BASE.items()})
     clash = check_seed_ranges(planned, ranges)
     if clash:
         raise SystemExit("seed ranges overlap the training manifests:\n  "
                          + "\n  ".join(clash))
-    fams = args.families.split(",") if args.families else None
     t0 = time.time()
-    built = build_items(smoke=args.smoke, families=fams)
+    if os.path.exists(args.floor_table):
+        with open(args.floor_table) as fh:
+            floor_table = json.load(fh)
+    else:
+        floor_table = compute_floor_table()
+        os.makedirs(os.path.dirname(os.path.abspath(args.floor_table)),
+                    exist_ok=True)
+        with open(args.floor_table, "w") as fh:
+            json.dump(floor_table, fh, indent=1, sort_keys=True)
+        print(f"floor table computed in {time.time() - t0:.1f}s")
+    fams = args.families.split(",") if args.families else None
+    built = build_items(smoke=args.smoke, families=fams,
+                        floor_table=floor_table)
     clash = check_seed_ranges({f: tuple(r) for f, r in built["seed_ranges"].items()},
                               ranges)
     if clash:
         raise SystemExit("seeds used overlap the training manifests:\n  "
                          + "\n  ".join(clash))
-    man = write_items(args.out, built, args.manifests, args.smoke)
+    man = write_items(args.out, built, args.manifests, args.smoke, floor_table)
     print(json.dumps({k: man[k] for k in ("n_items", "cells", "universes_used",
                                           "seed_ranges_scanned",
                                           "items_sha256")}, indent=1))

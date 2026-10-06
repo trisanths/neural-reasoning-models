@@ -6,16 +6,24 @@ model for PopQA, all under --out:
     gen__<model>__think<0|1>.jsonl    one line per (item, condition)
     popqa__<model>.jsonl              one line per PopQA item
     throughput.jsonl                  wall time and token counts per batch
-    RUNNING.lock                      present while a model is running
+    run_log.jsonl                     one line per model: exit code, seconds,
+                                      mirror failures
+    RUNNING.lock                      present while the parent loop runs
+    RUNNING.<model>.lock              present while one model's child runs
 
 Resume. A record is keyed by (item_id, condition, prompt_hash); a rerun
 skips every key already on disk, so a crash costs at most one batch. A torn
 last line from a crash mid-write is cut off before appending. Records carry
-the sha256 of the items file they were made from, and the report refuses any
-record whose sha or prompt hash no longer matches.
+the sha256 of the items file they were made from, the git commit and the
+sha256 of the grader they were written under, and the report refuses any
+record whose sha or prompt hash no longer matches and any configuration
+whose records span more than one commit.
 
 Mirror. After every batch the file just written is copied to the --s3
-prefix, so the box can disappear without losing more than a batch.
+prefix, so the box can disappear without losing more than a batch. After
+each model the parent copies every records file and run_log.jsonl once
+more; a failed copy is counted, written to run_log.jsonl, and makes the
+parent exit non-zero with a summary line.
 
 Each model runs in its own subprocess, so the GPU is handed back in full
 between models.
@@ -89,6 +97,9 @@ def append_jsonl(path: str, recs: list[dict]) -> None:
         os.fsync(fh.fileno())
 
 
+MIRROR_FAILURES: list[str] = []
+
+
 def mirror(path: str, s3_prefix: str | None) -> bool:
     if not s3_prefix:
         return True
@@ -96,8 +107,41 @@ def mirror(path: str, s3_prefix: str | None) -> bool:
     r = subprocess.run(["aws", "s3", "cp", path, dest, "--only-show-errors"],
                        capture_output=True, text=True)
     if r.returncode != 0:
-        print(f"mirror failed for {path}: {r.stderr.strip()[:300]}", flush=True)
+        MIRROR_FAILURES.append(os.path.basename(path))
+        print(f"MIRROR FAILED for {path}: {r.stderr.strip()[:300]}", flush=True)
     return r.returncode == 0
+
+
+def mirror_all(out_dir: str, s3_prefix: str | None) -> list[str]:
+    """Copy every records and log file once more; the names that failed."""
+    failed = []
+    if not s3_prefix or not os.path.isdir(out_dir):
+        return failed
+    for name in sorted(os.listdir(out_dir)):
+        if name.endswith(".jsonl") and name.startswith(
+                ("gen__", "popqa__", "throughput", "run_log")):
+            if not mirror(os.path.join(out_dir, name), s3_prefix):
+                failed.append(name)
+    return failed
+
+
+def provenance() -> dict:
+    """The commit the code runs at, whether src/ differs from it, and the
+    grader's own hash, written into every record."""
+    def git(*a):
+        r = subprocess.run(["git", *a], cwd=REPO_ROOT, capture_output=True,
+                           text=True)
+        return r.stdout.strip() if r.returncode == 0 else None
+    import hashlib
+
+    from src.pilot import grade as grade_mod
+    with open(grade_mod.__file__, "rb") as fh:
+        grade_sha = hashlib.sha256(fh.read()).hexdigest()[:16]
+    dirty = git("status", "--porcelain", "--untracked-files=no", "--", "src",
+                "scripts")
+    return {"git_head": git("rev-parse", "HEAD"),
+            "git_dirty": bool(dirty) if dirty is not None else None,
+            "grade_sha": grade_sha}
 
 
 def select_items(items: list[dict], limit_per_cell: int | None) -> list[dict]:
@@ -114,15 +158,22 @@ def select_items(items: list[dict], limit_per_cell: int | None) -> list[dict]:
     return out
 
 
+_PROVENANCE: dict = {}
+
+
 def make_record(spec, thinking: bool, item: dict, cond: str, gen,
                 items_sha: str, decode: dict) -> dict:
     completion = spec.kind == "base"
     g = grade(gen.text, item, completion=completion)
+    if not _PROVENANCE:
+        _PROVENANCE.update(provenance())
+    floors = item.get("floors") or {}
     return {
         "model": spec.name, "hf_id": spec.hf_id, "kind": spec.kind,
         "thinking": thinking, "condition": cond,
         "item_id": item["item_id"], "family": item["family"],
-        "level": item["level"], "floor": item["floor"],
+        "level": item["level"], "floor": floors.get(cond, item["floor"]),
+        **_PROVENANCE,
         "answer": item["answer"], "answer_kind": item["answer_kind"],
         "prompt_hash": item["prompt_hashes"][cond], "items_sha": items_sha,
         "raw": gen.raw, "text": gen.text, **g,
@@ -188,24 +239,39 @@ def run_popqa(backend, items: list[dict], out_dir: str, popqa_sha: str,
     repair_tail(path)
     done = {r["item_id"] for r in read_jsonl(path)}
     todo = [it for it in items if it["item_id"] not in done]
+    if not _PROVENANCE:
+        _PROVENANCE.update(provenance())
     t_all = 0.0
     for start in range(0, len(todo), batch_size):
         chunk = todo[start:start + batch_size]
-        pairs = [p for it in chunk for p in pairs_of(it)]
+        pairs = []
+        for it in chunk:
+            pairs += pairs_of(it)
+            if it.get("masked_question"):
+                pairs += pairs_of(it, masked=True)
         t0 = time.time()
         stats = backend.loglik(pairs)
         dt = time.time() - t0
         t_all += dt
         recs = []
-        for k, it in enumerate(chunk):
-            s = score_item(it, stats[k * len(it["options"]):(k + 1) * len(it["options"])])
+        pos = 0
+        for it in chunk:
+            k = len(it["options"])
+            real = stats[pos:pos + k]
+            pos += k
+            masked = None
+            if it.get("masked_question"):
+                masked = stats[pos:pos + k]
+                pos += k
+            s = score_item(it, real, masked)
             recs.append({"model": spec.name, "hf_id": spec.hf_id,
                          "kind": spec.kind, "item_id": it["item_id"],
                          "quartile": it["quartile"], "prop": it["prop"],
                          "s_pop": it["s_pop"], "floor": it["floor"],
                          "gold_index": it["gold_index"], **s,
                          "context_hash": prompt_hash(context_of(it)),
-                         "popqa_sha": popqa_sha, "written_utc": _utc()})
+                         "popqa_sha": popqa_sha, **_PROVENANCE,
+                         "written_utc": _utc()})
         append_jsonl(path, recs)
         mirror(path, s3)
         append_jsonl(os.path.join(out_dir, "throughput.jsonl"), [{
@@ -275,7 +341,7 @@ def _child(args) -> int:
 
     spec = MODELS[args.models]
     os.makedirs(args.out, exist_ok=True)
-    lock = os.path.join(args.out, "RUNNING.lock")
+    lock = os.path.join(args.out, f"RUNNING.{spec.name}.lock")
     with open(lock, "w") as fh:
         json.dump({"pid": os.getpid(), "model": spec.name, "since": _utc()}, fh)
     backend = None
@@ -309,6 +375,9 @@ def _child(args) -> int:
             p = os.path.join(args.out, name)
             if os.path.exists(p):
                 mirror(p, args.s3)
+        if MIRROR_FAILURES:
+            print(f"MIRROR FAILURES in this child: {len(MIRROR_FAILURES)} "
+                  f"({sorted(set(MIRROR_FAILURES))})", flush=True)
     return 0
 
 
@@ -354,24 +423,49 @@ def main(argv=None) -> int:
     if unknown:
         raise SystemExit(f"unknown models {unknown}; known {list(MODELS)}")
     os.makedirs(args.out, exist_ok=True)
-    failures = []
-    for name in names:
-        cmd = [sys.executable, "-m", "src.pilot.runner", "--child",
-               "--models", name] + [a for a in _passthrough(argv)]
-        t0 = time.time()
-        print(f"== {name} start {_utc()}", flush=True)
-        rc = subprocess.run(cmd, cwd=REPO_ROOT).returncode
-        reap_engines()
-        print(f"== {name} exit {rc} after {time.time() - t0:.0f}s", flush=True)
-        append_jsonl(os.path.join(args.out, "run_log.jsonl"), [{
-            "model": name, "exit": rc, "seconds": round(time.time() - t0, 1),
-            "written_utc": _utc()}])
-        if rc != 0:
-            failures.append(name)
+    # The run-level lock: held for the whole loop, so a report cannot be
+    # built between two models. A parent killed outright leaves it behind;
+    # remove it by hand after checking nothing is running.
+    run_lock = os.path.join(args.out, "RUNNING.lock")
+    with open(run_lock, "w") as fh:
+        json.dump({"pid": os.getpid(), "models": names, "since": _utc()}, fh)
+    failures, mirror_failed = [], []
+    try:
+        for name in names:
+            cmd = [sys.executable, "-m", "src.pilot.runner", "--child",
+                   "--models", name] + [a for a in _passthrough(argv)]
+            t0 = time.time()
+            print(f"== {name} start {_utc()}", flush=True)
+            rc = subprocess.run(cmd, cwd=REPO_ROOT).returncode
+            reap_engines()
+            print(f"== {name} exit {rc} after {time.time() - t0:.0f}s", flush=True)
+            failed = mirror_all(args.out, args.s3)
+            append_jsonl(os.path.join(args.out, "run_log.jsonl"), [{
+                "model": name, "exit": rc, "seconds": round(time.time() - t0, 1),
+                "mirror_failed": failed, "written_utc": _utc()}])
+            failed += mirror_all_log(args.out, args.s3)
+            mirror_failed += failed
+            if rc != 0:
+                failures.append(name)
+    finally:
+        if os.path.exists(run_lock):
+            os.remove(run_lock)
+    rc = 0
     if failures:
         print(f"models that failed: {failures}", flush=True)
-        return 1
-    return 0
+        rc = 1
+    if mirror_failed:
+        print(f"MIRROR FAILED for {sorted(set(mirror_failed))}: the records "
+              f"are on this box only until they are copied by hand", flush=True)
+        rc = rc or 4
+    return rc
+
+
+def mirror_all_log(out_dir: str, s3_prefix: str | None) -> list[str]:
+    p = os.path.join(out_dir, "run_log.jsonl")
+    if os.path.exists(p) and not mirror(p, s3_prefix):
+        return ["run_log.jsonl"]
+    return []
 
 
 def _passthrough(argv) -> list[str]:

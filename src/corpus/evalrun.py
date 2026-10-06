@@ -175,10 +175,17 @@ def cmd_mc(args) -> int:
                 if len(cands) < 2:
                     continue
                 ctx = build_prompt(ep, q, tok) + [sid["<|a|>"]]
-                best, nlls = score_mc(model, tok, ctx, cands, device)
+                # One seed per question (as src/evals/heldout.py does), so
+                # option order and tie breaks are not the same draw on every
+                # item. The choice is by mean NLL per option token
+                # (src/evals/mc.py); rows say so, because before that change
+                # this command chose by summed NLL with ties to index zero.
+                best, nlls = score_mc(model, tok, ctx, cands, device,
+                                      seed=1_000_003 * line_no + n)
                 row = {k: v for k, v in q.items() if k != "text"}
                 row.update({
-                    "decode": "mc", "ep": line_no, "qid": q.get("qid"),
+                    "decode": "mc", "mc_rule": "mean_nll_seeded",
+                    "ep": line_no, "qid": q.get("qid"),
                     "question": q["text"], "gold": q["answer"],
                     "choice": cands[best], "nlls": [round(v, 4) for v in nlls],
                     "context_tokens": len(ctx),

@@ -476,13 +476,44 @@ def build_problem_set(seeds, per_level: int = 4, levels=LEVELS,
     return ProblemSet(kept, universes, report_discards, baselines, siblings)
 
 
+def sibling_match(p: Problem, universe, sibling) -> str | None:
+    """Whether a sibling's pages are a matched control for one problem.
+
+    The oracle minus sibling gap is read as the value of the right
+    definitions, so the sibling has to differ from the oracle in what its
+    pages define and in nothing a shallow reader could use. Three checks,
+    each returning its name on failure:
+
+      sibling_slots   the sibling serves exactly the oracle's chapter ids,
+                      in the same order;
+      sibling_terms   every word of the question that the oracle pages
+                      contain also appears on the sibling pages, so a reader
+                      that finds the asked-about word and copies a nearby
+                      name has the same handle in both conditions;
+      sibling_silent  the rival system answers the question at all.
+    """
+    wanted = required_chapters(p, universe)
+    served = served_sibling(p, universe, sibling)
+    if [c["chapter_id"] for c in served] != wanted:
+        return "sibling_slots"
+    q_terms = {t for t in norm_terms(p.text) if t.isalpha()}
+    oracle_terms = set(norm_terms(" ".join(c["text"] for c in
+                                           served_oracle(p, universe))))
+    sib_terms = set(norm_terms(" ".join(c["text"] for c in served)))
+    if (q_terms & oracle_terms) - sib_terms:
+        return "sibling_terms"
+    if sibling.reference_answer(p) is None:
+        return "sibling_silent"
+    return None
+
+
 def guard_controls(guard: Guard, universe, p: Problem, controls,
                    max_sibling_offsets: int = 4):
     """Run check_served for each control. Returns (failed_check, sibling).
 
     For the sibling control the offsets are tried in order and the first
-    sibling that passes is returned. If none passes, the failure reported is
-    the one from the last offset tried.
+    sibling that passes both check_served and sibling_match is returned. If
+    none passes, the failure reported is the one from the last offset tried.
     """
     sib_used = None
     for cond in controls:
@@ -500,10 +531,15 @@ def guard_controls(guard: Guard, universe, p: Problem, controls,
                 v = guard.check_served(p, "sibling",
                                        served_sibling(p, universe, sib),
                                        sib.reference_answer(p))
-                if v.ok:
-                    sib_used = sib
-                    break
-                last = v.failed
+                if not v.ok:
+                    last = v.failed
+                    continue
+                mismatch = sibling_match(p, universe, sib)
+                if mismatch:
+                    last = mismatch
+                    continue
+                sib_used = sib
+                break
             if sib_used is None:
                 return f"sibling:{last}", None
         else:

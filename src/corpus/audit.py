@@ -313,6 +313,9 @@ RESERVED_SEED_RANGES = {
     "falsify_template_vocab_new": (5_500_000, 5_501_000),
     "audit_twin_worlds": (700_000_000, 700_100_000),
     "opgraph_eval_worlds": (900_000_000, 906_100_000),
+    # src/pilot/items.py: the acquisition pilot's items (910M-934M), its
+    # smoke set (5M above those) and its floor pools (945M-948M).
+    "pilot_acq_items_and_floor_pools": (910_000_000, 950_000_000),
     "worldgen_heldout_index": (1_000_000_000, 1 << 62),
 }
 
