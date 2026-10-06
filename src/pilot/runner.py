@@ -98,6 +98,10 @@ def append_jsonl(path: str, recs: list[dict]) -> None:
 
 
 MIRROR_FAILURES: list[str] = []
+PILOT_CODE_PATHS = ("src/pilot", "src/mathgen", "src/skillacq", "src/evals",
+                    "src/extern", "scripts/pilot_run.py",
+                    "scripts/pilot_report.py", "scripts/pilot_items.py",
+                    "scripts/pilot_popqa.py")
 
 
 def mirror(path: str, s3_prefix: str | None) -> bool:
@@ -137,8 +141,10 @@ def provenance() -> dict:
     from src.pilot import grade as grade_mod
     with open(grade_mod.__file__, "rb") as fh:
         grade_sha = hashlib.sha256(fh.read()).hexdigest()[:16]
-    dirty = git("status", "--porcelain", "--untracked-files=no", "--", "src",
-                "scripts")
+    # Only the code the pilot imports or runs; an unrelated local edit
+    # elsewhere in src/ says nothing about these records.
+    dirty = git("status", "--porcelain", "--untracked-files=no", "--",
+                *PILOT_CODE_PATHS)
     return {"git_head": git("rev-parse", "HEAD"),
             "git_dirty": bool(dirty) if dirty is not None else None,
             "grade_sha": grade_sha}
