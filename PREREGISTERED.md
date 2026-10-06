@@ -767,3 +767,180 @@ that reads as the rule lacking power at these sample sizes rather than as a
 leak, though the verdict line still reports rule 1 as failed. Any amendment to
 the rule is the owner's decision and gets its own dated entry here before it
 is applied.
+
+### Amendment 1, 2026-10-06, before any record from the item set was scored
+
+Made on the owner's go-ahead to fix the blocking and major findings of two
+reviews of the instrument, before the full run. No record from the item set
+registered above, or from the one below, had been written when this was
+committed. The text above stands as first registered; where this entry
+conflicts with it, this entry governs. The v1 item and PopQA files stay on the
+box and are not used.
+
+#### What the reviews found
+
+- Rule 1 as written cannot pass. At n = 50 the Wilson upper bound of zero
+  correct is 0.071, above the binary_op threshold of 0.051, so every
+  configuration failed binary_op whatever it answered. The paragraph "A
+  property of rule 1" above missed this.
+- The refuniverse floors were too low where the answers are not uniform. A
+  level 5 answer is an orbit length (27 distinct golds, 83% below 20), level
+  8 breaks ties to the smallest reading (gold 1 on 7 of 100 items, gold 0 on
+  3), and level 7's answer is the larger of two stable readings. A model
+  guessing small numbers would have failed rule 1 with no leak.
+- The floors of the names cells (algebra objects, rule-family labels) assumed
+  the candidate names were visible. In closed book and blank they are not,
+  so those cells could not fail: a blank-condition leak of 19 in 50 on the
+  threshold and exception rules would have passed. The high-floor analysis
+  in "A property of rule 1" is wrong for the same reason.
+- PopQA distractors were drawn uniformly from a relation's distinct objects
+  while golds follow the skewed object distribution, so a reader that picks
+  the commonest kind of answer, ignoring the subject, scored 0.32 (0.39 in
+  the lowest popularity quartile).
+- The algebra sibling often served other chapter ids than the oracle, in
+  some items lacked the very word the question asks about, and gave no
+  answer at all on 30 of 110 level 5 items, which would inflate oracle minus
+  sibling.
+- The report could print a verdict from a partial run, and a missing or
+  partial PopQA file read as a failed rule 2 rather than as not reached.
+
+#### Rule 1, amended
+
+(1) Validity: for every configuration (each model with each of its thinking
+modes, 12 in all) and every cell (16 per configuration), in the closed-book
+and the blank condition separately, let k be the number of strictly correct
+answers among the cell's n items and f_i the items' floors in that
+condition. Compute p = P[X >= k], where X counts the successes of independent
+trials with success probabilities min(1, f_i + 0.03). Apply Holm's step-down
+procedure at family-wise level 0.05 across all 384 closed-book and blank
+cells. If any cell is rejected, the guard leaks: fix it and spend nothing
+else.
+
+This keeps the registered tolerance of 0.03 and moves the burden of proof: a
+cell fails when its count is too high for a reader 0.03 above its floors,
+rather than passing only when the count is low enough to bound accuracy
+within 0.03 of the floor. The registered Wilson form is still computed and
+printed for every cell, without gating, beside the exact p with and without
+the 0.03.
+
+What the amended rule can see, on the item file below: the smallest count
+that fails a cell (when it is the cell with the smallest p) is 14 or 15 of
+100 for refuniverse levels 1 to 4 and 6, 16 for level 7, 21 for level 8 and
+23 for level 5; 12 to 17 of 110 for the algebra levels; 11 of 50 for
+binary_op; 8 of 50 for each rule family. A reader that sits exactly on its
+floors fails with probability at most 0.05 by construction. The tests check
+that a reader that gets everything wrong passes on this item file, that
+readers at their floors pass in at least 19 of 20 simulated runs, and that a
+30% leak in one cell fails.
+
+#### Floors
+
+Every item now carries a floor per condition (`floors` in the item file).
+
+- Integer items: the larger of one over the answer space and the rate of the
+  best single answer in a pool of items emitted by the same pipeline
+  (generator, guard, controls and screen) from seeds kept for the purpose:
+  3,000 refuniverse universes from 945,000,000, 400 algebra universes from
+  946,000,000, 1,500 binary_op systems from 947,000,000. The pool is read by
+  bucket: refuniverse level, algebra level for count questions, binary_op
+  question kind. Bucket rates: refuniverse levels 1 to 4 and 6 between 0.014
+  and 0.015, level 5 0.069 (mode 8), level 7 0.023, level 8 0.053 (mode 0);
+  algebra counts 0.39, 0.44 and 0.55 at levels 3, 4 and 5; binary_op direct
+  0.010, nested 0.008, solve_for 0.094. The table is
+  `/mnt/nvme/pilot/items/floor_table_v2.json`, sha256
+  `6744fb03e7562440b2715decbc6b77a8e42a49ca0d094a43730ec696fbd9f3df`,
+  computed by the code of commit c1a883d (the pool screen did not change
+  after it). Sampling noise makes the pool rate of a near-uniform level
+  slightly high (0.014 against about 0.009 for one over the modulus), which
+  errs toward passing a cell, not failing it.
+- Names items: one over the answer space where every gold name can be read
+  in the prompt; zero where it cannot. No item prints its whole gold in the
+  question (see gold_in_question below), so in closed book and blank the
+  floor of every names item is zero.
+
+The report prints each cell's floor in that condition and, beside it, the
+share of the cell's commonest gold (the best constant answer on these very
+items).
+
+#### The instrument, rebuilt
+
+Item file `/mnt/nvme/pilot/items/items_v2.jsonl`, sha256
+`00111fb53a14a86c84431f0746bc72fe817e27764107b059e4003963360612e1`, 1,440
+items in the same cells and quotas as before, written by `python -m
+src.pilot.items` at commit 1e16d03 with its manifest beside it; a build under
+PYTHONHASHSEED 7 is byte identical. Mirrored to
+`s3://decoupled-reasoner-009398924577/runs/pilot-acq/items/`. Smoke set
+`/mnt/nvme/pilot/smoke/items_smoke_v2.jsonl`, sha256
+`ce33ea70321732ba22a0102ae614c4f779f6fe9596afc35413b9bb25dd8b845b`, from seeds
+5,000,000 above.
+
+| cell | n | universes | mean floor, oracle and sibling | mean floor, closed book and blank |
+| --- | ---: | ---: | ---: | ---: |
+| refuniverse L1, L2, L3, L4, L6 | 100 each | 121 in all | 0.014 to 0.015 | the same |
+| refuniverse L5 | 100 | | 0.069 | 0.069 |
+| refuniverse L7 | 100 | | 0.023 | 0.023 |
+| refuniverse L8 | 100 | | 0.053 | 0.053 |
+| algebra L2, L3, L4, L5 | 110 each | 91 | 0.155, 0.115, 0.070, 0.244 | 0, 0.021, 0.008, 0.035 |
+| binary_op | 50 | 25 | 0.026 | 0.026 |
+| threshold_rule | 50 | 38 | 0.5 | 0 |
+| substitution_rule | 50 | 26 | 0.2 | 0 |
+| exception_rule | 50 | 25 | 0.5 | 0 |
+
+Changes to how items are admitted:
+
+- The sibling control must serve exactly the oracle's chapter ids, carry
+  every word of the question that the oracle pages carry, and answer the
+  question (`bench.sibling_match`). The algebra build refused 330 candidates
+  for the slots, 38 for the words and 29 for a silent sibling, and drew 91
+  universes instead of 72. In the new file every sibling fills the oracle's
+  slots and answers; algebra sibling-to-oracle page length runs 0.75 to 1.53.
+- The naive-arithmetic screen reads every glyph that is also a real
+  operator: + - * % / ^ & |, and | as an absolute difference, over any
+  subset and bracketing of the question's first four integers. It refused
+  283 refuniverse and 23 binary_op candidates.
+- gold_in_question, new: a names item whose every gold name is printed in
+  the question is refused. An algebra "which x satisfy x ~ a = b" whose
+  solutions are a and b is answered closed book by copying the question's
+  names, and the guard's whole-answer check missed lists; 7 such items were
+  in the first rebuild. It refused 19 algebra and 1 substitution_rule
+  candidates.
+
+PopQA forced choice: `/mnt/nvme/pilot/items/popqa_fc_v2.jsonl`, sha256
+`4acfc9681eedabf84440720b4f31ac6eb17bba87ce235c136f4e20c5387ee2ea`, 1,000
+items, 250 per s_pop quartile (edges 235, 975, 5785) as before. Distractors
+are now chosen so that the gold's rank among the four options by object
+frequency in its relation (leave-one-out, ties excluded) is balanced: ranks
+0 to 3 hold 251, 249, 248 and 252 items. The question-free frequency reader
+scores 0.251 overall and 0.248 to 0.252 per quartile. No relation has more
+than 40 items in a band (genre 160, screenwriter 105, country 103, down to
+color 6). Each item also carries its question with the subject replaced by
+X; every model is scored on that too, and the report prints the masked
+accuracy beside the margin. Rule 2's margin is still accuracy minus 0.25;
+the masked score does not gate.
+
+#### Grading and the report
+
+- An int answer line loses a "mod M" clause only when M is the item's own
+  modulus; any other number in a mod clause counts as a second answer.
+- The report regrades every stored reply from its text with the grader as it
+  stands, and prints how many stored grades that overturned. Records carry
+  the git commit and the grader's hash; the report refuses a configuration
+  whose records span two commits unless told otherwise.
+- No verdict other than "not reached" is printed until all 12
+  configurations have every item in every condition and all 8 models have
+  every PopQA item. Models whose child exited non-zero are listed.
+- The verdict names the cells that cleared rule 2 and says so when every one
+  of them is a lookup rule family (threshold, substitution, exception). That
+  flag does not gate; whether a GO resting only on those cells should count
+  is the owner's call.
+- A base model's first line always counts as an answer line, so the report
+  also prints the rate of replies that name any candidate at all.
+
+#### Readings the owner should confirm
+
+These were interpretations in "How the rules are computed" above, and the
+reviews asked that they be confirmed here: the recorded comparison uses
+refuniverse levels 4 to 8 only, not algebra levels 4 and 5; "every model" in
+rule 1 includes the sampled thinking-on configurations; rule 3's "nothing at
+2B or below" means the three base models at or below 2B; and when both base
+candidates clear rule 2, the choice between them is left to the owner.
