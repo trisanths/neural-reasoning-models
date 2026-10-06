@@ -38,6 +38,29 @@ def test_naive_screen_catches_ordinary_arithmetic():
     assert naive_screen(P) is None
 
 
+def test_item_screen_drops_a_names_gold_printed_in_the_question():
+    from src.pilot.items import item_screen
+
+    class P:
+        text = "Which wrengels x satisfy x ~ hobnyr = lornhurn? List them all."
+        answer = "lornhurn, hobnyr"
+    assert item_screen(P) == "gold_in_question"
+    P.answer = "lornhurn, zelvor"
+    assert item_screen(P) is None
+    P.text, P.answer = "evaluate 3 & (4 # 5)", "27"
+    assert item_screen(P) == "naive_arithmetic"
+
+
+def test_no_item_prints_its_whole_gold_in_the_question(smoke_built):
+    from src.pilot.items import item_screen
+
+    class P:
+        pass
+    for it in smoke_built["items"]:
+        P.text, P.answer = it["question"], it["answer"]
+        assert item_screen(P) is None, it["item_id"]
+
+
 def test_naive_screen_reads_remainder_power_and_absolute_difference():
     class P:
         text = "In the Vor calculus, evaluate 7 % (75 | 17)."

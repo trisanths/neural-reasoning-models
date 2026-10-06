@@ -26,7 +26,9 @@ printed in the question with real operators (+ - * % / ^ & | and |a - b|).
 A model that reads an invented glyph as one of those and skips the modular
 reduction would otherwise land some answers closed book, which is a leak of
 prior knowledge rather than of the pages, and rule 1 of the pilot would read
-it as a broken guard. And an item the hedging canary answers (an algebra
+it as a broken guard. Names items pass gold_in_question: not every gold name
+may be printed in the question, or copying the question's names answers it
+closed book. And an item the hedging canary answers (an algebra
 extension that holds of every object, so naming all of them is the gold) is
 dropped, because the strict grader cannot tell knowing from hedging on it.
 
@@ -191,6 +193,26 @@ def naive_screen(p) -> str | None:
         return None
     if int(p.answer) in naive_values(p.text):
         return "naive_arithmetic"
+    return None
+
+
+def item_screen(p) -> str | None:
+    """naive_arithmetic, and gold_in_question: a names answer every one of
+    whose names is printed in the question (an algebra "which x satisfy
+    x ~ a = b" whose solutions are a and b) is answered closed book by
+    copying the question's names. The guard's answer_not_copyable check
+    compares the whole list to single words and misses it."""
+    failed = naive_screen(p)
+    if failed:
+        return failed
+    ans = p.answer.strip()
+    if re.fullmatch(r"-?\d+", ans):
+        return None
+    golds = [g.strip().lower() for g in ans.split(",") if g.strip()]
+    text = p.text.lower()
+    if golds and all(re.search(rf"(?<![\w]){re.escape(g)}(?![\w])", text)
+                     for g in golds):
+        return "gold_in_question"
     return None
 
 
@@ -430,7 +452,7 @@ def _fill(family: str, quota: dict, base: int, module: str | None,
         ps = build_problem_set([seed], per_level=per_level, levels=build_levels,
                                universe_module=module, rng_seed=seed,
                                controls=("sibling", "blank"),
-                               screen=naive_screen, universe_kwargs=kwargs)
+                               screen=item_screen, universe_kwargs=kwargs)
         _merge_discards(discards, ps)
         u = next(iter(ps.universes.values()))
         took = 0
