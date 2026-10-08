@@ -1,0 +1,27 @@
+src/extern: bench_summary regenerates, and refuses to write without the calibrated row
+
+The file is kept rather than deleted. The calibrated LFM2-350M configuration,
+0.4300 completion with a bos token, is the baseline every external comparison
+on this project rests on, and this is the only generated place the three
+LFM2-350M MMLU configurations sit in one table with their record files named
+beside them. Deleting it would leave the calibrated row stated only in prose.
+
+The generator read every JSON file under results/extern/bench and indexed
+'acc', 'strict_match' and 'model' directly, so it now crashes on the eleven
+retrieval and GSM8K records, which carry per arm records and no top level
+accuracy. It classifies by the fields a file actually holds, builds a row from
+the twelve closed book records, and lists the other eleven by name with the
+reason, so a row leaving the table is visible rather than silent.
+
+Two states are now errors. No closed book row at all, which is the state the
+stale file was in. And no row matching CALIBRATED, so a table holding only the
+0.3950 chat and 0.3550 no-bos configurations cannot be written, since quoting
+it puts the external baseline up to 7.9 points low. Each row carries its record
+file name and write time, and a bos column, where a dash means the run did not
+record the flag.
+
+The regenerated table adds the calibrated 0.4300 and eight further closed book
+rows that the stale file predated: ARC and Winogrande for both LFM2 models,
+LFM2.5-350M on all three tasks, and this project's own checkpoint on all three.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>

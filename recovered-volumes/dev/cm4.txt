@@ -1,0 +1,35 @@
+docs: the one-shot denominators, and the MMLU n=1000 row marked unverifiable
+
+Two corrections propagated to every document that states them.
+
+The one-shot headline. 0.9644 is in no record file, no document and no commit
+in this repository, and it had been quoted for this lane. src/norm/ONESHOT.md,
+through its template, now states the headline as 1.0000 forced choice over 850
+items and says that the 850 are 170 distinct operations at five questions each
+with one frame id per operation, so the independent unit for the question of
+whether an operation was acquired is 170. Both denominators were recounted from
+results/norm/oneshot/sys.jsonl.gz, which holds exactly 5 items for each of 170
+operations and the library exact on 850 of 850.
+
+The MMLU re-measurement. 0.2450 at n=1000 rests on
+/mnt/nvme/e3eval/mmlu_ref_n1000.json, instance store on a terminated worker,
+and a recursive listing of the bucket returns no object matching mmlu_ref or
+e3eval. It is marked unverifiable in all four places src/e3/E3.md states it,
+with the reason, and kept rather than deleted. The n=200 and n=500 rows were
+recounted item by item from the two surviving artifacts and reproduce every
+cell, accuracy and prediction distribution alike, so 0.2750 at n=200 and 0.2640
+at n=500 are what the repository supports.
+
+Two things came out of the recount. The eot-prefix control, whose n=500 arm
+went with the instance store, exists at n=200 in the checkout, so the control
+can be re-run after all: 0.2700 with 144/8/37/11 against 0.2750 with
+146/7/35/12, the prefix moving accuracy by 0.005 and the modal share by 0.010,
+which is the same conclusion the lost pair reported. And one claim is withdrawn
+rather than marked: that the point estimate walks toward the floor as n grows
+was read off three points, can be checked at two, and two points are not a
+trend.
+
+src/STATE.md records faults 3 and 5 as fixed with their commits, and adds fault
+41, the lexicographic record selection in fourcell.py.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>

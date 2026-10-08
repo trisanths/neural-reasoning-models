@@ -1,0 +1,2211 @@
+[
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 27.73,
+    "accuracy": 0.83,
+    "accuracy_env_rule": 0.83,
+    "pass_at_k": 0.83,
+    "classes": {
+      "no_token": 0.15,
+      "correct": 0.83,
+      "echoed_start": 0.02
+    },
+    "by_family": {
+      "chain": 0.83
+    },
+    "answering_page_served": 0.83,
+    "accuracy_when_served": 1.0,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 0.99,
+    "stop_reasons": {
+      "eot": 99,
+      "answer_boundary": 1
+    },
+    "traces": [
+      {
+        "question": "A eskrusk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "zelfex",
+        "answer": "The wrenzel system is the most important",
+        "class": "no_token",
+        "queries": [
+          "sakrusk desk is the most important desk to the company. The most important desk is the desk that is the"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A mivor request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "clomel",
+        "answer": "closest clomel desk",
+        "class": "correct",
+        "queries": [
+          "mivor desk is the mivor desk, and the mivor desk is the mivor desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A zelesk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "esktez",
+        "answer": "yes esktez desk",
+        "class": "correct",
+        "queries": [
+          "zelesk desk is the zelesk desk, and the desk is the zelesk desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A wrensol request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "xilzel",
+        "answer": "xilzel xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol desk is the wrensol desk, and the wrensol desk is the wrensol desk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A vornid request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "yukharv",
+        "answer": "yukharv yukharv",
+        "class": "correct",
+        "queries": [
+          "vornid desk is the vornid desk, and the desk is the vornid desk. The vorn"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A lumesk request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "tezdri",
+        "answer": "Trelda tezdri",
+        "class": "correct",
+        "queries": [
+          "lumesk desk is the lumesk desk, and the lumesk desk is the lumesk. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexonda request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "kasol",
+        "answer": "The Tuplo system is the Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexonda desk is the fexonda desk is the most important desk to the company.\nThe"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexmi request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "nidyuk",
+        "answer": "The Tuplo system is the Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexmi desk is the fexmi desk is the most important desk to the company.\nThe"
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing-d1.rolls.jsonl",
+    "renderer": "routing",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 27.73,
+    "accuracy": 1.0,
+    "accuracy_env_rule": 1.0,
+    "pass_at_k": 1.0,
+    "classes": {
+      "correct": 1.0
+    },
+    "by_family": {
+      "chain": 1.0
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 1.0,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A eskrusk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "zelfex",
+        "answer": "Zelfex zelfex",
+        "class": "correct",
+        "queries": [
+          "sakrusk desk is the most important desk to the company. The most important desk is the desk that is the"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A mivor request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "clomel",
+        "answer": "closest clomel desk",
+        "class": "correct",
+        "queries": [
+          "mivor desk is the mivor desk, and the mivor desk is the mivor desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A zelesk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "esktez",
+        "answer": "yes esktez desk",
+        "class": "correct",
+        "queries": [
+          "zelesk desk is the zelesk desk, and the desk is the zelesk desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A wrensol request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "xilzel",
+        "answer": "xilzel xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol desk is the wrensol desk, and the wrensol desk is the wrensol desk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A vornid request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "yukharv",
+        "answer": "yukharv yukharv",
+        "class": "correct",
+        "queries": [
+          "vornid desk is the vornid desk, and the desk is the vornid desk. The vorn"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A lumesk request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "tezdri",
+        "answer": "Trelda tezdri",
+        "class": "correct",
+        "queries": [
+          "lumesk desk is the lumesk desk, and the lumesk desk is the lumesk. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexonda request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "kasol",
+        "answer": "Kasol kasol",
+        "class": "correct",
+        "queries": [
+          "route to fexonda desk is the fexonda desk is the most important desk to the company.\nThe"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexmi request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "nidyuk",
+        "answer": "Nekla nidyuk",
+        "class": "correct",
+        "queries": [
+          "route to fexmi desk is the fexmi desk is the most important desk to the company.\nThe"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing-d1-table_only.rolls.jsonl",
+    "renderer": "routing",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-processing-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 27.73,
+    "accuracy": 0.81,
+    "accuracy_env_rule": 0.81,
+    "pass_at_k": 0.81,
+    "classes": {
+      "correct": 0.81,
+      "no_token": 0.11,
+      "echoed_start": 0.06,
+      "other_token": 0.02
+    },
+    "by_family": {
+      "chain": 0.81
+    },
+    "answering_page_served": 0.89,
+    "accuracy_when_served": 0.9101123595505618,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 0.99,
+    "stop_reasons": {
+      "eot": 99,
+      "max_new_tokens": 1
+    },
+    "traces": [
+      {
+        "question": "A eskrusk item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "zelfex",
+        "answer": "zelfex zelfex zelfex",
+        "class": "correct",
+        "queries": [
+          "sakrusk is the eskrusk unit, which is the same as the unit that is the same as"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A mivor item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "clomel",
+        "answer": "Vruxta clomel unit",
+        "class": "correct",
+        "queries": [
+          "mivor mivor mivor mivor mivor mivor mivor mivor"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A zelesk item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "esktez",
+        "answer": "Vrunda esktez esktez",
+        "class": "correct",
+        "queries": [
+          "zelesk is the zelesk unit, which is the zelesk unit, and the unit"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A wrensol item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "xilzel",
+        "answer": "xilzel xilzel x xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol wrensol wrensol wrensol wrensol wrensol wrensol wrens"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A vornid item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "yukharv",
+        "answer": "yukharv stage is zelmi",
+        "class": "correct",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A lumesk item arrives at the Pyrclo stage. Which unit processes it?",
+        "gold": "tezdri",
+        "answer": "Trelda tezdri unit",
+        "class": "correct",
+        "queries": [
+          "lumesk is the lumesk unit, which is the lumesk unit, and the lumesk is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexonda item arrives at the Pyrclo stage. Which unit processes it?",
+        "gold": "kasol",
+        "answer": "Kasol kasol kasol",
+        "class": "correct",
+        "queries": [
+          "the fexonda fexonda fexonda fexonda fexonda fexonda fexonda fex"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexmi item arrives at the Pyrclo stage. Which unit processes it?",
+        "gold": "nidyuk",
+        "answer": "Gramgux nidyuk",
+        "class": "correct",
+        "queries": [
+          "the fexmi fexmi fexmi fexmi fexmi fexmi fexmi fex"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-processing-d1.rolls.jsonl",
+    "renderer": "processing",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-processing-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 27.73,
+    "accuracy": 0.92,
+    "accuracy_env_rule": 0.92,
+    "pass_at_k": 0.92,
+    "classes": {
+      "correct": 0.92,
+      "no_token": 0.02,
+      "echoed_start": 0.04,
+      "other_token": 0.02
+    },
+    "by_family": {
+      "chain": 0.92
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.92,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A eskrusk item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "zelfex",
+        "answer": "zelfex zelfex zelfex",
+        "class": "correct",
+        "queries": [
+          "sakrusk is the eskrusk unit, which is the same as the unit that is the same as"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A mivor item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "clomel",
+        "answer": "Vruxta clomel unit",
+        "class": "correct",
+        "queries": [
+          "mivor mivor mivor mivor mivor mivor mivor mivor"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A zelesk item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "esktez",
+        "answer": "Vrunda esktez esktez",
+        "class": "correct",
+        "queries": [
+          "zelesk is the zelesk unit, which is the zelesk unit, and the unit"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A wrensol item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "xilzel",
+        "answer": "xilzel xilzel x xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol wrensol wrensol wrensol wrensol wrensol wrensol wrens"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A vornid item arrives at the Fexharv stage. Which unit processes it?",
+        "gold": "yukharv",
+        "answer": "yukharv stage is zelmi",
+        "class": "correct",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A lumesk item arrives at the Pyrclo stage. Which unit processes it?",
+        "gold": "tezdri",
+        "answer": "Trelda tezdri unit",
+        "class": "correct",
+        "queries": [
+          "lumesk is the lumesk unit, which is the lumesk unit, and the lumesk is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexonda item arrives at the Pyrclo stage. Which unit processes it?",
+        "gold": "kasol",
+        "answer": "Kasol kasol kasol",
+        "class": "correct",
+        "queries": [
+          "the fexonda fexonda fexonda fexonda fexonda fexonda fexonda fex"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexmi item arrives at the Pyrclo stage. Which unit processes it?",
+        "gold": "nidyuk",
+        "answer": "Gramgux nidyuk",
+        "class": "correct",
+        "queries": [
+          "the fexmi fexmi fexmi fexmi fexmi fexmi fexmi fex"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-processing-d1-table_only.rolls.jsonl",
+    "renderer": "processing",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing_frameb-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 25.73,
+    "accuracy": 0.0,
+    "accuracy_env_rule": 0.0,
+    "pass_at_k": 0.0,
+    "classes": {
+      "no_token": 0.83,
+      "echoed_start": 0.16,
+      "other_token": 0.01
+    },
+    "by_family": {
+      "chain": 0.0
+    },
+    "answering_page_served": 0.14,
+    "accuracy_when_served": 0.0,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 0.99,
+    "stop_reasons": {
+      "eot": 99,
+      "answer_boundary": 1
+    },
+    "traces": [
+      {
+        "question": "Send eskrusk through the Fexharv office. Which desk results?",
+        "gold": "zelfex",
+        "answer": "The wrenzel system",
+        "class": "no_token",
+        "queries": [
+          "the desk is the most important desk, the most important desk is the most important desk."
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Send mivor through the Fexharv office. Which desk results?",
+        "gold": "clomel",
+        "answer": "The wrenzel system is the best",
+        "class": "no_token",
+        "queries": [
+          "route to capacity mivor through the desk, the best desk is the best desk."
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Send zelesk through the Fexharv office. Which desk results?",
+        "gold": "esktez",
+        "answer": "The wrenzel system is the most important",
+        "class": "no_token",
+        "queries": [
+          "zelesk through the desk is the most important desk for the company. The most important desk is the desk for"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Send wrensol through the Fexharv office. Which desk results?",
+        "gold": "xilzel",
+        "answer": "The wrenzel system is the most important",
+        "class": "no_token",
+        "queries": [
+          "the wrensol desk is the most important desk for the company. The most important desk is the most important desk for"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Send vornid through the Fexharv office. Which desk results?",
+        "gold": "yukharv",
+        "answer": "Vesdre the Fexsur the Fexsur the Fexsur",
+        "class": "no_token",
+        "queries": [
+          "vornid vornid vornid desk results?"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send lumesk through the Pyrclo office. Which desk results?",
+        "gold": "tezdri",
+        "answer": "The Tuplo system is the most important",
+        "class": "no_token",
+        "queries": [
+          "lumesk desk is the most important desk for the company.\nThe company\u2019s most important desk is the most"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Send fexonda through the Pyrclo office. Which desk results?",
+        "gold": "kasol",
+        "answer": "Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexonda through the pyrclo desk, the most important desk is the most important desk."
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Send fexmi through the Pyrclo office. Which desk results?",
+        "gold": "nidyuk",
+        "answer": "Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexmi through the pyrclo desk, the most important desk is the most important desk."
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing_frameb-d1.rolls.jsonl",
+    "renderer": "routing_frameb",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing_frameb-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 25.73,
+    "accuracy": 0.03,
+    "accuracy_env_rule": 0.03,
+    "pass_at_k": 0.03,
+    "classes": {
+      "no_token": 0.89,
+      "other_token": 0.03,
+      "correct": 0.03,
+      "echoed_start": 0.05
+    },
+    "by_family": {
+      "chain": 0.03
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.03,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "Send eskrusk through the Fexharv office. Which desk results?",
+        "gold": "zelfex",
+        "answer": "Vesdre the Fexsur the Fexsur the Fexsur",
+        "class": "no_token",
+        "queries": [
+          "the desk is the most important desk, the most important desk is the most important desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send mivor through the Fexharv office. Which desk results?",
+        "gold": "clomel",
+        "answer": "Velgux vornid to the Fexsurv office",
+        "class": "other_token",
+        "queries": [
+          "route to capacity mivor through the desk, the best desk is the best desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send zelesk through the Fexharv office. Which desk results?",
+        "gold": "esktez",
+        "answer": "Vesdre the Fexsur the Fexsur the Fexsur",
+        "class": "no_token",
+        "queries": [
+          "zelesk through the desk is the most important desk for the company. The most important desk is the desk for"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send wrensol through the Fexharv office. Which desk results?",
+        "gold": "xilzel",
+        "answer": "Vesdre the Fexsur the Fexsur the Fexsur",
+        "class": "no_token",
+        "queries": [
+          "the wrensol desk is the most important desk for the company. The most important desk is the most important desk for"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send vornid through the Fexharv office. Which desk results?",
+        "gold": "yukharv",
+        "answer": "Vesdre the Fexsur the Fexsur the Fexsur",
+        "class": "no_token",
+        "queries": [
+          "vornid vornid vornid desk results?"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send lumesk through the Pyrclo office. Which desk results?",
+        "gold": "tezdri",
+        "answer": "Sendre pyrclo",
+        "class": "no_token",
+        "queries": [
+          "lumesk desk is the most important desk for the company.\nThe company\u2019s most important desk is the most"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send fexonda through the Pyrclo office. Which desk results?",
+        "gold": "kasol",
+        "answer": "Sendre pyrclo",
+        "class": "no_token",
+        "queries": [
+          "route to fexonda through the pyrclo desk, the most important desk is the most important desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Send fexmi through the Pyrclo office. Which desk results?",
+        "gold": "nidyuk",
+        "answer": "Sendre pyrclo",
+        "class": "no_token",
+        "queries": [
+          "route to fexmi through the pyrclo desk, the most important desk is the most important desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing_frameb-d1-table_only.rolls.jsonl",
+    "renderer": "routing_frameb",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-abstract-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 25.73,
+    "accuracy": 0.0,
+    "accuracy_env_rule": 0.0,
+    "pass_at_k": 0.0,
+    "classes": {
+      "no_token": 0.91,
+      "echoed_start": 0.07,
+      "other_token": 0.02
+    },
+    "by_family": {
+      "chain": 0.0
+    },
+    "answering_page_served": 0.45,
+    "accuracy_when_served": 0.0,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "Apply the Fexharv map to eskrusk. Which token results?",
+        "gold": "zelfex",
+        "answer": "The token of the wrenzel notation is applied",
+        "class": "no_token",
+        "queries": [
+          "the is the eskruskruskruskruskruskruskruskruskruskrus"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to mivor. Which token results?",
+        "gold": "clomel",
+        "answer": "The mivor token is the mivor",
+        "class": "echoed_start",
+        "queries": [
+          "the mivor token is the mivor token is the mivor token is the mivor token is"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to zelesk. Which token results?",
+        "gold": "esktez",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "zelesk is the zelesk token, and the zelesk token is the zeles"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to wrensol. Which token results?",
+        "gold": "xilzel",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "the wrensol wrensol wrensol wrensol wrensol wrensol wrensol wrens"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to vornid. Which token results?",
+        "gold": "yukharv",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Pyrclo map to lumesk. Which token results?",
+        "gold": "tezdri",
+        "answer": "Tokens in pyrclo",
+        "class": "no_token",
+        "queries": [
+          "lumesk is the lumesk token, and the lumesk token is the lumesk token."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Pyrclo map to fexonda. Which token results?",
+        "gold": "kasol",
+        "answer": "Tokens pyrclo map",
+        "class": "no_token",
+        "queries": [
+          "the fexonda pyrclo map is the pyrclo map is the pyrclo map is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Pyrclo map to fexmi. Which token results?",
+        "gold": "nidyuk",
+        "answer": "The Tuplo notation",
+        "class": "no_token",
+        "queries": [
+          "the fexmi map is the fexmi map is the fexmi map is the fyrdi map"
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-abstract-d1.rolls.jsonl",
+    "renderer": "abstract",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-abstract-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 25.73,
+    "accuracy": 0.01,
+    "accuracy_env_rule": 0.01,
+    "pass_at_k": 0.01,
+    "classes": {
+      "no_token": 0.89,
+      "echoed_start": 0.05,
+      "correct": 0.01,
+      "other_token": 0.05
+    },
+    "by_family": {
+      "chain": 0.01
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.01,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "Apply the Fexharv map to eskrusk. Which token results?",
+        "gold": "zelfex",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "the is the eskruskruskruskruskruskruskruskruskruskrus"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to mivor. Which token results?",
+        "gold": "clomel",
+        "answer": "Tokens mivor",
+        "class": "echoed_start",
+        "queries": [
+          "the mivor token is the mivor token is the mivor token is the mivor token is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to zelesk. Which token results?",
+        "gold": "esktez",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "zelesk is the zelesk token, and the zelesk token is the zeles"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to wrensol. Which token results?",
+        "gold": "xilzel",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "the wrensol wrensol wrensol wrensol wrensol wrensol wrensol wrens"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Fexharv map to vornid. Which token results?",
+        "gold": "yukharv",
+        "answer": "Tokens",
+        "class": "no_token",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Pyrclo map to lumesk. Which token results?",
+        "gold": "tezdri",
+        "answer": "Tokens in pyrclo",
+        "class": "no_token",
+        "queries": [
+          "lumesk is the lumesk token, and the lumesk token is the lumesk token."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Pyrclo map to fexonda. Which token results?",
+        "gold": "kasol",
+        "answer": "Tokens pyrclo map",
+        "class": "no_token",
+        "queries": [
+          "the fexonda pyrclo map is the pyrclo map is the pyrclo map is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "Apply the Pyrclo map to fexmi. Which token results?",
+        "gold": "nidyuk",
+        "answer": "Tokens pyrclo",
+        "class": "no_token",
+        "queries": [
+          "the fexmi map is the fexmi map is the fexmi map is the fyrdi map"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-abstract-d1-table_only.rolls.jsonl",
+    "renderer": "abstract",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-inventory-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 30.73,
+    "accuracy": 0.01,
+    "accuracy_env_rule": 0.01,
+    "pass_at_k": 0.01,
+    "classes": {
+      "other_token": 0.23,
+      "no_token": 0.65,
+      "echoed_start": 0.11,
+      "correct": 0.01
+    },
+    "by_family": {
+      "chain": 0.01
+    },
+    "answering_page_served": 0.74,
+    "accuracy_when_served": 0.013513513513513514,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 0.99,
+    "stop_reasons": {
+      "eot": 99,
+      "max_new_tokens": 1
+    },
+    "traces": [
+      {
+        "question": "A crate labelled eskrusk arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "zelfex",
+        "answer": "Vramgrum vornid is a crate",
+        "class": "other_token",
+        "queries": [
+          "the crate is the crate is the crate is the crate is the crate is the crate is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled mivor arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "clomel",
+        "answer": "The crate is the same as the bay",
+        "class": "no_token",
+        "queries": [
+          "the crate is the same as the bay store, but the bay is the same as the bay. The crate"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled zelesk arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "esktez",
+        "answer": "Vramgux vornid is a crate",
+        "class": "other_token",
+        "queries": [
+          "the crate is the zelesk, the zelesk is the same as the bay store. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled wrensol arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "xilzel",
+        "answer": "The crate is the same as the bay",
+        "class": "no_token",
+        "queries": [
+          "the crate is the same as the bay store, but the bay is not the same as the bay. The bay"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled vornid arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "yukharv",
+        "answer": "Vramdra vornid",
+        "class": "echoed_start",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled lumesk arrives at the Pyrclo depot. Which bay stores it?",
+        "gold": "tezdri",
+        "answer": "Gramgrum",
+        "class": "no_token",
+        "queries": [
+          "lumesk is the crate lumesk, which is the same as the lumesk. The lumes"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled fexonda arrives at the Pyrclo depot. Which bay stores it?",
+        "gold": "kasol",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "the fexonda is the same as the fexonda, but the two are different. The two are the same"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled fexmi arrives at the Pyrclo depot. Which bay stores it?",
+        "gold": "nidyuk",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "the fexmi is the same as the fexmi, but the two are different. The two are the same"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-inventory-d1.rolls.jsonl",
+    "renderer": "inventory",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-inventory-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 30.73,
+    "accuracy": 0.01,
+    "accuracy_env_rule": 0.01,
+    "pass_at_k": 0.01,
+    "classes": {
+      "other_token": 0.32,
+      "echoed_start": 0.12,
+      "no_token": 0.55,
+      "correct": 0.01
+    },
+    "by_family": {
+      "chain": 0.01
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.01,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 0.99,
+    "stop_reasons": {
+      "eot": 99,
+      "max_new_tokens": 1
+    },
+    "traces": [
+      {
+        "question": "A crate labelled eskrusk arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "zelfex",
+        "answer": "Vramgrum vornid is a crate",
+        "class": "other_token",
+        "queries": [
+          "the crate is the crate is the crate is the crate is the crate is the crate is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled mivor arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "clomel",
+        "answer": "Vrunda vornid",
+        "class": "other_token",
+        "queries": [
+          "the crate is the same as the bay store, but the bay is the same as the bay. The crate"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled zelesk arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "esktez",
+        "answer": "Vramgux vornid is a crate",
+        "class": "other_token",
+        "queries": [
+          "the crate is the zelesk, the zelesk is the same as the bay store. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled wrensol arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "xilzel",
+        "answer": "Vrunda vornid",
+        "class": "other_token",
+        "queries": [
+          "the crate is the same as the bay store, but the bay is not the same as the bay. The bay"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled vornid arrives at the Fexharv depot. Which bay stores it?",
+        "gold": "yukharv",
+        "answer": "Vramdra vornid",
+        "class": "echoed_start",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled lumesk arrives at the Pyrclo depot. Which bay stores it?",
+        "gold": "tezdri",
+        "answer": "Gramgrum",
+        "class": "no_token",
+        "queries": [
+          "lumesk is the crate lumesk, which is the same as the lumesk. The lumes"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled fexonda arrives at the Pyrclo depot. Which bay stores it?",
+        "gold": "kasol",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "the fexonda is the same as the fexonda, but the two are different. The two are the same"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A crate labelled fexmi arrives at the Pyrclo depot. Which bay stores it?",
+        "gold": "nidyuk",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "the fexmi is the same as the fexmi, but the two are different. The two are the same"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-inventory-d1-table_only.rolls.jsonl",
+    "renderer": "inventory",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-personnel-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 29.73,
+    "accuracy": 0.0,
+    "accuracy_env_rule": 0.0,
+    "pass_at_k": 0.0,
+    "classes": {
+      "no_token": 0.91,
+      "other_token": 0.05,
+      "echoed_start": 0.04
+    },
+    "by_family": {
+      "chain": 0.0
+    },
+    "answering_page_served": 0.52,
+    "accuracy_when_served": 0.0,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A case of grade eskrusk reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "zelfex",
+        "answer": "The case is escalated to the next panel",
+        "class": "no_token",
+        "queries": [
+          "the case of grade eskrusk reaches the panel panel panel panel panel panel panel panel panel panel panel panel panel panel"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade mivor reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "clomel",
+        "answer": "The case is escalated to the next panel",
+        "class": "no_token",
+        "queries": [
+          "the case of grade mivor reaches the panel panel panel panel panel panel panel panel panel panel panel panel panel panel panel"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade zelesk reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "esktez",
+        "answer": "Vesstes vornid case",
+        "class": "other_token",
+        "queries": [
+          "the case of grade zelesk is the same as the grade zelesk, but the grade zel"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade wrensol reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "xilzel",
+        "answer": "Vesstes vornid case",
+        "class": "other_token",
+        "queries": [
+          "the case of grade wrensol is the same as the grade wrensol, but the grade wrensol is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade vornid reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "yukharv",
+        "answer": "Vesdre vornid vornid",
+        "class": "echoed_start",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade lumesk reaches the Pyrclo panel. Which reviewer takes it?",
+        "gold": "tezdri",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "lumesk lumesk lumesk lumesk lumesk lumesk lumesk lumesk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade fexonda reaches the Pyrclo panel. Which reviewer takes it?",
+        "gold": "kasol",
+        "answer": "The Tuplo caseload",
+        "class": "no_token",
+        "queries": [
+          "the fexonda is the fexonda is the grade fexonda is the grade fexonda is the grade"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade fexmi reaches the Pyrclo panel. Which reviewer takes it?",
+        "gold": "nidyuk",
+        "answer": "The Tuplo caseload",
+        "class": "no_token",
+        "queries": [
+          "the fexmi is the fexmi is the grade fexmi is the grade fexmi is the grade"
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-personnel-d1.rolls.jsonl",
+    "renderer": "personnel",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-personnel-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 29.73,
+    "accuracy": 0.0,
+    "accuracy_env_rule": 0.0,
+    "pass_at_k": 0.0,
+    "classes": {
+      "other_token": 0.1,
+      "echoed_start": 0.04,
+      "no_token": 0.86
+    },
+    "by_family": {
+      "chain": 0.0
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.0,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A case of grade eskrusk reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "zelfex",
+        "answer": "Vesdra vornid case",
+        "class": "other_token",
+        "queries": [
+          "the case of grade eskrusk reaches the panel panel panel panel panel panel panel panel panel panel panel panel panel panel"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade mivor reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "clomel",
+        "answer": "Vesdre vornid case",
+        "class": "other_token",
+        "queries": [
+          "the case of grade mivor reaches the panel panel panel panel panel panel panel panel panel panel panel panel panel panel panel"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade zelesk reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "esktez",
+        "answer": "Vesstes vornid case",
+        "class": "other_token",
+        "queries": [
+          "the case of grade zelesk is the same as the grade zelesk, but the grade zel"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade wrensol reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "xilzel",
+        "answer": "Vesstes vornid case",
+        "class": "other_token",
+        "queries": [
+          "the case of grade wrensol is the same as the grade wrensol, but the grade wrensol is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade vornid reaches the Fexharv panel. Which reviewer takes it?",
+        "gold": "yukharv",
+        "answer": "Vesdre vornid vornid",
+        "class": "echoed_start",
+        "queries": [
+          "vornid vornid vornid vornid vornid vornid vornid vornid"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade lumesk reaches the Pyrclo panel. Which reviewer takes it?",
+        "gold": "tezdri",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "lumesk lumesk lumesk lumesk lumesk lumesk lumesk lumesk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade fexonda reaches the Pyrclo panel. Which reviewer takes it?",
+        "gold": "kasol",
+        "answer": "Gramgux",
+        "class": "no_token",
+        "queries": [
+          "the fexonda is the fexonda is the grade fexonda is the grade fexonda is the grade"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A case of grade fexmi reaches the Pyrclo panel. Which reviewer takes it?",
+        "gold": "nidyuk",
+        "answer": "Gramgrum",
+        "class": "no_token",
+        "queries": [
+          "the fexmi is the fexmi is the grade fexmi is the grade fexmi is the grade"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-personnel-d1-table_only.rolls.jsonl",
+    "renderer": "personnel",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-reaction-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 26.73,
+    "accuracy": 0.01,
+    "accuracy_env_rule": 0.01,
+    "pass_at_k": 0.01,
+    "classes": {
+      "no_token": 0.7,
+      "echoed_start": 0.25,
+      "other_token": 0.04,
+      "correct": 0.01
+    },
+    "by_family": {
+      "chain": 0.01
+    },
+    "answering_page_served": 0.18,
+    "accuracy_when_served": 0.05555555555555555,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A sample of eskrusk enters the Fexharv bath. Which product forms?",
+        "gold": "zelfex",
+        "answer": "The formula of the formula of the bath is the product",
+        "class": "no_token",
+        "queries": [
+          "the eskrusk is the product of the klalvamkurkurkurkurk"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of mivor enters the Fexharv bath. Which product forms?",
+        "gold": "clomel",
+        "answer": "The formula for the formula for the mivor is the sample",
+        "class": "echoed_start",
+        "queries": [
+          "the mivor is the mivor is the sample of mivor is the sample of mivor is"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of zelesk enters the Fexharv bath. Which product forms?",
+        "gold": "esktez",
+        "answer": "The wrenzel reaction series is a bath",
+        "class": "no_token",
+        "queries": [
+          "zelesk is the product of the zelesk bath, which is the product of the bath. The"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of wrensol enters the Fexharv bath. Which product forms?",
+        "gold": "xilzel",
+        "answer": "The wrenzel reaction series is the wrenzel",
+        "class": "no_token",
+        "queries": [
+          "the wrensol sample is the wrensol sample is the wrensol sample is the wrensol sample is"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of vornid enters the Fexharv bath. Which product forms?",
+        "gold": "yukharv",
+        "answer": "The wrenzel reaction series is a wrenzel",
+        "class": "no_token",
+        "queries": [
+          "vornid is the product of the vornid, which is the product of the vornid. The sample"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of lumesk enters the Pyrclo bath. Which product forms?",
+        "gold": "tezdri",
+        "answer": "The Tuplo reaction series",
+        "class": "no_token",
+        "queries": [
+          "lumesk is the product of the lumesk bath and the product of the lumesk bath. The sample"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of fexonda enters the Pyrclo bath. Which product forms?",
+        "gold": "kasol",
+        "answer": "Tuplo reaction series",
+        "class": "no_token",
+        "queries": [
+          "the fexonda is the product of the kitty kitty kitty kitty kitty kitty kitty kit"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of fexmi enters the Pyrclo bath. Which product forms?",
+        "gold": "nidyuk",
+        "answer": "The Tuplo reaction series",
+        "class": "no_token",
+        "queries": [
+          "the fexmi is the product of the kitty, the kitty is the product of the kitty. The"
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-reaction-d1.rolls.jsonl",
+    "renderer": "reaction",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-reaction-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 26.73,
+    "accuracy": 0.09,
+    "accuracy_env_rule": 0.09,
+    "pass_at_k": 0.09,
+    "classes": {
+      "other_token": 0.25,
+      "echoed_start": 0.35,
+      "correct": 0.09,
+      "no_token": 0.31
+    },
+    "by_family": {
+      "chain": 0.09
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.09,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A sample of eskrusk enters the Fexharv bath. Which product forms?",
+        "gold": "zelfex",
+        "answer": "Sample of zelmi",
+        "class": "other_token",
+        "queries": [
+          "the eskrusk is the product of the klalvamkurkurkurkurk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of mivor enters the Fexharv bath. Which product forms?",
+        "gold": "clomel",
+        "answer": "Sample of mivor",
+        "class": "echoed_start",
+        "queries": [
+          "the mivor is the mivor is the sample of mivor is the sample of mivor is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of zelesk enters the Fexharv bath. Which product forms?",
+        "gold": "esktez",
+        "answer": "Sample of zelmi",
+        "class": "other_token",
+        "queries": [
+          "zelesk is the product of the zelesk bath, which is the product of the bath. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of wrensol enters the Fexharv bath. Which product forms?",
+        "gold": "xilzel",
+        "answer": "Steda Stelgux a sample of xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol sample is the wrensol sample is the wrensol sample is the wrensol sample is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of vornid enters the Fexharv bath. Which product forms?",
+        "gold": "yukharv",
+        "answer": "Sample of a sample of vornid",
+        "class": "echoed_start",
+        "queries": [
+          "vornid is the product of the vornid, which is the product of the vornid. The sample"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of lumesk enters the Pyrclo bath. Which product forms?",
+        "gold": "tezdri",
+        "answer": "Sample of fexfi pyrclo",
+        "class": "no_token",
+        "queries": [
+          "lumesk is the product of the lumesk bath and the product of the lumesk bath. The sample"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of fexonda enters the Pyrclo bath. Which product forms?",
+        "gold": "kasol",
+        "answer": "Sample of kasol",
+        "class": "correct",
+        "queries": [
+          "the fexonda is the product of the kitty kitty kitty kitty kitty kitty kitty kit"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A sample of fexmi enters the Pyrclo bath. Which product forms?",
+        "gold": "nidyuk",
+        "answer": "Sample of fexfi nidyuk",
+        "class": "correct",
+        "queries": [
+          "the fexmi is the product of the kitty, the kitty is the product of the kitty. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-reaction-d1-table_only.rolls.jsonl",
+    "renderer": "reaction",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing_keyphrase-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 29.73,
+    "accuracy": 0.64,
+    "accuracy_env_rule": 0.64,
+    "pass_at_k": 0.64,
+    "classes": {
+      "correct": 0.64,
+      "no_token": 0.29,
+      "other_token": 0.07
+    },
+    "by_family": {
+      "chain": 0.64
+    },
+    "answering_page_served": 0.71,
+    "accuracy_when_served": 0.9014084507042254,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A request of type eskrusk arrives at the Fexharv office. Which desk handles it?",
+        "gold": "zelfex",
+        "answer": "Zelfex zelfex zelfex",
+        "class": "correct",
+        "queries": [
+          "the desk is the desk is the desk is the desk is the desk is the desk is the answer.\nThe answer"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type mivor arrives at the Fexharv office. Which desk handles it?",
+        "gold": "clomel",
+        "answer": "closest clomel desk",
+        "class": "correct",
+        "queries": [
+          "the mivor desk is the same as the desk, but the desk is a different desk. The mivor"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type zelesk arrives at the Fexharv office. Which desk handles it?",
+        "gold": "esktez",
+        "answer": "The wrenzel system is a wrenzel",
+        "class": "no_token",
+        "queries": [
+          "route to capacity zelesk desk is the desk of the type zelesk, the desk is the"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type wrensol arrives at the Fexharv office. Which desk handles it?",
+        "gold": "xilzel",
+        "answer": "xilzel xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol desk is the wrensol desk, and the staffer is the staffer. The staffer"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type vornid arrives at the Fexharv office. Which desk handles it?",
+        "gold": "yukharv",
+        "answer": "yukharv zelmi",
+        "class": "correct",
+        "queries": [
+          "vornid vornid vornid vornid vornid desk is the same as the desk that is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type lumesk arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "tezdri",
+        "answer": "Gramgux zelmel",
+        "class": "other_token",
+        "queries": [
+          "the lumesk desk is the lumesk desk is the lumesk desk is the lumesk.\n"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type fexonda arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "kasol",
+        "answer": "Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexonda desk is the same as the desk is the same as the desk is the same as the"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type fexmi arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "nidyuk",
+        "answer": "Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexmi desk is the same as the desk is the same as the desk is the same as the"
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing_keyphrase-d1.rolls.jsonl",
+    "renderer": "routing_keyphrase",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing_keyphrase-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 29.73,
+    "accuracy": 0.91,
+    "accuracy_env_rule": 0.91,
+    "pass_at_k": 0.91,
+    "classes": {
+      "correct": 0.91,
+      "other_token": 0.09
+    },
+    "by_family": {
+      "chain": 0.91
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.91,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A request of type eskrusk arrives at the Fexharv office. Which desk handles it?",
+        "gold": "zelfex",
+        "answer": "Zelfex zelfex zelfex",
+        "class": "correct",
+        "queries": [
+          "the desk is the desk is the desk is the desk is the desk is the desk is the answer.\nThe answer"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type mivor arrives at the Fexharv office. Which desk handles it?",
+        "gold": "clomel",
+        "answer": "closest clomel desk",
+        "class": "correct",
+        "queries": [
+          "the mivor desk is the same as the desk, but the desk is a different desk. The mivor"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type zelesk arrives at the Fexharv office. Which desk handles it?",
+        "gold": "esktez",
+        "answer": "Vesdra esktez desk",
+        "class": "correct",
+        "queries": [
+          "route to capacity zelesk desk is the desk of the type zelesk, the desk is the"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type wrensol arrives at the Fexharv office. Which desk handles it?",
+        "gold": "xilzel",
+        "answer": "xilzel xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol desk is the wrensol desk, and the staffer is the staffer. The staffer"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type vornid arrives at the Fexharv office. Which desk handles it?",
+        "gold": "yukharv",
+        "answer": "yukharv zelmi",
+        "class": "correct",
+        "queries": [
+          "vornid vornid vornid vornid vornid desk is the same as the desk that is"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type lumesk arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "tezdri",
+        "answer": "Gramgux zelmel",
+        "class": "other_token",
+        "queries": [
+          "the lumesk desk is the lumesk desk is the lumesk desk is the lumesk.\n"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type fexonda arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "kasol",
+        "answer": "Kasol kasol",
+        "class": "correct",
+        "queries": [
+          "route to fexonda desk is the same as the desk is the same as the desk is the same as the"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A request of type fexmi arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "nidyuk",
+        "answer": "Nixdre nidyuk",
+        "class": "correct",
+        "queries": [
+          "route to fexmi desk is the same as the desk is the same as the desk is the same as the"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing_keyphrase-d1-table_only.rolls.jsonl",
+    "renderer": "routing_keyphrase",
+    "depth": 1,
+    "condition": "table_only"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing_postvalue-d1.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 27.73,
+    "accuracy": 0.74,
+    "accuracy_env_rule": 0.74,
+    "pass_at_k": 0.74,
+    "classes": {
+      "no_token": 0.22,
+      "correct": 0.74,
+      "echoed_start": 0.03,
+      "other_token": 0.01
+    },
+    "by_family": {
+      "chain": 0.74
+    },
+    "answering_page_served": 0.82,
+    "accuracy_when_served": 0.9024390243902439,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 0.99,
+    "stop_reasons": {
+      "eot": 99,
+      "answer_boundary": 1
+    },
+    "traces": [
+      {
+        "question": "A eskrusk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "zelfex",
+        "answer": "The wrenzel system is the most important",
+        "class": "no_token",
+        "queries": [
+          "sakrusk desk is the most important desk to the company. The most important desk is the desk that is the"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A mivor request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "clomel",
+        "answer": "Vrunda clomel clomel",
+        "class": "correct",
+        "queries": [
+          "mivor desk is the mivor desk, and the mivor desk is the mivor desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A zelesk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "esktez",
+        "answer": "Vramgux esktez is a desk",
+        "class": "correct",
+        "queries": [
+          "zelesk desk is the zelesk desk, and the desk is the zelesk desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A wrensol request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "xilzel",
+        "answer": "Vramgix xilzel x xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol desk is the wrensol desk, and the wrensol desk is the wrensol desk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A vornid request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "yukharv",
+        "answer": "Vrunda yukharv is a vornid",
+        "class": "correct",
+        "queries": [
+          "vornid desk is the vornid desk, and the desk is the vornid desk. The vorn"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A lumesk request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "tezdri",
+        "answer": "Gramgri tezdri",
+        "class": "correct",
+        "queries": [
+          "lumesk desk is the lumesk desk, and the lumesk desk is the lumesk. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexonda request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "kasol",
+        "answer": "The Tuplo system is the Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexonda desk is the fexonda desk is the most important desk to the company.\nThe"
+        ],
+        "served": false,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexmi request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "nidyuk",
+        "answer": "The Tuplo system is the Tuplo",
+        "class": "no_token",
+        "queries": [
+          "route to fexmi desk is the fexmi desk is the most important desk to the company.\nThe"
+        ],
+        "served": false,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing_postvalue-d1.rolls.jsonl",
+    "renderer": "routing_postvalue",
+    "depth": 1,
+    "condition": "minimal"
+  },
+  {
+    "path": "/home/ec2-user/tmpl/eps/chain-routing_postvalue-d1-table_only.jsonl",
+    "group": "chain",
+    "n_questions": 100,
+    "n_rollouts": 100,
+    "samples": 1,
+    "temperature": 0.0,
+    "prompt_tokens_mean": 27.73,
+    "accuracy": 0.9,
+    "accuracy_env_rule": 0.9,
+    "pass_at_k": 0.9,
+    "classes": {
+      "correct": 0.9,
+      "no_token": 0.08,
+      "other_token": 0.01,
+      "echoed_start": 0.01
+    },
+    "by_family": {
+      "chain": 0.9
+    },
+    "answering_page_served": 1.0,
+    "accuracy_when_served": 0.9,
+    "mean_rounds": 1.0,
+    "any_retrieval": 1.0,
+    "well_formed": 1.0,
+    "stop_reasons": {
+      "eot": 100
+    },
+    "traces": [
+      {
+        "question": "A eskrusk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "zelfex",
+        "answer": "Vramgix zelfex zelfex",
+        "class": "correct",
+        "queries": [
+          "sakrusk desk is the most important desk to the company. The most important desk is the desk that is the"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A mivor request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "clomel",
+        "answer": "Vrunda clomel clomel",
+        "class": "correct",
+        "queries": [
+          "mivor desk is the mivor desk, and the mivor desk is the mivor desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A zelesk request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "esktez",
+        "answer": "Vramgux esktez is a desk",
+        "class": "correct",
+        "queries": [
+          "zelesk desk is the zelesk desk, and the desk is the zelesk desk."
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A wrensol request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "xilzel",
+        "answer": "Vramgix xilzel x xilzel",
+        "class": "correct",
+        "queries": [
+          "the wrensol desk is the wrensol desk, and the wrensol desk is the wrensol desk"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A vornid request arrives at the Fexharv office. Which desk handles it?",
+        "gold": "yukharv",
+        "answer": "Vrunda yukharv is a vornid",
+        "class": "correct",
+        "queries": [
+          "vornid desk is the vornid desk, and the desk is the vornid desk. The vorn"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A lumesk request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "tezdri",
+        "answer": "Gramgri tezdri",
+        "class": "correct",
+        "queries": [
+          "lumesk desk is the lumesk desk, and the lumesk desk is the lumesk. The"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexonda request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "kasol",
+        "answer": "Kasol kasol kasol kasol",
+        "class": "correct",
+        "queries": [
+          "route to fexonda desk is the fexonda desk is the most important desk to the company.\nThe"
+        ],
+        "served": true,
+        "stop": "eot"
+      },
+      {
+        "question": "A fexmi request arrives at the Pyrclo office. Which desk handles it?",
+        "gold": "nidyuk",
+        "answer": "Nixdre nidyuk desk nidyuk",
+        "class": "correct",
+        "queries": [
+          "route to fexmi desk is the fexmi desk is the most important desk to the company.\nThe"
+        ],
+        "served": true,
+        "stop": "eot"
+      }
+    ],
+    "dump": "/home/ec2-user/tmpl/dump_chain_greedy/chain-routing_postvalue-d1-table_only.rolls.jsonl",
+    "renderer": "routing_postvalue",
+    "depth": 1,
+    "condition": "table_only"
+  }
+]

@@ -1,0 +1,56 @@
+src/norm: what the 0.65 between the parser and the 167M reader is made of
+
+On the eight shapes the key-position axis reaches, xxl167 reads 0.3938 exact
+key-first on 2,016 items and 0.3392 value-first on 1,984, against the parser at
+2,016 of 2,016 and 1,984 of 1,984. The gap had never been decomposed.
+
+The committed records cannot decompose it. results/system/eval/xxl167/ carries
+four outcome flags, the executed answer and the gold answer, and not the
+emitted structure, so malformed, refused and exact are recoverable from it and
+wrong kind, wrong binding and wrong content are one undifferentiated flag. The
+structures were emitted again from the same checkpoint through the same
+neval.emit at the same settings, and the pass is gated on reproducing the
+committed record item by item on exact, malformed, refused, wrong and answer
+before any count is taken. The gate reads 7,000 of 7,000 for both decodes of
+xxl167 and for l45 and xl93, and the recovered exact rates reproduce
+THRESHOLD.md to the digit.
+
+The decomposition. Of 1,222 key-first failures: malformed 0.0090, refused
+0.0933, wrong kind 0.1047, wrong binding 0.4804, wrong content 0.3126. Of 1,311
+value-first failures: 0.0031, 0.1098, 0.1327, 0.4638, 0.2906. Right structure
+with a wrong answer downstream is 0 of 2,016 and 0 of 1,984, empty by
+construction and counted anyway. Sampled decoding reproduces every cell within
+0.003.
+
+The gap is spread. No shape is above 0.6310 exact and none is closer than 0.37
+to the parser; shape contributions to the failure count run 0.2013 to 0.0761.
+Bringing the three shapes whose failure is a clean transposition to 1.0000
+recovers 319 of 1,222 key-first failures and leaves the figure at 0.5521.
+
+The dominant mode is binding, and it is the structural one. Malformed output is
+under one percent of failures and wrong kind is a tenth, of which 123 of 128
+key-first and 171 of 174 value-first are a transposed table with a compensating
+invert-for-lookup that returns gold's answer, so they are binding failures
+wearing a different plan operation. Counting those with the binding bucket puts
+the mode at about 0.58 and 0.59 of the gap. The whole-table transposition rate
+does not fall with capacity, it spreads: 0 of 514 key-first failures at 45M and
+3 of 607 at 93M against 324 of 1,222 at 167M, while the value-first rate holds
+near 0.39 at all three. Scale stopped the reader applying one convention
+everywhere; it did not teach it which word is the key.
+
+The remainder is content corruption in the shapes with more definitions, more
+entries and longer plans, and that half is the ordinary kind of failure more
+capacity or data plausibly moves. A 7B-token 350M pretrain would be testing the
+smaller half of the gap.
+
+Two shape-specific findings are worth carrying. exclusion fails by misplacing
+one or two rows of a four-row table, which odd_one_out's precondition then
+refuses, so its 0.4073 value-first refusal rate is the design failing safe on a
+precision error. And answers run well above structures, 0.5258 and 0.5076
+against 0.3938 and 0.3392, because a wrong structure executes to gold's answer
+on about a quarter of failures.
+
+Every record file, summary and interval is under results/norm/gap/ and named in
+the document.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>

@@ -1,0 +1,22 @@
+{"frame": "native", "family": "substitution_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 1.0, "prompt_tokens_mean": 28.36}
+{"frame": "native", "family": "exception_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 1.0, "prompt_tokens_mean": 30.205}
+{"frame": "abstract", "family": "substitution_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 0.845, "prompt_tokens_mean": 31.36}
+{"frame": "abstract", "family": "exception_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 0.99, "prompt_tokens_mean": 33.205}
+{"frame": "inventory", "family": "substitution_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 0.985, "prompt_tokens_mean": 31.36}
+{"frame": "inventory", "family": "exception_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 0.755, "prompt_tokens_mean": 32.205}
+{"frame": "personnel", "family": "substitution_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 0.995, "prompt_tokens_mean": 30.36}
+{"frame": "personnel", "family": "exception_rule", "condition": "textbook", "n_questions": 200, "n_rollouts": 200, "accuracy": 0.99, "prompt_tokens_mean": 30.205}
+frame                  family                 n shipped  forced   first  hedge   none  chance  chncPg served  frcdSv
+abstract               exception_rule       200   0.990   0.990   0.990  0.000  0.010   0.500   0.290  0.990   1.000
+abstract               substitution_rule    200   0.845   0.845   0.845  0.000  0.010   0.200   0.113  1.000   0.845
+inventory              exception_rule       200   0.755   0.755   0.755  0.000  0.245   0.500   0.263  0.920   0.821
+inventory              substitution_rule    200   0.985   0.985   0.985  0.000  0.005   0.200   0.098  1.000   0.985
+native                 exception_rule       200   1.000   1.000   1.000  0.000  0.000   0.500   0.295  1.000   1.000
+native                 substitution_rule    200   1.000   1.000   1.000  0.000  0.000   0.200   0.102  1.000   1.000
+personnel              exception_rule       200   0.990   0.990   0.990  0.000  0.010   0.500   0.298  0.990   1.000
+personnel              substitution_rule    200   0.995   0.995   0.995  0.000  0.000   0.200   0.111  1.000   0.995
+
+macro over frames, within family, both aggregation orders:
+  exception_rule     cells=4 macroAcc=0.934 macroChance=0.500 A=0.867 B=0.867
+  substitution_rule  cells=4 macroAcc=0.956 macroChance=0.200 A=0.945 B=0.945
+wrote /home/ec2-user/sweep/res/score_arm003-hand-greedy.json

@@ -1,0 +1,73 @@
++ export HOME=/home/ec2-user HF_HOME=/mnt/nvme/hf PATH=/home/ec2-user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/lib/snapd/snap/bin
++ HOME=/home/ec2-user
++ HF_HOME=/mnt/nvme/hf
++ PATH=/home/ec2-user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/var/lib/snapd/snap/bin
++ cd /home/ec2-user/decoupled-reasoner
++ git config core.fileMode false
++ git checkout -b pilot/acq-bench
+Switched to a new branch 'pilot/acq-bench'
++ curl -LsSf https://astral.sh/uv/install.sh
++ sh
+downloading uv 0.12.23 x86_64-unknown-linux-gnu
+installing to /home/ec2-user/.local/bin
+  uv
+  uvx
+everything's installed!
++ uv sync
++ tail -5
+ + tqdm==4.70.0
+ + transformers==5.15.1
+ + triton==3.7.1
+ + typer==0.27.1
+ + typing-extensions==4.16.0
++ uv venv -p 3.12 /mnt/nvme/vllm-venv
+Using CPython 3.12.15
+Creating virtual environment at: /mnt/nvme/vllm-venv
+Activate with: source /mnt/nvme/vllm-venv/bin/activate
++ VIRTUAL_ENV=/mnt/nvme/vllm-venv
++ uv pip install vllm datasets
++ tail -3
+ + xxhash==4.0.1
+ + yarl==1.25.1
+ + z3-solver==4.15.4.0
++ /mnt/nvme/vllm-venv/bin/python -c 'import vllm, torch; print('\''vllm'\'', vllm.__version__, '\''torch'\'', torch.__version__, torch.cuda.is_available())'
+vllm 0.31.0 torch 2.13.0+cu130 True
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download LiquidAI/LFM2.5-350M-Base --exclude '*.pth' 'original/*'
++ echo 'FAIL LiquidAI/LFM2.5-350M-Base'
+FAIL LiquidAI/LFM2.5-350M-Base
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download LiquidAI/LFM2.5-350M --exclude '*.pth' 'original/*'
++ echo 'FAIL LiquidAI/LFM2.5-350M'
+FAIL LiquidAI/LFM2.5-350M
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download Qwen/Qwen3-0.6B-Base --exclude '*.pth' 'original/*'
++ echo 'FAIL Qwen/Qwen3-0.6B-Base'
+FAIL Qwen/Qwen3-0.6B-Base
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download Qwen/Qwen3-0.6B --exclude '*.pth' 'original/*'
++ echo 'FAIL Qwen/Qwen3-0.6B'
+FAIL Qwen/Qwen3-0.6B
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download Qwen/Qwen3-1.7B-Base --exclude '*.pth' 'original/*'
++ echo 'FAIL Qwen/Qwen3-1.7B-Base'
+FAIL Qwen/Qwen3-1.7B-Base
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download Qwen/Qwen3-1.7B --exclude '*.pth' 'original/*'
++ echo 'FAIL Qwen/Qwen3-1.7B'
+FAIL Qwen/Qwen3-1.7B
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download Qwen/Qwen3-4B --exclude '*.pth' 'original/*'
++ echo 'FAIL Qwen/Qwen3-4B'
+FAIL Qwen/Qwen3-4B
++ for m in LiquidAI/LFM2.5-350M-Base LiquidAI/LFM2.5-350M Qwen/Qwen3-0.6B-Base Qwen/Qwen3-0.6B Qwen/Qwen3-1.7B-Base Qwen/Qwen3-1.7B Qwen/Qwen3-4B Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/hf download Qwen/Qwen3-8B --exclude '*.pth' 'original/*'
++ echo 'FAIL Qwen/Qwen3-8B'
+FAIL Qwen/Qwen3-8B
++ /mnt/nvme/vllm-venv/bin/python -c 'from datasets import load_dataset; d=load_dataset('\''akariasai/PopQA'\'', split='\''test'\''); print('\''popqa'\'', len(d), d.column_names)'
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Repo card metadata block was not found. Setting CardData to empty.
+Generating test split:   0%|          | 0/14267 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 14267/14267 [00:00<00:00, 147751.60 examples/s]
+popqa 14267 ['id', 'subj', 'prop', 'obj', 'subj_id', 'prop_id', 'obj_id', 's_aliases', 'o_aliases', 's_uri', 'o_uri', 's_wiki_title', 'o_wiki_title', 's_pop', 'o_pop', 'question', 'possible_answers']
++ echo SETUP_DONE
+SETUP_DONE

@@ -1,0 +1,50 @@
+# Dev-box dry run only. Same file shape and same key set as
+# configs/rl-350m-block.yaml, shrunk to a width that fits beside another
+# lane on the shared L40S. It exists to prove the CLI path end to end:
+# argparse, yaml, EnvConfig and GRPOConfig construction, loading a
+# pretrained checkpoint pulled from S3, tokenizer, task loading, one rollout,
+# one GRPO update, one checkpoint save. It is not a throughput measurement
+# and never runs on a block GPU.
+env:
+  max_rounds: 4
+  max_new_tokens: 96
+  query_max_tokens: 24
+  max_len: 640
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.05
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+grpo:
+  group_size: 4
+  prompts_per_step: 2
+  inner_epochs: 1
+  micro_batch_size: 2
+  clip_eps: 0.2
+  kl_coef: 0.05
+  ent_coef: 0.0
+  normalize_advantage: true
+  drop_zero_variance_groups: true
+  lr: 2.0e-6
+  weight_decay: 0.0
+  grad_clip: 1.0
+  warmup_steps: 1
+  max_steps: 2
+  min_lr_ratio: 1.0
+  seed: 731
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 384
+  limit_episodes: 60
+run:
+  temperature: 1.0
+  top_k: 0
+  eval_tasks: 8
+  eval_batch: 8
+  eval_every: 2
+  sample_every: 0
+  ckpt_every: 0
+  sample_n: 2
+  log_every: 1
+  max_iteration_factor: 20

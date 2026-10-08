@@ -1,0 +1,30 @@
+Retrieval v1 gate: minimax query planner, role-anchored templates, eval parity
+
+Trace gate at 2000 held-out episodes (seed 20260824, contradiction 0.15,
+filler 0.25): all_hops_top1 0.9803, drop_rate 0.0187. Per-domain drop:
+corporate 0.0085, kinship_temporal 0.0004, logistics 0.0746,
+regulatory 0.0000.
+
+- src/train/retrieval.py: when the greedy margin query fails, a bounded
+  minimax pass picks integer repeat counts for the candidate terms. BM25
+  scoring is linear in a query term counts vector, so query choice is a
+  small game against the strongest rival document; multiplicative weights
+  approximate it and every rounding is verified against the real
+  retriever. Queries still draw only on question terms plus chunks from
+  earlier hops.
+- src/worldgen/domains.py: document templates restate the entity on the
+  side of each relation that questions anchor on. Bag-of-words retrieval
+  cannot see argument roles, so the restatement puts the role into term
+  frequency. This changes the rendered corpus; gate metrics and the
+  held-out JSONL were regenerated after the change.
+- src/evals/interactive.py: the decode loop now serves retrieval under
+  the training oracle contracts, with reliability-weighted ranking and
+  without-replacement serving across one call rounds.
+- PREP.md: final v1 metrics, pinned render settings, render status, and
+  the remaining kill-test work.
+
+Also lands the pending working-tree work: retrieval v1 multi-hop traces,
+trace_stats and debug_drops diagnostics, and the interactive eval loop
+with its tests.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>

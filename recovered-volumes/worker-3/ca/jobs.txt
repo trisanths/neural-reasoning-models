@@ -1,0 +1,12 @@
+/opt/pytorch/bin/python ca_arms.py --arm os --ks 2 --steps 20000 --tag perk_k2 --out /home/ec2-user/ca/results > logs/perk_k2_os.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_tok --ks 1 --steps 20000 --tag perk_k1 --out /home/ec2-user/ca/results > logs/perk_k1_oo_tok.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_tok --ks 4 --steps 20000 --tag perk_k4 --out /home/ec2-user/ca/results > logs/perk_k4_oo_tok.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_split --ks 2 --steps 20000 --tag perk_k2 --out /home/ec2-user/ca/results > logs/perk_k2_oo_split.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_lat --ks 1 --steps 20000 --tag perk_k1 --out /home/ec2-user/ca/results > logs/perk_k1_oo_lat.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_lat --ks 4 --steps 20000 --tag perk_k4 --out /home/ec2-user/ca/results > logs/perk_k4_oo_lat.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_rec --ks 2 --steps 20000 --tag perk_k2 --out /home/ec2-user/ca/results > logs/perk_k2_oo_rec.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_mat --ks 1 --steps 20000 --tag perk_k1 --out /home/ec2-user/ca/results > logs/perk_k1_oo_mat.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_mat --ks 4 --steps 20000 --tag perk_k4 --out /home/ec2-user/ca/results > logs/perk_k4_oo_mat.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_tok --ks 1,2,3,4 --k-eval 1,2,4,8,16,32 --steps 20000 --tag extrap_mixedk --out /home/ec2-user/ca/results > logs/extrap_oo_tok.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_lat --ks 1,2,3,4 --k-eval 1,2,4,8,16,32 --steps 20000 --tag extrap_mixedk --out /home/ec2-user/ca/results > logs/extrap_oo_lat.log 2>&1
+/opt/pytorch/bin/python ca_arms.py --arm oo_mat --ks 1,2,3,4 --k-eval 1,2,4,8,16,32 --steps 20000 --tag extrap_mixedk --out /home/ec2-user/ca/results > logs/extrap_oo_mat.log 2>&1

@@ -63,6 +63,10 @@ is reachable from `main`.
   cellular-automaton serial-depth study.
 - `latent-translation/` is the earlier Coconut-based reasoning-outsourcing
   precursor.
+- `opgraph-audit/` is the operator-graph audit and the training-ceiling sweep.
+  It was a separate repository with no remote, sitting on the detached root
+  volume of a terminated box, and it carries the eight training-ceiling arms
+  that this repository's own audit had recorded as having no artifact.
 - `results/s3/` mirrors the project's S3 bucket with the key layout preserved,
   filtered to what belongs in git: no model weights, no tokenized shards, no
   generated item banks, no thinking traces. 3,333 objects, 502 MB. The Stage A
@@ -73,11 +77,14 @@ is reachable from `main`.
 - `results/STAGE-B.md` reads the Stage B comparison, which no document under
   `decoupled-reasoner/` could have seen.
 - `MANIFEST-s3.md` accounts for everything left out, with sizes and URIs.
+- `recovered-volumes/` and `RECOVERY.md` are what was on the boxes' root disks
+  and had no copy here: the sweep working directories, the job lists and run
+  logs of the cellular-automaton study, and how the full pilot was launched.
 
 Unmodified source histories are preserved as branches, so nothing depends on
 reading the subtree assembly correctly: `history/decoupled-reasoner`,
 `history/pilot-acq-bench`, `history/latent-transfer`,
-`history/latent-translation`.
+`history/latent-translation`, `history/opgraph-audit`.
 
 Start with `decoupled-reasoner/src/STATE.md`. It is a claim ledger: every claim
 restated at the strength its artifact supports, each marked confirmed,
@@ -175,9 +182,13 @@ only in the maximum plan depth seen in training, put the depth-eight arm at
 the autoregressive planning-horizon hypothesis, is recorded as dead: there was
 no three-step horizon, there was a three-step training set. The extrapolation
 constant is zero rather than small, since no arm generalises one step past its
-own maximum. The arms behind this result could not be located by the later
-audit, so it rests on an unlocatable table, corroborated in shape by the corpus
-retrain.
+own maximum. The audit could not locate the arms behind this result, so it
+stood on a table nobody could find. They are now in this repository at
+`opgraph-audit/results/ceiling/`, recovered from the detached root volume of
+the terminated box that ran them; `RECOVERY.md` says how. The recovered table
+shows each arm saturating exactly at its training maximum, 1, 2, 3, 4, 6 and 8,
+with the budget-truncation control at 0.000 in every cell, so the lengths are
+real rather than decoding stopping early.
 
 The second was retrieval position. The minimal repro measured a total wall
 between depth one and depth two, zero correct answers in 1200 rollouts at
@@ -383,10 +394,12 @@ rebuilt both the instrument and the validity rule after two reviews found the
 rule as registered could not pass. No verdict, no scored record and no chosen
 treatment base exist.
 
-Several surviving positive results rest on artifacts that exist on one live box
-and in neither the repository nor S3, so they are one instance termination from
-unverifiable. Others have no artifact at all, including the eight
-training-ceiling arms. `src/STATE.md` lists both sets.
+Several surviving positive results rest on artifacts that existed on one box and
+in neither the repository nor S3, so they were one instance termination from
+unverifiable, and `src/STATE.md` lists them. The eight training-ceiling arms
+were on that list and are no longer: they are at
+`opgraph-audit/results/ceiling/`, taken off a volume whose instance had already
+been terminated. The rest of that list was not resolved by this recovery.
 
 ## Artifacts, checkpoints and S3
 

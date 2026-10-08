@@ -1,0 +1,29 @@
+src/extern: the verdict is checked against the records before it is spliced
+
+results/extern/verdict.md is hand written and pasted verbatim into LIQUID.md on
+every build, so a retracted claim in it propagates instead of decaying. The
+retrieval paragraph said the reader "almost never emits a retrieval request",
+with near zero Exa spend as the evidence. The n=400 record has the reader
+emitting the token on 102 of 400 items, 0.2550 [0.215, 0.300], with 73 live
+searches beside 255 cache hits, and a cache hit costs nothing, so spend was
+never a rate. The paragraph now reports the rate, and the finding it carries is
+that asking buys nothing: 0.0100 with a live index and 0.0100 without, and on
+the 88 items where a chunk entered the trace the reader named an option zero
+times either way.
+
+Two more claims did not survive a recount. The per family split said below
+chance on three families and above on one; the artifact has two above and two
+below, one of them by a third of a point on 25 items. And the general cell's
+0.0000 now carries its states: of 26 items, 7 ran, 17 were malformed and 2 were
+refused, so the losing arm rests on 7 scored answers.
+
+The mechanism is `check_verdict` in `src/extern/md.py`. The verdict carries a
+claim block binding every numeral in its prose to a record file and a field,
+and the build raises when a stated value is not what the file holds, when a
+numeral appears in the prose that no line accounts for, when a claimed value
+has dropped out of the prose, or when a cited record file is newer than the
+verdict quoting it. A missing verdict file is an error rather than a silent
+"(verdict pending)". Four negative tests, one per branch, were run and each
+raised.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>

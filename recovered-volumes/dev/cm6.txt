@@ -1,0 +1,18 @@
+src/e3, src/STATE.md: a script behind the recount, and a pointer to the gap decomposition
+
+The MMLU prediction-letter rows that survived the wiped instance store were
+recounted for the previous commit by an ad hoc script in $HOME, which is the
+pattern this project has already recorded as a fault. src/e3/letters.py is that
+recount as a committed script: it reads the two checkout artifacts and the S3
+n=500 record, recomputes accuracy and the letter distribution item by item,
+writes results/e3/letters.json, and raises if a recounted accuracy disagrees
+with the one in the file. All three rows reproduce.
+
+STATE.md claim R4 now points at src/norm/GAP.md for the mechanism under it. The
+claim was that the 167M rung reaches symmetry by getting worse at the order it
+used to get right; the decomposition says how. Binding failures are 0.4804 of
+key-first failures against 0.0090 malformed, and the whole-table transposition
+goes from 0 of 514 key-first failures at 45M to 324 of 1,222 at 167M while the
+value-first rate holds near 0.39 at every rung.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>

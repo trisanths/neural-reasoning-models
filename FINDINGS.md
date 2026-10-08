@@ -441,8 +441,13 @@ extrapolation constant is zero rather than small, since no arm generalises one
 step past its training maximum. The published arm is reproduced by the
 depth-three arm.
 
-Status: confirmed as recorded, with the artifact caveat in section 17. Source:
-`decoupled-reasoner/PREREGISTERED.md` H12 result, 2026-08-29
+Status: confirmed, and the artifact caveat in section 17 no longer applies to
+this one. The arms were recovered on 2026-10-08 from the detached root volume
+of the terminated box that ran them and are at
+`opgraph-audit/results/ceiling/`, eight summaries with their per-item records
+and the generated tables. Sources:
+`decoupled-reasoner/PREREGISTERED.md` H12 result, 2026-08-29;
+`opgraph-audit/results/ceiling/TABLES_full.md`; `RECOVERY.md`
 
 ### H10 is dead
 

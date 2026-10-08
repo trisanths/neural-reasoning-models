@@ -1,0 +1,38 @@
+/opt/pytorch/lib64/python3.13/site-packages/torch/cuda/__init__.py:63: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+  import pynvml  # type: ignore[import]
+Traceback (most recent call last):
+  File "/home/ec2-user/ca/ca_arms.py", line 647, in <module>
+    run_arm(a.arm, ks, ke, a.steps, a.seed, a.tag, a.out, a.spec, a.batch, a.pos, a.block, a.eval_only)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ec2-user/ca/ca_arms.py", line 610, in run_arm
+    loss = train_step(k)
+  File "/home/ec2-user/ca/ca_arms.py", line 468, in train_step
+    h, past = gpt(ids)
+              ~~~^^^^^
+  File "/opt/pytorch/lib64/python3.13/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/pytorch/lib64/python3.13/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ec2-user/ca/ca_arms.py", line 145, in forward
+    x = self.wte(ids) if embeds is None else embeds
+        ~~~~~~~~^^^^^
+  File "/opt/pytorch/lib64/python3.13/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/opt/pytorch/lib64/python3.13/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/opt/pytorch/lib64/python3.13/site-packages/torch/nn/modules/sparse.py", line 189, in forward
+    return F.embedding(
+           ~~~~~~~~~~~^
+        input,
+        ^^^^^^
+    ...<5 lines>...
+        self.sparse,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/opt/pytorch/lib64/python3.13/site-packages/torch/nn/functional.py", line 2567, in embedding
+    return torch.embedding(weight, input, padding_idx, scale_grad_by_freq, sparse)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 28.00 MiB. GPU 0 has a total capacity of 44.39 GiB of which 6.00 MiB is free. Process 493237 has 6.84 GiB memory in use. Process 493406 has 9.36 GiB memory in use. Process 493403 has 7.28 GiB memory in use. Process 493411 has 5.90 GiB memory in use. Process 493413 has 8.85 GiB memory in use. Process 501396 has 2.94 GiB memory in use. Process 501757 has 2.69 GiB memory in use. Including non-PyTorch memory, this process has 502.00 MiB memory in use. Of the allocated memory 6.09 MiB is allocated by PyTorch, and 1.91 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)

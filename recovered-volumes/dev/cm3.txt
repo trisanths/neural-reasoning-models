@@ -1,0 +1,17 @@
+src/extern: fourcell picks its cell 2 record by n, not by sorting file names
+
+The selection was sorted(glob("cell2_ours_mmlu_retrieval_n*.json"))[-1]. That
+sort is lexicographic, so n1000 sorts before n400 and the larger run is the one
+that would have been dropped, with nothing in the document saying which record
+the row came from. Checked against three names in a scratch directory: the old
+expression picks n400 where the new one picks n1000.
+
+The n is now parsed out of the file name and the largest wins, the runs not
+chosen are named under the table, and a file matching the glob whose name
+carries no n raises rather than being excluded in silence. The table also names
+the record file and write time behind each of the four cells.
+
+The comment justifying the old line described a cell cut to n=100 and no longer
+described the file on disk, which is n=400.
+
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
