@@ -73,6 +73,9 @@ is reachable from `main`.
 - `results/STAGE-B.md` reads the Stage B comparison, which no document under
   `decoupled-reasoner/` could have seen.
 - `MANIFEST-s3.md` accounts for everything left out, with sizes and URIs.
+- `PRIVACY.md` records what a public release would have to decide first. The
+  repository holds no credentials on any branch; it does hold identifying
+  detail, and that document lists it.
 
 Unmodified source histories are preserved as branches, so nothing depends on
 reading the subtree assembly correctly: `history/decoupled-reasoner`,
