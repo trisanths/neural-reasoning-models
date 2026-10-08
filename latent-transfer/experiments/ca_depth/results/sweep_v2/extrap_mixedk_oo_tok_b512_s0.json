@@ -1,0 +1,57 @@
+{
+ "arm": "oo_tok",
+ "k_train": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "k_eval": [
+  1,
+  2,
+  4,
+  8,
+  16,
+  32
+ ],
+ "steps": 20000,
+ "seed": 0,
+ "spec": "orbit",
+ "batch": 512,
+ "pos": "abs",
+ "readout": "tokens",
+ "train": [],
+ "eval": [
+  {
+   "k": 1,
+   "exact": 0.6825,
+   "bit": 0.967775
+  },
+  {
+   "k": 2,
+   "exact": 0.5525,
+   "bit": 0.921375
+  },
+  {
+   "k": 4,
+   "exact": 0.467,
+   "bit": 0.8405
+  },
+  {
+   "k": 8,
+   "exact": 0.01,
+   "bit": 0.57255
+  },
+  {
+   "k": 16,
+   "exact": 0.008,
+   "bit": 0.5717
+  },
+  {
+   "k": 32,
+   "exact": 0.0165,
+   "bit": 0.57235
+  }
+ ],
+ "note": "recovered from logs_v2/extrap_oo_tok.log EVAL line; the JSON was overwritten by the 256x40k job sharing its filename"
+}

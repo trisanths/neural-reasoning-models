@@ -1,0 +1,8 @@
+[
+ {"name":"small (0.12M), no reasoning","kind":"nocot","ckpt":"runs/c3_xs_nocot/model.pt"},
+ {"name":"small (0.12M), explicit CoT","kind":"cot","ckpt":"runs/c3_xs_cot/model.pt"},
+ {"name":"small (0.12M), Coconut  [FLOOR]","kind":"coconut","ckpt":"runs/c3_xs/model.pt"},
+ {"name":"big (8.0M), Coconut  [CEILING]","kind":"coconut","ckpt":"runs/c3_big/model.pt"},
+ {"name":"CROSS-MODEL pipeline","kind":"pipeline","ckpt":"runs/c3_pipeline/pipeline.pt","small_ckpt":"runs/c3_xs/model.pt","big_ckpt":"runs/c3_big/model.pt"},
+ {"name":"control: random big model","kind":"pipeline","ckpt":"runs/c3_pipeline_randbig/pipeline.pt","small_ckpt":"runs/c3_xs/model.pt","big_ckpt":"runs/c3_big/model.pt","random_big":true}
+]

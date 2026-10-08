@@ -1,0 +1,50 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/290 [00:00<?, ?it/s]Loading weights: 100%|██████████| 290/290 [00:00<00:00, 5209.27it/s]
+Loading weights:   0%|          | 0/339 [00:00<?, ?it/s]Loading weights: 100%|██████████| 339/339 [00:00<00:00, 4896.41it/s]
+=== pipeline d_s=896 d_b=3584 proj=mlp random_big=0 ===
+small=505.03M big=7655.63M proj_up=16.063M lora=11.239M
+  [s1] ep 0 step 50 loss 24.5527
+  [s1] ep 0 step 100 loss 19.5613
+  [s1] ep 0 step 150 loss 18.3739
+  [s1] ep 0 step 200 loss 16.9943
+  [s1] ep 0 step 250 loss 17.3712
+  [s1] ep 0 step 300 loss 16.5745
+  [s1] ep 0 step 350 loss 16.2574
+  [s1] ep 0 step 400 loss 15.6171
+[gate s1] big-native          val concept=0.9900
+Traceback (most recent call last):
+  File "/home/ubuntu/mm/scripts/train_pipeline.py", line 414, in <module>
+    main()
+  File "/home/ubuntu/mm/scripts/train_pipeline.py", line 282, in main
+    m = eval_big_projected(coco_big, pipe, proj_up, val_ex, tok, cur, dev)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/ubuntu/mm/scripts/train_pipeline.py", line 362, in eval_big_projected
+    out = generate_big_with_prefix(coco_big, batch, embeds, tok)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/ubuntu/mm/scripts/train_pipeline.py", line 381, in generate_big_with_prefix
+    _, kv, _, _ = coco_big._prefix(batch, None, prefix_embeds)
+  File "/home/ubuntu/mm/src/coconut.py", line 64, in _prefix
+    out = self.base(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ubuntu/mm/src/hf_backbone.py", line 108, in forward
+    out = self.model(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/transformers/utils/generic.py", line 911, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/transformers/models/qwen2/modeling_qwen2.py", line 475, in forward
+    logits = self.lm_head(hidden_states[:, slice_indices, :])
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/ubuntu/mm/src/projectors.py", line 79, in forward
+    return self.base(x) + (x @ self.a.T @ self.b.T) * self.scale
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 8.08 GiB. GPU 0 has a total capacity of 44.39 GiB of which 4.18 GiB is free. Including non-PyTorch memory, this process has 40.20 GiB memory in use. Of the allocated memory 39.44 GiB is allocated by PyTorch, and 266.47 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)

@@ -1,0 +1,27 @@
+
+== ONE MODEL PER k ==
+arm          pos   recipe    what is carried / how read out               k=1           k=2           k=4
+oo_tok       rope  256x40k   O-O tokens (every state emitted)   0.752[0.64-0.94] 0.794[0.65-0.93] 0.718[0.50-0.89]
+oo_tok       rope  512x20k   O-O tokens (every state emitted)        0.785         0.914         0.652   
+os_tok       rope  256x40k   O-S tokens (only x(T+k) emitted)   0.840[0.75-0.89] 0.518[0.39-0.67] 0.280[0.26-0.30]
+oo_pause_a   rope  256x40k   slots in KV, context readout       0.609[0.10-0.93] 0.011[0.01-0.01] 0.021[0.01-0.03]
+oo_pause_a   rope  512x20k   slots in KV, context readout            0.616         0.032         0.009   
+oo_lat_a     rope  256x40k   hidden fed back, context readout   0.393[0.01-0.77] 0.044[0.03-0.06] 0.031[0.03-0.03]
+oo_lat_a     rope  512x20k   hidden fed back, context readout        0.383         0.036         0.037   
+oo_pause_s   rope  512x20k   slots pinned to state, context readout      0.034           --          0.031   
+oo_rec       rope  512x20k   fixed-vector loop, vector readout       0.374         0.111         0.090   
+os           rope  512x20k   no intermediates, vector readout        0.308         0.217         0.102   
+
+== TRAINED ON k<=4, EVALUATED TO k=32 ==
+arm          pos   recipe    what is carried / how read out               k=1           k=2           k=4           k=8          k=16          k=32
+oo_tok       rope  256x40k   O-O tokens (every state emitted)   0.838[0.62-0.95] 0.773[0.52-0.90] 0.695[0.43-0.83] 0.395[0.12-0.56] 0.006[0.00-0.01] 0.015[0.01-0.03]
+oo_tok       rope  512x20k   O-O tokens (every state emitted)        0.628         0.537         0.422         0.268         0.006         0.011   
+os_tok       rope  256x40k   O-S tokens (only x(T+k) emitted)   0.377[0.12-0.77] 0.125[0.11-0.14] 0.112[0.10-0.12] 0.085[0.08-0.09] 0.090[0.09-0.09] 0.099[0.09-0.11]
+oo_pause_a   rope  256x40k   slots in KV, context readout       0.031[0.02-0.04] 0.021[0.02-0.03] 0.025[0.02-0.03] 0.014[0.01-0.02] 0.010[0.01-0.01] 0.005[0.00-0.01]
+oo_pause_a   rope  512x20k   slots in KV, context readout            0.013         0.015         0.015         0.021         0.024         0.019   
+oo_lat_a     rope  256x40k   hidden fed back, context readout   0.328[0.03-0.63] 0.046[0.03-0.06] 0.037[0.03-0.04] 0.031[0.03-0.03] 0.035[0.03-0.04] 0.030[0.02-0.04]
+oo_lat_a     rope  512x20k   hidden fed back, context readout        0.009         0.017         0.020         0.018         0.026         0.019   
+oo_rec       rope  512x20k   fixed-vector loop, vector readout       0.084         0.082         0.086         0.029         0.009         0.004   
+os           rope  512x20k   no intermediates, vector readout        0.043         0.043         0.046         0.043         0.042         0.044   
+
+exact-match on 2000 held-out-rule examples; [min-max] over seeds. Paper (4L d128 GPT-NeoX): O-S 0.95/0.40/<0.25, O-O >0.9 at k<=4.

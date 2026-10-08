@@ -1,0 +1,60 @@
+{
+  "rows": [
+    {
+      "name": "small (0.12M), no reasoning",
+      "exact": 0.112,
+      "concept": 0.112,
+      "flops": 3225088,
+      "params": 122048
+    },
+    {
+      "name": "small (0.12M), explicit CoT",
+      "exact": 1.0,
+      "concept": 1.0,
+      "flops": 5751808,
+      "params": 122048
+    },
+    {
+      "name": "small (0.12M), Coconut  [FLOOR]",
+      "exact": 0.684,
+      "concept": 0.684,
+      "flops": 4050304,
+      "params": 122048
+    },
+    {
+      "name": "big (8.0M), Coconut  [CEILING]",
+      "exact": 0.997,
+      "concept": 0.997,
+      "flops": 316700160,
+      "params": 7985920
+    },
+    {
+      "name": "CROSS-MODEL pipeline",
+      "exact": 0.7485,
+      "concept": 0.7485,
+      "flops": 241669504,
+      "flops_breakdown": {
+        "small": 4050304,
+        "big": 237127680,
+        "proj": 491520,
+        "total": 241669504
+      },
+      "params": 8125048
+    },
+    {
+      "name": "control: random big model",
+      "exact": 0.7415,
+      "concept": 0.7415,
+      "flops": 241669504,
+      "flops_breakdown": {
+        "small": 4050304,
+        "big": 237127680,
+        "proj": 491520,
+        "total": 241669504
+      },
+      "params": 8125048
+    }
+  ],
+  "n_question": 12,
+  "k_latent": 3
+}

@@ -1,0 +1,333 @@
+{
+ "checkpoint": "/home/ec2-user/ca/ckpt/base_350me_503.pt",
+ "start": 900000,
+ "count": 40,
+ "summary": {
+  "doc": {
+   "acc": 0.075,
+   "well_formed": 0.8875,
+   "n": 160,
+   "mean_prompt_toks": 249.94375,
+   "by_fam": {
+    "binary_op": 0.0,
+    "units": 0.0,
+    "procedure": 0.231
+   }
+  },
+  "wrong_doc": {
+   "acc": 0.0625,
+   "well_formed": 0.9375,
+   "n": 160,
+   "mean_prompt_toks": 259.09375,
+   "by_fam": {
+    "binary_op": 0.0,
+    "units": 0.0,
+    "procedure": 0.192
+   }
+  },
+  "no_doc": {
+   "acc": 0.0,
+   "well_formed": 1.0,
+   "n": 160,
+   "mean_prompt_toks": 28.24375,
+   "by_fam": {
+    "binary_op": 0.0,
+    "units": 0.0,
+    "procedure": 0.0
+   }
+  },
+  "result": {
+   "acc": 0.00625,
+   "well_formed": 0.58125,
+   "n": 160,
+   "mean_prompt_toks": 256.11875,
+   "by_fam": {
+    "binary_op": 0.018,
+    "units": 0.0,
+    "procedure": 0.0
+   }
+  }
+ },
+ "stats": {
+  "doc": {
+   "n": 160,
+   "correct": 12,
+   "well_formed": 142,
+   "prompt_toks": 39991,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "14",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "Evaluate 11",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "Evaluate 11 @ 1.\nThe Driwren protocol is a set of rules that govern the behavior",
+     "ok": false,
+     "wf": false
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "Evaluate 4 @ 19.\nThe Driwren protocol is a set of rules that govern the behavior",
+     "ok": false,
+     "wf": false
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "1",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 0
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 12
+    }
+   }
+  },
+  "wrong_doc": {
+   "n": 160,
+   "correct": 10,
+   "well_formed": 150,
+   "prompt_toks": 41455,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "15",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "11",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "19",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "1",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 0
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 10
+    }
+   }
+  },
+  "no_doc": {
+   "n": 160,
+   "correct": 0,
+   "well_formed": 160,
+   "prompt_toks": 4519,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "BREXKLU",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "KLUXKLU",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "KLUXKLU",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "KLUXKLU",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "KLUXKLU",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "1",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 0
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 0
+    }
+   }
+  },
+  "result": {
+   "n": 160,
+   "correct": 1,
+   "well_formed": 93,
+   "prompt_toks": 40979,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "The Driwren protocol",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "The Driwren protocol",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "The Driwren protocol",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "The Driwren protocol",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "Decision.",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "Decision.",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 1
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,462 @@
+<title>Latent-space transfer between models: briefing</title>
+<style>
+  @page{size:letter;margin:0.85in 0.9in;}
+  :root{
+    --ink:#111; --ink-2:#3a3a3a; --ink-3:#6a6a6a; --rule:#c9c9c9;
+    --rm:"Charter","Bitstream Charter",Georgia,"Times New Roman",serif;
+    --sans:Helvetica,Arial,sans-serif;
+    --mono:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--rm);font-size:10.5pt;line-height:1.45;color:var(--ink);background:#fff;}
+  h1{font-family:var(--sans);font-size:19pt;margin:0 0 2pt;line-height:1.15;}
+  .sub{font-size:10pt;color:var(--ink-3);margin:0 0 16pt;}
+  h2{font-family:var(--sans);font-size:12pt;margin:20pt 0 7pt;padding-bottom:3pt;
+     border-bottom:1px solid var(--rule);break-after:avoid;}
+  h3{font-family:var(--sans);font-size:10pt;margin:13pt 0 4pt;break-after:avoid;}
+  p{margin:0 0 7pt;}
+  ul,ol{margin:0 0 7pt;padding-left:15pt;}
+  li{margin-bottom:3pt;}
+  code{font-family:var(--mono);font-size:9pt;}
+  table{border-collapse:collapse;width:100%;margin:6pt 0 9pt;font-size:9.5pt;
+        font-variant-numeric:tabular-nums;break-inside:avoid;}
+  th{text-align:right;font-weight:600;font-size:8.5pt;text-transform:uppercase;
+     letter-spacing:.04em;color:var(--ink-3);padding:2pt 4pt;border-bottom:1px solid var(--ink);}
+  th:first-child{text-align:left;}
+  td{text-align:right;padding:2.5pt 4pt;border-bottom:1px solid #e8e8e8;}
+  td:first-child{text-align:left;}
+  tr.hl td{font-weight:700;}
+  dl{margin:0 0 7pt;}
+  dt{font-weight:700;margin-top:6pt;}
+  dd{margin:0 0 0 0;padding-left:0;}
+  .q{font-weight:700;margin:11pt 0 3pt;break-after:avoid;}
+  .q::before{content:"Q. ";color:var(--ink-3);}
+  .box{border:1px solid var(--rule);padding:8pt 10pt;margin:9pt 0;break-inside:avoid;background:#fafafa;}
+  .box .t{font-family:var(--sans);font-size:9pt;font-weight:700;margin-bottom:4pt;}
+  .warn{border-left:3px solid #b03a2e;padding-left:9pt;margin:9pt 0;break-inside:avoid;}
+  .warn .t{font-family:var(--sans);font-size:9pt;font-weight:700;color:#b03a2e;margin-bottom:3pt;}
+  .small{font-size:9pt;color:var(--ink-2);}
+</style>
+
+<h1>Latent-space transfer between models for efficient reasoning</h1>
+<p class="sub">Briefing and question prep. Every number comes from a run stored in <code>results/</code>.</p>
+
+<h2>1. The one-paragraph version</h2>
+<p>
+A small model reads the user's question. Instead of writing out an answer, it hands what it understood to a much
+larger model as raw vectors. The large model thinks about those vectors for a few steps, never writing a single
+word, and hands its conclusion back. The small model then writes the answer. Only a handful of vectors cross
+between them, so the large model processes a few dozen positions instead of the whole question. On a three-step
+arithmetic task this takes a 0.12M-parameter model from <b>0.684 to 0.9995</b>, which matches what an
+8.0M-parameter model scores on its own. Put a randomly initialised model in the large slot instead and the score
+falls to 0.743, which is how we know the large model is doing the reasoning.
+</p>
+
+<h2>2. Terms used in this document</h2>
+<dl>
+  <dt>Token</dt>
+  <dd>A chunk of text, roughly a word or word-piece. Models read and write tokens. Everything else here happens
+      between them.</dd>
+
+  <dt>Embedding</dt>
+  <dd>The vector a model turns each input token into before doing anything with it. A list of numbers, typically a
+      few hundred to a few thousand long. The length is the model's <i>width</i>, written <i>d</i>.</dd>
+
+  <dt>Hidden state</dt>
+  <dd>The vector a model holds for each position after it has processed the input. If an embedding is what the
+      model reads, the hidden state is what it currently thinks about that position. There is one per token per
+      layer, and the ones we use are from the final layer.</dd>
+
+  <dt>Residual stream</dt>
+  <dd>The running vector that carries information from the bottom of a transformer to the top. Every layer reads
+      it, computes something, and adds the result back. "Projecting into the large model's residual space" means
+      producing vectors of the right width, and the right statistical shape, that the large model's layers will
+      accept as if they had come from its own embeddings.</dd>
+
+  <dt>Logits</dt>
+  <dd>The score the model assigns to every possible next token before choosing one. Turning hidden states into
+      logits is the last step of generating text. In this architecture the large model never takes that step.</dd>
+
+  <dt>KV cache</dt>
+  <dd>What a model stores after reading text so it does not have to re-read it. Keeping the cache is why the small
+      model reads the question only once, even though it acts twice.</dd>
+
+  <dt>Chain of thought</dt>
+  <dd>Getting a model to write out its reasoning in words before answering. It works, but every step of reasoning
+      costs tokens, which costs time and money.</dd>
+
+  <dt>Latent reasoning, or continuous thought</dt>
+  <dd>The alternative this work builds on. Rather than decoding a reasoning step into words, feed the model's own
+      hidden state straight back in as the next input. The model reasons in vectors. This is the Coconut method
+      (Hao et al., 2024). A single continuous thought can hold several possible partial answers at once, which
+      written text cannot do since it has to commit to specific words.</dd>
+
+  <dt>Projector</dt>
+  <dd>The small learned network that converts vectors from one model's format into another's. Two models trained
+      separately have no reason to represent things the same way, so something has to translate. Ours is a
+      two-layer network with about 40,000 parameters in each direction.</dd>
+
+  <dt>Adapter, or LoRA</dt>
+  <dd>A small set of extra weights bolted onto a frozen model so it can learn a new behaviour without retraining
+      it. "Rank 8" describes how small: a few thousand parameters per layer. Ours start at zero, so the model
+      behaves exactly as before until training moves them.</dd>
+
+  <dt>Random initialisation, or "from scratch"</dt>
+  <dd>Every weight in a network is a number, and before training those numbers are filled in with small random
+      values. Training then adjusts them until the network does something useful. Training from random
+      initialisation means learning the task from nothing, rather than starting from a model someone else already
+      trained. Both backbones here were built that way, so they share no common ancestry and cannot communicate
+      just because they happened to be trained on overlapping data.</dd>
+
+  <dt>Untrained model</dt>
+  <dd>A network left at its random initialisation, never trained at all. It has the right shape but computes
+      nothing meaningful. This is what the control puts in the large model's place, and why the comparison is
+      informative: a noise network of identical size scores 0.743 where the trained one scores 0.9995.</dd>
+
+  <dt>Pretrained</dt>
+  <dd>A model already trained on a large corpus before you touch it, such as Qwen2.5-7B. The small-scale
+      experiment avoids these deliberately; the attempts that used them are in section 7 and did not work.</dd>
+
+  <dt>Frozen</dt>
+  <dd>Weights held fixed during training. Both backbone models are frozen while the handoff is learned, so any
+      improvement has to come from the pieces connecting them.</dd>
+
+  <dt>Curriculum</dt>
+  <dd>Training in stages of increasing difficulty. Here, each stage replaces one more written reasoning step with
+      a vector, until none of the reasoning is written down.</dd>
+
+  <dt>FLOPs</dt>
+  <dd>Floating-point operations, a hardware-independent measure of how much arithmetic answering one question
+      takes. Used here instead of wall-clock time because it does not depend on which GPU you happen to own.</dd>
+
+  <dt>Control</dt>
+  <dd>A version of the experiment with one ingredient deliberately broken, run to check that the ingredient is
+      what produced the result. Our main control replaces the trained large model with an untrained one of exactly
+      the same shape.</dd>
+
+  <dt>Floor and ceiling</dt>
+  <dd>The small model alone, and the large model alone. The handoff is only interesting if it lands well above the
+      floor, and the ceiling tells you how much room there was.</dd>
+</dl>
+
+<h2>3. What the two models are</h2>
+<p>
+Neither is a downloaded model. Both are ordinary decoder-only transformers, the same family as GPT, written from
+scratch and trained from random initialisation for this experiment. That was a deliberate choice: it means the two
+models share nothing except the task, so any communication between them has to be genuinely learned rather than
+inherited from common pretraining.
+</p>
+<table>
+  <tr><th></th><th>small model</th><th>large model</th></tr>
+  <tr><td>parameters</td><td>0.12M</td><td>7.99M</td></tr>
+  <tr><td>layers</td><td>2</td><td>10</td></tr>
+  <tr><td>width (<i>d</i>)</td><td>64</td><td>256</td></tr>
+  <tr><td>attention heads</td><td>4</td><td>8</td></tr>
+  <tr><td>feed-forward width</td><td>256</td><td>1024</td></tr>
+  <tr><td>vocabulary</td><td colspan="2" style="text-align:right">23 tokens, shared</td></tr>
+</table>
+<p class="small">
+The vocabulary is tiny because the task is: ten digits, two operators (<code>add</code>, <code>mul</code>), five
+syntax tokens, and six special markers. Positional information is learned, embeddings are tied between input and
+output, and there is no dropout.
+</p>
+
+<h3>The task both models were trained on</h3>
+<p>
+Problems look like <code>start 3 add 4 mul 2 add 1 ?</code> and the answer is 6, meaning 16 modulo 10. Three
+updates applied in order to one running value. Every step depends on the previous result, so the answer cannot be
+found without doing all three in sequence, and the difficulty comes purely from that depth rather than from having
+to search the input for anything. That is the whole point of the design: it isolates the thing a bigger model is
+supposed to be better at.
+</p>
+<p>
+17,746 training problems, 500 for validation, 2,000 held out for the numbers reported here. Guessing scores 0.112.
+</p>
+
+<h3>How each was trained, step by step</h3>
+<p>
+Both models went through the same procedure independently, before any handoff existed.
+</p>
+<ol>
+  <li><b>Learn the task with written reasoning.</b> The model is trained to produce the intermediate values as text
+      and then the answer, which is ordinary next-token prediction.</li>
+  <li><b>Replace the written steps with vectors, one stage at a time.</b> At stage one, the first written step is
+      removed and a vector position takes its place; the model must carry that step internally. At stage two, two
+      steps are gone. By the final stage the whole chain is vectors and only the answer is still written.</li>
+  <li><b>Reset the optimiser at every stage boundary</b>, because the objective changes abruptly when a step
+      disappears and the old momentum is actively unhelpful.</li>
+</ol>
+<table>
+  <tr><th>setting</th><th>value</th></tr>
+  <tr><td>optimiser</td><td>AdamW, betas 0.9 / 0.95, weight decay 0.01</td></tr>
+  <tr><td>learning rate</td><td>3e-4, one-cycle schedule, 3% warmup</td></tr>
+  <tr><td>batch size</td><td>32</td></tr>
+  <tr><td>epochs per curriculum stage</td><td>3</td></tr>
+  <tr><td>gradient clipping</td><td>1.0</td></tr>
+  <tr><td>precision</td><td>float32</td></tr>
+</table>
+<p>
+After this the small model scores 0.684 and the large model 0.997, both reasoning entirely in vectors. Those two
+numbers are the floor and the ceiling for everything that follows. It is worth noting the small model can reach
+1.000 if allowed to write its reasoning out; the 0.684 is what it manages when forced to think silently, which is
+the regime the handoff operates in.
+</p>
+
+<h2>4. How the handoff works</h2>
+<ol>
+  <li>The small model reads the question and keeps its cache. It will not read the question again.</li>
+  <li>Its final-layer hidden states are passed through the up-projector, which converts them from width 64 to
+      width 256. Optionally only the last few states cross; because of how attention works those positions have
+      already absorbed the whole question, so they carry it in compressed form.</li>
+  <li>The large model takes those vectors as if they were its own embeddings and runs several reasoning steps,
+      each time feeding its own output hidden state back in as the next input. It never converts anything to
+      words.</li>
+  <li>Those thought vectors go through the down-projector, back to width 64, and are inserted into the small
+      model's context at positions reserved for them.</li>
+  <li>The small model writes the answer, reusing the cache from step one.</li>
+</ol>
+<table>
+  <tr><th>piece</th><th>what it is</th><th>parameters</th></tr>
+  <tr><td>up-projector</td><td>Linear 64&#8594;256, GELU, Linear 256&#8594;256, output scale matching</td><td>0.041M</td></tr>
+  <tr><td>down-projector</td><td>the same in reverse, 256&#8594;64</td><td>0.041M</td></tr>
+  <tr><td>small-model adapter</td><td>LoRA rank 8</td><td>0.017M</td></tr>
+  <tr><td>large-model adapter</td><td>LoRA rank 8, starts at zero</td><td>0.017M</td></tr>
+</table>
+<p class="small">
+Everything trained for the handoff comes to roughly 0.12M parameters, about the size of the small model and 1.4%
+of the large one. Both backbones stay frozen.
+</p>
+
+<h2>5. How the handoff was trained</h2>
+<table>
+  <tr><th>stage</th><th>what it trains</th><th>what it optimises</th><th>steps</th></tr>
+  <tr><td>1</td><td>up-projector only</td><td>make the large model produce the same thoughts it would have produced
+      reading the question itself, and keep its answer correct</td><td>2,200</td></tr>
+  <tr><td>2</td><td>down-projector and both adapters</td><td>answer correctness, end to end</td><td>1,650</td></tr>
+  <tr><td>3</td><td>everything, low learning rate</td><td>answer correctness</td><td>polish</td></tr>
+</table>
+<p>
+Stage one exists to separate two failures that otherwise look identical. If the pipeline is broken, is it because
+the large model cannot read foreign vectors, or because the small model cannot use what comes back? Training and
+measuring the up-projector on its own answers that before the rest is built on top of it.
+</p>
+
+<div class="box">
+  <div class="t">The detail that matters most</div>
+  The large model has to be given a small adapter so it can learn to read the incoming vectors. Left completely
+  frozen, it answers correctly only <b>26.8%</b> of the time from projected vectors, against <b>100%</b> from its
+  own embeddings, and the whole pipeline stalls at 0.7485, which is no better than its control at 0.7415. With a
+  rank-8 adapter it answers <b>99.4%</b> of the time from projected vectors and the pipeline reaches 0.9995. The
+  adapter costs 0.017M parameters and does not change inference cost.
+</div>
+
+<h2>6. Results</h2>
+<table>
+  <tr><th>configuration</th><th>accuracy</th><th>FLOPs/query</th><th>vs small</th></tr>
+  <tr><td>small model, no reasoning at all</td><td>0.112</td><td>3.2M</td><td>0.8&#215;</td></tr>
+  <tr><td>small model, writing its reasoning out</td><td>1.000</td><td>5.8M</td><td>1.4&#215;</td></tr>
+  <tr><td>small model, reasoning silently (floor)</td><td>0.684</td><td>4.1M</td><td>1.0&#215;</td></tr>
+  <tr><td>handoff, large model frozen</td><td>0.7485</td><td>242M</td><td>59.7&#215;</td></tr>
+  <tr><td><i>control</i>: untrained large model, frozen</td><td>0.7415</td><td>242M</td><td>59.7&#215;</td></tr>
+  <tr class="hl"><td>handoff, large model adapted</td><td>0.9995</td><td>242M</td><td>59.7&#215;</td></tr>
+  <tr><td><i>control</i>: untrained large model, adapted</td><td>0.7430</td><td>242M</td><td>59.7&#215;</td></tr>
+  <tr><td>handoff, compressed to 4 vectors</td><td>0.8230</td><td>~120M</td><td>~30&#215;</td></tr>
+  <tr><td>large model alone (ceiling)</td><td>0.997</td><td>317M</td><td>78.2&#215;</td></tr>
+</table>
+
+<h3>What the controls rule out</h3>
+<ul>
+  <li><b>It is not just extra parameters.</b> Swap the trained large model for an untrained one of identical shape
+      and the score falls from 0.9995 to 0.7430, a gap of 0.2565. The projectors and adapters are unchanged, so the
+      difference is the large model's learned computation.</li>
+  <li><b>It is not just more compute.</b> The small model given the same number of silent reasoning steps on its
+      own scores 0.684.</li>
+  <li><b>Adaptation is the ingredient, not an incidental detail.</b> The frozen arm fails its own control while the
+      adapted arm passes it, in the same experiment.</li>
+</ul>
+
+<h2>7. Where it does not work yet</h2>
+<p>
+The same architecture was tried with real pretrained models, Qwen2.5-0.5B handing off to Qwen2.5-7B, on two
+public benchmarks. It did not work.
+</p>
+<table>
+  <tr><th>ProsQA (n=500)</th><th>exact</th><th>HotpotQA (n=500)</th><th>exact</th></tr>
+  <tr><td>0.5B alone</td><td>0.734</td><td>0.5B alone</td><td>0.482</td></tr>
+  <tr><td>handoff, frozen</td><td>0.722</td><td>handoff</td><td>0.338</td></tr>
+  <tr><td>handoff, adapted</td><td>0.730</td><td><i>control</i>: untrained receiver</td><td>0.362</td></tr>
+  <tr><td><i>control</i>: untrained receiver</td><td>0.760</td><td>7B alone</td><td>0.596</td></tr>
+  <tr><td>7B alone</td><td>0.992</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+</table>
+<p>
+On HotpotQA the handoff scored 0.024 below its own control, well within noise, so nothing crossed between the
+models. It also scored 0.144 below the small model working alone, which means the handoff did not merely fail, it
+made things worse. There are two candidate explanations and the compute window closed before they could be
+separated.
+</p>
+<ul>
+  <li><b>The projector was starved.</b> The version that works has 0.082M parameters and got 3,850 training steps.
+      The HotpotQA version has 16.06M parameters and got 600. That is roughly a thousandfold less training per
+      parameter. Published work fitting similar maps between language models uses 200M tokens and 36,000
+      iterations.</li>
+  <li><b>Pretrained models may be harder to connect.</b> Two models trained separately on the internet may not
+      admit a clean correspondence the way two small models trained on the same narrow task do.</li>
+</ul>
+<p>
+ProsQA was the wrong test regardless. The 0.5B scores 0.723 on three-hop problems and 0.833 on six-hop ones, so it
+does not degrade as reasoning gets deeper, which means it had no weakness for a larger model to cover.
+</p>
+
+<h2>8. The economics, and when they hold</h2>
+<p>
+The saving comes entirely from compressing the question before the large model reads it. That means the length of
+the input decides whether the idea pays. Figures below are for Qwen2.5-0.5B to 7B, sending 32 vectors.
+</p>
+<table>
+  <tr><th>benchmark</th><th>input length</th><th>cost vs small alone</th><th>vs large model writing out reasoning</th></tr>
+  <tr><td>GSM8K</td><td>62 tokens</td><td>10.54&#215;</td><td>2.7&#215; cheaper</td></tr>
+  <tr><td>ProsQA</td><td>326 tokens</td><td>2.66&#215;</td><td>7.6&#215; cheaper</td></tr>
+  <tr class="hl"><td>HotpotQA</td><td>1403 tokens</td><td>1.45&#215;</td><td>12.3&#215; cheaper</td></tr>
+</table>
+<p>
+Sending every vector rather than a compressed handful costs 17.99&#215; the small model and saves nothing at all,
+so compression is not an optimisation, it is the entire mechanism. It also costs accuracy: compressing to four
+vectors takes the small-scale result from 0.9995 down to 0.823.
+</p>
+
+<h2>9. Questions you are likely to get</h2>
+
+<p class="q">Is this just distillation?</p>
+<p>
+No. Distillation copies capability into the small model's weights once, ahead of time, and then the large model is
+gone. Here the large model takes part in every single query, and the small model still cannot do the task alone,
+0.684 against 0.9995. It is closer to a learned communication channel than to a training technique.
+</p>
+
+<p class="q">Why not just run the large model?</p>
+<p>
+On a long input the large model has to read all of it and then write out its reasoning. Here it reads a few dozen
+compressed vectors and writes nothing, which is where the 12&#215; comes from. The honest limit is that this only
+holds when the input is long relative to the reasoning. On short prompts the pipeline is ten times more expensive
+than the small model and the idea does not pay.
+</p>
+
+<p class="q">How is this different from speculative decoding?</p>
+<p>
+Speculative decoding has a small model guess tokens that the large model then checks, so the large model still
+reads everything and the answer is exactly what the large model would have said. Here the large model never sees
+or produces tokens at all, and the answer is the small model's. Different mechanism, different cost profile,
+different guarantee.
+</p>
+
+<p class="q">How is this different from a mixture of experts?</p>
+<p>
+A mixture of experts routes between parts of one model that were trained together and share a representation by
+construction. The difficulty here is that the two models were trained separately and share nothing, so the common
+format has to be learned from scratch. That is also why it is fragile.
+</p>
+
+<p class="q">Why not have the small model just ask the large model in words?</p>
+<p>
+That is the baseline being beaten. Words mean the large model reads a full prompt and writes a full answer.
+Interlat reports a 24&#215; latency reduction from replacing written agent messages with latent ones for exactly
+this reason. Vectors also carry more information per position than a token chosen from a fixed vocabulary.
+</p>
+
+<p class="q">What if the two models use different tokenizers?</p>
+<p>
+The experiments used a shared vocabulary on purpose, to remove that variable. Nothing about the architecture
+requires it, since the exchange happens in vector space rather than token space, but it is untested and would be
+the next thing to check.
+</p>
+
+<p class="q">Doesn't training the large model defeat the purpose?</p>
+<p>
+The adapter is 0.017M parameters, it is trained once, and it does not change what inference costs. The reason it
+is needed is that a frozen model has only ever seen its own embeddings; vectors arriving from elsewhere are
+outside that distribution and it answers at 26.8% from them. Two published papers agree. Interlat's ablation drops
+task success from 70.48 to 4.05 when their communication adapter is removed, and Cache-to-Cache reports 20.70% for
+replacing a receiver's internal state, recovered to 44.88% only by adding a residual path.
+</p>
+
+<p class="q">How much training does the projector need?</p>
+<p>
+This is the biggest open question. What is known: 0.082M parameters over 3,850 steps works, and 16.06M parameters
+over 600 steps fails badly. Published maps between language model representations use 200M tokens. The next
+experiment holds the model pair fixed and sweeps projector size against training budget.
+</p>
+
+<p class="q">What happens when it fails?</p>
+<p>
+It fails badly rather than gracefully. On HotpotQA the pipeline scored below the small model on its own, 0.338
+against 0.482. An undertrained projector produces vectors the small model cannot interpret, and feeding it those
+is worse than feeding it nothing. Any real deployment would need a confidence check and a fallback to the small
+model alone.
+</p>
+
+<p class="q">Aren't these models far too small to prove anything?</p>
+<p>
+They are small, and the result should be read as a controlled demonstration rather than a product claim. What it
+establishes is that reasoning can cross between two independently trained models as vectors, across a 67&#215;
+size gap, with both controls passing. Whether that survives at real scale is unproven, and the attempts so far are
+written up above rather than left out.
+</p>
+
+<p class="q">What is new here compared to Interlat and Cache-to-Cache?</p>
+<p>
+Interlat sends latent messages between agents. Cache-to-Cache fuses one model's cached state into another's.
+Neither runs recurrent reasoning inside the receiver on the transmitted vectors and then sends the evolved result
+back for the original model to decode. Holding a reasoning trajectory across two latent spaces is the open problem
+this targets. The fair counterpoint is that both of those papers demonstrate their claims on real models and this
+one has not yet.
+</p>
+
+<p class="q">What would make you abandon this?</p>
+<p>
+The pipeline matching its untrained-receiver control at every scale attempted. That has now happened twice at
+0.5B to 7B. If a properly trained projector at that scale still matches the control, the approach does not carry
+over to pretrained models and the small-scale result is a quirk of models shaped together on one narrow task.
+</p>
+
+<h2>10. Engineering notes</h2>
+<p class="small">
+Six bugs turned up during the real-model runs, all of the kind that produce confident wrong numbers instead of
+crashing. Two are worth knowing if the conversation turns technical.
+</p>
+<ul class="small">
+  <li><b>A 303&#215; scale mismatch.</b> The 0.5B's hidden states have a typical magnitude of 9.44; the 7B's
+      embeddings sit at 0.0156. The projector's output scale started at 1.0, so it was handing the receiver vectors
+      64 times larger than anything it had seen. A published negative result on cross-model transfer reports the
+      same failure at 80&#215;.</li>
+  <li><b>Silently poisoned training.</b> In bfloat16, gradients over 1400-token inputs overflow before the forward
+      pass does, so the loss looked finite while the weights were being corrupted. 485 of 500 batches were affected
+      before a gradient check caught it.</li>
+</ul>
+
+<h2>11. What comes next</h2>
+<ul>
+  <li>Hold the model pair fixed and sweep projector size against training budget, to settle whether the 0.5B to 7B
+      failure is starvation or something structural.</li>
+  <li>Try adding the incoming vectors to the receiver's own state rather than replacing it, the approach that took
+      Cache-to-Cache from 20.70% to 44.88%.</li>
+  <li>Walk the scale up gradually: a few hundred million to 1B, then 0.5B to 7B, then 0.5B to 32B.</li>
+  <li>Multi-hop question answering over documents is the right benchmark family, since it has both long inputs and
+      a real gap between small and large models.</li>
+</ul>
+
+<div class="warn">
+  <div class="t">Two things not to claim</div>
+  The 0.5B to 7B results do not work, so do not present them as if they do. And the arithmetic task is not a
+  standard benchmark; it was built to control reasoning depth exactly, which is a reasonable design decision and
+  lands much better said out loud than discovered.
+</div>
+
+<h2>References</h2>
+<p class="small">
+[1] S. Hao et al. Training Large Language Models to Reason in a Continuous Latent Space. arXiv:2412.06769, 2024.<br>
+[2] Z. Du et al. Enabling Agents to Communicate Entirely in Latent Space. ACL 2026. arXiv:2511.09149.<br>
+[3] T. Fu et al. Cache-to-Cache: Direct Semantic Communication Between Large Language Models. arXiv:2510.03215, 2025.<br>
+[4] A. Chen, J. Merullo, A. Stolfo, E. Pavlick. Transferring Linear Features Across Language Models With Model
+    Stitching. NeurIPS 2025. arXiv:2506.06609.<br>
+[5] A Negative Result on Cross-Model Activation Transfer in a Pythia Multi-Hop Setting. arXiv:2606.03280.
+</p>

@@ -1,0 +1,333 @@
+{
+ "checkpoint": "/home/ec2-user/ca/ckpt/rlarith_latest.pt",
+ "start": 900000,
+ "count": 40,
+ "summary": {
+  "doc": {
+   "acc": 0.1,
+   "well_formed": 1.0,
+   "n": 160,
+   "mean_prompt_toks": 249.94375,
+   "by_fam": {
+    "binary_op": 0.0,
+    "units": 0.019,
+    "procedure": 0.288
+   }
+  },
+  "wrong_doc": {
+   "acc": 0.09375,
+   "well_formed": 1.0,
+   "n": 160,
+   "mean_prompt_toks": 259.09375,
+   "by_fam": {
+    "binary_op": 0.0,
+    "units": 0.0,
+    "procedure": 0.288
+   }
+  },
+  "no_doc": {
+   "acc": 0.05625,
+   "well_formed": 0.5875,
+   "n": 160,
+   "mean_prompt_toks": 28.24375,
+   "by_fam": {
+    "binary_op": 0.018,
+    "units": 0.0,
+    "procedure": 0.154
+   }
+  },
+  "result": {
+   "acc": 0.10625,
+   "well_formed": 1.0,
+   "n": 160,
+   "mean_prompt_toks": 256.11875,
+   "by_fam": {
+    "binary_op": 0.054,
+    "units": 0.0,
+    "procedure": 0.269
+   }
+  }
+ },
+ "stats": {
+  "doc": {
+   "n": 160,
+   "correct": 16,
+   "well_formed": 160,
+   "prompt_toks": 39991,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "15.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "1.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "4",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "1.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 0
+    },
+    "units": {
+     "n": 52,
+     "correct": 1
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 15
+    }
+   }
+  },
+  "wrong_doc": {
+   "n": 160,
+   "correct": 15,
+   "well_formed": 160,
+   "prompt_toks": 41455,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "15.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "1.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "19.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "1.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "13",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 0
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 15
+    }
+   }
+  },
+  "no_doc": {
+   "n": 160,
+   "correct": 9,
+   "well_formed": 94,
+   "prompt_toks": 4519,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "3,550",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "11.7.1.1.1.1.1.1.1.1.1.1.1.1.1.1.",
+     "ok": false,
+     "wf": false
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "1.7.1.1.1.1.1.1.1.1.1.1.1.1.1.1.",
+     "ok": false,
+     "wf": false
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "4.7.1.1.1.1.1.1.1.1.1.1.1.1.1.1.",
+     "ok": false,
+     "wf": false
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "1.7",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "3,550,000,000,000,000,000,000,000,000,000,000,000,000,000,000",
+     "ok": false,
+     "wf": false
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 1
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 8
+    }
+   }
+  },
+  "result": {
+   "n": 160,
+   "correct": 17,
+   "well_formed": 160,
+   "prompt_toks": 40979,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "1",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "1.9",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "1.9",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "1.9",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "65",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "65",
+     "ok": false,
+     "wf": true
+    }
+   ],
+   "by_fam": {
+    "binary_op": {
+     "n": 56,
+     "correct": 3
+    },
+    "units": {
+     "n": 52,
+     "correct": 0
+    },
+    "procedure": {
+     "n": 52,
+     "correct": 14
+    }
+   }
+  }
+ }
+}

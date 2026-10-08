@@ -1,0 +1,17 @@
+configuration                       exact  concept  FLOPs/query     rel
+-----------------------------------------------------------------------
+small (0.12M), no reasoning         0.112    0.112        3.23M    1.0x
+small (0.12M), explicit CoT         1.000    1.000        5.75M    1.8x
+small (0.12M), Coconut  [FLOOR]     0.684    0.684        4.05M    1.3x
+big (8.0M), Coconut  [CEILING]      0.997    0.997      316.70M   98.2x
+CROSS-MODEL pipeline                0.749    0.749      241.67M   74.9x
+control: random big model           0.742    0.742      241.67M   74.9x
+
+interpretation
+--------------
+gap to close: 0.684 (small) -> 0.997 (big)
+pipeline at 0.749 closes 21% of it, at 0.76x the big model's FLOPs and 59.67x the small model's
+[FAIL] control 1 (random big model): 0.742 vs pipeline 0.749 (delta +0.007). The big model is NOT contributing; an untrained network of the same shape does just as well, so the projectors and the small model's adapter account for the whole result.
+[PASS] control 2 (small model, same latent steps): 0.684 vs pipeline 0.749 (delta +0.065). The pipeline beats the small model, but control 1 already showed this is NOT the big model's capacity: it is the extra trainable adapter and projectors fitted on top of the frozen small model.
+
+VERDICT: the cross-model latent handoff did NOT transfer reasoning. Diagnosis is in the stage-1 gate: driving the big model from projected small-model states drops it far below its native accuracy, so the thoughts it returns carry little of its own computation.
