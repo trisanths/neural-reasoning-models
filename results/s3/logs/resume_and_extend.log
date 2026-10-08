@@ -1,0 +1,49 @@
+data ok: /home/ec2-user/data/regime_d 7113855219 tokens
+# skip ckpt-0001000.pt: known truncated object
+fetch curve-700m-a/config.yaml (460 bytes)
+fetch curve-700m-a/cmd.txt (200 bytes)
+fetch curve-700m-a/loss.jsonl (37685 bytes)
+fetch curve-700m-a/ckpt-0007350.pt (9362880391 bytes)
+fetch curve-700m-a/latest.pt (9362875087 bytes)
+RESUMED curve-700m-a gpu 0 log /home/ec2-user/logs/curve-700m-a.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-700m-a/config.yaml --data /home/ec2-user/data/regime_a/shards --out /home/ec2-user/runs/curve-700m-a --resume 
+# skip ckpt-0001000.pt: known truncated object
+fetch curve-700m-c/config.yaml (460 bytes)
+fetch curve-700m-c/cmd.txt (251 bytes)
+fetch curve-700m-c/loss.jsonl (38049 bytes)
+fetch curve-700m-c/ckpt-0007420.pt (9362880391 bytes)
+fetch curve-700m-c/latest.pt (9362875087 bytes)
+RESUMED curve-700m-c gpu 1 log /home/ec2-user/logs/curve-700m-c.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-700m-c/config.yaml --data /home/ec2-user/data/regime_c/flat --out /home/ec2-user/runs/curve-700m-c --resume --warmup-bin /home/ec2-user/data/proc_warmup_15m.bin 
+fetch curve-1300m-a/config.yaml (460 bytes)
+fetch curve-1300m-a/cmd.txt (202 bytes)
+fetch curve-1300m-a/loss.jsonl (23752 bytes)
+fetch curve-1300m-a/ckpt-0005100.pt (16183116083 bytes)
+fetch curve-1300m-a/latest.pt (16183104443 bytes)
+RESUMED curve-1300m-a gpu 2 log /home/ec2-user/logs/curve-1300m-a.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-1300m-a/config.yaml --data /home/ec2-user/data/regime_a/shards --out /home/ec2-user/runs/curve-1300m-a --resume 
+# skip ckpt-0000600.pt: known truncated object
+fetch curve-1300m-c/config.yaml (460 bytes)
+fetch curve-1300m-c/cmd.txt (253 bytes)
+fetch curve-1300m-c/loss.jsonl (22306 bytes)
+fetch curve-1300m-c/ckpt-0004340.pt (16183121167 bytes)
+fetch curve-1300m-c/latest.pt (16183115863 bytes)
+RESUMED curve-1300m-c gpu 3 log /home/ec2-user/logs/curve-1300m-c.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-1300m-c/config.yaml --data /home/ec2-user/data/regime_c/flat --out /home/ec2-user/runs/curve-1300m-c --resume --warmup-bin /home/ec2-user/data/proc_warmup_15m.bin 
+# skip ckpt-0002000.pt: known truncated object
+fetch curve-350m-b/config.yaml (457 bytes)
+fetch curve-350m-b/cmd.txt (193 bytes)
+fetch curve-350m-b/loss.jsonl (69686 bytes)
+fetch curve-350m-b/ckpt-0013580.pt (4505570155 bytes)
+fetch curve-350m-b/latest.pt (4505564851 bytes)
+RESUMED curve-350m-b gpu 4 log /home/ec2-user/logs/curve-350m-b.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350m-b/config.yaml --data /home/ec2-user/data/regime_b --out /home/ec2-user/runs/curve-350m-b --resume 
+wrote /home/ec2-user/runs/curve-350md-401/config.yaml: seed 401, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 990
+LAUNCHED curve-350md-401 regime d seed 401 gpu 5 micro 8 accum 8 ckpt 990 log /home/ec2-user/logs/curve-350md-401.log
+wrote /home/ec2-user/runs/curve-350md-402/config.yaml: seed 402, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 1010
+LAUNCHED curve-350md-402 regime d seed 402 gpu 6 micro 8 accum 8 ckpt 1010 log /home/ec2-user/logs/curve-350md-402.log
+wrote /home/ec2-user/runs/curve-350md-403/config.yaml: seed 403, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 1030
+LAUNCHED curve-350md-403 regime d seed 403 gpu 7 micro 8 accum 8 ckpt 1030 log /home/ec2-user/logs/curve-350md-403.log
+LAUNCHED sync loop (KEEP=1), log /home/ec2-user/logs/curve-sync.log
+ARMED final flush for 11:15 UTC 2026-08-27, log /home/ec2-user/logs/final-flush.log
+ALL_LAUNCHED

@@ -1,0 +1,11 @@
+src/pilot/PILOT.md: how to run the pilot, the smoke run, and what the full run costs
+
+The smoke run (LFM2.5-350M-Base and Qwen3-0.6B with thinking off and on, 24
+items in four conditions, 200 PopQA items) went through items, vLLM,
+grading, records, the S3 mirror and the report without a failure. A
+throughput probe on 384 prompts from the full item set puts the full run at
+about 10 GPU-hours on the L40S, 96% of it in the four thinking-on
+configurations. vLLM's PopQA likelihoods match a transformers forward pass
+to bfloat16 noise.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>

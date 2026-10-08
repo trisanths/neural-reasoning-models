@@ -1,0 +1,519 @@
+{
+  "run_id": "rlskill-curve-350md-401-902",
+  "checkpoint": "/home/ec2-user/depsweep/rlskill-curve-350md-401-902.pt",
+  "suite": "systems",
+  "protocols": [
+    "gen"
+  ],
+  "primary_protocol": "gen",
+  "temperature": 0.8,
+  "seed": 1234,
+  "n_tasks": 500,
+  "conditions": {
+    "correct": {
+      "n_rollouts": 500,
+      "reward_mean": 0.1642,
+      "reward_std": 0.26128214634758345,
+      "accuracy": 0.072,
+      "mean_rounds": 1.016,
+      "any_retrieval": 1.0,
+      "mean_query_len": 7.143700787401575,
+      "mean_generated": 29.878,
+      "well_formed": 0.844,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "eot": 449,
+        "max_new_tokens": 51
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.072,
+      "wall_clock_s": 84.3,
+      "n_tasks": 500
+    },
+    "wrong_textbook": {
+      "n_rollouts": 500,
+      "reward_mean": 0.11570000000000001,
+      "reward_std": 0.1861948173285175,
+      "accuracy": 0.034,
+      "mean_rounds": 1.018,
+      "any_retrieval": 1.0,
+      "mean_query_len": 7.147347740667977,
+      "mean_generated": 60.812,
+      "well_formed": 0.636,
+      "degenerate_queries": 0.002,
+      "stop_reasons": {
+        "eot": 352,
+        "max_new_tokens": 148
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.034,
+      "wall_clock_s": 69.5,
+      "n_tasks": 500
+    },
+    "no_documents": {
+      "n_rollouts": 500,
+      "reward_mean": 0.15940000000000004,
+      "reward_std": 0.24207775610328186,
+      "accuracy": 0.062,
+      "mean_rounds": 1.0,
+      "any_retrieval": 1.0,
+      "mean_query_len": 6.25,
+      "mean_generated": 13.244,
+      "well_formed": 0.95,
+      "degenerate_queries": 0.002,
+      "stop_reasons": {
+        "eot": 475,
+        "answer_boundary": 25
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.062,
+      "wall_clock_s": 10.5,
+      "n_tasks": 500
+    }
+  },
+  "gen_conditions": {
+    "correct": {
+      "n_rollouts": 500,
+      "reward_mean": 0.1642,
+      "reward_std": 0.26128214634758345,
+      "accuracy": 0.072,
+      "mean_rounds": 1.016,
+      "any_retrieval": 1.0,
+      "mean_query_len": 7.143700787401575,
+      "mean_generated": 29.878,
+      "well_formed": 0.844,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "eot": 449,
+        "max_new_tokens": 51
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.072,
+      "wall_clock_s": 84.3,
+      "n_tasks": 500
+    },
+    "wrong": {
+      "n_rollouts": 500,
+      "reward_mean": 0.11570000000000001,
+      "reward_std": 0.1861948173285175,
+      "accuracy": 0.034,
+      "mean_rounds": 1.018,
+      "any_retrieval": 1.0,
+      "mean_query_len": 7.147347740667977,
+      "mean_generated": 60.812,
+      "well_formed": 0.636,
+      "degenerate_queries": 0.002,
+      "stop_reasons": {
+        "eot": 352,
+        "max_new_tokens": 148
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.034,
+      "wall_clock_s": 69.5,
+      "n_tasks": 500
+    },
+    "blank": {
+      "n_rollouts": 500,
+      "reward_mean": 0.15940000000000004,
+      "reward_std": 0.24207775610328186,
+      "accuracy": 0.062,
+      "mean_rounds": 1.0,
+      "any_retrieval": 1.0,
+      "mean_query_len": 6.25,
+      "mean_generated": 13.244,
+      "well_formed": 0.95,
+      "degenerate_queries": 0.002,
+      "stop_reasons": {
+        "eot": 475,
+        "answer_boundary": 25
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.062,
+      "wall_clock_s": 10.5,
+      "n_tasks": 500
+    }
+  },
+  "mc_conditions": {},
+  "protocol_metrics": {
+    "gen": {
+      "acc_correct_evidence": 0.072,
+      "acc_wrong_evidence": 0.034,
+      "acc_no_evidence": 0.062,
+      "retrieval_dependency": 0.03799999999999999,
+      "evidence_lift": 0.009999999999999995,
+      "n_items": 500
+    }
+  },
+  "per_family": {
+    "correct": {
+      "skill_binary_op": {
+        "n_rollouts": 84,
+        "reward_mean": 0.14702380952380953,
+        "reward_std": 0.2131609036893914,
+        "accuracy": 0.047619047619047616,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 1.3214285714285714,
+        "mean_generated": 15.619047619047619,
+        "well_formed": 0.9880952380952381,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 83,
+          "max_new_tokens": 1
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.047619047619047616
+      },
+      "skill_exception_rule": {
+        "n_rollouts": 84,
+        "reward_mean": 0.13452380952380955,
+        "reward_std": 0.18596213619920923,
+        "accuracy": 0.03571428571428571,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 7.690476190476191,
+        "mean_generated": 18.404761904761905,
+        "well_formed": 0.9761904761904762,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 82,
+          "max_new_tokens": 2
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.03571428571428571
+      },
+      "skill_procedure": {
+        "n_rollouts": 84,
+        "reward_mean": 0.4214285714285715,
+        "reward_std": 0.46702488680792936,
+        "accuracy": 0.32142857142857145,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 8.80952380952381,
+        "mean_generated": 13.55952380952381,
+        "well_formed": 1.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 84
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.32142857142857145
+      },
+      "skill_substitution_rule": {
+        "n_rollouts": 84,
+        "reward_mean": 0.05833333333333331,
+        "reward_std": 0.018633899812498248,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 14.55952380952381,
+        "mean_generated": 100.94047619047619,
+        "well_formed": 0.16666666666666666,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 45,
+          "eot": 39
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_threshold_rule": {
+        "n_rollouts": 82,
+        "reward_mean": 0.0969512195121951,
+        "reward_std": 0.011964278579480844,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0975609756097562,
+        "any_retrieval": 1.0,
+        "mean_query_len": 3.933333333333333,
+        "mean_generated": 16.0609756097561,
+        "well_formed": 0.9390243902439024,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 79,
+          "max_new_tokens": 3
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_units": {
+        "n_rollouts": 82,
+        "reward_mean": 0.12439024390243901,
+        "reward_std": 0.1542574468374819,
+        "accuracy": 0.024390243902439025,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 6.7682926829268295,
+        "mean_generated": 13.975609756097562,
+        "well_formed": 1.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 82
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.024390243902439025
+      }
+    },
+    "wrong": {
+      "skill_binary_op": {
+        "n_rollouts": 84,
+        "reward_mean": 0.12619047619047616,
+        "reward_std": 0.18842647146139604,
+        "accuracy": 0.03571428571428571,
+        "mean_rounds": 1.0119047619047619,
+        "any_retrieval": 1.0,
+        "mean_query_len": 1.4470588235294117,
+        "mean_generated": 37.523809523809526,
+        "well_formed": 0.8095238095238095,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 70,
+          "max_new_tokens": 14
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.03571428571428571
+      },
+      "skill_exception_rule": {
+        "n_rollouts": 84,
+        "reward_mean": 0.08928571428571426,
+        "reward_std": 0.020516295166207246,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0119047619047619,
+        "any_retrieval": 1.0,
+        "mean_query_len": 6.4,
+        "mean_generated": 39.285714285714285,
+        "well_formed": 0.7976190476190477,
+        "degenerate_queries": 0.011904761904761904,
+        "stop_reasons": {
+          "eot": 71,
+          "max_new_tokens": 13
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_procedure": {
+        "n_rollouts": 84,
+        "reward_mean": 0.24583333333333343,
+        "reward_std": 0.38267606695771067,
+        "accuracy": 0.16666666666666666,
+        "mean_rounds": 1.0238095238095237,
+        "any_retrieval": 1.0,
+        "mean_query_len": 10.255813953488373,
+        "mean_generated": 62.29761904761905,
+        "well_formed": 0.5833333333333334,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 60,
+          "max_new_tokens": 24
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.16666666666666666
+      },
+      "skill_substitution_rule": {
+        "n_rollouts": 84,
+        "reward_mean": 0.08809523809523807,
+        "reward_std": 0.021295885499998,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 13.702380952380953,
+        "mean_generated": 45.76190476190476,
+        "well_formed": 0.7619047619047619,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 70,
+          "max_new_tokens": 14
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_threshold_rule": {
+        "n_rollouts": 82,
+        "reward_mean": 0.07621951219512195,
+        "reward_std": 0.02497023808468692,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 3.2804878048780486,
+        "mean_generated": 72.76829268292683,
+        "well_formed": 0.524390243902439,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 49,
+          "max_new_tokens": 33
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_units": {
+        "n_rollouts": 82,
+        "reward_mean": 0.06646341463414633,
+        "reward_std": 0.02349737666828987,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0609756097560976,
+        "any_retrieval": 1.0,
+        "mean_query_len": 7.689655172413793,
+        "mean_generated": 108.65853658536585,
+        "well_formed": 0.32926829268292684,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 50,
+          "eot": 32
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      }
+    },
+    "blank": {
+      "skill_binary_op": {
+        "n_rollouts": 84,
+        "reward_mean": 0.13690476190476192,
+        "reward_std": 0.21631643593013164,
+        "accuracy": 0.047619047619047616,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 1.0238095238095237,
+        "mean_generated": 11.595238095238095,
+        "well_formed": 0.7857142857142857,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 66,
+          "answer_boundary": 18
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.047619047619047616
+      },
+      "skill_exception_rule": {
+        "n_rollouts": 84,
+        "reward_mean": 0.09999999999999998,
+        "reward_std": 2.7755575615628914e-17,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 6.071428571428571,
+        "mean_generated": 13.369047619047619,
+        "well_formed": 1.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 84
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_procedure": {
+        "n_rollouts": 84,
+        "reward_mean": 0.42023809523809535,
+        "reward_std": 0.4679056075709843,
+        "accuracy": 0.32142857142857145,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 7.535714285714286,
+        "mean_generated": 13.071428571428571,
+        "well_formed": 0.9761904761904762,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 82,
+          "answer_boundary": 2
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.32142857142857145
+      },
+      "skill_substitution_rule": {
+        "n_rollouts": 84,
+        "reward_mean": 0.09999999999999998,
+        "reward_std": 2.7755575615628914e-17,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 13.25,
+        "mean_generated": 19.011904761904763,
+        "well_formed": 1.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 84
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_threshold_rule": {
+        "n_rollouts": 82,
+        "reward_mean": 0.09756097560975607,
+        "reward_std": 0.01077044008088762,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 2.6707317073170733,
+        "mean_generated": 8.682926829268293,
+        "well_formed": 0.9634146341463414,
+        "degenerate_queries": 0.012195121951219513,
+        "stop_reasons": {
+          "eot": 79,
+          "answer_boundary": 3
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "skill_units": {
+        "n_rollouts": 82,
+        "reward_mean": 0.09878048780487803,
+        "reward_std": 0.0077128723418740976,
+        "accuracy": 0.0,
+        "mean_rounds": 1.0,
+        "any_retrieval": 1.0,
+        "mean_query_len": 6.878048780487805,
+        "mean_generated": 13.634146341463415,
+        "well_formed": 0.975609756097561,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 80,
+          "answer_boundary": 2
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      }
+    }
+  },
+  "metrics": {
+    "acc_correct_evidence": 0.072,
+    "acc_wrong_evidence": 0.034,
+    "acc_no_evidence": 0.062,
+    "retrieval_dependency": 0.03799999999999999,
+    "evidence_lift": 0.009999999999999995
+  },
+  "arch": {
+    "params_total": 375440384,
+    "params_non_embedding": 308331520,
+    "d_model": 1024,
+    "n_layers": 24,
+    "n_heads": 16,
+    "d_ff": 2816,
+    "vocab_size": 32768,
+    "max_seq_len": 4096
+  },
+  "compute": {
+    "decode_flops_per_answer": 18424658309.12,
+    "params_effective_non_embedding": 308331520.0,
+    "mean_generated_tokens": 29.878
+  },
+  "env": {
+    "max_rounds": 4,
+    "max_new_tokens": 160,
+    "query_max_tokens": 24,
+    "max_len": 2048,
+    "correct_reward": 1.0,
+    "format_bonus": 0.05,
+    "retrieval_bonus": 0.05,
+    "degenerate_query_penalty": 0.05,
+    "contains_slack_tokens": 6,
+    "partial_credit": 0.0,
+    "revision_attempts": 1,
+    "calculator": true
+  },
+  "tasks_cfg": {
+    "questions_per_episode": 2,
+    "min_hops": 1,
+    "max_prompt_tokens": 1024
+  },
+  "episodes_source": null,
+  "episodes_skip": 0,
+  "step": 3000
+}

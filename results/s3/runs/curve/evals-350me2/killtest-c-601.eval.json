@@ -1,0 +1,4739 @@
+{
+ "meta": {
+  "run_dir": "/home/ec2-user/eval-e2/ckpts/killtest-c-601",
+  "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-601/ckpt-0026700.pt",
+  "step": 26700,
+  "regime": "c",
+  "train_seed": 601,
+  "model_config": {
+   "d_ff": 2816,
+   "d_model": 1024,
+   "max_seq_len": 4096,
+   "n_heads": 16,
+   "n_layers": 24,
+   "norm_eps": 1e-05,
+   "rope_theta": 10000.0,
+   "vocab_size": 32768
+  },
+  "device": "cuda",
+  "battery_args": {
+   "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+   "heldout": "/home/ec2-user/data/regime_c/heldout.jsonl",
+   "out": "/home/ec2-user/eval-e2/out",
+   "device": "cuda",
+   "step": null,
+   "naturalized_n": 0,
+   "probes_n": 0,
+   "heldout_episodes": 500,
+   "noise_episodes": 200,
+   "noise_rates": [
+    0.0,
+    0.1,
+    0.25,
+    0.5
+   ],
+   "max_rounds": 6,
+   "nat_max_new": 32,
+   "heldout_max_new": 64,
+   "noise_max_new": 128,
+   "seed": 0,
+   "components": "naturalized,heldout,noise",
+   "skip_existing": false
+  }
+ },
+ "naturalized": {
+  "clean": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.004,
+   "contains": 0.008,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.02
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "The company further discloses the retirement of director elspeth Mangold, effective May 15."
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Losten"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Renewal"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1.2"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "Approximately 34,000 affected units were sold through 260 retailers at a price of 24 dollars."
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "Troldi"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLUX"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": true,
+     "pred": "Tightness testing conducted at the owner's expense on May 10 found tanks 1 and 2 tight; tank 3, a 4,000 gallon gasoline tank, failed"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdra"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "2,070"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "Fidra"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "2,025"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvux"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Miri"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "2,520"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdra"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvur"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "11"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvux"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "999,999"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "DRIXKLU"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "Dreldi"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLUX"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "Bandim"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLUX"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLUX"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "GRIMKLUX"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "Setup the piano's output level to the detent at three quarters and leave gain staging to the desk."
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Treldi"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIM"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "GREMKLUX"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bitra"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "Trusvem"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "The telescope drives from the desk console; the handset by the pier is for the platform operator during public viewing and moves the telescope at guide speed only."
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "1.8"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Duarte Goxdra"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvur"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Girard"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Greta"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "Bosdra"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "JudgeColecke wrote that the board relied on a groundwater study covering only the quarry parcel itself, ignoring test data from 14 nearby wells submitted by"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "The judges, a panel of five, scored 118 entries across nine classes."
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo Vreldo"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Troldi"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "1,000,000"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,520"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "1,600"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "1,100"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.9"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvax"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,100"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvux Vreldi"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "2,000"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "Treldi"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "The lockout is mine, the key is in the cabinet, and the tag says my name, which means the only person who unlocks it is me"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Dulvur"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "Boy"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvax"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "Voss"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Bidra"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,100"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "Dreklo"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vosku"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "Tanner"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvax"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXDRI"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    }
+   ]
+  },
+  "contradiction": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.004,
+   "contains": 0.008,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.02
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "The company further discloses the retirement of director elspeth Mangold, effective May 15."
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Losten"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Renewal"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1.2"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "Approximately 34,000 affected units were sold through 260 retailers at a price of 24 dollars."
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "Troldi"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLUX"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": true,
+     "pred": "Tightness testing conducted at the owner's expense on May 10 found tanks 1 and 2 tight; tank 3, a 4,000 gallon gasoline tank, failed"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdra"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "2,070"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "Fidu"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "2,025"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvux"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvrax"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Miri"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "2,520"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdra"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "18"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvur"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "11"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvux"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "999,999"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "DRIXKLU"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLUX"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "Bandim"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLUX"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLUX"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "GRIMKLUX"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "Setup the piano's output level to the detent at three quarters and leave gain staging to the desk."
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Treldi"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "GREMKLUX"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bitra"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "Klelvax"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "The telescope drives from the desk console; the handset by the pier is for the platform operator during public viewing and moves the telescope at guide speed only."
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "1.8"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "1,140"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Duarte Goxdra"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvur"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Girard"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Greta"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "Bosdra"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "JudgeColec, who had been a member of the board since the early days of the county, said the permit was \"a very narrow one.\""
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "The judges, a panel of five, scored 118 entries across nine classes."
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo Vreldo"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Troldi"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "1,000,000"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRIR"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,520"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "1,600"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.9"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvax"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,100"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvux Vreldi"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "2,000"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "Treldi"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "The lockout is mine, the key is in the cabinet, and the tag says my name, which means the only person who unlocks it is me"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Dulvur"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "Bromtru"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvax"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "Boy"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvax"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "Voss"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Bidra"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,100"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "Dreklo"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vosku"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "Tanner"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvax"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    }
+   ],
+   "injection_rate": 0.15,
+   "injection_seed": 20260824,
+   "n_contradicted": 36
+  },
+  "ocr": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.0,
+   "contains": 0.008,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.04
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": true,
+     "pred": "Tho company iriitiated a vclorable of lot 2214 of its half irich galvanizcd  turnbuckles after  internal testing"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Loste"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "12"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Renevval"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1.2"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "The company has received six reports of detoched boads andno reponts of injury."
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,000,000"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": true,
+     "pred": "Tightne5s testing conducted at the owner's expense on May 1 found taulcs 1 and 2 tight; tank 3, a  4,000"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "2,070"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "99,999"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "2,070"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "Troldi"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXDRI"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "2,070"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Groklo"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvux"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Miri"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Brargur"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "18"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "DRIXKLU"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLUX"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "Setup the biano's oiitpvt level to the detent at fliree quartens and leave gain staging to the desk."
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "Gatley"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bitra"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "Trunbax"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "Open the dome shutter only after the wind cbeck: sustained wind above 25 miles per hovr keeps fho shutter clo5ed,  and gust"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,377"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Fusdra Vreldi"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Brolgem Vreldi"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "Judge iquotl iaq iaq iaq iaq iaq iaq iaq iaq ia"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXDRI"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "The judges, a panel of five, scored 118 entries across nineclasses."
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "Lemtru"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vreldi"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "1,000,000"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Dosdra"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "2,080"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "2,920"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi Vruvrom"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "2,010"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "2,000"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "Ono: The tbe weatherwindovv is a tnack past the mast, and the tnack past the tnack past the t"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "Vasgri"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Dempli"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Troldi"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "BREMKLU"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "Vosdri"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivi"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "Groldi"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "Bruvur"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vosku"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "Gruvax"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "Treldi"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "0,"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    }
+   ],
+   "ocr_rate": 0.05,
+   "ocr_seed": 20260825
+  },
+  "elicitation": "episode_trace"
+ },
+ "heldout": {
+  "suite": "heldout_worlds",
+  "n_episodes": 500,
+  "n_questions": 2314,
+  "accuracy": 0.7416,
+  "chance": 0.3101,
+  "per_domain": {
+   "corporate": {
+    "n": 698,
+    "correct": 690,
+    "accuracy": 0.9885
+   },
+   "regulatory": {
+    "n": 556,
+    "correct": 128,
+    "accuracy": 0.2302
+   },
+   "logistics": {
+    "n": 499,
+    "correct": 424,
+    "accuracy": 0.8497
+   },
+   "kinship_temporal": {
+    "n": 561,
+    "correct": 474,
+    "accuracy": 0.8449
+   }
+  },
+  "per_type": {
+   "lookup": {
+    "n": 1426,
+    "correct": 1291,
+    "accuracy": 0.9053
+   },
+   "multi_hop": {
+    "n": 514,
+    "correct": 300,
+    "accuracy": 0.5837
+   },
+   "yes_no": {
+    "n": 374,
+    "correct": 125,
+    "accuracy": 0.3342
+   }
+  },
+  "use_retrieval": true,
+  "mean_rounds": 0.8038
+ },
+ "noise_axis": {
+  "suite": "noise_axis",
+  "n": 925,
+  "seed": 0,
+  "rates": [
+   0.0,
+   0.1,
+   0.25,
+   0.5
+  ],
+  "accuracy_per_rate": {
+   "0": 0.5643243243243243,
+   "0.1": 0.5394594594594595,
+   "0.25": 0.5243243243243243,
+   "0.5": 0.4237837837837838
+  },
+  "slope": -0.27565186331706165,
+  "clean_accuracy": 0.5643243243243243,
+  "noisiest_accuracy": 0.4237837837837838,
+  "degradation": 0.14054054054054055,
+  "n_episodes": 200
+ },
+ "timings": {
+  "load_s": 6.9,
+  "naturalized_clean_s": 24.4,
+  "naturalized_contradiction_s": 24.1,
+  "naturalized_ocr_s": 25.3,
+  "heldout_s": 522.0,
+  "noise_axis_s": 742.4,
+  "total_s": 1345.0
+ }
+}

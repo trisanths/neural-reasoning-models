@@ -1,0 +1,7654 @@
+{
+ "meta": {
+  "run_dir": "/home/ec2-user/eval-e2/ckpts/killtest-a-111",
+  "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-111/ckpt-0026700.pt",
+  "step": 26700,
+  "regime": "a",
+  "train_seed": 111,
+  "model_config": {
+   "d_ff": 5504,
+   "d_model": 2048,
+   "max_seq_len": 4096,
+   "n_heads": 32,
+   "n_layers": 24,
+   "norm_eps": 1e-05,
+   "rope_theta": 10000.0,
+   "vocab_size": 32768
+  },
+  "device": "cuda",
+  "battery_args": {
+   "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+   "heldout": "/home/ec2-user/data/regime_c/heldout.jsonl",
+   "out": "/home/ec2-user/eval-e2/out",
+   "device": "cuda",
+   "step": 26700,
+   "naturalized_n": 0,
+   "probes_n": 0,
+   "heldout_episodes": 500,
+   "noise_episodes": 200,
+   "noise_rates": [
+    0.0,
+    0.1,
+    0.25,
+    0.5
+   ],
+   "max_rounds": 6,
+   "nat_max_new": 32,
+   "heldout_max_new": 64,
+   "noise_max_new": 128,
+   "seed": 0,
+   "components": "naturalized,probes,heldout",
+   "skip_existing": false
+  }
+ },
+ "naturalized": {
+  "clean": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.012,
+   "contains": 0.28,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.28
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.24
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.28
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.42
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.18
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "The company has been notified that it will file a voluntary recall of its half inch galvanized turnbuckles. The recall is to be completed by the end"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": true,
+     "pred": "The applicant proposes to meet the maximum daily discharge rate of 120,000 gallons per day, an increase from the 85,000 gallons per day authorized under the exp"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "The percentage of dispensers tested at the 24 month mark was 2.3 percent, which is below the 2.3 percent threshold for a violation."
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": true,
+     "pred": "The operator of the tramway reported that the stoppage was caused by a faulty brake sensor on the counterweight carriage. The brake sensor was installed at the end"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "The gravel lot contains two parking spaces, one for the dairy and one for the creamery. The dairy parking space is located on the south side of the lot"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "The cause of the pressure drop was found to be a leak in the line 4 seal. The cause of the pressure drop was found to be a leak in the"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": true,
+     "pred": "The notes bear interest at 4.5 percent, maturing in ten years."
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": true,
+     "pred": "The commission's staff analysis, appended, verifies the cost figures but recommends a vehicle fare of 21 dollars, finding the petitioner's projected maintenance escalator"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": true,
+     "pred": "The stack test measured the removal efficiency of the scrubber, which was 96 percent. The scrubber was offline for the first time in the past two weeks,"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "$1,800."
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": true,
+     "pred": "The license is suspended for 30 days beginning April 1, for the period of the first six days of the license's validity."
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "The Society estimates that the replacement of the planks on the port side will cost $1,000,000."
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "The safety officer position was filled on September 1 by the county service."
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "The appellant's scheme contains two dwellings, one of which is a single dwelling, and the other a double dwelling. The appellant's scheme contains"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "The recall is the result of a substitution of the wrong adhesive."
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant's daily withdrawal was 4,100 gallons per day, and the applicant's hydrologist estimated the average daily withdrawal at 4,100 gallons per day"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "The value of the building is $1,050,000."
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": true,
+     "pred": "The district's modeling shows a flow depth of 1.4 feet at the nearest trailer pad, which under the classification rule requires assignment to the significant hazard class"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": true,
+     "pred": "The operator placed 41,000 cubic yards of overburden in the reporting period."
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "The average response time over the past two years was 2.5 minutes."
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "The cost of the damp remediation of cottage 7 was $1,050.00."
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": true,
+     "pred": "The part number of the redesigned bracket is SK2-441C."
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "The Board's staff estimated the restitution at $1,000,000."
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "The race line is closed, and the cove is closed to the public."
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "The number of days in compliance with the decree was not reported."
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "The freehold is offered at a price of $1,000. The cooperative has a minimum holding of two shares and a maximum of 400, carrying one vote"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "The Redpoll Service Station, Cobb Street."
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "The number of residents moved to settled accommodation during the year was 8,034, with a target of 8,034 residents moved to settled accommodation."
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": true,
+     "pred": "The school's acoustic enclosure is engineered to reduce the line readings to 63 decibels. The school's hearing is set before the select board on August 19."
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "The break even number of annual scans for the proposed unit is 2,900."
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "The number of bolts replaced varied from year to year, but the most recent replacement was in the spring of 2008."
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "The Alliance estimates that there are about 30,000 farmers markets in the state."
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": true,
+     "pred": "The station's power was measured at 6.2 kilowatts during the hours of 6 a.m. to 9 a.m. on four of the seven"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": true,
+     "pred": "The bridge was inspected in the spring of 2003. The bridge was found to be in a condition that required a scour to a depth of 2.3 feet"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant proposes to replace the original heart pine with a new heart pine, which is a hybrid of the two species. The proposed replacement is a hybrid of the"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "The museum has offered the Blue Swan for $1,000,000, and the museum has offered the Blue Swan for $1,000,000."
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "The documented rookery contains 20 nests, and the documented rookery contains 20 nests."
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "The club's membership list included 4,212 members, and the club's audit of the affected accounts was completed by September 9. The club's audit of"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "The township has not yet decided whether to reclassify the entire section as a trail or a road. The township has not yet decided whether to reclassify"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "The facility's emissions were reduced by approximately 50 percent."
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "The Darrow regatta is a two-day event, with the regatta taking place on the river between the Darrowford and the Darrowford gauge"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "The claimant's claim was filed on March 1, and the claimant was employed as a yard foreman from March of last year until his discharge in January"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "The farm's organic production is certified organic."
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "The board of the Middle Bank was not notified of the overage."
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "The triple expansion engine, also known as the triple expansion engine, is a steam engine that was used in the early days of the steam engine. It was invented"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant's family, who had been in the city for a year, had been in the city for a year and a half. The family had been in"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "The target enrollment for the trial is 240 participants, with a mean age of 65.5 years. The trial is a randomized trial of a walking program for adults"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "The percentage of survey respondents who attributed the sign to the brewery was:"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": true,
+     "pred": "The Quimby House weighs an estimated 96 tons, with a total of 96 tons of lumber."
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": true,
+     "pred": "The pilots performed 1,214 acts of pilotage in the year."
+    },
+    {
+     "id": "letter-001",
+     "em": true,
+     "contains": true,
+     "pred": "One."
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "I have seen them in the shop of the salvage yard, and they are all from the same oak."
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "I have never seen a recipe that says they take two onions."
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "I taught for a year and a half."
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "I put up three jars, and I have put up four."
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "I have a little bailing sponge in my pocket, and it is a good one."
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": true,
+     "pred": "I became a structural surveyor of old buildings, and I was happy in a way I did not know to want."
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": true,
+     "pred": "He had been told that the violin had been a loose seam, and that it had been a loose seam, and that it had been a loose seam, and"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "It loses one minute a week."
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "April 1st, April 2nd, April 3rd, April 4th, April 5th, April 6th, April 7th, April 8th,"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": true,
+     "pred": "It began in the winter of 1954, and it has crossed the country four times, survived a house fire in 1978 riding in the milk crate that was all"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "He kept it for a year, and then he was gone."
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": true,
+     "pred": "118. The number of the yard."
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "The post of the head vet."
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": true,
+     "pred": "Duchess. I have a criminal record in three gardens."
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000.00."
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": true,
+     "pred": "I think it was about 4.2 square meters."
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "The Kohlmann sisters, who are the only ones who have been able to keep the press going, have been able to keep the press going for the past"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": true,
+     "pred": "Abel. He is a retired ship cook, and he is a man of the world. He is a man of the world, and he is a man of"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "December 1st."
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "It was found in the attic of the library, in the basement of the library, in the basement of the library, in the basement of the library, in"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "I took it from the beekeeper, who said it was a swarm of bees from the garden hive."
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "\"The walnut tree.\""
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": true,
+     "pred": "Rathvale. The organ was repaired in the evening, and the choir was not allowed to sing."
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "I have known Espen Dahl since we were boys, and he has never taken an apprentice before, not once, though he has been asked by better"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "It was $1,900."
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "They were found in the library of the University of California, Berkeley, in the library of the University of California, Berkeley, in the library of the University of"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "I swam in your Tuesday and Thursday junior lanes from 1979 to 1984, one grade forever behind the medal winners, and I false started twice and was out,"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "The vote to fell the tree was carried by a majority of 327 to 1."
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "The mill's last bolt is the mill's last bolt, and the mill's last bolt is the mill's last bolt."
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": true,
+     "pred": "The first item on the list is the list of things I will not apologize for, and item four is reading the last chapter first."
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": true,
+     "pred": "We served 9,100 covers between October and March, which the spreadsheet calls 6 percent above plan, and the plan, you will remember, was written by two"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "It was a storm, but it was not a storm at all. It was a storm of the station."
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "It runs along the hedge, and I think it runs along the road, and I think it runs along the hedge, and I think it runs along the road"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "It was a long one, and we were in the mountains now, staying above the treeline in a hut that rents bunks to cyclists and"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "The father's ledger, which he kept in his office, and which he kept in his office, and which he kept in his office, and which he kept"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "I counted the newts this year, and I counted twice."
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "The boat comes to the island on the first of the month, on the first of the month, on the first of the month, on the first of the"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "I have hired the young woman from the technical school Georg tutored on Saturdays without telling me, though the biscuits went somewhere every week and I can"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "It is called \"Pumpkin Pie.\""
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": true,
+     "pred": "In 1902."
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "About $1,000."
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "I have a system, a reputation, and a mortar of dried eggshells."
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "The old cornet, which was the only one that was found, was found in the old room."
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "They go to the sea, and the sea is the place where they go."
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "The bequest of 31,000 dollars for the restoration of the mill, which is now in the hands of the miller's daughter, Mrs. Edith"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "The one you and I widened with the borrowed scaffold in the rain in 2021 while your wife documented our incompetence from the dry side of the window."
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": true,
+     "pred": "The machine should be descaled every 60 days, or every 30 days if your water hardness tests above 200 parts per million using the strip supplied in the accessory"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "The weep hole should be at least 4 inches in diameter and 24 inches in depth. The weep hole should be angled downward into the pit, ang"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "The bar nuts should be tightened to the correct torque. The torque should be adjusted to the correct torque. The torque should be adjusted to the correct torque."
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": true,
+     "pred": "The default is 10, but the default is 14."
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "The trailer's maximum gross weight is 1,900 pounds, of which the trailer itself accounts for 340 pounds, leaving a payload of 1,5"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "The auger is turned by turning the screw on the side of the auger. The screw is a 1/16 inch diameter, and the auger is"
+    },
+    {
+     "id": "manual-007",
+     "em": true,
+     "contains": true,
+     "pred": "192.168.4.1."
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "The full rearward position of the valve lever disengages the wedge, allowing the wedge to return the wedge fully to the upright position. The"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "The pan is seasoned at 350 degrees."
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": true,
+     "pred": "The sealant should be a polysulfide sealant, not silicone."
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": true,
+     "pred": "The top tension dial should be set to 4 for ordinary sewing on medium cotton with size 80 needles; the balanced range for most fabrics lies between 3 and 5."
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "The distance between the two peg test stakes is 3 meters."
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "The chain should be replaced at the recommended replacement rate."
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": true,
+     "pred": "The year is close reversible for 90 days."
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "The regulator must be placed in the vent pipe, not the canner base."
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "The thrust bearing should be set to the same clearance as the saw blade."
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": true,
+     "pred": "The maximum dependable lift is 22 feet at sea level."
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": true,
+     "pred": "The film reads UV OUT."
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "The only approved replacement cable is the one that is rated for the same voltage as the existing cable. The only approved replacement cable is the one that is rated for"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "The foam prefilters should be washed every six months."
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "The U-2 tank requires 5 ounces of delimer per gallon of tank capacity."
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "The smaller class rake is the one that is used in the windward side of the ship. The smaller class rake is the one that is used in"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": true,
+     "pred": "The answer is four."
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "The temperature of the machine should be no higher than 120 degrees F."
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": true,
+     "pred": "One part product to ten parts water, always adding acid to water, never water to acid, which spatters."
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "The SP-6 is a good choice for a single desk channel, but it is not a good choice for a double desk channel. The SP-6 is"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": true,
+     "pred": "The water heater holds 6 gallons and drains best warm, not hot."
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": true,
+     "pred": "The tray can feed up to 60 sheets at once."
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Pick when pods are about half-way up the stem."
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "The number of people entering a bin depends on the size of the bin, the number of people entering, the number of people entering, the number of people entering"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "The kettle is not a safety device, but it is a safety device. The safety device is a safety switch, which is a safety device that is activated"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "The foot bolts should be tightened to the same torque as the rack bolts. The rack bolts should be tightened to the same torque as the foot bolts."
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "The film is developed in the dark for about one hour, and the film leader is used to run the film in the dark for about one hour. The film"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "The number of small curing fires should be about one-half of the number of large curing fires."
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "The DND key is a special key that is used to cancel the ringing of the phone. It is a special key that is used to cancel the ringing of"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "The sump takes about 1.5 liters of oil from the tank, and the oil is drained by the float light green."
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "The sleeve entries are the same color as the body, but the sleeve is not a separate piece. The sleeve is a separate piece, and the"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "The opening angle is fixed and the glass is flat."
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "The juice is about 1/3 of the milled fruit."
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "The door is closed at the factory set to close at 12 hours of daylight."
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "The smoker is a model H smoker, and the smoker is a model H smoker. The smoker is a model H smoker, and"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "The windrow must be turned to release heat at the proper time. The windrow must be turned to release heat at the proper time."
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "The painted cill marker is a sign that the boat is in the lock. It is a sign that the boat is in the lock."
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "The service's clock is not a \"stop\" clock, but a \"stop\" pendulum, and the service's pendulum is a \"stop\" pend"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "The default page quota is set by the global default. The default page quota is set by the global default. The default page quota is set by the global default"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "The assistant calls the pole, and the assistant calls the pole."
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "The boat's tubes are designed to take the pressure of the water, and the pressure of the air inside the boat. The pressure of the water is the same"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": true,
+     "pred": "The strong pit is held at 25 degrees on the barkometer, the figure chalked on the beam and checked each day before any hide advances."
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": true,
+     "pred": "The only eyepiece used on visitor nights is the 32 millimeter eyepiece."
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "The standard 80 inch door is a standard door, not a standard door. The standard 80 inch door is a standard door, not a standard door."
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "The Calder Street bridge will cost $1.8 million, a figure the council negotiated down from an initial contractor bid of 2.4 million dollars submitted last"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "The fire started in the kitchen of the Copper Kettle bakery on Winslow Road, in the basement of the building. The fire started when a"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "The first time she was elected to the town council was in the fall of 1994. She was reelected in the fall of 1996."
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": true,
+     "pred": "The Aldergate Public Library was designed by the architect Ruben Castell, whose firm won the commission over eleven other entrants in a juried competition."
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": true,
+     "pred": "The strongest gust recorded during the storm was a gust of 74 miles per hour at the Danby airfield. The gust was recorded at the same"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "The team finished with a score of 214, nineteen points clear of the runners-up from Castlereagh Academy."
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": true,
+     "pred": "The Gannet, a catamaran of the catamaran type, is a catamaran of the catamaran type. It is a cat"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": true,
+     "pred": "The water main was laid in 1931."
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "The museum paid $1.5 million for the painting, which was acquired by the museum in 2019."
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "The women's race was held at the Redgate Marathon, a marathon that has been held every year since the 1960s. The race was held in"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": true,
+     "pred": "Sorrel, a name that has been used for the red panda for more than a century."
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "The new speed limit on the Orchard Valley road will be 55 miles per hour."
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "The judge in the case of Dunmore, who is a member of the New York State Supreme Court, overturned the permit for the Blackrock quarry."
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "The new service will carry the same number of passengers as the old one, but will be a much more efficient one. The new service will carry about 1,"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": true,
+     "pred": "The copper token was stamped with a rooster."
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "The Twin Alder cheese."
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "The lighthouse stair has three steps. The first step is the lantern room, which is the first room in the lighthouse. The second step is the lantern"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": true,
+     "pred": "The board found that 38 percent of the meals were arriving below the required serving temperature."
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": true,
+     "pred": "The closest turbine would be 1,900 feet from the nearest house."
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": true,
+     "pred": "The dog was found by a mail carrier who recognized her from a flyer. The carrier, Denny Ashworth, spotted the dog sheltering under a fruit"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": true,
+     "pred": "In the spring of 1928, Cortland Savings opened its Espen Cross branch. The branch opened in the spring of 1928, and the building was opened in"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "The pool's cost was $1.5 million."
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "The food bank in Tarrow had a total of 4,000 loaves of bread, which was donated to the food bank."
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "The observatory is open to the public from 8:30 a.m. to 5:30 p.m. on Saturdays and Sundays. The"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": true,
+     "pred": "The office has logged 34 confirmed raids on henhouses across seven villages, with losses passing 900 birds, and the market's egg stalls have dropped from 5 to"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "The committee heard the first round of applications from the town's residents in the fall of 2020. The orchestra's first three applications were accepted in December 2020, and"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "The sound of a kayaker being lifted from the river was heard by a search team from the Grenfield Police and the Grenfield Police Service."
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "The count was the highest since 1974, when Warden's team counted 3,080 breeding pairs of terns."
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": true,
+     "pred": "The safe contained a goldsmith's inventory of gold and silver jewelry, a small amount of paper repair records, and a small amount of paperwork. The"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": true,
+     "pred": "The new tables will be made of granite, which is a very durable material. The new tables will be made of granite, which is a very durable material."
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": true,
+     "pred": "The service will leave Averil at 10:55 p.m. on Thursdays, Fridays, and Sundays, arriving at the harbor"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": true,
+     "pred": "The winning raft took a total of 58 minutes, and the race was won by the Shedheads by a score of 3-1."
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "The two vans will add about 1,600 stops, including the caravan site at Lower Fern and the veterans home on Aldous Hill."
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "The flight left at 5:40 a.m. on Thursday, and the airport's wildlife officer arrived at the airport at 5:45 a.m."
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "The trust paid for the building, which was built in the 1930s, and the auditorium, which was built in the 1950s. The trust paid"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "The Maud Ellen was launched in 1908."
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "The average was 47 minutes earlier."
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "The water tower is a $1.5 million project, and the museum is paying for it. The museum is paying for the crane, which is being built"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "The gatherers association said it had received a total of 1.9 million dollars in compensation for the closure."
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "The atlas contains about 40 maps, most of them hand colored. The map of the western isles is missing, but the map of the western isles"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": true,
+     "pred": "The orchard was planted on a former landfill cap in 2011 with 340 trees of 27 heritage varieties."
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": true,
+     "pred": "The rescuer was lowered to the pavement at 4:05 p.m. Tuesday."
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "The name of the hill will be changed to Mount Hobbs, the name of the village, and the village will be renamed Trelow."
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": true,
+     "pred": "The heaviest pumpkin weighed 611 pounds and the heaviest was 610 pounds."
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": true,
+     "pred": "The telephone box was installed in 1936."
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": true,
+     "pred": "The beavers had been using the line for about a week, and the beavers had been using the line for about a week. The beavers had been"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": true,
+     "pred": "The owner of the violin left on the tram is Elka Marovic."
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "The market hall was purchased for $1,000,000."
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "The largest recovered fragment weighs about 1.5 pounds."
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "The bell of St. Anselm's rang a full peal on Saturday for the first time in 31 years, three hours and 22 minutes of continuous"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000.00."
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "The Corben Valley Veterinary Clinic."
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": true,
+     "pred": "We gained 41 members after last spring's series, which is 3,300 over what we set aside."
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "The office has a form, and the office has a form, and the office has a form, and the office has a form, and the office has a"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": true,
+     "pred": "We can run maybe 26,000 jars."
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "The church clock has stopped since August, and the firm has not been able to get the clock back."
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "The osprey platform on the met mast has a nest with two chicks, confirmed Friday. The ecologist's buffer is 300 meters for vehicles during fledging"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "The council's letter, everyone has read it."
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Ivens, Ivens, Ivens."
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "The plumber will charge the subcommittee $1,800 for the trench, and the subcommittee will charge the subcommittee $1,200"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": true,
+     "pred": "Seven days."
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "The family asks for the 59 pieces, and the board approves."
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday."
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000,000."
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "The milk vending machine sells for $1.50."
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "The Guardian scored 50 points on the crews' scorecards."
+    },
+    {
+     "id": "transcript-017",
+     "em": true,
+     "contains": true,
+     "pred": "The Elmsworth United Band."
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": true,
+     "pred": "Two. The two cheeses tied at 94 points. The two cheeses tied at 94 points. The two cheeses tied at 94 points. The two che"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": true,
+     "pred": "It adds six meters."
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Under the joint contract, the total cost is $1,000,000. Under the joint contract, the total cost is $1,000,000."
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "Fourteen. Marchand: Fourteen. Ito: Fourteen. Ito: Fourteen. Marchand: Fourteen. Ito: Fourteen"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "We were at the Garrow Bridge trailhead, and the casualty was at the trailhead."
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "The marquee is a large room, which is divided into two sections. The first section is the marquee, which is the largest room in the"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "$1,800. The committee will not forgive the committee for not having the full fence and the ankle in the first place."
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000.00."
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": true,
+     "pred": "The plume was a limestone fines, rock dust, not sewage and not chemical: mineral, inert, but at these concentrations it blankets gravel and smothers eggs"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "The school has three costumes."
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "1.7 percent."
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "It is a small price to pay for the dredger."
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "I think it was the first."
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": true,
+     "pred": "The gradient is 1 in 80, which is the same as the gradient of the track through the copse."
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "The sign-in board shows the number of solo swims, and the section leader shows the number of solo swims."
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "It is a year."
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "The library has a card showing the repair, and the repair is a social document."
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Monday, Wednesday, Thursday, Friday, Saturday, Sunday."
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000,000."
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "The number of items repaired on the spot was 340 items."
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "The meter read in the car park."
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "The festival license is now in effect, and the festival is closed."
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "The headland was stripped, the headland was stripped, the headland was stripped, the headland was stripped, the headland was stripped, the head"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "The first invitations are from the press, the second from the client, and the third from the press."
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "The test identified the presence of the herbicide, and the farmer was told that the manure was contaminated."
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "The first time, at eight o'clock."
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "The first bat was found at the July count, and the second at the count in the fall."
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": true,
+     "pred": "The show stops at the interval of 4 millimeters in the hour, and the gauge reads in the interval: 4 millimeters in the hour, and the show pauses"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "The sash is Ajax."
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "The survey has a total of 14,200, but the survey committee has a total of only 4,200."
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "It is a very good mosaic, and I think it is a very good mosaic. It is a very good mosaic, and I think it is a very good"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "The board of the Penguin Trust, which is the primary school, and the board of the Skerrow Dairy Cooperative, which is the primary school."
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "The re-engrossed charter is the first of the two, and the re-engrossed version is the second."
+    }
+   ]
+  },
+  "contradiction": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.012,
+   "contains": 0.3,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.28
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.3
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.28
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.46
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.18
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "The company has been notified that it will file a voluntary recall of its half inch galvanized turnbuckles. The recall is to be completed by the end"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": true,
+     "pred": "The applicant proposes to meet the maximum daily discharge rate of 120,000 gallons per day, an increase from the 85,000 gallons per day authorized under the exp"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "The percentage of dispensers tested at the 24 month mark was 2.3 percent, which is below the 2.3 percent threshold for a violation."
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": true,
+     "pred": "The operator of the tramway reported that the stoppage was caused by a faulty brake sensor on the counterweight carriage. The brake sensor was installed at the end"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "The gravel lot contains two parking spaces, one for the dairy and one for the creamery. The dairy parking space is located on the south side of the lot"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "The cause of the pressure drop was found to be a leak in the line 4 seal. The cause was found to be a leak in the line 4 seal."
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": true,
+     "pred": "The notes bear interest at 4.5 percent, maturing in ten years."
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": true,
+     "pred": "The commission's staff analysis, appended, verifies the cost figures but recommends a vehicle fare of 21 dollars, finding the petitioner's projected maintenance escalator"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": true,
+     "pred": "The stack test measured the removal efficiency of the scrubber, which was 96 percent. The scrubber was offline for the first time in the past two weeks,"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "$1,800."
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": true,
+     "pred": "The license is suspended for 30 days beginning April 1, for the period of the first six days of the license's validity."
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "The Society estimates that the replacement of the planks on the port side will cost $1,000,000."
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "The safety officer position was filled on September 1 by the county service."
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "The appellant's proposal contains two dwellings, one of which is a single dwelling, and the other a double dwelling. The appellant's proposal contains"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "The recall is the result of a substitution of the wrong adhesive."
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant's daily withdrawal was 4,100 gallons per day, and the applicant's hydrologist estimated the average daily withdrawal at 4,100 gallons per day"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "The value of the building is $1,050,000."
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": true,
+     "pred": "The district's modeling shows a flow depth of 1.4 feet at the nearest trailer pad, which under the classification rule requires assignment to the significant hazard class"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": true,
+     "pred": "The operator placed 41,000 cubic yards of overburden in the reporting period."
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "The average response time over the past two years was 2.5 minutes."
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "The cost of the damp remediation of cottage 7 was $1,050.00."
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": true,
+     "pred": "The part number of the redesigned bracket is SK2-441C."
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "The Board's staff estimated the restitution at $1,000,000."
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "The race line is closed, and the cove is closed to the public."
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "The number of days in compliance with the decree was not reported."
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "The freehold is offered at a price of $1,000. The cooperative has a minimum holding of two shares and a maximum of 400, carrying one vote"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "The Redpoll Service Station, Cobb Street."
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "The number of residents moved to settled accommodation during the year was 8,034, with a target of 8,034 residents moved to settled accommodation."
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": true,
+     "pred": "The school's acoustic enclosure is engineered to reduce the line readings to 63 decibels. The school's hearing is set before the select board on August 19."
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "The break even number of annual scans for the proposed unit is 2,900."
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "The number of bolts replaced varied from year to year, but the most recent replacement was in the spring of 2008."
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "The Alliance estimates that there are about 30,000 farmers markets in the state."
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": true,
+     "pred": "The station's power was measured at 6.2 kilowatts during the hours of 6 a.m. to 9 a.m. on four of the seven"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": true,
+     "pred": "The bridge was inspected in the spring of 2003. The bridge was found to be in a condition that required a scour to a depth of 2.3 feet"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant proposes to replace the original heart pine with a new heart pine, which is a hybrid of the two species. The proposed replacement is a hybrid of the"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "The museum has offered the Blue Swan for $1,000,000, and the museum has offered the Blue Swan for $1,000,000."
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "The documented rookery contains 20 nests, and the rookery is located on the north side of the channel. The documented rookery is located on"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "The club's membership list included 4,212 members, and the club's audit of the affected accounts was completed by September 9. The club's audit of"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "The township has not yet decided whether to reclassify the entire section as a trail or a road. The township has not yet decided whether to reclassify"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "The facility's emissions were reduced by approximately 1,000 pounds per day."
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "The Darrow regatta is a two-day event, with the regatta taking place on the river between the Darrowford and the Darrowford gauge"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "The claimant's claim was filed on March 1, and the claimant was employed as a yard foreman from March of last year until his discharge in January"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "The farm's organic production is certified organic."
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "The board of the Middle Bank was not notified of the overage."
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "The triple expansion engine, also known as the triple expansion engine, is a steam engine that was used in the early days of the steam engine. It was invented"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant's family, who had been in the city for a year, had been in the city for a year and a half. The family had been in"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "The target enrollment for the trial is 240 participants, with a mean age of 65.5 years. The trial is a randomized trial of a walking program for adults"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "The percentage of survey respondents who attributed the sign to the brewery was:"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": true,
+     "pred": "The Quimby House weighs an estimated 96 tons, with a total of 96 tons of lumber."
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": true,
+     "pred": "The pilots performed 1,214 acts of pilotage in the year."
+    },
+    {
+     "id": "letter-001",
+     "em": true,
+     "contains": true,
+     "pred": "One."
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": true,
+     "pred": "The oak boards came from the salvage yard on Piper Street."
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "I have never seen a recipe that says they take two onions."
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "I taught for a year and a half."
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "I put up three jars, and I have put up four."
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "I have a little bailing sponge in my pocket, and it is a good one."
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": true,
+     "pred": "I became a structural surveyor of old buildings, and I was happy in a way I did not know to want."
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": true,
+     "pred": "He had been told that the violin had been a loose seam, and that it had been a loose seam, and that it had been a loose seam, and"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "It loses one minute a week."
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "April 1st, April 2nd, April 3rd, April 4th, April 5th, April 6th, April 7th, April 8th,"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": true,
+     "pred": "It began in the winter of 1954, though it survived a house fire in 1978 riding in the milk crate that was all my mother grabbed besides the photographs"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "He kept it for a year, and then he was gone."
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": true,
+     "pred": "118. The number of the yard."
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": true,
+     "pred": "I have been offered a post at the Bramwell clinic, the small one by the level crossing, three days a week to start and full time when Mrs."
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": true,
+     "pred": "Duchess. I have a criminal record in three gardens."
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "$5.00 for a single, $5.00 for a double, and $5.00 for a double."
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": true,
+     "pred": "I think it was about 4.2 square meters."
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "The Kohlmann sisters, who are the only ones who have been able to keep the press going, have been able to keep the press going for the past"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": true,
+     "pred": "Abel. He is a retired ship cook, and he is a man of the world. He is a man of the world, and he is a man of"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "December 1st."
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "It was found in the attic of the library, in the basement of the library, in the basement of the library, in the basement of the library, in"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "I took it from the beekeeper, who said it was a swarm of bees from the garden hive."
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "\"The walnut tree.\""
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": true,
+     "pred": "Rathvale. The organ was repaired in the evening, and the choir was not allowed to sing."
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "I have known Espen Dahl since we were boys, and he has never taken an apprentice before, not once, though he has been asked by better"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "It was $1,900."
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "They were found in the library of the University of California, Berkeley, in the library of the University of California, Berkeley, in the library of the University of"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "I swam in your Tuesday and Thursday junior lanes from 1979 to 1984, one grade forever behind the medal winners, and I false started twice and was out,"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "The vote to fell the tree was carried by a vote of the committee, and the committee's vote was recorded in the minutes of the meeting."
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "The mill's last bolt is the mill's last bolt, and the mill's last bolt is the mill's last bolt."
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": true,
+     "pred": "The first item on the list is the list of things I will not apologize for, and item four is reading the last chapter first."
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": true,
+     "pred": "We served 9,100 covers between October and March, which the spreadsheet calls 6 percent above plan, and the plan, you will remember, was written by two"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "It was a storm, but it was not a storm at all. It was a storm of the station."
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "It runs along the hedge, and I think it runs along the road, and I think it runs along the hedge, and I think it runs along the road"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": true,
+     "pred": "The committee voted for the name, and the vote was not close. The vote was not close: 61 of 74 members, on the first ballot, with the"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "It was a long one, and we were in the mountains now, staying above the treeline in a hut that rents bunks to cyclists and"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "The father's ledger, which is the only one of the two, is the only one of the two, and it is the only one of the two,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "I counted the newts this year, and I counted twice."
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "The day before the lighthouse was built, and the day after the lighthouse was built."
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "I have hired the young woman from the technical school Georg tutored on Saturdays without telling me, though the biscuits went somewhere every week and I can"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "The recipe is titled, in her own handwriting, for the whole family, no hoarding, underlined twice."
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": true,
+     "pred": "In 1902."
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "About $1,000."
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "I have a system, a reputation, and a mortar of dried eggshells."
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "The old cornet, which was the only one that was found, was found in the old room."
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "They go to the sea, and the sea is the place where they go."
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "The bequest of 31,000 dollars for the restoration of the mill, which is now in the hands of the miller's daughter, Mrs. Edith"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "The one you and I widened with the borrowed scaffold in the rain in 2021 while your wife documented our incompetence from the dry side of the window."
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": true,
+     "pred": "The machine should be descaled every 60 days, or every 30 days if your water hardness tests above 200 parts per million using the strip supplied in the accessory"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "The weep hole should be at least 4 inches in diameter and 24 inches in depth. The weep hole should be angled downward into the pit, ang"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "The bar nuts should be tightened to the correct torque. The torque should be adjusted to the correct torque. The torque should be adjusted to the correct torque."
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": true,
+     "pred": "The default is 10, but the default is 14."
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "The trailer's maximum gross weight is 1,900 pounds, of which the trailer itself accounts for 340 pounds, leaving a payload of 1,5"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "The auger is turned by turning the screw on the side of the auger. The screw is a 1/16 inch diameter, and the auger is"
+    },
+    {
+     "id": "manual-007",
+     "em": true,
+     "contains": true,
+     "pred": "192.168.4.1."
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "The full rearward position of the valve lever disengages the wedge, allowing the wedge to return the wedge fully to the upright position. The"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "The pan is seasoned at 350 degrees."
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": true,
+     "pred": "The sealant should be a polysulfide sealant, not silicone."
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": true,
+     "pred": "The top tension dial should be set to 4 for ordinary sewing on medium cotton with size 80 needles; the balanced range for most fabrics lies between 3 and 5."
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "The distance between the two peg test stakes is 3 meters."
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "The chain should be replaced at the recommended replacement rate."
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": true,
+     "pred": "The year is close reversible for 90 days."
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "The regulator must be placed in the vent pipe, not the canner base."
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "The thrust bearing should be set to the same clearance as the saw blade."
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": true,
+     "pred": "The maximum dependable lift is 22 feet at sea level."
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": true,
+     "pred": "The film reads UV OUT."
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "The only approved replacement cable is the one that is rated for the same voltage as the existing cable. The only approved replacement cable is the one that is rated for"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "The foam prefilters should be washed every six months."
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "The U-2 tank requires 5 ounces of delimer per gallon of tank capacity."
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "The smaller class rake is the one that is used in the windward side of the ship. The smaller class rake is the one that is used in"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": true,
+     "pred": "The answer is four."
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "The temperature of the machine should be no higher than 120 degrees F."
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": true,
+     "pred": "One part product to ten parts water, always adding acid to water, never water to acid, which spatters."
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "The SP-6 is a good choice for a single desk channel, but it is not a good choice for a double desk channel. The SP-6 is"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": true,
+     "pred": "The water heater holds 6 gallons and drains best warm, not hot."
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": true,
+     "pred": "The tray can feed up to 60 sheets at once."
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Pick when pods are about half-way up the stem."
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "The number of people entering a bin depends on the size of the bin, the number of people entering, the number of people entering, the number of people entering"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "The kettle is not a safety device, but it is a safety device. The safety device is a safety switch, which is a safety device that is activated"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "The foot bolts should be tightened to the same torque as the rack bolts. The rack bolts should be tightened to the same torque as the foot bolts."
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "The film is developed in the dark for about one hour, and the film leader is used to run the film in the dark for about one hour. The film"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "The number of small curing fires should be about one-half of the number of large curing fires."
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "The DND key is a special key that is used to cancel the ringing of the phone. It is a special key that is used to cancel the ringing of"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "The sump takes about 1.5 liters of oil from the tank, and the oil is drained by the float light green."
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "The sleeve entries are the same color as the body, but the sleeve is not a separate piece. The sleeve is a separate piece, and the"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "The opening angle is fixed and the glass is flat."
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "The juice is about 1/3 of the milled fruit."
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "The door is closed at the factory set to close at 12 hours of daylight."
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "The smoker is a model H smoker, and the smoker is a model H smoker. The smoker is a model H smoker, and"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "The windrow must be turned to release heat at the proper time. The windrow must be turned to release heat at the proper time."
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "The painted cill marker is a sign that the boat is in the lock. It is a sign that the boat is in the lock."
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "The service's clock is not a \"stop\" clock, but a \"stop\" pendulum, and the service's pendulum is a \"stop\" pend"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "The default page quota is set by the global default. The default page quota is set by the global default. The default page quota is set by the global default"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "The assistant calls the pole, and the assistant calls the pole."
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "The boat's tubes are designed to take the pressure of the water, and the pressure of the air inside the boat. The pressure of the water is the same"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": true,
+     "pred": "The strong pit is held at 25 degrees on the barkometer, the figure chalked on the beam and checked each day before any hide advances."
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": true,
+     "pred": "The only eyepiece used on visitor nights is the 32 millimeter eyepiece."
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "The standard 80 inch door is a standard door, not a standard door. The standard 80 inch door is a standard door, not a standard door."
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "The Calder Street bridge will cost $1.8 million, a figure the council negotiated down from an initial contractor bid of 2.4 million dollars submitted last"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "The fire started in the kitchen of the Copper Kettle bakery on Winslow Road, in the basement of the building. The fire started when a"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "The first time she received a vote was in the fall of 1994."
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": true,
+     "pred": "The Aldergate Public Library was designed by the architect Ruben Castell, whose firm won the commission over eleven other entrants in a juried competition."
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": true,
+     "pred": "The strongest gust recorded during the storm was a gust of 74 miles per hour at the Danby airfield. The gust was recorded at the same"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "The team finished with a score of 214, nineteen points clear of the runners-up from Castlereagh Academy."
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": true,
+     "pred": "The Gannet, a catamaran of the catamaran type, is a catamaran of the catamaran type. It is a cat"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": true,
+     "pred": "The water main was laid in 1931."
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "The museum paid $1.5 million for the painting, which was acquired by the museum in 2019."
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "The women's race was held at the Redgate Marathon, a marathon that has been held every year since the 1960s. The race was held in"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": true,
+     "pred": "Sorrel, a name that has been used for the red panda for more than a century."
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "The new speed limit on the Orchard Valley road will be 55 miles per hour."
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": true,
+     "pred": "The judge in the Dunmore case, Judge Celia Ravenscroft, overturned the permit for the Blackrock quarry."
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "The new service will carry the same number of passengers as the old one, but will be a much more efficient one. The new service will carry about 1,"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": true,
+     "pred": "The copper token was stamped with a rooster."
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "The Twin Alder cheese."
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "The lighthouse stair has three steps. The first step is the lantern room, which is the first room in the lighthouse. The second step is the lantern"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": true,
+     "pred": "The board found that 38 percent of the meals were arriving below the required serving temperature."
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": true,
+     "pred": "The closest turbine would be 1,900 feet from the nearest house."
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": true,
+     "pred": "The dog was found by a mail carrier who recognized her from a flyer. The carrier, Denny Ashworth, spotted the dog sheltering under a fruit"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": true,
+     "pred": "In the spring of 1928, Cortland Savings opened its Espen Cross branch. The branch opened in the spring of 1928, and the building was opened in"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "The pool's cost was $1.5 million."
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "The food bank in Tarrow had a total of 4,000 loaves of bread, which was donated to the food bank."
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "The observatory is open to the public from 8:30 a.m. to 5 p.m. on Saturdays and Sundays. The dome is"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": true,
+     "pred": "The office has logged 34 confirmed raids on henhouses across seven villages, with losses passing 900 birds, and the market's egg stalls have dropped from 5 to"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "The committee heard the first round of applications from the town's residents in the fall of 2020. The orchestra's first three applications were accepted in December 2020, and"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "The sound of a kayaker being lifted from the river was heard by a search team from the Grenfield Police and the Grenfield Police Service."
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "The count was the highest since 1974, when Warden's team counted 3,080 breeding pairs of terns."
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": true,
+     "pred": "The safe contained a goldsmith's inventory of gold and silver jewelry, a small amount of paper repair records, and a small amount of paperwork. The"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": true,
+     "pred": "The new tables will be made of granite, which is a very durable material. The new tables will be made of granite, which is a very durable material."
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": true,
+     "pred": "The service will leave Averil at 10:55 p.m. on Thursdays, Fridays, and Sundays, arriving at the harbor"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": true,
+     "pred": "The winning raft took a total of 58 minutes, and the race was won by the Shedheads by a score of 3-1."
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "The two vans will add about 1,600 stops, including the caravan site at Lower Fern and the veterans home on Aldous Hill."
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "The flight left at 5:40 a.m. on Thursday, and the airport's wildlife officer arrived at the airport at 5:45 a.m."
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "The trust paid for the building, which was built in 1938, and the auditorium, which was built in 1938. The trust also paid for the lighting"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": true,
+     "pred": "In 1891."
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "The average was 47 minutes earlier."
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "The water tower is a $1.5 million project, and the museum is paying for it. The museum is paying for the crane, which is being built"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "The gatherers association said it had received a total of 1.9 million dollars in compensation for the closure."
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "The atlas contains about 40 maps, most of them hand colored. The map of the western isles is missing, but the map of the western isles"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": true,
+     "pred": "The orchard was planted on a former landfill cap in 2011 with 340 trees of 27 heritage varieties."
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": true,
+     "pred": "The rescuer was lowered to the pavement at 4:05 p.m. Tuesday."
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "The name of the hill will be changed to Mount Hobbs, the name of the village, and the village will be renamed Trelow."
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": true,
+     "pred": "The heaviest pumpkin weighed 611 pounds and the heaviest was 610 pounds."
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": true,
+     "pred": "The telephone box was installed in 1936."
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": true,
+     "pred": "The beavers had been using the line for about a week, and the beavers had been using the line for about a week. The beavers had been"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": true,
+     "pred": "The owner of the violin left on the tram is Elka Marovic."
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "The market hall was purchased for $1,000,000."
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "The largest recovered fragment weighs about 1.5 pounds."
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "The bell of St. Anselm's rang a full peal on Saturday for the first time in 31 years, three hours and 22 minutes of continuous"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000.00."
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "The Corben Valley Veterinary Clinic."
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": true,
+     "pred": "We gained 41 members after last spring's series, which is 3,300 over what we set aside."
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "The office has a form, and the office has a form, and the office has a form, and the office has a form, and the office has a"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": true,
+     "pred": "We can run maybe 26,000 jars."
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "The church clock has stopped since August, and the firm has not been able to get the clock back."
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "The osprey platform on the met mast has a nest with two chicks, confirmed Friday. The ecologist's buffer is 300 meters for vehicles during fledging"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "The council's letter, everyone has read it."
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Ivens, Ivens, Ivens."
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "The plumber will charge the subcommittee $1,800 for the trench, and the subcommittee will charge the subcommittee $1,200"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": true,
+     "pred": "Seven days."
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "The family asks for the 59 pieces, and the board approves."
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday."
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000,000."
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "The milk vending machine sells for $1.50."
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "The Guardian scored 50 points on the crews' scorecards."
+    },
+    {
+     "id": "transcript-017",
+     "em": true,
+     "contains": true,
+     "pred": "The Elmsworth United Band."
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": true,
+     "pred": "Two. The two cheeses tied at 94 points. The two cheeses tied at 94 points. The two cheeses tied at 94 points. The two che"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": true,
+     "pred": "It adds six meters."
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Under the joint contract, the total cost is $1,000,000. Under the joint contract, the total cost is $1,000,000."
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "Fourteen. Marchand: Fourteen. Ito: Fourteen. Ito: Fourteen. Marchand: Fourteen. Ito: Fourteen"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "At 10:00, the subject was located."
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "The marquee is a large room, which is divided into two sections. The first section is the marquee, which is the largest room in the"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "$1,800. The committee will not forgive the committee for not having the full fence and the ankle in the first place."
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000.00."
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": true,
+     "pred": "The plume was a limestone fines, rock dust, not sewage and not chemical: mineral, inert, but at these concentrations it blankets gravel and smothers eggs"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "The school has three costumes."
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "1.7 percent."
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "It is a small price to pay for the dredger."
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "I think it was the first."
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": true,
+     "pred": "The gradient is 1 in 80, which is the same as the gradient of the track through the copse."
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "The sign-in board shows the number of solo swims, and the section leader shows the number of solo swims."
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "It is a year."
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "The library has a card showing the repair, and the repair is a social document."
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Monday, Wednesday, Thursday, Friday, Saturday, Sunday."
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000,000."
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "The number of items repaired on the spot was 340 items."
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "The meter read in the car park."
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "The festival license is now in effect, and the festival is closed."
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "The headland was stripped, the headland was stripped, the headland was stripped, the headland was stripped, the headland was stripped, the head"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "The first invitations are from the press, the second from the client, and the third from the press."
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "The test identified the presence of the herbicide, and the farmer was told that the manure was contaminated."
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "The first half hour."
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "The first bat was found at the July count, and the second at the count in the fall."
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": true,
+     "pred": "The show stops at the interval of 4 millimeters in the hour, and the gauge reads in the interval: 4 millimeters in the hour, and the show pauses"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "The lamb, Ajax, was not the lamb, but the sash."
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "The survey has a total of 14,200, but the survey committee has a total of only 4,200."
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "It is a very good mosaic, and I think it is a very good mosaic. It is a very good mosaic, and I think it is a very good"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "The board of the Penguin Trust, which is the primary school, and the board of the Skerrow Dairy Cooperative, which is the primary school."
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "The re-engrossed charter is the first of the two, and the re-engrossed version is the second."
+    }
+   ],
+   "injection_rate": 0.15,
+   "injection_seed": 20260824,
+   "n_contradicted": 36
+  },
+  "ocr": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.0,
+   "contains": 0.116,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.1
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.1
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.12
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.2
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.06
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "The company has a total of 4,000 units of turnbuckles, and the inventory is valued at $1,000,000. The company has"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant seeks to establish a maximum daily discharge rate of 120,0o gallons per day. The applicant is seeking to establish a maximum daily discharge rate of 120"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "The percentage of dispensers tested at the 24 month mark was 0.5 percent."
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "The tramway was not in operation at the time of the accident."
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "The gravel lot contains 3,000 square feet of parking space."
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "The cause of the pressure drop on line 4 was found to be a leaky gasket. The gasket was found to be a spiral woundtybe inst"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "The notes are unsecured, are not insured deposits, and are not insured deposits."
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": true,
+     "pred": "The commission's staff analysis recommends a fare of 21 dollars per day for the Cully Sound ferry, and a fare of 5 dollars per day for the Tran"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "The March 22 stack testing measured the removal efficiency of the scrubber, vvhose, and the coiinty scrubber, vvhose"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000.00."
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": true,
+     "pred": "The license is suspended for 30 days."
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "The Society estimates that the hull planks were replaced on the port side this year, and the Society estimates that the planks were replaced on the port side this"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "The safety officer was vacated on September 1."
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "The appellant's proposal is to have a total of 1,080 dwellings, of which 1,080 are to be built on the terrace"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "The recall is not a recall."
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant's average daily withdrawal over the expiring term was 4,100 gallons per day."
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "The Aszociation, a burial society founded in 1893 and holding certificate 71, reports 2,140 members and assets of 5.6 mi1lion"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": true,
+     "pred": "The office's modeling shows a flow depth of 1.4 feet at the neonesl trailen pad, wh1ch under the classification rule requires assignr"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "The operator placed 1,000 cubic yards of overburden in the reporting period."
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "The average response time over the past two years was 2.5 minvtes."
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000,000."
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "The part number of the redesigned bracket is:"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "The Board's staff calculated the aggregate restitution as follows:"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "The race line is a line of raceways,  of which the raceways are the main ones. The raceways are the main ones,  and the"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "The  staffing  proviso was not met."
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "The price of the freehold is 3,000 d0llans."
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "The tank was not properly maintained."
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "The number of residents moved to settled accommodation during the year was 5,039."
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "The school's repair of the shared boundary wall is a good example of the way in which the ordinance has been applied to the problem of noise. The school's"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "The break even number of annual scans for the proposed unit is 2,8o0."
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "The  track bolts were replaced in Apnil in the sfate system."
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "The Alliance's rules permit a total of  2,000 stalls, and the number of producers under the rules is  1,000."
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "The station's power was measured at 6.2 kiiowatts."
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "The  bridge was inspected for scour at the north abutment. The bridge was inspected for scour at the north abutment. The bridge was"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": true,
+     "pred": "The wood is the same as the original heart pine, but the sapele is replaced with a new one."
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "The museum has offered for sale a number of items, including a number of items that were donated by the museum's founder, the late John H. H."
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "The documented rookery contains a total of 5 nests, and the documented rookery contains a total of 6 nests."
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "For how many members were bank sort and account numbers exposed?"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "The petition is filed in the township clerk's office,  and is filed in the office of the township treasurer."
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "The facilitv operated on a total of 1,410 hours, and the permit revi5ion was issued on October 9. The facilitv operated on"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "The irevvford gaiige,  the Pemb1e,  the Pemb1e,  the Pemb1e,"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "The claimant's claim was filed on March 1, and the employer's claim was filed on March 2."
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "The farm has a total of 5,000 hens."
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "The Board of Fisheries has a permit to fish halibut in the waters of the United States, but the permit is not valid for the entire United States."
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "The triple expansion engine is a steam engine that was invented by the French engineer, engineer and inventor, Jean-Baptiste Joseph Marie Jacquard (17"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "The applicant's family, the applicant's family, the applicant's family, the applicant's family, the applicant's family, the applicant's family, the applicant"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "The target enrollment for the trial is the same as the target enrollment for the trial."
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "The survey respondents' sign was attributed to the brewery."
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": true,
+     "pred": "The house weighs an estimated 95 tons, and is estimated to weigh an estimated 96 tons."
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "The number of acts of pilotage in the year was 6,939."
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "I have not seen any."
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "I have seen them in the shop of a carpenter, and I have seen them in the shop of a carpenter, and I have seen them in the shop of"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "I have a recipe for a soup that is made with a lot of onions."
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "I taught at the college in Brandt's Ferry from the year I was born."
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "I put up three jars, and the first one was put up in the kitchen. The second one was put up in the kitchen. The third one was put"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "The bailing sponge lives in the boathouse."
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": true,
+     "pred": "I became a structural surveyor."
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "I have not seen the violin, but I have seen the buzz."
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "It is a little over a week."
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "April 1st."
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": true,
+     "pred": "It began in the winter of 1954, when  the zourdough starter  was  cooked in a wok. It was  cooked in a w"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "I had kept it for a year."
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "The number of the boat."
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "I have been offered a post at the clinic of the same name."
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "The goat's name is Edda."
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "I have no idea."
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "I was not aware of it."
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "The first one was the last one, and the second one was the last one."
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "The cook is a man of the house, and is a good cook, and has a good house, and is a good cook."
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "On the first day of the meeting, the meeting is held in the hall of the club. The meeting is held in the hall of the club. The meeting"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "The library was found in a drawer in the loft."
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "I took the swarm that settled on the plum tree."
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "\"Walnut\" (Walnut tree)"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": true,
+     "pred": "In Rathvale."
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "I have known him since we were boys, and he has never taken an apprentice before, not once, tliough he hes been askool by be"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000."
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "The field notebooks were found in the library of the University of Michigan, and were in the library of the University of Michigan, in the library of the University"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "I was not able to remember the sentence."
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "The vote to fell the lime tree was carried by a majority of 3, and the vote to fell the lime tree was carried by a majority of 2."
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "The mill's last bolt is the gray worsted cloth."
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "I have no further use for it."
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "I have read the list, and I have read it, and I have read it, and I have read it, and I have read it, and I"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": true,
+     "pred": "We served 9,100 covers between Ocfobcr and March, wbich the spreadsheet calls 6 percent abcve plan, and the plan, you"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "I was in the station for about two hours."
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "I am not sure. I am not sure. I am not sure. I am not sure. I am not sure. I am not sure. I am"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "I got the plcasurc of telling you, before the formal letter does, that tlie nevv telescope vvill be named the Hartmann"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "The first day, the first day, the second day, the second day, the second day, the second day, the second day, the second day,"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "I have not been able to find the answer to this question."
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "I counted the newts in the pond on Whitlow Common."
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "On the first day, the boat comes to the island."
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "I have hired Dena Kowa, the young woman frcm the technical scliool Qeorg lutored on Saturdavs without telling"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "The recipe is called \"Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom Pom"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": true,
+     "pred": "In 1902."
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "I have not yet found out."
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "I have a system, a rebutalion, and a mortar of dried eggshellz. Sccond: your soil is new and so are you;"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "The old cornet, the cornet, the cornet, the cornet, the cornet, the cornet, the cornet, the cornet"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "From the sea, from the sea, from the sea, from the sea, from the sea, from the sea, from the sea, from the sea,"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "The bequest of 31,000 dollars for the mill, which was sold to the miller's son, who was a miller in the town of Mill"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "The first of the three."
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": true,
+     "pred": "The machine should be descaled every 60 days, or every 30 days if your watcr hardness tests above 200 parts per million using the strip supplied 1n the"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "The weep hole should be drilled in the discharge pipe, not the sump pit. The weep hole should be at least 4 inches in diameter and at"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "The bar nuts should be tightened to the correct torque. The torque should be tightened to the correct torque. The torque should be tightened to the correct"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "The default is 10, but the default is 10."
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "The trailer's tongue weight range is correct for a fully loaded trailer. The trailer's tongue weight range is correct for a fully loaded trailer."
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "The auger is turned by the auger-tunnel, and the screw is turned by the screw-tunnel."
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "The first configuration is the one you want to set up. The second one is the one you want to set up."
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "The full rearward position of the valve lever does not allow the log to move forward. The full rearward position of the valve lever allows the log to move"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": true,
+     "pred": "The pan is seasoned at 450 degrees."
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "The base should be bedded in a polyethylene film with a thickness of 1/8 inch. The polyethylene film should be 1/8 inch thick."
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": true,
+     "pred": "The top tension dial should be set to 4.5."
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "The distance between the two pegs is the distance between the two pegs."
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "The chain should be replaced at the chain gauge. The chain should be replaced at the chain gauge. The chain should be replaced at the chain gauge. The chain"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": true,
+     "pred": "The year is close reversible for 90 days."
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "The canner must be vented to the atmosphere before the regulator is placed."
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "The thrust bearing should have a clearance of at least 1/2 of the blade's length."
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "The maximum lift at sea level is about 2,000 feet."
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "The film on the sky-facing side of each panel reads: \"UV OIIT\" (UV OIIT is the UV protection system of the film"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "The only approved replacement cable is the only approved replacement cable."
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "The core should be washed every six months."
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "The U-2 tank requires 1 ounce of delimer per gallon of water."
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "The smaller of the two class rake measurements is the one that is used in the  masthead. The larger of the two class rake measurements is the"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "The answer is: The answer is: The answer is: The answer is: The answer is: The answer is: The answer is: The answer is:"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "The temperature of the machine should be at least 120 degrees F."
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "1 part product to 10 parts water, always adding acid to water, never water to a dry wall, and rinse tcp to bottom."
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "The  input should be used when only one desk channel is free."
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "The water heater holds about 2.5 gallons."
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": true,
+     "pred": "The tray can feed up to 60 sheets at once."
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "The varietv is a hybrid, and the varietv is a hybrid. The varietv is a hybrid, and the varietv is a"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "The entranl must enter the bin at least once, and the attendant must enter the bin at least once."
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "The kettle is not a safety, but a safety that has been broken. The kettle is a safety that has been broken. The kettle is a"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "The bolt should be tightened to the torque specified by the manufacturer."
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "The development is done in the darkroom, and the film is developed in the darkroom. The film is developed in the darkroom, and the film is"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "The f1bbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "A DND key is a key that is not used. It is a key that is not used. It is a key that is not used. It is"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "The sump takes about 1.5 liters of oil from the sump, and the sump takes about 1.5 liters of oil from the sump"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "The color  of the sleeve entries is the same as the color of the  tail."
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "The opening angle of the V cradle is 0.5 degrees."
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "The juice is about 3 to 4 liters."
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "The door factory is set to close at the factory's light level."
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "The smoke is not hot enough to scorch the bees, but it is not too hot to scorch the bees."
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "The windrow should be turned to the right side of the drum, and the drum should be turned to the left side of the drum. The drum should be"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "The painted cill marker shows the danger astern of the boat."
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "The strike side takes 12o tvrns on the crank, and the stob is wound second,  sothat a bcll"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "The default page quota is 0."
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "The assistant's call is made before any pole above four feet of gathered glass."
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "The boat's tubes take 3.2 psi to go up and down, and the transom's tube takes 1.2 psi to go up and"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": true,
+     "pred": "The strong pit is held at 25 degrees on the barlcometer, and the pit is held at 25 degrees on the barlcometer."
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "The only eyepiece used on the night is the one on the dome."
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "The track line is marked for a standard 80 inch door, the standard height of the door is the same as the standard width of the door."
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "The Calder Street bridge will cost $1.8 million, or $1.8 million per mile. The bridge will be replaced by a new bridge,"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "The fire was started by a faulty electrical wiring in the kitchen. The fire was started by a faulty electrical wiring in the kitchen. The wiring was faulty and the"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "The vote was 3,377, a record for the town."
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Thohousing was designed by the architect Ruloon Castell, who won tbe re-license for the project in a juried competition."
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "The strongest wind gust recorded during the storm was a gust of 74 mi1es pcn at the peak of the outage. The wind g"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": true,
+     "pred": "The Iron Herons finished with a 5core of 212,  nineteeu points."
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "The ferrv service between Cobait Bay and Stray Point is called the Gaunel service. It is a ferrv service between Cobait Bay"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": true,
+     "pred": "In 1931."
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "The museum paid $1,000 for the painting."
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "The women's race was won by the women's champion, Greta Halvorsen, who finished third after losing a shoc at the socond"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": true,
+     "pred": "Sorrel, the name of the red panda."
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "The new speed limit on the Orchard Valley road will be 55 to 40 mlles per houn. The fhreo mile 5tret"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "The judge overturned the permit on the grounds that the o0mpany had not considered the effect of the quarry on the aquifer. The o0mp"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "The new service will carry the same number of passengers as the old one, but will be carried by a single  bus."
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "The well was filled with water in the early 1800s."
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "The winner was a cheese called \"Bell Herbor\" made by the Twin Alder dairy. It was made by a family of six who had been"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "The stair has six steps."
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "The audil found that the audil was not satisfied with the audil's methods. The audil found that the audil was not satisfied with the aud"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "The nearest house would be about 1,000 feet from the nearest house."
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "The terrier was found by a farmer who had been out hunting for terriers. He was in the woods when he heard a terrier barking. He"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": true,
+     "pred": "In the year of the opening of the branch in 1928."
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "The pool cost $1.5 million."
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "The food bank had a loaf of bread for every 10,000 people in the area."
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "The dome is open to the public on the first night of each month."
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "The henhouse raids have been sporadic, but the most recent one was in May. The henhouse was raiclcd in the early evening, and the"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "The  has been in  since 2003, and  has been in  since the beginning of the pandemic."
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": true,
+     "pred": "The sound was a whistle."
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "l1,400 pairs."
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "The safe contained a large quantity of gold coins, a large quantity of gold coins, a large quantity of gold coins, a large quantity of gold coins, a"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "The new chess tables will be made of oak, wlth a wooden board with a wooden board with a wooden board with a wooden board with a wooden board"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": true,
+     "pred": "The night train will leave Averil at 10:55 p.m. on Thursdays, Fridays, and Suudays, arriving at"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "The winning raft took a total of 4 hours and 40 minutes to complete the course."
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "The two vans will add about 1,600 stops to the county's bookmobile."
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "The flight was delayed by a few minutes, but the sheop were retunned home by trailer before noon, none injiired."
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "The trust paid for the building, which was built in the 1930s, and the building was renovated in the 1990s. The trust also paid for the"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "The Maud Ellen was launched in 1908."
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "The first bird to sing at the brightest site was a blackbird."
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "The water tower moved cost $1,000,000.00."
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "The  fishery was closed on april 1, and the  ciaim is still in the process of reopening it."
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "The atlas contains over 40 hand colored maps, the most of them being maps of the western izles. The atlas is in the possession of the"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": true,
+     "pred": "The orchard was planted on a former landfill cap in 2011 with 340 trees ot 27 heritage varieties, produced rovghly clouble last year's"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": true,
+     "pred": "The cleaner was lowered to the pavement at 4:05 p.m. on Sunday, May 1, and the rescuer was lowered to the pavement at 4"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "The hill will be called the Beacon Hill."
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": true,
+     "pred": "The heaviest pumpkin weighed 611 pounds anol 608 poundz."
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": true,
+     "pred": "The telephone box was installed in 1936."
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "The cable was damaged by a mishap."
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "The owner of the violin left on the tram is Elka Marov."
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "The market hall was sold for $1,000,000."
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "The largest recovered fragment weighs about 1.5 pounds."
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "The bell of St. Anselm's, the oldest bell in the world, is a bell cast in 1671 and known a full pcal on Saturday"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "We bid for the tile surface."
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "The room is on the left side of the room."
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "The library gained 1,400 members after last spring's author series."
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "The office's apology was entered in the minutes."
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": true,
+     "pred": "We can run maybe 26,000 jars."
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "The clock has been stopped since August."
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "The osprey platform on  the met mast has a nest with  two chicks, confirned Frlday. The ecologist's buffen is"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "The new bay hours are written by someone who haz never melafi."
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Ivens scored a total of four for voice, and Ivens scored a total of five for stage craft."
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "The plumber will charge the plumber for the pipe and fittings at cost. The plumber will charge the plumber for the pipe and fittings at"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "I have a box rest of three days."
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "The family asks for the 59 pieces, and the fvrst one is sold."
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "The bus arrives at 8:30 a.m. and the parents' car arrives at 8:30 a.m."
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "$1,000."
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "The milk vending machine sells milk at a price of $1.50 per liter."
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "The Guardian scored 50 points on the crews' scorecards."
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "The brass band's name is the older."
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": true,
+     "pred": "The two cheeses tied at 94 points."
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "The  boardwalk is a little over one meter, and the  boardwalk is a little over one meter."
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "The  roof is $1,000,000. The  roof is $1,000,000. The  roof is $1,000,000"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "The eel is a good eel, but it is not a good eel."
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "We were at the ridgecairn at noon."
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "The marquee has a capacity of 1,700."
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "The hedge and partial mesh plan cost $1,000. The full fence cost $1,500. The partial mesh plan cost $1,500. The"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "I will give her a good deal."
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "The plume was identified as a \"puffball\" by the association's staff."
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "I have a dress rehearsal for the school."
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "$1.00."
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "The dredge is a $1,000,000,000,000,000,000,000,000,000,000,000,000,"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "I have not seen the picture."
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": true,
+     "pred": "The route througout the copse is wlth a gradient of 1 in 80."
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "I am not sure."
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "The Brandt workshop is in good repair, and the work is done."
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "The library has a card showing the number of loans, and the number of loans, and the number of loans, and the number of loans, and the number"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Thu, Feb. 6."
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "The cost of the bell is $1,000."
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "The  lamp is the first item."
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "The meter read in the petrol station car park."
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "The  night of the  night of the  night of the  night of the  night of the  night of the  night of the  night of"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "I was not aware of the fact that the digger was going to be doing this."
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "The first invitations are from the 300 sheets, and the second invitations are from the 300 sheets."
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "The test identified the presence of a number of contaminants, including a number of pesticides, herbicides, and fungicides. The test also identified the presence of a number"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "At what time do the walkers off the ridge path arrive?"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "The first bat was found at the July count, and the second was found at the same time."
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "The show is stopped, and the audience is asked to wait for the next show."
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "The fencing incident required."
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "The east sail frames show the rot of the frame, and the west frame shows the rot of the frame."
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "The officer's assessment of how complete the mosaic is is that it is a good, complete, and intact mosaic. The mosaic is a good, complete, and"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "The board of the cooperative, which is the  owner of the milk round, has a total of 5,000 households."
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "The re-engrossed founding charter is  the first of the three documents that the guild has been re-engrossed to. The other two documents"
+    }
+   ],
+   "ocr_rate": 0.05,
+   "ocr_seed": 20260825
+  },
+  "elicitation": "prose_continuation"
+ },
+ "probes": {
+  "suite": "knowledge_probes",
+  "n": 244,
+  "accuracy": 0.5,
+  "chance": 0.25,
+  "leakage_threshold": 0.3332,
+  "leakage_flag": true,
+  "results": [
+   {
+    "text": "The capital of France is",
+    "picked": "Paris",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     7.3704,
+     11.237,
+     12.5983,
+     10.8246
+    ]
+   },
+   {
+    "text": "The capital of Japan is",
+    "picked": "Tokyo",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.3643,
+     8.2947,
+     13.343,
+     14.8116
+    ]
+   },
+   {
+    "text": "Water is composed of hydrogen and",
+    "picked": "oxygen",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.7507,
+     9.1789,
+     6.4297,
+     7.4517
+    ]
+   },
+   {
+    "text": "The chemical symbol for gold is",
+    "picked": "Ag",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.4986,
+     9.5811,
+     12.2255,
+     11.6961
+    ]
+   },
+   {
+    "text": "The largest planet in the solar system is",
+    "picked": "Earth",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.8384,
+     10.7121,
+     8.3122,
+     9.5207
+    ]
+   },
+   {
+    "text": "The theory of general relativity was published by",
+    "picked": "Einstein",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.9586,
+     10.389,
+     16.7418,
+     16.1523
+    ]
+   },
+   {
+    "text": "The Great Wall is located in",
+    "picked": "China",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.7114,
+     13.2064,
+     9.3394,
+     11.8617
+    ]
+   },
+   {
+    "text": "The author of Romeo and Juliet is",
+    "picked": "Shakespeare",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.6225,
+     12.9205,
+     9.3564,
+     5.611
+    ]
+   },
+   {
+    "text": "The number of continents on Earth is",
+    "picked": "five",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.3293,
+     13.6794,
+     15.4342,
+     14.3117
+    ]
+   },
+   {
+    "text": "The currency of the United States is the",
+    "picked": "dollar",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.1141,
+     7.5428,
+     11.7829,
+     9.9609
+    ]
+   },
+   {
+    "text": "The speed of light is approximately 300,000",
+    "picked": "kilometers per second",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.2263,
+     7.7059,
+     7.4259,
+     8.8299
+    ]
+   },
+   {
+    "text": "The human heart has this many chambers:",
+    "picked": "three",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.6525,
+     7.6179,
+     9.4254,
+     9.7074
+    ]
+   },
+   {
+    "text": "Mount Everest is the world's tallest",
+    "picked": "mountain",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     6.9113,
+     11.7839,
+     13.5794,
+     14.6232
+    ]
+   },
+   {
+    "text": "The Mona Lisa was painted by",
+    "picked": "Leonardo da Vinci",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.7762,
+     12.6439,
+     13.7825,
+     16.3841
+    ]
+   },
+   {
+    "text": "The first element on the periodic table is",
+    "picked": "helium",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.1155,
+     11.3245,
+     10.2896,
+     14.4075
+    ]
+   },
+   {
+    "text": "The Pacific is Earth's largest",
+    "picked": "ocean",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.0842,
+     10.7722,
+     15.1635,
+     8.1648
+    ]
+   },
+   {
+    "text": "The capital of Italy is",
+    "picked": "Rome",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.6899,
+     13.4335,
+     13.5336,
+     12.5298
+    ]
+   },
+   {
+    "text": "Penicillin was discovered by",
+    "picked": "Curie",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.6896,
+     17.7555,
+     12.588,
+     15.0011
+    ]
+   },
+   {
+    "text": "The longest river in Africa is the",
+    "picked": "Nile",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.1003,
+     14.2149,
+     10.6,
+     12.6378
+    ]
+   },
+   {
+    "text": "The freezing point of water in Celsius is",
+    "picked": "ten",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.5259,
+     14.253,
+     13.1636,
+     11.6905
+    ]
+   },
+   {
+    "text": "The capital of Egypt is",
+    "picked": "Cairo",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     9.2595,
+     10.4755,
+     12.6064,
+     13.3598
+    ]
+   },
+   {
+    "text": "The planet known as the red planet is",
+    "picked": "Mars",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.0979,
+     10.1111,
+     10.7998,
+     12.7816
+    ]
+   },
+   {
+    "text": "The United Nations headquarters is in",
+    "picked": "New York",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.3566,
+     12.6248,
+     10.7776,
+     17.7605
+    ]
+   },
+   {
+    "text": "The smallest prime number is",
+    "picked": "one",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     7.381,
+     11.7174,
+     9.5569,
+     11.2512
+    ]
+   },
+   {
+    "text": "The Statue of Liberty was a gift from",
+    "picked": "France",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     7.4695,
+     9.9046,
+     11.6317,
+     12.4588
+    ]
+   },
+   {
+    "text": "DNA stands for deoxyribonucleic",
+    "picked": "acid",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.5429,
+     8.8175,
+     11.8539,
+     10.9268
+    ]
+   },
+   {
+    "text": "The Second World War ended in",
+    "picked": "1945",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.7378,
+     17.661,
+     11.3903,
+     12.0949
+    ]
+   },
+   {
+    "text": "The largest mammal on Earth is the",
+    "picked": "hippopotamus",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.6075,
+     12.4727,
+     19.7277,
+     14.8348
+    ]
+   },
+   {
+    "text": "The capital of Russia is",
+    "picked": "Moscow",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     9.7414,
+     11.0275,
+     11.6361,
+     12.2186
+    ]
+   },
+   {
+    "text": "Photosynthesis in plants requires sunlight, water, and",
+    "picked": "nitrogen",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     7.6417,
+     7.8811,
+     12.1414,
+     13.4939
+    ]
+   },
+   {
+    "text": "The Sahara desert is located in",
+    "picked": "Australia",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.0149,
+     11.1075,
+     11.6526,
+     14.3244
+    ]
+   },
+   {
+    "text": "A triangle has this many sides:",
+    "picked": "three",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.0999,
+     11.213,
+     10.2422,
+     9.4172
+    ]
+   },
+   {
+    "text": "The inventor of the telephone was",
+    "picked": "Edison",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.8331,
+     9.4497,
+     15.0948,
+     15.5942
+    ]
+   },
+   {
+    "text": "The capital of Spain is",
+    "picked": "Madrid",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.6886,
+     10.6761,
+     14.3598,
+     11.016
+    ]
+   },
+   {
+    "text": "The human body's largest organ is the",
+    "picked": "lungs",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.5972,
+     11.3987,
+     13.535,
+     10.1167
+    ]
+   },
+   {
+    "text": "The Amazon river flows mostly through",
+    "picked": "Brazil",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.4847,
+     14.459,
+     15.6819,
+     8.4276
+    ]
+   },
+   {
+    "text": "The first person to walk on the Moon was",
+    "picked": "Armstrong",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.9327,
+     14.0299,
+     12.3548,
+     13.3633
+    ]
+   },
+   {
+    "text": "At sea level, water boils at this Celsius temperature:",
+    "picked": "100",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.1435,
+     10.1771,
+     11.3748,
+     11.2932
+    ]
+   },
+   {
+    "text": "The Eiffel Tower stands in the city of",
+    "picked": "Paris",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.4478,
+     18.9373,
+     9.2283,
+     18.8902
+    ]
+   },
+   {
+    "text": "The chemical symbol for sodium is",
+    "picked": "Na",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     15.474,
+     23.0398,
+     18.5434,
+     11.3859
+    ]
+   },
+   {
+    "text": "The capital of Germany is",
+    "picked": "Hamburg",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.7935,
+     11.3607,
+     8.0217,
+     10.6345
+    ]
+   },
+   {
+    "text": "The capital of Canada is",
+    "picked": "Montreal",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.4981,
+     10.9232,
+     13.9799,
+     10.4301
+    ]
+   },
+   {
+    "text": "The capital of Australia is",
+    "picked": "Canberra",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.0056,
+     11.9352,
+     10.9238,
+     11.173
+    ]
+   },
+   {
+    "text": "The capital of Brazil is",
+    "picked": "Rio de Janeiro",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.7854,
+     11.9408,
+     12.2796,
+     10.2675
+    ]
+   },
+   {
+    "text": "The capital of Turkey is",
+    "picked": "Istanbul",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.742,
+     9.9056,
+     13.7225,
+     11.9072
+    ]
+   },
+   {
+    "text": "The capital of Kenya is",
+    "picked": "Nairobi",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.8816,
+     7.4693,
+     10.2647,
+     13.9795
+    ]
+   },
+   {
+    "text": "The capital of Argentina is",
+    "picked": "Buenos Aires",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.4507,
+     12.8857,
+     11.2626,
+     15.7024
+    ]
+   },
+   {
+    "text": "The capital of India is",
+    "picked": "New Delhi",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.832,
+     13.4137,
+     11.7499,
+     10.6198
+    ]
+   },
+   {
+    "text": "The capital of China is",
+    "picked": "Shenzhen",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.5721,
+     13.0059,
+     14.5609,
+     11.216
+    ]
+   },
+   {
+    "text": "The capital of South Korea is",
+    "picked": "Seoul",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.1265,
+     10.0884,
+     19.9695,
+     17.0461
+    ]
+   },
+   {
+    "text": "The capital of Thailand is",
+    "picked": "Bangkok",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.9928,
+     13.1736,
+     9.9269,
+     13.9152
+    ]
+   },
+   {
+    "text": "The capital of Greece is",
+    "picked": "Athens",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.3995,
+     17.7057,
+     12.8735,
+     10.7627
+    ]
+   },
+   {
+    "text": "The capital of Portugal is",
+    "picked": "Lisbon",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.7241,
+     12.7927,
+     12.5648,
+     12.7226
+    ]
+   },
+   {
+    "text": "The capital of the Netherlands is",
+    "picked": "Brussels",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.6951,
+     11.4912,
+     12.5351,
+     9.1227
+    ]
+   },
+   {
+    "text": "The capital of Austria is",
+    "picked": "Salzburg",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.9141,
+     14.2528,
+     12.7323,
+     19.3793
+    ]
+   },
+   {
+    "text": "The capital of Switzerland is",
+    "picked": "Zurich",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.3719,
+     12.9462,
+     13.2257,
+     11.6973
+    ]
+   },
+   {
+    "text": "The capital of Poland is",
+    "picked": "Warsaw",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     7.8859,
+     11.569,
+     12.5963,
+     11.2905
+    ]
+   },
+   {
+    "text": "The capital of Sweden is",
+    "picked": "Stockholm",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.9924,
+     9.6469,
+     17.2491,
+     14.8394
+    ]
+   },
+   {
+    "text": "The capital of Norway is",
+    "picked": "Trondheim",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.9507,
+     10.3224,
+     11.7033,
+     15.3063
+    ]
+   },
+   {
+    "text": "The capital of Finland is",
+    "picked": "Helsinki",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.7802,
+     12.2643,
+     15.6391,
+     10.3434
+    ]
+   },
+   {
+    "text": "The capital of Denmark is",
+    "picked": "Copenhagen",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.4025,
+     16.9153,
+     14.6982,
+     18.3303
+    ]
+   },
+   {
+    "text": "The capital of Ireland is",
+    "picked": "Belfast",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.7756,
+     10.5377,
+     13.0525,
+     10.1083
+    ]
+   },
+   {
+    "text": "The capital of Mexico is",
+    "picked": "Mexico City",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     18.38,
+     12.7239,
+     12.3584,
+     18.7169
+    ]
+   },
+   {
+    "text": "The capital of Peru is",
+    "picked": "Lima",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.7573,
+     18.1298,
+     15.4963,
+     9.5817
+    ]
+   },
+   {
+    "text": "The capital of Chile is",
+    "picked": "Santiago",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.2523,
+     16.2684,
+     16.8843,
+     12.7557
+    ]
+   },
+   {
+    "text": "The capital of Colombia is",
+    "picked": "Medellin",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.6806,
+     16.1798,
+     18.4388,
+     18.7823
+    ]
+   },
+   {
+    "text": "The capital of Cuba is",
+    "picked": "Trinidad",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.9052,
+     19.1224,
+     11.9028,
+     11.8617
+    ]
+   },
+   {
+    "text": "The capital of Morocco is",
+    "picked": "Casablanca",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.4453,
+     15.5398,
+     14.6123,
+     14.7688
+    ]
+   },
+   {
+    "text": "The capital of Nigeria is",
+    "picked": "Lagos",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.1416,
+     9.3265,
+     14.316,
+     13.8152
+    ]
+   },
+   {
+    "text": "The capital of Ethiopia is",
+    "picked": "Addis Ababa",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.5027,
+     14.6805,
+     18.9921,
+     23.1224
+    ]
+   },
+   {
+    "text": "The capital of Vietnam is",
+    "picked": "Hanoi",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.8391,
+     17.6864,
+     10.6809,
+     12.5017
+    ]
+   },
+   {
+    "text": "The capital of Indonesia is",
+    "picked": "Jakarta",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.2612,
+     12.5155,
+     16.1674,
+     8.8222
+    ]
+   },
+   {
+    "text": "The capital of the Philippines is",
+    "picked": "Manila",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.8285,
+     13.4305,
+     15.5662,
+     11.9905
+    ]
+   },
+   {
+    "text": "The capital of Saudi Arabia is",
+    "picked": "Riyadh",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.8163,
+     9.5747,
+     11.3757,
+     15.5113
+    ]
+   },
+   {
+    "text": "The capital of Iran is",
+    "picked": "Tehran",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.3448,
+     11.973,
+     9.6955,
+     11.9999
+    ]
+   },
+   {
+    "text": "The capital of Hungary is",
+    "picked": "Budapest",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     19.8255,
+     12.8173,
+     18.3542,
+     10.0049
+    ]
+   },
+   {
+    "text": "The capital of the Czech Republic is",
+    "picked": "Prague",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.8635,
+     12.819,
+     12.7656,
+     17.3202
+    ]
+   },
+   {
+    "text": "The capital of Ukraine is",
+    "picked": "Lviv",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.434,
+     9.6405,
+     18.0523,
+     8.0192
+    ]
+   },
+   {
+    "text": "The capital of Romania is",
+    "picked": "Bucharest",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     15.4505,
+     16.3962,
+     11.9013,
+     12.7392
+    ]
+   },
+   {
+    "text": "The capital of New Zealand is",
+    "picked": "Wellington",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.927,
+     16.8758,
+     16.7248,
+     11.9059
+    ]
+   },
+   {
+    "text": "The capital of Iceland is",
+    "picked": "Reykjavik",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.2599,
+     19.5345,
+     12.6558,
+     23.1485
+    ]
+   },
+   {
+    "text": "The chemical symbol for iron is",
+    "picked": "Fe",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     9.4743,
+     7.3011,
+     12.0802,
+     11.3734
+    ]
+   },
+   {
+    "text": "The chemical symbol for silver is",
+    "picked": "Ag",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.4138,
+     18.7231,
+     8.8399,
+     10.5913
+    ]
+   },
+   {
+    "text": "The chemical symbol for lead is",
+    "picked": "Pb",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.7174,
+     17.4395,
+     11.8652,
+     6.6352
+    ]
+   },
+   {
+    "text": "The element with symbol He is",
+    "picked": "helium",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.4881,
+     13.9742,
+     20.0635,
+     16.9088
+    ]
+   },
+   {
+    "text": "The chemical symbol for potassium is",
+    "picked": "P",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.8396,
+     9.6369,
+     13.4194,
+     12.3758
+    ]
+   },
+   {
+    "text": "The chemical symbol for calcium is",
+    "picked": "Ca",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.1875,
+     11.8453,
+     10.9944,
+     17.6702
+    ]
+   },
+   {
+    "text": "The element with symbol Cu is",
+    "picked": "copper",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     17.4684,
+     13.9846,
+     15.5599,
+     9.8826
+    ]
+   },
+   {
+    "text": "The chemical symbol for zinc is",
+    "picked": "Z",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     6.3772,
+     13.5559,
+     15.3975,
+     6.0696
+    ]
+   },
+   {
+    "text": "The element with symbol Sn is",
+    "picked": "silicon",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.9002,
+     13.6158,
+     13.4438,
+     16.8879
+    ]
+   },
+   {
+    "text": "The element with symbol Hg is",
+    "picked": "helium",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.7121,
+     9.5059,
+     16.5719,
+     15.7712
+    ]
+   },
+   {
+    "text": "The element with symbol W is",
+    "picked": "silver",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.2883,
+     13.0567,
+     21.2192,
+     16.5626
+    ]
+   },
+   {
+    "text": "The chemical symbol for silicon is",
+    "picked": "Sc",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.0866,
+     10.753,
+     12.95,
+     12.1085
+    ]
+   },
+   {
+    "text": "The chemical symbol for chlorine is",
+    "picked": "Cl",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.0941,
+     8.3763,
+     12.2313,
+     13.0877
+    ]
+   },
+   {
+    "text": "The chemical symbol for magnesium is",
+    "picked": "Mg",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.6177,
+     14.1073,
+     10.6597,
+     18.7989
+    ]
+   },
+   {
+    "text": "The element with symbol Al is",
+    "picked": "aluminum",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.0831,
+     17.5333,
+     16.8093,
+     13.5056
+    ]
+   },
+   {
+    "text": "The element with symbol Ne is",
+    "picked": "nickel",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     18.2015,
+     24.4113,
+     9.9331,
+     17.2284
+    ]
+   },
+   {
+    "text": "The element with symbol U is",
+    "picked": "uranium",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     15.6453,
+     12.2858,
+     23.6782,
+     21.5041
+    ]
+   },
+   {
+    "text": "The chemical symbol for titanium is",
+    "picked": "Ti",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     18.3364,
+     17.1874,
+     10.1971,
+     14.7323
+    ]
+   },
+   {
+    "text": "The First World War ended in",
+    "picked": "1914",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.936,
+     13.1898,
+     11.4716,
+     11.9004
+    ]
+   },
+   {
+    "text": "The US Declaration of Independence was signed in",
+    "picked": "1776",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.275,
+     10.608,
+     13.3598,
+     12.9895
+    ]
+   },
+   {
+    "text": "The Berlin Wall fell in",
+    "picked": "1989",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.2021,
+     9.9781,
+     11.4432,
+     13.9656
+    ]
+   },
+   {
+    "text": "Columbus first crossed the Atlantic in",
+    "picked": "1512",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.4219,
+     17.2858,
+     14.662,
+     14.9264
+    ]
+   },
+   {
+    "text": "The French Revolution began in",
+    "picked": "1789",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.2331,
+     13.9596,
+     15.1906,
+     13.3969
+    ]
+   },
+   {
+    "text": "The Titanic sank in",
+    "picked": "1912",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.3353,
+     13.8872,
+     14.1258,
+     13.9478
+    ]
+   },
+   {
+    "text": "Apollo 11 landed on the Moon in",
+    "picked": "1972",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.3298,
+     11.4314,
+     9.8838,
+     14.3138
+    ]
+   },
+   {
+    "text": "Movable type printing in Europe was pioneered by",
+    "picked": "Gutenberg",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     19.4292,
+     17.8072,
+     16.3474,
+     16.7451
+    ]
+   },
+   {
+    "text": "The first president of the United States was",
+    "picked": "Washington",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.3809,
+     10.7892,
+     8.2222,
+     7.3926
+    ]
+   },
+   {
+    "text": "The US president during most of the Civil War was",
+    "picked": "Lincoln",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.791,
+     12.7346,
+     12.4142,
+     12.9795
+    ]
+   },
+   {
+    "text": "The Magna Carta was sealed in",
+    "picked": "1066",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.6091,
+     12.3452,
+     10.9755,
+     11.6424
+    ]
+   },
+   {
+    "text": "Napoleon was finally defeated at the battle of",
+    "picked": "Waterloo",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     18.3822,
+     22.7037,
+     9.8777,
+     15.3594
+    ]
+   },
+   {
+    "text": "The Colosseum stands in the city of",
+    "picked": "Carthage",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.0218,
+     11.841,
+     12.6789,
+     13.4732
+    ]
+   },
+   {
+    "text": "The Battle of Hastings took place in",
+    "picked": "1066",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.6358,
+     15.8671,
+     16.8501,
+     14.1876
+    ]
+   },
+   {
+    "text": "The Roman leader assassinated on the Ides of March was",
+    "picked": "Augustus",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.8999,
+     9.5339,
+     9.7314,
+     13.4849
+    ]
+   },
+   {
+    "text": "Machu Picchu was built by the",
+    "picked": "Aztec",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.2852,
+     12.8462,
+     12.0435,
+     13.294
+    ]
+   },
+   {
+    "text": "The queen of Egypt allied with Mark Antony was",
+    "picked": "Cleopatra",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.2574,
+     15.8063,
+     9.8497,
+     9.8347
+    ]
+   },
+   {
+    "text": "The Roman wall across northern Britain is named after",
+    "picked": "Claudius",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     16.1919,
+     15.3771,
+     17.213,
+     13.632
+    ]
+   },
+   {
+    "text": "The novel 1984 was written by",
+    "picked": "Orwell",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.6805,
+     12.0424,
+     16.6676,
+     16.9641
+    ]
+   },
+   {
+    "text": "Pride and Prejudice was written by",
+    "picked": "Austen",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     17.0144,
+     18.3869,
+     13.0111,
+     21.9094
+    ]
+   },
+   {
+    "text": "War and Peace was written by",
+    "picked": "Chekhov",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     22.6374,
+     15.9483,
+     17.8367,
+     18.3771
+    ]
+   },
+   {
+    "text": "The Odyssey is attributed to",
+    "picked": "Homer",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.3394,
+     14.5811,
+     16.2349,
+     17.3624
+    ]
+   },
+   {
+    "text": "Don Quixote was written by",
+    "picked": "Cervantes",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.7184,
+     16.5523,
+     20.2639,
+     19.5589
+    ]
+   },
+   {
+    "text": "Moby Dick was written by",
+    "picked": "Twain",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.5782,
+     12.0617,
+     14.8466,
+     14.8722
+    ]
+   },
+   {
+    "text": "Sherlock Holmes was created by",
+    "picked": "Doyle",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.7434,
+     17.468,
+     15.3603,
+     12.4071
+    ]
+   },
+   {
+    "text": "Frankenstein was written by",
+    "picked": "George Eliot",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.0619,
+     18.0303,
+     18.403,
+     16.4028
+    ]
+   },
+   {
+    "text": "Dracula was written by",
+    "picked": "Stoker",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     17.0687,
+     12.4181,
+     13.9634,
+     15.7666
+    ]
+   },
+   {
+    "text": "Oliver Twist was written by",
+    "picked": "Hardy",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.6281,
+     20.6923,
+     12.8671,
+     12.7924
+    ]
+   },
+   {
+    "text": "The Old Man and the Sea was written by",
+    "picked": "Faulkner",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.6672,
+     18.943,
+     13.5485,
+     14.8265
+    ]
+   },
+   {
+    "text": "The Starry Night was painted by",
+    "picked": "Monet",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     18.5007,
+     13.0277,
+     17.6733,
+     18.6955
+    ]
+   },
+   {
+    "text": "The statue of David was sculpted by",
+    "picked": "Donatello",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.7567,
+     13.9091,
+     20.7422,
+     18.4798
+    ]
+   },
+   {
+    "text": "Guernica was painted by",
+    "picked": "Miro",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.7137,
+     13.2641,
+     13.4719,
+     14.9377
+    ]
+   },
+   {
+    "text": "The Scream was painted by",
+    "picked": "Kandinsky",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     22.1813,
+     23.314,
+     20.94,
+     22.1614
+    ]
+   },
+   {
+    "text": "The Ninth Symphony with the Ode to Joy was composed by",
+    "picked": "Haydn",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.4146,
+     11.5631,
+     12.7504,
+     11.2837
+    ]
+   },
+   {
+    "text": "The Magic Flute was composed by",
+    "picked": "Verdi",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.4238,
+     11.6706,
+     15.1955,
+     18.5165
+    ]
+   },
+   {
+    "text": "Swan Lake was composed by",
+    "picked": "Tchaikovsky",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     20.5247,
+     20.8956,
+     18.0973,
+     25.2738
+    ]
+   },
+   {
+    "text": "A normal human body cell has this many chromosomes:",
+    "picked": "23",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     6.7502,
+     8.416,
+     9.6523,
+     8.574
+    ]
+   },
+   {
+    "text": "The chemical formula for water is",
+    "picked": "H2O",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.1329,
+     10.5648,
+     9.9423,
+     12.9117
+    ]
+   },
+   {
+    "text": "The chemical formula for table salt is",
+    "picked": "NaCl",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.9374,
+     7.3421,
+     12.5098,
+     11.5029
+    ]
+   },
+   {
+    "text": "An adult human skeleton has about this many bones:",
+    "picked": "106",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.6765,
+     12.4556,
+     13.3161,
+     11.7258
+    ]
+   },
+   {
+    "text": "A full set of adult human teeth numbers",
+    "picked": "32",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     9.7645,
+     11.2976,
+     9.48,
+     8.1708
+    ]
+   },
+   {
+    "text": "An insect has this many legs:",
+    "picked": "four",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.4101,
+     12.8287,
+     10.8228,
+     11.443
+    ]
+   },
+   {
+    "text": "A spider has this many legs:",
+    "picked": "ten",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.5217,
+     11.127,
+     8.8515,
+     13.9851
+    ]
+   },
+   {
+    "text": "The planet closest to the Sun is",
+    "picked": "Earth",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.0528,
+     9.9638,
+     9.1633,
+     5.5282
+    ]
+   },
+   {
+    "text": "The hottest planet in the solar system is",
+    "picked": "Jupiter",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.1032,
+     10.8167,
+     9.9348,
+     12.0918
+    ]
+   },
+   {
+    "text": "The planet with the most prominent rings is",
+    "picked": "Mars",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.4576,
+     16.0467,
+     12.3652,
+     10.3844
+    ]
+   },
+   {
+    "text": "Earth's only natural satellite is the",
+    "picked": "Moon",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.8594,
+     8.7958,
+     14.9828,
+     18.9104
+    ]
+   },
+   {
+    "text": "The nearest star to Earth is",
+    "picked": "Sirius",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.0022,
+     12.5452,
+     10.9812,
+     12.2839
+    ]
+   },
+   {
+    "text": "The Milky Way is a",
+    "picked": "planet",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.1119,
+     19.3814,
+     15.2216,
+     10.7495
+    ]
+   },
+   {
+    "text": "Red blood cells carry",
+    "picked": "oxygen",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     7.7667,
+     22.4937,
+     15.4077,
+     15.6687
+    ]
+   },
+   {
+    "text": "The vitamin the skin makes in sunlight is vitamin",
+    "picked": "D",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.3415,
+     7.8889,
+     8.706,
+     9.8115
+    ]
+   },
+   {
+    "text": "Insulin is produced by the",
+    "picked": "liver",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.6454,
+     23.6083,
+     18.465,
+     14.0369
+    ]
+   },
+   {
+    "text": "The organs that filter blood into urine are the",
+    "picked": "lungs",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.0575,
+     14.4719,
+     20.092,
+     11.8254
+    ]
+   },
+   {
+    "text": "The fastest land animal is the",
+    "picked": "lion",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     20.8784,
+     18.0976,
+     22.6894,
+     13.8207
+    ]
+   },
+   {
+    "text": "The largest land animal is the",
+    "picked": "hippopotamus",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.9471,
+     16.5206,
+     9.5389,
+     21.0296
+    ]
+   },
+   {
+    "text": "The tallest living animal is the",
+    "picked": "ostrich",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.5135,
+     12.0452,
+     22.1099,
+     14.0673
+    ]
+   },
+   {
+    "text": "The largest living bird is the",
+    "picked": "ostrich",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.5412,
+     22.4347,
+     18.3667,
+     13.4017
+    ]
+   },
+   {
+    "text": "Most penguins live in the hemisphere called the",
+    "picked": "western",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     15.6518,
+     13.6589,
+     10.872,
+     10.0058
+    ]
+   },
+   {
+    "text": "Polar bears live near the",
+    "picked": "North Pole",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     14.9585,
+     13.9612,
+     17.2649,
+     18.0192
+    ]
+   },
+   {
+    "text": "Honey is made by",
+    "picked": "bees",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     17.6445,
+     12.1164,
+     8.3437,
+     19.8002
+    ]
+   },
+   {
+    "text": "Silk is produced by",
+    "picked": "sheep",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     24.0834,
+     23.2523,
+     13.7349,
+     17.5902
+    ]
+   },
+   {
+    "text": "The gas plants release during photosynthesis is",
+    "picked": "nitrogen",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.1282,
+     8.8386,
+     5.6158,
+     12.1929
+    ]
+   },
+   {
+    "text": "Sound cannot travel through",
+    "picked": "air",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.8143,
+     12.9745,
+     14.5182,
+     9.4098
+    ]
+   },
+   {
+    "text": "Normal human body temperature in Celsius is about",
+    "picked": "40",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.3007,
+     8.2705,
+     10.3381,
+     10.3546
+    ]
+   },
+   {
+    "text": "The number of planets in the solar system is",
+    "picked": "ten",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.1476,
+     13.6569,
+     8.3208,
+     10.4496
+    ]
+   },
+   {
+    "text": "The longest river in South America is the",
+    "picked": "Amazon",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.6169,
+     19.3334,
+     21.5043,
+     18.7
+    ]
+   },
+   {
+    "text": "The largest island on Earth is",
+    "picked": "Greenland",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.405,
+     11.9729,
+     16.5559,
+     12.3337
+    ]
+   },
+   {
+    "text": "The smallest country in the world is",
+    "picked": "Monaco",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.0658,
+     14.7907,
+     21.8113,
+     16.2155
+    ]
+   },
+   {
+    "text": "The largest country by land area is",
+    "picked": "Canada",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.0273,
+     10.1128,
+     10.8066,
+     10.1778
+    ]
+   },
+   {
+    "text": "The Great Barrier Reef lies off the coast of",
+    "picked": "Australia",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.3009,
+     11.4793,
+     13.3427,
+     13.3398
+    ]
+   },
+   {
+    "text": "Mount Fuji is located in",
+    "picked": "Japan",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.2258,
+     7.5682,
+     13.638,
+     14.8785
+    ]
+   },
+   {
+    "text": "The Andes mountains run through",
+    "picked": "South America",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.855,
+     13.6698,
+     10.0453,
+     13.5382
+    ]
+   },
+   {
+    "text": "The Alps are a mountain range in",
+    "picked": "Asia",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.1928,
+     14.5842,
+     13.8726,
+     13.3364
+    ]
+   },
+   {
+    "text": "Mount Kilimanjaro is located in",
+    "picked": "Kenya",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.8153,
+     10.5641,
+     11.2282,
+     12.7325
+    ]
+   },
+   {
+    "text": "The river that flows through London is the",
+    "picked": "Thames",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     19.0865,
+     14.6311,
+     15.8688,
+     17.1039
+    ]
+   },
+   {
+    "text": "The river that flows through Paris is the",
+    "picked": "Garonne",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.4606,
+     15.5605,
+     17.266,
+     15.3961
+    ]
+   },
+   {
+    "text": "The river that flows through Rome is the",
+    "picked": "Po",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.839,
+     14.4588,
+     14.7367,
+     13.0348
+    ]
+   },
+   {
+    "text": "Niagara Falls sits on the border of Canada and the",
+    "picked": "United States",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.5633,
+     14.9278,
+     15.029,
+     12.9553
+    ]
+   },
+   {
+    "text": "The Panama Canal connects the Pacific and the",
+    "picked": "Mediterranean",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.1561,
+     11.5724,
+     13.1747,
+     9.4372
+    ]
+   },
+   {
+    "text": "The Suez Canal is located in",
+    "picked": "Egypt",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.5783,
+     13.7732,
+     12.3118,
+     14.1759
+    ]
+   },
+   {
+    "text": "The Gobi desert is located in",
+    "picked": "Asia",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.7701,
+     11.7717,
+     15.4001,
+     11.3512
+    ]
+   },
+   {
+    "text": "The Ural mountains separate Asia and",
+    "picked": "Africa",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.2997,
+     7.6743,
+     9.6347,
+     9.7555
+    ]
+   },
+   {
+    "text": "Madagascar lies off the coast of",
+    "picked": "Australia",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.3431,
+     9.0521,
+     7.9705,
+     11.6309
+    ]
+   },
+   {
+    "text": "Venice is famous for its",
+    "picked": "volcanoes",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     21.4084,
+     18.0788,
+     21.1083,
+     19.5642
+    ]
+   },
+   {
+    "text": "The Grand Canyon is in the US state of",
+    "picked": "Colorado",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.6976,
+     11.3493,
+     5.4505,
+     9.9475
+    ]
+   },
+   {
+    "text": "The Dead Sea lies between Jordan and",
+    "picked": "Egypt",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     6.9875,
+     6.8095,
+     9.352,
+     12.0015
+    ]
+   },
+   {
+    "text": "Mount Everest lies on the border of Nepal and",
+    "picked": "India",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.0679,
+     8.8515,
+     9.0418,
+     10.389
+    ]
+   },
+   {
+    "text": "A leap year has this many days:",
+    "picked": "365",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.6468,
+     8.7665,
+     9.491,
+     12.133
+    ]
+   },
+   {
+    "text": "In a leap year, February has this many days:",
+    "picked": "30",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.5564,
+     6.9972,
+     7.179,
+     9.42
+    ]
+   },
+   {
+    "text": "A day has this many hours:",
+    "picked": "12",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     7.8986,
+     7.8262,
+     8.2786,
+     9.089
+    ]
+   },
+   {
+    "text": "A hexagon has this many sides:",
+    "picked": "six",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     9.7069,
+     9.4248,
+     11.6024,
+     10.6076
+    ]
+   },
+   {
+    "text": "A dozen equals",
+    "picked": "ten",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.2012,
+     13.5765,
+     12.6796,
+     10.334
+    ]
+   },
+   {
+    "text": "A century is this many years:",
+    "picked": "ten",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     6.9249,
+     12.0232,
+     14.6454,
+     11.5067
+    ]
+   },
+   {
+    "text": "The Roman numeral X stands for",
+    "picked": "ten",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.1378,
+     10.9442,
+     11.5289,
+     16.7361
+    ]
+   },
+   {
+    "text": "The Roman numeral L stands for",
+    "picked": "five",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.1772,
+     12.7686,
+     16.7984,
+     17.9928
+    ]
+   },
+   {
+    "text": "A right angle measures this many degrees:",
+    "picked": "90",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.522,
+     8.8926,
+     8.1193,
+     9.0499
+    ]
+   },
+   {
+    "text": "A full circle measures this many degrees:",
+    "picked": "180",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.8884,
+     8.8517,
+     11.6051,
+     9.3516
+    ]
+   },
+   {
+    "text": "The first three digits of pi are",
+    "picked": "3.14",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.9153,
+     16.5,
+     19.2986,
+     14.9823
+    ]
+   },
+   {
+    "text": "The square root of 81 is",
+    "picked": "nine",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.2473,
+     8.7178,
+     8.8738,
+     10.3517
+    ]
+   },
+   {
+    "text": "A standard deck holds this many playing cards:",
+    "picked": "52",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.8883,
+     9.5677,
+     9.4752,
+     9.5004
+    ]
+   },
+   {
+    "text": "A chessboard has this many squares:",
+    "picked": "32",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.0972,
+     9.8904,
+     10.7104,
+     9.6035
+    ]
+   },
+   {
+    "text": "Each chess player starts with this many pieces:",
+    "picked": "eight",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.2039,
+     15.5183,
+     15.7647,
+     13.1266
+    ]
+   },
+   {
+    "text": "A soccer team fields this many players:",
+    "picked": "nine",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.4946,
+     19.9993,
+     13.5965,
+     18.3499
+    ]
+   },
+   {
+    "text": "A basketball team has this many players on court:",
+    "picked": "five",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.7208,
+     12.6283,
+     11.882,
+     12.7702
+    ]
+   },
+   {
+    "text": "A standard baseball game has this many innings:",
+    "picked": "ten",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.5399,
+     9.5524,
+     11.1573,
+     11.2688
+    ]
+   },
+   {
+    "text": "The Olympic flag shows this many rings:",
+    "picked": "three",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.6559,
+     10.5167,
+     11.7769,
+     9.0031
+    ]
+   },
+   {
+    "text": "The Olympic Games are held every",
+    "picked": "four years",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     9.4904,
+     8.0078,
+     10.7633,
+     8.2159
+    ]
+   },
+   {
+    "text": "A marathon is about this many kilometers:",
+    "picked": "26",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.4497,
+     9.9168,
+     14.2445,
+     11.2044
+    ]
+   },
+   {
+    "text": "A standard piano has this many keys:",
+    "picked": "76",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.0379,
+     12.1109,
+     11.8184,
+     11.9799
+    ]
+   },
+   {
+    "text": "A violin has this many strings:",
+    "picked": "seven",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.0901,
+     11.962,
+     11.408,
+     10.7718
+    ]
+   },
+   {
+    "text": "The English alphabet has this many letters:",
+    "picked": "25",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     10.4885,
+     10.6945,
+     11.5983,
+     9.9165
+    ]
+   },
+   {
+    "text": "Wimbledon is a tournament in the sport of",
+    "picked": "golf",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     8.65,
+     13.2788,
+     16.5102,
+     11.9717
+    ]
+   },
+   {
+    "text": "The Tour de France is a race in the sport of",
+    "picked": "cycling",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.9206,
+     11.5119,
+     17.3517,
+     8.5354
+    ]
+   },
+   {
+    "text": "The World Wide Web was invented by",
+    "picked": "Turing",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.303,
+     15.4536,
+     20.1263,
+     24.1715
+    ]
+   },
+   {
+    "text": "The theory of evolution by natural selection came from",
+    "picked": "Darwin",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     17.9748,
+     10.3873,
+     16.9986,
+     12.4216
+    ]
+   },
+   {
+    "text": "The laws of motion and universal gravitation came from",
+    "picked": "Newton",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.5371,
+     10.8394,
+     9.3747,
+     10.2865
+    ]
+   },
+   {
+    "text": "Dynamite was invented by",
+    "picked": "Nobel",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.257,
+     21.8618,
+     11.8115,
+     11.0214
+    ]
+   },
+   {
+    "text": "X-rays were discovered by",
+    "picked": "Roentgen",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.2765,
+     19.901,
+     16.9422,
+     16.259
+    ]
+   },
+   {
+    "text": "Radium was co-discovered by",
+    "picked": "Rosalind Franklin",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.1123,
+     12.3758,
+     12.2419,
+     21.7734
+    ]
+   },
+   {
+    "text": "The smallpox vaccine was pioneered by",
+    "picked": "Harvey",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     16.4661,
+     19.0376,
+     17.3255,
+     14.0769
+    ]
+   },
+   {
+    "text": "The first powered airplane was flown by the",
+    "picked": "Wright brothers",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     18.2962,
+     23.5444,
+     25.7069,
+     17.6653
+    ]
+   },
+   {
+    "text": "Microsoft was co-founded by",
+    "picked": "Bill Gates",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     10.9132,
+     11.0556,
+     11.8087,
+     18.3539
+    ]
+   },
+   {
+    "text": "Apple was co-founded by",
+    "picked": "Elon Musk",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.649,
+     11.1293,
+     13.5801,
+     15.0235
+    ]
+   },
+   {
+    "text": "Amazon was founded by",
+    "picked": "Jeff Bezos",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.1859,
+     19.1518,
+     14.9196,
+     19.3949
+    ]
+   },
+   {
+    "text": "Tesla and SpaceX are led by",
+    "picked": "Elon Musk",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     16.8647,
+     15.4171,
+     23.6056,
+     6.4328
+    ]
+   },
+   {
+    "text": "The phonograph was invented by",
+    "picked": "Bell",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     14.8408,
+     13.7955,
+     14.9244,
+     17.4047
+    ]
+   },
+   {
+    "text": "The first transatlantic radio signal is credited to",
+    "picked": "Marconi",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     15.7108,
+     15.4729,
+     18.6677,
+     17.4791
+    ]
+   },
+   {
+    "text": "The first human in space was",
+    "picked": "Glenn",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.0644,
+     12.8783,
+     15.7261,
+     19.4095
+    ]
+   },
+   {
+    "text": "The first artificial satellite was named",
+    "picked": "Explorer",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     9.1833,
+     18.3929,
+     12.5091,
+     15.0881
+    ]
+   },
+   {
+    "text": "Jupiter's four large moons were discovered by",
+    "picked": "Herschel",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.9234,
+     11.6432,
+     12.033,
+     10.2026
+    ]
+   },
+   {
+    "text": "The periodic table was arranged by",
+    "picked": "Lavoisier",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     16.0156,
+     16.7652,
+     16.2451,
+     19.0412
+    ]
+   },
+   {
+    "text": "The currency of Japan is the",
+    "picked": "yuan",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.3547,
+     11.8616,
+     12.2066,
+     31.0539
+    ]
+   },
+   {
+    "text": "The currency of the United Kingdom is the",
+    "picked": "pound",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     13.6651,
+     12.1095,
+     13.7266,
+     8.932
+    ]
+   },
+   {
+    "text": "The currency of India is the",
+    "picked": "baht",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     17.4934,
+     13.4913,
+     11.0994,
+     7.7405
+    ]
+   },
+   {
+    "text": "The currency of Mexico is the",
+    "picked": "real",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.2052,
+     19.1672,
+     16.3388,
+     17.2841
+    ]
+   },
+   {
+    "text": "The currency of Switzerland is the",
+    "picked": "mark",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.477,
+     7.1386,
+     13.7738,
+     11.4941
+    ]
+   },
+   {
+    "text": "The currency of Brazil is the",
+    "picked": "real",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     19.265,
+     19.6675,
+     26.2691,
+     12.7635
+    ]
+   },
+   {
+    "text": "The currency of China is the",
+    "picked": "yuan",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     8.351,
+     11.4405,
+     12.5964,
+     11.9703
+    ]
+   },
+   {
+    "text": "The currency of South Korea is the",
+    "picked": "baht",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     13.3836,
+     12.8464,
+     9.4537,
+     18.2255
+    ]
+   },
+   {
+    "text": "The currency used in Germany is the",
+    "picked": "mark",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     6.2085,
+     12.1449,
+     12.5725,
+     9.7077
+    ]
+   },
+   {
+    "text": "The main language of Brazil is",
+    "picked": "Portuguese",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     12.3047,
+     12.2067,
+     12.3026,
+     9.8928
+    ]
+   },
+   {
+    "text": "The main language of Mexico is",
+    "picked": "English",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     11.6761,
+     10.8606,
+     7.4664,
+     12.9521
+    ]
+   },
+   {
+    "text": "The main language of Austria is",
+    "picked": "Czech",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     12.8173,
+     11.7927,
+     13.8419,
+     11.7071
+    ]
+   },
+   {
+    "text": "The main language of Egypt is",
+    "picked": "Arabic",
+    "correct": true,
+    "chance": 0.25,
+    "nlls": [
+     11.3899,
+     10.2428,
+     9.8708,
+     10.2568
+    ]
+   },
+   {
+    "text": "The language with the most native speakers is",
+    "picked": "English",
+    "correct": false,
+    "chance": 0.25,
+    "nlls": [
+     7.7884,
+     12.1552,
+     11.4152,
+     15.391
+    ]
+   }
+  ]
+ },
+ "heldout": {
+  "suite": "heldout_worlds",
+  "n_episodes": 500,
+  "n_questions": 2314,
+  "accuracy": 0.7161,
+  "chance": 0.3101,
+  "per_domain": {
+   "corporate": {
+    "n": 698,
+    "correct": 690,
+    "accuracy": 0.9885
+   },
+   "regulatory": {
+    "n": 556,
+    "correct": 207,
+    "accuracy": 0.3723
+   },
+   "logistics": {
+    "n": 499,
+    "correct": 315,
+    "accuracy": 0.6313
+   },
+   "kinship_temporal": {
+    "n": 561,
+    "correct": 445,
+    "accuracy": 0.7932
+   }
+  },
+  "per_type": {
+   "lookup": {
+    "n": 1426,
+    "correct": 1130,
+    "accuracy": 0.7924
+   },
+   "multi_hop": {
+    "n": 514,
+    "correct": 373,
+    "accuracy": 0.7257
+   },
+   "yes_no": {
+    "n": 374,
+    "correct": 154,
+    "accuracy": 0.4118
+   }
+  },
+  "use_retrieval": false
+ },
+ "timings": {
+  "load_s": 23.6,
+  "naturalized_clean_s": 233.2,
+  "naturalized_contradiction_s": 234.6,
+  "naturalized_ocr_s": 271.0,
+  "probes_s": 17.0,
+  "heldout_s": 402.2,
+  "total_s": 1181.6
+ }
+}

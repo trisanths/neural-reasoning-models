@@ -1,0 +1,25 @@
+src/pilot: the acquisition pilot, sibling and blank controls, and length-normalised forced choice
+
+bench.py gains two controls beside the oracle. Sibling fills the oracle's
+chapter slots from a structurally matched rival system (same names and
+glyphs, other definitions); blank keeps the slots and empties them. The
+eight guard checks run a second time against what each control serves
+(Guard.check_served), with ablation restated as "the sibling's own answer
+differs from the gold". refuniverse and the algebra adapter implement
+sibling() and reference_answer(); refuniverse gains int_answers so every
+level answers one number below its modulus.
+
+mc.py scored options by summed NLL, which favours short options, and broke
+ties toward index 0. It now scores mean NLL per option token, in a seeded
+shuffled order, with seeded tie breaks. legacy=True restores the old rule;
+nothing passes it. heldout.py seeds each question separately.
+
+src/pilot holds the rest: the item generator (refuniverse, algebra, and the
+binary_op and simple rule families, seeds checked against the training
+manifests), the strict grader with its hedging canary, PopQA as a four-way
+forced choice, the vLLM adapter (base completion, chat with thinking off,
+thinking capped at 4,096 tokens), the resume-safe runner mirrored to S3, and
+the report that applies the preregistered decision and refuses stale
+records. scripts/pilot_*.py are thin entry points.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>

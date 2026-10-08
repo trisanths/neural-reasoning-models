@@ -1,0 +1,43 @@
+data ok: /home/ec2-user/data/regime_e 10200763819 tokens
+data ok: /home/ec2-user/data/regime_e2 10200778176 tokens
+fetch curve-1300m-a/config.yaml (460 bytes)
+fetch curve-1300m-a/cmd.txt (202 bytes)
+fetch curve-1300m-a/loss.jsonl (99638 bytes)
+fetch curve-1300m-a/ckpt-0020700.pt (16183121167 bytes)
+fetch curve-1300m-a/latest.pt (16183115863 bytes)
+RESUMED curve-1300m-a gpu 0 log /home/ec2-user/logs/curve-1300m-a.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-1300m-a/config.yaml --data /home/ec2-user/data/regime_a/shards --out /home/ec2-user/runs/curve-1300m-a --resume 
+# skip ckpt-0000600.pt: 298320000 bytes, sibling pattern 16183121167
+fetch curve-1300m-c/config.yaml (460 bytes)
+fetch curve-1300m-c/cmd.txt (253 bytes)
+fetch curve-1300m-c/loss.jsonl (98280 bytes)
+fetch curve-1300m-c/ckpt-0019840.pt (16183121167 bytes)
+fetch curve-1300m-c/latest.pt (16183115863 bytes)
+RESUMED curve-1300m-c gpu 1 log /home/ec2-user/logs/curve-1300m-c.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-1300m-c/config.yaml --data /home/ec2-user/data/regime_c/flat --out /home/ec2-user/runs/curve-1300m-c --resume --warmup-bin /home/ec2-user/data/proc_warmup_15m.bin 
+fetch curve-350me-502/config.yaml (458 bytes)
+fetch curve-350me-502/cmd.txt (199 bytes)
+fetch curve-350me-502/loss.jsonl (100145 bytes)
+fetch curve-350me-502/ckpt-0020600.pt (4505567723 bytes)
+fetch curve-350me-502/latest.pt (4505562419 bytes)
+RESUMED curve-350me-502 gpu 2 log /home/ec2-user/logs/curve-350me-502.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me-502/config.yaml --data /home/ec2-user/data/regime_e --out /home/ec2-user/runs/curve-350me-502 --resume 
+fetch curve-350me-503/config.yaml (458 bytes)
+fetch curve-350me-503/cmd.txt (199 bytes)
+fetch curve-350me-503/loss.jsonl (99076 bytes)
+fetch curve-350me-503/ckpt-0019950.pt (4505567723 bytes)
+fetch curve-350me-503/latest.pt (4505562419 bytes)
+RESUMED curve-350me-503 gpu 3 log /home/ec2-user/logs/curve-350me-503.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me-503/config.yaml --data /home/ec2-user/data/regime_e --out /home/ec2-user/runs/curve-350me-503 --resume 
+wrote /home/ec2-user/runs/curve-350me2-601/config.yaml: seed 601, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 990
+LAUNCHED curve-350me2-601 gpu 4 ckpt_interval 990 log /home/ec2-user/logs/curve-350me2-601.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me2-601/config.yaml --data /home/ec2-user/data/regime_e2 --out /home/ec2-user/runs/curve-350me2-601 --resume
+wrote /home/ec2-user/runs/curve-350me2-602/config.yaml: seed 602, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 1010
+LAUNCHED curve-350me2-602 gpu 5 ckpt_interval 1010 log /home/ec2-user/logs/curve-350me2-602.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me2-602/config.yaml --data /home/ec2-user/data/regime_e2 --out /home/ec2-user/runs/curve-350me2-602 --resume
+wrote /home/ec2-user/runs/curve-350me2-603/config.yaml: seed 603, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 1030
+LAUNCHED curve-350me2-603 gpu 6 ckpt_interval 1030 log /home/ec2-user/logs/curve-350me2-603.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me2-603/config.yaml --data /home/ec2-user/data/regime_e2 --out /home/ec2-user/runs/curve-350me2-603 --resume
+LAUNCHED sync loop (KEEP=1), log /home/ec2-user/logs/curve-sync.log
+ARMED final flush for 11:15 UTC 2026-08-28, log /home/ec2-user/logs/final-flush.log
+ALL_LAUNCHED

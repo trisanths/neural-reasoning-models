@@ -1,0 +1,38 @@
+{
+ "model": "LiquidAI/LFM2-350M",
+ "form": "table_emit_gen",
+ "split": "train_frames_eval",
+ "direction": "key",
+ "n": 2500,
+ "decode": "sampled",
+ "max_new": 512,
+ "dtype": "bfloat16",
+ "seed": 1234,
+ "items_file": "/home/ec2-user/decoupled-reasoner/results/role/lfm2/items/train_frames_eval.jsonl.gz",
+ "params_total": 354483968,
+ "bos_token": "<|startoftext|>",
+ "bos_token_id": 1,
+ "first_prompt_rendered": "<|startoftext|><|im_start|>user\nThe Ondaharv map.\n\nThis page states the sending for the Ondaharv map. Every token reaching it is dealt with by the sending given below and by nothing else.\n\nA quilnak token is sent to the fexmuth value.\nA qenstiv token is sent to the qenzunt value.\nA verxjarn token is sent to the tarnthox value.\nA eskmuth token is sent to the zuntgivo value.\nAny token whose type is not listed is sent to the nevivand value.\n\nList every rule stated on this page, one per line, in the form\n\ntoken -> value\n\nusing only the names given on the page. Leave out the rule that covers anything unlisted. Write nothing else.<|im_end|>\n<|im_start|>assistant\n",
+ "first_prompt_first_ids": [
+  1,
+  6,
+  6423,
+  708,
+  1098,
+  58308,
+  1285,
+  788
+ ],
+ "chat_template_sha256": "5504d163d879bfb6fd4135b7fa3d56768b2e69dd718338f7b146750289f46ab0",
+ "gen_kwargs": {
+  "max_new_tokens": 512,
+  "do_sample": true,
+  "temperature": 0.1,
+  "top_k": 50,
+  "repetition_penalty": 1.05
+ },
+ "seconds": 435.7,
+ "phrasing": "p1",
+ "shots": 0,
+ "records": "/home/ec2-user/decoupled-reasoner/results/role/lfm2/runs/table_emit_gen_p1_train_frames_eval_key_sampled.jsonl.gz"
+}

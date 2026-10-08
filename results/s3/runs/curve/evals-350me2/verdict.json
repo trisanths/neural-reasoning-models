@@ -1,0 +1,144 @@
+{
+ "generated_at": "2026-08-28T02:13:28Z",
+ "results_file": "/home/ec2-user/eval-e2/out/results.json",
+ "gate_metric": "naturalized_reading.contains_answer.clean",
+ "n_items": 250,
+ "regimes": {
+  "a": {
+   "n_seeds": 6,
+   "per_seed": {
+    "111": 0.28,
+    "502": 0.164,
+    "503": 0.18,
+    "601": 0.164,
+    "602": 0.112,
+    "603": 0.18
+   },
+   "mean": 0.18,
+   "std": 0.05502
+  },
+  "c": {
+   "n_seeds": 6,
+   "per_seed": {
+    "211": 0.0,
+    "502": 0.004,
+    "503": 0.024,
+    "601": 0.008,
+    "602": 0.028,
+    "603": 0.028
+   },
+   "mean": 0.015333,
+   "std": 0.012754
+  }
+ },
+ "em": {
+  "a_mean": 0.004,
+  "a_std": 0.00506,
+  "c_mean": 0.014,
+  "c_std": 0.012586,
+  "ratio": 3.5
+ },
+ "ratio": 0.085183,
+ "bootstrap": {
+  "n_reps": 10000,
+  "seed": 0,
+  "ci95": [
+   0.0204,
+   0.1843
+  ],
+  "n_degenerate": 0
+ },
+ "rule": {
+  "source": "SPEC.md section 7",
+  "text": "Compare regime C against regime A at the 350M class on the naturalized reading suite. If C reaches at least 90 percent of A's score, the strict form survives and Phase 2 tests it. Between 60 and 90 percent, the strict form is weakened: Phase 2 uses a frequency-ordered resident knowledge diet plus teacher distillation. Below 60 percent, the strict form is dead; Phase 2 tests only the weakened form and the writeup says so plainly.",
+  "strict_threshold": 0.9,
+  "weak_threshold": 0.6
+ },
+ "outcome": "strict_dead",
+ "outcome_text": "The ratio 0.0852 is below 0.6. The strict form is dead; Phase 2 tests only the weakened form.",
+ "leakage_flags": {
+  "killtest-a-111": true,
+  "killtest-a-502": false,
+  "killtest-a-503": false,
+  "killtest-a-601": false,
+  "killtest-a-602": false,
+  "killtest-a-603": false,
+  "killtest-c-211": false,
+  "killtest-c-502": false,
+  "killtest-c-503": false,
+  "killtest-c-601": false,
+  "killtest-c-602": false,
+  "killtest-c-603": false
+ },
+ "leakage_flags_c_raised": [],
+ "heldout_mean_rounds": {
+  "killtest-c-211": 0.9386,
+  "killtest-c-502": 0.8902,
+  "killtest-c-503": 1.0246,
+  "killtest-c-601": 0.8038,
+  "killtest-c-602": 0.8245,
+  "killtest-c-603": 1.0946
+ },
+ "checkpoints": [
+  {
+   "name": "killtest-a-111",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-111/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-502",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-502/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-503",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-503/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-601",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-601/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-602",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-602/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-603",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-a-603/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-211",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-211/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-502",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-502/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-503",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-503/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-601",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-601/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-602",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-602/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-603",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-603/ckpt-0026700.pt"
+  }
+ ]
+}

@@ -1,0 +1,1332 @@
+# The Bramorn system
+
+The Bramorn system is small enough to hold in the hand and strange enough to be worth
+the trouble. It has 4 zelbras, two operations, and one relation, and nothing else.
+
+The zelbras are written tarnnyr, cloxil, isktez and iskmi. The first operation is
+written *. The second is written - and binds more tightly, so x * y - z means x * (y -
+z). The relation is written <~; where it holds between two zelbras we say the left one
+shadows the right one. Both operations associate to the left when written without
+brackets, and brackets override that. Repeated combination is abbreviated: x^3 means x *
+x * x.
+
+A warning that will be repeated because it is the one readers ignore: nothing here is
+inherited from arithmetic. Familiar names have been avoided on purpose. Where a law of
+arithmetic happens to hold it is stated and checked, and where it fails a counterexample
+is given.
+
+# Chapter 1. The objects and their notation
+
+## Why this chapter
+
+Work through this chapter with the tables in front of you. It covers the Bramorn
+signature, the Bramorn combination tables and closure under the first operation, and
+each claim can be checked by hand.
+
+One habit to adopt: when a statement below quantifies over zelbras, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## The tables in full
+
+The table for *. Read the left argument down the side and the right argument across the top.
+
+         |  tarnnyr   cloxil   isktez    iskmi
+----------------------------------------------
+ tarnnyr |  tarnnyr  tarnnyr  tarnnyr  tarnnyr
+  cloxil |   cloxil  tarnnyr  tarnnyr  tarnnyr
+  isktez |   isktez   cloxil  tarnnyr  tarnnyr
+   iskmi |    iskmi   isktez   cloxil  tarnnyr
+
+The table for -. Read the left argument down the side and the right argument across the top.
+
+         |  tarnnyr   cloxil   isktez    iskmi
+----------------------------------------------
+ tarnnyr |  tarnnyr   cloxil   isktez    iskmi
+  cloxil |   cloxil   cloxil   isktez    iskmi
+  isktez |   isktez   isktez   isktez    iskmi
+   iskmi |    iskmi    iskmi    iskmi    iskmi
+
+Every pair standing in the <~ relation, grouped by left argument.
+
+  tarnnyr <~ tarnnyr, cloxil, isktez and iskmi
+  cloxil <~ cloxil, isktez and iskmi
+  isktez <~ isktez and iskmi
+  iskmi <~ iskmi
+
+## What is defined here
+
+These are the laws this system obeys. Each was checked against every case before it was
+written down.
+
+A1. Closure under the first operation. For all zelbras x and y, x * y is again a zelbra.
+
+## The shape of it
+
+Two questions sort the zelbras quickly. Does combining a zelbra with itself change it?
+For tarnnyr it does not. Does it matter which side it goes on? It always does.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R1 rests on S2 (the Bramorn combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+R2 rests on S2 (the Bramorn combination tables). Remove any one of them and the
+statement stops making sense, not merely stops being provable.
+
+R5 rests on S2 (the Bramorn combination tables). Remove any one of them and the
+statement stops making sense, not merely stops being provable.
+
+R6 rests on S2 (the Bramorn combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Evaluate isktez * cloxil - iskmi. Each line below is one lookup in a table.
+    cloxil - iskmi = iskmi   (the table for -)
+    isktez * iskmi = tarnnyr   (the table for *)
+The expression comes to tarnnyr.
+
+A companion case, cloxil * (iskmi * isktez), to show what the brackets are doing.
+    iskmi * isktez = cloxil   (the table for *)
+    cloxil * cloxil = tarnnyr   (the table for *)
+That gives tarnnyr, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test tarnnyr <~ isktez. The opalpyr of tarnnyr is tarnnyr, cloxil, isktez and iskmi, and
+isktez lies inside it, so the relation holds.
+
+## A case that breaks
+
+R1. It is not the case that: For all zelbras x, y, z: (x * y) * z = x * (y * z). The
+case that settles it: x = cloxil, y = tarnnyr, z = cloxil, left = tarnnyr, right =
+cloxil. Anyone carrying this claim over from a more familiar system will be wrong here,
+and wrong in a way that propagates.
+
+R2. It is not the case that: For all zelbras x and y: x * y = y * x. It fails at x =
+tarnnyr, y = cloxil, left = tarnnyr, right = cloxil. One case is enough, and this is the
+earliest one.
+
+R5. It is not the case that: For every zelbra x: x * x = x. The case that settles it: x
+= cloxil, value = tarnnyr. Anyone carrying this claim over from a more familiar system
+will be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+What is built on it later: A2 (closure under the second operation), A3 (association of
+the second operation), A4 (commutation of the second operation) and A5 (a neutral object
+for the second operation).
+
+## Proofs
+
+R1. It is not the case that: For all zelbras x, y, z: (x * y) * z = x * (y * z).
+
+  (1) [S2] Take the case x = cloxil, y = tarnnyr, z = cloxil, left = tarnnyr, right = cloxil, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R2. It is not the case that: For all zelbras x and y: x * y = y * x.
+
+  (1) [S2] Take the case x = tarnnyr, y = cloxil, left = tarnnyr, right = cloxil, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R5. It is not the case that: For every zelbra x: x * x = x.
+
+  (1) [S2] Take the case x = cloxil, value = tarnnyr, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R6. It is not the case that: For all zelbras x, y, z: if x * y = x * z then y = z.
+
+  (1) [S2] Take the case x = tarnnyr, y = tarnnyr, z = cloxil, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R1, R2, R5 and R6. These were tested and failed, and the failing
+cases are recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 1.
+  x001. Reduce cloxil * iskmi to a single zelbra.
+  x002. Reduce iskmi * cloxil to a single zelbra.
+  x003. Evaluate iskmi * iskmi.
+  x004. Work out the value of iskmi * isktez.
+  x005. Work out the value of isktez * iskmi.
+Level 2.
+  x006. What zelbra does iskmi * cloxil - cloxil name?
+  x007. What is iskmi combined with itself 3 times under *?
+  x008. Solve x * iskmi = tarnnyr for x, naming every solution.
+  x009. Which zelbras x satisfy x * cloxil = tarnnyr? List them all.
+  x010. Solve x * cloxil = cloxil for x, naming every solution.
+Level 5.
+  x011. The following fails in this system: For all zelbras x, y, z: (x * y) * z = x * (y * z). Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+  x012. The following fails in this system: For all zelbras x and y: x * y = y * x. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+  x014. The following fails in this system: For every zelbra x: x * x = x. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+  x015. The following fails in this system: For all zelbras x, y, z: if x * y = x * z then y = z. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+
+# Chapter 2. Neutral objects and reversal
+
+## Why this chapter
+
+The results collected here were not found in this order. The system does not have a
+neutral object for the first operation, the system does not have reversal under the
+first operation and the system does not have an absorbing object for the first operation
+came first, and the rest was assembled around that once the pattern was visible.
+
+Prerequisites are real here: chapter 1 supply the notions the statements below are
+phrased in.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 4
+zelbras that is cheap, and it means a claim in this book is either settled or absent.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+This chapter introduces no new vocabulary. It works entirely with what has already been
+defined.
+
+## The shape of it
+
+The neutral zelbra is the one that does nothing. That sounds trivial and is not: almost
+every result in this chapter is an argument about what doing nothing forces.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 4 zelbras the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R3 rests on S2 (the Bramorn combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+R4 rests on S2 (the Bramorn combination tables). Remove any one of them and the
+statement stops making sense, not merely stops being provable.
+
+R7 rests on S2 (the Bramorn combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Take (iskmi * isktez) * (cloxil * tarnnyr) and work it out one step at a time.
+    iskmi * isktez = cloxil   (the table for *)
+    cloxil * tarnnyr = cloxil   (the table for *)
+    cloxil * cloxil = tarnnyr   (the table for *)
+That leaves tarnnyr, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take isktez * (cloxil * iskmi).
+    cloxil * iskmi = tarnnyr   (the table for *)
+    isktez * tarnnyr = isktez   (the table for *)
+The value is isktez, not tarnnyr.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+cloxil <~ iskmi hold? Read off what cloxil stands over: cloxil, isktez and iskmi. iskmi
+is among them, so it holds.
+
+## A case that breaks
+
+R3. There is no zelbra e with e * x = x * e = x for every zelbra x. The case that
+settles it: reason = no two sided identity exists. Anyone carrying this claim over from
+a more familiar system will be wrong here, and wrong in a way that propagates.
+
+R4. Some zelbra x admits no zelbra y for which x * y and y * x both land on a neutral
+object. It fails at reason = no identity, so inverses are not defined. One case is
+enough, and this is the earliest one.
+
+R7. There is no zelbra z with z * x = x * z = z for every zelbra x. It fails at reason =
+no absorbing element. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside S2 (the Bramorn combination tables).
+
+## Proofs
+
+R3. There is no zelbra e with e * x = x * e = x for every zelbra x.
+
+  (1) [S2] Take the case reason = no two sided identity exists, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R4. Some zelbra x admits no zelbra y for which x * y and y * x both land on a neutral object.
+
+  (1) [S2] Take the case reason = no identity, so inverses are not defined, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R7. There is no zelbra z with z * x = x * z = z for every zelbra x.
+
+  (1) [S2] Take the case reason = no absorbing element, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R3, R4 and R7. These were tested and failed, and the failing cases
+are recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 5.
+  x013. The following fails in this system: Some zelbra x admits no zelbra y for which x * y and y * x both land on a neutral object. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+
+# Chapter 3. The relation and what it orders
+
+## Why this chapter
+
+Anyone using this system to keep track of something will meet comparability of every
+pair, agreement of the relation with the second operation and reflexivity of the
+relation early, whether or not they go looking.
+
+Prerequisites are real here: chapter 1 supply the notions the statements below are
+phrased in.
+
+One habit to adopt: when a statement below quantifies over zelbras, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+The following hold in this system, without exception, and each was verified by running
+through the tables in full.
+
+A10. Comparability of every pair. For all zelbras x and y, at least one of x <~ y and y
+<~ x holds.
+
+A11. Agreement of the relation with the second operation. For all zelbras x, y, z: if x
+<~ y then (z - x) <~ (z - y) and (x - z) <~ (y - z).
+
+A7. Reflexivity of the relation. For every zelbra x: x <~ x.
+
+A8. Antisymmetry of the relation. For all zelbras x and y: if x <~ y and y <~ x then x =
+y.
+
+A9. Transitivity of the relation. For all zelbras x, y, z: if x <~ y and y <~ z then x
+<~ z.
+
+D4. The opalpyr of a zelbra. The opalpyr of a zelbra x is the collection of zelbras y
+for which x <~ y holds.
+
+Worked out for each zelbra: tarnnyr to tarnnyr, cloxil, isktez and iskmi; cloxil to
+cloxil, isktez and iskmi; isktez to isktez and iskmi; iskmi to iskmi.
+
+## The shape of it
+
+The relation is easiest to see as a height. Each zelbra casts a opalpyr over what it
+shadows, and the sizes of those shadows here are 1, 2, 3 and 4. No two are the same
+size, so the objects line up in a single file.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 4 zelbras the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R10 rests on S2 (the Bramorn combination tables). Remove any one of them and the
+statement stops making sense, not merely stops being provable.
+
+## A worked case
+
+Here is isktez * tarnnyr - cloxil, reduced without skipping anything.
+    tarnnyr - cloxil = cloxil   (the table for -)
+    isktez * cloxil = cloxil   (the table for *)
+The expression comes to cloxil.
+
+Move the brackets and the work changes. Take tarnnyr * (cloxil * isktez).
+    cloxil * isktez = tarnnyr   (the table for *)
+    tarnnyr * tarnnyr = tarnnyr   (the table for *)
+That gives tarnnyr, against cloxil above.
+
+Test tarnnyr <~ tarnnyr. The opalpyr of tarnnyr is tarnnyr, cloxil, isktez and iskmi,
+and tarnnyr lies inside it, so the relation holds.
+
+## A case that breaks
+
+R10. It is not the case that: For all zelbras x, y, z: if x <~ y then (z * x) <~ (z * y)
+and (x * z) <~ (y * z). It fails at x = tarnnyr, y = cloxil, z = cloxil, side = left.
+One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+The material this chapter borrows from: S2 (the Bramorn combination tables).
+
+What is built on it later: D8 (a nakpyr), D11 (mishen pairs), T6 (opalpyrs are nested
+along the relation) and T7 (there is at most one nakpyr).
+
+## Proofs
+
+R10. It is not the case that: For all zelbras x, y, z: if x <~ y then (z * x) <~ (z * y) and (x * z) <~ (y * z).
+
+  (1) [S2] Take the case x = tarnnyr, y = cloxil, z = cloxil, side = left, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the opalpyr of a zelbra. Each of these is used by name
+later, so the names are worth learning rather than looking up.
+
+Explicitly not available: R10. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x019. List the opalpyr of tarnnyr.
+  x020. Which zelbras y satisfy cloxil <~ y? Name them all.
+  x021. Which zelbras y satisfy isktez <~ y? Name them all.
+Level 5.
+  x016. The following fails in this system: For all zelbras x, y, z: if x <~ y then (z * x) <~ (z * y) and (x * z) <~ (y * z). Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+
+# Chapter 4. The second operation and how the two interact
+
+## Why this chapter
+
+So far the zelbras have been objects to be pushed around. This chapter starts asking
+what they are like. We take up closure under the second operation, association of the
+second operation and commutation of the second operation.
+
+Nothing here stands on its own. The arguments lean on chapter 1, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+One habit to adopt: when a statement below quantifies over zelbras, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+These are the laws this system obeys. Each was checked against every case before it was
+written down.
+
+A2. Closure under the second operation. For all zelbras x and y, x - y is again a
+zelbra.
+
+A3. Association of the second operation. For all zelbras x, y, z: (x - y) - z = x - (y -
+z).
+
+A4. Commutation of the second operation. For all zelbras x and y: x - y = y - x.
+
+A5. A neutral object for the second operation. There is a zelbra tarnnyr with tarnnyr -
+x = x for every x.
+
+A6. Self combination under the second operation. For every zelbra x: x - x = x.
+
+## The shape of it
+
+The interesting content of a two operation system sits in the gap between them: which
+one distributes over which, and which zelbras are fixed by both.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R8 rests on S2 (the Bramorn combination tables). Remove any one of them and the
+statement stops making sense, not merely stops being provable.
+
+R9 rests on S2 (the Bramorn combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Evaluate (tarnnyr * isktez) * (cloxil * iskmi). Each line below is one lookup in a
+table.
+    tarnnyr * isktez = tarnnyr   (the table for *)
+    cloxil * iskmi = tarnnyr   (the table for *)
+    tarnnyr * tarnnyr = tarnnyr   (the table for *)
+So (tarnnyr * isktez) * (cloxil * iskmi) is tarnnyr.
+
+Move the brackets and the work changes. Take isktez * (cloxil * tarnnyr).
+    cloxil * tarnnyr = cloxil   (the table for *)
+    isktez * cloxil = cloxil   (the table for *)
+The value is cloxil, not tarnnyr.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+cloxil <~ tarnnyr hold? Read off what cloxil stands over: cloxil, isktez and iskmi.
+tarnnyr is not among them, so it fails.
+
+## A case that breaks
+
+R8. It is not the case that: For all zelbras x, y, z: x - (y * z) = (x - y) * (x - z),
+and the same on the right. The case that settles it: x = cloxil, y = tarnnyr, z =
+tarnnyr, left = cloxil, right = tarnnyr. Anyone carrying this claim over from a more
+familiar system will be wrong here, and wrong in a way that propagates.
+
+R9. It is not the case that: For all zelbras x and y: x * (x - y) = x and x - (x * y) =
+x. The case that settles it: x = cloxil, y = tarnnyr, value = tarnnyr. Anyone carrying
+this claim over from a more familiar system will be wrong here, and wrong in a way that
+propagates.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: S2 (the Bramorn combination tables).
+
+## Proofs
+
+R8. It is not the case that: For all zelbras x, y, z: x - (y * z) = (x - y) * (x - z), and the same on the right.
+
+  (1) [S2] Take the case x = cloxil, y = tarnnyr, z = tarnnyr, left = cloxil, right = tarnnyr, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R9. It is not the case that: For all zelbras x and y: x * (x - y) = x and x - (x * y) = x.
+
+  (1) [S2] Take the case x = cloxil, y = tarnnyr, value = tarnnyr, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 64 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R8 and R9. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+No exercises here. Every question this chapter suggested turned out to be answerable
+from the question itself, so all of them were discarded.
+
+# Chapter 5. Combining objects
+
+## Why this chapter
+
+The present chapter develops pyrtez zelbras, zelbras that vorazt and naknak collections.
+
+Nothing here stands on its own. The arguments lean on chapter 1, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+One habit to adopt: when a statement below quantifies over zelbras, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+## What is defined here
+
+D1. Pyrtez zelbras. A zelbra x is called pyrtez when x * x = x.
+
+In this system that picks out tarnnyr, which is 1 of the 4 zelbras.
+
+D2. Zelbras that vorazt. Two zelbras x and y are said to vorazt when x * y = y * x.
+
+D3. Naknak collections. A collection S of zelbras is naknak when x * y belongs to S for
+every pair x, y drawn from S.
+
+## The shape of it
+
+The right picture for vintka is a spreading stain rather than a list. Drop one zelbra
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 2
+zelbras depending on where it started.
+
+A useful mental split: some zelbras are inert under the operation and some are not.
+tarnnyr come back unchanged when combined with themselves, and none commutes with
+everything.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 4 zelbras the table is short enough to consult every time.
+
+## Where these results come from
+
+Nothing is derived in this chapter. It lays down material that later chapters draw on.
+
+## A worked case
+
+Evaluate cloxil * iskmi - isktez. Each line below is one lookup in a table.
+    iskmi - isktez = iskmi   (the table for -)
+    cloxil * iskmi = tarnnyr   (the table for *)
+That leaves tarnnyr, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take iskmi * (isktez * cloxil).
+    isktez * cloxil = cloxil   (the table for *)
+    iskmi * cloxil = isktez   (the table for *)
+That gives isktez, against tarnnyr above.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+cloxil <~ isktez hold? Read off what cloxil stands over: cloxil, isktez and iskmi.
+isktez is among them, so it holds.
+
+## A case that breaks
+
+A quick guard against a common slip: cloxil * isktez is tarnnyr while isktez * cloxil is
+cloxil. Order is not decoration in this system.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+The load is carried by closure under the first operation. A system without them is not a
+system where these results are harder to prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A1 (closure under the first operation).
+
+What is built on it later: D5 (the zelquil), D6 (the rastmorn), D7 (the vintka of a
+zelbra) and T1 (the vintka of a zelbra is naknak).
+
+## Proofs
+
+No proofs are needed here. Everything asserted is a definition or a table entry.
+
+## What to carry forward
+
+Carry forward pyrtez zelbras, zelbras that vorazt and naknak collections. Later chapters
+state their results in these terms and do not restate the definitions.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 3.
+  x017. Write down the pyrtez in full.
+  x018. How many zelbras lie in the smallest naknak collection containing cloxil?
+
+# Chapter 6. The relation and what it orders (2)
+
+## Why this chapter
+
+Everything in this chapter is checkable by inspection. The subject is mishen pairs, a
+nakpyr and where the relation reads the same in both directions breaks down.
+
+Nothing here stands on its own. The arguments lean on chapter 3, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+The standard of proof here is exhaustion. A universal claim about zelbras covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+D11. Mishen pairs. Two distinct zelbras x and y form a mishen pair when x <~ y and y <~
+x both hold, that is, when each lies in the opalpyr of the other.
+
+In this system nothing satisfies it, which is itself a fact worth carrying forward.
+
+D8. A nakpyr. A zelbra f is a nakpyr when f <~ y holds for every zelbra y, that is, when
+the opalpyr of f is the whole system.
+
+Running the definition over every zelbra leaves tarnnyr.
+
+## The shape of it
+
+Think of <~ as pointing downhill. The opalpyr of a zelbra is everything downhill of it,
+and those shadows here have sizes 1, 2, 3 and 4.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R14 rests on D4 (the opalpyr of a zelbra). The dependence is on the content of those
+results, not only on their vocabulary.
+
+T6 rests on D4 (the opalpyr of a zelbra) and A9 (transitivity of the relation). The
+dependence is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Here is (cloxil * iskmi) * (isktez * tarnnyr), reduced without skipping anything.
+    cloxil * iskmi = tarnnyr   (the table for *)
+    isktez * tarnnyr = isktez   (the table for *)
+    tarnnyr * isktez = tarnnyr   (the table for *)
+The expression comes to tarnnyr.
+
+Move the brackets and the work changes. Take iskmi * (isktez * cloxil).
+    isktez * cloxil = cloxil   (the table for *)
+    iskmi * cloxil = isktez   (the table for *)
+The value is isktez, not tarnnyr.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+isktez <~ iskmi hold? Read off what isktez stands over: isktez and iskmi. iskmi is among
+them, so it holds.
+
+## A case that breaks
+
+R14. It is not the case that: If x <~ y then y <~ x. It fails at x = tarnnyr, y =
+cloxil. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Every result in this chapter is downstream of transitivity of the relation. Those are
+properties of this system, not of systems in general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+Read alongside A9 (transitivity of the relation) and D4 (the opalpyr of a zelbra).
+
+These results are used again in T7 (there is at most one nakpyr), T8 (the system has a
+nakpyr) and T9 (no mishen pairs exist).
+
+## Proofs
+
+R14. It is not the case that: If x <~ y then y <~ x.
+
+  (1) [S2] Take the case x = tarnnyr, y = cloxil, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 16 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+T6. If y lies in the opalpyr of x, then the opalpyr of y is contained in the opalpyr of x.
+
+  (1) [D4] Let y satisfy x <~ y and let z satisfy y <~ z.
+  (2) [A9] Transitivity gives x <~ z.
+  (3) [D4] So every member of the opalpyr of y is a member of that of x.
+
+Checked over 64 cases: every ordered triple. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward mishen pairs and a nakpyr. Later chapters state their results in these
+terms and do not restate the definitions.
+
+Established here and safe to use: T6.
+
+Explicitly not available: R14. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 4.
+  x027. Which zelbras make up the nakpyr? Name them all.
+  x037. The result above concerns opalpyrs. List the opalpyr of tarnnyr.
+  x038. The result above concerns opalpyrs. List the opalpyr of cloxil.
+  x039. The result above concerns opalpyrs. List the opalpyr of isktez.
+Level 5.
+  x043. The following fails in this system: If x <~ y then y <~ x. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+
+# Chapter 7. Combining objects (2)
+
+## Why this chapter
+
+What follows was pieced together backwards. The last item of it, the zelquil, the
+rastmorn and the vintka of a zelbra, was noticed before anyone had a reason to expect
+it.
+
+Prerequisites are real here: chapter 5 supply the notions the statements below are
+phrased in.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 4
+zelbras that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+D5. The zelquil. The zelquil of the system is the collection of zelbras that vorazt with
+every zelbra.
+
+In this system nothing satisfies it, which is itself a fact worth carrying forward.
+
+D6. The rastmorn. The rastmorn is the collection of all pyrtez zelbras.
+
+Running the definition over every zelbra leaves tarnnyr.
+
+D7. The vintka of a zelbra. The vintka of a zelbra x, written [x], is the smallest
+naknak collection that contains x.
+
+Worked out for each zelbra: tarnnyr to tarnnyr; cloxil to tarnnyr and cloxil; isktez to
+tarnnyr and isktez; iskmi to tarnnyr and iskmi.
+
+## The shape of it
+
+The right picture for vintka is a spreading stain rather than a list. Drop one zelbra
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 2
+zelbras depending on where it started.
+
+A useful mental split: some zelbras are inert under the operation and some are not.
+tarnnyr come back unchanged when combined with themselves, and none commutes with
+everything.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 4 zelbras the table is short enough to consult every time.
+
+## Where these results come from
+
+This chapter is groundwork. The derivations that use it start in the next one.
+
+## A worked case
+
+Take cloxil * isktez - iskmi and work it out one step at a time.
+    isktez - iskmi = iskmi   (the table for -)
+    cloxil * iskmi = tarnnyr   (the table for *)
+So cloxil * isktez - iskmi is tarnnyr.
+
+Move the brackets and the work changes. Take isktez * (iskmi * cloxil).
+    iskmi * cloxil = isktez   (the table for *)
+    isktez * isktez = tarnnyr   (the table for *)
+The value is tarnnyr. It agrees with the first case here, and a reader should resist
+reading anything general into that.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+isktez <~ cloxil hold? Read off what isktez stands over: isktez and iskmi. cloxil is not
+among them, so it fails.
+
+Now compute [cloxil]. Fold cloxil against itself, then fold whatever appeared against
+everything present, and stop when a round adds nothing. The result is tarnnyr and
+cloxil, of size 2.
+
+## A case that breaks
+
+A quick guard against a common slip: iskmi * cloxil is isktez while cloxil * iskmi is
+tarnnyr. Order is not decoration in this system.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Every result in this chapter is downstream of closure under the first operation. Those
+are properties of this system, not of systems in general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: D1 (pyrtez zelbras), D2 (zelbras that vorazt)
+and D3 (naknak collections).
+
+These results are used again in D9 (the jenfal of a zelbra), T1 (the vintka of a zelbra
+is naknak), T2 (the vintka is contained in every naknak collection) and T5 (the rastmorn
+is naknak).
+
+## Proofs
+
+No proofs are needed here. Everything asserted is a definition or a table entry.
+
+## What to carry forward
+
+New vocabulary from this chapter: the zelquil, the rastmorn and the vintka of a zelbra.
+Each of these is used by name later, so the names are worth learning rather than looking
+up.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 3.
+  x022. Write down the rastmorn in full.
+  x023. Name every zelbra in [cloxil].
+  x024. List the vintka of iskmi.
+Level 4.
+  x025. Let z be iskmi * cloxil. List the vintka of z.
+  x026. Let z be iskmi * iskmi. List the vintka of z.
+
+# Chapter 8. The relation and what it orders (3)
+
+## Why this chapter
+
+The practical content of this chapter is there is at most one nakpyr, the system has a
+nakpyr and no mishen pairs exist. It is the part that shows up in use.
+
+Prerequisites are real here: chapters 3 and 6 supply the notions the statements below
+are phrased in.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 4
+zelbras that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+Nothing new is named here. The chapter is about consequences of definitions already
+given.
+
+## The shape of it
+
+The relation is easiest to see as a height. Each zelbra casts a opalpyr over what it
+shadows, and the sizes of those shadows here are 1, 2, 3 and 4. No two are the same
+size, so the objects line up in a single file.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T7 rests on D8 (a nakpyr) and A8 (antisymmetry of the relation). Remove any one of them
+and the statement stops making sense, not merely stops being provable.
+
+T8 rests on D8 (a nakpyr) and A10 (comparability of every pair). The dependence is on
+the content of those results, not only on their vocabulary.
+
+T9 rests on D11 (mishen pairs) and A8 (antisymmetry of the relation). Remove any one of
+them and the statement stops making sense, not merely stops being provable.
+
+## A worked case
+
+Evaluate (cloxil * tarnnyr) * (iskmi * isktez). Each line below is one lookup in a
+table.
+    cloxil * tarnnyr = cloxil   (the table for *)
+    iskmi * isktez = cloxil   (the table for *)
+    cloxil * cloxil = tarnnyr   (the table for *)
+So (cloxil * tarnnyr) * (iskmi * isktez) is tarnnyr.
+
+Bracketing is not cosmetic, so here is tarnnyr * (iskmi * cloxil) for contrast.
+    iskmi * cloxil = isktez   (the table for *)
+    tarnnyr * isktez = tarnnyr   (the table for *)
+That gives tarnnyr, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+iskmi <~ cloxil hold? Read off what iskmi stands over: iskmi. cloxil is not among them,
+so it fails.
+
+## A case that breaks
+
+A quick guard against a common slip: isktez * iskmi is tarnnyr while iskmi * isktez is
+cloxil. Order is not decoration in this system.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Every result in this chapter is downstream of antisymmetry of the relation and
+comparability of every pair. Those are properties of this system, not of systems in
+general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: A10 (comparability of every pair), A8
+(antisymmetry of the relation), D11 (mishen pairs) and D8 (a nakpyr).
+
+## Proofs
+
+T7. No two distinct zelbras can both be nakpyrs.
+
+  (1) [D8] Let f and h both be floors.
+  (2) [D8] Then f <~ h, since h is any object, and h <~ f likewise.
+  (3) [A8] Antisymmetry forces f = h.
+
+Checked over 16 cases: every candidate against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T8. Some zelbra nakpyrs the whole system.
+
+  (1) [A10] Every pair is comparable, so the relation orders the objects into a line.
+  (2) [D8] The claim is that the line has a bottom.
+  (3) The carrier is finite, so the search over candidates terminates.
+
+Checked over 16 cases: every candidate against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T9. No two distinct zelbras lie in each other's opalpyr.
+
+  (1) [D11] Suppose x and y form a tight pair.
+  (2) [A8] Antisymmetry then identifies x with y.
+  (3) So a tight pair of distinct objects cannot arise.
+
+Checked over 16 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Established here and safe to use: T7, T8 and T9.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 4.
+  x040. Name the zelbras that make up the nakpyr, which is what the result above is a claim about.
+
+# Chapter 9. Combining objects (3)
+
+## Why this chapter
+
+So far the zelbras have been objects to be pushed around. This chapter starts asking
+what they are like. We take up where every zelbra lies in the zelquil breaks down, where
+every zelbra is pyrtez breaks down and the rastmorn is naknak.
+
+Nothing here stands on its own. The arguments lean on chapters 5 and 7, and a reader who
+has skipped them will find the derivations opaque rather than difficult.
+
+One habit to adopt: when a statement below quantifies over zelbras, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+Nothing new is named here. The chapter is about consequences of definitions already
+given.
+
+## The shape of it
+
+Two questions sort the zelbras quickly. Does combining a zelbra with itself change it?
+For tarnnyr it does not. Does it matter which side it goes on? It always does.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 4 zelbras the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R11 rests on D5 (the zelquil). The dependence is on the content of those results, not
+only on their vocabulary.
+
+R12 rests on D6 (the rastmorn). Remove any one of them and the statement stops making
+sense, not merely stops being provable.
+
+T5 rests on D6 (the rastmorn) and D3 (naknak collections). Remove any one of them and
+the statement stops making sense, not merely stops being provable.
+
+## A worked case
+
+Here is tarnnyr * cloxil - isktez, reduced without skipping anything.
+    cloxil - isktez = isktez   (the table for -)
+    tarnnyr * isktez = tarnnyr   (the table for *)
+That leaves tarnnyr, and no other reading of the notation gives anything else.
+
+Bracketing is not cosmetic, so here is cloxil * (isktez * tarnnyr) for contrast.
+    isktez * tarnnyr = isktez   (the table for *)
+    cloxil * isktez = tarnnyr   (the table for *)
+The value is tarnnyr. It agrees with the first case here, and a reader should resist
+reading anything general into that.
+
+Test iskmi <~ tarnnyr. The opalpyr of iskmi is iskmi, and tarnnyr lies outside it, so
+the relation fails.
+
+## A case that breaks
+
+R11. It is not the case that: Every pair of zelbras vorazts. The case that settles it: x
+= tarnnyr, y = cloxil, left = tarnnyr, right = cloxil. Anyone carrying this claim over
+from a more familiar system will be wrong here, and wrong in a way that propagates.
+
+R12. It is not the case that: x * x = x for every zelbra x. It fails at x = cloxil,
+value = tarnnyr. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+The load is carried by closure under the first operation. A system without them is not a
+system where these results are harder to prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside D3 (naknak collections), D5 (the zelquil) and D6 (the rastmorn).
+
+## Proofs
+
+R11. It is not the case that: Every pair of zelbras vorazts.
+
+  (1) [S2] Take the case x = tarnnyr, y = cloxil, left = tarnnyr, right = cloxil, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 16 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+R12. It is not the case that: x * x = x for every zelbra x.
+
+  (1) [S2] Take the case x = cloxil, value = tarnnyr, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 4 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T5. If x and y are both pyrtez then so is x * y.
+
+  (1) [D6] Let x and y be pyrtez.
+  (2) [D1] The claim asks whether (x * y) * (x * y) returns x * y.
+  (3) Whether it does is settled by running the operation table on every such pair.
+
+Checked over 16 cases: every ordered pair drawn from the ridge. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+The results now available are T5, each settled by exhaustive check rather than by
+argument from analogy.
+
+Do not carry forward R11 and R12. These were tested and failed, and the failing cases
+are recorded above.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 4.
+  x036. Name the zelbras that make up the rastmorn, which is what the result above is a claim about.
+Level 5.
+  x041. The following fails in this system: Every pair of zelbras vorazts. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+  x042. The following fails in this system: x * x = x for every zelbra x. Name the earliest zelbra, in the order the zelbras were introduced, that witnesses the failure.
+
+# Chapter 10. Collections that close on themselves
+
+## Why this chapter
+
+We turn to the jenfal of a zelbra, the vintka of a zelbra is naknak and the cloopal. The
+treatment is self contained given the material already established.
+
+Prerequisites are real here: chapters 5 and 7 supply the notions the statements below
+are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about zelbras covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+D9. The jenfal of a zelbra. The jenfal of a zelbra x is the number of zelbras in its
+vintka [x].
+
+Worked out for each zelbra: tarnnyr to 1; cloxil to 2; isktez to 2; iskmi to 2.
+
+D10. The cloopal. The cloopal of the system is the collection of zelbras whose jenfal is
+largest.
+
+In this system that picks out cloxil, isktez and iskmi, which is 3 of the 4 zelbras.
+
+## The shape of it
+
+The right picture for vintka is a spreading stain rather than a list. Drop one zelbra
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 2
+zelbras depending on where it started.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+T1 rests on D7 (the vintka of a zelbra) and D3 (naknak collections). The dependence is
+on the content of those results, not only on their vocabulary.
+
+R13 rests on D7 (the vintka of a zelbra) and D9 (the jenfal of a zelbra). Remove any one
+of them and the statement stops making sense, not merely stops being provable.
+
+T2 rests on D7 (the vintka of a zelbra) and T1 (the vintka of a zelbra is naknak). The
+dependence is on the content of those results, not only on their vocabulary.
+
+T3 rests on D1 (pyrtez zelbras), D9 (the jenfal of a zelbra) and T1 (the vintka of a
+zelbra is naknak). Remove any one of them and the statement stops making sense, not
+merely stops being provable.
+
+T4 rests on D9 (the jenfal of a zelbra) and T1 (the vintka of a zelbra is naknak). The
+dependence is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Here is (cloxil * tarnnyr) * (iskmi * isktez), reduced without skipping anything.
+    cloxil * tarnnyr = cloxil   (the table for *)
+    iskmi * isktez = cloxil   (the table for *)
+    cloxil * cloxil = tarnnyr   (the table for *)
+The expression comes to tarnnyr.
+
+A companion case, tarnnyr * (iskmi * cloxil), to show what the brackets are doing.
+    iskmi * cloxil = isktez   (the table for *)
+    tarnnyr * isktez = tarnnyr   (the table for *)
+That gives tarnnyr, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test iskmi <~ cloxil. The opalpyr of iskmi is iskmi, and cloxil lies outside it, so the
+relation fails.
+
+Now compute [iskmi]. Fold iskmi against itself, then fold whatever appeared against
+everything present, and stop when a round adds nothing. The result is tarnnyr and iskmi,
+of size 2.
+
+## A case that breaks
+
+R13. It is not the case that: There is a zelbra whose vintka is the whole system. The
+case that settles it: largest_span = 2, size = 4. Anyone carrying this claim over from a
+more familiar system will be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Every result in this chapter is downstream of closure under the first operation. Those
+are properties of this system, not of systems in general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: D1 (pyrtez zelbras), D3 (naknak collections) and
+D7 (the vintka of a zelbra).
+
+## Proofs
+
+T1. For every zelbra x, the collection [x] is naknak.
+
+  (1) [D7] [x] is built by taking x and closing under *.
+  (2) [D3] Closing under an operation is exactly the sealing condition.
+  (3) The carrier is finite, so the closure stops after finitely many rounds.
+
+Checked over 64 cases: every object, then every pair inside its span. The check is exhaustive, so the statement is settled rather than supported.
+
+R13. It is not the case that: There is a zelbra whose vintka is the whole system.
+
+  (1) [S2] Take the case largest_span = 2, size = 4, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 4 cases: every object and its span. The check is exhaustive, so the statement is settled rather than supported.
+
+T2. If S is naknak and contains x, then S contains all of [x].
+
+  (1) [D7] Every member of [x] is reached from x by finitely many applications of the operation.
+  (2) [D3] A sealed S containing x is closed under each of those applications.
+  (3) So each member of [x] is in S, by induction on the number of applications.
+
+Checked over 24 cases: every sealed collection against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T3. x * x = x holds if and only if [x] contains x alone.
+
+  (1) [D1] If x * x = x then {x} is already closed under *.
+  (2) [T1] So [x] = {x} and the jenfal is one.
+  (3) [D9] Conversely a span of one object must contain x * x, which is then x.
+
+Checked over 4 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T4. For every zelbra x, the jenfal of x divides 4.
+
+  (1) [T1] [x] is a naknak collection.
+  (2) [D9] Its size is the jenfal of x.
+  (3) The claim is that this size always divides 4.
+
+Checked over 4 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the jenfal of a zelbra and the cloopal. Each of these
+is used by name later, so the names are worth learning rather than looking up.
+
+Established here and safe to use: T1, T2, T3 and T4.
+
+Do not carry forward R13. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x028. How many zelbras lie in [cloxil]?
+  x029. What is the jenfal of iskmi?
+Level 4.
+  x034. Write down the cloopal in full.
+  x035. What is the largest jenfal any zelbra has?
+Level 5.
+  x030. Let z be (iskmi * isktez) * iskmi. What is the jenfal of z?
+  x031. Let z be iskmi * isktez - isktez. What is the jenfal of z?
+  x032. Let z be cloxil * isktez - isktez. What is the jenfal of z?
+  x033. Let z be (iskmi * isktez) * tarnnyr. What is the jenfal of z?

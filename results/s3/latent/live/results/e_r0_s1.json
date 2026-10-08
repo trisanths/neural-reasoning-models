@@ -1,0 +1,1324 @@
+{
+ "ckpt": "runs/latent/esweep.pt",
+ "arm": "latent_plan",
+ "style": 1,
+ "n": 64,
+ "induce": false,
+ "setup": {
+  "arm": "latent_plan",
+  "device": "cuda",
+  "episodes": 160000,
+  "kept": 160000,
+  "dropped_over_max_len": {},
+  "induction_examples": 160000,
+  "latent_scale": 0.0123,
+  "film_slots": 32,
+  "r": 4,
+  "r_cap": 32,
+  "curriculum": "none",
+  "k_max_chunks": 0,
+  "base_params": 375440384,
+  "added_params": 65536,
+  "added_params_frac": 0.00017455767358260532,
+  "effective_depth": 24,
+  "depth_recurrence": null
+ },
+ "head_config": {
+  "d_model": 1024,
+  "slots": 32,
+  "proj": "none",
+  "scale": 0.01229296624660492,
+  "params": 65536
+ },
+ "train_args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "arm": "latent_plan",
+  "out": "runs/latent/esweep.pt",
+  "steps": 8000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": null,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 50,
+  "seed": 0,
+  "r": 4,
+  "r_sampling": "",
+  "r_choices": "1,1,2,2,4,4,8,8,16,32",
+  "micro_batch": 32,
+  "save_every": 1000,
+  "proj": "none",
+  "film_slots": 0,
+  "backprop_last_k": 3,
+  "curriculum": "none",
+  "latents_per_step": 2,
+  "stage_steps": 1000,
+  "stage_mix": 0.3,
+  "halting": "none",
+  "ponder_beta": 0.01,
+  "depth_recurrence": "",
+  "induction_frac": 0.5
+ },
+ "induction": [],
+ "cells": [
+  {
+   "n": 64,
+   "greedy": 1.0,
+   "greedy_correct": 64,
+   "sampled_mean": 1.0,
+   "sampled_rates": [
+    1.0,
+    1.0
+   ],
+   "sampled_any": 1.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 46.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 12.0,
+    "decode_positions_per_example": 12.0,
+    "prompt_seconds_per_example": 0.005476378562434547,
+    "reason_seconds_per_example": 4.904687784801354e-07,
+    "decode_seconds_per_example": 0.016149081984394797,
+    "total_seconds_per_example": 0.021625951015607825,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1392.0
+   },
+   "wall_seconds": 2.72,
+   "example_output": "t1 = / 11 3 ; ans t1",
+   "reasons": {
+    "ok": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 1.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 60,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 64,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 1
+  },
+  {
+   "n": 64,
+   "greedy": 0.984375,
+   "greedy_correct": 63,
+   "sampled_mean": 0.9921875,
+   "sampled_rates": [
+    1.0,
+    0.984375
+   ],
+   "sampled_any": 1.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 48.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 20.0,
+    "decode_positions_per_example": 20.0,
+    "prompt_seconds_per_example": 0.0015670199219357528,
+    "reason_seconds_per_example": 4.31734292760666e-07,
+    "decode_seconds_per_example": 0.0260128055314226,
+    "total_seconds_per_example": 0.027580257187651114,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1632.0
+   },
+   "wall_seconds": 3.78,
+   "example_output": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+   "reasons": {
+    "ok": 63,
+    "wrong_value": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.984375,
+    "mean_steps_written": 2.0,
+    "mean_steps_gold": 2.0,
+    "max_new": 72,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 63,
+     "n": 64,
+     "steps_written": 128,
+     "steps_gold": 128,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 2
+  },
+  {
+   "n": 64,
+   "greedy": 0.984375,
+   "greedy_correct": 63,
+   "sampled_mean": 0.984375,
+   "sampled_rates": [
+    0.984375,
+    0.984375
+   ],
+   "sampled_any": 0.984375,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 50.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0015121868592586907,
+    "reason_seconds_per_example": 4.722031690107542e-07,
+    "decode_seconds_per_example": 0.036812576578199696,
+    "total_seconds_per_example": 0.0383252356406274,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1872.0
+   },
+   "wall_seconds": 5.24,
+   "example_output": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+   "reasons": {
+    "ok": 63,
+    "wrong_value": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.984375,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 3.0,
+    "max_new": 84,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 63,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 192,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 3
+  },
+  {
+   "n": 64,
+   "greedy": 0.046875,
+   "greedy_correct": 3,
+   "sampled_mean": 0.046875,
+   "sampled_rates": [
+    0.046875,
+    0.046875
+   ],
+   "sampled_any": 0.046875,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 52.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0015401020938270449,
+    "reason_seconds_per_example": 4.581248731483356e-07,
+    "decode_seconds_per_example": 0.03646567773444076,
+    "total_seconds_per_example": 0.03800623795314095,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1920.0
+   },
+   "wall_seconds": 5.16,
+   "example_output": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; ans t3",
+   "reasons": {
+    "wrong_value": 61,
+    "ok": 3
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 4.0,
+    "max_new": 96,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 256,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 4
+  },
+  {
+   "n": 64,
+   "greedy": 0.03125,
+   "greedy_correct": 2,
+   "sampled_mean": 0.03125,
+   "sampled_rates": [
+    0.03125,
+    0.03125
+   ],
+   "sampled_any": 0.03125,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 54.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0015857481093917158,
+    "reason_seconds_per_example": 4.5845320073567564e-07,
+    "decode_seconds_per_example": 0.03761422195304931,
+    "total_seconds_per_example": 0.03920042851564176,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1968.0
+   },
+   "wall_seconds": 5.31,
+   "example_output": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 3 ; ans t3",
+   "reasons": {
+    "wrong_value": 62,
+    "ok": 2
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 5.0,
+    "max_new": 108,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 320,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 5
+  },
+  {
+   "n": 64,
+   "greedy": 0.03125,
+   "greedy_correct": 2,
+   "sampled_mean": 0.03125,
+   "sampled_rates": [
+    0.03125,
+    0.03125
+   ],
+   "sampled_any": 0.03125,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 56.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0014703393125046205,
+    "reason_seconds_per_example": 4.067343297720072e-07,
+    "decode_seconds_per_example": 0.037010619421835145,
+    "total_seconds_per_example": 0.03848136546866954,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2016.0
+   },
+   "wall_seconds": 5.28,
+   "example_output": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 12 ; ans t3",
+   "reasons": {
+    "wrong_value": 62,
+    "ok": 2
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 6.0,
+    "max_new": 120,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 384,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 6
+  },
+  {
+   "n": 64,
+   "greedy": 0.015625,
+   "greedy_correct": 1,
+   "sampled_mean": 0.015625,
+   "sampled_rates": [
+    0.015625,
+    0.015625
+   ],
+   "sampled_any": 0.015625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 60.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0015613190313388259,
+    "reason_seconds_per_example": 4.912500344289583e-07,
+    "decode_seconds_per_example": 0.03777652424992084,
+    "total_seconds_per_example": 0.039338334531294095,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2112.0
+   },
+   "wall_seconds": 5.37,
+   "example_output": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 9 ; ans t3",
+   "reasons": {
+    "wrong_value": 63,
+    "ok": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 8.0,
+    "max_new": 144,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 512,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 8
+  },
+  {
+   "n": 64,
+   "greedy": 0.0625,
+   "greedy_correct": 4,
+   "sampled_mean": 0.0546875,
+   "sampled_rates": [
+    0.046875,
+    0.0625
+   ],
+   "sampled_any": 0.0625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 68.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0015893169844503063,
+    "reason_seconds_per_example": 4.500311661104206e-07,
+    "decode_seconds_per_example": 0.0366216599687732,
+    "total_seconds_per_example": 0.03821142698438962,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2304.0
+   },
+   "wall_seconds": 5.24,
+   "example_output": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 12 ; ans t3",
+   "reasons": {
+    "wrong_value": 60,
+    "ok": 4
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 12.0,
+    "max_new": 192,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 768,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 12
+  },
+  {
+   "n": 64,
+   "greedy": 0.015625,
+   "greedy_correct": 1,
+   "sampled_mean": 0.015625,
+   "sampled_rates": [
+    0.015625,
+    0.015625
+   ],
+   "sampled_any": 0.015625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 76.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.00148527435953838,
+    "reason_seconds_per_example": 4.172030685367645e-07,
+    "decode_seconds_per_example": 0.03652106328127047,
+    "total_seconds_per_example": 0.03800675484387739,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2496.0
+   },
+   "wall_seconds": 5.22,
+   "example_output": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; ans t3",
+   "reasons": {
+    "wrong_value": 63,
+    "ok": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 16.0,
+    "max_new": 240,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 1024,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 16
+  },
+  {
+   "n": 64,
+   "greedy": 0.0625,
+   "greedy_correct": 4,
+   "sampled_mean": 0.0625,
+   "sampled_rates": [
+    0.0625,
+    0.0625
+   ],
+   "sampled_any": 0.0625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 108.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0017556332500134886,
+    "reason_seconds_per_example": 4.173593879386317e-07,
+    "decode_seconds_per_example": 0.03762301562505854,
+    "total_seconds_per_example": 0.03937906623445997,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 3264.0
+   },
+   "wall_seconds": 5.46,
+   "example_output": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 9 ; ans t3",
+   "reasons": {
+    "wrong_value": 60,
+    "ok": 4
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 32.0,
+    "max_new": 432,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 2048,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "sequential",
+   "depth": 32
+  },
+  {
+   "n": 64,
+   "greedy": 1.0,
+   "greedy_correct": 64,
+   "sampled_mean": 1.0,
+   "sampled_rates": [
+    1.0,
+    1.0
+   ],
+   "sampled_any": 1.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 66.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 12.0,
+    "decode_positions_per_example": 12.0,
+    "prompt_seconds_per_example": 0.001598201531351151,
+    "reason_seconds_per_example": 4.878280606135377e-07,
+    "decode_seconds_per_example": 0.016169386937576746,
+    "total_seconds_per_example": 0.01776807629698851,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1872.0
+   },
+   "wall_seconds": 2.47,
+   "example_output": "t1 = score 40 true ; ans t1",
+   "reasons": {
+    "ok": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 1.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 60,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 64,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "breadth",
+   "depth": 1
+  },
+  {
+   "n": 64,
+   "greedy": 1.0,
+   "greedy_correct": 64,
+   "sampled_mean": 1.0,
+   "sampled_rates": [
+    1.0,
+    1.0
+   ],
+   "sampled_any": 1.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 74.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 13.0,
+    "decode_positions_per_example": 13.0,
+    "prompt_seconds_per_example": 0.0015386335625180436,
+    "reason_seconds_per_example": 4.535937705441029e-07,
+    "decode_seconds_per_example": 0.017974525874933533,
+    "total_seconds_per_example": 0.01951361303122212,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2088.0
+   },
+   "wall_seconds": 2.67,
+   "example_output": "t1 = score 23 false true ; ans t1",
+   "reasons": {
+    "ok": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 1.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 72,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 64,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "breadth",
+   "depth": 2
+  },
+  {
+   "n": 64,
+   "greedy": 1.0,
+   "greedy_correct": 64,
+   "sampled_mean": 1.0,
+   "sampled_rates": [
+    1.0,
+    1.0
+   ],
+   "sampled_any": 1.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 82.5,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 14.0,
+    "decode_positions_per_example": 14.0,
+    "prompt_seconds_per_example": 0.002304985749901789,
+    "reason_seconds_per_example": 5.125313009557431e-07,
+    "decode_seconds_per_example": 0.027586866374917918,
+    "total_seconds_per_example": 0.029892364656120662,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2316.0
+   },
+   "wall_seconds": 3.48,
+   "example_output": "t1 = score 56 true false true ; ans t1",
+   "reasons": {
+    "ok": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 1.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 84,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 64,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "breadth",
+   "depth": 3
+  },
+  {
+   "n": 64,
+   "greedy": 0.0,
+   "greedy_correct": 0,
+   "sampled_mean": 0.0,
+   "sampled_rates": [
+    0.0,
+    0.0
+   ],
+   "sampled_any": 0.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 91.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 14.0,
+    "decode_positions_per_example": 14.0,
+    "prompt_seconds_per_example": 0.0022424047344884457,
+    "reason_seconds_per_example": 4.79546770293382e-07,
+    "decode_seconds_per_example": 0.027434576578230008,
+    "total_seconds_per_example": 0.029677460859488747,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2520.0
+   },
+   "wall_seconds": 3.41,
+   "example_output": "t1 = score 57 true true true ; ans t1",
+   "reasons": {
+    "execute": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 96,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 0,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "breadth",
+   "depth": 4
+  },
+  {
+   "n": 64,
+   "greedy": 0.0,
+   "greedy_correct": 0,
+   "sampled_mean": 0.0,
+   "sampled_rates": [
+    0.0,
+    0.0
+   ],
+   "sampled_any": 0.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 98.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 14.0,
+    "decode_positions_per_example": 14.0,
+    "prompt_seconds_per_example": 0.0022811922187884193,
+    "reason_seconds_per_example": 5.318904641171684e-07,
+    "decode_seconds_per_example": 0.026785134390706844,
+    "total_seconds_per_example": 0.02906685849995938,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2688.0
+   },
+   "wall_seconds": 3.38,
+   "example_output": "t1 = score 31 true true false ; ans t1",
+   "reasons": {
+    "execute": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 108,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 0,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "breadth",
+   "depth": 5
+  },
+  {
+   "n": 64,
+   "greedy": 0.0,
+   "greedy_correct": 0,
+   "sampled_mean": 0.0,
+   "sampled_rates": [
+    0.0,
+    0.0
+   ],
+   "sampled_any": 0.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 106.5,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 14.0,
+    "decode_positions_per_example": 14.0,
+    "prompt_seconds_per_example": 0.002186395999956403,
+    "reason_seconds_per_example": 4.590624484990258e-07,
+    "decode_seconds_per_example": 0.026639626968858465,
+    "total_seconds_per_example": 0.028826482031263367,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2892.0
+   },
+   "wall_seconds": 3.35,
+   "example_output": "t1 = score 40 true false false ; ans t1",
+   "reasons": {
+    "execute": 64
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 1.0,
+    "mean_steps_gold": 1.0,
+    "max_new": 120,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 0,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 64,
+     "steps_gold": 64,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "breadth",
+   "depth": 6
+  },
+  {
+   "n": 64,
+   "greedy": 0.0625,
+   "greedy_correct": 4,
+   "sampled_mean": 0.0546875,
+   "sampled_rates": [
+    0.0625,
+    0.046875
+   ],
+   "sampled_any": 0.0625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 49.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 20.0,
+    "decode_positions_per_example": 20.0,
+    "prompt_seconds_per_example": 0.0015296586719841798,
+    "reason_seconds_per_example": 4.917186515740468e-07,
+    "decode_seconds_per_example": 0.02687774982814517,
+    "total_seconds_per_example": 0.028407900218780924,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1656.0
+   },
+   "wall_seconds": 3.95,
+   "example_output": "t1 = ^ 7 6 ; t2 = ^ 5 t1 ; ans t2",
+   "reasons": {
+    "wrong_value": 60,
+    "ok": 4
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0625,
+    "mean_steps_written": 2.0,
+    "mean_steps_gold": 2.0,
+    "max_new": 72,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 4,
+     "n": 64,
+     "steps_written": 128,
+     "steps_gold": 128,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "novel",
+   "depth": 2
+  },
+  {
+   "n": 64,
+   "greedy": 0.015625,
+   "greedy_correct": 1,
+   "sampled_mean": 0.015625,
+   "sampled_rates": [
+    0.015625,
+    0.015625
+   ],
+   "sampled_any": 0.015625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 53.5,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.0021604624062092626,
+    "reason_seconds_per_example": 4.543750264929258e-07,
+    "decode_seconds_per_example": 0.05386854735934321,
+    "total_seconds_per_example": 0.056029464140578966,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 1956.0
+   },
+   "wall_seconds": 6.49,
+   "example_output": "t1 = ^ 10 3 ; t2 = ^ t1 12 ; t3 = ^ t2 3 ; ans t3",
+   "reasons": {
+    "wrong_value": 63,
+    "ok": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 3.0,
+    "max_new": 84,
+    "counts": {
+     "parsed": 64,
+     "well_typed": 64,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 192,
+     "steps_gold": 192,
+     "steps_written_n": 64
+    }
+   },
+   "kind": "novel",
+   "depth": 3
+  },
+  {
+   "n": 64,
+   "greedy": 0.0,
+   "greedy_correct": 0,
+   "sampled_mean": 0.0078125,
+   "sampled_rates": [
+    0.0,
+    0.015625
+   ],
+   "sampled_any": 0.015625,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 56.5,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.002347172140503062,
+    "reason_seconds_per_example": 4.7062508201634046e-07,
+    "decode_seconds_per_example": 0.0537249748749673,
+    "total_seconds_per_example": 0.05607261764055238,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2028.0
+   },
+   "wall_seconds": 6.48,
+   "example_output": "t1 = > 2 7 ; t2 = > t1 7 ; t3 = > t2 11 ; ans t3",
+   "reasons": {
+    "wrong_value": 63,
+    "plan_parse": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 0.984375,
+    "well_typed_rate": 0.984375,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 4.0,
+    "max_new": 96,
+    "counts": {
+     "parsed": 63,
+     "well_typed": 63,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 189,
+     "steps_gold": 256,
+     "steps_written_n": 63
+    }
+   },
+   "kind": "novel",
+   "depth": 4
+  },
+  {
+   "n": 64,
+   "greedy": 0.03125,
+   "greedy_correct": 2,
+   "sampled_mean": 0.03125,
+   "sampled_rates": [
+    0.03125,
+    0.03125
+   ],
+   "sampled_any": 0.03125,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 60.5,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.0,
+    "decode_positions_per_example": 28.0,
+    "prompt_seconds_per_example": 0.002174823843802187,
+    "reason_seconds_per_example": 4.629687282431405e-07,
+    "decode_seconds_per_example": 0.05330841534373576,
+    "total_seconds_per_example": 0.05548370215626619,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2124.0
+   },
+   "wall_seconds": 6.53,
+   "example_output": "t1 = > 3 9 ; t2 = > t1 12 ; t3 = > t2 12 ; ans t3",
+   "reasons": {
+    "wrong_value": 61,
+    "ok": 2,
+    "plan_parse": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 0.984375,
+    "well_typed_rate": 0.984375,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 5.0,
+    "max_new": 108,
+    "counts": {
+     "parsed": 63,
+     "well_typed": 63,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 189,
+     "steps_gold": 320,
+     "steps_written_n": 63
+    }
+   },
+   "kind": "novel",
+   "depth": 5
+  },
+  {
+   "n": 64,
+   "greedy": 0.0,
+   "greedy_correct": 0,
+   "sampled_mean": 0.0,
+   "sampled_rates": [
+    0.0,
+    0.0
+   ],
+   "sampled_any": 0.0,
+   "samples": 2,
+   "temperature": 0.8,
+   "r_steps": 0,
+   "cost": {
+    "examples": 64,
+    "layers_per_pass": 24,
+    "prompt_passes_per_example": 1.0,
+    "prompt_positions_per_example": 64.0,
+    "reason_passes_per_example": 0.0,
+    "reason_positions_per_example": 0.0,
+    "decode_passes_per_example": 28.5,
+    "decode_positions_per_example": 28.5,
+    "prompt_seconds_per_example": 0.001471803718686715,
+    "reason_seconds_per_example": 4.5328124542720616e-07,
+    "decode_seconds_per_example": 0.03878178670311172,
+    "total_seconds_per_example": 0.04025404370304386,
+    "reason_layer_apps_per_example": 0.0,
+    "total_layer_apps_per_example": 2220.0
+   },
+   "wall_seconds": 5.51,
+   "example_output": "t1 = ^ 10 1 ; t2 = ^ 7 t1 ; t3 = ^ t2 7 ; ans t3",
+   "reasons": {
+    "wrong_value": 61,
+    "plan_parse": 2,
+    "execute": 1
+   },
+   "plan": {
+    "n": 64,
+    "parse_rate": 0.96875,
+    "well_typed_rate": 0.96875,
+    "exact_gold_rate": 0.0,
+    "mean_steps_written": 3.0,
+    "mean_steps_gold": 6.0,
+    "max_new": 120,
+    "counts": {
+     "parsed": 62,
+     "well_typed": 62,
+     "exact_gold": 0,
+     "n": 64,
+     "steps_written": 186,
+     "steps_gold": 384,
+     "steps_written_n": 62
+    }
+   },
+   "kind": "novel",
+   "depth": 6
+  }
+ ],
+ "shape": {
+  "sequential@R0": {
+   "depths": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    8,
+    12,
+    16,
+    32
+   ],
+   "greedy": [
+    1.0,
+    0.984375,
+    0.984375,
+    0.046875,
+    0.03125,
+    0.03125,
+    0.015625,
+    0.0625,
+    0.015625,
+    0.0625
+   ],
+   "points": 10,
+   "log_slope_per_depth": -0.07582029436687412,
+   "decay_per_depth": 0.9269827756188241,
+   "intercept": 0.18017662257222214,
+   "half_life_depths": 9.141974274143431,
+   "first_depth_below_0.5": 4,
+   "first_depth_below_0.25": 4,
+   "first_depth_below_0.1": 4
+  },
+  "breadth@R0": {
+   "depths": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "greedy": [
+    1.0,
+    1.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "points": 3,
+   "log_slope_per_depth": 0.0,
+   "decay_per_depth": 1.0,
+   "intercept": 1.0,
+   "half_life_depths": Infinity,
+   "first_depth_below_0.5": 4,
+   "first_depth_below_0.25": 4,
+   "first_depth_below_0.1": 4
+  },
+  "novel@R0": {
+   "depths": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "greedy": [
+    0.0625,
+    0.015625,
+    0.0,
+    0.03125,
+    0.0
+   ],
+   "points": 3,
+   "log_slope_per_depth": -0.14853153869141691,
+   "decay_per_depth": 0.8619728212469777,
+   "intercept": 0.05127095975047738,
+   "half_life_depths": 4.666666666666664,
+   "first_depth_below_0.5": 2,
+   "first_depth_below_0.25": 2,
+   "first_depth_below_0.1": 2
+  }
+ }
+}

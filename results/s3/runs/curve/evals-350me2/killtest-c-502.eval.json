@@ -1,0 +1,4739 @@
+{
+ "meta": {
+  "run_dir": "/home/ec2-user/eval-e2/ckpts/killtest-c-502",
+  "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-502/ckpt-0026700.pt",
+  "step": 26700,
+  "regime": "c",
+  "train_seed": 502,
+  "model_config": {
+   "d_ff": 2816,
+   "d_model": 1024,
+   "max_seq_len": 4096,
+   "n_heads": 16,
+   "n_layers": 24,
+   "norm_eps": 1e-05,
+   "rope_theta": 10000.0,
+   "vocab_size": 32768
+  },
+  "device": "cuda",
+  "battery_args": {
+   "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+   "heldout": "/home/ec2-user/data/regime_c/heldout.jsonl",
+   "out": "/home/ec2-user/eval-e2/out",
+   "device": "cuda",
+   "step": 26700,
+   "naturalized_n": 0,
+   "probes_n": 0,
+   "heldout_episodes": 500,
+   "noise_episodes": 200,
+   "noise_rates": [
+    0.0,
+    0.1,
+    0.25,
+    0.5
+   ],
+   "max_rounds": 6,
+   "nat_max_new": 32,
+   "heldout_max_new": 64,
+   "noise_max_new": 128,
+   "seed": 0,
+   "components": "naturalized,heldout,noise",
+   "skip_existing": false
+  }
+ },
+ "naturalized": {
+  "clean": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.004,
+   "contains": 0.004,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "3,400"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "3,900, valued"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "customer is inverted"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "Grigsbybottling Company"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Bebeman"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "2,300"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "2,900"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "3,000"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "1889"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "3,700"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,400"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "380"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "4403"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Trembru"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Grertru"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Bromvax"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdre"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdre"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Brandt"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdre"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Bromvax"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "Grusdre"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Bringra"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "Berthe"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Brelgri"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "Brertro"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "Gralgri"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "Grommet"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bresvax"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "following"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,377"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Duxtre"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "Bramble"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "Brunta"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdru"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdru"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Brennan"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "3.6"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,100"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Bromvrin"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Dovro"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bravre"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,300"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "3,900"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivri"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "new protocol"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "Drunta"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "3,000"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    }
+   ]
+  },
+  "contradiction": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.004,
+   "contains": 0.004,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "3,400"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "3,900, valued"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "customer is inverted"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "Grigsbybottling Company"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Bebeman"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "2,300"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "2,900"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "3,000"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "1889"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "3,700"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,400"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "380"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "4403"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdre"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdre"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdre"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Brandt"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdre"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Bromvax"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "Grusdre"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Bringra"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Brelgri"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "Brertro"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "Gralgri"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "Grommet"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bresvax"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "following"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,377"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Duxtre"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Bruklo"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "Bramble"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "18"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Bromdru"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdru"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Brennan"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "3.6"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "Brertro"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,100"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Bromvrin"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdre"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Dovro"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Bravre"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,300"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "3,900"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "Grusvax"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivri"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "DRIXKLU"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "3,000"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    }
+   ],
+   "injection_rate": 0.15,
+   "injection_seed": 20260824,
+   "n_contradicted": 36
+  },
+  "ocr": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.012,
+   "contains": 0.012,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Gruldru"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "3,900, valuedurider"
+    },
+    {
+     "id": "filing-013",
+     "em": true,
+     "contains": true,
+     "pred": "Talia okoye"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "Grixtre"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "2,300"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "380,000"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "Grusdre"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "Gesdre"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,400"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "3.1"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "Grusdre"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Grusdre"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Gromdre"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "340"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "18"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Viksunol"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Grusdre"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Grenfell"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Gromdre"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "999"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Dena Kowa"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "Gralgri"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "fleur"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "fresh with a"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "Truklo"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "same port"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "few run"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "Grommam"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "fewer than"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "cab door"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Truklo"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "few minutes"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "few feet"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,377"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Duarte"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "2,600"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "fewest"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "0."
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Dralgri"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "cruise of criished"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "Bruntu"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "fewer"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "Grixdre"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "2,040"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Drertru"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Gruklo"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "Grennan"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "Gemdru"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "few minutes"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "3,080"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "few days"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-041",
+     "em": true,
+     "contains": true,
+     "pred": "340"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "3,100"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Marovic"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "310,o00"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "48,00"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Groldre"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "3,300"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "3,900,"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "GREXKLU"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivri"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "2,800"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "6"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "Trustar"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "380"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "3,"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "6"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "3,000"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "3,050"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "3,000"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    }
+   ],
+   "ocr_rate": 0.05,
+   "ocr_seed": 20260825
+  },
+  "elicitation": "episode_trace"
+ },
+ "heldout": {
+  "suite": "heldout_worlds",
+  "n_episodes": 500,
+  "n_questions": 2314,
+  "accuracy": 0.7615,
+  "chance": 0.3101,
+  "per_domain": {
+   "corporate": {
+    "n": 698,
+    "correct": 691,
+    "accuracy": 0.99
+   },
+   "regulatory": {
+    "n": 556,
+    "correct": 126,
+    "accuracy": 0.2266
+   },
+   "logistics": {
+    "n": 499,
+    "correct": 423,
+    "accuracy": 0.8477
+   },
+   "kinship_temporal": {
+    "n": 561,
+    "correct": 522,
+    "accuracy": 0.9305
+   }
+  },
+  "per_type": {
+   "lookup": {
+    "n": 1426,
+    "correct": 1310,
+    "accuracy": 0.9187
+   },
+   "multi_hop": {
+    "n": 514,
+    "correct": 327,
+    "accuracy": 0.6362
+   },
+   "yes_no": {
+    "n": 374,
+    "correct": 125,
+    "accuracy": 0.3342
+   }
+  },
+  "use_retrieval": true,
+  "mean_rounds": 0.8902
+ },
+ "noise_axis": {
+  "suite": "noise_axis",
+  "n": 925,
+  "seed": 0,
+  "rates": [
+   0.0,
+   0.1,
+   0.25,
+   0.5
+  ],
+  "accuracy_per_rate": {
+   "0": 0.5816216216216217,
+   "0.1": 0.5545945945945946,
+   "0.25": 0.5481081081081081,
+   "0.5": 0.4508108108108108
+  },
+  "slope": -0.25250625074413635,
+  "clean_accuracy": 0.5816216216216217,
+  "noisiest_accuracy": 0.4508108108108108,
+  "degradation": 0.13081081081081086,
+  "n_episodes": 200
+ },
+ "timings": {
+  "load_s": 8.8,
+  "naturalized_clean_s": 14.3,
+  "naturalized_contradiction_s": 14.1,
+  "naturalized_ocr_s": 14.8,
+  "heldout_s": 554.6,
+  "noise_axis_s": 772.6,
+  "total_s": 1379.2
+ }
+}

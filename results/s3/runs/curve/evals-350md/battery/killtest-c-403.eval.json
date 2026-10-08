@@ -1,0 +1,4739 @@
+{
+ "meta": {
+  "run_dir": "/home/ec2-user/eval-350md/ckpts/killtest-c-403",
+  "checkpoint": "/home/ec2-user/eval-350md/ckpts/killtest-c-403/ckpt-0026700.pt",
+  "step": 26700,
+  "regime": "c",
+  "train_seed": 403,
+  "model_config": {
+   "d_ff": 2816,
+   "d_model": 1024,
+   "max_seq_len": 4096,
+   "n_heads": 16,
+   "n_layers": 24,
+   "norm_eps": 1e-05,
+   "rope_theta": 10000.0,
+   "vocab_size": 32768
+  },
+  "device": "cuda",
+  "battery_args": {
+   "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+   "heldout": "/home/ec2-user/data/regime_c/heldout.jsonl",
+   "out": "/home/ec2-user/eval-350md/out",
+   "device": "cuda",
+   "step": null,
+   "naturalized_n": 0,
+   "probes_n": 0,
+   "heldout_episodes": 500,
+   "noise_episodes": 200,
+   "noise_rates": [
+    0.0,
+    0.1,
+    0.25,
+    0.5
+   ],
+   "max_rounds": 6,
+   "nat_max_new": 32,
+   "heldout_max_new": 64,
+   "noise_max_new": 128,
+   "seed": 0,
+   "components": "naturalized,heldout,noise",
+   "skip_existing": false
+  }
+ },
+ "naturalized": {
+  "clean": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.008,
+   "contains": 0.012,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.02
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "1849"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-013",
+     "em": true,
+     "contains": true,
+     "pred": "Talia Okoye"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Govin?\nThe Larkfield Irrigation District, which is a subsidiary of the Larkfield County Water Authority, has a history of water quality"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "1949"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "1897"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "1874"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "1897. The hens lay in the year, and the coop is a good one. The coop is a good one, and the hens lay in"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "1891"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "1869"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "1923"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "1953"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "1874"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "1949"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "1874"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "1823"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "1926"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "1933"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "1895"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "1933"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "1830"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "1897"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "1896"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "1891"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "18.\nThe first glazing was done in the early 1970s, and the second was done in the early 1980s. The first glazing was done"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "1850"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "12 liter basket of well milled dessert apples give?\n- The New York Times, December 3, 1912.\n- The New York Times, December"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "1962"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Dubergate"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "1936"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Runsu Klemplunvres"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-014",
+     "em": true,
+     "contains": true,
+     "pred": "24"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "1957"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Dirkusger?\nThe missing dog was found in the woods near the village of Molsheim. The dog was found in the woods near the village"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "1927"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "1922"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "2011"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "1871"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "18,000, onslow: The market is closed, and the market is closed. The market is closed, and the market is closed. The market"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "186"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "18,000 to the plumber. The plumber's answer: the plumber's answer: the plumber's answer: the plumber's answer:"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "19"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "187. The Cormack plan, the second option, is a real fundraiser, and the third option, the second option, is a real"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "19:40. The search was done by the team leader, and the team leader was the first to find the casualty. The team leader was the first"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "1850"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "1897. The school has a good reputation, and the children are very happy. The school has a good reputation, and the children are very happy. The"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": true,
+     "pred": "18:30: The boat is now the 17:15, and the captain is the captain, and the captain is the captain. The captain is the captain"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "no: the meter read in the dark sky, the light meter read in the dark sky, the light meter read in the dark sky, the light meter read"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "no, but the bats were not found. The postcard, the postcard, the postcard, the postcard, the postcard, the postcard"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "no: the show is closed. The first question: the first question: the first question: the first question: the first question: the first question: the"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "18"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "18,000. The east sail frames are the same as the west sail frames, but the east sail frames are the same as the west sail frames. The"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "1856"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "1804"
+    }
+   ]
+  },
+  "contradiction": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.012,
+   "contains": 0.016,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.04,
+     "contains": 0.04
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.02
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "1849"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-013",
+     "em": true,
+     "contains": true,
+     "pred": "Talia Okoye"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1849"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Govin?\nThe Larkfield Irrigation District, which is a subsidiary of the Larkfield County Water Authority, has a history of water quality"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "1949"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "1897"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-037",
+     "em": true,
+     "contains": true,
+     "pred": "19"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "187\nThe farm is located in the heart of the Meridian district, a rural area of the Meridian district that is home to the largest organic farm"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "1874"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "1897. The hens lay in the year, and the coop is a good one. The coop is a good one, and the hens lay in"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "1895"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "1869"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "1923"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "1953"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "1874"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "1959"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "1874"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "1823"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "1953"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "1895"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "1933"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "1830"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "1897"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "1896"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "1891"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "18.\nThe first glazing was done in the early 1970s, and the second was done in the early 1980s. The first glazing was done"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "1850"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "12 liter basket of well milled dessert apples give?\n- The New York Times, December 3, 1912.\n- The New York Times, December"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "1962"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Dubergate"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "1936"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Runsu Klemplunvres"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-014",
+     "em": true,
+     "contains": true,
+     "pred": "24"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "1957"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Dirkusger?\nThe missing dog was found in the woods near the village of Molsheim. The dog was found in the woods near the village"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "1927"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "1921"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "2011"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "1965"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "1803"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "18,000, onslow: The market is closed, and the market is closed. The market is closed, and the market is closed. The market"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "186"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "18,000 to the plumber. The plumber's answer: the plumber's answer: the plumber's answer: the plumber's answer:"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "19"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "187,000. The club's capital fund is $1,000,000, and the club's capital fund is $1,000,000."
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "19:30. The search was done by the team leader, and the search was done by the team leader. The search was done by the team leader,"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "1850"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "1820"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": true,
+     "pred": "18:30: The boat is now the 17:15, and the captain is the captain, and the captain is the captain. The captain is the captain"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "no: the meter read in the dark sky, the light meter read in the dark sky, the light meter read in the dark sky, the light meter read"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "no, but the bats were not found. The postcard, the postcard, the postcard, the postcard, the postcard, the postcard"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "no: the show is closed. The first question: the first question: the first question: the first question: the first question: the first question: the"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "18"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "18,000. The east sail frames are the same as the west sail frames, but the east sail frames are the same as the west sail frames. The"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "1856"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "1804"
+    }
+   ],
+   "injection_rate": 0.15,
+   "injection_seed": 20260824,
+   "n_contradicted": 36
+  },
+  "ocr": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.008,
+   "contains": 0.016,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.02
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.04,
+     "contains": 0.06
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "1865"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "1962"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1866"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Separvrom is the  sirnunfirfirfirfirfirfirfirfirfirfirf"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "1921"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "no. The office's model is a neonesl trai1er count at dezign capacity 95 acre fect, piacing the struclure"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "no to the schcartment, and the applicant is a bounclery of the racirig line. The schcartment is a bouncl"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "18,000dollin"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "1949"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "19. The applicant proposes to replace the storefront installed iri 1974, an aluminum and plate glass assembly the district survey rates as rioncontr1but"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": true,
+     "pred": "19. The heron nest is a large, open, open-sided, open-sided, open-sided, open-sided, open-sided,"
+    },
+    {
+     "id": "filing-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "1871"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "1871"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "187"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "1926"
+    },
+    {
+     "id": "letter-008",
+     "em": false,
+     "contains": false,
+     "pred": "1897. The hens lay in the year, and the os of the year, and the os of the year, and the os of the"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "1891"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "1926"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Zone, the queen, and the bee, and the bee, and the bee, and the bee, and the bee, and the bee, and the"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "1887"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "1926"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "1880"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "1957"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "1820"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "19. The first winter, the first winter, the first winter, the first winter, the first winter, the first winter, the first winter, the first"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "no, the committee was formed in the year of the first vote, and the name was chosen by the honorable committee chairman, who was a member of the"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "1823"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "1926"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "1933"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "1897. I am a man of the world, and I am a man of the world. I am a man of the world, and I am a"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "1937"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "1830"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "1896"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "18. The panel is a single-panel panel, with a single-panel panel on the roof. The panel is a single-panel panel"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "no. The cable is a new, new, new, new, new, new, new, new, new, new, new, new, new,"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "1897"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "1936"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "12 liter basket of well milled dessert apples give?\n- How to make a good"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "no to the tower clock, and the tower clock, and the tower clock, and the tower clock, and the tower clock, and the tower clock, and"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "18 1nch cenlers with a 1omillimeter masonry bit, giving the half inch floor gyu4ed floor for a standard 80 inch door"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Dubergate public library? The library was built in the late sixties, and was built in the late sixties. The library was built"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "1893"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "1936"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "1887"
+    },
+    {
+     "id": "news-014",
+     "em": true,
+     "contains": true,
+     "pred": "24"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "percentage of catered meals did the district vvill spend 310,000 dollars to reequip kitchens at its four schoo1s, draw"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Dirklelfes?\nThe Monolay ciinic matohed her iron from a flyer at the far side of the river"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "1927. The bank has a branch in the village of St. Mary, and a branch in the village of St. Mary. The bank has a branch"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "1846"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "1870"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "1936"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-036",
+     "em": true,
+     "contains": true,
+     "pred": "1891"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "nearly, sbe, and the birds were singing at the same time.\nThe birds were singing at the same time, and the birds were singing at"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "1888"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "2011. The group has been planting trees since the first year, and the group has been planting since the first year. The group has been planting since the first"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "1887"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "1937"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "1966"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "1897"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": true,
+     "pred": "187 grams. The largest recovered fragment weighed 410 grams. The largest recovered fragment weighed 410 grams. The largest recovered fragment weighed 410 grams. The"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "no. The bell is a pcal of the first bell, cast in 1671 and known a5 0ld Gabriel, crockod 1n 1994,"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "18,000. The  crop is heavy  this year, tbe grovvers are bcgging, and greengage jam sold out in f"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "no  tbe the tbe the tbe the tbe the tbe the tbe the tbe the tbe the tbe the tbe the"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "188. Harwood: The panel'sowu score is a score of 20 for voice, 20 for stage craft, and 20 for stage erat."
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "1868"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "yes. The two cheeses tiebrende, the one that was the most important, the one that was the most important, the one that was the"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "no, and the  eost money is $1,000,000. The  eost money is $1,000,000. The  e"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "18. Marchand: The eel is a good meal, and I am not a chef. Marchand: The eel is a good meal,"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "no: at the cairn, at the cairn, at the ridgecairn, at the ridgecairn, at the ridgec"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "1899"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "no. The hedge and partial mesh plan costs the  poud, which is a lhemsolve, and the partial mesh plan costs the"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "186"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "no: The plume is a large, dark, dark, dark, dark, dark, dark, dark, dark, dark, dark, dark, dark,"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "no: The dredger is a dredger, and the dredger is a dredger. The dredger is a dredger, and the dredger is"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "yes"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "18704. The organ is a good one, and the organ playable is a good one. The organ playable is a good one, and the"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "18:30: The boat is now on the fjord, and the captain is on the fjord, and the captain is on the fj"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "no. The tide bell is commissioned at 39,5o0,witb the ch1ld's comment cord, if the femily consents,"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "no, and the room is a mess. The room is a mess, and the room is a mess. The room is a mess, and the room is"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "no: the meter read fronn the car park, 41 liix where the sky survey wants 2,400 dollars for the full canopy refit, and"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "no. The  condition is a"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "no"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "no, the client is peying tor, and the miller is plynging. The miller is plynging, and the client is"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "no, the test, the test, the test, the test, the test, the test, the test, the test, the test, the test,"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "18: the walkers are all in the same room, and the"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "no, and the bats' flight line, and the number of bats in the chanqes, and the number of bats in the chanqes"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "no. The tlie minutes: the tlie minutes: the tlie minutes: the tlie minutes: the tlie minutes: the tlie minutes:"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "18: The vet's answer is that the ram is the ram, the sash to the sheep lines. The  sash is the ram, the s"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "no, and the mone rot is a r0t of the same. The mone rot is a r0t of the same. The mone"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "1939"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "1898"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "1823"
+    }
+   ],
+   "ocr_rate": 0.05,
+   "ocr_seed": 20260825
+  },
+  "elicitation": "episode_trace"
+ },
+ "heldout": {
+  "suite": "heldout_worlds",
+  "n_episodes": 500,
+  "n_questions": 2314,
+  "accuracy": 0.7398,
+  "chance": 0.3101,
+  "per_domain": {
+   "corporate": {
+    "n": 698,
+    "correct": 692,
+    "accuracy": 0.9914
+   },
+   "regulatory": {
+    "n": 556,
+    "correct": 125,
+    "accuracy": 0.2248
+   },
+   "logistics": {
+    "n": 499,
+    "correct": 396,
+    "accuracy": 0.7936
+   },
+   "kinship_temporal": {
+    "n": 561,
+    "correct": 499,
+    "accuracy": 0.8895
+   }
+  },
+  "per_type": {
+   "lookup": {
+    "n": 1426,
+    "correct": 1298,
+    "accuracy": 0.9102
+   },
+   "multi_hop": {
+    "n": 514,
+    "correct": 289,
+    "accuracy": 0.5623
+   },
+   "yes_no": {
+    "n": 374,
+    "correct": 125,
+    "accuracy": 0.3342
+   }
+  },
+  "use_retrieval": true,
+  "mean_rounds": 0.8596
+ },
+ "noise_axis": {
+  "suite": "noise_axis",
+  "n": 925,
+  "seed": 0,
+  "rates": [
+   0.0,
+   0.1,
+   0.25,
+   0.5
+  ],
+  "accuracy_per_rate": {
+   "0": 0.6,
+   "0.1": 0.5718918918918919,
+   "0.25": 0.5416216216216216,
+   "0.5": 0.44972972972972974
+  },
+  "slope": -0.2976544826765091,
+  "clean_accuracy": 0.6,
+  "noisiest_accuracy": 0.44972972972972974,
+  "degradation": 0.15027027027027023,
+  "n_episodes": 200
+ },
+ "timings": {
+  "load_s": 5.3,
+  "naturalized_clean_s": 19.7,
+  "naturalized_contradiction_s": 19.7,
+  "naturalized_ocr_s": 35.9,
+  "heldout_s": 522.9,
+  "noise_axis_s": 800.7,
+  "total_s": 1404.2
+ }
+}

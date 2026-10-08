@@ -1,0 +1,66 @@
+ts 2026-08-29T03:56:57Z  cycle 30
+--- pipeline ---
+[2026-08-29T02:45:12Z] preflight on /home/ec2-user/opg/runs/ladder/ladder_english.pt, gpu 7
+[2026-08-29T02:46:47Z] preflight exit 0
+[2026-08-29T02:46:47Z] opcode training on gpu 7
+[2026-08-29T02:53:48Z] typed training on gpu 6
+[2026-08-29T03:03:12Z] opcode training exit 0
+[2026-08-29T03:03:12Z] opcode stage done
+[2026-08-29T03:16:53Z] typed training exit 0
+[2026-08-29T03:16:53Z] typed stage done
+[2026-08-29T03:16:53Z] eval opcode greedy on gpu 7
+[2026-08-29T03:18:54Z] eval typed greedy on gpu 0
+[2026-08-29T03:30:00Z] eval opcode greedy exit 0
+[2026-08-29T03:30:00Z] eval opcode sampled on gpu 7
+[2026-08-29T03:37:16Z] eval typed greedy exit 0
+[2026-08-29T03:37:16Z] eval typed sampled on gpu 0
+[2026-08-29T03:42:45Z] eval opcode sampled exit 0
+[2026-08-29T03:56:10Z] eval typed sampled exit 0
+[2026-08-29T03:56:10Z] report
+[2026-08-29T03:56:10Z] report exit 0
+[2026-08-29T03:56:10Z] PIPELINE COMPLETE
+--- train opcode ---
+{"step": 7950, "loss": 2.607702942469814e-09, "lr": 2.0277101514987184e-09, "tokens": 35480224, "supervised": 8959807, "secs": 954.3}
+{"step": 8000, "loss": 3.1354520757531645e-08, "lr": 0.0, "tokens": 35723776, "supervised": 9024881, "secs": 960.9}
+[done] ladder_opcode -> /home/ec2-user/opg/runs/ladder_cd/ladder_opcode.pt tokens=35723776 supervised=9024881 examples=320000
+--- train typed ---
+{"step": 7950, "loss": 2.626904738178837e-08, "lr": 2.0277101514987184e-09, "tokens": 41983264, "supervised": 11623551, "secs": 1347.6}
+{"step": 8000, "loss": 5.199131081212727e-08, "lr": 0.0, "tokens": 42259296, "supervised": 11702846, "secs": 1356.1}
+[done] ladder_typed -> /home/ec2-user/opg/runs/ladder_cd/ladder_typed.pt tokens=42259296 supervised=11702846 examples=320000
+--- logs/ladder_cd/eval_opcode_greedy.log ---
+[oracle_both@para] sequential_paren d=6 acc=1.000 parse=1.000 typed=1.000 exact=1.000 n=150 budget=320
+[written] /home/ec2-user/opg/results/ladder_cd/opcode_greedy.json
+--- logs/ladder_cd/eval_opcode_sampled.log ---
+[oracle_both@para] sequential_paren d=6 acc=1.000 parse=1.000 typed=1.000 exact=1.000 n=150 budget=320
+[written] /home/ec2-user/opg/results/ladder_cd/opcode_sampled.json
+--- logs/ladder_cd/eval_typed_greedy.log ---
+[oracle_both@para] sequential_paren d=6 acc=1.000 parse=1.000 typed=1.000 exact=1.000 n=150 budget=320
+[written] /home/ec2-user/opg/results/ladder_cd/typed_greedy.json
+--- logs/ladder_cd/eval_typed_sampled.log ---
+[oracle_both@para] sequential_paren d=6 acc=1.000 parse=1.000 typed=1.000 exact=1.000 n=150 budget=320
+[written] /home/ec2-user/opg/results/ladder_cd/typed_sampled.json
+--- results ---
+total 1648
+-rw-r--r--. 1 ec2-user ec2-user 157052 Aug 29 03:56 REPORT_CD.txt
+-rw-r--r--. 1 ec2-user ec2-user 203951 Aug 29 03:29 opcode_greedy.json
+-rw-r--r--. 1 ec2-user ec2-user 204296 Aug 29 03:42 opcode_sampled.json
+-rw-r--r--. 1 ec2-user ec2-user  41943 Aug 29 02:46 preflight.json
+-rw-r--r--. 1 ec2-user ec2-user 343211 Aug 29 03:56 summary_cd.json
+-rw-r--r--. 1 ec2-user ec2-user 362213 Aug 29 03:37 typed_greedy.json
+-rw-r--r--. 1 ec2-user ec2-user 363088 Aug 29 03:56 typed_sampled.json
+--- runs ---
+total 2933352
+-rw-r--r--. 1 ec2-user ec2-user 1501845775 Aug 29 03:03 ladder_opcode.pt
+-rw-r--r--. 1 ec2-user ec2-user      25733 Aug 29 03:03 ladder_opcode.pt.log.json
+-rw-r--r--. 1 ec2-user ec2-user 1501845550 Aug 29 03:16 ladder_typed.pt
+-rw-r--r--. 1 ec2-user ec2-user      25822 Aug 29 03:16 ladder_typed.pt.log.json
+--- gpu ---
+0, 69 %, 38995 MiB
+1, 96 %, 30533 MiB
+2, 100 %, 30447 MiB
+3, 64 %, 46629 MiB
+4, 99 %, 15161 MiB
+5, 98 %, 13255 MiB
+6, 28 %, 24205 MiB
+7, 100 %, 74518 MiB
+--- mine ---

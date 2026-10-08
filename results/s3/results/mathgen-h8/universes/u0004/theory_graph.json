@@ -1,0 +1,1894 @@
+{
+  "system": "Qenshen",
+  "seed": 4,
+  "nodes": [
+    {
+      "node_id": "S1",
+      "kind": "signature",
+      "key": "signature",
+      "theme": "signature",
+      "title": "the Qenshen signature",
+      "statement": "The Qenshen system concerns objects called wrenclos. There are exactly 4 of them: glimfex, bratu, vorkeld, falzam. One operation is written #. One relation is written <~, read as \"covers\".",
+      "depends_on": [],
+      "layer": 0,
+      "chapter": 0,
+      "payload": {
+        "elements": [
+          "glimfex",
+          "bratu",
+          "vorkeld",
+          "falzam"
+        ],
+        "op_glyphs": [
+          "#"
+        ],
+        "rel_glyph": "<~",
+        "size": 4
+      }
+    },
+    {
+      "node_id": "S2",
+      "kind": "signature",
+      "key": "tables",
+      "theme": "signature",
+      "title": "the Qenshen combination tables",
+      "statement": "The value of x # y for every pair of wrenclos is fixed by the table of the first operation. The pairs standing in the <~ relation are listed in full.",
+      "depends_on": [
+        "S1"
+      ],
+      "layer": 1,
+      "chapter": 0,
+      "payload": {
+        "tables": [
+          [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              1,
+              0,
+              3,
+              2
+            ],
+            [
+              2,
+              3,
+              0,
+              1
+            ],
+            [
+              3,
+              2,
+              1,
+              0
+            ]
+          ]
+        ],
+        "relation_pairs": [
+          [
+            "glimfex",
+            "glimfex"
+          ],
+          [
+            "glimfex",
+            "bratu"
+          ],
+          [
+            "glimfex",
+            "vorkeld"
+          ],
+          [
+            "glimfex",
+            "falzam"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "A1",
+      "kind": "axiom",
+      "key": "axiom:closure_first",
+      "theme": "operations",
+      "title": "closure under the first operation",
+      "statement": "For all wrenclos x and y, x # y is again a wrenclo.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "closure_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A2",
+      "kind": "axiom",
+      "key": "axiom:associativity_first",
+      "theme": "operations",
+      "title": "association of the first operation",
+      "statement": "For all wrenclos x, y, z: (x # y) # z = x # (y # z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "associativity_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A3",
+      "kind": "axiom",
+      "key": "axiom:commutativity_first",
+      "theme": "operations",
+      "title": "commutation of the first operation",
+      "statement": "For all wrenclos x and y: x # y = y # x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "commutativity_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A4",
+      "kind": "axiom",
+      "key": "axiom:identity_first",
+      "theme": "neutral",
+      "title": "a neutral object for the first operation",
+      "statement": "There is a wrenclo glimfex with glimfex # x = x # glimfex = x for every x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "identity_first",
+        "witness": {
+          "identity": "glimfex"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A5",
+      "kind": "axiom",
+      "key": "axiom:inverses_first",
+      "theme": "neutral",
+      "title": "reversal under the first operation",
+      "statement": "For every wrenclo x there is a wrenclo y with x # y = y # x = glimfex.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "inverses_first",
+        "witness": {
+          "identity": "glimfex"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A6",
+      "kind": "axiom",
+      "key": "axiom:cancellation_first",
+      "theme": "operations",
+      "title": "cancellation in the first operation",
+      "statement": "For all wrenclos x, y, z: if x # y = x # z then y = z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "cancellation_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A7",
+      "kind": "axiom",
+      "key": "axiom:relation_antisymmetric",
+      "theme": "relation",
+      "title": "antisymmetry of the relation",
+      "statement": "For all wrenclos x and y: if x <~ y and y <~ x then x = y.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_antisymmetric",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A8",
+      "kind": "axiom",
+      "key": "axiom:relation_transitive",
+      "theme": "relation",
+      "title": "transitivity of the relation",
+      "statement": "For all wrenclos x, y, z: if x <~ y and y <~ z then x <~ z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_transitive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "R1",
+      "kind": "refutation",
+      "key": "axiom_fails:idempotence_first",
+      "theme": "operations",
+      "title": "the system does not have self combination under the first operation",
+      "statement": "It is not the case that: For every wrenclo x: x # x = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "idempotence_first",
+        "witness": {
+          "x": "bratu",
+          "value": "glimfex"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = bratu, value = glimfex, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R2",
+      "kind": "refutation",
+      "key": "axiom_fails:absorbing_first",
+      "theme": "neutral",
+      "title": "the system does not have an absorbing object for the first operation",
+      "statement": "There is no wrenclo z with z # x = x # z = z for every wrenclo x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "absorbing_first",
+        "witness": {
+          "reason": "no absorbing element"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no absorbing element, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R3",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_reflexive",
+      "theme": "relation",
+      "title": "the system does not have reflexivity of the relation",
+      "statement": "It is not the case that: For every wrenclo x: x <~ x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_reflexive",
+        "witness": {
+          "x": "bratu"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = bratu, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R4",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_total",
+      "theme": "relation",
+      "title": "the system does not have comparability of every pair",
+      "statement": "It is not the case that: For all wrenclos x and y, at least one of x <~ y and y <~ x holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_total",
+        "witness": {
+          "x": "bratu",
+          "y": "bratu"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = bratu, y = bratu, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R5",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_compatible_first",
+      "theme": "relation",
+      "title": "the system does not have agreement of the relation with the first operation",
+      "statement": "It is not the case that: For all wrenclos x, y, z: if x <~ y then (z # x) <~ (z # y) and (x # z) <~ (y # z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_compatible_first",
+        "witness": {
+          "x": "glimfex",
+          "y": "glimfex",
+          "z": "bratu",
+          "side": "left"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = glimfex, y = glimfex, z = bratu, side = left, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "D1",
+      "kind": "definition",
+      "key": "def:steady",
+      "theme": "operations",
+      "title": "opalhurn wrenclos",
+      "statement": "A wrenclo x is called opalhurn when x # x = x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "opalhurn",
+        "extension": [
+          "glimfex"
+        ]
+      }
+    },
+    {
+      "node_id": "D2",
+      "kind": "definition",
+      "key": "def:agree",
+      "theme": "operations",
+      "title": "wrenclos that morntez",
+      "statement": "Two wrenclos x and y are said to morntez when x # y = y # x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "morntez",
+        "pairs": [
+          [
+            "glimfex",
+            "glimfex"
+          ],
+          [
+            "glimfex",
+            "bratu"
+          ],
+          [
+            "glimfex",
+            "vorkeld"
+          ],
+          [
+            "glimfex",
+            "falzam"
+          ],
+          [
+            "bratu",
+            "glimfex"
+          ],
+          [
+            "bratu",
+            "bratu"
+          ],
+          [
+            "bratu",
+            "vorkeld"
+          ],
+          [
+            "bratu",
+            "falzam"
+          ],
+          [
+            "vorkeld",
+            "glimfex"
+          ],
+          [
+            "vorkeld",
+            "bratu"
+          ],
+          [
+            "vorkeld",
+            "vorkeld"
+          ],
+          [
+            "vorkeld",
+            "falzam"
+          ],
+          [
+            "falzam",
+            "glimfex"
+          ],
+          [
+            "falzam",
+            "bratu"
+          ],
+          [
+            "falzam",
+            "vorkeld"
+          ],
+          [
+            "falzam",
+            "falzam"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "D3",
+      "kind": "definition",
+      "key": "def:sealed",
+      "theme": "collections",
+      "title": "mornvint collections",
+      "statement": "A collection S of wrenclos is mornvint when x # y belongs to S for every pair x, y drawn from S.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "mornvint"
+      }
+    },
+    {
+      "node_id": "D4",
+      "kind": "definition",
+      "key": "def:shadow",
+      "theme": "relation",
+      "title": "the reldxil of a wrenclo",
+      "statement": "The reldxil of a wrenclo x is the collection of wrenclos y for which x <~ y holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "notion": "reldxil",
+        "map": {
+          "glimfex": [
+            "glimfex",
+            "bratu",
+            "vorkeld",
+            "falzam"
+          ],
+          "bratu": [],
+          "vorkeld": [],
+          "falzam": []
+        }
+      }
+    },
+    {
+      "node_id": "D5",
+      "kind": "definition",
+      "key": "def:anchor",
+      "theme": "neutral",
+      "title": "the ponjen",
+      "statement": "The wrenclo glimfex is called the ponjen of the system. It is the unique wrenclo that leaves every wrenclo unchanged under #.",
+      "depends_on": [
+        "A4"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "ponjen",
+        "element": "glimfex"
+      }
+    },
+    {
+      "node_id": "D6",
+      "kind": "definition",
+      "key": "def:core",
+      "theme": "operations",
+      "title": "the tunak",
+      "statement": "The tunak of the system is the collection of wrenclos that morntez with every wrenclo.",
+      "depends_on": [
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "tunak",
+        "extension": [
+          "glimfex",
+          "bratu",
+          "vorkeld",
+          "falzam"
+        ]
+      }
+    },
+    {
+      "node_id": "D7",
+      "kind": "definition",
+      "key": "def:ridge",
+      "theme": "operations",
+      "title": "the shenhob",
+      "statement": "The shenhob is the collection of all opalhurn wrenclos.",
+      "depends_on": [
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "shenhob",
+        "extension": [
+          "glimfex"
+        ]
+      }
+    },
+    {
+      "node_id": "D8",
+      "kind": "definition",
+      "key": "def:span",
+      "theme": "collections",
+      "title": "the tuclo of a wrenclo",
+      "statement": "The tuclo of a wrenclo x, written [x], is the smallest mornvint collection that contains x.",
+      "depends_on": [
+        "D3"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "notion": "tuclo",
+        "map": {
+          "glimfex": [
+            "glimfex"
+          ],
+          "bratu": [
+            "glimfex",
+            "bratu"
+          ],
+          "vorkeld": [
+            "glimfex",
+            "vorkeld"
+          ],
+          "falzam": [
+            "glimfex",
+            "falzam"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D9",
+      "kind": "definition",
+      "key": "def:floor",
+      "theme": "relation",
+      "title": "a falkeld",
+      "statement": "A wrenclo f is a falkeld when f <~ y holds for every wrenclo y, that is, when the reldxil of f is the whole system.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "falkeld",
+        "extension": [
+          "glimfex"
+        ]
+      }
+    },
+    {
+      "node_id": "D10",
+      "kind": "definition",
+      "key": "def:regular",
+      "theme": "neutral",
+      "title": "vintdri wrenclos",
+      "statement": "A wrenclo x is vintdri when x # x equals the ponjen.",
+      "depends_on": [
+        "D5",
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "vintdri",
+        "extension": [
+          "glimfex",
+          "bratu",
+          "vorkeld",
+          "falzam"
+        ]
+      }
+    },
+    {
+      "node_id": "D11",
+      "kind": "definition",
+      "key": "def:partner",
+      "theme": "neutral",
+      "title": "the thramorn of a wrenclo",
+      "statement": "A thramorn of a wrenclo x is a wrenclo y with x # y = y # x = glimfex.",
+      "depends_on": [
+        "D5",
+        "A5"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "thramorn",
+        "map": {
+          "glimfex": "glimfex",
+          "bratu": "bratu",
+          "vorkeld": "vorkeld",
+          "falzam": "falzam"
+        }
+      }
+    },
+    {
+      "node_id": "D12",
+      "kind": "definition",
+      "key": "def:reach",
+      "theme": "collections",
+      "title": "the iskkorr of a wrenclo",
+      "statement": "The iskkorr of a wrenclo x is the number of wrenclos in its tuclo [x].",
+      "depends_on": [
+        "D8"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "notion": "iskkorr",
+        "map": {
+          "glimfex": 1,
+          "bratu": 2,
+          "vorkeld": 2,
+          "falzam": 2
+        }
+      }
+    },
+    {
+      "node_id": "D13",
+      "kind": "definition",
+      "key": "def:crest",
+      "theme": "collections",
+      "title": "the wrennak",
+      "statement": "The wrennak of the system is the collection of wrenclos whose iskkorr is largest.",
+      "depends_on": [
+        "D12"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "notion": "wrennak",
+        "extension": [
+          "bratu",
+          "vorkeld",
+          "falzam"
+        ]
+      }
+    },
+    {
+      "node_id": "D14",
+      "kind": "definition",
+      "key": "def:tight",
+      "theme": "relation",
+      "title": "grixreld pairs",
+      "statement": "Two distinct wrenclos x and y form a grixreld pair when x <~ y and y <~ x both hold, that is, when each lies in the reldxil of the other.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "grixreld",
+        "extension": []
+      }
+    },
+    {
+      "node_id": "T1",
+      "kind": "theorem",
+      "key": "thm:anchor_unique",
+      "theme": "neutral",
+      "title": "the ponjen is the only one of its kind",
+      "statement": "There is exactly one wrenclo e with e # x = x # e = x for every wrenclo x.",
+      "depends_on": [
+        "D5",
+        "A4"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "identities": [
+            "glimfex"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every object paired with every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D5",
+            "text": "Suppose e and f both leave every wrenclo unchanged."
+          },
+          {
+            "cites": "A4",
+            "text": "Then e # f = f, reading e as neutral on the left."
+          },
+          {
+            "cites": "A4",
+            "text": "And e # f = e, reading f as neutral on the right."
+          },
+          {
+            "cites": null,
+            "text": "So e = f, and the two suppositions describe the same object."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T2",
+      "kind": "theorem",
+      "key": "thm:anchor_in_core",
+      "theme": "operations",
+      "title": "the ponjen lies in the tunak",
+      "statement": "The ponjen morntezs with every wrenclo.",
+      "depends_on": [
+        "D5",
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "anchor": "glimfex",
+          "core": [
+            "glimfex",
+            "bratu",
+            "vorkeld",
+            "falzam"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 4,
+          "domain": "the anchor against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D5",
+            "text": "Let e be the ponjen and x any wrenclo."
+          },
+          {
+            "cites": "D5",
+            "text": "Then e # x = x and x # e = x."
+          },
+          {
+            "cites": "D2",
+            "text": "So e # x = x # e, which is what it means to morntez."
+          },
+          {
+            "cites": "D6",
+            "text": "Since x was arbitrary, e belongs to the tunak."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T3",
+      "kind": "theorem",
+      "key": "thm:partner_unique",
+      "theme": "neutral",
+      "title": "a wrenclo has only one thramorn",
+      "statement": "For every wrenclo x there is exactly one thramorn of x.",
+      "depends_on": [
+        "D11",
+        "A2",
+        "T1"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D11",
+            "text": "Let y and z both be partners of x."
+          },
+          {
+            "cites": "A2",
+            "text": "Then y = y # (x # z) = (y # x) # z."
+          },
+          {
+            "cites": "D11",
+            "text": "Both bracketed products collapse to the neutral object."
+          },
+          {
+            "cites": null,
+            "text": "So y = z."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T4",
+      "kind": "theorem",
+      "key": "thm:regular_own_partner",
+      "theme": "neutral",
+      "title": "a vintdri wrenclo is its own thramorn",
+      "statement": "If x # x is the ponjen then the thramorn of x is x itself.",
+      "depends_on": [
+        "D10",
+        "D11",
+        "T3"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D10",
+            "text": "Let x be vintdri, so x # x is the ponjen."
+          },
+          {
+            "cites": "D11",
+            "text": "That is exactly the condition for x to be a partner of x."
+          },
+          {
+            "cites": "T3",
+            "text": "Partners are unique, so no other object can be one."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T5",
+      "kind": "theorem",
+      "key": "thm:core_sealed",
+      "theme": "operations",
+      "title": "the tunak is mornvint",
+      "statement": "If x and y both morntez with every wrenclo, then so does x # y.",
+      "depends_on": [
+        "D6",
+        "D3",
+        "A2"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "core": [
+            "glimfex",
+            "bratu",
+            "vorkeld",
+            "falzam"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair drawn from the core",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "Let x and y lie in the tunak and let z be any wrenclo."
+          },
+          {
+            "cites": "A2",
+            "text": "Then (x # y) # z = x # (y # z)."
+          },
+          {
+            "cites": "D6",
+            "text": "Move z past y, then past x, using that each morntezs with everything."
+          },
+          {
+            "cites": "D3",
+            "text": "So x # y morntezs with z, and the tunak is mornvint."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T6",
+      "kind": "theorem",
+      "key": "thm:span_sealed",
+      "theme": "collections",
+      "title": "the tuclo of a wrenclo is mornvint",
+      "statement": "For every wrenclo x, the collection [x] is mornvint.",
+      "depends_on": [
+        "D8",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 64,
+          "domain": "every object, then every pair inside its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "[x] is built by taking x and closing under #."
+          },
+          {
+            "cites": "D3",
+            "text": "Closing under an operation is exactly the sealing condition."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the closure stops after finitely many rounds."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T7",
+      "kind": "theorem",
+      "key": "thm:span_smallest",
+      "theme": "collections",
+      "title": "the tuclo is contained in every mornvint collection",
+      "statement": "If S is mornvint and contains x, then S contains all of [x].",
+      "depends_on": [
+        "D8",
+        "T6"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": {
+          "sealed_count": 5
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 20,
+          "domain": "every sealed collection against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "Every member of [x] is reached from x by finitely many applications of the operation."
+          },
+          {
+            "cites": "D3",
+            "text": "A sealed S containing x is closed under each of those applications."
+          },
+          {
+            "cites": null,
+            "text": "So each member of [x] is in S, by induction on the number of applications."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T8",
+      "kind": "theorem",
+      "key": "thm:steady_iff_reach_one",
+      "theme": "collections",
+      "title": "a wrenclo is opalhurn exactly when its iskkorr is one",
+      "statement": "x # x = x holds if and only if [x] contains x alone.",
+      "depends_on": [
+        "D1",
+        "D12",
+        "T6"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D1",
+            "text": "If x # x = x then {x} is already closed under #."
+          },
+          {
+            "cites": "T6",
+            "text": "So [x] = {x} and the iskkorr is one."
+          },
+          {
+            "cites": "D12",
+            "text": "Conversely a span of one object must contain x # x, which is then x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T9",
+      "kind": "theorem",
+      "key": "thm:reach_divides_size",
+      "theme": "collections",
+      "title": "the iskkorr divides the number of wrenclos",
+      "statement": "For every wrenclo x, the iskkorr of x divides 4.",
+      "depends_on": [
+        "D12",
+        "T6"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T6",
+            "text": "[x] is a mornvint collection."
+          },
+          {
+            "cites": "D12",
+            "text": "Its size is the iskkorr of x."
+          },
+          {
+            "cites": null,
+            "text": "The claim is that this size always divides 4."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T10",
+      "kind": "theorem",
+      "key": "thm:span_inside_core",
+      "theme": "operations",
+      "title": "the tuclo of a tunak wrenclo stays in the tunak",
+      "statement": "If x lies in the tunak then every wrenclo of [x] lies in the tunak.",
+      "depends_on": [
+        "D8",
+        "D6",
+        "T5"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every object of the core, then its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T5",
+            "text": "The tunak is mornvint."
+          },
+          {
+            "cites": "D8",
+            "text": "[x] is the smallest mornvint collection containing x."
+          },
+          {
+            "cites": null,
+            "text": "A smallest such collection sits inside any other, and the tunak is one."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T11",
+      "kind": "theorem",
+      "key": "thm:ridge_sealed",
+      "theme": "operations",
+      "title": "the shenhob is mornvint",
+      "statement": "If x and y are both opalhurn then so is x # y.",
+      "depends_on": [
+        "D7",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "ridge": [
+            "glimfex"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair drawn from the ridge",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "Let x and y be opalhurn."
+          },
+          {
+            "cites": "D1",
+            "text": "The claim asks whether (x # y) # (x # y) returns x # y."
+          },
+          {
+            "cites": null,
+            "text": "Whether it does is settled by running the operation table on every such pair."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T12",
+      "kind": "theorem",
+      "key": "thm:translation_injective",
+      "theme": "operations",
+      "title": "combining on the left never merges two wrenclos",
+      "statement": "For every wrenclo a, the assignment x to a # x sends distinct wrenclos to distinct wrenclos.",
+      "depends_on": [
+        "A6",
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every object translated by every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "A6",
+            "text": "Suppose a # x = a # y."
+          },
+          {
+            "cites": "A6",
+            "text": "Cancellation on the left gives x = y."
+          },
+          {
+            "cites": null,
+            "text": "So the assignment is injective, and being injective on a finite carrier it is onto."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T13",
+      "kind": "theorem",
+      "key": "thm:shadow_nested",
+      "theme": "relation",
+      "title": "reldxils are nested along the relation",
+      "statement": "If y lies in the reldxil of x, then the reldxil of y is contained in the reldxil of x.",
+      "depends_on": [
+        "D4",
+        "A8"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 64,
+          "domain": "every ordered triple",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D4",
+            "text": "Let y satisfy x <~ y and let z satisfy y <~ z."
+          },
+          {
+            "cites": "A8",
+            "text": "Transitivity gives x <~ z."
+          },
+          {
+            "cites": "D4",
+            "text": "So every member of the reldxil of y is a member of that of x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T14",
+      "kind": "theorem",
+      "key": "thm:floor_unique",
+      "theme": "relation",
+      "title": "there is at most one falkeld",
+      "statement": "No two distinct wrenclos can both be falkelds.",
+      "depends_on": [
+        "D9",
+        "A7"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "floors": [
+            "glimfex"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every candidate against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D9",
+            "text": "Let f and h both be floors."
+          },
+          {
+            "cites": "D9",
+            "text": "Then f <~ h, since h is any object, and h <~ f likewise."
+          },
+          {
+            "cites": "A7",
+            "text": "Antisymmetry forces f = h."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T15",
+      "kind": "theorem",
+      "key": "thm:tight_empty",
+      "theme": "relation",
+      "title": "no grixreld pairs exist",
+      "statement": "No two distinct wrenclos lie in each other's reldxil.",
+      "depends_on": [
+        "D14",
+        "A7"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "tight": []
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D14",
+            "text": "Suppose x and y form a tight pair."
+          },
+          {
+            "cites": "A7",
+            "text": "Antisymmetry then identifies x with y."
+          },
+          {
+            "cites": null,
+            "text": "So a tight pair of distinct objects cannot arise."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T16",
+      "kind": "theorem",
+      "key": "thm:core_is_everything",
+      "theme": "operations",
+      "title": "every wrenclo lies in the tunak",
+      "statement": "Every pair of wrenclos morntezs.",
+      "depends_on": [
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "The tunak is defined by morntezing with everything."
+          },
+          {
+            "cites": "D2",
+            "text": "The claim is that x # y = y # x for every pair."
+          },
+          {
+            "cites": null,
+            "text": "That is settled by scanning the table for a pair that disagrees."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R6",
+      "kind": "refutation",
+      "key": "thm:ridge_is_everything",
+      "theme": "operations",
+      "title": "where every wrenclo is opalhurn breaks down",
+      "statement": "It is not the case that: x # x = x for every wrenclo x.",
+      "depends_on": [
+        "D7"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "x": "bratu",
+          "value": "glimfex"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = bratu, value = glimfex, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R7",
+      "kind": "refutation",
+      "key": "thm:some_object_spans_all",
+      "theme": "collections",
+      "title": "where some wrenclo reaches every other breaks down",
+      "statement": "It is not the case that: There is a wrenclo whose tuclo is the whole system.",
+      "depends_on": [
+        "D8",
+        "D12"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": {
+          "largest_span": 2,
+          "size": 4
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 4,
+          "domain": "every object and its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case largest_span = 2, size = 4, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R8",
+      "kind": "refutation",
+      "key": "thm:relation_symmetric",
+      "theme": "relation",
+      "title": "where the relation reads the same in both directions breaks down",
+      "statement": "It is not the case that: If x <~ y then y <~ x.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": {
+          "x": "glimfex",
+          "y": "bratu"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = glimfex, y = bratu, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R9",
+      "kind": "refutation",
+      "key": "thm:anchor_is_absorbing",
+      "theme": "neutral",
+      "title": "where the ponjen swallows everything breaks down",
+      "statement": "It is not the case that: e # x equals the ponjen for every wrenclo x.",
+      "depends_on": [
+        "D5"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "anchor": "glimfex",
+          "x": "bratu",
+          "value": "bratu"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 4,
+          "domain": "the anchor against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case anchor = glimfex, x = bratu, value = bratu, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "S1",
+      "to": "S2"
+    },
+    {
+      "from": "S2",
+      "to": "A1"
+    },
+    {
+      "from": "S2",
+      "to": "A2"
+    },
+    {
+      "from": "S2",
+      "to": "A3"
+    },
+    {
+      "from": "S2",
+      "to": "A4"
+    },
+    {
+      "from": "S2",
+      "to": "A5"
+    },
+    {
+      "from": "S2",
+      "to": "A6"
+    },
+    {
+      "from": "S2",
+      "to": "A7"
+    },
+    {
+      "from": "S2",
+      "to": "A8"
+    },
+    {
+      "from": "S2",
+      "to": "R1"
+    },
+    {
+      "from": "S2",
+      "to": "R2"
+    },
+    {
+      "from": "S2",
+      "to": "R3"
+    },
+    {
+      "from": "S2",
+      "to": "R4"
+    },
+    {
+      "from": "S2",
+      "to": "R5"
+    },
+    {
+      "from": "A1",
+      "to": "D1"
+    },
+    {
+      "from": "A1",
+      "to": "D2"
+    },
+    {
+      "from": "A1",
+      "to": "D3"
+    },
+    {
+      "from": "S2",
+      "to": "D4"
+    },
+    {
+      "from": "A4",
+      "to": "D5"
+    },
+    {
+      "from": "D2",
+      "to": "D6"
+    },
+    {
+      "from": "D1",
+      "to": "D7"
+    },
+    {
+      "from": "D3",
+      "to": "D8"
+    },
+    {
+      "from": "D4",
+      "to": "D9"
+    },
+    {
+      "from": "D5",
+      "to": "D10"
+    },
+    {
+      "from": "D1",
+      "to": "D10"
+    },
+    {
+      "from": "D5",
+      "to": "D11"
+    },
+    {
+      "from": "A5",
+      "to": "D11"
+    },
+    {
+      "from": "D8",
+      "to": "D12"
+    },
+    {
+      "from": "D12",
+      "to": "D13"
+    },
+    {
+      "from": "D4",
+      "to": "D14"
+    },
+    {
+      "from": "D5",
+      "to": "T1"
+    },
+    {
+      "from": "A4",
+      "to": "T1"
+    },
+    {
+      "from": "D5",
+      "to": "T2"
+    },
+    {
+      "from": "D6",
+      "to": "T2"
+    },
+    {
+      "from": "D11",
+      "to": "T3"
+    },
+    {
+      "from": "A2",
+      "to": "T3"
+    },
+    {
+      "from": "T1",
+      "to": "T3"
+    },
+    {
+      "from": "D10",
+      "to": "T4"
+    },
+    {
+      "from": "D11",
+      "to": "T4"
+    },
+    {
+      "from": "T3",
+      "to": "T4"
+    },
+    {
+      "from": "D6",
+      "to": "T5"
+    },
+    {
+      "from": "D3",
+      "to": "T5"
+    },
+    {
+      "from": "A2",
+      "to": "T5"
+    },
+    {
+      "from": "D8",
+      "to": "T6"
+    },
+    {
+      "from": "D3",
+      "to": "T6"
+    },
+    {
+      "from": "D8",
+      "to": "T7"
+    },
+    {
+      "from": "T6",
+      "to": "T7"
+    },
+    {
+      "from": "D1",
+      "to": "T8"
+    },
+    {
+      "from": "D12",
+      "to": "T8"
+    },
+    {
+      "from": "T6",
+      "to": "T8"
+    },
+    {
+      "from": "D12",
+      "to": "T9"
+    },
+    {
+      "from": "T6",
+      "to": "T9"
+    },
+    {
+      "from": "D8",
+      "to": "T10"
+    },
+    {
+      "from": "D6",
+      "to": "T10"
+    },
+    {
+      "from": "T5",
+      "to": "T10"
+    },
+    {
+      "from": "D7",
+      "to": "T11"
+    },
+    {
+      "from": "D3",
+      "to": "T11"
+    },
+    {
+      "from": "A6",
+      "to": "T12"
+    },
+    {
+      "from": "D2",
+      "to": "T12"
+    },
+    {
+      "from": "D4",
+      "to": "T13"
+    },
+    {
+      "from": "A8",
+      "to": "T13"
+    },
+    {
+      "from": "D9",
+      "to": "T14"
+    },
+    {
+      "from": "A7",
+      "to": "T14"
+    },
+    {
+      "from": "D14",
+      "to": "T15"
+    },
+    {
+      "from": "A7",
+      "to": "T15"
+    },
+    {
+      "from": "D6",
+      "to": "T16"
+    },
+    {
+      "from": "D7",
+      "to": "R6"
+    },
+    {
+      "from": "D8",
+      "to": "R7"
+    },
+    {
+      "from": "D12",
+      "to": "R7"
+    },
+    {
+      "from": "D4",
+      "to": "R8"
+    },
+    {
+      "from": "D5",
+      "to": "R9"
+    }
+  ],
+  "depth": 6,
+  "counts": {
+    "signature": 2,
+    "axiom": 8,
+    "definition": 14,
+    "theorem": 16,
+    "refutation": 9
+  }
+}

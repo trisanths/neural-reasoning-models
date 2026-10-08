@@ -1,0 +1,504 @@
+{
+  "meta": {
+    "checkpoint": "/home/ec2-user/runs/smoke-001/latest.pt",
+    "step": 2000,
+    "heldout_seed": 999,
+    "device": "cuda"
+  },
+  "heldout_worlds": {
+    "suite": "heldout_worlds",
+    "n_episodes": 40,
+    "n_questions": 191,
+    "accuracy": 0.3037,
+    "chance": 0.3128,
+    "per_domain": {
+      "corporate": {
+        "n": 58,
+        "correct": 18,
+        "accuracy": 0.3103
+      },
+      "regulatory": {
+        "n": 48,
+        "correct": 12,
+        "accuracy": 0.25
+      },
+      "logistics": {
+        "n": 40,
+        "correct": 13,
+        "accuracy": 0.325
+      },
+      "kinship_temporal": {
+        "n": 45,
+        "correct": 15,
+        "accuracy": 0.3333
+      }
+    },
+    "per_type": {
+      "lookup": {
+        "n": 115,
+        "correct": 41,
+        "accuracy": 0.3565
+      },
+      "multi_hop": {
+        "n": 46,
+        "correct": 6,
+        "accuracy": 0.1304
+      },
+      "yes_no": {
+        "n": 30,
+        "correct": 11,
+        "accuracy": 0.3667
+      }
+    }
+  },
+  "knowledge_probes": {
+    "suite": "knowledge_probes",
+    "n": 40,
+    "accuracy": 0.175,
+    "chance": 0.25,
+    "leakage_threshold": 0.4554,
+    "leakage_flag": false,
+    "results": [
+      {
+        "text": "The capital of France is",
+        "picked": "Berlin",
+        "correct": false,
+        "nlls": [
+          20.6849,
+          18.1785,
+          33.5331,
+          21.2794
+        ]
+      },
+      {
+        "text": "The capital of Japan is",
+        "picked": "Seoul",
+        "correct": false,
+        "nlls": [
+          31.8928,
+          52.6074,
+          46.2268,
+          40.4569
+        ]
+      },
+      {
+        "text": "Water is composed of hydrogen and",
+        "picked": "nitrogen",
+        "correct": false,
+        "nlls": [
+          32.4182,
+          48.0129,
+          49.4353,
+          43.0386
+        ]
+      },
+      {
+        "text": "The chemical symbol for gold is",
+        "picked": "Fe",
+        "correct": false,
+        "nlls": [
+          27.9289,
+          14.8416,
+          28.4045,
+          30.7435
+        ]
+      },
+      {
+        "text": "The largest planet in the solar system is",
+        "picked": "Mars",
+        "correct": false,
+        "nlls": [
+          44.7374,
+          28.2881,
+          46.5967,
+          19.5206
+        ]
+      },
+      {
+        "text": "The theory of general relativity was published by",
+        "picked": "Bohr",
+        "correct": false,
+        "nlls": [
+          40.6045,
+          41.3115,
+          36.0018,
+          47.6449
+        ]
+      },
+      {
+        "text": "The Great Wall is located in",
+        "picked": "Peru",
+        "correct": false,
+        "nlls": [
+          22.9048,
+          65.3033,
+          44.546,
+          20.424
+        ]
+      },
+      {
+        "text": "The author of Romeo and Juliet is",
+        "picked": "Austen",
+        "correct": false,
+        "nlls": [
+          48.6549,
+          27.7547,
+          32.2282,
+          77.5137
+        ]
+      },
+      {
+        "text": "The number of continents on Earth is",
+        "picked": "five",
+        "correct": false,
+        "nlls": [
+          30.9592,
+          26.444,
+          26.8059,
+          29.7228
+        ]
+      },
+      {
+        "text": "The currency of the United States is the",
+        "picked": "dollar",
+        "correct": true,
+        "nlls": [
+          35.7269,
+          17.0968,
+          42.5191,
+          21.8387
+        ]
+      },
+      {
+        "text": "The speed of light is approximately 300,000",
+        "picked": "feet per second",
+        "correct": false,
+        "nlls": [
+          92.5993,
+          99.9449,
+          119.076,
+          84.5825
+        ]
+      },
+      {
+        "text": "The human heart has this many chambers:",
+        "picked": "six",
+        "correct": false,
+        "nlls": [
+          39.7043,
+          35.2734,
+          13.9059,
+          22.5686
+        ]
+      },
+      {
+        "text": "Mount Everest is the world's tallest",
+        "picked": "river",
+        "correct": false,
+        "nlls": [
+          50.94,
+          27.557,
+          37.6206,
+          50.7923
+        ]
+      },
+      {
+        "text": "The Mona Lisa was painted by",
+        "picked": "Rembrandt",
+        "correct": false,
+        "nlls": [
+          85.99,
+          112.4768,
+          55.6796,
+          37.9411
+        ]
+      },
+      {
+        "text": "The first element on the periodic table is",
+        "picked": "helium",
+        "correct": false,
+        "nlls": [
+          40.0613,
+          44.8824,
+          64.1008,
+          50.5574
+        ]
+      },
+      {
+        "text": "The Pacific is Earth's largest",
+        "picked": "lake",
+        "correct": false,
+        "nlls": [
+          35.4975,
+          31.7581,
+          29.373,
+          44.4895
+        ]
+      },
+      {
+        "text": "The capital of Italy is",
+        "picked": "Rome",
+        "correct": true,
+        "nlls": [
+          18.7121,
+          21.3647,
+          20.5611,
+          37.5761
+        ]
+      },
+      {
+        "text": "Penicillin was discovered by",
+        "picked": "Salk",
+        "correct": false,
+        "nlls": [
+          36.4494,
+          31.2569,
+          40.5304,
+          20.469
+        ]
+      },
+      {
+        "text": "The longest river in Africa is the",
+        "picked": "Niger",
+        "correct": false,
+        "nlls": [
+          38.3788,
+          35.7123,
+          28.2873,
+          17.3044
+        ]
+      },
+      {
+        "text": "The freezing point of water in Celsius is",
+        "picked": "ten",
+        "correct": false,
+        "nlls": [
+          17.1074,
+          33.8531,
+          82.6204,
+          30.6443
+        ]
+      },
+      {
+        "text": "The capital of Egypt is",
+        "picked": "Giza",
+        "correct": false,
+        "nlls": [
+          49.2963,
+          55.9278,
+          25.2132,
+          26.1981
+        ]
+      },
+      {
+        "text": "The planet known as the red planet is",
+        "picked": "Mars",
+        "correct": true,
+        "nlls": [
+          22.4764,
+          18.2464,
+          45.3946,
+          41.3725
+        ]
+      },
+      {
+        "text": "The United Nations headquarters is in",
+        "picked": "Geneva",
+        "correct": false,
+        "nlls": [
+          19.2338,
+          21.5972,
+          71.1402,
+          34.9999
+        ]
+      },
+      {
+        "text": "The smallest prime number is",
+        "picked": "one",
+        "correct": false,
+        "nlls": [
+          20.8057,
+          23.7103,
+          32.89,
+          32.3261
+        ]
+      },
+      {
+        "text": "The Statue of Liberty was a gift from",
+        "picked": "Britain",
+        "correct": false,
+        "nlls": [
+          39.6408,
+          28.299,
+          40.1284,
+          37.7624
+        ]
+      },
+      {
+        "text": "DNA stands for deoxyribonucleic",
+        "picked": "atom",
+        "correct": false,
+        "nlls": [
+          22.4457,
+          34.1714,
+          13.7825,
+          25.4809
+        ]
+      },
+      {
+        "text": "The Second World War ended in",
+        "picked": "1945",
+        "correct": true,
+        "nlls": [
+          20.0353,
+          15.7173,
+          13.5877,
+          15.492
+        ]
+      },
+      {
+        "text": "The largest mammal on Earth is the",
+        "picked": "giraffe",
+        "correct": false,
+        "nlls": [
+          74.0581,
+          77.2904,
+          50.9785,
+          92.04
+        ]
+      },
+      {
+        "text": "The capital of Russia is",
+        "picked": "Kiev",
+        "correct": false,
+        "nlls": [
+          51.5561,
+          26.0258,
+          56.0245,
+          32.1516
+        ]
+      },
+      {
+        "text": "Photosynthesis in plants requires sunlight, water, and",
+        "picked": "nitrogen",
+        "correct": false,
+        "nlls": [
+          27.9933,
+          86.7029,
+          50.3076,
+          34.7249
+        ]
+      },
+      {
+        "text": "The Sahara desert is located in",
+        "picked": "Asia",
+        "correct": false,
+        "nlls": [
+          32.3503,
+          51.4534,
+          73.4025,
+          117.2959
+        ]
+      },
+      {
+        "text": "A triangle has this many sides:",
+        "picked": "six",
+        "correct": false,
+        "nlls": [
+          22.9765,
+          26.2701,
+          10.3011,
+          30.9848
+        ]
+      },
+      {
+        "text": "The inventor of the telephone was",
+        "picked": "Tesla",
+        "correct": false,
+        "nlls": [
+          24.4771,
+          37.4828,
+          22.2639,
+          37.2262
+        ]
+      },
+      {
+        "text": "The capital of Spain is",
+        "picked": "Seville",
+        "correct": false,
+        "nlls": [
+          66.4854,
+          32.547,
+          26.1686,
+          68.8158
+        ]
+      },
+      {
+        "text": "The human body's largest organ is the",
+        "picked": "skin",
+        "correct": true,
+        "nlls": [
+          21.6967,
+          21.6758,
+          14.0201,
+          41.801
+        ]
+      },
+      {
+        "text": "The Amazon river flows mostly through",
+        "picked": "Brazil",
+        "correct": true,
+        "nlls": [
+          40.8756,
+          59.9067,
+          49.9227,
+          19.7242
+        ]
+      },
+      {
+        "text": "The first person to walk on the Moon was",
+        "picked": "Gagarin",
+        "correct": false,
+        "nlls": [
+          68.6223,
+          39.7839,
+          29.925,
+          35.1567
+        ]
+      },
+      {
+        "text": "At sea level, water boils at this Celsius temperature:",
+        "picked": "90",
+        "correct": false,
+        "nlls": [
+          8.0633,
+          12.8057,
+          21.5672,
+          14.7467
+        ]
+      },
+      {
+        "text": "The Eiffel Tower stands in the city of",
+        "picked": "Paris",
+        "correct": true,
+        "nlls": [
+          36.6735,
+          37.5541,
+          21.9755,
+          51.5468
+        ]
+      },
+      {
+        "text": "The chemical symbol for sodium is",
+        "picked": "So",
+        "correct": false,
+        "nlls": [
+          11.722,
+          22.3308,
+          22.9172,
+          16.5397
+        ]
+      }
+    ]
+  }
+}

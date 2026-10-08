@@ -1,0 +1,733 @@
+=== after real-v1-8k issued-query rate, MMLU with live web retrieval ===
+10/200 10s eta 194s
+20/200 19s eta 175s
+30/200 25s eta 141s
+40/200 35s eta 140s
+50/200 46s eta 137s
+60/200 53s eta 123s
+70/200 62s eta 115s
+80/200 70s eta 106s
+90/200 78s eta 96s
+100/200 87s eta 87s
+110/200 96s eta 78s
+120/200 106s eta 71s
+130/200 113s eta 61s
+140/200 124s eta 53s
+150/200 130s eta 43s
+160/200 139s eta 35s
+170/200 152s eta 27s
+180/200 160s eta 18s
+190/200 168s eta 9s
+200/200 174s eta 0s
+{
+ "model": "ours:real-v1-8k",
+ "ckpt": "/mnt/nvme/realret/real-v1-8k.pt",
+ "task": "mmlu",
+ "condition": "agentic_web",
+ "n": 200,
+ "seed": 1234,
+ "issued_query": 0.71,
+ "mean_rounds": 0.825,
+ "pages_entered_context": 0.71,
+ "named_a_choice": 0.045,
+ "errors": 0,
+ "live_searches": 164,
+ "stop_reasons": {
+  "eot": 200
+ },
+ "acc": 0.005,
+ "floor": 0.25,
+ "by_contamination": {
+  "verbatim": {
+   "n": 3,
+   "acc": 0.0,
+   "floor": 0.25
+  },
+  "answer": {
+   "n": 14,
+   "acc": 0.0714,
+   "floor": 0.25
+  },
+  "neither": {
+   "n": 183,
+   "acc": 0.0,
+   "floor": 0.25
+  }
+ },
+ "seconds": 174.0
+}
+=== after real-v1-8k held-out real documents ===
+32/600 16s
+{"out": "/mnt/nvme/realret/results/roll_hotpot_qa_real-v1-8k_greedy.jsonl", "rollouts": 600, "seconds": 248.3}
+32/600 7s
+{"out": "/mnt/nvme/realret/results/roll_natural_questions_real-v1-8k_greedy.jsonl", "rollouts": 600, "seconds": 129.8}
+32/600 7s
+{"out": "/mnt/nvme/realret/results/roll_trivia_qa_real-v1-8k_greedy.jsonl", "rollouts": 600, "seconds": 134.6}
+32/1200 11s
+672/1200 272s
+{"out": "/mnt/nvme/realret/results/roll_hotpot_qa_real-v1-8k_t1.jsonl", "rollouts": 1200, "seconds": 478.8}
+32/1200 6s
+672/1200 132s
+{"out": "/mnt/nvme/realret/results/roll_natural_questions_real-v1-8k_t1.jsonl", "rollouts": 1200, "seconds": 238.8}
+32/1200 6s
+672/1200 138s
+{"out": "/mnt/nvme/realret/results/roll_trivia_qa_real-v1-8k_t1.jsonl", "rollouts": 1200, "seconds": 259.2}
+{
+ "rollout_files": [
+  "/mnt/nvme/realret/results/roll_hotpot_qa_real-v1-8k_greedy.jsonl",
+  "/mnt/nvme/realret/results/roll_natural_questions_real-v1-8k_greedy.jsonl",
+  "/mnt/nvme/realret/results/roll_trivia_qa_real-v1-8k_greedy.jsonl",
+  "/mnt/nvme/realret/results/roll_hotpot_qa_real-v1-8k_t1.jsonl",
+  "/mnt/nvme/realret/results/roll_natural_questions_real-v1-8k_t1.jsonl",
+  "/mnt/nvme/realret/results/roll_trivia_qa_real-v1-8k_t1.jsonl"
+ ],
+ "n_rollouts": 5400,
+ "cells": {
+  "hotpot_qa|greedy|open": {
+   "n": 568,
+   "floor": 0.0,
+   "ship": 0.2782,
+   "ship_ci": [
+    0.2429,
+    0.3164
+   ],
+   "strict": 0.25,
+   "strict_ci": [
+    0.2161,
+    0.2872
+   ],
+   "f1": 0.3512,
+   "issued_query": 1.0,
+   "mean_rounds": 2.114,
+   "gold_page_served": 0.6866,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.4051,
+   "n_gold_served": 390,
+   "well_formed": 0.9982,
+   "empty_answer": 0.0,
+   "wrong": 410,
+   "decomposition": {
+    "no_query": 0,
+    "bad_pages": 178,
+    "truncated": 0,
+    "did_not_read": 232
+   },
+   "stop_reasons": {
+    "answer_boundary": 1,
+    "eot": 567
+   }
+  },
+  "hotpot_qa|greedy|yesno": {
+   "n": 32,
+   "floor": 0.5,
+   "ship": 0.5625,
+   "ship_ci": [
+    0.3933,
+    0.7183
+   ],
+   "strict": 0.5625,
+   "strict_ci": [
+    0.3933,
+    0.7183
+   ],
+   "f1": 0.5625,
+   "issued_query": 1.0,
+   "mean_rounds": 2.188,
+   "gold_page_served": 0.0312,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.0,
+   "n_gold_served": 1,
+   "well_formed": 1.0,
+   "empty_answer": 0.0,
+   "wrong": 14,
+   "decomposition": {
+    "no_query": 0,
+    "bad_pages": 13,
+    "truncated": 0,
+    "did_not_read": 1
+   },
+   "stop_reasons": {
+    "eot": 32
+   }
+  },
+  "natural_questions|greedy|open": {
+   "n": 599,
+   "floor": 0.0,
+   "ship": 0.2788,
+   "ship_ci": [
+    0.2444,
+    0.316
+   ],
+   "strict": 0.2354,
+   "strict_ci": [
+    0.2032,
+    0.271
+   ],
+   "f1": 0.3541,
+   "issued_query": 1.0,
+   "mean_rounds": 1.217,
+   "gold_page_served": 0.6177,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.4514,
+   "n_gold_served": 370,
+   "well_formed": 0.9983,
+   "empty_answer": 0.0,
+   "wrong": 432,
+   "decomposition": {
+    "no_query": 0,
+    "bad_pages": 229,
+    "truncated": 0,
+    "did_not_read": 203
+   },
+   "stop_reasons": {
+    "answer_boundary": 1,
+    "eot": 598
+   }
+  },
+  "natural_questions|greedy|yesno": {
+   "n": 1,
+   "floor": 0.5,
+   "ship": 0.0,
+   "ship_ci": [
+    0.0,
+    0.7935
+   ],
+   "strict": 0.0,
+   "strict_ci": [
+    0.0,
+    0.7935
+   ],
+   "f1": 0.0,
+   "issued_query": 1.0,
+   "mean_rounds": 2.0,
+   "gold_page_served": 1.0,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.0,
+   "n_gold_served": 1,
+   "well_formed": 1.0,
+   "empty_answer": 0.0,
+   "wrong": 1,
+   "decomposition": {
+    "no_query": 0,
+    "bad_pages": 0,
+    "truncated": 0,
+    "did_not_read": 1
+   },
+   "stop_reasons": {
+    "eot": 1
+   }
+  },
+  "trivia_qa|greedy|open": {
+   "n": 600,
+   "floor": 0.0,
+   "ship": 0.4167,
+   "ship_ci": [
+    0.3779,
+    0.4565
+   ],
+   "strict": 0.3983,
+   "strict_ci": [
+    0.3599,
+    0.438
+   ],
+   "f1": 0.4651,
+   "issued_query": 1.0,
+   "mean_rounds": 1.35,
+   "gold_page_served": 0.7367,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.5611,
+   "n_gold_served": 442,
+   "well_formed": 0.9983,
+   "empty_answer": 0.0,
+   "wrong": 350,
+   "decomposition": {
+    "no_query": 0,
+    "bad_pages": 156,
+    "truncated": 0,
+    "did_not_read": 194
+   },
+   "stop_reasons": {
+    "answer_boundary": 1,
+    "eot": 599
+   }
+  },
+  "hotpot_qa|t1|open": {
+   "n": 1140,
+   "floor": 0.0,
+   "ship": 0.1579,
+   "ship_ci": [
+    0.1379,
+    0.1802
+   ],
+   "strict": 0.1377,
+   "strict_ci": [
+    0.1189,
+    0.1589
+   ],
+   "f1": 0.2258,
+   "issued_query": 0.9965,
+   "mean_rounds": 2.134,
+   "gold_page_served": 0.6439,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.2452,
+   "n_gold_served": 734,
+   "well_formed": 0.9746,
+   "empty_answer": 0.0053,
+   "wrong": 960,
+   "decomposition": {
+    "no_query": 4,
+    "bad_pages": 402,
+    "truncated": 0,
+    "did_not_read": 554
+   },
+   "stop_reasons": {
+    "answer_boundary": 23,
+    "eot": 1117
+   }
+  },
+  "hotpot_qa|t1|yesno": {
+   "n": 60,
+   "floor": 0.5,
+   "ship": 0.5667,
+   "ship_ci": [
+    0.441,
+    0.6843
+   ],
+   "strict": 0.5667,
+   "strict_ci": [
+    0.441,
+    0.6843
+   ],
+   "f1": 0.5667,
+   "issued_query": 1.0,
+   "mean_rounds": 2.083,
+   "gold_page_served": 0.0667,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.75,
+   "n_gold_served": 4,
+   "well_formed": 1.0,
+   "empty_answer": 0.0,
+   "wrong": 26,
+   "decomposition": {
+    "no_query": 0,
+    "bad_pages": 25,
+    "truncated": 0,
+    "did_not_read": 1
+   },
+   "stop_reasons": {
+    "eot": 60
+   }
+  },
+  "natural_questions|t1|open": {
+   "n": 1200,
+   "floor": 0.0,
+   "ship": 0.1358,
+   "ship_ci": [
+    0.1176,
+    0.1564
+   ],
+   "strict": 0.1133,
+   "strict_ci": [
+    0.0966,
+    0.1325
+   ],
+   "f1": 0.1967,
+   "issued_query": 0.9983,
+   "mean_rounds": 1.308,
+   "gold_page_served": 0.5942,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.2286,
+   "n_gold_served": 713,
+   "well_formed": 0.975,
+   "empty_answer": 0.0025,
+   "wrong": 1037,
+   "decomposition": {
+    "no_query": 2,
+    "bad_pages": 485,
+    "truncated": 0,
+    "did_not_read": 550
+   },
+   "stop_reasons": {
+    "answer_boundary": 27,
+    "eot": 1173
+   }
+  },
+  "trivia_qa|t1|open": {
+   "n": 1200,
+   "floor": 0.0,
+   "ship": 0.2517,
+   "ship_ci": [
+    0.2279,
+    0.277
+   ],
+   "strict": 0.24,
+   "strict_ci": [
+    0.2167,
+    0.265
+   ],
+   "f1": 0.2871,
+   "issued_query": 0.9983,
+   "mean_rounds": 1.381,
+   "gold_page_served": 0.71,
+   "hit_a_cap": 0.0,
+   "ship_given_gold_served": 0.3521,
+   "n_gold_served": 852,
+   "well_formed": 0.9783,
+   "empty_answer": 0.0025,
+   "wrong": 898,
+   "decomposition": {
+    "no_query": 2,
+    "bad_pages": 344,
+    "truncated": 0,
+    "did_not_read": 552
+   },
+   "stop_reasons": {
+    "answer_boundary": 24,
+    "eot": 1176
+   }
+  }
+ }
+}
+=== after real-v1-8k MMLU closed book, n=500 ===
+25/500 1s eta 15s
+50/500 2s eta 14s
+75/500 2s eta 12s
+100/500 3s eta 12s
+125/500 4s eta 12s
+150/500 5s eta 11s
+175/500 5s eta 10s
+200/500 6s eta 9s
+225/500 7s eta 9s
+250/500 8s eta 8s
+275/500 9s eta 7s
+300/500 9s eta 6s
+325/500 10s eta 5s
+350/500 11s eta 5s
+375/500 12s eta 4s
+400/500 13s eta 3s
+425/500 14s eta 2s
+450/500 14s eta 2s
+475/500 15s eta 1s
+500/500 16s eta 0s
+{"model": "ours:real-v1-8k", "ckpt": "/mnt/nvme/realret/real-v1-8k.pt", "task": "mmlu", "fmt": "completion", "n": 500, "seed": 1234, "params_total": 375440384, "max_seq_len": 4096, "prompts_over_context": 0, "cfg": {"d_ff": 2816, "d_model": 1024, "max_seq_len": 4096, "n_heads": 16, "n_layers": 24, "norm_eps": 1e-05, "rope_theta": 10000.0, "vocab_size": 32768}, "acc": 0.282, "acc_norm": 0.282, "floor": 0.25, "shots": 5, "eot_prefix": false, "seconds": 15.6}
+25/500 1s eta 15s
+50/500 2s eta 14s
+75/500 2s eta 12s
+100/500 3s eta 12s
+125/500 4s eta 12s
+150/500 5s eta 11s
+175/500 5s eta 10s
+200/500 6s eta 9s
+225/500 7s eta 9s
+250/500 8s eta 8s
+275/500 9s eta 7s
+300/500 9s eta 6s
+325/500 10s eta 5s
+350/500 11s eta 5s
+375/500 12s eta 4s
+400/500 13s eta 3s
+425/500 14s eta 2s
+450/500 14s eta 2s
+475/500 15s eta 1s
+500/500 16s eta 0s
+{"model": "ours:real-v1-8k", "ckpt": "/mnt/nvme/realret/real-v1-8k.pt", "task": "mmlu", "fmt": "completion", "n": 500, "seed": 1234, "params_total": 375440384, "max_seq_len": 4096, "prompts_over_context": 0, "cfg": {"d_ff": 2816, "d_model": 1024, "max_seq_len": 4096, "n_heads": 16, "n_layers": 24, "norm_eps": 1e-05, "rope_theta": 10000.0, "vocab_size": 32768}, "acc": 0.288, "acc_norm": 0.288, "floor": 0.25, "shots": 5, "eot_prefix": true, "seconds": 15.6}
+=== after real-v1-8k MMLU with the same pages in context ===
+25/500 7s eta 133s live=0
+50/500 15s eta 137s live=0
+75/500 23s eta 130s live=0
+100/500 32s eta 130s live=0
+125/500 41s eta 123s live=0
+150/500 49s eta 114s live=0
+175/500 57s eta 105s live=0
+200/500 66s eta 99s live=0
+225/500 74s eta 90s live=0
+250/500 83s eta 83s live=0
+275/500 93s eta 76s live=0
+300/500 100s eta 67s live=0
+325/500 108s eta 58s live=0
+350/500 115s eta 49s live=0
+375/500 123s eta 41s live=0
+400/500 132s eta 33s live=0
+425/500 142s eta 25s live=0
+450/500 149s eta 17s live=0
+475/500 159s eta 8s live=0
+500/500 167s eta 0s live=0
+{
+ "model": "ours:real-v1-8k",
+ "ckpt": "/mnt/nvme/realret/real-v1-8k.pt",
+ "task": "mmlu",
+ "condition": "retrieval",
+ "retriever": "exa",
+ "live_searches": 0,
+ "n": 500,
+ "seed": 1234,
+ "shots": 5,
+ "eot_prefix": false,
+ "num_results": 5,
+ "max_context_chars": 6000,
+ "params_total": 375440384,
+ "mean_context_chars": 6083.6,
+ "mean_pages": 4.97,
+ "pages_empty": 0,
+ "max_seq_len": 4096,
+ "mean_ctx_tokens_open": 2193.7,
+ "max_ctx_tokens_open": 4840,
+ "prompts_cropped": 4,
+ "matched_uncropped": {
+  "all": {
+   "n": 496,
+   "acc": 0.2702,
+   "floor": 0.25
+  },
+  "by_contamination": {
+   "verbatim": {
+    "n": 24,
+    "acc": 0.25,
+    "floor": 0.25
+   },
+   "answer": {
+    "n": 57,
+    "acc": 0.2807,
+    "floor": 0.25
+   },
+   "neither": {
+    "n": 415,
+    "acc": 0.2699,
+    "floor": 0.25
+   }
+  }
+ },
+ "closed_book": {
+  "all": {
+   "n": 500,
+   "acc": 0.282,
+   "floor": 0.25
+  },
+  "by_contamination": {
+   "verbatim": {
+    "n": 24,
+    "acc": 0.2083,
+    "floor": 0.25
+   },
+   "answer": {
+    "n": 57,
+    "acc": 0.2982,
+    "floor": 0.25
+   },
+   "neither": {
+    "n": 419,
+    "acc": 0.284,
+    "floor": 0.25
+   }
+  }
+ },
+ "matched": {
+  "all": {
+   "n": 500,
+   "acc": 0.27,
+   "floor": 0.25
+  },
+  "by_contamination": {
+   "verbatim": {
+    "n": 24,
+    "acc": 0.25,
+    "floor": 0.25
+   },
+   "answer": {
+    "n": 57,
+    "acc": 0.2807,
+    "floor": 0.25
+   },
+   "neither": {
+    "n": 419,
+    "acc": 0.2697,
+    "floor": 0.25
+   }
+  }
+ },
+ "native": {
+  "all": {
+   "n": 500,
+   "acc": 0.262,
+   "floor": 0.25
+  },
+  "by_contamination": {
+   "verbatim": {
+    "n": 24,
+    "acc": 0.25,
+    "floor": 0.25
+   },
+   "answer": {
+    "n": 57,
+    "acc": 0.3158,
+    "floor": 0.25
+   },
+   "neither": {
+    "n": 419,
+    "acc": 0.2554,
+    "floor": 0.25
+   }
+  }
+ },
+ "seconds": 167.5
+}
+=== after real-v1-8k held-out synthetic frames ===
+{"frame": "abstract__active", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 25.425}
+{"frame": "abstract__active", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.5375, "prompt_tokens_mean": 29.2}
+{"frame": "abstract__active", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9625, "prompt_tokens_mean": 31.4}
+{"frame": "abstract__imperative", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 27.425}
+{"frame": "abstract__imperative", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.7375, "prompt_tokens_mean": 31.2}
+{"frame": "abstract__imperative", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9375, "prompt_tokens_mean": 34.4}
+{"frame": "abstract__tablepipe", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.2, "prompt_tokens_mean": 29.425}
+{"frame": "abstract__tablepipe", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 1.0, "prompt_tokens_mean": 30.2}
+{"frame": "abstract__tablepipe", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.7375, "prompt_tokens_mean": 34.4}
+{"frame": "assembly__active", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 25.425}
+{"frame": "assembly__active", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9625, "prompt_tokens_mean": 29.2}
+{"frame": "assembly__active", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 31.4}
+{"frame": "assembly__condthen", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 30.425}
+{"frame": "assembly__condthen", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 1.0, "prompt_tokens_mean": 30.2}
+{"frame": "assembly__condthen", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.7625, "prompt_tokens_mean": 31.4}
+{"frame": "assembly__imperative", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 27.425}
+{"frame": "assembly__imperative", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.975, "prompt_tokens_mean": 31.2}
+{"frame": "assembly__imperative", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 34.4}
+{"frame": "assembly__tablepipe", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.2, "prompt_tokens_mean": 29.425}
+{"frame": "assembly__tablepipe", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 1.0, "prompt_tokens_mean": 30.2}
+{"frame": "assembly__tablepipe", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.975, "prompt_tokens_mean": 34.4}
+{"frame": "kitchen__active", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.95, "prompt_tokens_mean": 25.425}
+{"frame": "kitchen__active", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.525, "prompt_tokens_mean": 29.2}
+{"frame": "kitchen__active", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 1.0, "prompt_tokens_mean": 31.4}
+{"frame": "kitchen__condthen", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 30.425}
+{"frame": "kitchen__condthen", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.975, "prompt_tokens_mean": 30.2}
+{"frame": "kitchen__condthen", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.625, "prompt_tokens_mean": 31.4}
+{"frame": "kitchen__imperative", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 28.425}
+{"frame": "kitchen__imperative", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.4375, "prompt_tokens_mean": 32.2}
+{"frame": "kitchen__imperative", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 1.0, "prompt_tokens_mean": 34.4}
+{"frame": "kitchen__tablepipe", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.1875, "prompt_tokens_mean": 29.425}
+{"frame": "kitchen__tablepipe", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.7625, "prompt_tokens_mean": 30.2}
+{"frame": "kitchen__tablepipe", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 34.4}
+{"frame": "panel__condthen", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9875, "prompt_tokens_mean": 31.425}
+{"frame": "panel__condthen", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.975, "prompt_tokens_mean": 29.2}
+{"frame": "panel__condthen", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 80, "accuracy": 0.9375, "prompt_tokens_mean": 30.4}
+frame                  family                 n shipped  forced   first  hedge   none  chance  chncPg served  frcdSv
+abstract__active       exception_rule        80   0.537   0.537   0.537  0.000  0.000   0.500   0.265  0.537   1.000
+abstract__active       substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.102  1.000   0.988
+abstract__active       threshold_rule        80   0.963   0.963   0.963  0.000  0.000   0.500   0.249  1.000   0.963
+abstract__imperative   exception_rule        80   0.738   0.738   0.738  0.000  0.237   0.500   0.285  0.738   1.000
+abstract__imperative   substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.106  1.000   0.988
+abstract__imperative   threshold_rule        80   0.938   0.938   0.938  0.000  0.000   0.500   0.333  1.000   0.938
+abstract__tablepipe    exception_rule        80   1.000   1.000   1.000  0.000  0.000   0.500   0.353  1.000   1.000
+abstract__tablepipe    substitution_rule     80   0.200   0.200   0.200  0.000  0.000   0.200   0.102  1.000   0.200
+abstract__tablepipe    threshold_rule        80   0.738   0.738   0.738  0.000  0.237   0.500   0.234  0.738   1.000
+assembly__active       exception_rule        80   0.963   0.963   0.963  0.000  0.000   0.500   0.372  0.963   1.000
+assembly__active       substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.102  1.000   0.988
+assembly__active       threshold_rule        80   0.988   0.988   0.988  0.000  0.000   0.500   0.250  1.000   0.988
+assembly__condthen     exception_rule        80   1.000   1.000   1.000  0.000  0.000   0.500   0.473  1.000   1.000
+assembly__condthen     substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.102  1.000   0.988
+assembly__condthen     threshold_rule        80   0.762   0.762   0.762  0.000  0.062   0.500   0.240  1.000   0.762
+assembly__imperative   exception_rule        80   0.975   0.975   0.975  0.000  0.013   0.500   0.379  0.975   1.000
+assembly__imperative   substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.112  1.000   0.988
+assembly__imperative   threshold_rule        80   0.988   0.988   0.988  0.000  0.000   0.500   0.250  1.000   0.988
+assembly__tablepipe    exception_rule        80   1.000   1.000   1.000  0.000  0.000   0.500   0.300  1.000   1.000
+assembly__tablepipe    substitution_rule     80   0.200   0.200   0.200  0.000  0.000   0.200   0.102  1.000   0.200
+assembly__tablepipe    threshold_rule        80   0.975   0.975   0.975  0.000  0.000   0.500   0.273  0.975   1.000
+kitchen__active        exception_rule        80   0.525   0.525   0.525  0.000  0.175   0.500   0.263  0.525   1.000
+kitchen__active        substitution_rule     80   0.950   0.950   0.950  0.000  0.000   0.200   0.100  1.000   0.950
+kitchen__active        threshold_rule        80   1.000   1.000   1.000  0.000  0.000   0.500   0.250  1.000   1.000
+kitchen__condthen      exception_rule        80   0.975   0.975   0.975  0.000  0.000   0.500   0.404  0.975   1.000
+kitchen__condthen      substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.102  1.000   0.988
+kitchen__condthen      threshold_rule        80   0.625   0.625   0.625  0.000  0.250   0.500   0.210  1.000   0.625
+kitchen__imperative    exception_rule        80   0.438   0.438   0.438  0.000  0.500   0.500   0.134  0.463   0.946
+kitchen__imperative    substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.114  1.000   0.988
+kitchen__imperative    threshold_rule        80   1.000   1.000   1.000  0.000  0.000   0.500   0.249  1.000   1.000
+kitchen__tablepipe     exception_rule        80   0.762   0.762   0.762  0.000  0.237   0.500   0.234  0.762   1.000
+kitchen__tablepipe     substitution_rule     80   0.188   0.188   0.188  0.000  0.000   0.200   0.102  1.000   0.188
+kitchen__tablepipe     threshold_rule        80   0.988   0.988   0.988  0.000  0.000   0.500   0.275  0.988   1.000
+panel__condthen        exception_rule        80   0.975   0.975   0.975  0.000  0.000   0.500   0.404  0.975   1.000
+panel__condthen        substitution_rule     80   0.988   0.988   0.988  0.000  0.000   0.200   0.100  1.000   0.988
+panel__condthen        threshold_rule        80   0.938   0.938   0.938  0.000  0.000   0.500   0.250  1.000   0.938
+
+macro over frames, within family, both aggregation orders:
+  exception_rule     cells=12 macroAcc=0.824 macroChance=0.500 A=0.648 B=0.648
+  substitution_rule  cells=12 macroAcc=0.786 macroChance=0.200 A=0.733 B=0.733
+  threshold_rule     cells=12 macroAcc=0.908 macroChance=0.500 A=0.817 B=0.817
+wrote /mnt/nvme/realret/results/frames_score_real-v1-8k_greedy.json
+{"frame": "abstract__active", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.9875, "prompt_tokens_mean": 25.425}
+{"frame": "abstract__active", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.63125, "prompt_tokens_mean": 29.2}
+{"frame": "abstract__active", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.94375, "prompt_tokens_mean": 31.4}
+{"frame": "abstract__imperative", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.91875, "prompt_tokens_mean": 27.425}
+{"frame": "abstract__imperative", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.64375, "prompt_tokens_mean": 31.2}
+{"frame": "abstract__imperative", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.94375, "prompt_tokens_mean": 34.4}
+{"frame": "abstract__tablepipe", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.2125, "prompt_tokens_mean": 29.425}
+{"frame": "abstract__tablepipe", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.90625, "prompt_tokens_mean": 30.2}
+{"frame": "abstract__tablepipe", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.75625, "prompt_tokens_mean": 34.4}
+{"frame": "assembly__active", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.9875, "prompt_tokens_mean": 25.425}
+{"frame": "assembly__active", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.8375, "prompt_tokens_mean": 29.2}
+{"frame": "assembly__active", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.95625, "prompt_tokens_mean": 31.4}
+{"frame": "assembly__condthen", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.96875, "prompt_tokens_mean": 30.425}
+{"frame": "assembly__condthen", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.94375, "prompt_tokens_mean": 30.2}
+{"frame": "assembly__condthen", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.6625, "prompt_tokens_mean": 31.4}
+{"frame": "assembly__imperative", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.96875, "prompt_tokens_mean": 27.425}
+{"frame": "assembly__imperative", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.68125, "prompt_tokens_mean": 31.2}
+{"frame": "assembly__imperative", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.975, "prompt_tokens_mean": 34.4}
+{"frame": "assembly__tablepipe", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.2125, "prompt_tokens_mean": 29.425}
+{"frame": "assembly__tablepipe", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.79375, "prompt_tokens_mean": 30.2}
+{"frame": "assembly__tablepipe", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.9125, "prompt_tokens_mean": 34.4}
+{"frame": "kitchen__active", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.91875, "prompt_tokens_mean": 25.425}
+{"frame": "kitchen__active", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.53125, "prompt_tokens_mean": 29.2}
+{"frame": "kitchen__active", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.98125, "prompt_tokens_mean": 31.4}
+{"frame": "kitchen__condthen", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.94375, "prompt_tokens_mean": 30.425}
+{"frame": "kitchen__condthen", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.95625, "prompt_tokens_mean": 30.2}
+{"frame": "kitchen__condthen", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.64375, "prompt_tokens_mean": 31.4}
+{"frame": "kitchen__imperative", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.98125, "prompt_tokens_mean": 28.425}
+{"frame": "kitchen__imperative", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.4, "prompt_tokens_mean": 32.2}
+{"frame": "kitchen__imperative", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.975, "prompt_tokens_mean": 34.4}
+{"frame": "kitchen__tablepipe", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.21875, "prompt_tokens_mean": 29.425}
+{"frame": "kitchen__tablepipe", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.7375, "prompt_tokens_mean": 30.2}
+{"frame": "kitchen__tablepipe", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.90625, "prompt_tokens_mean": 34.4}
+{"frame": "panel__condthen", "family": "substitution_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.96875, "prompt_tokens_mean": 31.425}
+{"frame": "panel__condthen", "family": "exception_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.9375, "prompt_tokens_mean": 29.2}
+{"frame": "panel__condthen", "family": "threshold_rule", "condition": "textbook", "n_questions": 80, "n_rollouts": 160, "accuracy": 0.8375, "prompt_tokens_mean": 30.4}
+frame                  family                 n shipped  forced   first  hedge   none  chance  chncPg served  frcdSv
+abstract__active       exception_rule       160   0.631   0.631   0.631  0.000  0.044   0.500   0.288  0.631   1.000
+abstract__active       substitution_rule    160   0.988   0.988   0.988  0.000  0.000   0.200   0.102  1.000   0.988
+abstract__active       threshold_rule       160   0.944   0.944   0.944  0.000  0.013   0.500   0.258  0.981   0.962
+abstract__imperative   exception_rule       160   0.644   0.644   0.644  0.000  0.300   0.500   0.249  0.650   0.990
+abstract__imperative   substitution_rule    160   0.919   0.919   0.919  0.000  0.069   0.200   0.095  0.931   0.987
+abstract__imperative   threshold_rule       160   0.944   0.944   0.944  0.000  0.006   0.500   0.296  0.981   0.962
+abstract__tablepipe    exception_rule       160   0.906   0.906   0.906  0.000  0.037   0.500   0.329  0.912   0.993
+abstract__tablepipe    substitution_rule    160   0.212   0.212   0.212  0.000  0.006   0.200   0.100  1.000   0.212
+abstract__tablepipe    threshold_rule       160   0.756   0.756   0.756  0.000  0.219   0.500   0.239  0.756   1.000
+assembly__active       exception_rule       160   0.838   0.838   0.838  0.000  0.025   0.500   0.303  0.844   0.993
+assembly__active       substitution_rule    160   0.988   0.988   0.988  0.000  0.000   0.200   0.102  1.000   0.988
+assembly__active       threshold_rule       160   0.956   0.956   0.956  0.000  0.006   0.500   0.258  0.969   0.987
+assembly__condthen     exception_rule       160   0.944   0.944   0.944  0.000  0.044   0.500   0.408  0.944   1.000
+assembly__condthen     substitution_rule    160   0.969   0.969   0.969  0.000  0.019   0.200   0.100  0.981   0.987
+assembly__condthen     threshold_rule       160   0.662   0.662   0.662  0.000  0.062   0.500   0.239  0.994   0.667
+assembly__imperative   exception_rule       160   0.681   0.681   0.681  0.000  0.175   0.500   0.256  0.681   1.000
+assembly__imperative   substitution_rule    160   0.969   0.969   0.969  0.000  0.019   0.200   0.104  0.981   0.987
+assembly__imperative   threshold_rule       160   0.975   0.975   0.975  0.000  0.006   0.500   0.258  0.988   0.987
+assembly__tablepipe    exception_rule       160   0.794   0.794   0.794  0.000  0.119   0.500   0.254  0.800   0.992
+assembly__tablepipe    substitution_rule    160   0.212   0.212   0.212  0.000  0.019   0.200   0.100  0.994   0.214
+assembly__tablepipe    threshold_rule       160   0.912   0.912   0.912  0.000  0.062   0.500   0.260  0.912   1.000
+kitchen__active        exception_rule       160   0.531   0.531   0.531  0.000  0.269   0.500   0.254  0.537   0.988
+kitchen__active        substitution_rule    160   0.919   0.919   0.919  0.000  0.037   0.200   0.093  0.969   0.948
+kitchen__active        threshold_rule       160   0.981   0.981   0.981  0.000  0.006   0.500   0.248  0.994   0.987
+kitchen__condthen      exception_rule       160   0.956   0.956   0.956  0.000  0.019   0.500   0.390  0.956   1.000
+kitchen__condthen      substitution_rule    160   0.944   0.944   0.944  0.000  0.044   0.200   0.095  0.956   0.987
+kitchen__condthen      threshold_rule       160   0.644   0.644   0.644  0.000  0.156   0.500   0.223  1.000   0.644
+kitchen__imperative    exception_rule       160   0.400   0.400   0.400  0.000  0.506   0.500   0.124  0.425   0.941
+kitchen__imperative    substitution_rule    160   0.981   0.981   0.981  0.000  0.019   0.200   0.112  1.000   0.981
+kitchen__imperative    threshold_rule       160   0.975   0.975   0.975  0.000  0.025   0.500   0.243  0.975   1.000
+kitchen__tablepipe     exception_rule       160   0.738   0.738   0.738  0.000  0.200   0.500   0.233  0.738   1.000
+kitchen__tablepipe     substitution_rule    160   0.219   0.219   0.219  0.000  0.056   0.200   0.090  0.956   0.229
+kitchen__tablepipe     threshold_rule       160   0.906   0.906   0.906  0.000  0.062   0.500   0.259  0.919   0.986
+panel__condthen        exception_rule       160   0.938   0.938   0.938  0.000  0.025   0.500   0.388  0.938   1.000
+panel__condthen        substitution_rule    160   0.969   0.969   0.969  0.000  0.019   0.200   0.098  0.981   0.987
+panel__condthen        threshold_rule       160   0.838   0.838   0.838  0.000  0.031   0.500   0.244  0.956   0.876
+
+macro over frames, within family, both aggregation orders:
+  exception_rule     cells=12 macroAcc=0.750 macroChance=0.500 A=0.500 B=0.500
+  substitution_rule  cells=12 macroAcc=0.774 macroChance=0.200 A=0.717 B=0.717
+  threshold_rule     cells=12 macroAcc=0.874 macroChance=0.500 A=0.749 B=0.749
+wrote /mnt/nvme/realret/results/frames_score_real-v1-8k_t1.json
+MEASURE_DONE after real-v1-8k

@@ -1,0 +1,53 @@
+data:
+  bank_mode: oracle
+  bank_size: 256
+  chunk_len: 128
+  contradiction_rate: 0.15
+  filler_rate: 0.25
+  max_answer_tokens: 64
+  max_question_tokens: 256
+  pool_chunks: 4096
+  pool_episodes: 256
+  prefetch: 4
+  questions_per_episode: 4
+  seed: 1234
+  web_share: 0.25
+model:
+  chunk_len: 128
+  d_enc: 512
+  d_ff: 2944
+  d_model: 1024
+  enc_d_ff: 1408
+  enc_heads: 8
+  enc_layers: 4
+  evidence_mode: pooled
+  gate_bias_init: 0.0
+  max_chunks: 1024
+  max_seq_len: 2048
+  n_heads: 16
+  n_layers: 21
+  n_reliability_buckets: 16
+  norm_eps: 1.0e-05
+  rope_theta: 10000.0
+  vocab_size: 32768
+  xattn_every: 3
+  xattn_n_kv_heads: 4
+optimizer:
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-08
+  lr: 0.0003
+  weight_decay: 0.1
+schedule:
+  max_steps: 26700
+  min_lr_ratio: 0.1
+  warmup_phase_steps: 0
+  warmup_steps: 500
+train:
+  batch_size: 8
+  ckpt_interval: 1000
+  compile: false
+  grad_accum_steps: 8
+  grad_clip: 1.0
+  log_interval: 20
+  seed: 731

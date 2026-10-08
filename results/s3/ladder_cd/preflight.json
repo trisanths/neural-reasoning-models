@@ -1,0 +1,908 @@
+{
+ "config": {
+  "ckpt": "/home/ec2-user/opg/runs/ladder/ladder_english.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "rep": null,
+  "out": "/home/ec2-user/opg/results/ladder_cd/preflight.json",
+  "n": 2,
+  "batch_size": 4,
+  "slot_batch_size": 8,
+  "rounds": 3,
+  "depths": "sequential=2,16,20;novel=3;breadth=2",
+  "styles": "0,1",
+  "temperature": 0.0,
+  "min_max_new": 320,
+  "budget_slack": 1.6,
+  "conditions": "plan_execute,oracle_plan,oracle_ops,oracle_both",
+  "para_oracles": 1
+ },
+ "rep": "english",
+ "checkpoint": {
+  "arm": "ladder_english",
+  "rep": "english",
+  "step": 1500,
+  "tokens": 3355456,
+  "supervised_tokens": 979960,
+  "examples": 64000,
+  "reinit_tokens": 0,
+  "rounds": 3
+ },
+ "budget": {
+  "breadth/2/style0": {
+   "gold_longest_tokens": 20,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 320
+  },
+  "novel/3/style0": {
+   "gold_longest_tokens": 44,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 320
+  },
+  "sequential/2/style0": {
+   "gold_longest_tokens": 31,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 320
+  },
+  "sequential/16/style0": {
+   "gold_longest_tokens": 213,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 404
+  },
+  "sequential/20/style0": {
+   "gold_longest_tokens": 265,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 488
+  },
+  "breadth/2/style1": {
+   "gold_longest_tokens": 20,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 320
+  },
+  "novel/3/style1": {
+   "gold_longest_tokens": 44,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 320
+  },
+  "sequential/2/style1": {
+   "gold_longest_tokens": 31,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 320
+  },
+  "sequential/16/style1": {
+   "gold_longest_tokens": 213,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 404
+  },
+  "sequential/20/style1": {
+   "gold_longest_tokens": 265,
+   "gold_encodable": 2,
+   "gold_of": 2,
+   "gold_encode_error": "",
+   "max_new": 488
+  }
+ },
+ "unrepresentable": [],
+ "induction": {
+  "pages": 24,
+  "pages_parsed": 24,
+  "gold_ops": 36,
+  "induced_ops": 36,
+  "self_verified": 36,
+  "exact_text": 36,
+  "behavioural": 36
+ },
+ "plan_execute": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply ^ to result one and 12, giving result two ; then apply ^ to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply & to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; the answer is result three",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 11, giving result three ; the answer is result three"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 7, giving result three ; the answer is result three",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_plan": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply > to result one and 12, giving result two ; then apply > to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply % to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; then apply # to result three and 12, giving result four ; then apply # to result four and 3, giving result five ; then apply # to result five and 2, giving result six ; then apply # to result six and 8, giving result seven ; then apply # to result seven and 4, giving result eight ; then apply # to result eight and 7, giving result nine ; then apply # to result nine and 11, giving result ten ; then apply # to result ten and 12, giving result eleven ; then apply # to result eleven and 3, giving result twelve ; then apply # to result twelve and 8, giving result thirteen ; then apply # to result thirteen and 10, giving result fourteen ; then apply # to result fourteen and 5, giving result fifteen ; then apply # to result fifteen and 9, giving result sixteen ; the answer is result sixteen",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 8, giving result three ; then apply * to result three and 9, giving result four ; then apply * to result four and 1, giving result five ; then apply * to result five and 12, giving result six ; then apply * to result six and 3, giving result seven ; then apply * to result seven and 3, giving result eight ; then apply * to result eight and 8, giving result nine ; then apply * to result nine and 8, giving result ten ; then apply * to result ten and 12, giving result eleven ; then apply * to result eleven and 8, giving result twelve ; then apply * to result twelve and 8, giving result thirteen ; then apply * to result thirteen and 8, giving result fourteen ; then apply * to result fourteen and 12, giving result fifteen ; then apply * to result fifteen and 11, giving result sixteen ; the answer is result sixteen"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 8, giving result three ; then apply / to result three and 7, giving result four ; then apply / to result four and 4, giving result five ; then apply / to result five and 5, giving result six ; then apply / to result six and 8, giving result seven ; then apply / to result seven and 3, giving result eight ; then apply / to result eight and 4, giving result nine ; then apply / to result nine and 12, giving result ten ; then apply / to result ten and 5, giving result eleven ; then apply / to result eleven and 1, giving result twelve ; then apply / to result twelve and 3, giving result thirteen ; then apply / to result thirteen and 5, giving result fourteen ; then apply / to result fourteen and 3, giving result fifteen ; then apply / to result fifteen and 12, giving result sixteen ; then apply / to result sixteen and 2, giving result seventeen ; then apply / to result seventeen and 12, giving result eighteen ; then apply / to result eighteen and 6, giving result nineteen ; then apply / to result nineteen and 9, giving result twenty ; the answer is result twenty",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 4, giving result three ; then apply * to result three and 7, giving result four ; then apply * to result four and 10, giving result five ; then apply * to result five and 6, giving result six ; then apply * to result six and 9, giving result seven ; then apply * to result seven and 8, giving result eight ; then apply * to result eight and 3, giving result nine ; then apply * to result nine and 11, giving result ten ; then apply * to result ten and 2, giving result eleven ; then apply * to result eleven and 10, giving result twelve ; then apply * to result twelve and 4, giving result thirteen ; then apply * to result thirteen and 7, giving result fourteen ; then apply * to result fourteen and 6, giving result fifteen ; then apply * to result fifteen and 8, giving result sixteen ; then apply * to result sixteen and 8, giving result seventeen ; then apply * to result seventeen and 7, giving result eighteen ; then apply * to result eighteen and 12, giving result nineteen ; then apply * to result nineteen and 5, giving result twenty ; the answer is result twenty"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_ops": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply ^ to result one and 12, giving result two ; then apply ^ to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply & to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; the answer is result three",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 11, giving result three ; the answer is result three"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 7, giving result three ; the answer is result three",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_both": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply > to result one and 12, giving result two ; then apply > to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply % to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; then apply # to result three and 12, giving result four ; then apply # to result four and 3, giving result five ; then apply # to result five and 2, giving result six ; then apply # to result six and 8, giving result seven ; then apply # to result seven and 4, giving result eight ; then apply # to result eight and 7, giving result nine ; then apply # to result nine and 11, giving result ten ; then apply # to result ten and 12, giving result eleven ; then apply # to result eleven and 3, giving result twelve ; then apply # to result twelve and 8, giving result thirteen ; then apply # to result thirteen and 10, giving result fourteen ; then apply # to result fourteen and 5, giving result fifteen ; then apply # to result fifteen and 9, giving result sixteen ; the answer is result sixteen",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 8, giving result three ; then apply * to result three and 9, giving result four ; then apply * to result four and 1, giving result five ; then apply * to result five and 12, giving result six ; then apply * to result six and 3, giving result seven ; then apply * to result seven and 3, giving result eight ; then apply * to result eight and 8, giving result nine ; then apply * to result nine and 8, giving result ten ; then apply * to result ten and 12, giving result eleven ; then apply * to result eleven and 8, giving result twelve ; then apply * to result twelve and 8, giving result thirteen ; then apply * to result thirteen and 8, giving result fourteen ; then apply * to result fourteen and 12, giving result fifteen ; then apply * to result fifteen and 11, giving result sixteen ; the answer is result sixteen"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 8, giving result three ; then apply / to result three and 7, giving result four ; then apply / to result four and 4, giving result five ; then apply / to result five and 5, giving result six ; then apply / to result six and 8, giving result seven ; then apply / to result seven and 3, giving result eight ; then apply / to result eight and 4, giving result nine ; then apply / to result nine and 12, giving result ten ; then apply / to result ten and 5, giving result eleven ; then apply / to result eleven and 1, giving result twelve ; then apply / to result twelve and 3, giving result thirteen ; then apply / to result thirteen and 5, giving result fourteen ; then apply / to result fourteen and 3, giving result fifteen ; then apply / to result fifteen and 12, giving result sixteen ; then apply / to result sixteen and 2, giving result seventeen ; then apply / to result seventeen and 12, giving result eighteen ; then apply / to result eighteen and 6, giving result nineteen ; then apply / to result nineteen and 9, giving result twenty ; the answer is result twenty",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 4, giving result three ; then apply * to result three and 7, giving result four ; then apply * to result four and 10, giving result five ; then apply * to result five and 6, giving result six ; then apply * to result six and 9, giving result seven ; then apply * to result seven and 8, giving result eight ; then apply * to result eight and 3, giving result nine ; then apply * to result nine and 11, giving result ten ; then apply * to result ten and 2, giving result eleven ; then apply * to result eleven and 10, giving result twelve ; then apply * to result twelve and 4, giving result thirteen ; then apply * to result thirteen and 7, giving result fourteen ; then apply * to result fourteen and 6, giving result fifteen ; then apply * to result fifteen and 8, giving result sixteen ; then apply * to result sixteen and 8, giving result seventeen ; then apply * to result seventeen and 7, giving result eighteen ; then apply * to result eighteen and 12, giving result nineteen ; then apply * to result nineteen and 5, giving result twenty ; the answer is result twenty"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "induction@para": {
+  "pages": 24,
+  "pages_parsed": 23,
+  "gold_ops": 36,
+  "induced_ops": 33,
+  "self_verified": 5,
+  "exact_text": 18,
+  "behavioural": 18
+ },
+ "plan_execute@para": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply ^ to result one and 12, giving result two ; then apply ^ to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply & to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply / to 2 and 3, giving result one ; then apply / to 8 and result one, giving result two ; the answer is result two",
+     "first apply * to 3 and 7, giving result one ; then apply * to 7 and result one, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; the answer is result three",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 11, giving result three ; the answer is result three"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 7, giving result three ; the answer is result three",
+     "first apply * to 4 and 7, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_plan@para": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 0.5,
+    "plan_parses": 1.0,
+    "well_typed": 0.5,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.5,
+    "reasons": {
+     "execute": 1,
+     "ok": 1
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply > to result one and 12, giving result two ; then apply > to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply % to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; then apply # to result three and 12, giving result four ; then apply # to result four and 3, giving result five ; then apply # to result five and 2, giving result six ; then apply # to result six and 8, giving result seven ; then apply # to result seven and 4, giving result eight ; then apply # to result eight and 7, giving result nine ; then apply # to result nine and 11, giving result ten ; then apply # to result ten and 12, giving result eleven ; then apply # to result eleven and 3, giving result twelve ; then apply # to result twelve and 8, giving result thirteen ; then apply # to result thirteen and 10, giving result fourteen ; then apply # to result fourteen and 5, giving result fifteen ; then apply # to result fifteen and 9, giving result sixteen ; the answer is result sixteen",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 8, giving result three ; then apply * to result three and 9, giving result four ; then apply * to result four and 1, giving result five ; then apply * to result five and 12, giving result six ; then apply * to result six and 3, giving result seven ; then apply * to result seven and 3, giving result eight ; then apply * to result eight and 8, giving result nine ; then apply * to result nine and 8, giving result ten ; then apply * to result ten and 12, giving result eleven ; then apply * to result eleven and 8, giving result twelve ; then apply * to result twelve and 8, giving result thirteen ; then apply * to result thirteen and 8, giving result fourteen ; then apply * to result fourteen and 12, giving result fifteen ; then apply * to result fifteen and 11, giving result sixteen ; the answer is result sixteen"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 8, giving result three ; then apply / to result three and 7, giving result four ; then apply / to result four and 4, giving result five ; then apply / to result five and 5, giving result six ; then apply / to result six and 8, giving result seven ; then apply / to result seven and 3, giving result eight ; then apply / to result eight and 4, giving result nine ; then apply / to result nine and 12, giving result ten ; then apply / to result ten and 5, giving result eleven ; then apply / to result eleven and 1, giving result twelve ; then apply / to result twelve and 3, giving result thirteen ; then apply / to result thirteen and 5, giving result fourteen ; then apply / to result fourteen and 3, giving result fifteen ; then apply / to result fifteen and 12, giving result sixteen ; then apply / to result sixteen and 2, giving result seventeen ; then apply / to result seventeen and 12, giving result eighteen ; then apply / to result eighteen and 6, giving result nineteen ; then apply / to result nineteen and 9, giving result twenty ; the answer is result twenty",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 4, giving result three ; then apply * to result three and 7, giving result four ; then apply * to result four and 10, giving result five ; then apply * to result five and 6, giving result six ; then apply * to result six and 9, giving result seven ; then apply * to result seven and 8, giving result eight ; then apply * to result eight and 3, giving result nine ; then apply * to result nine and 11, giving result ten ; then apply * to result ten and 2, giving result eleven ; then apply * to result eleven and 10, giving result twelve ; then apply * to result twelve and 4, giving result thirteen ; then apply * to result thirteen and 7, giving result fourteen ; then apply * to result fourteen and 6, giving result fifteen ; then apply * to result fifteen and 8, giving result sixteen ; then apply * to result sixteen and 8, giving result seventeen ; then apply * to result seventeen and 7, giving result eighteen ; then apply * to result eighteen and 12, giving result nineteen ; then apply * to result nineteen and 5, giving result twenty ; the answer is result twenty"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_ops@para": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply ^ to result one and 12, giving result two ; then apply ^ to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply & to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; the answer is result three",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 11, giving result three ; the answer is result three"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 7, giving result three ; the answer is result three",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_both@para": {
+  "breadth": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply score to 23, false and true, giving result one ; the answer is result one",
+     "first apply score to 56, false and true, giving result one ; the answer is result one"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 20,
+    "gold_encodable": 2
+   }
+  },
+  "novel": {
+   "3": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply ^ to 10 and 3, giving result one ; then apply > to result one and 12, giving result two ; then apply > to result two and 3, giving result three ; the answer is result three",
+     "first apply & to 4 and 7, giving result one ; then apply & to 11 and result one, giving result two ; then apply % to result two and 10, giving result three ; the answer is result three"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 44,
+    "gold_encodable": 2
+   }
+  },
+  "sequential": {
+   "2": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 8 and 2, giving result one ; then apply / to result one and 3, giving result two ; the answer is result two",
+     "first apply * to 7 and 3, giving result one ; then apply * to result one and 7, giving result two ; the answer is result two"
+    ],
+    "max_new": 320,
+    "gold_longest_tokens": 31,
+    "gold_encodable": 2
+   },
+   "16": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply # to 7 and 4, giving result one ; then apply # to result one and 4, giving result two ; then apply # to result two and 12, giving result three ; then apply # to result three and 12, giving result four ; then apply # to result four and 3, giving result five ; then apply # to result five and 2, giving result six ; then apply # to result six and 8, giving result seven ; then apply # to result seven and 4, giving result eight ; then apply # to result eight and 7, giving result nine ; then apply # to result nine and 11, giving result ten ; then apply # to result ten and 12, giving result eleven ; then apply # to result eleven and 3, giving result twelve ; then apply # to result twelve and 8, giving result thirteen ; then apply # to result thirteen and 10, giving result fourteen ; then apply # to result fourteen and 5, giving result fifteen ; then apply # to result fifteen and 9, giving result sixteen ; the answer is result sixteen",
+     "first apply * to 5 and 2, giving result one ; then apply * to result one and 4, giving result two ; then apply * to result two and 8, giving result three ; then apply * to result three and 9, giving result four ; then apply * to result four and 1, giving result five ; then apply * to result five and 12, giving result six ; then apply * to result six and 3, giving result seven ; then apply * to result seven and 3, giving result eight ; then apply * to result eight and 8, giving result nine ; then apply * to result nine and 8, giving result ten ; then apply * to result ten and 12, giving result eleven ; then apply * to result eleven and 8, giving result twelve ; then apply * to result twelve and 8, giving result thirteen ; then apply * to result thirteen and 8, giving result fourteen ; then apply * to result fourteen and 12, giving result fifteen ; then apply * to result fifteen and 11, giving result sixteen ; the answer is result sixteen"
+    ],
+    "max_new": 404,
+    "gold_longest_tokens": 213,
+    "gold_encodable": 2
+   },
+   "20": {
+    "n": 2,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 2
+    },
+    "samples": [
+     "first apply / to 12 and 1, giving result one ; then apply / to result one and 5, giving result two ; then apply / to result two and 8, giving result three ; then apply / to result three and 7, giving result four ; then apply / to result four and 4, giving result five ; then apply / to result five and 5, giving result six ; then apply / to result six and 8, giving result seven ; then apply / to result seven and 3, giving result eight ; then apply / to result eight and 4, giving result nine ; then apply / to result nine and 12, giving result ten ; then apply / to result ten and 5, giving result eleven ; then apply / to result eleven and 1, giving result twelve ; then apply / to result twelve and 3, giving result thirteen ; then apply / to result thirteen and 5, giving result fourteen ; then apply / to result fourteen and 3, giving result fifteen ; then apply / to result fifteen and 12, giving result sixteen ; then apply / to result sixteen and 2, giving result seventeen ; then apply / to result seventeen and 12, giving result eighteen ; then apply / to result eighteen and 6, giving result nineteen ; then apply / to result nineteen and 9, giving result twenty ; the answer is result twenty",
+     "first apply * to 9 and 12, giving result one ; then apply * to result one and 9, giving result two ; then apply * to result two and 4, giving result three ; then apply * to result three and 7, giving result four ; then apply * to result four and 10, giving result five ; then apply * to result five and 6, giving result six ; then apply * to result six and 9, giving result seven ; then apply * to result seven and 8, giving result eight ; then apply * to result eight and 3, giving result nine ; then apply * to result nine and 11, giving result ten ; then apply * to result ten and 2, giving result eleven ; then apply * to result eleven and 10, giving result twelve ; then apply * to result twelve and 4, giving result thirteen ; then apply * to result thirteen and 7, giving result fourteen ; then apply * to result fourteen and 6, giving result fifteen ; then apply * to result fifteen and 8, giving result sixteen ; then apply * to result sixteen and 8, giving result seventeen ; then apply * to result seventeen and 7, giving result eighteen ; then apply * to result eighteen and 12, giving result nineteen ; then apply * to result nineteen and 5, giving result twenty ; the answer is result twenty"
+    ],
+    "max_new": 488,
+    "gold_longest_tokens": 265,
+    "gold_encodable": 2
+   }
+  }
+ },
+ "oracle_both_all_one": true,
+ "oracle_both_failures": []
+}

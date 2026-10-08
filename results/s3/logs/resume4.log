@@ -1,0 +1,37 @@
+no DATA_OVERRIDE at s3://decoupled-reasoner-009398924577/code/block4/DATA_OVERRIDE, E3 lanes train on /home/ec2-user/data/regime_e3
+data ok: /home/ec2-user/data/regime_e3 13354983633 tokens
+data ok: /home/ec2-user/data/regime_e 10200763819 tokens
+DONE curve-1300m-a: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+DONE curve-1300m-c: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+DONE curve-350me-502: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+DONE curve-350me-503: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+DONE curve-350me2-601: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+DONE curve-350me2-602: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+DONE curve-350me2-603: no log copy, but mirrored loss.jsonl at step 26700 >= max_steps 26700
+wrote /home/ec2-user/runs/curve-350me3-701/config.yaml: seed 701, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 990
+LAUNCHED curve-350me3-701 gpu 0 ckpt_interval 990 log /home/ec2-user/logs/curve-350me3-701.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me3-701/config.yaml --data /home/ec2-user/data/regime_e3 --out /home/ec2-user/runs/curve-350me3-701 --resume
+wrote /home/ec2-user/runs/curve-350me3loop-711/config.yaml: seed 711, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 1050, recurrent 1+11x4+2, depth 47 at 4 loops, sampled 1-8 loops = depth 14-91, backprop_last_k 2, grad_checkpoint True
+LAUNCHED curve-350me3loop-711 gpu 1 ckpt_interval 1050 log /home/ec2-user/logs/curve-350me3loop-711.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me3loop-711/config.yaml --data /home/ec2-user/data/regime_e3 --out /home/ec2-user/runs/curve-350me3loop-711 --resume
+wrote /home/ec2-user/runs/curve-350me3loop-712/config.yaml: seed 712, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 6,999,244,800 tokens, compile True, ckpt_interval 1070, recurrent 1+11x2+2, depth 25 at 2 loops, sampled 1-4 loops = depth 14-47, backprop_last_k 2, grad_checkpoint True
+LAUNCHED curve-350me3loop-712 gpu 2 ckpt_interval 1070 log /home/ec2-user/logs/curve-350me3loop-712.log
+  cmd: uv run python -m src.train.cli --config /home/ec2-user/runs/curve-350me3loop-712/config.yaml --data /home/ec2-user/data/regime_e3 --out /home/ec2-user/runs/curve-350me3loop-712 --resume
+PROBE OK curve-350xattn-731: two optimizer steps at the full shape
+  param breakdown {"embedding": 33554432, "lm_head": 33554432, "decoder": 278047744, "encoder": 13906944, "cross_attention": 16529415, "total": 375592967, "non_embedding": 308484103}
+wrote /home/ec2-user/runs/curve-350xattn-731/config.yaml: seed 731, micro 8 x accum 8 = global 64 seqs, max_steps 26700, budget 1,708,800 sequences, bank 256 x 128 = 32,768 evidence tokens per sequence, compile False, ckpt_interval 1000
+LAUNCHED curve-350xattn-731 gpu 3 log /home/ec2-user/logs/curve-350xattn-731.log
+  cmd: uv run python -m src.train.evidence_cli --config /home/ec2-user/runs/curve-350xattn-731/config.yaml --tokenizer /home/ec2-user/data/tokenizer_v2.json --web-episodes /home/ec2-user/data/evidence_web/episodes.jsonl --out /home/ec2-user/runs/curve-350xattn-731 --resume
+wrote /home/ec2-user/runs/.rlprobe-curve-rl-350me503-741/config.yaml: 2 step probe of configs/rl-350m-block.yaml, group_size 16, prompts_per_step 16, micro_batch_size 16, inner_epochs 1, 256 rollouts per step, max_len 640
+PROBE OK curve-rl-350me503-741: full shape took a gradient step, using configs/rl-350m-block.yaml
+LAUNCHED curve-rl-350me503-741 gpu 4 config configs/rl-350m-block.yaml init /mnt/scratch/rlckpt/curve-350me-503-ckpt-0026700.pt log /home/ec2-user/logs/curve-rl-350me503-741.log
+  cmd: uv run python -m src.rl.cli --init-checkpoint /mnt/scratch/rlckpt/curve-350me-503-ckpt-0026700.pt --config configs/rl-350m-block.yaml --episodes-jsonl /home/ec2-user/data/regime_c/heldout.jsonl --tokenizer /home/ec2-user/data/tokenizer_v2.json --out /home/ec2-user/runs/curve-rl-350me503-741 --seed 741 --resume
+wrote /home/ec2-user/runs/.rlprobe-curve-rl-350md401-742/config.yaml: 2 step probe of configs/rl-350m-block.yaml, group_size 16, prompts_per_step 16, micro_batch_size 16, inner_epochs 1, 256 rollouts per step, max_len 640
+PROBE OK curve-rl-350md401-742: full shape took a gradient step, using configs/rl-350m-block.yaml
+LAUNCHED curve-rl-350md401-742 gpu 5 config configs/rl-350m-block.yaml init /mnt/scratch/rlckpt/curve-350md-401-ckpt-0026700.pt log /home/ec2-user/logs/curve-rl-350md401-742.log
+  cmd: uv run python -m src.rl.cli --init-checkpoint /mnt/scratch/rlckpt/curve-350md-401-ckpt-0026700.pt --config configs/rl-350m-block.yaml --episodes-jsonl /home/ec2-user/data/regime_c/heldout.jsonl --tokenizer /home/ec2-user/data/tokenizer_v2.json --out /home/ec2-user/runs/curve-rl-350md401-742 --seed 742 --resume
+gpu 6 left free for the NRM benchmark and the grading batteries; gpu 7 is the straggler slot
+LAUNCHED sync loop (KEEP=1), log /home/ec2-user/logs/curve-sync.log
+ARMED final flush for 11:15 UTC 2026-08-29, log /home/ec2-user/logs/final-flush.log
+GPU3_LANE=curve-350xattn-731 (evidence cross-attention)
+ALL_LAUNCHED

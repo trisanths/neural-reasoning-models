@@ -1,0 +1,825 @@
+{
+ "experiment": "web-demo-1",
+ "description": "first real-web retrieval pass: trained checkpoints answer real factual questions through the Exa tier",
+ "config": {
+  "world_preamble": "domain: corporate",
+  "max_rounds": 3,
+  "chunk_tokens": 512,
+  "num_results": 5,
+  "max_new_tokens": 160,
+  "scoring": "contains-answer (normalized, any gold form)",
+  "decode": "greedy"
+ },
+ "exa_usage": {
+  "api_calls": 90,
+  "cache_hits": 45
+ },
+ "models": {
+  "curve-350md-401": {
+   "checkpoint_step": 26700,
+   "n_questions": {
+    "web": 60,
+    "none": 60
+   },
+   "accuracy": {
+    "with_search": 0.0,
+    "without_search": 0.0
+   },
+   "n_correct": {
+    "with_search": 0,
+    "without_search": 0
+   },
+   "mean_rounds_web": 1.0,
+   "share_web_with_any_round": 1.0,
+   "mean_query_tokens": 4.4833,
+   "mean_query_words": 3.2833,
+   "control_attempted_retrieval": 1.0,
+   "stop_reasons": {
+    "web": {
+     "max_new_tokens": 60
+    },
+    "none": {
+     "max_rounds": 60
+    }
+   },
+   "errors": 0,
+   "mean_seconds": {
+    "web": 4.9424,
+    "none": 0.018
+   },
+   "transcripts": [
+    {
+     "qid": "geo-01",
+     "question": "What is the capital city of Australia?",
+     "golds": [
+      "Canberra"
+     ],
+     "queries": [
+      "industries"
+     ],
+     "served": [
+      {
+       "url": "https://www.bls.gov/IAG/TGS/iag_index_naics.htm",
+       "title": "Industries by Supersector and NAICS Code : U.S. Bureau of Labor Statistics",
+       "chunk_preview": "Industries by Supersector and NAICS Code : U.S. Bureau of Labor Statistics Industries at a Glance SHARE ON: # Industries by Supersector and NAICS Code This list of industries included in Industries at a Glance is arranged in North American "
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-02",
+     "question": "What is the capital city of Canada?",
+     "golds": [
+      "Ottawa"
+     ],
+     "queries": [
+      "canxdrus"
+     ],
+     "served": [
+      {
+       "url": "https://github.com/kr3xxz/cruxdr/blob/main/README.md",
+       "title": "README.md",
+       "chunk_preview": "# README.md - Branch: main - Repository: kr3xxz/cruxdr --- CruXDR Extended Detection & Response Platform Real-time threat detection \u00b7 Sigma rule engine \u00b7 MITRE ATT&CK mapping \u00b7 UEBA analytics \u00b7 SOAR automation --- ## Table of Contents - [Ov"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-03",
+     "question": "What is the capital city of Turkey?",
+     "golds": [
+      "Ankara"
+     ],
+     "queries": [
+      "turkatron"
+     ],
+     "served": [
+      {
+       "url": "https://aqua-teen-hunger-force.fandom.com/wiki/Turkatron",
+       "title": "Turkatron | ATHF Wiki | Fandom",
+       "chunk_preview": "Turkatron | ATHF Wiki | Fandom Turkatron Turkatron (voiced by Matt Maiellaro) is a robotic turkey featured in the episode \" The Dressing\" who appeared a week after Thanksgiving. He insists that he came from the year 9595 (in a reference to "
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-04",
+     "question": "What is the capital city of Brazil?",
+     "golds": [
+      "Brasilia",
+      "Bras\u00edlia"
+     ],
+     "queries": [
+      "braza"
+     ],
+     "served": [
+      {
+       "url": "https://pt.wikipedia.org/wiki/BRAZA",
+       "title": "BRAZA",
+       "chunk_preview": "| Ano | T\u00edtulo | Tipo | Gravadora | | --- | --- | --- | --- | | 2018 | BRAZA \u2013 CoLAB Records | Projeto | Deck | | 2019 | Qual \u00c9 o Rosto de Deus? (Santtos Remix) | Remix | | 2020 | BRAZA \u2013 Remixes vol.1 | Remix | | 2024 | Qual \u00c9 o Rosto de D"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-05",
+     "question": "What is the capital city of Switzerland?",
+     "golds": [
+      "Bern",
+      "Berne"
+     ],
+     "queries": [
+      "susser"
+     ],
+     "served": [
+      {
+       "url": "https://people.equilar.com/bio/person/sam-susser-susser-banc-holdings-corp/6058069",
+       "title": "Sam L. Susser - Executive Bio, Work History, and Contacts - Equilar ExecAtlas",
+       "chunk_preview": "Sam L. Susser - Executive Bio, Work History, and Contacts - Equilar ExecAtlas # Win Deals Through Your Network # Sam L. Susser Executive Officer at Susser Banc Holdings Corp ### Sam L. Susser's Executive Work History Current Advisor, Adviso"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-06",
+     "question": "What is the capital city of New Zealand?",
+     "golds": [
+      "Wellington"
+     ],
+     "queries": [
+      "new Zealand"
+     ],
+     "served": [
+      {
+       "url": "https://en.wikipedia.org/wiki/N._Zealand",
+       "title": "New Zealand",
+       "chunk_preview": "New Zealand and Australia have [a strong relationship](./Australia\u2013New_Zealand_relations) and are considered to share a strong [Trans-Tasman](./Trans-Tasman) identity, stemming from centuries of British colonisation. The country is part of "
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-07",
+     "question": "What is the capital city of Morocco?",
+     "golds": [
+      "Rabat"
+     ],
+     "queries": [
+      "is"
+     ],
+     "served": [
+      {
+       "url": "https://registry.npmjs.org/@sindresorhus/is",
+       "title": "@sindresorhus/is",
+       "chunk_preview": "##### .plainObject(value) An object is plain if it's created by either `{}`, `new Object()`, or `Object.create(null)`. ##### .iterable(value) ##### .asyncIterable(value) ##### .class(value) Returns `true` if the value is a class constructor"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-08",
+     "question": "What is the capital city of Vietnam?",
+     "golds": [
+      "Hanoi"
+     ],
+     "queries": [
+      "vangan"
+     ],
+     "served": [
+      {
+       "url": "https://www.ycombinator.com/companies/vango-ai",
+       "title": "Vango AI: Development platform that makes it 10x easier to improve visual models | Y Combinator",
+       "chunk_preview": "Vango AI: Development platform that makes it 10x easier to improve visual models | Y Combinator Home\u203a Companies\u203aVango AI Vango AI Development platform that makes it 10x easier to improve visual models Y Combinator LogoSummer 2023 Inactive D"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-09",
+     "question": "What is the capital city of Kenya?",
+     "golds": [
+      "Nairobi"
+     ],
+     "queries": [
+      "kena"
+     ],
+     "served": [
+      {
+       "url": "https://en.wiktionary.org/wiki/kena",
+       "title": "kena - Wiktionary, the free dictionary",
+       "chunk_preview": "kena - Wiktionary, the free dictionary See also: Appendix:Variations of \"kena\" ## English ### Etymology 1 #### Noun kena (plural kenas) 1. Alternative form of quena(\u201ctraditional flute of the Andes\u201d). ### Etymology 2 Borrowed from Malay kena"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-10",
+     "question": "What is the capital city of Norway?",
+     "golds": [
+      "Oslo"
+     ],
+     "queries": [
+      "nordes"
+     ],
+     "served": [
+      {
+       "url": "https://www.nordes.org/",
+       "title": "",
+       "chunk_preview": "August 2026 \u2022 Full and exploratory paper deadline: 1 September 2026 \u2022 Workshop, exhibition, demo, film, and doctoral consortium deadline: 14 September 2026 \u2022 Notification to contributors: 26 October 2026 \u2022 Camera-ready submission deadline: "
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    }
+   ],
+   "diagnosis": {
+    "queries_total": 60,
+    "queries_with_a_question_content_word": 25,
+    "questions_with_gold_answer_in_a_served_chunk": 12,
+    "empty_answers_web_pass": 60,
+    "decode_seconds_total": {
+     "web": 296.5,
+     "none": 1.1
+    }
+   }
+  },
+  "curve-350me-501": {
+   "checkpoint_step": 26700,
+   "n_questions": {
+    "web": 60,
+    "none": 60
+   },
+   "accuracy": {
+    "with_search": 0.0167,
+    "without_search": 0.0167
+   },
+   "n_correct": {
+    "with_search": 1,
+    "without_search": 1
+   },
+   "mean_rounds_web": 0.2,
+   "share_web_with_any_round": 0.2,
+   "mean_query_tokens": 1.9167,
+   "mean_query_words": 1.5,
+   "control_attempted_retrieval": 0.2,
+   "stop_reasons": {
+    "web": {
+     "eot": 48,
+     "max_new_tokens": 12
+    },
+    "none": {
+     "eot": 48,
+     "max_rounds": 12
+    }
+   },
+   "errors": 0,
+   "mean_seconds": {
+    "web": 1.0638,
+    "none": 0.0815
+   },
+   "transcripts": [
+    {
+     "qid": "qty-13",
+     "question": "How many moons does the planet Mars have?",
+     "golds": [
+      "two",
+      "2"
+     ],
+     "queries": [],
+     "served": [],
+     "answer": "2,",
+     "correct": true,
+     "stop_reason": "eot",
+     "control_answer": "2,",
+     "control_correct": true
+    },
+    {
+     "qid": "geo-01",
+     "question": "What is the capital city of Australia?",
+     "golds": [
+      "Canberra"
+     ],
+     "queries": [
+      "is the"
+     ],
+     "served": [
+      {
+       "url": "https://www.grammarly.com/blog/grammar/is-vs-are/",
+       "title": "When to Use \u201cIs\u201d vs. \u201cAre\u201d | Grammarly",
+       "chunk_preview": "When to Use \u201cIs\u201d vs. \u201cAre\u201d | Grammarly # When to Use \u201cIs\u201d vs. \u201cAre\u201d Updated on December 19, 2024 Grammar Tips - The words is and are are both conjugations of the verb to be, which shows existence, condition, state, or identity. - The differ"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-02",
+     "question": "What is the capital city of Canada?",
+     "golds": [
+      "Ottawa"
+     ],
+     "queries": [
+      "is"
+     ],
+     "served": [
+      {
+       "url": "https://registry.npmjs.org/@sindresorhus/is",
+       "title": "@sindresorhus/is",
+       "chunk_preview": "##### .plainObject(value) An object is plain if it's created by either `{}`, `new Object()`, or `Object.create(null)`. ##### .iterable(value) ##### .asyncIterable(value) ##### .class(value) Returns `true` if the value is a class constructor"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-03",
+     "question": "What is the capital city of Turkey?",
+     "golds": [
+      "Ankara"
+     ],
+     "queries": [
+      "is"
+     ],
+     "served": [
+      {
+       "url": "https://registry.npmjs.org/@sindresorhus/is",
+       "title": "@sindresorhus/is",
+       "chunk_preview": "##### .plainObject(value) An object is plain if it's created by either `{}`, `new Object()`, or `Object.create(null)`. ##### .iterable(value) ##### .asyncIterable(value) ##### .class(value) Returns `true` if the value is a class constructor"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-04",
+     "question": "What is the capital city of Brazil?",
+     "golds": [
+      "Brasilia",
+      "Bras\u00edlia"
+     ],
+     "queries": [
+      "dollar"
+     ],
+     "served": [
+      {
+       "url": "https://www.dictionary.com/browse/dollar",
+       "title": "DOLLAR Definition & Meaning | Dictionary.com",
+       "chunk_preview": "### Origin of dollar First recorded in 1545\u201355; earlier daler, from Low German, Dutch daler; cognate with German Taler, short for Joachimsthaler, a silver coin minted in Joachimsthal ( Czech J\u00e1chymov ) in Bohemia ## Explanation Kaching! A d"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-05",
+     "question": "What is the capital city of Switzerland?",
+     "golds": [
+      "Bern",
+      "Berne"
+     ],
+     "queries": [
+      "is"
+     ],
+     "served": [
+      {
+       "url": "https://registry.npmjs.org/@sindresorhus/is",
+       "title": "@sindresorhus/is",
+       "chunk_preview": "##### .plainObject(value) An object is plain if it's created by either `{}`, `new Object()`, or `Object.create(null)`. ##### .iterable(value) ##### .asyncIterable(value) ##### .class(value) Returns `true` if the value is a class constructor"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-06",
+     "question": "What is the capital city of New Zealand?",
+     "golds": [
+      "Wellington"
+     ],
+     "queries": [
+      "the capital city"
+     ],
+     "served": [
+      {
+       "url": "https://en.wikipedia.org/wiki/Capital_(city)",
+       "title": "Capital city",
+       "chunk_preview": "- Jefferson City, Missouri, was selected as the state capital in 1821, the year after Missouri was admitted to the Union, due to its central location within the state. It is almost halfway between Missouri's two largest cities, Kansas City "
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-07",
+     "question": "What is the capital city of Morocco?",
+     "golds": [
+      "Rabat"
+     ],
+     "queries": [
+      "is the capital city"
+     ],
+     "served": [
+      {
+       "url": "https://en.wikipedia.org/wiki/Capital_(city)",
+       "title": "Capital city",
+       "chunk_preview": "- Jefferson City, Missouri, was selected as the state capital in 1821, the year after Missouri was admitted to the Union, due to its central location within the state. It is almost halfway between Missouri's two largest cities, Kansas City "
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-08",
+     "question": "What is the capital city of Vietnam?",
+     "golds": [
+      "Hanoi"
+     ],
+     "queries": [
+      "dream"
+     ],
+     "served": [
+      {
+       "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/dream_1",
+       "title": "dream noun - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+       "chunk_preview": "- awful - bad - disturbing - \u2026 9. verb + dream 10. - dream - have - awake from - \u2026 11. dream + verb 12. - come true - haunt somebody - plague somebody - \u2026 13. dream + noun 14. - interpretation 15. preposition 16. - in a/the dream - dream ab"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-09",
+     "question": "What is the capital city of Kenya?",
+     "golds": [
+      "Nairobi"
+     ],
+     "queries": [
+      "is"
+     ],
+     "served": [
+      {
+       "url": "https://registry.npmjs.org/@sindresorhus/is",
+       "title": "@sindresorhus/is",
+       "chunk_preview": "##### .plainObject(value) An object is plain if it's created by either `{}`, `new Object()`, or `Object.create(null)`. ##### .iterable(value) ##### .asyncIterable(value) ##### .class(value) Returns `true` if the value is a class constructor"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    }
+   ],
+   "diagnosis": {
+    "queries_total": 12,
+    "queries_with_a_question_content_word": 3,
+    "questions_with_gold_answer_in_a_served_chunk": 0,
+    "empty_answers_web_pass": 12,
+    "decode_seconds_total": {
+     "web": 63.8,
+     "none": 4.9
+    }
+   }
+  },
+  "killtest-c-201": {
+   "checkpoint_step": 26700,
+   "n_questions": {
+    "web": 60,
+    "none": 60
+   },
+   "accuracy": {
+    "with_search": 0.0,
+    "without_search": 0.0
+   },
+   "n_correct": {
+    "with_search": 0,
+    "without_search": 0
+   },
+   "mean_rounds_web": 1.05,
+   "share_web_with_any_round": 1.0,
+   "mean_query_tokens": 2.746,
+   "mean_query_words": 1.2698,
+   "control_attempted_retrieval": 1.0,
+   "stop_reasons": {
+    "web": {
+     "eot": 32,
+     "max_new_tokens": 28
+    },
+    "none": {
+     "max_rounds": 60
+    }
+   },
+   "errors": 0,
+   "mean_seconds": {
+    "web": 2.712,
+    "none": 0.0181
+   },
+   "transcripts": [
+    {
+     "qid": "geo-01",
+     "question": "What is the capital city of Australia?",
+     "golds": [
+      "Canberra"
+     ],
+     "queries": [
+      "nitrivi"
+     ],
+     "served": [
+      {
+       "url": "https://ntiviti.com/",
+       "title": "Ntiviti - Employee Engagement Software",
+       "chunk_preview": "Ntiviti - Employee Engagement Software ## Keep daily immediate tasks front and center\u2026 Ntiviti provides a short check that focuses each employee on the day's \"TO DO\" list, allowing an inobtrusive, low-friction, positive feedback mechanism f"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "max_new_tokens",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-02",
+     "question": "What is the capital city of Canada?",
+     "golds": [
+      "Ottawa"
+     ],
+     "queries": [
+      "in"
+     ],
+     "served": [
+      {
+       "url": "https://dictionary.cambridge.org/dictionary/english/in",
+       "title": "IN | English meaning - Cambridge Dictionary",
+       "chunk_preview": "\u5728\u88e1\u9762, \u5728\uff08\u2026\uff09\u88e1\u9762\uff0c\u5728\uff08\u2026\uff09\u5167, \u5230\u2026\u88e1\u9762\u2026 in Chinese (Simplified) \u5728\u91cc\u9762, \u5728\uff08\u2026\uff09\u91cc\u9762\uff0c\u5728\uff08\u2026\uff09\u5185, \u5230\u2026\u91cc\u9762\u2026 in Spanish en, dentro de, de\u2026 in Portuguese em, daqui a, dentro de\u2026 in Marathi in Japanese in Turkish in French in Catalan in Dutch in Tamil in Hindi in Gujarati in D"
+      }
+     ],
+     "answer": "Derves Industries",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-03",
+     "question": "What is the capital city of Turkey?",
+     "golds": [
+      "Ankara"
+     ],
+     "queries": [
+      "rerda"
+     ],
+     "served": [
+      {
+       "url": "https://www.rerda.com/",
+       "title": "Rerda S.A. - Sastrer\u00eda Militar",
+       "chunk_preview": "Rerda S.A. - Sastrer\u00eda Militar Productos Indumentaria Equipamientos Accesorios Outdoor Atributos Calzado - Pol\u00edtica de Devoluciones y Cambios - Ver todos los productos - Ofertas y Saldos Indumentaria Pantalones Mamelucos Chombas y Remeras T"
+      }
+     ],
+     "answer": "88",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-04",
+     "question": "What is the capital city of Brazil?",
+     "golds": [
+      "Brasilia",
+      "Bras\u00edlia"
+     ],
+     "queries": [
+      "brazil",
+      "of grandparent"
+     ],
+     "served": [
+      {
+       "url": "https://www.britannica.com/place/Brazil",
+       "title": "Brazil | History, Map, Culture, Population, & Facts | Britannica",
+       "chunk_preview": "Brazil | History, Map, Culture, Population, & Facts | Britannica # Brazil country, South America Ask Anything Quick Summary Homework Help Also known as: Brasil, Federative Republic of Brazil, Rep\u00fablica Federativa do Brasil(Show More) Writte"
+      },
+      {
+       "url": "https://www.wikipedia.org/wiki/Grandparent",
+       "title": "Grandparent",
+       "chunk_preview": "Every sexually reproducing living organism who is not a [genetic chimera](./Genetic_chimera) has a maximum of 4 [genetic](./Genetics) grandparents, 8 genetic great-grandparents, 16 genetic great-great-grandparents, 32 genetic great-great-gr"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-05",
+     "question": "What is the capital city of Switzerland?",
+     "golds": [
+      "Bern",
+      "Berne"
+     ],
+     "queries": [
+      "norton"
+     ],
+     "served": [
+      {
+       "url": "https://us.norton.com/",
+       "title": "https://us.norton.com/",
+       "chunk_preview": "# Norton US \u2014 Homepage # Norton AntiVirus, Privacy, Identity, & Advanced Scam Protection Our best protection, trusted by millions, now includes Genie AI Scam Detection. Advanced tech for advanced threats. Explore plans. **URL:** https://us."
+      }
+     ],
+     "answer": "1870",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-06",
+     "question": "What is the capital city of New Zealand?",
+     "golds": [
+      "Wellington"
+     ],
+     "queries": [
+      "in"
+     ],
+     "served": [
+      {
+       "url": "https://dictionary.cambridge.org/dictionary/english/in",
+       "title": "IN | English meaning - Cambridge Dictionary",
+       "chunk_preview": "\u5728\u88e1\u9762, \u5728\uff08\u2026\uff09\u88e1\u9762\uff0c\u5728\uff08\u2026\uff09\u5167, \u5230\u2026\u88e1\u9762\u2026 in Chinese (Simplified) \u5728\u91cc\u9762, \u5728\uff08\u2026\uff09\u91cc\u9762\uff0c\u5728\uff08\u2026\uff09\u5185, \u5230\u2026\u91cc\u9762\u2026 in Spanish en, dentro de, de\u2026 in Portuguese em, daqui a, dentro de\u2026 in Marathi in Japanese in Turkish in French in Catalan in Dutch in Tamil in Hindi in Gujarati in D"
+      }
+     ],
+     "answer": "Derves Partners",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-07",
+     "question": "What is the capital city of Morocco?",
+     "golds": [
+      "Rabat"
+     ],
+     "queries": [
+      "in ronta"
+     ],
+     "served": [
+      {
+       "url": "https://www.linkedin.com/in/antonio-ronta",
+       "title": "Antonio Ronta",
+       "chunk_preview": "# Antonio Ronta Software Engineer | Full-stack Developer | Machine Learning Enthusiast | Innovation Driven Croatia (HR) 265 connections \u2022 266 followers ## About Ambitious, meticulous, and hard-working individual who enjoys working in dynami"
+      }
+     ],
+     "answer": "",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-08",
+     "question": "What is the capital city of Vietnam?",
+     "golds": [
+      "Hanoi"
+     ],
+     "queries": [
+      "rerda"
+     ],
+     "served": [
+      {
+       "url": "https://www.rerda.com/",
+       "title": "Rerda S.A. - Sastrer\u00eda Militar",
+       "chunk_preview": "Rerda S.A. - Sastrer\u00eda Militar Productos Indumentaria Equipamientos Accesorios Outdoor Atributos Calzado - Pol\u00edtica de Devoluciones y Cambios - Ver todos los productos - Ofertas y Saldos Indumentaria Pantalones Mamelucos Chombas y Remeras T"
+      }
+     ],
+     "answer": "88",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-09",
+     "question": "What is the capital city of Kenya?",
+     "golds": [
+      "Nairobi"
+     ],
+     "queries": [
+      "norton"
+     ],
+     "served": [
+      {
+       "url": "https://us.norton.com/",
+       "title": "https://us.norton.com/",
+       "chunk_preview": "# Norton US \u2014 Homepage # Norton AntiVirus, Privacy, Identity, & Advanced Scam Protection Our best protection, trusted by millions, now includes Genie AI Scam Detection. Advanced tech for advanced threats. Explore plans. **URL:** https://us."
+      }
+     ],
+     "answer": "1870",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    },
+    {
+     "qid": "geo-10",
+     "question": "What is the capital city of Norway?",
+     "golds": [
+      "Oslo"
+     ],
+     "queries": [
+      "in"
+     ],
+     "served": [
+      {
+       "url": "https://dictionary.cambridge.org/dictionary/english/in",
+       "title": "IN | English meaning - Cambridge Dictionary",
+       "chunk_preview": "\u5728\u88e1\u9762, \u5728\uff08\u2026\uff09\u88e1\u9762\uff0c\u5728\uff08\u2026\uff09\u5167, \u5230\u2026\u88e1\u9762\u2026 in Chinese (Simplified) \u5728\u91cc\u9762, \u5728\uff08\u2026\uff09\u91cc\u9762\uff0c\u5728\uff08\u2026\uff09\u5185, \u5230\u2026\u91cc\u9762\u2026 in Spanish en, dentro de, de\u2026 in Portuguese em, daqui a, dentro de\u2026 in Marathi in Japanese in Turkish in French in Catalan in Dutch in Tamil in Hindi in Gujarati in D"
+      }
+     ],
+     "answer": "Dezas Partners",
+     "correct": false,
+     "stop_reason": "eot",
+     "control_answer": "",
+     "control_correct": false
+    }
+   ],
+   "diagnosis": {
+    "queries_total": 63,
+    "queries_with_a_question_content_word": 3,
+    "questions_with_gold_answer_in_a_served_chunk": 2,
+    "empty_answers_web_pass": 36,
+    "decode_seconds_total": {
+     "web": 162.7,
+     "none": 1.1
+    }
+   }
+  }
+ },
+ "in_distribution_check": "scripts/diag_webdemo.py, fresh worldgen episodes, seed 987654: curve-350me-501 and killtest-c-201 both answer the sampled heldout questions correctly, retrieving one round for the CEO question and none for the yes/no question, so the loop itself works in distribution on these checkpoints",
+ "preamble_probe": "same script, three real questions per prompt variant: with the out-of-vocabulary header 'domain: world' curve-350me-501 emitted zero queries on all three and killtest-c-201 retrieved on all three; with the training domain header 'domain: corporate' curve-350me-501 retrieved on two of three; the main run therefore uses 'domain: corporate'",
+ "single_scored_point": "curve-350me-501 qty-13, 'How many moons does the planet Mars have?': the model answered '2,' in both passes with no retrieval round, a confabulated numeral that happens to match, not a retrieval success"
+}

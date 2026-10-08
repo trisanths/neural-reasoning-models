@@ -1,0 +1,1295 @@
+{
+  "seed": 22,
+  "system": "Vorjen",
+  "reporting_rule": "Report accuracy per level, per chapter and per answer_source. A pooled number over these exercises can hide a whole family sitting at zero, which is the failure this generator exists to prevent. The answer_source split is the sharpest of the three: a stated_in_a_chapter exercise is answerable by copying from a retrieved page and a derived_by_computation one is not.",
+  "exercises": [
+    {
+      "exercise_id": "x001",
+      "level": 1,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Evaluate yukzel * braovi.",
+      "answer": "thraisk",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "evaluate",
+        "expr": "yukzel * braovi"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "nakquil",
+          "thraisk",
+          "soltarn",
+          "nakquil"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x002",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Work out the value of (yukzel * braovi) * braovi.",
+      "answer": "thraisk",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "evaluate",
+        "expr": "(yukzel * braovi) * braovi"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "nakquil",
+          "thraisk",
+          "nakquil",
+          "braovi"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x003",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Solve x * soltarn = yukzel for x, naming every solution.",
+      "answer": "muxsib, yukzel",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "yukzel",
+        "right": "soltarn"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "yukzel",
+          "braovi",
+          "thraisk",
+          "thraisk"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x004",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Solve x * muxsib = yukzel for x, naming every solution.",
+      "answer": "soltarn, yukzel",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "yukzel",
+        "right": "muxsib"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "muxsib, thraisk",
+          "muxsib",
+          "undefined: no solution in this system",
+          "soltarn"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x005",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Which driwrens x satisfy x * thraisk = thraisk? List them all.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "thraisk",
+        "right": "thraisk"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "soltarn",
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "undefined: no solution in this system",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x006",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Solve x * muxsib = thraisk for x, naming every solution.",
+      "answer": "braovi, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "thraisk",
+        "right": "muxsib"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "undefined: no solution in this system",
+          "braovi, yukzel, thraisk",
+          "undefined: no solution in this system",
+          "braovi"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x007",
+      "level": 5,
+      "chapter": 1,
+      "target_node": "R1",
+      "required_chapters": [
+        0,
+        1
+      ],
+      "prompt": "The following fails in this system: Some driwren x admits no driwren y for which x * y and y * x both land on a neutral object. Name the earliest driwren, in the order the driwrens were introduced, that witnesses the failure.",
+      "answer": "soltarn",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "axiom_fails:inverses_first"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "nakquil",
+          "soltarn",
+          "nakquil",
+          "undefined: the claim holds here, so there is no counterexample"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x008",
+      "level": 5,
+      "chapter": 0,
+      "target_node": "R2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "The following fails in this system: For all driwrens x, y, z: if x * y = x * z then y = z. Name the earliest driwren, in the order the driwrens were introduced, that witnesses the failure.",
+      "answer": "soltarn",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "axiom_fails:cancellation_first"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "nakquil",
+          "soltarn",
+          "nakquil",
+          "undefined: the claim holds here, so there is no counterexample"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x009",
+      "level": 3,
+      "chapter": 3,
+      "target_node": "D1",
+      "required_chapters": [
+        0,
+        3
+      ],
+      "prompt": "Write down the opalfal in full.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "steady"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "nakquil, soltarn, braovi, yukzel",
+          "nakquil, thraisk",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x010",
+      "level": 3,
+      "chapter": 4,
+      "target_node": "D3",
+      "required_chapters": [
+        0,
+        4
+      ],
+      "prompt": "How many driwrens lie in the smallest reldshen collection containing soltarn?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "soltarn"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "5",
+          "2",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x011",
+      "level": 3,
+      "chapter": 4,
+      "target_node": "D3",
+      "required_chapters": [
+        0,
+        4
+      ],
+      "prompt": "How many driwrens lie in the smallest reldshen collection containing muxsib?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "muxsib"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "2",
+          "3",
+          "2",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x012",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "List the zelfex of soltarn.",
+      "answer": "nakquil, soltarn",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "soltarn"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "soltarn",
+          "nakquil",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x013",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "List the zelfex of muxsib.",
+      "answer": "nakquil, muxsib",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "muxsib"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "soltarn, yukzel",
+          "nakquil",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x014",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "Which driwrens y satisfy braovi << y? Name them all.",
+      "answer": "nakquil, soltarn, braovi",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "braovi"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "soltarn, braovi, thraisk",
+          "nakquil",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x015",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "Which driwrens y satisfy yukzel << y? Name them all.",
+      "answer": "nakquil, soltarn, muxsib, yukzel",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "yukzel"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "soltarn, yukzel",
+          "nakquil",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x016",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "List the zelfex of thraisk.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "thraisk"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "soltarn",
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x017",
+      "level": 2,
+      "chapter": 3,
+      "target_node": "D5",
+      "required_chapters": [
+        0,
+        1,
+        3
+      ],
+      "prompt": "Name the keldtu of the system.",
+      "answer": "nakquil",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "anchor"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "soltarn",
+          "nakquil",
+          "undefined: this system has no neutral object",
+          "nakquil"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x018",
+      "level": 3,
+      "chapter": 5,
+      "target_node": "D6",
+      "required_chapters": [
+        0,
+        3,
+        5
+      ],
+      "prompt": "Write down the iskkeld in full.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "core"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "undefined: nothing is core in this system",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x019",
+      "level": 3,
+      "chapter": 5,
+      "target_node": "D7",
+      "required_chapters": [
+        0,
+        3,
+        5
+      ],
+      "prompt": "Which driwrens make up the kami? Name them all.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "ridge"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "nakquil, soltarn, braovi, yukzel",
+          "nakquil, thraisk",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x020",
+      "level": 4,
+      "chapter": 6,
+      "target_node": "D8",
+      "required_chapters": [
+        0,
+        4,
+        6
+      ],
+      "prompt": "Let z be muxsib * soltarn. List the ovimorn of z.",
+      "answer": "yukzel",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "span_of",
+        "expr": "muxsib * soltarn"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "muxsib, yukzel",
+          "braovi, thraisk",
+          "nakquil, soltarn",
+          "nakquil, braovi, yukzel"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x021",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "D9",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "Write down the keldumb in full.",
+      "answer": "thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "floor"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "nakquil",
+          "thraisk",
+          "nakquil",
+          "undefined: nothing is floor in this system"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x022",
+      "level": 3,
+      "chapter": 5,
+      "target_node": "D10",
+      "required_chapters": [
+        0,
+        1,
+        3,
+        5
+      ],
+      "prompt": "List every driwren in the muxlum.",
+      "answer": "nakquil",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "regular"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "soltarn, thraisk",
+          "nakquil",
+          "undefined: nothing is regular in this system",
+          "nakquil, soltarn, muxsib, thraisk"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x023",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "What is the korrquil of soltarn?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "soltarn"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "5",
+          "2",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x024",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "What is the korrquil of muxsib?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "muxsib"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "2",
+          "3",
+          "2",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x025",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "What is the korrquil of braovi?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "braovi"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "2",
+          "2",
+          "3"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x026",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "How many driwrens lie in [yukzel]?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "yukzel"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "2",
+          "2",
+          "3"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x027",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "How many driwrens lie in [thraisk]?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "thraisk"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "2",
+          "1",
+          "2",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x028",
+      "level": 5,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "Let z be (yukzel * muxsib) * nakquil. What is the korrquil of z?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach_of",
+        "expr": "(yukzel * muxsib) * nakquil"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "1",
+          "1",
+          "2",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x029",
+      "level": 5,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "Let z be (yukzel * thraisk) * yukzel. What is the korrquil of z?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach_of",
+        "expr": "(yukzel * thraisk) * yukzel"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "2",
+          "1",
+          "1",
+          "2"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x030",
+      "level": 4,
+      "chapter": 9,
+      "target_node": "D12",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8,
+        9
+      ],
+      "prompt": "Write down the falpyr in full.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "crest"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "muxsib, thraisk",
+          "soltarn",
+          "soltarn, muxsib, braovi, yukzel, thraisk",
+          "braovi, yukzel"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x031",
+      "level": 4,
+      "chapter": 7,
+      "target_node": "T2",
+      "required_chapters": [
+        0,
+        1,
+        3,
+        5,
+        7
+      ],
+      "prompt": "This result is about the iskkeld. List every driwren in it.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "core"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "undefined: nothing is core in this system",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x032",
+      "level": 4,
+      "chapter": 9,
+      "target_node": "T7",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8,
+        9
+      ],
+      "prompt": "What is the largest korrquil any driwren has?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "max_reach"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "2",
+          "5",
+          "2",
+          "3"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x033",
+      "level": 4,
+      "chapter": 8,
+      "target_node": "T8",
+      "required_chapters": [
+        0,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "prompt": "Name the driwrens that make up the iskkeld, which is what the result above is a claim about.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "core"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+          "undefined: nothing is core in this system",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x034",
+      "level": 4,
+      "chapter": 7,
+      "target_node": "T9",
+      "required_chapters": [
+        0,
+        3,
+        4,
+        5,
+        7
+      ],
+      "prompt": "This result is about the kami. List every driwren in it.",
+      "answer": "nakquil, soltarn, muxsib, braovi, yukzel, thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "ridge"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "nakquil, soltarn, braovi, yukzel",
+          "nakquil, thraisk",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x035",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "T10",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The result above concerns zelfexs. List the zelfex of soltarn.",
+      "answer": "nakquil, soltarn",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "soltarn"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "soltarn",
+          "nakquil",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x036",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "T10",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The result above concerns zelfexs. List the zelfex of muxsib.",
+      "answer": "nakquil, muxsib",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "muxsib"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "soltarn, yukzel",
+          "nakquil",
+          "nakquil",
+          "nakquil"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x037",
+      "level": 4,
+      "chapter": 6,
+      "target_node": "T11",
+      "required_chapters": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "prompt": "This result is about the keldumb. List every driwren in it.",
+      "answer": "thraisk",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "floor"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "nakquil",
+          "thraisk",
+          "nakquil",
+          "undefined: nothing is floor in this system"
+        ],
+        "guess_space": 63,
+        "blind_guess_rate": 0.015873015873015872
+      }
+    },
+    {
+      "exercise_id": "x038",
+      "level": 5,
+      "chapter": 4,
+      "target_node": "R5",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The following fails in this system: If x << y then y << x. Name the earliest driwren, in the order the driwrens were introduced, that witnesses the failure.",
+      "answer": "soltarn",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "thm:relation_symmetric"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "nakquil",
+          "soltarn",
+          "undefined: the claim holds here, so there is no counterexample",
+          "soltarn"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    },
+    {
+      "exercise_id": "x039",
+      "level": 5,
+      "chapter": 5,
+      "target_node": "R6",
+      "required_chapters": [
+        0,
+        1,
+        3,
+        5
+      ],
+      "prompt": "The following fails in this system: e * x equals the keldtu for every driwren x. Name the earliest driwren, in the order the driwrens were introduced, that witnesses the failure.",
+      "answer": "soltarn",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "thm:anchor_is_absorbing"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "nakquil",
+          "soltarn",
+          "undefined: the claim holds here, so there is no counterexample",
+          "soltarn"
+        ],
+        "guess_space": 6,
+        "blind_guess_rate": 0.16666666666666666
+      }
+    }
+  ]
+}

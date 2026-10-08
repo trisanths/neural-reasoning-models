@@ -1,109 +1,74 @@
 # What is in S3 and not in git
 
 Every experiment in this repository ran on EC2 and wrote its artifacts to
-`s3://decoupled-reasoner-009398924577`. The results that matter for reading the
-work are committed here under `results/`. Three classes of artifact are not,
-because git is the wrong store for them.
+`s3://decoupled-reasoner-009398924577`. That bucket holds 57,759 objects and
+6.87 TB. This repository carries the part of it that a reader needs and
+leaves the rest where it is.
 
-Model checkpoints are excluded by `.gitignore` (`*.pt`, `*.safetensors`). The
-item banks and the thinking-on generation traces are excluded by size: both are
-regenerable, the item banks deterministically from the build scripts and
-manifests that are committed, the traces by re-running inference.
+The filter is mechanical, so it can be checked: an object is committed unless it
+is model weights or a binary shard, a generated corpus or tokenized shard, a
+generated item bank, a thinking-on generation trace, a source tarball from
+before the work was tracked in git, staging or scratch, an interrupted upload,
+or larger than 20 MB.
 
-The instance stores on the training boxes (`/mnt/nvme`) were ephemeral and are
-gone. Anything that was not uploaded to S3 or committed does not exist any more.
+The item banks and the generation traces are the only exclusions that are also
+evidence. Both are reproducible: the item banks deterministically, from the
+build scripts and manifests that are committed, after a commit on the pilot
+branch removed their dependence on `PYTHONHASHSEED`; the traces by re-running
+inference, which the pilot's own throughput probe puts at about ten GPU-hours on
+an L40S, 96 percent of it in the four thinking-on configurations.
 
-## Bucket by prefix
+The instance stores on the training boxes, mounted at `/mnt/nvme`, were
+ephemeral and are gone. Anything that was never uploaded to S3 and never
+committed does not exist any more, and `decoupled-reasoner/src/STATE.md` names
+the claims that rest on artifacts in that category.
 
-| prefix | objects | size |
+## What is here
+
+`results/s3/` holds 3333 objects, 493.1 MB, at the bucket's own
+key layout. A path in that directory is the S3 key with `results/s3/` in front
+of it, so anything here can be traced back to the object it came from.
+
+| `results/s3/<prefix>` | objects | size |
 |---|---:|---:|
-| `runs/` | 3343 | 6.5 TB |
-| `recovered/` | 17957 | 213.9 GB |
-| `data/` | 33555 | 162.0 GB |
-| `latent/` | 66 | 5.6 GB |
-| `role-xfer/` | 21 | 2.1 GB |
-| `staging/` | 1651 | 1.5 GB |
-| `tmp/` | 34 | 116.9 MB |
+| `runs/` | 2273 | 391.1 MB |
 | `results/` | 558 | 72.4 MB |
-| `code/` | 119 | 22.8 MB |
 | `frames-sweep/` | 52 | 9.6 MB |
-| `xfer/` | 88 | 6.9 MB |
-| `scratch/` | 3 | 4.4 MB |
+| `role-xfer/` | 7 | 6.0 MB |
+| `latent/` | 59 | 4.3 MB |
 | `role-back/` | 101 | 3.7 MB |
-| `pilot-staging/` | 64 | 3.1 MB |
+| `xfer/` | 81 | 2.7 MB |
 | `ladder_cd/` | 19 | 1.9 MB |
-| `pull-eval-loop/` | 112 | 739.9 KB |
+| `pull-eval-loop/` | 107 | 731.0 KB |
+| `pilot-staging/` | 60 | 541.8 KB |
 | `logs/` | 14 | 110.4 KB |
 | `verify/` | 2 | 5.6 KB |
-| **total** | **57759** | **6.9 TB** |
 
-`recovered/2026-10-05/` is a rescue copy of the development box's training data,
-taken before the box was reclaimed. `code/` holds dated source tarballs from
-before the work was tracked in git. The rest follow the run names used in the
-experiment documents.
+## What is not here, and why
 
-## Large artifacts left in S3
+| reason | objects | size |
+|---|---:|---:|
+| model weights and binary shards | 1077 | 6.5 TB |
+| rescued training data | 17957 | 213.9 GB |
+| generated corpora and tokenized shards | 33555 | 162.0 GB |
+| interrupted uploads | 6 | 21.4 GB |
+| staging and scratch | 1688 | 1.7 GB |
+| thinking-on generation traces | 13 | 330.0 MB |
+| generated item banks | 5 | 162.3 MB |
+| over the 20 MB per-file cap | 1 | 30.6 MB |
+| source tarballs predating git | 119 | 22.8 MB |
+| test cache | 5 | 9.0 KB |
+| **total excluded** | **54426** | **6.9 TB** |
 
-### model checkpoints
+Examples of the largest excluded object in each class:
 
-1399 objects, 6.6 TB total.
-
-| size | object |
-|---:|---|
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0005400.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0005700.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0006000.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0006300.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0006600.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0006900.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0007200.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0007500.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0007800.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0008100.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0008400.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0008700.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0009000.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0009300.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0009600.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0009900.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0010200.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0010500.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0010800.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0011100.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0011400.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0011700.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0012000.pt` |
-| 15.1 GB | `runs/curve/curve-1300m-a/ckpt-0012300.pt` |
-| | ...and 1375 more |
-
-### item banks
-
-5 objects, 162.3 MB total.
-
-| size | object |
-|---:|---|
-| 34.0 MB | `runs/pilot-acq/box-final/items/items.jsonl` |
-| 34.0 MB | `runs/pilot-acq/items/items.jsonl` |
-| 31.5 MB | `runs/pilot-acq/box-final/dev/items_v2_hashseed7.jsonl` |
-| 31.5 MB | `runs/pilot-acq/box-final/items/items_v2.jsonl` |
-| 31.5 MB | `runs/pilot-acq/items/items_v2.jsonl` |
-
-### thinking-on generation traces
-
-13 objects, 330.0 MB total.
-
-| size | object |
-|---:|---|
-| 48.8 MB | `runs/pilot-acq/box-final/records/gen__qwen3-1.7b__think1.jsonl` |
-| 48.8 MB | `runs/pilot-acq/records/gen__qwen3-1.7b__think1.jsonl` |
-| 42.3 MB | `runs/pilot-acq/box-final/records/gen__qwen3-8b__think1.jsonl` |
-| 42.3 MB | `runs/pilot-acq/records/gen__qwen3-8b__think1.jsonl` |
-| 42.0 MB | `runs/pilot-acq/box-final/records/gen__qwen3-4b__think1.jsonl` |
-| 42.0 MB | `runs/pilot-acq/records/gen__qwen3-4b__think1.jsonl` |
-| 30.9 MB | `runs/pilot-acq/box-final/records/gen__qwen3-0.6b__think1.jsonl` |
-| 30.9 MB | `runs/pilot-acq/records/gen__qwen3-0.6b__think1.jsonl` |
-| 413.5 KB | `runs/pilot-acq/box-final/smoke/records/gen__qwen3-0.6b__think1.jsonl` |
-| 413.5 KB | `runs/pilot-acq/smoke/records/gen__qwen3-0.6b__think1.jsonl` |
-| 411.4 KB | `runs/pilot-acq/box-final/dev/gen__qwen3-0.6b__think1.jsonl` |
-| 403.1 KB | `runs/pilot-acq/box-final/smoke_v2/records/gen__qwen3-0.6b__think1.jsonl` |
-| 403.1 KB | `runs/pilot-acq/smoke_v2/records/gen__qwen3-0.6b__think1.jsonl` |
+- model weights and binary shards: `s3://decoupled-reasoner-009398924577/latent/xfer/base350.pt` (1.4 GB)
+- rescued training data: `s3://decoupled-reasoner-009398924577/recovered/2026-10-05/dev/data/../../home/ec2-user/data/regime_a/parquet/000_00000.parquet` (2.0 GB)
+- generated corpora and tokenized shards: `s3://decoupled-reasoner-009398924577/data/corpus/v1/external_heldout.jsonl` (16.2 MB)
+- interrupted uploads: `s3://decoupled-reasoner-009398924577/runs/curve/curve-1300m-a/latest.pt.tmp` (9.3 GB)
+- staging and scratch: `s3://decoupled-reasoner-009398924577/scratch/frames/drsrc.tgz` (3.3 MB)
+- thinking-on generation traces: `s3://decoupled-reasoner-009398924577/runs/pilot-acq/box-final/records/gen__qwen3-1.7b__think1.jsonl` (48.8 MB)
+- generated item banks: `s3://decoupled-reasoner-009398924577/runs/pilot-acq/box-final/items/items.jsonl` (34.0 MB)
+- over the 20 MB per-file cap: `s3://decoupled-reasoner-009398924577/runs/corpus-v1-8k/artifacts/plan/extrap_step.jsonl` (30.6 MB)
+- source tarballs predating git: `s3://decoupled-reasoner-009398924577/code/block2/autolaunch2.sh` (4.6 KB)
+- test cache: `s3://decoupled-reasoner-009398924577/pull-eval-loop/.pytest_cache/README.md` (302 B)

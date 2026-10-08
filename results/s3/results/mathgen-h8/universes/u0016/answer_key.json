@@ -1,0 +1,1124 @@
+{
+  "seed": 16,
+  "system": "Glimzam",
+  "reporting_rule": "Report accuracy per level, per chapter and per answer_source. A pooled number over these exercises can hide a whole family sitting at zero, which is the failure this generator exists to prevent. The answer_source split is the sharpest of the three: a stated_in_a_chapter exercise is answerable by copying from a retrieved page and a derived_by_computation one is not.",
+  "exercises": [
+    {
+      "exercise_id": "x001",
+      "level": 1,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Reduce kapon | nyrrast to a single mornglim.",
+      "answer": "xilwren",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "evaluate",
+        "expr": "kapon | nyrrast"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "nyrrast",
+          "xilwren",
+          "oviazt",
+          "xilwren"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x002",
+      "level": 3,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Work out the value of (nyrrast | kapon) | (nyrrast | kapon).",
+      "answer": "xilwren",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "evaluate",
+        "expr": "(nyrrast | kapon) | (nyrrast | kapon)"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "oviazt",
+          "xilwren",
+          "oviazt",
+          "oviazt"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x003",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Which mornglims x satisfy x | nyrrast = xilwren? List them all.",
+      "answer": "kapon, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "xilwren",
+        "right": "nyrrast"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "undefined: no solution in this system",
+          "kapon, nyrrast, xilwren",
+          "undefined: no solution in this system",
+          "kapon"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x004",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Solve x | nyrrast = nyrrast for x, naming every solution.",
+      "answer": "oviazt, nyrrast",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "nyrrast",
+        "right": "nyrrast"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "kapon, xilwren",
+          "oviazt",
+          "undefined: no solution in this system",
+          "oviazt"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x005",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Solve x | kapon = kapon for x, naming every solution.",
+      "answer": "oviazt, kapon",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "kapon",
+        "right": "kapon"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "kapon",
+          "oviazt",
+          "nyrrast",
+          "oviazt"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x006",
+      "level": 2,
+      "chapter": 0,
+      "target_node": "S2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "Which mornglims x satisfy x | xilwren = xilwren? List them all.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "solve_left",
+        "target": "xilwren",
+        "right": "xilwren"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "kapon",
+          "oviazt, kapon, nyrrast, xilwren",
+          "undefined: no solution in this system",
+          "oviazt"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x007",
+      "level": 5,
+      "chapter": 1,
+      "target_node": "R1",
+      "required_chapters": [
+        0,
+        1
+      ],
+      "prompt": "The following fails in this system: Some mornglim x admits no mornglim y for which x | y and y | x both land on a neutral object. Name the earliest mornglim, in the order the mornglims were introduced, that witnesses the failure.",
+      "answer": "kapon",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "axiom_fails:inverses_first"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "oviazt",
+          "kapon",
+          "oviazt",
+          "undefined: the claim holds here, so there is no counterexample"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x008",
+      "level": 5,
+      "chapter": 0,
+      "target_node": "R2",
+      "required_chapters": [
+        0
+      ],
+      "prompt": "The following fails in this system: For all mornglims x, y, z: if x | y = x | z then y = z. Name the earliest mornglim, in the order the mornglims were introduced, that witnesses the failure.",
+      "answer": "kapon",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "axiom_fails:cancellation_first"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "oviazt",
+          "kapon",
+          "oviazt",
+          "undefined: the claim holds here, so there is no counterexample"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x009",
+      "level": 5,
+      "chapter": 2,
+      "target_node": "R3",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "The following fails in this system: For all mornglims x and y, at least one of x <~ y and y <~ x holds. Name the earliest mornglim, in the order the mornglims were introduced, that witnesses the failure.",
+      "answer": "kapon",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "axiom_fails:relation_total"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "undefined: the claim holds here, so there is no counterexample",
+          "undefined: the claim holds here, so there is no counterexample",
+          "undefined: the claim holds here, so there is no counterexample",
+          "undefined: the claim holds here, so there is no counterexample"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x010",
+      "level": 3,
+      "chapter": 3,
+      "target_node": "D1",
+      "required_chapters": [
+        0,
+        3
+      ],
+      "prompt": "Which mornglims make up the iskzam? Name them all.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "steady"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "oviazt, kapon",
+          "oviazt, xilwren",
+          "oviazt",
+          "oviazt"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x011",
+      "level": 3,
+      "chapter": 4,
+      "target_node": "D3",
+      "required_chapters": [
+        0,
+        4
+      ],
+      "prompt": "How many mornglims lie in the smallest tezdri collection containing kapon?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "kapon"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "3",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x012",
+      "level": 3,
+      "chapter": 4,
+      "target_node": "D3",
+      "required_chapters": [
+        0,
+        4
+      ],
+      "prompt": "How many mornglims lie in the smallest tezdri collection containing nyrrast?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "nyrrast"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x013",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "Which mornglims y satisfy oviazt <~ y? Name them all.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "oviazt"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "oviazt",
+          "oviazt, kapon, nyrrast, xilwren",
+          "oviazt",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x014",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "List the nakhurn of kapon.",
+      "answer": "kapon, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "kapon"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "oviazt, kapon, nyrrast, xilwren",
+          "kapon, nyrrast, xilwren",
+          "oviazt, kapon",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x015",
+      "level": 3,
+      "chapter": 2,
+      "target_node": "D4",
+      "required_chapters": [
+        0,
+        2
+      ],
+      "prompt": "Which mornglims y satisfy nyrrast <~ y? Name them all.",
+      "answer": "nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "nyrrast"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "oviazt, nyrrast",
+          "nyrrast, xilwren",
+          "oviazt, kapon, nyrrast",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x016",
+      "level": 2,
+      "chapter": 3,
+      "target_node": "D5",
+      "required_chapters": [
+        0,
+        1,
+        3
+      ],
+      "prompt": "Name the vexbra of the system.",
+      "answer": "oviazt",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "anchor"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "kapon",
+          "oviazt",
+          "undefined: this system has no neutral object",
+          "oviazt"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x017",
+      "level": 3,
+      "chapter": 5,
+      "target_node": "D7",
+      "required_chapters": [
+        0,
+        3,
+        5
+      ],
+      "prompt": "List every mornglim in the xilka.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "ridge"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "oviazt, kapon",
+          "oviazt, xilwren",
+          "oviazt",
+          "oviazt"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x018",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "D9",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "List every mornglim in the duthvor.",
+      "answer": "oviazt",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "floor"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "kapon, xilwren",
+          "oviazt",
+          "xilwren",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x019",
+      "level": 3,
+      "chapter": 5,
+      "target_node": "D10",
+      "required_chapters": [
+        0,
+        1,
+        3,
+        5
+      ],
+      "prompt": "Which mornglims make up the rastshen? Name them all.",
+      "answer": "oviazt",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "regular"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "kapon, xilwren",
+          "oviazt",
+          "undefined: nothing is regular in this system",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x020",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "What is the nakdri of kapon?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "kapon"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "3",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x021",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "How many mornglims lie in [nyrrast]?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "nyrrast"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "2",
+          "2",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x022",
+      "level": 3,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "How many mornglims lie in [xilwren]?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach",
+        "element": "xilwren"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "2",
+          "1",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x023",
+      "level": 5,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "Let z be (xilwren | xilwren) | xilwren. What is the nakdri of z?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach_of",
+        "expr": "(xilwren | xilwren) | xilwren"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "2",
+          "1",
+          "1",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x024",
+      "level": 5,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "Let z be (xilwren | oviazt) | oviazt. What is the nakdri of z?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach_of",
+        "expr": "(xilwren | oviazt) | oviazt"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "1",
+          "1",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x025",
+      "level": 5,
+      "chapter": 8,
+      "target_node": "D11",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8
+      ],
+      "prompt": "Let z be (kapon | oviazt) | oviazt. What is the nakdri of z?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "reach_of",
+        "expr": "(kapon | oviazt) | oviazt"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "1",
+          "3",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x026",
+      "level": 4,
+      "chapter": 9,
+      "target_node": "D12",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8,
+        9
+      ],
+      "prompt": "List every mornglim in the grixvor.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "crest"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "nyrrast, xilwren",
+          "kapon",
+          "kapon, nyrrast, xilwren",
+          "kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x027",
+      "level": 4,
+      "chapter": 9,
+      "target_node": "T7",
+      "required_chapters": [
+        0,
+        4,
+        6,
+        8,
+        9
+      ],
+      "prompt": "What is the largest nakdri any mornglim has?",
+      "answer": "1",
+      "answer_kind": "count",
+      "recipe": {
+        "kind": "max_reach"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "2",
+          "3",
+          "2",
+          "2"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x028",
+      "level": 4,
+      "chapter": 7,
+      "target_node": "T9",
+      "required_chapters": [
+        0,
+        3,
+        4,
+        5,
+        7
+      ],
+      "prompt": "This result is about the xilka. List every mornglim in it.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "ridge"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "oviazt, kapon",
+          "oviazt, xilwren",
+          "oviazt",
+          "oviazt"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x029",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "T10",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The result above concerns nakhurns. List the nakhurn of oviazt.",
+      "answer": "oviazt, kapon, nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "oviazt"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "oviazt",
+          "oviazt, kapon, nyrrast, xilwren",
+          "oviazt",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x030",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "T10",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The result above concerns nakhurns. List the nakhurn of kapon.",
+      "answer": "kapon, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "kapon"
+      },
+      "answer_source": "derived_by_computation",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 4,
+        "sibling_divergence": 1.0,
+        "sibling_answers": [
+          "oviazt, kapon, nyrrast, xilwren",
+          "kapon, nyrrast, xilwren",
+          "oviazt, kapon",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x031",
+      "level": 4,
+      "chapter": 4,
+      "target_node": "T10",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The result above concerns nakhurns. List the nakhurn of nyrrast.",
+      "answer": "nyrrast, xilwren",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "shadow",
+        "element": "nyrrast"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "oviazt, nyrrast",
+          "nyrrast, xilwren",
+          "oviazt, kapon, nyrrast",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x032",
+      "level": 4,
+      "chapter": 6,
+      "target_node": "T11",
+      "required_chapters": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "prompt": "This result is about the duthvor. List every mornglim in it.",
+      "answer": "oviazt",
+      "answer_kind": "object_list",
+      "recipe": {
+        "kind": "extension",
+        "which": "floor"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "kapon, xilwren",
+          "oviazt",
+          "xilwren",
+          "oviazt, kapon, nyrrast, xilwren"
+        ],
+        "guess_space": 15,
+        "blind_guess_rate": 0.06666666666666667
+      }
+    },
+    {
+      "exercise_id": "x033",
+      "level": 5,
+      "chapter": 4,
+      "target_node": "R5",
+      "required_chapters": [
+        0,
+        2,
+        4
+      ],
+      "prompt": "The following fails in this system: If x <~ y then y <~ x. Name the earliest mornglim, in the order the mornglims were introduced, that witnesses the failure.",
+      "answer": "oviazt",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "thm:relation_symmetric"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 3,
+        "sibling_divergence": 0.75,
+        "sibling_answers": [
+          "kapon",
+          "oviazt",
+          "kapon",
+          "undefined: the claim holds here, so there is no counterexample"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    },
+    {
+      "exercise_id": "x034",
+      "level": 5,
+      "chapter": 5,
+      "target_node": "R6",
+      "required_chapters": [
+        0,
+        1,
+        3,
+        5
+      ],
+      "prompt": "The following fails in this system: e | x equals the vexbra for every mornglim x. Name the earliest mornglim, in the order the mornglims were introduced, that witnesses the failure.",
+      "answer": "kapon",
+      "answer_kind": "object",
+      "recipe": {
+        "kind": "counterexample",
+        "claim": "thm:anchor_is_absorbing"
+      },
+      "answer_source": "stated_in_a_chapter",
+      "necessity": {
+        "answer_absent_from_prompt": true,
+        "siblings_tested": 4,
+        "siblings_answering_differently": 2,
+        "sibling_divergence": 0.5,
+        "sibling_answers": [
+          "oviazt",
+          "kapon",
+          "undefined: the claim holds here, so there is no counterexample",
+          "kapon"
+        ],
+        "guess_space": 4,
+        "blind_guess_rate": 0.25
+      }
+    }
+  ]
+}

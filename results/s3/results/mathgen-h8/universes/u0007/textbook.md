@@ -1,0 +1,1576 @@
+# The Keldmux system
+
+This book is about thrafexs. A thrafex is not a number and not a set; it is one of
+exactly 3 objects, and everything said here is said about how those 3 objects combine.
+
+The thrafexs are written tuespa, qenmorn and hobzel. The first operation is written =|.
+The second is written ~ and binds more tightly, so x =| y ~ z means x =| (y ~ z). The
+relation is written =<; where it holds between two thrafexs we say the left one supports
+the right one. Both operations associate to the left when written without brackets, and
+brackets override that. Repeated combination is abbreviated: x^3 means x =| x =| x. A
+trailing mark reverses: x' is the thrafex that combines with x to give the neutral one.
+
+Readers arriving from arithmetic should put it down at the door. The operations below
+are defined by their tables and by nothing else. Several arithmetic habits survive the
+crossing and several do not, and the text is careful to say which is which.
+
+# Chapter 1. The objects and their notation
+
+## Why this chapter
+
+Everything in this chapter is checkable by inspection. The subject is the Keldmux
+signature, the Keldmux combination tables and closure under the first operation.
+
+The standard of proof here is exhaustion. A universal claim about thrafexs covers at
+most a few hundred cases, so it is run over all of them. Nothing below rests on an
+argument from analogy with a system the reader already knows.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## The tables in full
+
+The table for =|. Read the left argument down the side and the right argument across the top.
+
+         |   tuespa  qenmorn   hobzel
+-------------------------------------
+  tuespa |   tuespa  qenmorn   hobzel
+ qenmorn |  qenmorn   hobzel   tuespa
+  hobzel |   hobzel   tuespa  qenmorn
+
+The table for ~. Read the left argument down the side and the right argument across the top.
+
+         |   tuespa  qenmorn   hobzel
+-------------------------------------
+  tuespa |   tuespa  qenmorn   hobzel
+ qenmorn |  qenmorn  qenmorn   hobzel
+  hobzel |   hobzel   hobzel   hobzel
+
+Every pair standing in the =< relation, grouped by left argument.
+
+  tuespa =< tuespa, qenmorn and hobzel
+  qenmorn =< tuespa, qenmorn and hobzel
+  hobzel =< tuespa, qenmorn and hobzel
+
+## What is defined here
+
+These are the laws this system obeys. Each was checked against every case before it was
+written down.
+
+A1. Closure under the first operation. For all thrafexs x and y, x =| y is again a
+thrafex.
+
+A2. Association of the first operation. For all thrafexs x, y, z: (x =| y) =| z = x =|
+(y =| z).
+
+A3. Commutation of the first operation. For all thrafexs x and y: x =| y = y =| x.
+
+A6. Cancellation in the first operation. For all thrafexs x, y, z: if x =| y = x =| z
+then y = z.
+
+## The shape of it
+
+Two questions sort the thrafexs quickly. Does combining a thrafex with itself change it?
+For tuespa it does not. Does it matter which side it goes on? For tuespa, qenmorn and
+hobzel it does not.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R1 rests on S2 (the Keldmux combination tables). Remove any one of them and the
+statement stops making sense, not merely stops being provable.
+
+## A worked case
+
+Here is hobzel =| tuespa ~ tuespa, reduced without skipping anything.
+    tuespa ~ tuespa = tuespa   (the table for ~)
+    hobzel =| tuespa = hobzel   (the table for =|)
+So hobzel =| tuespa ~ tuespa is hobzel.
+
+Move the brackets and the work changes. Take tuespa =| (tuespa =| hobzel).
+    tuespa =| hobzel = hobzel   (the table for =|)
+    tuespa =| hobzel = hobzel   (the table for =|)
+That gives hobzel, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test hobzel =< tuespa. The vextarn of hobzel is tuespa, qenmorn and hobzel, and tuespa
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+R1. It is not the case that: For every thrafex x: x =| x = x. It fails at x = qenmorn,
+value = hobzel. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+What is built on it later: A4 (a neutral object for the first operation), A5 (reversal
+under the first operation), A7 (closure under the second operation) and A8 (association
+of the second operation).
+
+## Proofs
+
+R1. It is not the case that: For every thrafex x: x =| x = x.
+
+  (1) [S2] Take the case x = qenmorn, value = hobzel, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 27 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R1. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 1.
+  x001. What thrafex does hobzel =| qenmorn name?
+  x002. What thrafex does qenmorn =| qenmorn name?
+Level 2.
+  x003. Reduce hobzel =| qenmorn ~ qenmorn to a single thrafex.
+  x004. Reduce qenmorn =| tuespa ~ qenmorn to a single thrafex.
+  x005. Reduce (tuespa =| qenmorn) =| qenmorn to a single thrafex.
+  x006. What is qenmorn combined with itself 2 times under =|?
+  x007. Evaluate hobzel^3.
+  x008. Evaluate hobzel^2.
+  x009. Evaluate tuespa =| hobzel'.
+  x010. Solve x =| hobzel = tuespa for x, naming every solution.
+  x011. Solve x =| qenmorn = qenmorn for x, naming every solution.
+
+# Chapter 2. Neutral objects and reversal
+
+## Why this chapter
+
+The results collected here were not found in this order. A neutral object for the first
+operation, reversal under the first operation and the system does not have an absorbing
+object for the first operation came first, and the rest was assembled around that once
+the pattern was visible.
+
+Prerequisites are real here: chapter 1 supply the notions the statements below are
+phrased in.
+
+One habit to adopt: when a statement below quantifies over thrafexs, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+These are the laws this system obeys. Each was checked against every case before it was
+written down.
+
+A4. A neutral object for the first operation. There is a thrafex tuespa with tuespa =| x
+= x =| tuespa = x for every x.
+
+A5. Reversal under the first operation. For every thrafex x there is a thrafex y with x
+=| y = y =| x = tuespa.
+
+## The shape of it
+
+Neutrality is a strong condition disguised as a weak one. It fixes a single thrafex and,
+through that, constrains everything that can combine with it.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R2 rests on S2 (the Keldmux combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Here is (tuespa =| hobzel) =| (hobzel =| tuespa), reduced without skipping anything.
+    tuespa =| hobzel = hobzel   (the table for =|)
+    hobzel =| tuespa = hobzel   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+That leaves qenmorn, and no other reading of the notation gives anything else.
+
+Bracketing is not cosmetic, so here is hobzel =| (hobzel =| tuespa) for contrast.
+    hobzel =| tuespa = hobzel   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+The value is qenmorn. It agrees with the first case here, and a reader should resist
+reading anything general into that.
+
+Test hobzel =< qenmorn. The vextarn of hobzel is tuespa, qenmorn and hobzel, and qenmorn
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+R2. There is no thrafex z with z =| x = x =| z = z for every thrafex x. The case that
+settles it: reason = no absorbing element. Anyone carrying this claim over from a more
+familiar system will be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+The material this chapter borrows from: S2 (the Keldmux combination tables).
+
+What is built on it later: D5 (the nyrrast), D11 (the nyrzel of a thrafex) and T1 (the
+nyrrast is the only one of its kind).
+
+## Proofs
+
+R2. There is no thrafex z with z =| x = x =| z = z for every thrafex x.
+
+  (1) [S2] Take the case reason = no absorbing element, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 27 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Explicitly not available: R2. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+This chapter carries no exercises. Nothing in it can be asked about in a way that could
+not be answered without reading it, and an exercise like that is worse than none.
+
+# Chapter 3. The relation and what it orders
+
+## Why this chapter
+
+Anyone using this system to keep track of something will meet reflexivity of the
+relation, transitivity of the relation and comparability of every pair early, whether or
+not they go looking.
+
+Prerequisites are real here: chapter 1 supply the notions the statements below are
+phrased in.
+
+The standard of proof here is exhaustion. A universal claim about thrafexs covers at
+most a few hundred cases, so it is run over all of them. Nothing below rests on an
+argument from analogy with a system the reader already knows.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+These are the laws this system obeys. Each was checked against every case before it was
+written down.
+
+A12. Reflexivity of the relation. For every thrafex x: x =< x.
+
+A13. Transitivity of the relation. For all thrafexs x, y, z: if x =< y and y =< z then x
+=< z.
+
+A14. Comparability of every pair. For all thrafexs x and y, at least one of x =< y and y
+=< x holds.
+
+A15. Agreement of the relation with the first operation. For all thrafexs x, y, z: if x
+=< y then (z =| x) =< (z =| y) and (x =| z) =< (y =| z).
+
+A16. Agreement of the relation with the second operation. For all thrafexs x, y, z: if x
+=< y then (z ~ x) =< (z ~ y) and (x ~ z) =< (y ~ z).
+
+D4. The vextarn of a thrafex. The vextarn of a thrafex x is the collection of thrafexs y
+for which x =< y holds.
+
+Worked out for each thrafex: tuespa to tuespa, qenmorn and hobzel; qenmorn to tuespa,
+qenmorn and hobzel; hobzel to tuespa, qenmorn and hobzel.
+
+## The shape of it
+
+The relation is easiest to see as a height. Each thrafex casts a vextarn over what it
+supports, and the sizes of those shadows here are 3. Sizes repeat, so the objects do not
+line up in single file.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 3 thrafexs the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R5 rests on S2 (the Keldmux combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Here is tuespa =| tuespa ~ tuespa, reduced without skipping anything.
+    tuespa ~ tuespa = tuespa   (the table for ~)
+    tuespa =| tuespa = tuespa   (the table for =|)
+That leaves tuespa, and no other reading of the notation gives anything else.
+
+A companion case, tuespa =| (tuespa =| tuespa), to show what the brackets are doing.
+    tuespa =| tuespa = tuespa   (the table for =|)
+    tuespa =| tuespa = tuespa   (the table for =|)
+That gives tuespa, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test tuespa =< qenmorn. The vextarn of tuespa is tuespa, qenmorn and hobzel, and qenmorn
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+R5. It is not the case that: For all thrafexs x and y: if x =< y and y =< x then x = y.
+It fails at x = tuespa, y = qenmorn. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+The material this chapter borrows from: S2 (the Keldmux combination tables).
+
+These results are used again in D9 (a ponjen), D14 (falkeld pairs), T13 (vextarns are
+nested along the relation) and T14 (the system has a ponjen).
+
+## Proofs
+
+R5. It is not the case that: For all thrafexs x and y: if x =< y and y =< x then x = y.
+
+  (1) [S2] Take the case x = tuespa, y = qenmorn, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 27 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward the vextarn of a thrafex. Later chapters state their results in these
+terms and do not restate the definitions.
+
+Explicitly not available: R5. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+No exercises here. Every question this chapter suggested turned out to be answerable
+from the question itself, so all of them were discarded.
+
+# Chapter 4. The second operation and how the two interact
+
+## Why this chapter
+
+Here is the question this chapter answers: once the combining is settled, what can be
+said about the objects themselves? The route runs through a neutral object for the
+second operation, self combination under the second operation and closure under the
+second operation.
+
+Nothing here stands on its own. The arguments lean on chapter 1, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+One habit to adopt: when a statement below quantifies over thrafexs, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+These are the laws this system obeys. Each was checked against every case before it was
+written down.
+
+A10. A neutral object for the second operation. There is a thrafex tuespa with tuespa ~
+x = x for every x.
+
+A11. Self combination under the second operation. For every thrafex x: x ~ x = x.
+
+A7. Closure under the second operation. For all thrafexs x and y, x ~ y is again a
+thrafex.
+
+A8. Association of the second operation. For all thrafexs x, y, z: (x ~ y) ~ z = x ~ (y
+~ z).
+
+A9. Commutation of the second operation. For all thrafexs x and y: x ~ y = y ~ x.
+
+## The shape of it
+
+With two operations the question stops being what each does and becomes how they
+interfere. ~ binds tighter, so the interference shows up whenever a bracket is left off.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R3 rests on S2 (the Keldmux combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+R4 rests on S2 (the Keldmux combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Here is (tuespa =| hobzel) =| (tuespa =| hobzel), reduced without skipping anything.
+    tuespa =| hobzel = hobzel   (the table for =|)
+    tuespa =| hobzel = hobzel   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+So (tuespa =| hobzel) =| (tuespa =| hobzel) is qenmorn.
+
+Move the brackets and the work changes. Take hobzel =| (tuespa =| tuespa).
+    tuespa =| tuespa = tuespa   (the table for =|)
+    hobzel =| tuespa = hobzel   (the table for =|)
+The value is hobzel, not qenmorn.
+
+Test hobzel =< hobzel. The vextarn of hobzel is tuespa, qenmorn and hobzel, and hobzel
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+R3. It is not the case that: For all thrafexs x, y, z: x ~ (y =| z) = (x ~ y) =| (x ~
+z), and the same on the right. The case that settles it: x = qenmorn, y = tuespa, z =
+tuespa, left = qenmorn, right = hobzel. Anyone carrying this claim over from a more
+familiar system will be wrong here, and wrong in a way that propagates.
+
+R4. It is not the case that: For all thrafexs x and y: x =| (x ~ y) = x and x ~ (x =| y)
+= x. It fails at x = tuespa, y = qenmorn, value = qenmorn. One case is enough, and this
+is the earliest one.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+Read alongside S2 (the Keldmux combination tables).
+
+What is built on it later: T19 (the second operation keeps the aztrast intact).
+
+## Proofs
+
+R3. It is not the case that: For all thrafexs x, y, z: x ~ (y =| z) = (x ~ y) =| (x ~ z), and the same on the right.
+
+  (1) [S2] Take the case x = qenmorn, y = tuespa, z = tuespa, left = qenmorn, right = hobzel, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 27 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R4. It is not the case that: For all thrafexs x and y: x =| (x ~ y) = x and x ~ (x =| y) = x.
+
+  (1) [S2] Take the case x = tuespa, y = qenmorn, value = qenmorn, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 27 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R3 and R4. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 5.
+  x012. The following fails in this system: For all thrafexs x and y: x =| (x ~ y) = x and x ~ (x =| y) = x. Name the earliest thrafex, in the order the thrafexs were introduced, that witnesses the failure.
+
+# Chapter 5. Combining objects
+
+## Why this chapter
+
+We turn to solka thrafexs, thrafexs that tutez and the nyrrast. The treatment is self
+contained given the material already established.
+
+Nothing here stands on its own. The arguments lean on chapters 1 and 2, and a reader who
+has skipped them will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 3
+thrafexs that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+D1. Solka thrafexs. A thrafex x is called solka when x =| x = x.
+
+In this system that picks out tuespa, which is 1 of the 3 thrafexs.
+
+D2. Thrafexs that tutez. Two thrafexs x and y are said to tutez when x =| y = y =| x.
+
+D5. The nyrrast. The thrafex tuespa is called the nyrrast of the system. It is the
+unique thrafex that leaves every thrafex unchanged under =|.
+
+Here that is tuespa.
+
+## The shape of it
+
+A useful mental split: some thrafexs are inert under the operation and some are not.
+tuespa come back unchanged when combined with themselves, and tuespa, qenmorn and hobzel
+commute with everything.
+
+The neutral thrafex tuespa is the one that does nothing. That sounds trivial and is not:
+almost every result in this chapter is an argument about what doing nothing forces.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Nothing is derived in this chapter. It lays down material that later chapters draw on.
+
+## A worked case
+
+Here is hobzel =| tuespa ~ tuespa, reduced without skipping anything.
+    tuespa ~ tuespa = tuespa   (the table for ~)
+    hobzel =| tuespa = hobzel   (the table for =|)
+That leaves hobzel, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take tuespa =| (tuespa =| hobzel).
+    tuespa =| hobzel = hobzel   (the table for =|)
+    tuespa =| hobzel = hobzel   (the table for =|)
+That gives hobzel, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+tuespa =< tuespa hold? Read off what tuespa stands over: tuespa, qenmorn and hobzel.
+tuespa is among them, so it holds.
+
+## A case that breaks
+
+No counterexample exists to anything asserted here. That is a fact about this system and
+not a general one, and the next chapter is where it stops being true.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by a neutral object for the first operation and closure under the
+first operation. A system without them is not a system where these results are harder to
+prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A1 (closure under the first operation) and A4 (a neutral object for the
+first operation).
+
+What is built on it later: D6 (the aztrast), D7 (the tumux), D10 (iskrast thrafexs) and
+D11 (the nyrzel of a thrafex).
+
+## Proofs
+
+No proofs are needed here. Everything asserted is a definition or a table entry.
+
+## What to carry forward
+
+Carry forward solka thrafexs, thrafexs that tutez and the nyrrast. Later chapters state
+their results in these terms and do not restate the definitions.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 2.
+  x016. Which thrafex leaves every thrafex unchanged under =|?
+Level 3.
+  x013. Write down the solka in full.
+
+# Chapter 6. The relation and what it orders (2)
+
+## Why this chapter
+
+Everything in this chapter is checkable by inspection. The subject is falkeld pairs,
+umbbra collections and a ponjen.
+
+Prerequisites are real here: chapters 1 and 3 supply the notions the statements below
+are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about thrafexs covers at
+most a few hundred cases, so it is run over all of them. Nothing below rests on an
+argument from analogy with a system the reader already knows.
+
+## What is defined here
+
+D14. Falkeld pairs. Two distinct thrafexs x and y form a falkeld pair when x =< y and y
+=< x both hold, that is, when each lies in the vextarn of the other.
+
+Running the definition over every thrafex leaves tuespa, qenmorn and hobzel.
+
+D3. Umbbra collections. A collection S of thrafexs is umbbra when x =| y belongs to S
+for every pair x, y drawn from S.
+
+D9. A ponjen. A thrafex f is a ponjen when f =< y holds for every thrafex y, that is,
+when the vextarn of f is the whole system.
+
+Running the definition over every thrafex leaves tuespa, qenmorn and hobzel.
+
+## The shape of it
+
+The right picture for muxmi is a spreading stain rather than a list. Drop one thrafex
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 3
+thrafexs depending on where it started.
+
+The relation is easiest to see as a height. Each thrafex casts a vextarn over what it
+supports, and the sizes of those shadows here are 3. Sizes repeat, so the objects do not
+line up in single file.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+T13 rests on D4 (the vextarn of a thrafex) and A13 (transitivity of the relation).
+Remove any one of them and the statement stops making sense, not merely stops being
+provable.
+
+T15 rests on D4 (the vextarn of a thrafex) and A15 (agreement of the relation with the
+first operation). The dependence is on the content of those results, not only on their
+vocabulary.
+
+T18 rests on D4 (the vextarn of a thrafex). The dependence is on the content of those
+results, not only on their vocabulary.
+
+## A worked case
+
+Here is (hobzel =| qenmorn) =| (qenmorn =| tuespa), reduced without skipping anything.
+    hobzel =| qenmorn = tuespa   (the table for =|)
+    qenmorn =| tuespa = qenmorn   (the table for =|)
+    tuespa =| qenmorn = qenmorn   (the table for =|)
+So (hobzel =| qenmorn) =| (qenmorn =| tuespa) is qenmorn.
+
+Move the brackets and the work changes. Take qenmorn =| (qenmorn =| hobzel).
+    qenmorn =| hobzel = tuespa   (the table for =|)
+    qenmorn =| tuespa = qenmorn   (the table for =|)
+That gives qenmorn, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test hobzel =< tuespa. The vextarn of hobzel is tuespa, qenmorn and hobzel, and tuespa
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+No counterexample exists to anything asserted here. That is a fact about this system and
+not a general one, and the next chapter is where it stops being true.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+Every result in this chapter is downstream of agreement of the relation with the first
+operation, closure under the first operation and transitivity of the relation. Those are
+properties of this system, not of systems in general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: A1 (closure under the first operation), A13
+(transitivity of the relation), A15 (agreement of the relation with the first operation)
+and D4 (the vextarn of a thrafex).
+
+What is built on it later: D8 (the muxmi of a thrafex), T5 (the aztrast is umbbra), T6
+(the muxmi of a thrafex is umbbra) and T11 (the tumux is umbbra).
+
+## Proofs
+
+T13. If y lies in the vextarn of x, then the vextarn of y is contained in the vextarn of x.
+
+  (1) [D4] Let y satisfy x =< y and let z satisfy y =< z.
+  (2) [A13] Transitivity gives x =< z.
+  (3) [D4] So every member of the vextarn of y is a member of that of x.
+
+Checked over 27 cases: every ordered triple. The check is exhaustive, so the statement is settled rather than supported.
+
+T15. If x =< y then (x =| z) =< (y =| z) for every thrafex z.
+
+  (1) [D4] Let y lie in the vextarn of x.
+  (2) [A15] Compatibility applies the operation to both sides at once.
+  (3) Nothing else is needed, since z was arbitrary.
+
+Checked over 27 cases: every ordered triple. The check is exhaustive, so the statement is settled rather than supported.
+
+T18. If x =< y then y =< x.
+
+  (1) [D4] Symmetry would mean y lies in the vextarn of x exactly when x lies in that of y.
+  (2) The listed pairs settle it directly.
+
+Checked over 9 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: falkeld pairs, umbbra collections and a ponjen. Each
+of these is used by name later, so the names are worth learning rather than looking up.
+
+The results now available are T13, T15 and T18, each settled by exhaustive check rather
+than by argument from analogy.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 3.
+  x014. How many thrafexs lie in the smallest umbbra collection containing qenmorn?
+  x015. How many thrafexs lie in the smallest umbbra collection containing hobzel?
+
+# Chapter 7. Combining objects (2)
+
+## Why this chapter
+
+The results collected here were not found in this order. The aztrast, the tumux and
+combining on the left never merges two thrafexs came first, and the rest was assembled
+around that once the pattern was visible.
+
+Prerequisites are real here: chapters 1 and 5 supply the notions the statements below
+are phrased in.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 3
+thrafexs that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+D6. The aztrast. The aztrast of the system is the collection of thrafexs that tutez with
+every thrafex.
+
+Running the definition over every thrafex leaves tuespa, qenmorn and hobzel.
+
+D7. The tumux. The tumux is the collection of all solka thrafexs.
+
+Running the definition over every thrafex leaves tuespa.
+
+## The shape of it
+
+Two questions sort the thrafexs quickly. Does combining a thrafex with itself change it?
+For tuespa it does not. Does it matter which side it goes on? For tuespa, qenmorn and
+hobzel it does not.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T12 rests on A6 (cancellation in the first operation) and D2 (thrafexs that tutez). The
+dependence is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Take hobzel =| qenmorn ~ tuespa and work it out one step at a time.
+    qenmorn ~ tuespa = qenmorn   (the table for ~)
+    hobzel =| qenmorn = tuespa   (the table for =|)
+So hobzel =| qenmorn ~ tuespa is tuespa.
+
+Move the brackets and the work changes. Take qenmorn =| (tuespa =| hobzel).
+    tuespa =| hobzel = hobzel   (the table for =|)
+    qenmorn =| hobzel = tuespa   (the table for =|)
+That gives tuespa, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+tuespa =< qenmorn hold? Read off what tuespa stands over: tuespa, qenmorn and hobzel.
+qenmorn is among them, so it holds.
+
+## A case that breaks
+
+No counterexample exists to anything asserted here. That is a fact about this system and
+not a general one, and the next chapter is where it stops being true.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Every result in this chapter is downstream of cancellation in the first operation and
+closure under the first operation. Those are properties of this system, not of systems
+in general.
+
+To see how little the notation guarantees: rebuild the system with the same names over
+different tables and T12 fail outright.
+
+## Neighbouring results
+
+Read alongside A6 (cancellation in the first operation), D1 (solka thrafexs) and D2
+(thrafexs that tutez).
+
+What is built on it later: T2 (the nyrrast lies in the aztrast), T5 (the aztrast is
+umbbra), T10 (the muxmi of a aztrast thrafex stays in the aztrast) and T11 (the tumux is
+umbbra).
+
+## Proofs
+
+T12. For every thrafex a, the assignment x to a =| x sends distinct thrafexs to distinct thrafexs.
+
+  (1) [A6] Suppose a =| x = a =| y.
+  (2) [A6] Cancellation on the left gives x = y.
+  (3) So the assignment is injective, and being injective on a finite carrier it is onto.
+
+Checked over 9 cases: every object translated by every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the aztrast and the tumux. Each of these is used by
+name later, so the names are worth learning rather than looking up.
+
+Established here and safe to use: T12.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 3.
+  x017. List every thrafex in the tumux.
+
+# Chapter 8. Neutral objects and reversal (2)
+
+## Why this chapter
+
+Anyone using this system to keep track of something will meet iskrast thrafexs, the
+nyrzel of a thrafex and where the nyrrast swallows everything breaks down early, whether
+or not they go looking.
+
+Prerequisites are real here: chapters 2 and 5 supply the notions the statements below
+are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about thrafexs covers at
+most a few hundred cases, so it is run over all of them. Nothing below rests on an
+argument from analogy with a system the reader already knows.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+D10. Iskrast thrafexs. A thrafex x is iskrast when x =| x equals the nyrrast.
+
+Running the definition over every thrafex leaves tuespa.
+
+D11. The nyrzel of a thrafex. A nyrzel of a thrafex x is a thrafex y with x =| y = y =|
+x = tuespa.
+
+Worked out for each thrafex: tuespa to tuespa; qenmorn to hobzel; hobzel to qenmorn.
+
+## The shape of it
+
+Neutrality is a strong condition disguised as a weak one. It fixes a single thrafex and,
+through that, constrains everything that can combine with it.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R7 rests on D5 (the nyrrast). The dependence is on the content of those results, not
+only on their vocabulary.
+
+T1 rests on D5 (the nyrrast) and A4 (a neutral object for the first operation). The
+dependence is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Take (qenmorn =| hobzel) =| (hobzel =| hobzel) and work it out one step at a time.
+    qenmorn =| hobzel = tuespa   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+    tuespa =| qenmorn = qenmorn   (the table for =|)
+So (qenmorn =| hobzel) =| (hobzel =| hobzel) is qenmorn.
+
+Move the brackets and the work changes. Take hobzel =| (hobzel =| qenmorn).
+    hobzel =| qenmorn = tuespa   (the table for =|)
+    hobzel =| tuespa = hobzel   (the table for =|)
+That gives hobzel, against qenmorn above.
+
+Test qenmorn =< tuespa. The vextarn of qenmorn is tuespa, qenmorn and hobzel, and tuespa
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+R7. It is not the case that: e =| x equals the nyrrast for every thrafex x. It fails at
+anchor = tuespa, x = qenmorn, value = qenmorn. One case is enough, and this is the
+earliest one.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by a neutral object for the first operation, closure under the first
+operation and reversal under the first operation. A system without them is not a system
+where these results are harder to prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+The material this chapter borrows from: A4 (a neutral object for the first operation),
+A5 (reversal under the first operation), D1 (solka thrafexs) and D5 (the nyrrast).
+
+What is built on it later: T3 (a thrafex has only one nyrzel) and T4 (a iskrast thrafex
+is its own nyrzel).
+
+## Proofs
+
+R7. It is not the case that: e =| x equals the nyrrast for every thrafex x.
+
+  (1) [S2] Take the case anchor = tuespa, x = qenmorn, value = qenmorn, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 3 cases: the anchor against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T1. There is exactly one thrafex e with e =| x = x =| e = x for every thrafex x.
+
+  (1) [D5] Suppose e and f both leave every thrafex unchanged.
+  (2) [A4] Then e =| f = f, reading e as neutral on the left.
+  (3) [A4] And e =| f = e, reading f as neutral on the right.
+  (4) So e = f, and the two suppositions describe the same object.
+
+Checked over 9 cases: every object paired with every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: iskrast thrafexs and the nyrzel of a thrafex. Each of
+these is used by name later, so the names are worth learning rather than looking up.
+
+Established here and safe to use: T1.
+
+Explicitly not available: R7. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 3.
+  x022. Which thrafexs make up the iskrast? Name them all.
+  x023. Which thrafex reverses qenmorn under =|?
+  x024. Name the nyrzel of hobzel.
+Level 5.
+  x025. Let z be hobzel =| tuespa. Name the nyrzel of z.
+  x037. The following fails in this system: e =| x equals the nyrrast for every thrafex x. Name the earliest thrafex, in the order the thrafexs were introduced, that witnesses the failure.
+
+# Chapter 9. Combining objects (3)
+
+## Why this chapter
+
+Here is the question this chapter answers: once the combining is settled, what can be
+said about the objects themselves? The route runs through the muxmi of a thrafex, the
+system has a ponjen and where every thrafex is solka breaks down.
+
+Prerequisites are real here: chapters 1, 3, 5, 6 and 7 supply the notions the statements
+below are phrased in.
+
+One habit to adopt: when a statement below quantifies over thrafexs, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+D8. The muxmi of a thrafex. The muxmi of a thrafex x, written [x], is the smallest
+umbbra collection that contains x.
+
+Worked out for each thrafex: tuespa to tuespa; qenmorn to tuespa, qenmorn and hobzel;
+hobzel to tuespa, qenmorn and hobzel.
+
+## The shape of it
+
+The right picture for muxmi is a spreading stain rather than a list. Drop one thrafex
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 3
+thrafexs depending on where it started.
+
+The relation is easiest to see as a height. Each thrafex casts a vextarn over what it
+supports, and the sizes of those shadows here are 3. Sizes repeat, so the objects do not
+line up in single file.
+
+A useful mental split: some thrafexs are inert under the operation and some are not.
+tuespa come back unchanged when combined with themselves, and tuespa, qenmorn and hobzel
+commute with everything.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 3 thrafexs the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+T14 rests on D9 (a ponjen) and A14 (comparability of every pair). Remove any one of them
+and the statement stops making sense, not merely stops being provable.
+
+R6 rests on D7 (the tumux). Remove any one of them and the statement stops making sense,
+not merely stops being provable.
+
+T11 rests on D7 (the tumux) and D3 (umbbra collections). The dependence is on the
+content of those results, not only on their vocabulary.
+
+T16 rests on D6 (the aztrast). Remove any one of them and the statement stops making
+sense, not merely stops being provable.
+
+T2 rests on D5 (the nyrrast) and D6 (the aztrast). The dependence is on the content of
+those results, not only on their vocabulary.
+
+T5 rests on D6 (the aztrast), D3 (umbbra collections) and A2 (association of the first
+operation). Remove any one of them and the statement stops making sense, not merely
+stops being provable.
+
+## A worked case
+
+Evaluate qenmorn =| hobzel ~ tuespa. Each line below is one lookup in a table.
+    hobzel ~ tuespa = hobzel   (the table for ~)
+    qenmorn =| hobzel = tuespa   (the table for =|)
+The expression comes to tuespa.
+
+Move the brackets and the work changes. Take hobzel =| (tuespa =| qenmorn).
+    tuespa =| qenmorn = qenmorn   (the table for =|)
+    hobzel =| qenmorn = tuespa   (the table for =|)
+That gives tuespa, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+hobzel =< hobzel hold? Read off what hobzel stands over: tuespa, qenmorn and hobzel.
+hobzel is among them, so it holds.
+
+Now compute [tuespa]. Fold tuespa against itself, then fold whatever appeared against
+everything present, and stop when a round adds nothing. The result is tuespa, of size 1.
+
+## A case that breaks
+
+R6. It is not the case that: x =| x = x for every thrafex x. It fails at x = qenmorn,
+value = hobzel. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+The load is carried by a neutral object for the first operation, association of the
+first operation, closure under the first operation and comparability of every pair. A
+system without them is not a system where these results are harder to prove; it is a
+system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A14 (comparability of every pair), A2 (association of the first
+operation), D3 (umbbra collections) and D5 (the nyrrast).
+
+These results are used again in D12 (the driglim of a thrafex), T6 (the muxmi of a
+thrafex is umbbra), T7 (the muxmi is contained in every umbbra collection) and T10 (the
+muxmi of a aztrast thrafex stays in the aztrast).
+
+## Proofs
+
+T14. Some thrafex ponjens the whole system.
+
+  (1) [A14] Every pair is comparable, so the relation orders the objects into a line.
+  (2) [D9] The claim is that the line has a bottom.
+  (3) The carrier is finite, so the search over candidates terminates.
+
+Checked over 9 cases: every candidate against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+R6. It is not the case that: x =| x = x for every thrafex x.
+
+  (1) [S2] Take the case x = qenmorn, value = hobzel, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 3 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T11. If x and y are both solka then so is x =| y.
+
+  (1) [D7] Let x and y be solka.
+  (2) [D1] The claim asks whether (x =| y) =| (x =| y) returns x =| y.
+  (3) Whether it does is settled by running the operation table on every such pair.
+
+Checked over 9 cases: every ordered pair drawn from the ridge. The check is exhaustive, so the statement is settled rather than supported.
+
+T16. Every pair of thrafexs tutezs.
+
+  (1) [D6] The aztrast is defined by tutezing with everything.
+  (2) [D2] The claim is that x =| y = y =| x for every pair.
+  (3) That is settled by scanning the table for a pair that disagrees.
+
+Checked over 9 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+T2. The nyrrast tutezs with every thrafex.
+
+  (1) [D5] Let e be the nyrrast and x any thrafex.
+  (2) [D5] Then e =| x = x and x =| e = x.
+  (3) [D2] So e =| x = x =| e, which is what it means to tutez.
+  (4) [D6] Since x was arbitrary, e belongs to the aztrast.
+
+Checked over 3 cases: the anchor against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T5. If x and y both tutez with every thrafex, then so does x =| y.
+
+  (1) [D6] Let x and y lie in the aztrast and let z be any thrafex.
+  (2) [A2] Then (x =| y) =| z = x =| (y =| z).
+  (3) [D6] Move z past y, then past x, using that each tutezs with everything.
+  (4) [D3] So x =| y tutezs with z, and the aztrast is umbbra.
+
+Checked over 9 cases: every ordered pair drawn from the core. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward the muxmi of a thrafex. Later chapters state their results in these terms
+and do not restate the definitions.
+
+Established here and safe to use: T14, T11, T16, T2 and T5.
+
+Do not carry forward R6. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x018. Name every thrafex in [qenmorn].
+  x019. Name every thrafex in [hobzel].
+Level 4.
+  x020. Let z be qenmorn =| tuespa. List the muxmi of z.
+  x021. Let z be qenmorn =| qenmorn. List the muxmi of z.
+  x035. Name the thrafexs that make up the tumux, which is what the result above is a claim about.
+
+# Chapter 10. Collections that close on themselves
+
+## Why this chapter
+
+The present chapter develops the driglim of a thrafex, a thrafex has only one nyrzel and
+the muxmi of a thrafex is umbbra.
+
+Nothing here stands on its own. The arguments lean on chapters 1, 6, 8 and 9, and a
+reader who has skipped them will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 3
+thrafexs that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+D12. The driglim of a thrafex. The driglim of a thrafex x is the number of thrafexs in
+its muxmi [x].
+
+Worked out for each thrafex: tuespa to 1; qenmorn to 3; hobzel to 3.
+
+## The shape of it
+
+The right picture for muxmi is a spreading stain rather than a list. Drop one thrafex
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 3
+thrafexs depending on where it started.
+
+Neutrality is a strong condition disguised as a weak one. It fixes a single thrafex and,
+through that, constrains everything that can combine with it.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 3 thrafexs the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+T3 rests on D11 (the nyrzel of a thrafex), A2 (association of the first operation) and
+T1 (the nyrrast is the only one of its kind). The dependence is on the content of those
+results, not only on their vocabulary.
+
+T6 rests on D8 (the muxmi of a thrafex) and D3 (umbbra collections). The dependence is
+on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Here is (tuespa =| hobzel) =| (hobzel =| hobzel), reduced without skipping anything.
+    tuespa =| hobzel = hobzel   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+    hobzel =| qenmorn = tuespa   (the table for =|)
+The expression comes to tuespa.
+
+Move the brackets and the work changes. Take hobzel =| (hobzel =| tuespa).
+    hobzel =| tuespa = hobzel   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+That gives qenmorn, against tuespa above.
+
+Test tuespa =< qenmorn. The vextarn of tuespa is tuespa, qenmorn and hobzel, and qenmorn
+lies inside it, so the relation holds.
+
+A second case, this time a muxmi. Start from tuespa. Combine it with itself, add
+whatever is new, and repeat until nothing is added. What survives is tuespa, so the
+driglim of tuespa is 1.
+
+## A case that breaks
+
+No counterexample exists to anything asserted here. That is a fact about this system and
+not a general one, and the next chapter is where it stops being true.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+The load is carried by a neutral object for the first operation, association of the
+first operation, closure under the first operation and reversal under the first
+operation. A system without them is not a system where these results are harder to
+prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A2 (association of the first operation), D11 (the nyrzel of a thrafex),
+D3 (umbbra collections) and D8 (the muxmi of a thrafex).
+
+These results are used again in D13 (the reldumb), T4 (a iskrast thrafex is its own
+nyrzel), T7 (the muxmi is contained in every umbbra collection) and T8 (a thrafex is
+solka exactly when its driglim is one).
+
+## Proofs
+
+T3. For every thrafex x there is exactly one nyrzel of x.
+
+  (1) [D11] Let y and z both be partners of x.
+  (2) [A2] Then y = y =| (x =| z) = (y =| x) =| z.
+  (3) [D11] Both bracketed products collapse to the neutral object.
+  (4) So y = z.
+
+Checked over 9 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+T6. For every thrafex x, the collection [x] is umbbra.
+
+  (1) [D8] [x] is built by taking x and closing under =|.
+  (2) [D3] Closing under an operation is exactly the sealing condition.
+  (3) The carrier is finite, so the closure stops after finitely many rounds.
+
+Checked over 27 cases: every object, then every pair inside its span. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the driglim of a thrafex. Each of these is used by
+name later, so the names are worth learning rather than looking up.
+
+Established here and safe to use: T3 and T6.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x026. How many thrafexs lie in [qenmorn]?
+  x027. What is the driglim of hobzel?
+Level 5.
+  x028. Let z be qenmorn =| hobzel ~ tuespa. What is the driglim of z?
+  x029. Let z be hobzel =| tuespa ~ hobzel. What is the driglim of z?
+  x030. Let z be hobzel =| tuespa ~ tuespa. What is the driglim of z?
+  x031. Let z be hobzel =| qenmorn ~ hobzel. What is the driglim of z?
+  x032. Let z be (hobzel =| hobzel) =| tuespa. What is the driglim of z?
+
+# Chapter 11. Collections that close on themselves (2)
+
+## Why this chapter
+
+Work through this chapter with the tables in front of you. It covers the reldumb, the
+muxmi of a aztrast thrafex stays in the aztrast and some thrafex reaches every other,
+and each claim can be checked by hand.
+
+Nothing here stands on its own. The arguments lean on chapters 5, 7, 8, 9 and 10, and a
+reader who has skipped them will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 3
+thrafexs that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+D13. The reldumb. The reldumb of the system is the collection of thrafexs whose driglim
+is largest.
+
+Running the definition over every thrafex leaves qenmorn and hobzel.
+
+## The shape of it
+
+The right picture for muxmi is a spreading stain rather than a list. Drop one thrafex
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1 and 3
+thrafexs depending on where it started.
+
+Two questions sort the thrafexs quickly. Does combining a thrafex with itself change it?
+For tuespa it does not. Does it matter which side it goes on? For tuespa, qenmorn and
+hobzel it does not.
+
+The neutral thrafex tuespa is the one that does nothing. That sounds trivial and is not:
+almost every result in this chapter is an argument about what doing nothing forces.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 3 thrafexs the table is short enough to consult every time.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T10 rests on D8 (the muxmi of a thrafex), D6 (the aztrast) and T5 (the aztrast is
+umbbra). Remove any one of them and the statement stops making sense, not merely stops
+being provable.
+
+T17 rests on D8 (the muxmi of a thrafex) and D12 (the driglim of a thrafex). Remove any
+one of them and the statement stops making sense, not merely stops being provable.
+
+T4 rests on D10 (iskrast thrafexs), D11 (the nyrzel of a thrafex) and T3 (a thrafex has
+only one nyrzel). Remove any one of them and the statement stops making sense, not
+merely stops being provable.
+
+T7 rests on D8 (the muxmi of a thrafex) and T6 (the muxmi of a thrafex is umbbra). The
+dependence is on the content of those results, not only on their vocabulary.
+
+T8 rests on D1 (solka thrafexs), D12 (the driglim of a thrafex) and T6 (the muxmi of a
+thrafex is umbbra). Remove any one of them and the statement stops making sense, not
+merely stops being provable.
+
+T9 rests on D12 (the driglim of a thrafex) and T6 (the muxmi of a thrafex is umbbra).
+Remove any one of them and the statement stops making sense, not merely stops being
+provable.
+
+## A worked case
+
+Evaluate hobzel =| hobzel ~ tuespa. Each line below is one lookup in a table.
+    hobzel ~ tuespa = hobzel   (the table for ~)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+So hobzel =| hobzel ~ tuespa is qenmorn.
+
+Bracketing is not cosmetic, so here is hobzel =| (tuespa =| hobzel) for contrast.
+    tuespa =| hobzel = hobzel   (the table for =|)
+    hobzel =| hobzel = qenmorn   (the table for =|)
+The value is qenmorn. It agrees with the first case here, and a reader should resist
+reading anything general into that.
+
+Test tuespa =< hobzel. The vextarn of tuespa is tuespa, qenmorn and hobzel, and hobzel
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+Every claim in this chapter survives every case, which is unusual enough to be worth
+saying plainly. The nearest thing to a trap is the set of thrafexs that come back
+unchanged from themselves: tuespa. Assuming more of them than that is the mistake to
+avoid.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+The load is carried by a neutral object for the first operation, association of the
+first operation, closure under the first operation and reversal under the first
+operation. A system without them is not a system where these results are harder to
+prove; it is a system where they are false.
+
+That is not a rhetorical caution. Take the same 3 objects, the same symbols, and a
+different table, and T17 and T9 stop holding. The notation survives the substitution and
+the mathematics does not.
+
+## Neighbouring results
+
+Read alongside D1 (solka thrafexs), D10 (iskrast thrafexs), D11 (the nyrzel of a
+thrafex) and D12 (the driglim of a thrafex).
+
+## Proofs
+
+T10. If x lies in the aztrast then every thrafex of [x] lies in the aztrast.
+
+  (1) [T5] The aztrast is umbbra.
+  (2) [D8] [x] is the smallest umbbra collection containing x.
+  (3) A smallest such collection sits inside any other, and the aztrast is one.
+
+Checked over 9 cases: every object of the core, then its span. The check is exhaustive, so the statement is settled rather than supported.
+
+T17. There is a thrafex whose muxmi is the whole system.
+
+  (1) [D8] Compute [x] for each thrafex in turn.
+  (2) [D12] The claim is that some driglim equals 3.
+  (3) The search runs over finitely many objects, so it settles.
+
+Checked over 3 cases: every object and its span. The check is exhaustive, so the statement is settled rather than supported.
+
+T4. If x =| x is the nyrrast then the nyrzel of x is x itself.
+
+  (1) [D10] Let x be iskrast, so x =| x is the nyrrast.
+  (2) [D11] That is exactly the condition for x to be a partner of x.
+  (3) [T3] Partners are unique, so no other object can be one.
+
+Checked over 3 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T7. If S is umbbra and contains x, then S contains all of [x].
+
+  (1) [D8] Every member of [x] is reached from x by finitely many applications of the operation.
+  (2) [D3] A sealed S containing x is closed under each of those applications.
+  (3) So each member of [x] is in S, by induction on the number of applications.
+
+Checked over 6 cases: every sealed collection against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T8. x =| x = x holds if and only if [x] contains x alone.
+
+  (1) [D1] If x =| x = x then {x} is already closed under =|.
+  (2) [T6] So [x] = {x} and the driglim is one.
+  (3) [D12] Conversely a span of one object must contain x =| x, which is then x.
+
+Checked over 3 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T9. For every thrafex x, the driglim of x divides 3.
+
+  (1) [T6] [x] is a umbbra collection.
+  (2) [D12] Its size is the driglim of x.
+  (3) The claim is that this size always divides 3.
+
+Checked over 3 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward the reldumb. Later chapters state their results in these terms and do not
+restate the definitions.
+
+Established here and safe to use: T10, T17, T4, T7, T8 and T9.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 4.
+  x033. Which thrafexs make up the reldumb? Name them all.
+  x034. What is the largest driglim any thrafex has?
+  x036. Name a thrafex whose muxmi is the whole system. Give the earliest such thrafex in the order the thrafexs were introduced.
+
+# Chapter 12. The second operation and how the two interact (2)
+
+## Why this chapter
+
+The results collected here were not found in this order. The second operation keeps the
+aztrast intact came first, and the rest was assembled around that once the pattern was
+visible.
+
+Nothing here stands on its own. The arguments lean on chapters 4, 7 and 9, and a reader
+who has skipped them will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 3
+thrafexs that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+This chapter introduces no new vocabulary. It works entirely with what has already been
+defined.
+
+## The shape of it
+
+With two operations the question stops being what each does and becomes how they
+interfere. ~ binds tighter, so the interference shows up whenever a bracket is left off.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 3 thrafexs the table is short enough to consult every time.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T19 rests on D6 (the aztrast), A7 (closure under the second operation) and T5 (the
+aztrast is umbbra). The dependence is on the content of those results, not only on their
+vocabulary.
+
+## A worked case
+
+Evaluate (tuespa =| qenmorn) =| (qenmorn =| tuespa). Each line below is one lookup in a
+table.
+    tuespa =| qenmorn = qenmorn   (the table for =|)
+    qenmorn =| tuespa = qenmorn   (the table for =|)
+    qenmorn =| qenmorn = hobzel   (the table for =|)
+The expression comes to hobzel.
+
+A companion case, qenmorn =| (qenmorn =| tuespa), to show what the brackets are doing.
+    qenmorn =| tuespa = qenmorn   (the table for =|)
+    qenmorn =| qenmorn = hobzel   (the table for =|)
+That gives hobzel, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test hobzel =< qenmorn. The vextarn of hobzel is tuespa, qenmorn and hobzel, and qenmorn
+lies inside it, so the relation holds.
+
+## A case that breaks
+
+No counterexample exists to anything asserted here. That is a fact about this system and
+not a general one, and the next chapter is where it stops being true.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Every result in this chapter is downstream of association of the first operation,
+closure under the first operation and closure under the second operation. Those are
+properties of this system, not of systems in general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+Read alongside A7 (closure under the second operation), D6 (the aztrast) and T5 (the
+aztrast is umbbra).
+
+## Proofs
+
+T19. If x and y lie in the aztrast then so does x ~ y.
+
+  (1) [T5] The aztrast is already umbbra under =|.
+  (2) [A7] The second operation is defined on every pair.
+  (3) [D6] The claim is that ~ respects the aztrast as well.
+
+Checked over 9 cases: every ordered pair from the core. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Established here and safe to use: T19.
+
+## Exercises
+
+No exercises here. Every question this chapter suggested turned out to be answerable
+from the question itself, so all of them were discarded.

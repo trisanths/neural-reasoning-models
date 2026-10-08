@@ -1,0 +1,140 @@
+NRM bench: curve-350md-401
+items 160, records 472
+config {"conditions": ["retrieval", "no_retrieval", "oracle_context"], "decode": "greedy", "max_new_tokens": 96, "max_rounds": 3, "scoring": "normalized exact match, contains fallback", "seed": 0}
+
+exa usage: {"live_calls": 50, "cache_hits": 9, "prior_calls": 0, "budget": 300}
+
+pooled by condition
+-------------------
+metric                                 retrieval            no_retrieval          oracle_context
+items                                        160                     160                     152
+accuracy                                   0.150                   0.037                   0.059
+exact match                                0.150                   0.037                   0.059
+gold in evidence                           0.276                   0.000                   0.941
+evidence complete                          0.151                   0.000                   0.803
+answer in evidence                         0.276                   0.000                   0.105
+grounded accuracy                          0.105                   0.000                   0.007
+unsupported correct                        0.013                   0.020                   0.053
+mean rounds served                          0.75                    0.00                    0.00
+mean queries issued                         0.75                    0.88                    0.82
+empty results served                        0.00                    0.84                    0.81
+evidence tokens                            101.8                     0.0                    91.2
+ev tokens per correct                      678.6                     0.0                  1540.9
+abstention (unans)                         0.750                   0.375                   0.000
+explicit abstention                        0.000                   0.000                   0.000
+confabulation                              0.250                   0.625                   0.000
+withheld answer given                      0.000                   0.000                   0.000
+empty answers                              0.625                   0.306                   0.375
+over-abstention                            0.618                   0.303                   0.375
+seconds per item                            1.40                    0.72                    1.40
+generated tokens                            62.3                    45.1                    51.0
+
+suite: real_web
+---------------
+metric                                 retrieval            no_retrieval          oracle_context
+items                                         60                      60                      56
+accuracy                                   0.067                   0.017                   0.000
+exact match                                0.067                   0.017                   0.000
+gold in evidence                           0.161                   0.000                   1.000
+evidence complete                          0.089                   0.000                   0.625
+answer in evidence                         0.000                   0.000                   0.089
+grounded accuracy                          0.000                   0.000                   0.000
+unsupported correct                        0.000                   0.000                   0.000
+mean rounds served                          0.98                    0.00                    0.00
+mean queries issued                         0.98                    1.12                    1.12
+empty results served                        0.00                    1.10                    1.11
+evidence tokens                            223.4                     0.0                    12.4
+ev tokens per correct                     3351.8                     0.0                       -
+abstention (unans)                         1.000                   0.250                   0.000
+explicit abstention                        0.000                   0.000                   0.000
+confabulation                              0.000                   0.750                   0.000
+withheld answer given                      0.000                   0.000                   0.000
+empty answers                              1.000                   0.133                   0.304
+over-abstention                            1.000                   0.125                   0.304
+seconds per item                            2.43                    0.59                    1.09
+generated tokens                            93.5                    34.7                    47.4
+
+suite: scrubbed_web
+-------------------
+metric                                 retrieval            no_retrieval          oracle_context
+items                                         40                      40                      38
+accuracy                                   0.050                   0.050                   0.000
+exact match                                0.050                   0.050                   0.000
+gold in evidence                           0.053                   0.000                   1.000
+evidence complete                          0.053                   0.000                   1.000
+answer in evidence                         0.000                   0.000                   0.000
+grounded accuracy                          0.000                   0.000                   0.000
+unsupported correct                        0.000                   0.000                   0.000
+mean rounds served                          0.12                    0.00                    0.00
+mean queries issued                         0.12                    0.12                    0.03
+empty results served                        0.00                    0.12                    0.03
+evidence tokens                             35.8                     0.0                   288.2
+ev tokens per correct                      716.0                     0.0                       -
+abstention (unans)                         1.000                   1.000                   0.000
+explicit abstention                        0.000                   0.000                   0.000
+confabulation                              0.000                   0.000                   0.000
+withheld answer given                      0.000                   0.000                   0.000
+empty answers                              1.000                   0.900                   1.000
+over-abstention                            1.000                   0.895                   1.000
+seconds per item                            1.67                    1.31                    3.00
+generated tokens                            93.6                    84.2                    93.5
+
+suite: synthetic_world
+----------------------
+metric                                 retrieval            no_retrieval          oracle_context
+items                                         60                      60                      58
+accuracy                                   0.300                   0.050                   0.155
+exact match                                0.300                   0.050                   0.155
+gold in evidence                           0.534                   0.000                   0.845
+evidence complete                          0.276                   0.000                   0.845
+answer in evidence                         0.724                   0.000                   0.190
+grounded accuracy                          0.276                   0.000                   0.017
+unsupported correct                        0.035                   0.052                   0.138
+mean rounds served                          0.93                    0.00                    0.00
+mean queries issued                         0.93                    1.15                    1.05
+empty results served                        0.00                    1.07                    1.03
+evidence tokens                             24.1                     0.0                    38.3
+ev tokens per correct                       80.4                     0.0                   246.9
+abstention (unans)                         0.000                   0.000                   0.000
+explicit abstention                        0.000                   0.000                   0.000
+confabulation                              1.000                   1.000                   0.000
+withheld answer given                      0.000                   0.000                   0.000
+empty answers                              0.000                   0.083                   0.035
+over-abstention                            0.000                   0.086                   0.035
+seconds per item                            0.20                    0.45                    0.66
+generated tokens                            10.1                    29.5                    26.6
+
+tasks under retrieval
+---------------------
+metric                               arbitration                counting               multi_hop              single_hop                    span                temporal            unanswerable
+items                                          3                       5                      18                      88                      31                       7                       8
+accuracy                                   0.333                   0.000                   0.056                   0.171                   0.000                   0.143                   0.750
+exact match                                0.333                   0.000                   0.056                   0.171                   0.000                   0.143                   0.750
+gold in evidence                           0.333                   0.600                   0.500                   0.250                   0.032                   0.857                   0.000
+evidence complete                          0.333                   0.000                   0.167                   0.204                   0.032                   0.000                   0.000
+answer in evidence                         0.667                   0.800                   0.444                   0.261                   0.000                   0.714                   0.000
+grounded accuracy                          0.333                   0.000                   0.056                   0.148                   0.000                   0.143                   0.000
+unsupported correct                        0.000                   0.000                   0.000                   0.023                   0.000                   0.000                   0.000
+mean rounds served                          0.67                    1.00                    0.83                    0.92                    0.13                    1.00                    0.75
+mean queries issued                         0.67                    1.00                    0.83                    0.92                    0.13                    1.00                    0.75
+empty results served                        0.00                    0.00                    0.00                    0.00                    0.00                    0.00                    0.00
+evidence tokens                             19.3                    25.2                    36.9                   149.8                    36.2                    25.6                   119.2
+ev tokens per correct                       58.0                       -                   664.0                   878.8                       -                   179.0                   159.0
+abstention (unans)                         0.000                   0.000                   0.000                   0.000                   0.000                   0.000                   0.750
+explicit abstention                        0.000                   0.000                   0.000                   0.000                   0.000                   0.000                   0.000
+confabulation                              0.000                   0.000                   0.000                   0.000                   0.000                   0.000                   0.250
+withheld answer given                      0.000                   0.000                   0.000                   0.000                   0.000                   0.000                   0.000
+empty answers                              0.000                   0.000                   0.389                   0.636                   1.000                   0.000                   0.750
+over-abstention                            0.000                   0.000                   0.389                   0.636                   1.000                   0.000                   0.000
+seconds per item                            0.20                    0.21                    0.87                    1.62                    1.64                    0.23                    1.49
+generated tokens                            10.7                    10.4                    45.4                    62.7                    92.9                     9.1                    75.2
+
+paired controls
+---------------
+paired answerable items                     152
+accuracy_retrieval                          0.118
+accuracy_no_retrieval                       0.020
+accuracy_oracle_context                     0.059
+oracle - retrieval (query formulation)      -0.059
+oracle - none (extraction over memory)      +0.040
+

@@ -1,0 +1,1721 @@
+# The Nyrazt system
+
+What follows is a complete account of the Nyrazt system. It is complete in a strong
+sense: the system has 6 naksols and finitely many facts, and every one of those facts is
+settled here by inspection rather than left to argument.
+
+The naksols are written wrenpyr, vexlorn, vexnak, glimzam, reldxil and pyrxil. The first
+operation is written %. The second is written <> and binds more tightly, so x % y <> z
+means x % (y <> z). The relation is written >-; where it holds between two naksols we
+say the left one dominates the right one. Both operations associate to the left when
+written without brackets, and brackets override that. Repeated combination is
+abbreviated: x^3 means x % x % x. A trailing mark reverses: x' is the naksol that
+combines with x to give the neutral one.
+
+A warning that will be repeated because it is the one readers ignore: nothing here is
+inherited from arithmetic. Familiar names have been avoided on purpose. Where a law of
+arithmetic happens to hold it is stated and checked, and where it fails a counterexample
+is given.
+
+# Chapter 1. The objects and their notation
+
+## Why this chapter
+
+The results collected here were not found in this order. The Nyrazt signature, the
+Nyrazt combination tables and closure under the first operation came first, and the rest
+was assembled around that once the pattern was visible.
+
+The standard of proof here is exhaustion. A universal claim about naksols covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## The tables in full
+
+The table for %. Read the left argument down the side and the right argument across the top.
+
+         |  wrenpyr  vexlorn   vexnak  glimzam  reldxil   pyrxil
+----------------------------------------------------------------
+ wrenpyr |  wrenpyr  vexlorn   vexnak  glimzam  reldxil   pyrxil
+ vexlorn |  vexlorn   vexnak  glimzam  reldxil   pyrxil  wrenpyr
+  vexnak |   vexnak  glimzam  reldxil   pyrxil  wrenpyr  vexlorn
+ glimzam |  glimzam  reldxil   pyrxil  wrenpyr  vexlorn   vexnak
+ reldxil |  reldxil   pyrxil  wrenpyr  vexlorn   vexnak  glimzam
+  pyrxil |   pyrxil  wrenpyr  vexlorn   vexnak  glimzam  reldxil
+
+The table for <>. Read the left argument down the side and the right argument across the top.
+
+         |  wrenpyr  vexlorn   vexnak  glimzam  reldxil   pyrxil
+----------------------------------------------------------------
+ wrenpyr |  wrenpyr  vexlorn   vexnak  glimzam  reldxil   pyrxil
+ vexlorn |  vexlorn  vexlorn   vexnak  glimzam  reldxil   pyrxil
+  vexnak |   vexnak   vexnak   vexnak  glimzam  reldxil   pyrxil
+ glimzam |  glimzam  glimzam  glimzam  glimzam  reldxil   pyrxil
+ reldxil |  reldxil  reldxil  reldxil  reldxil  reldxil   pyrxil
+  pyrxil |   pyrxil   pyrxil   pyrxil   pyrxil   pyrxil   pyrxil
+
+Every pair standing in the >- relation, grouped by left argument.
+
+  wrenpyr >- wrenpyr, vexlorn, vexnak, glimzam, reldxil and pyrxil
+  vexlorn >- vexlorn, vexnak, glimzam, reldxil and pyrxil
+  vexnak >- vexnak, glimzam, reldxil and pyrxil
+  glimzam >- glimzam, reldxil and pyrxil
+  reldxil >- reldxil and pyrxil
+  pyrxil >- pyrxil
+
+## What is defined here
+
+The following hold in this system, without exception, and each was verified by running
+through the tables in full.
+
+A1. Closure under the first operation. For all naksols x and y, x % y is again a naksol.
+
+A2. Association of the first operation. For all naksols x, y, z: (x % y) % z = x % (y %
+z).
+
+A3. Commutation of the first operation. For all naksols x and y: x % y = y % x.
+
+A6. Cancellation in the first operation. For all naksols x, y, z: if x % y = x % z then
+y = z.
+
+## The shape of it
+
+Two questions sort the naksols quickly. Does combining a naksol with itself change it?
+For wrenpyr it does not. Does it matter which side it goes on? For wrenpyr, vexlorn,
+vexnak, glimzam, reldxil and pyrxil it does not.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 6 naksols the table is short enough to consult every time.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R1 rests on S2 (the Nyrazt combination tables). Remove any one of them and the statement
+stops making sense, not merely stops being provable.
+
+## A worked case
+
+Here is pyrxil % vexnak <> wrenpyr, reduced without skipping anything.
+    vexnak <> wrenpyr = vexnak   (the table for <>)
+    pyrxil % vexnak = vexlorn   (the table for %)
+So pyrxil % vexnak <> wrenpyr is vexlorn.
+
+A companion case, vexnak % (wrenpyr % pyrxil), to show what the brackets are doing.
+    wrenpyr % pyrxil = pyrxil   (the table for %)
+    vexnak % pyrxil = vexlorn   (the table for %)
+That gives vexlorn, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test wrenpyr >- vexlorn. The tufex of wrenpyr is wrenpyr, vexlorn, vexnak, glimzam,
+reldxil and pyrxil, and vexlorn lies inside it, so the relation holds.
+
+## A case that breaks
+
+R1. It is not the case that: For every naksol x: x % x = x. It fails at x = vexlorn,
+value = vexnak. One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+What is built on it later: A4 (a neutral object for the first operation), A5 (reversal
+under the first operation), A7 (closure under the second operation) and A8 (association
+of the second operation).
+
+## Proofs
+
+R1. It is not the case that: For every naksol x: x % x = x.
+
+  (1) [S2] Take the case x = vexlorn, value = vexnak, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 216 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R1. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 1.
+  x001. Evaluate reldxil % reldxil.
+  x002. What naksol does vexnak % pyrxil name?
+  x003. What naksol does reldxil % vexlorn name?
+  x004. Work out the value of pyrxil % reldxil.
+  x005. Work out the value of vexnak % reldxil.
+  x006. Evaluate pyrxil % vexnak.
+Level 2.
+  x007. Work out the value of reldxil % pyrxil <> reldxil.
+  x008. Evaluate (vexlorn % wrenpyr) % vexnak.
+  x009. What naksol does (glimzam % vexnak) % vexnak name?
+  x010. Work out the value of (vexnak % pyrxil) % glimzam.
+  x012. What is reldxil combined with itself 3 times under %?
+  x013. Evaluate vexnak^3.
+  x014. Evaluate pyrxil % vexlorn'.
+  x015. Evaluate pyrxil % glimzam'.
+  x016. Which naksols x satisfy x % reldxil = pyrxil? List them all.
+  x017. Which naksols x satisfy x % glimzam = pyrxil? List them all.
+  x018. Which naksols x satisfy x % glimzam = glimzam? List them all.
+  x019. Which naksols x satisfy x % vexnak = vexlorn? List them all.
+Level 3.
+  x011. What naksol does (vexnak % vexlorn) % (reldxil % reldxil) name?
+  x020. Evaluate vexnak % vexlorn <> wrenpyr, minding which operation binds tighter.
+
+# Chapter 2. Neutral objects and reversal
+
+## Why this chapter
+
+Anyone using this system to keep track of something will meet a neutral object for the
+first operation, reversal under the first operation and the system does not have an
+absorbing object for the first operation early, whether or not they go looking.
+
+Nothing here stands on its own. The arguments lean on chapter 1, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 6
+naksols that is cheap, and it means a claim in this book is either settled or absent.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+The following hold in this system, without exception, and each was verified by running
+through the tables in full.
+
+A4. A neutral object for the first operation. There is a naksol wrenpyr with wrenpyr % x
+= x % wrenpyr = x for every x.
+
+A5. Reversal under the first operation. For every naksol x there is a naksol y with x %
+y = y % x = wrenpyr.
+
+## The shape of it
+
+Neutrality is a strong condition disguised as a weak one. It fixes a single naksol and,
+through that, constrains everything that can combine with it.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R2 rests on S2 (the Nyrazt combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Here is (glimzam % vexlorn) % (pyrxil % wrenpyr), reduced without skipping anything.
+    glimzam % vexlorn = reldxil   (the table for %)
+    pyrxil % wrenpyr = pyrxil   (the table for %)
+    reldxil % pyrxil = glimzam   (the table for %)
+So (glimzam % vexlorn) % (pyrxil % wrenpyr) is glimzam.
+
+Bracketing is not cosmetic, so here is vexlorn % (pyrxil % glimzam) for contrast.
+    pyrxil % glimzam = vexnak   (the table for %)
+    vexlorn % vexnak = glimzam   (the table for %)
+That gives glimzam, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test reldxil >- reldxil. The tufex of reldxil is reldxil and pyrxil, and reldxil lies
+inside it, so the relation holds.
+
+## A case that breaks
+
+R2. There is no naksol z with z % x = x % z = z for every naksol x. The case that
+settles it: reason = no absorbing element. Anyone carrying this claim over from a more
+familiar system will be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+The material this chapter borrows from: S2 (the Nyrazt combination tables).
+
+What is built on it later: D5 (the muxisk), D11 (the bralum of a naksol) and T1 (the
+muxisk is the only one of its kind).
+
+## Proofs
+
+R2. There is no naksol z with z % x = x % z = z for every naksol x.
+
+  (1) [S2] Take the case reason = no absorbing element, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 216 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R2. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+No exercises here. Every question this chapter suggested turned out to be answerable
+from the question itself, so all of them were discarded.
+
+# Chapter 3. The relation and what it orders
+
+## Why this chapter
+
+Here is the question this chapter answers: once the combining is settled, what can be
+said about the objects themselves? The route runs through reflexivity of the relation,
+antisymmetry of the relation and transitivity of the relation.
+
+Nothing here stands on its own. The arguments lean on chapter 1, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 6
+naksols that is cheap, and it means a claim in this book is either settled or absent.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+The following hold in this system, without exception, and each was verified by running
+through the tables in full.
+
+A12. Reflexivity of the relation. For every naksol x: x >- x.
+
+A13. Antisymmetry of the relation. For all naksols x and y: if x >- y and y >- x then x
+= y.
+
+A14. Transitivity of the relation. For all naksols x, y, z: if x >- y and y >- z then x
+>- z.
+
+A15. Comparability of every pair. For all naksols x and y, at least one of x >- y and y
+>- x holds.
+
+A16. Agreement of the relation with the second operation. For all naksols x, y, z: if x
+>- y then (z <> x) >- (z <> y) and (x <> z) >- (y <> z).
+
+D4. The tufex of a naksol. The tufex of a naksol x is the collection of naksols y for
+which x >- y holds.
+
+Worked out for each naksol: wrenpyr to wrenpyr, vexlorn, vexnak, glimzam, reldxil and
+pyrxil; vexlorn to vexlorn, vexnak, glimzam, reldxil and pyrxil; vexnak to vexnak,
+glimzam, reldxil and pyrxil; glimzam to glimzam, reldxil and pyrxil; reldxil to reldxil
+and pyrxil; pyrxil to pyrxil.
+
+## The shape of it
+
+Think of >- as pointing downhill. The tufex of a naksol is everything downhill of it,
+and those shadows here have sizes 1, 2, 3, 4, 5 and 6.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R5 rests on S2 (the Nyrazt combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Evaluate vexlorn % pyrxil <> wrenpyr. Each line below is one lookup in a table.
+    pyrxil <> wrenpyr = pyrxil   (the table for <>)
+    vexlorn % pyrxil = wrenpyr   (the table for %)
+That leaves wrenpyr, and no other reading of the notation gives anything else.
+
+A companion case, pyrxil % (wrenpyr % vexlorn), to show what the brackets are doing.
+    wrenpyr % vexlorn = vexlorn   (the table for %)
+    pyrxil % vexlorn = wrenpyr   (the table for %)
+The value is wrenpyr. It agrees with the first case here, and a reader should resist
+reading anything general into that.
+
+Test vexnak >- reldxil. The tufex of vexnak is vexnak, glimzam, reldxil and pyrxil, and
+reldxil lies inside it, so the relation holds.
+
+## A case that breaks
+
+R5. It is not the case that: For all naksols x, y, z: if x >- y then (z % x) >- (z % y)
+and (x % z) >- (y % z). It fails at x = wrenpyr, y = vexlorn, z = pyrxil, side = left.
+One case is enough, and this is the earliest one.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: S2 (the Nyrazt combination tables).
+
+What is built on it later: D9 (a solisk), D14 (xiltez pairs), T13 (tufexs are nested
+along the relation) and T14 (there is at most one solisk).
+
+## Proofs
+
+R5. It is not the case that: For all naksols x, y, z: if x >- y then (z % x) >- (z % y) and (x % z) >- (y % z).
+
+  (1) [S2] Take the case x = wrenpyr, y = vexlorn, z = pyrxil, side = left, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 216 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the tufex of a naksol. Each of these is used by name
+later, so the names are worth learning rather than looking up.
+
+Explicitly not available: R5. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 5.
+  x022. The following fails in this system: For all naksols x, y, z: if x >- y then (z % x) >- (z % y) and (x % z) >- (y % z). Name the earliest naksol, in the order the naksols were introduced, that witnesses the failure.
+
+# Chapter 4. The second operation and how the two interact
+
+## Why this chapter
+
+We turn to a neutral object for the second operation, self combination under the second
+operation and closure under the second operation. The treatment is self contained given
+the material already established.
+
+Nothing here stands on its own. The arguments lean on chapter 1, and a reader who has
+skipped it will find the derivations opaque rather than difficult.
+
+One habit to adopt: when a statement below quantifies over naksols, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+The following hold in this system, without exception, and each was verified by running
+through the tables in full.
+
+A10. A neutral object for the second operation. There is a naksol wrenpyr with wrenpyr
+<> x = x for every x.
+
+A11. Self combination under the second operation. For every naksol x: x <> x = x.
+
+A7. Closure under the second operation. For all naksols x and y, x <> y is again a
+naksol.
+
+A8. Association of the second operation. For all naksols x, y, z: (x <> y) <> z = x <>
+(y <> z).
+
+A9. Commutation of the second operation. For all naksols x and y: x <> y = y <> x.
+
+## The shape of it
+
+With two operations the question stops being what each does and becomes how they
+interfere. <> binds tighter, so the interference shows up whenever a bracket is left
+off.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 6 naksols the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+R3 rests on S2 (the Nyrazt combination tables). Remove any one of them and the statement
+stops making sense, not merely stops being provable.
+
+R4 rests on S2 (the Nyrazt combination tables). The dependence is on the content of
+those results, not only on their vocabulary.
+
+## A worked case
+
+Evaluate (glimzam % pyrxil) % (wrenpyr % vexnak). Each line below is one lookup in a
+table.
+    glimzam % pyrxil = vexnak   (the table for %)
+    wrenpyr % vexnak = vexnak   (the table for %)
+    vexnak % vexnak = reldxil   (the table for %)
+That leaves reldxil, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take pyrxil % (wrenpyr % glimzam).
+    wrenpyr % glimzam = glimzam   (the table for %)
+    pyrxil % glimzam = vexnak   (the table for %)
+That gives vexnak, against reldxil above.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+vexnak >- vexlorn hold? Read off what vexnak stands over: vexnak, glimzam, reldxil and
+pyrxil. vexlorn is not among them, so it fails.
+
+## A case that breaks
+
+R3. It is not the case that: For all naksols x, y, z: x <> (y % z) = (x <> y) % (x <>
+z), and the same on the right. It fails at x = vexlorn, y = wrenpyr, z = wrenpyr, left =
+vexlorn, right = vexnak. One case is enough, and this is the earliest one.
+
+R4. It is not the case that: For all naksols x and y: x % (x <> y) = x and x <> (x % y)
+= x. The case that settles it: x = wrenpyr, y = vexlorn, value = vexlorn. Anyone
+carrying this claim over from a more familiar system will be wrong here, and wrong in a
+way that propagates.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+Read alongside S2 (the Nyrazt combination tables).
+
+What is built on it later: T19 (the second operation keeps the tezka intact).
+
+## Proofs
+
+R3. It is not the case that: For all naksols x, y, z: x <> (y % z) = (x <> y) % (x <> z), and the same on the right.
+
+  (1) [S2] Take the case x = vexlorn, y = wrenpyr, z = wrenpyr, left = vexlorn, right = vexnak, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 216 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+R4. It is not the case that: For all naksols x and y: x % (x <> y) = x and x <> (x % y) = x.
+
+  (1) [S2] Take the case x = wrenpyr, y = vexlorn, value = vexlorn, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 216 cases: every tuple of the carrier the axiom quantifies over. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Do not carry forward R3 and R4. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 5.
+  x021. The following fails in this system: For all naksols x and y: x % (x <> y) = x and x <> (x % y) = x. Name the earliest naksol, in the order the naksols were introduced, that witnesses the failure.
+
+# Chapter 5. Combining objects
+
+## Why this chapter
+
+Everything in this chapter is checkable by inspection. The subject is aztumb naksols,
+naksols that glimvash and the muxisk.
+
+Prerequisites are real here: chapters 1 and 2 supply the notions the statements below
+are phrased in.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 6
+naksols that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+D1. Aztumb naksols. A naksol x is called aztumb when x % x = x.
+
+Running the definition over every naksol leaves wrenpyr.
+
+D2. Naksols that glimvash. Two naksols x and y are said to glimvash when x % y = y % x.
+
+D5. The muxisk. The naksol wrenpyr is called the muxisk of the system. It is the unique
+naksol that leaves every naksol unchanged under %.
+
+Here that is wrenpyr.
+
+## The shape of it
+
+Two questions sort the naksols quickly. Does combining a naksol with itself change it?
+For wrenpyr it does not. Does it matter which side it goes on? For wrenpyr, vexlorn,
+vexnak, glimzam, reldxil and pyrxil it does not.
+
+The neutral naksol wrenpyr is the one that does nothing. That sounds trivial and is not:
+almost every result in this chapter is an argument about what doing nothing forces.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 6 naksols the table is short enough to consult every time.
+
+## Where these results come from
+
+This chapter is groundwork. The derivations that use it start in the next one.
+
+## A worked case
+
+Evaluate vexnak % vexlorn <> pyrxil. Each line below is one lookup in a table.
+    vexlorn <> pyrxil = pyrxil   (the table for <>)
+    vexnak % pyrxil = vexlorn   (the table for %)
+So vexnak % vexlorn <> pyrxil is vexlorn.
+
+A companion case, vexlorn % (pyrxil % vexnak), to show what the brackets are doing.
+    pyrxil % vexnak = vexlorn   (the table for %)
+    vexlorn % vexlorn = vexnak   (the table for %)
+That gives vexnak, against vexlorn above.
+
+Test reldxil >- vexlorn. The tufex of reldxil is reldxil and pyrxil, and vexlorn lies
+outside it, so the relation fails.
+
+## A case that breaks
+
+Every claim in this chapter survives every case, which is unusual enough to be worth
+saying plainly. The nearest thing to a trap is the set of naksols that come back
+unchanged from themselves: wrenpyr. Assuming more of them than that is the mistake to
+avoid.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by a neutral object for the first operation and closure under the
+first operation. A system without them is not a system where these results are harder to
+prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A1 (closure under the first operation) and A4 (a neutral object for the
+first operation).
+
+What is built on it later: D6 (the tezka), D7 (the nakumb), D10 (mornpon naksols) and
+D11 (the bralum of a naksol).
+
+## Proofs
+
+No proofs are needed here. Everything asserted is a definition or a table entry.
+
+## What to carry forward
+
+Carry forward aztumb naksols, naksols that glimvash and the muxisk. Later chapters state
+their results in these terms and do not restate the definitions.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 2.
+  x026. Name the muxisk of the system.
+Level 3.
+  x023. Write down the aztumb in full.
+
+# Chapter 6. The relation and what it orders (2)
+
+## Why this chapter
+
+What follows was pieced together backwards. The last item of it, xiltez pairs, hobreld
+collections and a solisk, was noticed before anyone had a reason to expect it.
+
+Nothing here stands on its own. The arguments lean on chapters 1 and 3, and a reader who
+has skipped them will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 6
+naksols that is cheap, and it means a claim in this book is either settled or absent.
+
+Some of what follows is negative. A claim that fails is set out with the case that
+breaks it, because knowing which habits do not carry over is worth as much as knowing
+which do.
+
+## What is defined here
+
+D14. Xiltez pairs. Two distinct naksols x and y form a xiltez pair when x >- y and y >-
+x both hold, that is, when each lies in the tufex of the other.
+
+In this system nothing satisfies it, which is itself a fact worth carrying forward.
+
+D3. Hobreld collections. A collection S of naksols is hobreld when x % y belongs to S
+for every pair x, y drawn from S.
+
+D9. A solisk. A naksol f is a solisk when f >- y holds for every naksol y, that is, when
+the tufex of f is the whole system.
+
+In this system that picks out wrenpyr, which is 1 of the 6 naksols.
+
+## The shape of it
+
+Picture the thrapon as what happens when you start with one naksol and keep folding it
+against itself and against whatever appears, until nothing new appears. Because there
+are only 6 naksols, that stops. In this system the sizes it stops at are 1, 2, 3 and 6.
+
+Think of >- as pointing downhill. The tufex of a naksol is everything downhill of it,
+and those shadows here have sizes 1, 2, 3, 4, 5 and 6.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R7 rests on D4 (the tufex of a naksol). The dependence is on the content of those
+results, not only on their vocabulary.
+
+T13 rests on D4 (the tufex of a naksol) and A14 (transitivity of the relation). Remove
+any one of them and the statement stops making sense, not merely stops being provable.
+
+## A worked case
+
+Take (pyrxil % wrenpyr) % (glimzam % vexlorn) and work it out one step at a time.
+    pyrxil % wrenpyr = pyrxil   (the table for %)
+    glimzam % vexlorn = reldxil   (the table for %)
+    pyrxil % reldxil = glimzam   (the table for %)
+That leaves glimzam, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take wrenpyr % (glimzam % pyrxil).
+    glimzam % pyrxil = vexnak   (the table for %)
+    wrenpyr % vexnak = vexnak   (the table for %)
+The value is vexnak, not glimzam.
+
+Test vexnak >- reldxil. The tufex of vexnak is vexnak, glimzam, reldxil and pyrxil, and
+reldxil lies inside it, so the relation holds.
+
+## A case that breaks
+
+R7. It is not the case that: If x >- y then y >- x. The case that settles it: x =
+wrenpyr, y = vexlorn. Anyone carrying this claim over from a more familiar system will
+be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by closure under the first operation and transitivity of the
+relation. A system without them is not a system where these results are harder to prove;
+it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A1 (closure under the first operation), A14 (transitivity of the
+relation) and D4 (the tufex of a naksol).
+
+What is built on it later: D8 (the thrapon of a naksol), T5 (the tezka is hobreld), T6
+(the thrapon of a naksol is hobreld) and T11 (the nakumb is hobreld).
+
+## Proofs
+
+R7. It is not the case that: If x >- y then y >- x.
+
+  (1) [S2] Take the case x = wrenpyr, y = vexlorn, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 36 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+T13. If y lies in the tufex of x, then the tufex of y is contained in the tufex of x.
+
+  (1) [D4] Let y satisfy x >- y and let z satisfy y >- z.
+  (2) [A14] Transitivity gives x >- z.
+  (3) [D4] So every member of the tufex of y is a member of that of x.
+
+Checked over 216 cases: every ordered triple. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward xiltez pairs, hobreld collections and a solisk. Later chapters state their
+results in these terms and do not restate the definitions.
+
+Established here and safe to use: T13.
+
+Do not carry forward R7. These were tested and failed, and the failing cases are
+recorded above.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x024. How many naksols lie in the smallest hobreld collection containing vexlorn?
+  x025. How many naksols lie in the smallest hobreld collection containing vexnak?
+
+# Chapter 7. Combining objects (2)
+
+## Why this chapter
+
+The practical content of this chapter is the tezka, the nakumb and combining on the left
+never merges two naksols. It is the part that shows up in use.
+
+Nothing here stands on its own. The arguments lean on chapters 1 and 5, and a reader who
+has skipped them will find the derivations opaque rather than difficult.
+
+One habit to adopt: when a statement below quantifies over naksols, check two or three
+cases by hand before reading on. The tables are short and the checking is fast, and it
+is the only way to build the intuition this system does not share with any other.
+
+## What is defined here
+
+D6. The tezka. The tezka of the system is the collection of naksols that glimvash with
+every naksol.
+
+Running the definition over every naksol leaves wrenpyr, vexlorn, vexnak, glimzam,
+reldxil and pyrxil.
+
+D7. The nakumb. The nakumb is the collection of all aztumb naksols.
+
+In this system that picks out wrenpyr, which is 1 of the 6 naksols.
+
+## The shape of it
+
+Two questions sort the naksols quickly. Does combining a naksol with itself change it?
+For wrenpyr it does not. Does it matter which side it goes on? For wrenpyr, vexlorn,
+vexnak, glimzam, reldxil and pyrxil it does not.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T12 rests on A6 (cancellation in the first operation) and D2 (naksols that glimvash).
+The dependence is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Evaluate vexlorn % wrenpyr <> reldxil. Each line below is one lookup in a table.
+    wrenpyr <> reldxil = reldxil   (the table for <>)
+    vexlorn % reldxil = pyrxil   (the table for %)
+The expression comes to pyrxil.
+
+Bracketing is not cosmetic, so here is wrenpyr % (reldxil % vexlorn) for contrast.
+    reldxil % vexlorn = pyrxil   (the table for %)
+    wrenpyr % pyrxil = pyrxil   (the table for %)
+The value is pyrxil. It agrees with the first case here, and a reader should resist
+reading anything general into that.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+wrenpyr >- vexlorn hold? Read off what wrenpyr stands over: wrenpyr, vexlorn, vexnak,
+glimzam, reldxil and pyrxil. vexlorn is among them, so it holds.
+
+## A case that breaks
+
+Every claim in this chapter survives every case, which is unusual enough to be worth
+saying plainly. The nearest thing to a trap is the set of naksols that come back
+unchanged from themselves: wrenpyr. Assuming more of them than that is the mistake to
+avoid.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by cancellation in the first operation and closure under the first
+operation. A system without them is not a system where these results are harder to
+prove; it is a system where they are false.
+
+That is not a rhetorical caution. Take the same 6 objects, the same symbols, and a
+different table, and T12 stop holding. The notation survives the substitution and the
+mathematics does not.
+
+## Neighbouring results
+
+The material this chapter borrows from: A6 (cancellation in the first operation), D1
+(aztumb naksols) and D2 (naksols that glimvash).
+
+What is built on it later: T2 (the muxisk lies in the tezka), T5 (the tezka is hobreld),
+T10 (the thrapon of a tezka naksol stays in the tezka) and T11 (the nakumb is hobreld).
+
+## Proofs
+
+T12. For every naksol a, the assignment x to a % x sends distinct naksols to distinct naksols.
+
+  (1) [A6] Suppose a % x = a % y.
+  (2) [A6] Cancellation on the left gives x = y.
+  (3) So the assignment is injective, and being injective on a finite carrier it is onto.
+
+Checked over 36 cases: every object translated by every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward the tezka and the nakumb. Later chapters state their results in these
+terms and do not restate the definitions.
+
+The results now available are T12, each settled by exhaustive check rather than by
+argument from analogy.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x027. Write down the nakumb in full.
+
+# Chapter 8. Neutral objects and reversal (2)
+
+## Why this chapter
+
+Here is the question this chapter answers: once the combining is settled, what can be
+said about the objects themselves? The route runs through mornpon naksols, the bralum of
+a naksol and where the muxisk swallows everything breaks down.
+
+Prerequisites are real here: chapters 2 and 5 supply the notions the statements below
+are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about naksols covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+D10. Mornpon naksols. A naksol x is mornpon when x % x equals the muxisk.
+
+In this system that picks out wrenpyr and glimzam, which is 2 of the 6 naksols.
+
+D11. The bralum of a naksol. A bralum of a naksol x is a naksol y with x % y = y % x =
+wrenpyr.
+
+Worked out for each naksol: wrenpyr to wrenpyr; vexlorn to pyrxil; vexnak to reldxil;
+glimzam to glimzam; reldxil to vexnak; pyrxil to vexlorn.
+
+## The shape of it
+
+The neutral naksol wrenpyr is the one that does nothing. That sounds trivial and is not:
+almost every result in this chapter is an argument about what doing nothing forces.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R8 rests on D5 (the muxisk). The dependence is on the content of those results, not only
+on their vocabulary.
+
+T1 rests on D5 (the muxisk) and A4 (a neutral object for the first operation). Remove
+any one of them and the statement stops making sense, not merely stops being provable.
+
+## A worked case
+
+Take (vexlorn % vexnak) % (glimzam % pyrxil) and work it out one step at a time.
+    vexlorn % vexnak = glimzam   (the table for %)
+    glimzam % pyrxil = vexnak   (the table for %)
+    glimzam % vexnak = pyrxil   (the table for %)
+So (vexlorn % vexnak) % (glimzam % pyrxil) is pyrxil.
+
+A companion case, vexnak % (glimzam % vexlorn), to show what the brackets are doing.
+    glimzam % vexlorn = reldxil   (the table for %)
+    vexnak % reldxil = wrenpyr   (the table for %)
+That gives wrenpyr, against pyrxil above.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+reldxil >- vexlorn hold? Read off what reldxil stands over: reldxil and pyrxil. vexlorn
+is not among them, so it fails.
+
+## A case that breaks
+
+R8. It is not the case that: e % x equals the muxisk for every naksol x. The case that
+settles it: anchor = wrenpyr, x = vexlorn, value = vexlorn. Anyone carrying this claim
+over from a more familiar system will be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by a neutral object for the first operation, closure under the first
+operation and reversal under the first operation. A system without them is not a system
+where these results are harder to prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A4 (a neutral object for the first operation), A5 (reversal under the
+first operation), D1 (aztumb naksols) and D5 (the muxisk).
+
+These results are used again in T3 (a naksol has only one bralum) and T4 (a mornpon
+naksol is its own bralum).
+
+## Proofs
+
+R8. It is not the case that: e % x equals the muxisk for every naksol x.
+
+  (1) [S2] Take the case anchor = wrenpyr, x = vexlorn, value = vexlorn, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 6 cases: the anchor against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T1. There is exactly one naksol e with e % x = x % e = x for every naksol x.
+
+  (1) [D5] Suppose e and f both leave every naksol unchanged.
+  (2) [A4] Then e % f = f, reading e as neutral on the left.
+  (3) [A4] And e % f = e, reading f as neutral on the right.
+  (4) So e = f, and the two suppositions describe the same object.
+
+Checked over 36 cases: every object paired with every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: mornpon naksols and the bralum of a naksol. Each of
+these is used by name later, so the names are worth learning rather than looking up.
+
+The results now available are T1, each settled by exhaustive check rather than by
+argument from analogy.
+
+Explicitly not available: R8. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x036. Which naksols make up the mornpon? Name them all.
+  x037. Name the bralum of vexlorn.
+  x038. Which naksol reverses vexnak under %?
+  x039. Which naksol reverses reldxil under %?
+  x040. Which naksol reverses pyrxil under %?
+Level 5.
+  x041. Let z be reldxil % pyrxil. Name the bralum of z.
+  x042. Let z be wrenpyr % reldxil. Name the bralum of z.
+  x055. The following fails in this system: e % x equals the muxisk for every naksol x. Name the earliest naksol, in the order the naksols were introduced, that witnesses the failure.
+
+# Chapter 9. The relation and what it orders (3)
+
+## Why this chapter
+
+The present chapter develops the thrapon of a naksol, there is at most one solisk and
+the system has a solisk.
+
+Nothing here stands on its own. The arguments lean on chapters 3 and 6, and a reader who
+has skipped them will find the derivations opaque rather than difficult.
+
+The standard of proof here is exhaustion. A universal claim about naksols covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+## What is defined here
+
+D8. The thrapon of a naksol. The thrapon of a naksol x, written [x], is the smallest
+hobreld collection that contains x.
+
+Worked out for each naksol: wrenpyr to wrenpyr; vexlorn to wrenpyr, vexlorn, vexnak,
+glimzam, reldxil and pyrxil; vexnak to wrenpyr, vexnak and reldxil; glimzam to wrenpyr
+and glimzam; reldxil to wrenpyr, vexnak and reldxil; pyrxil to wrenpyr, vexlorn, vexnak,
+glimzam, reldxil and pyrxil.
+
+## The shape of it
+
+The right picture for thrapon is a spreading stain rather than a list. Drop one naksol
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1, 2, 3 and 6
+naksols depending on where it started.
+
+The relation is easiest to see as a height. Each naksol casts a tufex over what it
+dominates, and the sizes of those shadows here are 1, 2, 3, 4, 5 and 6. No two are the
+same size, so the objects line up in a single file.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 6 naksols the table is short enough to consult every time.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T14 rests on D9 (a solisk) and A13 (antisymmetry of the relation). Remove any one of
+them and the statement stops making sense, not merely stops being provable.
+
+T15 rests on D9 (a solisk) and A15 (comparability of every pair). The dependence is on
+the content of those results, not only on their vocabulary.
+
+T16 rests on D14 (xiltez pairs) and A13 (antisymmetry of the relation). The dependence
+is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Here is pyrxil % vexlorn <> wrenpyr, reduced without skipping anything.
+    vexlorn <> wrenpyr = vexlorn   (the table for <>)
+    pyrxil % vexlorn = wrenpyr   (the table for %)
+That leaves wrenpyr, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take vexlorn % (wrenpyr % pyrxil).
+    wrenpyr % pyrxil = pyrxil   (the table for %)
+    vexlorn % pyrxil = wrenpyr   (the table for %)
+That gives wrenpyr, the same value the first reading gave, which is a fact about these
+particular arguments and not a law.
+
+Test wrenpyr >- pyrxil. The tufex of wrenpyr is wrenpyr, vexlorn, vexnak, glimzam,
+reldxil and pyrxil, and pyrxil lies inside it, so the relation holds.
+
+Now compute [vexnak]. Fold vexnak against itself, then fold whatever appeared against
+everything present, and stop when a round adds nothing. The result is wrenpyr, vexnak
+and reldxil, of size 3.
+
+## A case that breaks
+
+Every claim in this chapter survives every case, which is unusual enough to be worth
+saying plainly. The nearest thing to a trap is the set of naksols that come back
+unchanged from themselves: wrenpyr. Assuming more of them than that is the mistake to
+avoid.
+
+## Reach and limits
+
+It is worth being exact about what has been shown and what has not.
+
+The load is carried by antisymmetry of the relation, closure under the first operation
+and comparability of every pair. A system without them is not a system where these
+results are harder to prove; it is a system where they are false.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A13 (antisymmetry of the relation), A15 (comparability of every pair),
+D14 (xiltez pairs) and D3 (hobreld collections).
+
+These results are used again in D12 (the gelvex of a naksol), T6 (the thrapon of a
+naksol is hobreld), T7 (the thrapon is contained in every hobreld collection) and T10
+(the thrapon of a tezka naksol stays in the tezka).
+
+## Proofs
+
+T14. No two distinct naksols can both be solisks.
+
+  (1) [D9] Let f and h both be floors.
+  (2) [D9] Then f >- h, since h is any object, and h >- f likewise.
+  (3) [A13] Antisymmetry forces f = h.
+
+Checked over 36 cases: every candidate against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T15. Some naksol solisks the whole system.
+
+  (1) [A15] Every pair is comparable, so the relation orders the objects into a line.
+  (2) [D9] The claim is that the line has a bottom.
+  (3) The carrier is finite, so the search over candidates terminates.
+
+Checked over 36 cases: every candidate against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T16. No two distinct naksols lie in each other's tufex.
+
+  (1) [D14] Suppose x and y form a tight pair.
+  (2) [A13] Antisymmetry then identifies x with y.
+  (3) So a tight pair of distinct objects cannot arise.
+
+Checked over 36 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the thrapon of a naksol. Each of these is used by name
+later, so the names are worth learning rather than looking up.
+
+Established here and safe to use: T14, T15 and T16.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x028. List the thrapon of vexlorn.
+  x029. Name every naksol in [vexnak].
+  x030. Name every naksol in [glimzam].
+  x031. Name every naksol in [reldxil].
+  x032. Name every naksol in [pyrxil].
+Level 4.
+  x033. Let z be wrenpyr % reldxil. List the thrapon of z.
+  x034. Let z be pyrxil % vexlorn. List the thrapon of z.
+  x035. Let z be vexnak % vexlorn. List the thrapon of z.
+
+# Chapter 10. Combining objects (3)
+
+## Why this chapter
+
+Everything in this chapter is checkable by inspection. The subject is where every naksol
+is aztumb breaks down, the nakumb is hobreld and every naksol lies in the tezka.
+
+Prerequisites are real here: chapters 1, 5, 6 and 7 supply the notions the statements
+below are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about naksols covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+Not every claim in this chapter survives. The ones that do not are kept, with their
+counterexamples, rather than quietly dropped.
+
+## What is defined here
+
+Nothing new is named here. The chapter is about consequences of definitions already
+given.
+
+## The shape of it
+
+A useful mental split: some naksols are inert under the operation and some are not.
+wrenpyr come back unchanged when combined with themselves, and wrenpyr, vexlorn, vexnak,
+glimzam, reldxil and pyrxil commute with everything.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+R6 rests on D7 (the nakumb). Remove any one of them and the statement stops making
+sense, not merely stops being provable.
+
+T11 rests on D7 (the nakumb) and D3 (hobreld collections). Remove any one of them and
+the statement stops making sense, not merely stops being provable.
+
+T17 rests on D6 (the tezka). The dependence is on the content of those results, not only
+on their vocabulary.
+
+T2 rests on D5 (the muxisk) and D6 (the tezka). Remove any one of them and the statement
+stops making sense, not merely stops being provable.
+
+T5 rests on D6 (the tezka), D3 (hobreld collections) and A2 (association of the first
+operation). The dependence is on the content of those results, not only on their
+vocabulary.
+
+## A worked case
+
+Here is (vexlorn % glimzam) % (vexnak % pyrxil), reduced without skipping anything.
+    vexlorn % glimzam = reldxil   (the table for %)
+    vexnak % pyrxil = vexlorn   (the table for %)
+    reldxil % vexlorn = pyrxil   (the table for %)
+So (vexlorn % glimzam) % (vexnak % pyrxil) is pyrxil.
+
+Move the brackets and the work changes. Take glimzam % (vexnak % vexlorn).
+    vexnak % vexlorn = glimzam   (the table for %)
+    glimzam % glimzam = wrenpyr   (the table for %)
+That gives wrenpyr, against pyrxil above.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+glimzam >- glimzam hold? Read off what glimzam stands over: glimzam, reldxil and pyrxil.
+glimzam is among them, so it holds.
+
+## A case that breaks
+
+R6. It is not the case that: x % x = x for every naksol x. The case that settles it: x =
+vexlorn, value = vexnak. Anyone carrying this claim over from a more familiar system
+will be wrong here, and wrong in a way that propagates.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Every result in this chapter is downstream of a neutral object for the first operation,
+association of the first operation and closure under the first operation. Those are
+properties of this system, not of systems in general.
+
+Unusually, nothing in this chapter distinguishes this system from its near neighbours.
+Take that as a warning about how much a familiar looking statement can be worth.
+
+## Neighbouring results
+
+Read alongside A2 (association of the first operation), D3 (hobreld collections), D5
+(the muxisk) and D6 (the tezka).
+
+What is built on it later: T10 (the thrapon of a tezka naksol stays in the tezka) and
+T19 (the second operation keeps the tezka intact).
+
+## Proofs
+
+R6. It is not the case that: x % x = x for every naksol x.
+
+  (1) [S2] Take the case x = vexlorn, value = vexnak, read straight from the tables.
+  (2) [S2] The two sides of the claim come apart on that case, so the claim cannot hold for every case.
+  (3) One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading.
+
+Checked over 6 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T11. If x and y are both aztumb then so is x % y.
+
+  (1) [D7] Let x and y be aztumb.
+  (2) [D1] The claim asks whether (x % y) % (x % y) returns x % y.
+  (3) Whether it does is settled by running the operation table on every such pair.
+
+Checked over 36 cases: every ordered pair drawn from the ridge. The check is exhaustive, so the statement is settled rather than supported.
+
+T17. Every pair of naksols glimvashs.
+
+  (1) [D6] The tezka is defined by glimvashing with everything.
+  (2) [D2] The claim is that x % y = y % x for every pair.
+  (3) That is settled by scanning the table for a pair that disagrees.
+
+Checked over 36 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+T2. The muxisk glimvashs with every naksol.
+
+  (1) [D5] Let e be the muxisk and x any naksol.
+  (2) [D5] Then e % x = x and x % e = x.
+  (3) [D2] So e % x = x % e, which is what it means to glimvash.
+  (4) [D6] Since x was arbitrary, e belongs to the tezka.
+
+Checked over 6 cases: the anchor against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T5. If x and y both glimvash with every naksol, then so does x % y.
+
+  (1) [D6] Let x and y lie in the tezka and let z be any naksol.
+  (2) [A2] Then (x % y) % z = x % (y % z).
+  (3) [D6] Move z past y, then past x, using that each glimvashs with everything.
+  (4) [D3] So x % y glimvashs with z, and the tezka is hobreld.
+
+Checked over 36 cases: every ordered pair drawn from the core. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+The results now available are T11, T17, T2 and T5, each settled by exhaustive check
+rather than by argument from analogy.
+
+Explicitly not available: R6. A later argument that quietly assumes one of these is
+wrong, and the counterexamples above say exactly where.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 4.
+  x053. This result is about the nakumb. List every naksol in it.
+
+# Chapter 11. Collections that close on themselves
+
+## Why this chapter
+
+What follows was pieced together backwards. The last item of it, the gelvex of a naksol,
+a naksol has only one bralum and the thrapon of a naksol is hobreld, was noticed before
+anyone had a reason to expect it.
+
+Prerequisites are real here: chapters 1, 6, 8 and 9 supply the notions the statements
+below are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about naksols covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+## What is defined here
+
+D12. The gelvex of a naksol. The gelvex of a naksol x is the number of naksols in its
+thrapon [x].
+
+Worked out for each naksol: wrenpyr to 1; vexlorn to 6; vexnak to 3; glimzam to 2;
+reldxil to 3; pyrxil to 6.
+
+## The shape of it
+
+Picture the thrapon as what happens when you start with one naksol and keep folding it
+against itself and against whatever appears, until nothing new appears. Because there
+are only 6 naksols, that stops. In this system the sizes it stops at are 1, 2, 3 and 6.
+
+The neutral naksol wrenpyr is the one that does nothing. That sounds trivial and is not:
+almost every result in this chapter is an argument about what doing nothing forces.
+
+None of these images are load bearing. They are here because a reader who can see the
+shape makes fewer lookups, not because any argument below depends on seeing it. Every
+proof goes through the tables.
+
+## Where these results come from
+
+Each result below is reached from earlier material, and the route is worth reading
+before the statement.
+
+T3 rests on D11 (the bralum of a naksol), A2 (association of the first operation) and T1
+(the muxisk is the only one of its kind). Remove any one of them and the statement stops
+making sense, not merely stops being provable.
+
+T6 rests on D8 (the thrapon of a naksol) and D3 (hobreld collections). The dependence is
+on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Here is pyrxil % reldxil <> vexnak, reduced without skipping anything.
+    reldxil <> vexnak = reldxil   (the table for <>)
+    pyrxil % reldxil = glimzam   (the table for %)
+The expression comes to glimzam.
+
+Bracketing is not cosmetic, so here is reldxil % (vexnak % pyrxil) for contrast.
+    vexnak % pyrxil = vexlorn   (the table for %)
+    reldxil % vexlorn = pyrxil   (the table for %)
+That gives pyrxil, against glimzam above.
+
+Test pyrxil >- glimzam. The tufex of pyrxil is pyrxil, and glimzam lies outside it, so
+the relation fails.
+
+A second case, this time a thrapon. Start from glimzam. Combine it with itself, add
+whatever is new, and repeat until nothing is added. What survives is wrenpyr and
+glimzam, so the gelvex of glimzam is 2.
+
+## A case that breaks
+
+Every claim in this chapter survives every case, which is unusual enough to be worth
+saying plainly. The nearest thing to a trap is the set of naksols that come back
+unchanged from themselves: wrenpyr. Assuming more of them than that is the mistake to
+avoid.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+The load is carried by a neutral object for the first operation, association of the
+first operation, closure under the first operation and reversal under the first
+operation. A system without them is not a system where these results are harder to
+prove; it is a system where they are false.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+The material this chapter borrows from: A2 (association of the first operation), D11
+(the bralum of a naksol), D3 (hobreld collections) and D8 (the thrapon of a naksol).
+
+These results are used again in D13 (the tezyuk), T4 (a mornpon naksol is its own
+bralum), T7 (the thrapon is contained in every hobreld collection) and T8 (a naksol is
+aztumb exactly when its gelvex is one).
+
+## Proofs
+
+T3. For every naksol x there is exactly one bralum of x.
+
+  (1) [D11] Let y and z both be partners of x.
+  (2) [A2] Then y = y % (x % z) = (y % x) % z.
+  (3) [D11] Both bracketed products collapse to the neutral object.
+  (4) So y = z.
+
+Checked over 36 cases: every ordered pair. The check is exhaustive, so the statement is settled rather than supported.
+
+T6. For every naksol x, the collection [x] is hobreld.
+
+  (1) [D8] [x] is built by taking x and closing under %.
+  (2) [D3] Closing under an operation is exactly the sealing condition.
+  (3) The carrier is finite, so the closure stops after finitely many rounds.
+
+Checked over 216 cases: every object, then every pair inside its span. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+New vocabulary from this chapter: the gelvex of a naksol. Each of these is used by name
+later, so the names are worth learning rather than looking up.
+
+The results now available are T3 and T6, each settled by exhaustive check rather than by
+argument from analogy.
+
+## Exercises
+
+Exercises, easiest first. Answers are in the key at the back.
+Level 3.
+  x043. What is the gelvex of vexlorn?
+  x044. How many naksols lie in [vexnak]?
+  x045. What is the gelvex of reldxil?
+  x046. What is the gelvex of pyrxil?
+Level 5.
+  x047. Let z be vexlorn % wrenpyr <> vexlorn. What is the gelvex of z?
+  x048. Let z be (pyrxil % vexnak) % vexlorn. What is the gelvex of z?
+  x049. Let z be glimzam % glimzam <> pyrxil. What is the gelvex of z?
+  x050. Let z be wrenpyr % vexnak <> pyrxil. What is the gelvex of z?
+
+# Chapter 12. Collections that close on themselves (2)
+
+## Why this chapter
+
+Anyone using this system to keep track of something will meet the tezyuk, the thrapon of
+a tezka naksol stays in the tezka and some naksol reaches every other early, whether or
+not they go looking.
+
+Prerequisites are real here: chapters 5, 7, 8, 9, 10 and 11 supply the notions the
+statements below are phrased in.
+
+The standard of proof here is exhaustion. A universal claim about naksols covers at most
+a few hundred cases, so it is run over all of them. Nothing below rests on an argument
+from analogy with a system the reader already knows.
+
+## What is defined here
+
+D13. The tezyuk. The tezyuk of the system is the collection of naksols whose gelvex is
+largest.
+
+In this system that picks out vexlorn and pyrxil, which is 2 of the 6 naksols.
+
+## The shape of it
+
+The right picture for thrapon is a spreading stain rather than a list. Drop one naksol
+in, apply the operation to whatever is wet, repeat. The stain here reaches 1, 2, 3 and 6
+naksols depending on where it started.
+
+A useful mental split: some naksols are inert under the operation and some are not.
+wrenpyr come back unchanged when combined with themselves, and wrenpyr, vexlorn, vexnak,
+glimzam, reldxil and pyrxil commute with everything.
+
+The neutral naksol wrenpyr is the one that does nothing. That sounds trivial and is not:
+almost every result in this chapter is an argument about what doing nothing forces.
+
+The honest caveat on all of this: a picture is a way of remembering a table, not a
+substitute for one. Where the picture and the table disagree the table wins, and in a
+system with 6 naksols the table is short enough to consult every time.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+T10 rests on D8 (the thrapon of a naksol), D6 (the tezka) and T5 (the tezka is hobreld).
+Remove any one of them and the statement stops making sense, not merely stops being
+provable.
+
+T18 rests on D8 (the thrapon of a naksol) and D12 (the gelvex of a naksol). The
+dependence is on the content of those results, not only on their vocabulary.
+
+T4 rests on D10 (mornpon naksols), D11 (the bralum of a naksol) and T3 (a naksol has
+only one bralum). Remove any one of them and the statement stops making sense, not
+merely stops being provable.
+
+T7 rests on D8 (the thrapon of a naksol) and T6 (the thrapon of a naksol is hobreld).
+Remove any one of them and the statement stops making sense, not merely stops being
+provable.
+
+T8 rests on D1 (aztumb naksols), D12 (the gelvex of a naksol) and T6 (the thrapon of a
+naksol is hobreld). Remove any one of them and the statement stops making sense, not
+merely stops being provable.
+
+T9 rests on D12 (the gelvex of a naksol) and T6 (the thrapon of a naksol is hobreld).
+The dependence is on the content of those results, not only on their vocabulary.
+
+## A worked case
+
+Take (reldxil % vexnak) % (glimzam % pyrxil) and work it out one step at a time.
+    reldxil % vexnak = wrenpyr   (the table for %)
+    glimzam % pyrxil = vexnak   (the table for %)
+    wrenpyr % vexnak = vexnak   (the table for %)
+So (reldxil % vexnak) % (glimzam % pyrxil) is vexnak.
+
+Move the brackets and the work changes. Take vexnak % (glimzam % reldxil).
+    glimzam % reldxil = vexlorn   (the table for %)
+    vexnak % vexlorn = glimzam   (the table for %)
+That gives glimzam, against vexnak above.
+
+Test pyrxil >- vexnak. The tufex of pyrxil is pyrxil, and vexnak lies outside it, so the
+relation fails.
+
+## A case that breaks
+
+No counterexample exists to anything asserted here. That is a fact about this system and
+not a general one, and the next chapter is where it stops being true.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Every result in this chapter is downstream of a neutral object for the first operation,
+association of the first operation, closure under the first operation and reversal under
+the first operation. Those are properties of this system, not of systems in general.
+
+That is not a rhetorical caution. Take the same 6 objects, the same symbols, and a
+different table, and T18 stop holding. The notation survives the substitution and the
+mathematics does not.
+
+## Neighbouring results
+
+The material this chapter borrows from: D1 (aztumb naksols), D10 (mornpon naksols), D11
+(the bralum of a naksol) and D12 (the gelvex of a naksol).
+
+## Proofs
+
+T10. If x lies in the tezka then every naksol of [x] lies in the tezka.
+
+  (1) [T5] The tezka is hobreld.
+  (2) [D8] [x] is the smallest hobreld collection containing x.
+  (3) A smallest such collection sits inside any other, and the tezka is one.
+
+Checked over 36 cases: every object of the core, then its span. The check is exhaustive, so the statement is settled rather than supported.
+
+T18. There is a naksol whose thrapon is the whole system.
+
+  (1) [D8] Compute [x] for each naksol in turn.
+  (2) [D12] The claim is that some gelvex equals 6.
+  (3) The search runs over finitely many objects, so it settles.
+
+Checked over 6 cases: every object and its span. The check is exhaustive, so the statement is settled rather than supported.
+
+T4. If x % x is the muxisk then the bralum of x is x itself.
+
+  (1) [D10] Let x be mornpon, so x % x is the muxisk.
+  (2) [D11] That is exactly the condition for x to be a partner of x.
+  (3) [T3] Partners are unique, so no other object can be one.
+
+Checked over 6 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T7. If S is hobreld and contains x, then S contains all of [x].
+
+  (1) [D8] Every member of [x] is reached from x by finitely many applications of the operation.
+  (2) [D3] A sealed S containing x is closed under each of those applications.
+  (3) So each member of [x] is in S, by induction on the number of applications.
+
+Checked over 24 cases: every sealed collection against every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T8. x % x = x holds if and only if [x] contains x alone.
+
+  (1) [D1] If x % x = x then {x} is already closed under %.
+  (2) [T6] So [x] = {x} and the gelvex is one.
+  (3) [D12] Conversely a span of one object must contain x % x, which is then x.
+
+Checked over 6 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+T9. For every naksol x, the gelvex of x divides 6.
+
+  (1) [T6] [x] is a hobreld collection.
+  (2) [D12] Its size is the gelvex of x.
+  (3) The claim is that this size always divides 6.
+
+Checked over 6 cases: every object. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Carry forward the tezyuk. Later chapters state their results in these terms and do not
+restate the definitions.
+
+The results now available are T10, T18, T4, T7, T8 and T9, each settled by exhaustive
+check rather than by argument from analogy.
+
+## Exercises
+
+The exercises below are graded. Each one needs something from this chapter that cannot be guessed from the question.
+Level 4.
+  x051. Which naksols make up the tezyuk? Name them all.
+  x052. What is the largest gelvex any naksol has?
+  x054. Name a naksol whose thrapon is the whole system. Give the earliest such naksol in the order the naksols were introduced.
+
+# Chapter 13. The second operation and how the two interact (2)
+
+## Why this chapter
+
+Here is the question this chapter answers: once the combining is settled, what can be
+said about the objects themselves? The route runs through the second operation keeps the
+tezka intact.
+
+Nothing here stands on its own. The arguments lean on chapters 4, 7 and 10, and a reader
+who has skipped them will find the derivations opaque rather than difficult.
+
+A note on method before starting. Everything asserted below was checked against every
+case the statement quantifies over, not argued from a pattern in a few examples. With 6
+naksols that is cheap, and it means a claim in this book is either settled or absent.
+
+## What is defined here
+
+Nothing new is named here. The chapter is about consequences of definitions already
+given.
+
+## The shape of it
+
+With two operations the question stops being what each does and becomes how they
+interfere. <> binds tighter, so the interference shows up whenever a bracket is left
+off.
+
+Treat the above as scaffolding. It is the fastest route into a system nobody has
+intuitions about yet, and it should be discarded the moment it disagrees with a
+computation.
+
+## Where these results come from
+
+The order matters. Each of these leans on what came before it, and the chain is short
+enough to hold in mind.
+
+T19 rests on D6 (the tezka), A7 (closure under the second operation) and T5 (the tezka
+is hobreld). The dependence is on the content of those results, not only on their
+vocabulary.
+
+## A worked case
+
+Here is vexnak % glimzam <> reldxil, reduced without skipping anything.
+    glimzam <> reldxil = reldxil   (the table for <>)
+    vexnak % reldxil = wrenpyr   (the table for %)
+That leaves wrenpyr, and no other reading of the notation gives anything else.
+
+Move the brackets and the work changes. Take glimzam % (reldxil % vexnak).
+    reldxil % vexnak = wrenpyr   (the table for %)
+    glimzam % wrenpyr = glimzam   (the table for %)
+That gives glimzam, against wrenpyr above.
+
+One decision about the relation, since deciding is as much a skill as computing. Does
+vexnak >- vexlorn hold? Read off what vexnak stands over: vexnak, glimzam, reldxil and
+pyrxil. vexlorn is not among them, so it fails.
+
+## A case that breaks
+
+Every claim in this chapter survives every case, which is unusual enough to be worth
+saying plainly. The nearest thing to a trap is the set of naksols that come back
+unchanged from themselves: wrenpyr. Assuming more of them than that is the mistake to
+avoid.
+
+## Reach and limits
+
+The limits of these results are sharper than they look.
+
+Every result in this chapter is downstream of association of the first operation,
+closure under the first operation and closure under the second operation. Those are
+properties of this system, not of systems in general.
+
+These particular results happen to survive rebuilding the system over different tables
+with the same names, which makes them weaker tests of understanding than the chapters
+around them.
+
+## Neighbouring results
+
+Read alongside A7 (closure under the second operation), D6 (the tezka) and T5 (the tezka
+is hobreld).
+
+## Proofs
+
+T19. If x and y lie in the tezka then so does x <> y.
+
+  (1) [T5] The tezka is already hobreld under %.
+  (2) [A7] The second operation is defined on every pair.
+  (3) [D6] The claim is that <> respects the tezka as well.
+
+Checked over 36 cases: every ordered pair from the core. The check is exhaustive, so the statement is settled rather than supported.
+
+## What to carry forward
+
+Established here and safe to use: T19.
+
+## Exercises
+
+This chapter carries no exercises. Nothing in it can be asked about in a way that could
+not be answered without reading it, and an exercise like that is worse than none.

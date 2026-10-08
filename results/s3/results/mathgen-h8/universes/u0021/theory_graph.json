@@ -1,0 +1,2122 @@
+{
+  "system": "Quilpon",
+  "seed": 21,
+  "nodes": [
+    {
+      "node_id": "S1",
+      "kind": "signature",
+      "key": "signature",
+      "theme": "signature",
+      "title": "the Quilpon signature",
+      "statement": "The Quilpon system concerns objects called lumpons. There are exactly 6 of them: glimtez, glimkorr, nakkorr, duthwren, kaka, mornhob. One operation is written -. One relation is written >-, read as \"precedes\".",
+      "depends_on": [],
+      "layer": 0,
+      "chapter": 0,
+      "payload": {
+        "elements": [
+          "glimtez",
+          "glimkorr",
+          "nakkorr",
+          "duthwren",
+          "kaka",
+          "mornhob"
+        ],
+        "op_glyphs": [
+          "-"
+        ],
+        "rel_glyph": ">-",
+        "size": 6
+      }
+    },
+    {
+      "node_id": "S2",
+      "kind": "signature",
+      "key": "tables",
+      "theme": "signature",
+      "title": "the Quilpon combination tables",
+      "statement": "The value of x - y for every pair of lumpons is fixed by the table of the first operation. The pairs standing in the >- relation are listed in full.",
+      "depends_on": [
+        "S1"
+      ],
+      "layer": 1,
+      "chapter": 0,
+      "payload": {
+        "tables": [
+          [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              1,
+              2,
+              3,
+              4,
+              5,
+              0
+            ],
+            [
+              2,
+              3,
+              4,
+              5,
+              0,
+              1
+            ],
+            [
+              3,
+              4,
+              5,
+              0,
+              1,
+              2
+            ],
+            [
+              4,
+              5,
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              5,
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          ]
+        ],
+        "relation_pairs": [
+          [
+            "glimtez",
+            "glimtez"
+          ],
+          [
+            "glimtez",
+            "glimkorr"
+          ],
+          [
+            "glimtez",
+            "nakkorr"
+          ],
+          [
+            "glimtez",
+            "duthwren"
+          ],
+          [
+            "glimtez",
+            "kaka"
+          ],
+          [
+            "glimtez",
+            "mornhob"
+          ],
+          [
+            "glimkorr",
+            "glimkorr"
+          ],
+          [
+            "glimkorr",
+            "nakkorr"
+          ],
+          [
+            "glimkorr",
+            "duthwren"
+          ],
+          [
+            "glimkorr",
+            "kaka"
+          ],
+          [
+            "glimkorr",
+            "mornhob"
+          ],
+          [
+            "nakkorr",
+            "nakkorr"
+          ],
+          [
+            "nakkorr",
+            "duthwren"
+          ],
+          [
+            "nakkorr",
+            "kaka"
+          ],
+          [
+            "nakkorr",
+            "mornhob"
+          ],
+          [
+            "duthwren",
+            "duthwren"
+          ],
+          [
+            "duthwren",
+            "kaka"
+          ],
+          [
+            "duthwren",
+            "mornhob"
+          ],
+          [
+            "kaka",
+            "kaka"
+          ],
+          [
+            "kaka",
+            "mornhob"
+          ],
+          [
+            "mornhob",
+            "mornhob"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "A1",
+      "kind": "axiom",
+      "key": "axiom:closure_first",
+      "theme": "operations",
+      "title": "closure under the first operation",
+      "statement": "For all lumpons x and y, x - y is again a lumpon.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "closure_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A2",
+      "kind": "axiom",
+      "key": "axiom:associativity_first",
+      "theme": "operations",
+      "title": "association of the first operation",
+      "statement": "For all lumpons x, y, z: (x - y) - z = x - (y - z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "associativity_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A3",
+      "kind": "axiom",
+      "key": "axiom:commutativity_first",
+      "theme": "operations",
+      "title": "commutation of the first operation",
+      "statement": "For all lumpons x and y: x - y = y - x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "commutativity_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A4",
+      "kind": "axiom",
+      "key": "axiom:identity_first",
+      "theme": "neutral",
+      "title": "a neutral object for the first operation",
+      "statement": "There is a lumpon glimtez with glimtez - x = x - glimtez = x for every x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "identity_first",
+        "witness": {
+          "identity": "glimtez"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A5",
+      "kind": "axiom",
+      "key": "axiom:inverses_first",
+      "theme": "neutral",
+      "title": "reversal under the first operation",
+      "statement": "For every lumpon x there is a lumpon y with x - y = y - x = glimtez.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "inverses_first",
+        "witness": {
+          "identity": "glimtez"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A6",
+      "kind": "axiom",
+      "key": "axiom:cancellation_first",
+      "theme": "operations",
+      "title": "cancellation in the first operation",
+      "statement": "For all lumpons x, y, z: if x - y = x - z then y = z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "cancellation_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A7",
+      "kind": "axiom",
+      "key": "axiom:relation_reflexive",
+      "theme": "relation",
+      "title": "reflexivity of the relation",
+      "statement": "For every lumpon x: x >- x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_reflexive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A8",
+      "kind": "axiom",
+      "key": "axiom:relation_antisymmetric",
+      "theme": "relation",
+      "title": "antisymmetry of the relation",
+      "statement": "For all lumpons x and y: if x >- y and y >- x then x = y.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_antisymmetric",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A9",
+      "kind": "axiom",
+      "key": "axiom:relation_transitive",
+      "theme": "relation",
+      "title": "transitivity of the relation",
+      "statement": "For all lumpons x, y, z: if x >- y and y >- z then x >- z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_transitive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A10",
+      "kind": "axiom",
+      "key": "axiom:relation_total",
+      "theme": "relation",
+      "title": "comparability of every pair",
+      "statement": "For all lumpons x and y, at least one of x >- y and y >- x holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_total",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "R1",
+      "kind": "refutation",
+      "key": "axiom_fails:idempotence_first",
+      "theme": "operations",
+      "title": "the system does not have self combination under the first operation",
+      "statement": "It is not the case that: For every lumpon x: x - x = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "idempotence_first",
+        "witness": {
+          "x": "glimkorr",
+          "value": "nakkorr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = glimkorr, value = nakkorr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R2",
+      "kind": "refutation",
+      "key": "axiom_fails:absorbing_first",
+      "theme": "neutral",
+      "title": "the system does not have an absorbing object for the first operation",
+      "statement": "There is no lumpon z with z - x = x - z = z for every lumpon x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "absorbing_first",
+        "witness": {
+          "reason": "no absorbing element"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no absorbing element, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R3",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_compatible_first",
+      "theme": "relation",
+      "title": "the system does not have agreement of the relation with the first operation",
+      "statement": "It is not the case that: For all lumpons x, y, z: if x >- y then (z - x) >- (z - y) and (x - z) >- (y - z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_compatible_first",
+        "witness": {
+          "x": "glimtez",
+          "y": "glimkorr",
+          "z": "mornhob",
+          "side": "left"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = glimtez, y = glimkorr, z = mornhob, side = left, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "D1",
+      "kind": "definition",
+      "key": "def:steady",
+      "theme": "operations",
+      "title": "pontez lumpons",
+      "statement": "A lumpon x is called pontez when x - x = x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "pontez",
+        "extension": [
+          "glimtez"
+        ]
+      }
+    },
+    {
+      "node_id": "D2",
+      "kind": "definition",
+      "key": "def:agree",
+      "theme": "operations",
+      "title": "lumpons that vorhurn",
+      "statement": "Two lumpons x and y are said to vorhurn when x - y = y - x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "vorhurn",
+        "pairs": [
+          [
+            "glimtez",
+            "glimtez"
+          ],
+          [
+            "glimtez",
+            "glimkorr"
+          ],
+          [
+            "glimtez",
+            "nakkorr"
+          ],
+          [
+            "glimtez",
+            "duthwren"
+          ],
+          [
+            "glimtez",
+            "kaka"
+          ],
+          [
+            "glimtez",
+            "mornhob"
+          ],
+          [
+            "glimkorr",
+            "glimtez"
+          ],
+          [
+            "glimkorr",
+            "glimkorr"
+          ],
+          [
+            "glimkorr",
+            "nakkorr"
+          ],
+          [
+            "glimkorr",
+            "duthwren"
+          ],
+          [
+            "glimkorr",
+            "kaka"
+          ],
+          [
+            "glimkorr",
+            "mornhob"
+          ],
+          [
+            "nakkorr",
+            "glimtez"
+          ],
+          [
+            "nakkorr",
+            "glimkorr"
+          ],
+          [
+            "nakkorr",
+            "nakkorr"
+          ],
+          [
+            "nakkorr",
+            "duthwren"
+          ],
+          [
+            "nakkorr",
+            "kaka"
+          ],
+          [
+            "nakkorr",
+            "mornhob"
+          ],
+          [
+            "duthwren",
+            "glimtez"
+          ],
+          [
+            "duthwren",
+            "glimkorr"
+          ],
+          [
+            "duthwren",
+            "nakkorr"
+          ],
+          [
+            "duthwren",
+            "duthwren"
+          ],
+          [
+            "duthwren",
+            "kaka"
+          ],
+          [
+            "duthwren",
+            "mornhob"
+          ],
+          [
+            "kaka",
+            "glimtez"
+          ],
+          [
+            "kaka",
+            "glimkorr"
+          ],
+          [
+            "kaka",
+            "nakkorr"
+          ],
+          [
+            "kaka",
+            "duthwren"
+          ],
+          [
+            "kaka",
+            "kaka"
+          ],
+          [
+            "kaka",
+            "mornhob"
+          ],
+          [
+            "mornhob",
+            "glimtez"
+          ],
+          [
+            "mornhob",
+            "glimkorr"
+          ],
+          [
+            "mornhob",
+            "nakkorr"
+          ],
+          [
+            "mornhob",
+            "duthwren"
+          ],
+          [
+            "mornhob",
+            "kaka"
+          ],
+          [
+            "mornhob",
+            "mornhob"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "D3",
+      "kind": "definition",
+      "key": "def:sealed",
+      "theme": "collections",
+      "title": "lumvex collections",
+      "statement": "A collection S of lumpons is lumvex when x - y belongs to S for every pair x, y drawn from S.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "lumvex"
+      }
+    },
+    {
+      "node_id": "D4",
+      "kind": "definition",
+      "key": "def:shadow",
+      "theme": "relation",
+      "title": "the yukglim of a lumpon",
+      "statement": "The yukglim of a lumpon x is the collection of lumpons y for which x >- y holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "notion": "yukglim",
+        "map": {
+          "glimtez": [
+            "glimtez",
+            "glimkorr",
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ],
+          "glimkorr": [
+            "glimkorr",
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ],
+          "nakkorr": [
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ],
+          "duthwren": [
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ],
+          "kaka": [
+            "kaka",
+            "mornhob"
+          ],
+          "mornhob": [
+            "mornhob"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D5",
+      "kind": "definition",
+      "key": "def:anchor",
+      "theme": "neutral",
+      "title": "the tuka",
+      "statement": "The lumpon glimtez is called the tuka of the system. It is the unique lumpon that leaves every lumpon unchanged under -.",
+      "depends_on": [
+        "A4"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "tuka",
+        "element": "glimtez"
+      }
+    },
+    {
+      "node_id": "D6",
+      "kind": "definition",
+      "key": "def:core",
+      "theme": "operations",
+      "title": "the glimfex",
+      "statement": "The glimfex of the system is the collection of lumpons that vorhurn with every lumpon.",
+      "depends_on": [
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "glimfex",
+        "extension": [
+          "glimtez",
+          "glimkorr",
+          "nakkorr",
+          "duthwren",
+          "kaka",
+          "mornhob"
+        ]
+      }
+    },
+    {
+      "node_id": "D7",
+      "kind": "definition",
+      "key": "def:ridge",
+      "theme": "operations",
+      "title": "the opalkeld",
+      "statement": "The opalkeld is the collection of all pontez lumpons.",
+      "depends_on": [
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "opalkeld",
+        "extension": [
+          "glimtez"
+        ]
+      }
+    },
+    {
+      "node_id": "D8",
+      "kind": "definition",
+      "key": "def:span",
+      "theme": "collections",
+      "title": "the umbquil of a lumpon",
+      "statement": "The umbquil of a lumpon x, written [x], is the smallest lumvex collection that contains x.",
+      "depends_on": [
+        "D3"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "notion": "umbquil",
+        "map": {
+          "glimtez": [
+            "glimtez"
+          ],
+          "glimkorr": [
+            "glimtez",
+            "glimkorr",
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ],
+          "nakkorr": [
+            "glimtez",
+            "nakkorr",
+            "kaka"
+          ],
+          "duthwren": [
+            "glimtez",
+            "duthwren"
+          ],
+          "kaka": [
+            "glimtez",
+            "nakkorr",
+            "kaka"
+          ],
+          "mornhob": [
+            "glimtez",
+            "glimkorr",
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D9",
+      "kind": "definition",
+      "key": "def:floor",
+      "theme": "relation",
+      "title": "a aztlum",
+      "statement": "A lumpon f is a aztlum when f >- y holds for every lumpon y, that is, when the yukglim of f is the whole system.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "aztlum",
+        "extension": [
+          "glimtez"
+        ]
+      }
+    },
+    {
+      "node_id": "D10",
+      "kind": "definition",
+      "key": "def:regular",
+      "theme": "neutral",
+      "title": "iskjen lumpons",
+      "statement": "A lumpon x is iskjen when x - x equals the tuka.",
+      "depends_on": [
+        "D5",
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "iskjen",
+        "extension": [
+          "glimtez",
+          "duthwren"
+        ]
+      }
+    },
+    {
+      "node_id": "D11",
+      "kind": "definition",
+      "key": "def:partner",
+      "theme": "neutral",
+      "title": "the zamduth of a lumpon",
+      "statement": "A zamduth of a lumpon x is a lumpon y with x - y = y - x = glimtez.",
+      "depends_on": [
+        "D5",
+        "A5"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "zamduth",
+        "map": {
+          "glimtez": "glimtez",
+          "glimkorr": "mornhob",
+          "nakkorr": "kaka",
+          "duthwren": "duthwren",
+          "kaka": "nakkorr",
+          "mornhob": "glimkorr"
+        }
+      }
+    },
+    {
+      "node_id": "D12",
+      "kind": "definition",
+      "key": "def:reach",
+      "theme": "collections",
+      "title": "the duthovi of a lumpon",
+      "statement": "The duthovi of a lumpon x is the number of lumpons in its umbquil [x].",
+      "depends_on": [
+        "D8"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "notion": "duthovi",
+        "map": {
+          "glimtez": 1,
+          "glimkorr": 6,
+          "nakkorr": 3,
+          "duthwren": 2,
+          "kaka": 3,
+          "mornhob": 6
+        }
+      }
+    },
+    {
+      "node_id": "D13",
+      "kind": "definition",
+      "key": "def:crest",
+      "theme": "collections",
+      "title": "the vashopal",
+      "statement": "The vashopal of the system is the collection of lumpons whose duthovi is largest.",
+      "depends_on": [
+        "D12"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "notion": "vashopal",
+        "extension": [
+          "glimkorr",
+          "mornhob"
+        ]
+      }
+    },
+    {
+      "node_id": "D14",
+      "kind": "definition",
+      "key": "def:tight",
+      "theme": "relation",
+      "title": "cloka pairs",
+      "statement": "Two distinct lumpons x and y form a cloka pair when x >- y and y >- x both hold, that is, when each lies in the yukglim of the other.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "cloka",
+        "extension": []
+      }
+    },
+    {
+      "node_id": "T1",
+      "kind": "theorem",
+      "key": "thm:anchor_unique",
+      "theme": "neutral",
+      "title": "the tuka is the only one of its kind",
+      "statement": "There is exactly one lumpon e with e - x = x - e = x for every lumpon x.",
+      "depends_on": [
+        "D5",
+        "A4"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "identities": [
+            "glimtez"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every object paired with every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D5",
+            "text": "Suppose e and f both leave every lumpon unchanged."
+          },
+          {
+            "cites": "A4",
+            "text": "Then e - f = f, reading e as neutral on the left."
+          },
+          {
+            "cites": "A4",
+            "text": "And e - f = e, reading f as neutral on the right."
+          },
+          {
+            "cites": null,
+            "text": "So e = f, and the two suppositions describe the same object."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T2",
+      "kind": "theorem",
+      "key": "thm:anchor_in_core",
+      "theme": "operations",
+      "title": "the tuka lies in the glimfex",
+      "statement": "The tuka vorhurns with every lumpon.",
+      "depends_on": [
+        "D5",
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "anchor": "glimtez",
+          "core": [
+            "glimtez",
+            "glimkorr",
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "the anchor against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D5",
+            "text": "Let e be the tuka and x any lumpon."
+          },
+          {
+            "cites": "D5",
+            "text": "Then e - x = x and x - e = x."
+          },
+          {
+            "cites": "D2",
+            "text": "So e - x = x - e, which is what it means to vorhurn."
+          },
+          {
+            "cites": "D6",
+            "text": "Since x was arbitrary, e belongs to the glimfex."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T3",
+      "kind": "theorem",
+      "key": "thm:partner_unique",
+      "theme": "neutral",
+      "title": "a lumpon has only one zamduth",
+      "statement": "For every lumpon x there is exactly one zamduth of x.",
+      "depends_on": [
+        "D11",
+        "A2",
+        "T1"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D11",
+            "text": "Let y and z both be partners of x."
+          },
+          {
+            "cites": "A2",
+            "text": "Then y = y - (x - z) = (y - x) - z."
+          },
+          {
+            "cites": "D11",
+            "text": "Both bracketed products collapse to the neutral object."
+          },
+          {
+            "cites": null,
+            "text": "So y = z."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T4",
+      "kind": "theorem",
+      "key": "thm:regular_own_partner",
+      "theme": "neutral",
+      "title": "a iskjen lumpon is its own zamduth",
+      "statement": "If x - x is the tuka then the zamduth of x is x itself.",
+      "depends_on": [
+        "D10",
+        "D11",
+        "T3"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D10",
+            "text": "Let x be iskjen, so x - x is the tuka."
+          },
+          {
+            "cites": "D11",
+            "text": "That is exactly the condition for x to be a partner of x."
+          },
+          {
+            "cites": "T3",
+            "text": "Partners are unique, so no other object can be one."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T5",
+      "kind": "theorem",
+      "key": "thm:core_sealed",
+      "theme": "operations",
+      "title": "the glimfex is lumvex",
+      "statement": "If x and y both vorhurn with every lumpon, then so does x - y.",
+      "depends_on": [
+        "D6",
+        "D3",
+        "A2"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "core": [
+            "glimtez",
+            "glimkorr",
+            "nakkorr",
+            "duthwren",
+            "kaka",
+            "mornhob"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair drawn from the core",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "Let x and y lie in the glimfex and let z be any lumpon."
+          },
+          {
+            "cites": "A2",
+            "text": "Then (x - y) - z = x - (y - z)."
+          },
+          {
+            "cites": "D6",
+            "text": "Move z past y, then past x, using that each vorhurns with everything."
+          },
+          {
+            "cites": "D3",
+            "text": "So x - y vorhurns with z, and the glimfex is lumvex."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T6",
+      "kind": "theorem",
+      "key": "thm:span_sealed",
+      "theme": "collections",
+      "title": "the umbquil of a lumpon is lumvex",
+      "statement": "For every lumpon x, the collection [x] is lumvex.",
+      "depends_on": [
+        "D8",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 216,
+          "domain": "every object, then every pair inside its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "[x] is built by taking x and closing under -."
+          },
+          {
+            "cites": "D3",
+            "text": "Closing under an operation is exactly the sealing condition."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the closure stops after finitely many rounds."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T7",
+      "kind": "theorem",
+      "key": "thm:span_smallest",
+      "theme": "collections",
+      "title": "the umbquil is contained in every lumvex collection",
+      "statement": "If S is lumvex and contains x, then S contains all of [x].",
+      "depends_on": [
+        "D8",
+        "T6"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": {
+          "sealed_count": 4
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 24,
+          "domain": "every sealed collection against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "Every member of [x] is reached from x by finitely many applications of the operation."
+          },
+          {
+            "cites": "D3",
+            "text": "A sealed S containing x is closed under each of those applications."
+          },
+          {
+            "cites": null,
+            "text": "So each member of [x] is in S, by induction on the number of applications."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T8",
+      "kind": "theorem",
+      "key": "thm:steady_iff_reach_one",
+      "theme": "collections",
+      "title": "a lumpon is pontez exactly when its duthovi is one",
+      "statement": "x - x = x holds if and only if [x] contains x alone.",
+      "depends_on": [
+        "D1",
+        "D12",
+        "T6"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D1",
+            "text": "If x - x = x then {x} is already closed under -."
+          },
+          {
+            "cites": "T6",
+            "text": "So [x] = {x} and the duthovi is one."
+          },
+          {
+            "cites": "D12",
+            "text": "Conversely a span of one object must contain x - x, which is then x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T9",
+      "kind": "theorem",
+      "key": "thm:reach_divides_size",
+      "theme": "collections",
+      "title": "the duthovi divides the number of lumpons",
+      "statement": "For every lumpon x, the duthovi of x divides 6.",
+      "depends_on": [
+        "D12",
+        "T6"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T6",
+            "text": "[x] is a lumvex collection."
+          },
+          {
+            "cites": "D12",
+            "text": "Its size is the duthovi of x."
+          },
+          {
+            "cites": null,
+            "text": "The claim is that this size always divides 6."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T10",
+      "kind": "theorem",
+      "key": "thm:span_inside_core",
+      "theme": "operations",
+      "title": "the umbquil of a glimfex lumpon stays in the glimfex",
+      "statement": "If x lies in the glimfex then every lumpon of [x] lies in the glimfex.",
+      "depends_on": [
+        "D8",
+        "D6",
+        "T5"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every object of the core, then its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T5",
+            "text": "The glimfex is lumvex."
+          },
+          {
+            "cites": "D8",
+            "text": "[x] is the smallest lumvex collection containing x."
+          },
+          {
+            "cites": null,
+            "text": "A smallest such collection sits inside any other, and the glimfex is one."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T11",
+      "kind": "theorem",
+      "key": "thm:ridge_sealed",
+      "theme": "operations",
+      "title": "the opalkeld is lumvex",
+      "statement": "If x and y are both pontez then so is x - y.",
+      "depends_on": [
+        "D7",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "ridge": [
+            "glimtez"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair drawn from the ridge",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "Let x and y be pontez."
+          },
+          {
+            "cites": "D1",
+            "text": "The claim asks whether (x - y) - (x - y) returns x - y."
+          },
+          {
+            "cites": null,
+            "text": "Whether it does is settled by running the operation table on every such pair."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T12",
+      "kind": "theorem",
+      "key": "thm:translation_injective",
+      "theme": "operations",
+      "title": "combining on the left never merges two lumpons",
+      "statement": "For every lumpon a, the assignment x to a - x sends distinct lumpons to distinct lumpons.",
+      "depends_on": [
+        "A6",
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every object translated by every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "A6",
+            "text": "Suppose a - x = a - y."
+          },
+          {
+            "cites": "A6",
+            "text": "Cancellation on the left gives x = y."
+          },
+          {
+            "cites": null,
+            "text": "So the assignment is injective, and being injective on a finite carrier it is onto."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T13",
+      "kind": "theorem",
+      "key": "thm:shadow_nested",
+      "theme": "relation",
+      "title": "yukglims are nested along the relation",
+      "statement": "If y lies in the yukglim of x, then the yukglim of y is contained in the yukglim of x.",
+      "depends_on": [
+        "D4",
+        "A9"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 216,
+          "domain": "every ordered triple",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D4",
+            "text": "Let y satisfy x >- y and let z satisfy y >- z."
+          },
+          {
+            "cites": "A9",
+            "text": "Transitivity gives x >- z."
+          },
+          {
+            "cites": "D4",
+            "text": "So every member of the yukglim of y is a member of that of x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T14",
+      "kind": "theorem",
+      "key": "thm:floor_unique",
+      "theme": "relation",
+      "title": "there is at most one aztlum",
+      "statement": "No two distinct lumpons can both be aztlums.",
+      "depends_on": [
+        "D9",
+        "A8"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "floors": [
+            "glimtez"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every candidate against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D9",
+            "text": "Let f and h both be floors."
+          },
+          {
+            "cites": "D9",
+            "text": "Then f >- h, since h is any object, and h >- f likewise."
+          },
+          {
+            "cites": "A8",
+            "text": "Antisymmetry forces f = h."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T15",
+      "kind": "theorem",
+      "key": "thm:floor_exists",
+      "theme": "relation",
+      "title": "the system has a aztlum",
+      "statement": "Some lumpon aztlums the whole system.",
+      "depends_on": [
+        "D9",
+        "A10"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "floors": [
+            "glimtez"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every candidate against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "A10",
+            "text": "Every pair is comparable, so the relation orders the objects into a line."
+          },
+          {
+            "cites": "D9",
+            "text": "The claim is that the line has a bottom."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the search over candidates terminates."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T16",
+      "kind": "theorem",
+      "key": "thm:tight_empty",
+      "theme": "relation",
+      "title": "no cloka pairs exist",
+      "statement": "No two distinct lumpons lie in each other's yukglim.",
+      "depends_on": [
+        "D14",
+        "A8"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "tight": []
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D14",
+            "text": "Suppose x and y form a tight pair."
+          },
+          {
+            "cites": "A8",
+            "text": "Antisymmetry then identifies x with y."
+          },
+          {
+            "cites": null,
+            "text": "So a tight pair of distinct objects cannot arise."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T17",
+      "kind": "theorem",
+      "key": "thm:core_is_everything",
+      "theme": "operations",
+      "title": "every lumpon lies in the glimfex",
+      "statement": "Every pair of lumpons vorhurns.",
+      "depends_on": [
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "The glimfex is defined by vorhurning with everything."
+          },
+          {
+            "cites": "D2",
+            "text": "The claim is that x - y = y - x for every pair."
+          },
+          {
+            "cites": null,
+            "text": "That is settled by scanning the table for a pair that disagrees."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R4",
+      "kind": "refutation",
+      "key": "thm:ridge_is_everything",
+      "theme": "operations",
+      "title": "where every lumpon is pontez breaks down",
+      "statement": "It is not the case that: x - x = x for every lumpon x.",
+      "depends_on": [
+        "D7"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "x": "glimkorr",
+          "value": "nakkorr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = glimkorr, value = nakkorr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T18",
+      "kind": "theorem",
+      "key": "thm:some_object_spans_all",
+      "theme": "collections",
+      "title": "some lumpon reaches every other",
+      "statement": "There is a lumpon whose umbquil is the whole system.",
+      "depends_on": [
+        "D8",
+        "D12"
+      ],
+      "layer": 6,
+      "chapter": 10,
+      "payload": {
+        "witness": {
+          "generator": "glimkorr"
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object and its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "Compute [x] for each lumpon in turn."
+          },
+          {
+            "cites": "D12",
+            "text": "The claim is that some duthovi equals 6."
+          },
+          {
+            "cites": null,
+            "text": "The search runs over finitely many objects, so it settles."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R5",
+      "kind": "refutation",
+      "key": "thm:relation_symmetric",
+      "theme": "relation",
+      "title": "where the relation reads the same in both directions breaks down",
+      "statement": "It is not the case that: If x >- y then y >- x.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": {
+          "x": "glimtez",
+          "y": "glimkorr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = glimtez, y = glimkorr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R6",
+      "kind": "refutation",
+      "key": "thm:anchor_is_absorbing",
+      "theme": "neutral",
+      "title": "where the tuka swallows everything breaks down",
+      "statement": "It is not the case that: e - x equals the tuka for every lumpon x.",
+      "depends_on": [
+        "D5"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "anchor": "glimtez",
+          "x": "glimkorr",
+          "value": "glimkorr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 6,
+          "domain": "the anchor against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case anchor = glimtez, x = glimkorr, value = glimkorr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "S1",
+      "to": "S2"
+    },
+    {
+      "from": "S2",
+      "to": "A1"
+    },
+    {
+      "from": "S2",
+      "to": "A2"
+    },
+    {
+      "from": "S2",
+      "to": "A3"
+    },
+    {
+      "from": "S2",
+      "to": "A4"
+    },
+    {
+      "from": "S2",
+      "to": "A5"
+    },
+    {
+      "from": "S2",
+      "to": "A6"
+    },
+    {
+      "from": "S2",
+      "to": "A7"
+    },
+    {
+      "from": "S2",
+      "to": "A8"
+    },
+    {
+      "from": "S2",
+      "to": "A9"
+    },
+    {
+      "from": "S2",
+      "to": "A10"
+    },
+    {
+      "from": "S2",
+      "to": "R1"
+    },
+    {
+      "from": "S2",
+      "to": "R2"
+    },
+    {
+      "from": "S2",
+      "to": "R3"
+    },
+    {
+      "from": "A1",
+      "to": "D1"
+    },
+    {
+      "from": "A1",
+      "to": "D2"
+    },
+    {
+      "from": "A1",
+      "to": "D3"
+    },
+    {
+      "from": "S2",
+      "to": "D4"
+    },
+    {
+      "from": "A4",
+      "to": "D5"
+    },
+    {
+      "from": "D2",
+      "to": "D6"
+    },
+    {
+      "from": "D1",
+      "to": "D7"
+    },
+    {
+      "from": "D3",
+      "to": "D8"
+    },
+    {
+      "from": "D4",
+      "to": "D9"
+    },
+    {
+      "from": "D5",
+      "to": "D10"
+    },
+    {
+      "from": "D1",
+      "to": "D10"
+    },
+    {
+      "from": "D5",
+      "to": "D11"
+    },
+    {
+      "from": "A5",
+      "to": "D11"
+    },
+    {
+      "from": "D8",
+      "to": "D12"
+    },
+    {
+      "from": "D12",
+      "to": "D13"
+    },
+    {
+      "from": "D4",
+      "to": "D14"
+    },
+    {
+      "from": "D5",
+      "to": "T1"
+    },
+    {
+      "from": "A4",
+      "to": "T1"
+    },
+    {
+      "from": "D5",
+      "to": "T2"
+    },
+    {
+      "from": "D6",
+      "to": "T2"
+    },
+    {
+      "from": "D11",
+      "to": "T3"
+    },
+    {
+      "from": "A2",
+      "to": "T3"
+    },
+    {
+      "from": "T1",
+      "to": "T3"
+    },
+    {
+      "from": "D10",
+      "to": "T4"
+    },
+    {
+      "from": "D11",
+      "to": "T4"
+    },
+    {
+      "from": "T3",
+      "to": "T4"
+    },
+    {
+      "from": "D6",
+      "to": "T5"
+    },
+    {
+      "from": "D3",
+      "to": "T5"
+    },
+    {
+      "from": "A2",
+      "to": "T5"
+    },
+    {
+      "from": "D8",
+      "to": "T6"
+    },
+    {
+      "from": "D3",
+      "to": "T6"
+    },
+    {
+      "from": "D8",
+      "to": "T7"
+    },
+    {
+      "from": "T6",
+      "to": "T7"
+    },
+    {
+      "from": "D1",
+      "to": "T8"
+    },
+    {
+      "from": "D12",
+      "to": "T8"
+    },
+    {
+      "from": "T6",
+      "to": "T8"
+    },
+    {
+      "from": "D12",
+      "to": "T9"
+    },
+    {
+      "from": "T6",
+      "to": "T9"
+    },
+    {
+      "from": "D8",
+      "to": "T10"
+    },
+    {
+      "from": "D6",
+      "to": "T10"
+    },
+    {
+      "from": "T5",
+      "to": "T10"
+    },
+    {
+      "from": "D7",
+      "to": "T11"
+    },
+    {
+      "from": "D3",
+      "to": "T11"
+    },
+    {
+      "from": "A6",
+      "to": "T12"
+    },
+    {
+      "from": "D2",
+      "to": "T12"
+    },
+    {
+      "from": "D4",
+      "to": "T13"
+    },
+    {
+      "from": "A9",
+      "to": "T13"
+    },
+    {
+      "from": "D9",
+      "to": "T14"
+    },
+    {
+      "from": "A8",
+      "to": "T14"
+    },
+    {
+      "from": "D9",
+      "to": "T15"
+    },
+    {
+      "from": "A10",
+      "to": "T15"
+    },
+    {
+      "from": "D14",
+      "to": "T16"
+    },
+    {
+      "from": "A8",
+      "to": "T16"
+    },
+    {
+      "from": "D6",
+      "to": "T17"
+    },
+    {
+      "from": "D7",
+      "to": "R4"
+    },
+    {
+      "from": "D8",
+      "to": "T18"
+    },
+    {
+      "from": "D12",
+      "to": "T18"
+    },
+    {
+      "from": "D4",
+      "to": "R5"
+    },
+    {
+      "from": "D5",
+      "to": "R6"
+    }
+  ],
+  "depth": 6,
+  "counts": {
+    "signature": 2,
+    "axiom": 10,
+    "definition": 14,
+    "theorem": 18,
+    "refutation": 6
+  }
+}

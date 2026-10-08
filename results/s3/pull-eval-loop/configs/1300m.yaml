@@ -1,0 +1,29 @@
+# 1.3B class, SPEC.md section 5. Steps sized for 20 tokens per parameter at
+# 262k tokens per optimizer step.
+model:
+  vocab_size: 32768
+  d_model: 2048
+  n_layers: 24
+  n_heads: 32
+  d_ff: 5504
+  max_seq_len: 4096
+  rope_theta: 10000.0
+  norm_eps: 1.0e-5
+optimizer:
+  lr: 2.0e-4
+  weight_decay: 0.1
+  beta1: 0.9
+  beta2: 0.95
+  eps: 1.0e-8
+schedule:
+  warmup_steps: 1000
+  max_steps: 99200
+  min_lr_ratio: 0.1
+  warmup_phase_steps: 200
+train:
+  batch_size: 1
+  grad_accum_steps: 64
+  grad_clip: 1.0
+  seed: 1234
+  log_interval: 20
+  ckpt_interval: 2000

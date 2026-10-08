@@ -1,0 +1,87 @@
+== 2026-09-02T06:07:24Z state=ALL_DONE
+== gpu: 3 MiB, 0 %
+== disk: /dev/nvme0n1p1  200G   21G  180G  11% /
+== tail after.log
+  threshold_rule     cells=12 macroAcc=0.874 macroChance=0.500 A=0.749 B=0.749
+wrote /mnt/nvme/realret/results/frames_score_real-v1-8k_t1.json
+MEASURE_DONE after real-v1-8k
+== tail audit.log
+  "shared_doc_fraction_of_eval": 0.05156
+ }
+}
+== tail before.log
+  threshold_rule     cells=12 macroAcc=0.881 macroChance=0.500 A=0.761 B=0.761
+wrote /mnt/nvme/realret/results/frames_score_corpus-v1-8k_t1.json
+MEASURE_DONE before corpus-v1-8k
+== tail episodes.log
+{"source": "trivia_qa", "items_path": "/mnt/nvme/realret/items/trivia_qa.train.jsonl", "seen": 61429, "kept": 52917, "drops": {"unplannable": 8512}, "bundle": 12, "max_rounds": 4, "seed": 5150, "rounds_hist": {"1": 21204, "2": 31713}, "miss_hist": {"0": 21204, "1": 31713}, "query_trimmed": 7882, "out": "/mnt/nvme/realret/eps/trivia_qa.train.jsonl", "seconds": 160.1}
+trivia_qa: 5000 kept of 5706 seen, 11s
+{"source": "trivia_qa", "items_path": "/mnt/nvme/realret/items/trivia_qa.validation.jsonl", "seen": 7752, "kept": 6790, "drops": {"unplannable": 962}, "bundle": 12, "max_rounds": 4, "seed": 5150, "rounds_hist": {"1": 2836, "2": 3954}, "miss_hist": {"0": 2836, "1": 3954}, "query_trimmed": 1014, "out": "/mnt/nvme/realret/eps/trivia_qa.validation.jsonl", "seconds": 14.9}
+== tail fetch.log
+ "max_passages": 12,
+ "out": "/mnt/nvme/realret/items"
+}
+== tail gate.log
+verify trivia_qa.eval.jsonl checked=600 clean=1.0 reasons={}
+pack n=254466 tokens=72521453 per_component={"relation": 64001, "natural_questions": 36000, "mathgen": 11001, "hotpot_qa": 55982, "trivia_qa": 35993, "external": 11489, "plan_whole": 16000, "plan_step": 24000} real=127975 synthetic=126491 real_share=0.5029
+GATE PASSED
+== tail lfm2web.log
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:   1%|          | 1/148 [00:00<00:19,  7.60it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 647.69it/s]
+20/500 164s eta 3930s live_searches=0
+40/500 340s eta 3910s live_searches=0
+== tail pack.log
+{"component": "external", "path": "/mnt/nvme/realret/corpus/external_train.jsonl", "total_lines": 43200, "stride": 7, "take": 12000, "kept": 11489, "drops": {"prompt": 0, "nodocs": 0, "unserved": 855, "length": 0}, "tokens": 1883437, "seconds": 6.3}
+{"component": "mathgen", "path": "/mnt/nvme/realret/corpus/mathgen_train.jsonl", "total_lines": 6000, "stride": 1, "take": 11000, "kept": 11001, "drops": {"prompt": 0, "nodocs": 0, "unserved": 928, "length": 39}, "tokens": 4334318, "seconds": 68.2}
+{"n": 254466, "tokens": 72521453, "per_component": {"relation": 64001, "natural_questions": 36000, "mathgen": 11001, "hotpot_qa": 55982, "trivia_qa": 35993, "external": 11489, "plan_whole": 16000, "plan_step": 24000}, "seed": 90210, "packs": ["/mnt/nvme/realret/pack/hotpot_qa", "/mnt/nvme/realret/pack/natural_questions", "/mnt/nvme/realret/pack/trivia_qa", "/mnt/nvme/realret/pack/syn_relation", "/mnt/nvme/realret/pack/syn_plan_step", "/mnt/nvme/realret/pack/syn_plan_whole", "/mnt/nvme/realret/pack/syn_external", "/mnt/nvme/realret/pack/syn_mathgen"]}
+== tail pipeline.log
+2026-09-02T05:06:19Z train_done
+2026-09-02T05:57:29Z after_done
+2026-09-02T05:57:31Z ALL_DONE
+== tail pipeline_out.log
+== tail report.log
+| real-v1-8k | natural_questions open | t1 | 1037 | 2 | 485 | 0 | 550 | `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` |
+| real-v1-8k | trivia_qa open | greedy | 350 | 0 | 156 | 0 | 194 | `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` |
+| real-v1-8k | trivia_qa open | t1 | 898 | 2 | 344 | 0 | 552 | `/mnt/nvme/realret/results/real_scores_real-v1-8k.json` |
+== tail stage.log
+staged extern/winogrande/winogrande_xl/validation-00000-of-00001.parquet 85928 fdcccf784910afee873d968dc21b71e5
+staged extern/gsm8k/main/test-00000-of-00001.parquet 419088 204963167ec69cd5d500ecd79f6950e3
+{"files": 10, "verified_ok": 10, "verified_bad": 0, "manifest": "/mnt/nvme/realret/reports/stage_manifest.json"}
+== tail train.log
+{"step": 8000, "loss_answer": 0.19859, "loss_query": 0.1216, "lr": 2.0000000000000003e-06, "grad_norm": 2.0331, "elapsed_s": 6171.1, "gpu_gb": 35.31}
+[done] /mnt/nvme/realret/real-v1-8k.pt after 8000 steps, 102.9 min
+TRAIN_DONE
+== tail train.jsonl
+{"step": 7950, "loss_answer": 0.33936, "loss_query": 0.17548, "lr": 2.0017348356614168e-06, "grad_norm": 2.3417, "elapsed_s": 6131.2, "gpu_gb": 35.31}
+{"step": 7975, "loss_answer": 0.36778, "loss_query": 0.20611, "lr": 2.0004337193660482e-06, "grad_norm": 4.6699, "elapsed_s": 6151.5, "gpu_gb": 35.31}
+{"step": 8000, "loss_answer": 0.19859, "loss_query": 0.1216, "lr": 2.0000000000000003e-06, "grad_norm": 2.0331, "elapsed_s": 6171.1, "gpu_gb": 35.31}
+== results
+-rw-r--r--.  1 ec2-user ec2-user      80 Sep  2 03:01 frames_gen.txt
+-rw-r--r--.  1 ec2-user ec2-user   24879 Sep  2 03:08 frames_score_corpus-v1-8k_greedy.json
+-rw-r--r--.  1 ec2-user ec2-user   25540 Sep  2 03:20 frames_score_corpus-v1-8k_t1.json
+-rw-r--r--.  1 ec2-user ec2-user   24923 Sep  2 05:45 frames_score_real-v1-8k_greedy.json
+-rw-r--r--.  1 ec2-user ec2-user   25674 Sep  2 05:57 frames_score_real-v1-8k_t1.json
+-rw-r--r--.  1 ec2-user ec2-user     805 Sep  2 03:01 frames_split.txt
+-rw-r--r--.  1 ec2-user ec2-user   69909 Sep  2 02:22 mmlu_agentic_corpus-v1-8k_n200.json
+-rw-r--r--.  1 ec2-user ec2-user   77223 Sep  2 05:09 mmlu_agentic_real-v1-8k_n200.json
+-rw-r--r--.  1 ec2-user ec2-user  132455 Sep  2 02:54 mmlu_closed_corpus-v1-8k_n500.json
+-rw-r--r--.  1 ec2-user ec2-user  132443 Sep  2 02:54 mmlu_closed_corpus-v1-8k_n500_eot.json
+-rw-r--r--.  1 ec2-user ec2-user  132830 Sep  2 02:55 mmlu_closed_lfm2-350m_n500_bos.json
+-rw-r--r--.  1 ec2-user ec2-user  132749 Sep  2 02:55 mmlu_closed_lfm2-350m_n500_nobos.json
+-rw-r--r--.  1 ec2-user ec2-user  131975 Sep  2 05:35 mmlu_closed_real-v1-8k_n500.json
+-rw-r--r--.  1 ec2-user ec2-user  131948 Sep  2 05:35 mmlu_closed_real-v1-8k_n500_eot.json
+-rw-r--r--.  1 ec2-user ec2-user  600136 Sep  2 03:01 mmlu_web_corpus-v1-8k_n500.json
+-rw-r--r--.  1 ec2-user ec2-user  599871 Sep  2 05:38 mmlu_web_real-v1-8k_n500.json
+-rw-r--r--.  1 ec2-user ec2-user    6299 Sep  2 02:53 real_scores_corpus-v1-8k.json
+-rw-r--r--.  1 ec2-user ec2-user    5973 Sep  2 05:34 real_scores_real-v1-8k.json
+-rw-r--r--.  1 ec2-user ec2-user  934656 Sep  2 02:26 roll_hotpot_qa_corpus-v1-8k_greedy.jsonl
+-rw-r--r--.  1 ec2-user ec2-user 1896526 Sep  2 02:41 roll_hotpot_qa_corpus-v1-8k_t1.jsonl
+-rw-r--r--.  1 ec2-user ec2-user 1117242 Sep  2 05:13 roll_hotpot_qa_real-v1-8k_greedy.jsonl
+-rw-r--r--.  1 ec2-user ec2-user 2281902 Sep  2 05:26 roll_hotpot_qa_real-v1-8k_t1.jsonl
+-rw-r--r--.  1 ec2-user ec2-user  408824 Sep  2 02:28 roll_natural_questions_corpus-v1-8k_greedy.jsonl
+-rw-r--r--.  1 ec2-user ec2-user  930690 Sep  2 02:46 roll_natural_questions_corpus-v1-8k_t1.jsonl
+-rw-r--r--.  1 ec2-user ec2-user  632460 Sep  2 05:15 roll_natural_questions_real-v1-8k_greedy.jsonl
+-rw-r--r--.  1 ec2-user ec2-user 1307353 Sep  2 05:30 roll_natural_questions_real-v1-8k_t1.jsonl
+-rw-r--r--.  1 ec2-user ec2-user  932526 Sep  2 02:32 roll_trivia_qa_corpus-v1-8k_greedy.jsonl
+-rw-r--r--.  1 ec2-user ec2-user 1801636 Sep  2 02:53 roll_trivia_qa_corpus-v1-8k_t1.jsonl
+-rw-r--r--.  1 ec2-user ec2-user  780041 Sep  2 05:18 roll_trivia_qa_real-v1-8k_greedy.jsonl
+-rw-r--r--.  1 ec2-user ec2-user 1572574 Sep  2 05:34 roll_trivia_qa_real-v1-8k_t1.jsonl

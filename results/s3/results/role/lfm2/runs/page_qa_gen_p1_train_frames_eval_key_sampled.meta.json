@@ -1,0 +1,38 @@
+{
+ "model": "LiquidAI/LFM2-350M",
+ "form": "page_qa_gen",
+ "split": "train_frames_eval",
+ "direction": "key",
+ "n": 7000,
+ "decode": "sampled",
+ "max_new": 512,
+ "dtype": "bfloat16",
+ "seed": 1234,
+ "items_file": "/home/ec2-user/decoupled-reasoner/results/role/lfm2/items/train_frames_eval.jsonl.gz",
+ "params_total": 354483968,
+ "bos_token": "<|startoftext|>",
+ "bos_token_id": 1,
+ "first_prompt_rendered": "<|startoftext|><|im_start|>user\nThe Ovinid junction.\n\nThis page states the dispatch for the Ovinid junction. Every parcel reaching it is dealt with by the dispatch given below and by nothing else. The list is complete, and a lane is never inferred from the name of the parcel type. Where a parcel could be read as belonging to more than one type, the type written on the parcel itself is the one that counts.\n\nGive every parcel the pyrmi tariff.\nThere is one exception. Give any parcel of category xanthnevi the vandbra tariff instead.\n\nFor any parcel of category xanthnevi at the Ovinid network: which tariff?\n\nAnswer with a single word.<|im_end|>\n<|im_start|>assistant\n",
+ "first_prompt_first_ids": [
+  1,
+  6,
+  6423,
+  708,
+  1098,
+  981,
+  5097,
+  833
+ ],
+ "chat_template_sha256": "5504d163d879bfb6fd4135b7fa3d56768b2e69dd718338f7b146750289f46ab0",
+ "gen_kwargs": {
+  "max_new_tokens": 512,
+  "do_sample": true,
+  "temperature": 0.1,
+  "top_k": 50,
+  "repetition_penalty": 1.05
+ },
+ "seconds": 825.7,
+ "phrasing": "p1",
+ "shots": 0,
+ "records": "/home/ec2-user/decoupled-reasoner/results/role/lfm2/runs/page_qa_gen_p1_train_frames_eval_key_sampled.jsonl.gz"
+}

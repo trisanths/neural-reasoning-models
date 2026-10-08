@@ -1,0 +1,41 @@
+frame                  family                 n shipped  forced   first  hedge   none  chance  chncPg served  frcdSv
+greedy                 agreement            200   0.070   0.065   0.070  0.015  0.560   0.125   0.046  0.470   0.138
+greedy                 band_rule            200   0.225   0.085   0.150  0.230  0.515   0.333   0.138  0.815   0.104
+greedy                 band_then_lookup     200   0.020   0.015   0.020  0.010  0.960   0.333   0.029  0.255   0.059
+greedy                 chain_rule           200   0.020   0.020   0.020  0.000  0.940   0.250   0.004  0.165   0.121
+greedy                 exception_rule       200   0.440   0.295   0.380  0.145  0.335   0.500   0.167  0.890   0.331
+greedy                 exclusion            200   0.050   0.050   0.050  0.000  0.820   0.250   0.104  0.960   0.052
+greedy                 inverse_chain        200   0.020   0.020   0.020  0.000  0.955   0.250   0.020  0.255   0.078
+greedy                 inverse_table        200   0.055   0.055   0.055  0.000  0.800   0.250   0.093  0.970   0.057
+greedy                 lookup_then_band     200   0.070   0.020   0.045  0.075  0.890   0.333   0.020  0.165   0.121
+greedy                 priority_list        200   0.190   0.185   0.185  0.010  0.575   0.250   0.091  0.935   0.198
+greedy                 substitution         200   0.095   0.080   0.090  0.030  0.590   0.200   0.076  0.880   0.091
+greedy                 threshold            200   0.320   0.110   0.245  0.210  0.560   0.500   0.187  0.855   0.129
+greedy                 transitive           200   0.040   0.025   0.035  0.030  0.660   0.167   0.104  0.915   0.027
+greedy                 two_key              200   0.025   0.025   0.025  0.000  0.965   0.111   0.056  0.980   0.026
+t1                     agreement            200   0.030   0.045   0.045  0.010  0.845   0.125   0.020  0.205   0.220
+t1                     band_rule            200   0.110   0.075   0.100  0.055  0.730   0.333   0.097  0.545   0.138
+t1                     band_then_lookup     200   0.005   0.020   0.020  0.000  0.935   0.333   0.020  0.175   0.114
+t1                     chain_rule           200   0.015   0.020   0.020  0.000  0.970   0.250   0.008  0.120   0.167
+t1                     exception_rule       200   0.160   0.140   0.165  0.035  0.680   0.500   0.096  0.550   0.255
+t1                     exclusion            200   0.000   0.000   0.000  0.000  0.970   0.250   0.040  0.385   0.000
+t1                     inverse_chain        200   0.000   0.000   0.000  0.000  1.000   0.250   0.015  0.175   0.000
+t1                     inverse_table        200   0.010   0.010   0.010  0.000  0.950   0.250   0.039  0.410   0.024
+t1                     lookup_then_band     200   0.065   0.040   0.040  0.040  0.875   0.333   0.028  0.225   0.178
+t1                     priority_list        200   0.045   0.050   0.050  0.000  0.880   0.250   0.024  0.300   0.167
+t1                     substitution         200   0.025   0.025   0.025  0.010  0.860   0.200   0.040  0.470   0.053
+t1                     threshold            200   0.125   0.105   0.120  0.030  0.740   0.500   0.125  0.580   0.181
+t1                     transitive           200   0.005   0.005   0.005  0.005  0.925   0.167   0.032  0.270   0.019
+t1                     two_key              200   0.005   0.005   0.005  0.000  0.975   0.111   0.022  0.400   0.013
+
+open numeric answer, no candidate set, strict exact match, floor 0.000
+decode   family                  n    exact  shipped   rounds      gen
+greedy   modular_apply         200    0.000    0.000     0.81     55.5
+greedy   weighted_chain        200    0.000    0.000     0.57    119.8
+t1       modular_apply         200    0.000    0.000     0.35     62.5
+t1       weighted_chain        200    0.000    0.000     0.27     52.1
+
+macro over families, both orders:
+  greedy   cells=14 macroAcc=0.075 macroChance=0.275 A=-0.276 B=-0.302
+  t1       cells=14 macroAcc=0.039 macroChance=0.275 A=-0.326 B=-0.357
+wrote /home/ec2-user/retrain/relation/score_base_heldout.json

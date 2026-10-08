@@ -1,0 +1,342 @@
+{
+ "near_threshold": 0.7,
+ "files": {
+  "/mnt/nvme/realret/eps/hotpot_qa.train.jsonl": {
+   "in": 80906,
+   "kept": 80906,
+   "removed": {
+    "benchmark_exact": 0,
+    "benchmark_near": 0,
+    "split_dup": 0
+   },
+   "out": "/mnt/nvme/realret/eps_clean/hotpot_qa.train.jsonl"
+  },
+  "/mnt/nvme/realret/eps/natural_questions.train.jsonl": {
+   "in": 48733,
+   "kept": 48730,
+   "removed": {
+    "benchmark_exact": 3,
+    "benchmark_near": 0,
+    "split_dup": 0
+   },
+   "out": "/mnt/nvme/realret/eps_clean/natural_questions.train.jsonl"
+  },
+  "/mnt/nvme/realret/eps/trivia_qa.train.jsonl": {
+   "in": 52917,
+   "kept": 52879,
+   "removed": {
+    "benchmark_exact": 29,
+    "benchmark_near": 1,
+    "split_dup": 8
+   },
+   "out": "/mnt/nvme/realret/eps_clean/trivia_qa.train.jsonl"
+  }
+ },
+ "removed_examples": [
+  {
+   "file": "natural_questions.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "03daafaeec594ea2b3792bd59f191b9f",
+   "source": "natural_questions",
+   "question": "how many stars are on the american flag 2017",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many stars are on the american flag"
+  },
+  {
+   "file": "natural_questions.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "a56b53c899024a2ca405e48bb100e62a",
+   "source": "natural_questions",
+   "question": "mohair is made from the fleece of what animal",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "mohair is made from the fleece of what animal"
+  },
+  {
+   "file": "natural_questions.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "95a731a5dbd84c4d81a5d8dc6a52e2a7",
+   "source": "natural_questions",
+   "question": "how many stars are on the american flag today",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many stars are on the american flag"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "dad9641f6da6420da9b40744d127dbfd",
+   "source": "trivia_qa",
+   "question": "Which is the largest moon in the solar system?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what is the largest moon in the solar system"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "aac9b47f77004595bf37f8feb4f7db2d",
+   "source": "trivia_qa",
+   "question": "What is the last book of the Old Testament?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "273e8a6e9522495c85d676ab2a47ff34",
+   "source": "trivia_qa",
+   "question": "The Codex Vaticanus is said to be the oldest almost complete manuscript of which book?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "283b593ffb394ec48a94c3331d6f2a4c",
+   "source": "trivia_qa",
+   "question": "What is the longest chapter in a book of the Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "64419503dae04691bd5883671a019503",
+   "source": "trivia_qa",
+   "question": "What is the last book of the Old Testament of The Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "54638fb3917d49969912a4c4b857970b",
+   "source": "trivia_qa",
+   "question": "How many books make up the \u2018Chronicles of Narnia\u2019 by C S Lewis?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_near",
+   "qid": "bcefdf14b254452294de0aa1abdfd513",
+   "source": "trivia_qa",
+   "question": "What is the square root of 81?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what is the square root of 81 squared"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "699f75f75abc41e197984d2527bfc893",
+   "source": "trivia_qa",
+   "question": "Which is said to be the oldest book in the Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "0b7805948e1e4cb7b6d71af89c9d1070",
+   "source": "trivia_qa",
+   "question": "How many suicides are recorded in the Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "b2d8c7595d9246aba1a2029102a25c1e",
+   "source": "trivia_qa",
+   "question": "What is the largest internal human organ?",
+   "benchmark_task": "arc",
+   "benchmark_stem": "what is the largest organ in the human body"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "079f8366b45640fdaa745a7e75fd1fd6",
+   "source": "trivia_qa",
+   "question": "Which is the youngest book in the New Testament of The Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "589fabe08a8244968f048530dc4be422",
+   "source": "trivia_qa",
+   "question": "Who wrote the majority of the books of the New Testament of the Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "440cd596bb59460ba68d9bd3ec7e4903",
+   "source": "trivia_qa",
+   "question": "What is the official language of The Netherlands?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what is the official language of the netherlands"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "0d6a55d867634706b1138de58a02eb5f",
+   "source": "trivia_qa",
+   "question": "The Bible. What is the fifth book of the Old Testament?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "ef82c694026843b5ab26a22dfe2bc764",
+   "source": "trivia_qa",
+   "question": "In which book of the New Testament does the parable of the good samaritan occur?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "de87a3b1f2af4a0e98b3252fa6c46c70",
+   "source": "trivia_qa",
+   "question": "How many canonical gospels are there in the New Testament?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "a5ca02026eb841d3895a8fcf81b22384",
+   "source": "trivia_qa",
+   "question": "\"In the Bible's Old Testament Book of Proverbs, what is stated to be more precious than rubies, better than silver and gold, and \"\"...all the things thou canst ",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "9f20e1bb1cd3443cb676fd9f90251a57",
+   "source": "trivia_qa",
+   "question": "Conventionally how many books are in the Bible's New Testament?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "393f4d178a724d13990369a7b34d19bc",
+   "source": "trivia_qa",
+   "question": "What was the name of the first nuclear-powered submarine, launched on 21 January 1954?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what was the name of the first nuclear powered submarine"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "1df31958d72b47e6b990d89c98c7d215",
+   "source": "trivia_qa",
+   "question": "What is the heaviest internal human organ?",
+   "benchmark_task": "arc",
+   "benchmark_stem": "what is the largest organ in the human body"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "8887bc899c8d444194bc6f5f23db9857",
+   "source": "trivia_qa",
+   "question": "What is the second book of the Old Testament?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "062c2b8eb74640c68a961c86d8a0ee0c",
+   "source": "trivia_qa",
+   "question": "What is the last book in the Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "c51085f879c34421adf3e0f85e13d9c6",
+   "source": "trivia_qa",
+   "question": "Which is the only moon in the solar system with atmosphere?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what is the largest moon in the solar system"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "881df403ea124a499bfdca368b3ef5f7",
+   "source": "trivia_qa",
+   "question": "What 'continental' moon of the Solar System has become the focus of extra-terrestrial life studies because its smooth surface suggests the presence of an ocean ",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what is the largest moon in the solar system"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "0536bc05e8c245bab0148334d34ef126",
+   "source": "trivia_qa",
+   "question": "Which is the largest internal organ in the human body?",
+   "benchmark_task": "arc",
+   "benchmark_stem": "what is the largest organ in the human body"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "1ce4b0f68e774a8da476bc61dec2dbb7",
+   "source": "trivia_qa",
+   "question": "How many psalms are there in the Bible?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "d7c9e212e2bd4900a61279e5d3ede894",
+   "source": "trivia_qa",
+   "question": "The last two editors of which reference book, known as the \u2018Bible of Cricket\u2019 have been Lawrence Booth and Scyld Berry?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "70b352ca4e9b49a3a1a16be39043cb70",
+   "source": "trivia_qa",
+   "question": "In Judaism how many books make up the Torah?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "e4b2e2902ad541eeb1973f0d4d7a0cea",
+   "source": "trivia_qa",
+   "question": "What is the last letter of the Greek alphabet",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "what is the last letter of the greek alphabet"
+  },
+  {
+   "file": "trivia_qa.train.jsonl",
+   "why": "benchmark_exact",
+   "qid": "1bd4a25e193042ac8885b21cedffca6d",
+   "source": "trivia_qa",
+   "question": "What is the title shared by four books of the New Testament?",
+   "benchmark_task": "mmlu",
+   "benchmark_stem": "how many books are in the new testament"
+  }
+ ],
+ "seconds": 113.2,
+ "totals": {
+  "benchmark_exact": 32,
+  "benchmark_near": 1,
+  "split_dup": 8
+ },
+ "kept_total": 182515,
+ "in_total": 182556
+}

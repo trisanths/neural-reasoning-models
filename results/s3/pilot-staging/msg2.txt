@@ -1,0 +1,14 @@
+src/mathgen/bench.py: the guard's corpus mode no longer depends on PYTHONHASHSEED
+
+not_corpus_mode counted each chunk's token set in set iteration order, so a
+tie between equally frequent tokens broke in hash order and the problem set
+the guard let through changed from one interpreter to the next. Two builds
+of the pilot items from the same seeds came out with different hashes. Each
+set is now sorted before it is counted; three hash seeds give one item set,
+and a test runs the build under three seeds to keep it that way.
+
+src/pilot/runner.py also shuts each model's vLLM engine down before the
+child exits, and the parent stops any engine process a killed child left
+holding the GPU.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>

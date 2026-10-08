@@ -1,0 +1,1451 @@
+{
+  "system": "Bravor",
+  "seed": 23,
+  "nodes": [
+    {
+      "node_id": "S1",
+      "kind": "signature",
+      "key": "signature",
+      "theme": "signature",
+      "title": "the Bravor signature",
+      "statement": "The Bravor system concerns objects called vintzams. There are exactly 6 of them: hurnvash, duthsib, drishen, pyryuk, aztka, ovijen. One operation is written :. One relation is written ::, read as \"yields to\".",
+      "depends_on": [],
+      "layer": 0,
+      "chapter": 0,
+      "payload": {
+        "elements": [
+          "hurnvash",
+          "duthsib",
+          "drishen",
+          "pyryuk",
+          "aztka",
+          "ovijen"
+        ],
+        "op_glyphs": [
+          ":"
+        ],
+        "rel_glyph": "::",
+        "size": 6
+      }
+    },
+    {
+      "node_id": "S2",
+      "kind": "signature",
+      "key": "tables",
+      "theme": "signature",
+      "title": "the Bravor combination tables",
+      "statement": "The value of x : y for every pair of vintzams is fixed by the table of the first operation. The pairs standing in the :: relation are listed in full.",
+      "depends_on": [
+        "S1"
+      ],
+      "layer": 1,
+      "chapter": 0,
+      "payload": {
+        "tables": [
+          [
+            [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              3,
+              2,
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              4,
+              3,
+              2,
+              1,
+              0,
+              0
+            ],
+            [
+              5,
+              4,
+              3,
+              2,
+              1,
+              0
+            ]
+          ]
+        ],
+        "relation_pairs": [
+          [
+            "hurnvash",
+            "hurnvash"
+          ],
+          [
+            "hurnvash",
+            "duthsib"
+          ],
+          [
+            "hurnvash",
+            "drishen"
+          ],
+          [
+            "hurnvash",
+            "pyryuk"
+          ],
+          [
+            "hurnvash",
+            "aztka"
+          ],
+          [
+            "hurnvash",
+            "ovijen"
+          ],
+          [
+            "duthsib",
+            "hurnvash"
+          ],
+          [
+            "drishen",
+            "hurnvash"
+          ],
+          [
+            "pyryuk",
+            "hurnvash"
+          ],
+          [
+            "aztka",
+            "hurnvash"
+          ],
+          [
+            "ovijen",
+            "hurnvash"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "A1",
+      "kind": "axiom",
+      "key": "axiom:closure_first",
+      "theme": "operations",
+      "title": "closure under the first operation",
+      "statement": "For all vintzams x and y, x : y is again a vintzam.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "closure_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "R1",
+      "kind": "refutation",
+      "key": "axiom_fails:associativity_first",
+      "theme": "operations",
+      "title": "the system does not have association of the first operation",
+      "statement": "It is not the case that: For all vintzams x, y, z: (x : y) : z = x : (y : z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "associativity_first",
+        "witness": {
+          "x": "duthsib",
+          "y": "hurnvash",
+          "z": "duthsib",
+          "left": "hurnvash",
+          "right": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = duthsib, y = hurnvash, z = duthsib, left = hurnvash, right = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R2",
+      "kind": "refutation",
+      "key": "axiom_fails:commutativity_first",
+      "theme": "operations",
+      "title": "the system does not have commutation of the first operation",
+      "statement": "It is not the case that: For all vintzams x and y: x : y = y : x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "commutativity_first",
+        "witness": {
+          "x": "hurnvash",
+          "y": "duthsib",
+          "left": "hurnvash",
+          "right": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = hurnvash, y = duthsib, left = hurnvash, right = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R3",
+      "kind": "refutation",
+      "key": "axiom_fails:identity_first",
+      "theme": "neutral",
+      "title": "the system does not have a neutral object for the first operation",
+      "statement": "There is no vintzam e with e : x = x : e = x for every vintzam x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "identity_first",
+        "witness": {
+          "reason": "no two sided identity exists"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no two sided identity exists, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R4",
+      "kind": "refutation",
+      "key": "axiom_fails:inverses_first",
+      "theme": "neutral",
+      "title": "the system does not have reversal under the first operation",
+      "statement": "Some vintzam x admits no vintzam y for which x : y and y : x both land on a neutral object.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "inverses_first",
+        "witness": {
+          "reason": "no identity, so inverses are not defined"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no identity, so inverses are not defined, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R5",
+      "kind": "refutation",
+      "key": "axiom_fails:idempotence_first",
+      "theme": "operations",
+      "title": "the system does not have self combination under the first operation",
+      "statement": "It is not the case that: For every vintzam x: x : x = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "idempotence_first",
+        "witness": {
+          "x": "duthsib",
+          "value": "hurnvash"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = duthsib, value = hurnvash, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R6",
+      "kind": "refutation",
+      "key": "axiom_fails:cancellation_first",
+      "theme": "operations",
+      "title": "the system does not have cancellation in the first operation",
+      "statement": "It is not the case that: For all vintzams x, y, z: if x : y = x : z then y = z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "cancellation_first",
+        "witness": {
+          "x": "hurnvash",
+          "y": "hurnvash",
+          "z": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = hurnvash, y = hurnvash, z = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R7",
+      "kind": "refutation",
+      "key": "axiom_fails:absorbing_first",
+      "theme": "neutral",
+      "title": "the system does not have an absorbing object for the first operation",
+      "statement": "There is no vintzam z with z : x = x : z = z for every vintzam x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "absorbing_first",
+        "witness": {
+          "reason": "no absorbing element"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no absorbing element, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R8",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_reflexive",
+      "theme": "relation",
+      "title": "the system does not have reflexivity of the relation",
+      "statement": "It is not the case that: For every vintzam x: x :: x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_reflexive",
+        "witness": {
+          "x": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R9",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_antisymmetric",
+      "theme": "relation",
+      "title": "the system does not have antisymmetry of the relation",
+      "statement": "It is not the case that: For all vintzams x and y: if x :: y and y :: x then x = y.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_antisymmetric",
+        "witness": {
+          "x": "hurnvash",
+          "y": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = hurnvash, y = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R10",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_transitive",
+      "theme": "relation",
+      "title": "the system does not have transitivity of the relation",
+      "statement": "It is not the case that: For all vintzams x, y, z: if x :: y and y :: z then x :: z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_transitive",
+        "witness": {
+          "x": "duthsib",
+          "y": "hurnvash",
+          "z": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = duthsib, y = hurnvash, z = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R11",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_total",
+      "theme": "relation",
+      "title": "the system does not have comparability of every pair",
+      "statement": "It is not the case that: For all vintzams x and y, at least one of x :: y and y :: x holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_total",
+        "witness": {
+          "x": "duthsib",
+          "y": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = duthsib, y = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R12",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_compatible_first",
+      "theme": "relation",
+      "title": "the system does not have agreement of the relation with the first operation",
+      "statement": "It is not the case that: For all vintzams x, y, z: if x :: y then (z : x) :: (z : y) and (x : z) :: (y : z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_compatible_first",
+        "witness": {
+          "x": "hurnvash",
+          "y": "hurnvash",
+          "z": "duthsib",
+          "side": "left"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = hurnvash, y = hurnvash, z = duthsib, side = left, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "D1",
+      "kind": "definition",
+      "key": "def:steady",
+      "theme": "operations",
+      "title": "shenfal vintzams",
+      "statement": "A vintzam x is called shenfal when x : x = x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "shenfal",
+        "extension": [
+          "hurnvash"
+        ]
+      }
+    },
+    {
+      "node_id": "D2",
+      "kind": "definition",
+      "key": "def:agree",
+      "theme": "operations",
+      "title": "vintzams that tuwren",
+      "statement": "Two vintzams x and y are said to tuwren when x : y = y : x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "tuwren",
+        "pairs": [
+          [
+            "hurnvash",
+            "hurnvash"
+          ],
+          [
+            "duthsib",
+            "duthsib"
+          ],
+          [
+            "drishen",
+            "drishen"
+          ],
+          [
+            "pyryuk",
+            "pyryuk"
+          ],
+          [
+            "aztka",
+            "aztka"
+          ],
+          [
+            "ovijen",
+            "ovijen"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "D3",
+      "kind": "definition",
+      "key": "def:sealed",
+      "theme": "collections",
+      "title": "reldjen collections",
+      "statement": "A collection S of vintzams is reldjen when x : y belongs to S for every pair x, y drawn from S.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "reldjen"
+      }
+    },
+    {
+      "node_id": "D4",
+      "kind": "definition",
+      "key": "def:shadow",
+      "theme": "relation",
+      "title": "the qennyr of a vintzam",
+      "statement": "The qennyr of a vintzam x is the collection of vintzams y for which x :: y holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "notion": "qennyr",
+        "map": {
+          "hurnvash": [
+            "hurnvash",
+            "duthsib",
+            "drishen",
+            "pyryuk",
+            "aztka",
+            "ovijen"
+          ],
+          "duthsib": [
+            "hurnvash"
+          ],
+          "drishen": [
+            "hurnvash"
+          ],
+          "pyryuk": [
+            "hurnvash"
+          ],
+          "aztka": [
+            "hurnvash"
+          ],
+          "ovijen": [
+            "hurnvash"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D5",
+      "kind": "definition",
+      "key": "def:core",
+      "theme": "operations",
+      "title": "the falwren",
+      "statement": "The falwren of the system is the collection of vintzams that tuwren with every vintzam.",
+      "depends_on": [
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "falwren",
+        "extension": []
+      }
+    },
+    {
+      "node_id": "D6",
+      "kind": "definition",
+      "key": "def:ridge",
+      "theme": "operations",
+      "title": "the vextarn",
+      "statement": "The vextarn is the collection of all shenfal vintzams.",
+      "depends_on": [
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "vextarn",
+        "extension": [
+          "hurnvash"
+        ]
+      }
+    },
+    {
+      "node_id": "D7",
+      "kind": "definition",
+      "key": "def:span",
+      "theme": "collections",
+      "title": "the zamsol of a vintzam",
+      "statement": "The zamsol of a vintzam x, written [x], is the smallest reldjen collection that contains x.",
+      "depends_on": [
+        "D3"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "zamsol",
+        "map": {
+          "hurnvash": [
+            "hurnvash"
+          ],
+          "duthsib": [
+            "hurnvash",
+            "duthsib"
+          ],
+          "drishen": [
+            "hurnvash",
+            "drishen"
+          ],
+          "pyryuk": [
+            "hurnvash",
+            "pyryuk"
+          ],
+          "aztka": [
+            "hurnvash",
+            "aztka"
+          ],
+          "ovijen": [
+            "hurnvash",
+            "ovijen"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D8",
+      "kind": "definition",
+      "key": "def:floor",
+      "theme": "relation",
+      "title": "a nyrmux",
+      "statement": "A vintzam f is a nyrmux when f :: y holds for every vintzam y, that is, when the qennyr of f is the whole system.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "nyrmux",
+        "extension": [
+          "hurnvash"
+        ]
+      }
+    },
+    {
+      "node_id": "D9",
+      "kind": "definition",
+      "key": "def:reach",
+      "theme": "collections",
+      "title": "the vashnyr of a vintzam",
+      "statement": "The vashnyr of a vintzam x is the number of vintzams in its zamsol [x].",
+      "depends_on": [
+        "D7"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "notion": "vashnyr",
+        "map": {
+          "hurnvash": 1,
+          "duthsib": 2,
+          "drishen": 2,
+          "pyryuk": 2,
+          "aztka": 2,
+          "ovijen": 2
+        }
+      }
+    },
+    {
+      "node_id": "D10",
+      "kind": "definition",
+      "key": "def:crest",
+      "theme": "collections",
+      "title": "the ponkorr",
+      "statement": "The ponkorr of the system is the collection of vintzams whose vashnyr is largest.",
+      "depends_on": [
+        "D9"
+      ],
+      "layer": 6,
+      "chapter": 7,
+      "payload": {
+        "notion": "ponkorr",
+        "extension": [
+          "duthsib",
+          "drishen",
+          "pyryuk",
+          "aztka",
+          "ovijen"
+        ]
+      }
+    },
+    {
+      "node_id": "D11",
+      "kind": "definition",
+      "key": "def:tight",
+      "theme": "relation",
+      "title": "tezreld pairs",
+      "statement": "Two distinct vintzams x and y form a tezreld pair when x :: y and y :: x both hold, that is, when each lies in the qennyr of the other.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "tezreld",
+        "extension": [
+          "hurnvash",
+          "duthsib",
+          "drishen",
+          "pyryuk",
+          "aztka",
+          "ovijen"
+        ]
+      }
+    },
+    {
+      "node_id": "T1",
+      "kind": "theorem",
+      "key": "thm:span_sealed",
+      "theme": "collections",
+      "title": "the zamsol of a vintzam is reldjen",
+      "statement": "For every vintzam x, the collection [x] is reldjen.",
+      "depends_on": [
+        "D7",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 216,
+          "domain": "every object, then every pair inside its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "[x] is built by taking x and closing under :."
+          },
+          {
+            "cites": "D3",
+            "text": "Closing under an operation is exactly the sealing condition."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the closure stops after finitely many rounds."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T2",
+      "kind": "theorem",
+      "key": "thm:span_smallest",
+      "theme": "collections",
+      "title": "the zamsol is contained in every reldjen collection",
+      "statement": "If S is reldjen and contains x, then S contains all of [x].",
+      "depends_on": [
+        "D7",
+        "T1"
+      ],
+      "layer": 6,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "sealed_count": 11
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 66,
+          "domain": "every sealed collection against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "Every member of [x] is reached from x by finitely many applications of the operation."
+          },
+          {
+            "cites": "D3",
+            "text": "A sealed S containing x is closed under each of those applications."
+          },
+          {
+            "cites": null,
+            "text": "So each member of [x] is in S, by induction on the number of applications."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T3",
+      "kind": "theorem",
+      "key": "thm:steady_iff_reach_one",
+      "theme": "collections",
+      "title": "a vintzam is shenfal exactly when its vashnyr is one",
+      "statement": "x : x = x holds if and only if [x] contains x alone.",
+      "depends_on": [
+        "D1",
+        "D9",
+        "T1"
+      ],
+      "layer": 6,
+      "chapter": 7,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D1",
+            "text": "If x : x = x then {x} is already closed under :."
+          },
+          {
+            "cites": "T1",
+            "text": "So [x] = {x} and the vashnyr is one."
+          },
+          {
+            "cites": "D9",
+            "text": "Conversely a span of one object must contain x : x, which is then x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T4",
+      "kind": "theorem",
+      "key": "thm:reach_divides_size",
+      "theme": "collections",
+      "title": "the vashnyr divides the number of vintzams",
+      "statement": "For every vintzam x, the vashnyr of x divides 6.",
+      "depends_on": [
+        "D9",
+        "T1"
+      ],
+      "layer": 6,
+      "chapter": 7,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T1",
+            "text": "[x] is a reldjen collection."
+          },
+          {
+            "cites": "D9",
+            "text": "Its size is the vashnyr of x."
+          },
+          {
+            "cites": null,
+            "text": "The claim is that this size always divides 6."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T5",
+      "kind": "theorem",
+      "key": "thm:ridge_sealed",
+      "theme": "operations",
+      "title": "the vextarn is reldjen",
+      "statement": "If x and y are both shenfal then so is x : y.",
+      "depends_on": [
+        "D6",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "ridge": [
+            "hurnvash"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair drawn from the ridge",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "Let x and y be shenfal."
+          },
+          {
+            "cites": "D1",
+            "text": "The claim asks whether (x : y) : (x : y) returns x : y."
+          },
+          {
+            "cites": null,
+            "text": "Whether it does is settled by running the operation table on every such pair."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R13",
+      "kind": "refutation",
+      "key": "thm:core_is_everything",
+      "theme": "operations",
+      "title": "where every vintzam lies in the falwren breaks down",
+      "statement": "It is not the case that: Every pair of vintzams tuwrens.",
+      "depends_on": [
+        "D5"
+      ],
+      "layer": 5,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "x": "hurnvash",
+          "y": "duthsib",
+          "left": "hurnvash",
+          "right": "duthsib"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = hurnvash, y = duthsib, left = hurnvash, right = duthsib, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R14",
+      "kind": "refutation",
+      "key": "thm:ridge_is_everything",
+      "theme": "operations",
+      "title": "where every vintzam is shenfal breaks down",
+      "statement": "It is not the case that: x : x = x for every vintzam x.",
+      "depends_on": [
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "x": "duthsib",
+          "value": "hurnvash"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = duthsib, value = hurnvash, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R15",
+      "kind": "refutation",
+      "key": "thm:some_object_spans_all",
+      "theme": "collections",
+      "title": "where some vintzam reaches every other breaks down",
+      "statement": "It is not the case that: There is a vintzam whose zamsol is the whole system.",
+      "depends_on": [
+        "D7",
+        "D9"
+      ],
+      "layer": 6,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "largest_span": 2,
+          "size": 6
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 6,
+          "domain": "every object and its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case largest_span = 2, size = 6, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T6",
+      "kind": "theorem",
+      "key": "thm:relation_symmetric",
+      "theme": "relation",
+      "title": "the relation reads the same in both directions",
+      "statement": "If x :: y then y :: x.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D4",
+            "text": "Symmetry would mean y lies in the qennyr of x exactly when x lies in that of y."
+          },
+          {
+            "cites": null,
+            "text": "The listed pairs settle it directly."
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "S1",
+      "to": "S2"
+    },
+    {
+      "from": "S2",
+      "to": "A1"
+    },
+    {
+      "from": "S2",
+      "to": "R1"
+    },
+    {
+      "from": "S2",
+      "to": "R2"
+    },
+    {
+      "from": "S2",
+      "to": "R3"
+    },
+    {
+      "from": "S2",
+      "to": "R4"
+    },
+    {
+      "from": "S2",
+      "to": "R5"
+    },
+    {
+      "from": "S2",
+      "to": "R6"
+    },
+    {
+      "from": "S2",
+      "to": "R7"
+    },
+    {
+      "from": "S2",
+      "to": "R8"
+    },
+    {
+      "from": "S2",
+      "to": "R9"
+    },
+    {
+      "from": "S2",
+      "to": "R10"
+    },
+    {
+      "from": "S2",
+      "to": "R11"
+    },
+    {
+      "from": "S2",
+      "to": "R12"
+    },
+    {
+      "from": "A1",
+      "to": "D1"
+    },
+    {
+      "from": "A1",
+      "to": "D2"
+    },
+    {
+      "from": "A1",
+      "to": "D3"
+    },
+    {
+      "from": "S2",
+      "to": "D4"
+    },
+    {
+      "from": "D2",
+      "to": "D5"
+    },
+    {
+      "from": "D1",
+      "to": "D6"
+    },
+    {
+      "from": "D3",
+      "to": "D7"
+    },
+    {
+      "from": "D4",
+      "to": "D8"
+    },
+    {
+      "from": "D7",
+      "to": "D9"
+    },
+    {
+      "from": "D9",
+      "to": "D10"
+    },
+    {
+      "from": "D4",
+      "to": "D11"
+    },
+    {
+      "from": "D7",
+      "to": "T1"
+    },
+    {
+      "from": "D3",
+      "to": "T1"
+    },
+    {
+      "from": "D7",
+      "to": "T2"
+    },
+    {
+      "from": "T1",
+      "to": "T2"
+    },
+    {
+      "from": "D1",
+      "to": "T3"
+    },
+    {
+      "from": "D9",
+      "to": "T3"
+    },
+    {
+      "from": "T1",
+      "to": "T3"
+    },
+    {
+      "from": "D9",
+      "to": "T4"
+    },
+    {
+      "from": "T1",
+      "to": "T4"
+    },
+    {
+      "from": "D6",
+      "to": "T5"
+    },
+    {
+      "from": "D3",
+      "to": "T5"
+    },
+    {
+      "from": "D5",
+      "to": "R13"
+    },
+    {
+      "from": "D6",
+      "to": "R14"
+    },
+    {
+      "from": "D7",
+      "to": "R15"
+    },
+    {
+      "from": "D9",
+      "to": "R15"
+    },
+    {
+      "from": "D4",
+      "to": "T6"
+    }
+  ],
+  "depth": 6,
+  "counts": {
+    "signature": 2,
+    "axiom": 1,
+    "definition": 11,
+    "theorem": 6,
+    "refutation": 15
+  }
+}

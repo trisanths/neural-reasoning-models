@@ -1,0 +1,1921 @@
+{
+  "system": "Vintreld",
+  "seed": 11,
+  "nodes": [
+    {
+      "node_id": "S1",
+      "kind": "signature",
+      "key": "signature",
+      "theme": "signature",
+      "title": "the Vintreld signature",
+      "statement": "The Vintreld system concerns objects called aztfals. There are exactly 6 of them: korrhob, pyrnak, korrglim, lornjen, nakqen, aztclo. One operation is written &. One relation is written <<, read as \"yields to\".",
+      "depends_on": [],
+      "layer": 0,
+      "chapter": 0,
+      "payload": {
+        "elements": [
+          "korrhob",
+          "pyrnak",
+          "korrglim",
+          "lornjen",
+          "nakqen",
+          "aztclo"
+        ],
+        "op_glyphs": [
+          "&"
+        ],
+        "rel_glyph": "<<",
+        "size": 6
+      }
+    },
+    {
+      "node_id": "S2",
+      "kind": "signature",
+      "key": "tables",
+      "theme": "signature",
+      "title": "the Vintreld combination tables",
+      "statement": "The value of x & y for every pair of aztfals is fixed by the table of the first operation. The pairs standing in the << relation are listed in full.",
+      "depends_on": [
+        "S1"
+      ],
+      "layer": 1,
+      "chapter": 0,
+      "payload": {
+        "tables": [
+          [
+            [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            [
+              1,
+              1,
+              4,
+              3,
+              4,
+              5
+            ],
+            [
+              2,
+              4,
+              2,
+              5,
+              4,
+              5
+            ],
+            [
+              3,
+              3,
+              5,
+              3,
+              5,
+              5
+            ],
+            [
+              4,
+              4,
+              4,
+              5,
+              4,
+              5
+            ],
+            [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ]
+          ]
+        ],
+        "relation_pairs": [
+          [
+            "korrhob",
+            "korrhob"
+          ],
+          [
+            "pyrnak",
+            "korrhob"
+          ],
+          [
+            "pyrnak",
+            "pyrnak"
+          ],
+          [
+            "korrglim",
+            "korrhob"
+          ],
+          [
+            "korrglim",
+            "korrglim"
+          ],
+          [
+            "lornjen",
+            "korrhob"
+          ],
+          [
+            "lornjen",
+            "pyrnak"
+          ],
+          [
+            "lornjen",
+            "lornjen"
+          ],
+          [
+            "nakqen",
+            "korrhob"
+          ],
+          [
+            "nakqen",
+            "pyrnak"
+          ],
+          [
+            "nakqen",
+            "korrglim"
+          ],
+          [
+            "nakqen",
+            "nakqen"
+          ],
+          [
+            "aztclo",
+            "korrhob"
+          ],
+          [
+            "aztclo",
+            "pyrnak"
+          ],
+          [
+            "aztclo",
+            "korrglim"
+          ],
+          [
+            "aztclo",
+            "lornjen"
+          ],
+          [
+            "aztclo",
+            "nakqen"
+          ],
+          [
+            "aztclo",
+            "aztclo"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "A1",
+      "kind": "axiom",
+      "key": "axiom:closure_first",
+      "theme": "operations",
+      "title": "closure under the first operation",
+      "statement": "For all aztfals x and y, x & y is again a aztfal.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "closure_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A2",
+      "kind": "axiom",
+      "key": "axiom:associativity_first",
+      "theme": "operations",
+      "title": "association of the first operation",
+      "statement": "For all aztfals x, y, z: (x & y) & z = x & (y & z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "associativity_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A3",
+      "kind": "axiom",
+      "key": "axiom:commutativity_first",
+      "theme": "operations",
+      "title": "commutation of the first operation",
+      "statement": "For all aztfals x and y: x & y = y & x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "commutativity_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A4",
+      "kind": "axiom",
+      "key": "axiom:identity_first",
+      "theme": "neutral",
+      "title": "a neutral object for the first operation",
+      "statement": "There is a aztfal korrhob with korrhob & x = x & korrhob = x for every x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "identity_first",
+        "witness": {
+          "identity": "korrhob"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A5",
+      "kind": "axiom",
+      "key": "axiom:idempotence_first",
+      "theme": "operations",
+      "title": "self combination under the first operation",
+      "statement": "For every aztfal x: x & x = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "idempotence_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A6",
+      "kind": "axiom",
+      "key": "axiom:absorbing_first",
+      "theme": "neutral",
+      "title": "an absorbing object for the first operation",
+      "statement": "There is a aztfal aztclo with aztclo & x = x & aztclo = aztclo for every x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "absorbing_first",
+        "witness": {
+          "absorbing": "aztclo"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A7",
+      "kind": "axiom",
+      "key": "axiom:relation_reflexive",
+      "theme": "relation",
+      "title": "reflexivity of the relation",
+      "statement": "For every aztfal x: x << x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_reflexive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A8",
+      "kind": "axiom",
+      "key": "axiom:relation_antisymmetric",
+      "theme": "relation",
+      "title": "antisymmetry of the relation",
+      "statement": "For all aztfals x and y: if x << y and y << x then x = y.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_antisymmetric",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A9",
+      "kind": "axiom",
+      "key": "axiom:relation_transitive",
+      "theme": "relation",
+      "title": "transitivity of the relation",
+      "statement": "For all aztfals x, y, z: if x << y and y << z then x << z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_transitive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A10",
+      "kind": "axiom",
+      "key": "axiom:relation_compatible_first",
+      "theme": "relation",
+      "title": "agreement of the relation with the first operation",
+      "statement": "For all aztfals x, y, z: if x << y then (z & x) << (z & y) and (x & z) << (y & z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_compatible_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "R1",
+      "kind": "refutation",
+      "key": "axiom_fails:inverses_first",
+      "theme": "neutral",
+      "title": "the system does not have reversal under the first operation",
+      "statement": "Some aztfal x admits no aztfal y for which x & y and y & x both land on a neutral object.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "inverses_first",
+        "witness": {
+          "x": "pyrnak"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = pyrnak, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R2",
+      "kind": "refutation",
+      "key": "axiom_fails:cancellation_first",
+      "theme": "operations",
+      "title": "the system does not have cancellation in the first operation",
+      "statement": "It is not the case that: For all aztfals x, y, z: if x & y = x & z then y = z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "cancellation_first",
+        "witness": {
+          "x": "pyrnak",
+          "y": "korrhob",
+          "z": "pyrnak"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = pyrnak, y = korrhob, z = pyrnak, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R3",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_total",
+      "theme": "relation",
+      "title": "the system does not have comparability of every pair",
+      "statement": "It is not the case that: For all aztfals x and y, at least one of x << y and y << x holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_total",
+        "witness": {
+          "x": "pyrnak",
+          "y": "korrglim"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 216,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = pyrnak, y = korrglim, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "D1",
+      "kind": "definition",
+      "key": "def:steady",
+      "theme": "operations",
+      "title": "vorduth aztfals",
+      "statement": "A aztfal x is called vorduth when x & x = x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "vorduth",
+        "extension": [
+          "korrhob",
+          "pyrnak",
+          "korrglim",
+          "lornjen",
+          "nakqen",
+          "aztclo"
+        ]
+      }
+    },
+    {
+      "node_id": "D2",
+      "kind": "definition",
+      "key": "def:agree",
+      "theme": "operations",
+      "title": "aztfals that muxzel",
+      "statement": "Two aztfals x and y are said to muxzel when x & y = y & x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "muxzel",
+        "pairs": [
+          [
+            "korrhob",
+            "korrhob"
+          ],
+          [
+            "korrhob",
+            "pyrnak"
+          ],
+          [
+            "korrhob",
+            "korrglim"
+          ],
+          [
+            "korrhob",
+            "lornjen"
+          ],
+          [
+            "korrhob",
+            "nakqen"
+          ],
+          [
+            "korrhob",
+            "aztclo"
+          ],
+          [
+            "pyrnak",
+            "korrhob"
+          ],
+          [
+            "pyrnak",
+            "pyrnak"
+          ],
+          [
+            "pyrnak",
+            "korrglim"
+          ],
+          [
+            "pyrnak",
+            "lornjen"
+          ],
+          [
+            "pyrnak",
+            "nakqen"
+          ],
+          [
+            "pyrnak",
+            "aztclo"
+          ],
+          [
+            "korrglim",
+            "korrhob"
+          ],
+          [
+            "korrglim",
+            "pyrnak"
+          ],
+          [
+            "korrglim",
+            "korrglim"
+          ],
+          [
+            "korrglim",
+            "lornjen"
+          ],
+          [
+            "korrglim",
+            "nakqen"
+          ],
+          [
+            "korrglim",
+            "aztclo"
+          ],
+          [
+            "lornjen",
+            "korrhob"
+          ],
+          [
+            "lornjen",
+            "pyrnak"
+          ],
+          [
+            "lornjen",
+            "korrglim"
+          ],
+          [
+            "lornjen",
+            "lornjen"
+          ],
+          [
+            "lornjen",
+            "nakqen"
+          ],
+          [
+            "lornjen",
+            "aztclo"
+          ],
+          [
+            "nakqen",
+            "korrhob"
+          ],
+          [
+            "nakqen",
+            "pyrnak"
+          ],
+          [
+            "nakqen",
+            "korrglim"
+          ],
+          [
+            "nakqen",
+            "lornjen"
+          ],
+          [
+            "nakqen",
+            "nakqen"
+          ],
+          [
+            "nakqen",
+            "aztclo"
+          ],
+          [
+            "aztclo",
+            "korrhob"
+          ],
+          [
+            "aztclo",
+            "pyrnak"
+          ],
+          [
+            "aztclo",
+            "korrglim"
+          ],
+          [
+            "aztclo",
+            "lornjen"
+          ],
+          [
+            "aztclo",
+            "nakqen"
+          ],
+          [
+            "aztclo",
+            "aztclo"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "D3",
+      "kind": "definition",
+      "key": "def:sealed",
+      "theme": "collections",
+      "title": "vintpon collections",
+      "statement": "A collection S of aztfals is vintpon when x & y belongs to S for every pair x, y drawn from S.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "vintpon"
+      }
+    },
+    {
+      "node_id": "D4",
+      "kind": "definition",
+      "key": "def:shadow",
+      "theme": "relation",
+      "title": "the tezmi of a aztfal",
+      "statement": "The tezmi of a aztfal x is the collection of aztfals y for which x << y holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "notion": "tezmi",
+        "map": {
+          "korrhob": [
+            "korrhob"
+          ],
+          "pyrnak": [
+            "korrhob",
+            "pyrnak"
+          ],
+          "korrglim": [
+            "korrhob",
+            "korrglim"
+          ],
+          "lornjen": [
+            "korrhob",
+            "pyrnak",
+            "lornjen"
+          ],
+          "nakqen": [
+            "korrhob",
+            "pyrnak",
+            "korrglim",
+            "nakqen"
+          ],
+          "aztclo": [
+            "korrhob",
+            "pyrnak",
+            "korrglim",
+            "lornjen",
+            "nakqen",
+            "aztclo"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D5",
+      "kind": "definition",
+      "key": "def:anchor",
+      "theme": "neutral",
+      "title": "the nyrvor",
+      "statement": "The aztfal korrhob is called the nyrvor of the system. It is the unique aztfal that leaves every aztfal unchanged under &.",
+      "depends_on": [
+        "A4"
+      ],
+      "layer": 3,
+      "chapter": 3,
+      "payload": {
+        "notion": "nyrvor",
+        "element": "korrhob"
+      }
+    },
+    {
+      "node_id": "D6",
+      "kind": "definition",
+      "key": "def:core",
+      "theme": "operations",
+      "title": "the nakpyr",
+      "statement": "The nakpyr of the system is the collection of aztfals that muxzel with every aztfal.",
+      "depends_on": [
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "nakpyr",
+        "extension": [
+          "korrhob",
+          "pyrnak",
+          "korrglim",
+          "lornjen",
+          "nakqen",
+          "aztclo"
+        ]
+      }
+    },
+    {
+      "node_id": "D7",
+      "kind": "definition",
+      "key": "def:ridge",
+      "theme": "operations",
+      "title": "the iskopal",
+      "statement": "The iskopal is the collection of all vorduth aztfals.",
+      "depends_on": [
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "iskopal",
+        "extension": [
+          "korrhob",
+          "pyrnak",
+          "korrglim",
+          "lornjen",
+          "nakqen",
+          "aztclo"
+        ]
+      }
+    },
+    {
+      "node_id": "D8",
+      "kind": "definition",
+      "key": "def:span",
+      "theme": "collections",
+      "title": "the quilnak of a aztfal",
+      "statement": "The quilnak of a aztfal x, written [x], is the smallest vintpon collection that contains x.",
+      "depends_on": [
+        "D3"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "quilnak",
+        "map": {
+          "korrhob": [
+            "korrhob"
+          ],
+          "pyrnak": [
+            "pyrnak"
+          ],
+          "korrglim": [
+            "korrglim"
+          ],
+          "lornjen": [
+            "lornjen"
+          ],
+          "nakqen": [
+            "nakqen"
+          ],
+          "aztclo": [
+            "aztclo"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D9",
+      "kind": "definition",
+      "key": "def:floor",
+      "theme": "relation",
+      "title": "a tarntez",
+      "statement": "A aztfal f is a tarntez when f << y holds for every aztfal y, that is, when the tezmi of f is the whole system.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "tarntez",
+        "extension": [
+          "aztclo"
+        ]
+      }
+    },
+    {
+      "node_id": "D10",
+      "kind": "definition",
+      "key": "def:regular",
+      "theme": "neutral",
+      "title": "zelgel aztfals",
+      "statement": "A aztfal x is zelgel when x & x equals the nyrvor.",
+      "depends_on": [
+        "D5",
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "notion": "zelgel",
+        "extension": [
+          "korrhob"
+        ]
+      }
+    },
+    {
+      "node_id": "D11",
+      "kind": "definition",
+      "key": "def:reach",
+      "theme": "collections",
+      "title": "the duthnyr of a aztfal",
+      "statement": "The duthnyr of a aztfal x is the number of aztfals in its quilnak [x].",
+      "depends_on": [
+        "D8"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "notion": "duthnyr",
+        "map": {
+          "korrhob": 1,
+          "pyrnak": 1,
+          "korrglim": 1,
+          "lornjen": 1,
+          "nakqen": 1,
+          "aztclo": 1
+        }
+      }
+    },
+    {
+      "node_id": "D12",
+      "kind": "definition",
+      "key": "def:crest",
+      "theme": "collections",
+      "title": "the korrfex",
+      "statement": "The korrfex of the system is the collection of aztfals whose duthnyr is largest.",
+      "depends_on": [
+        "D11"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "notion": "korrfex",
+        "extension": [
+          "korrhob",
+          "pyrnak",
+          "korrglim",
+          "lornjen",
+          "nakqen",
+          "aztclo"
+        ]
+      }
+    },
+    {
+      "node_id": "D13",
+      "kind": "definition",
+      "key": "def:tight",
+      "theme": "relation",
+      "title": "grixespa pairs",
+      "statement": "Two distinct aztfals x and y form a grixespa pair when x << y and y << x both hold, that is, when each lies in the tezmi of the other.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "grixespa",
+        "extension": []
+      }
+    },
+    {
+      "node_id": "T1",
+      "kind": "theorem",
+      "key": "thm:anchor_unique",
+      "theme": "neutral",
+      "title": "the nyrvor is the only one of its kind",
+      "statement": "There is exactly one aztfal e with e & x = x & e = x for every aztfal x.",
+      "depends_on": [
+        "D5",
+        "A4"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "witness": {
+          "identities": [
+            "korrhob"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every object paired with every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D5",
+            "text": "Suppose e and f both leave every aztfal unchanged."
+          },
+          {
+            "cites": "A4",
+            "text": "Then e & f = f, reading e as neutral on the left."
+          },
+          {
+            "cites": "A4",
+            "text": "And e & f = e, reading f as neutral on the right."
+          },
+          {
+            "cites": null,
+            "text": "So e = f, and the two suppositions describe the same object."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T2",
+      "kind": "theorem",
+      "key": "thm:anchor_in_core",
+      "theme": "operations",
+      "title": "the nyrvor lies in the nakpyr",
+      "statement": "The nyrvor muxzels with every aztfal.",
+      "depends_on": [
+        "D5",
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "anchor": "korrhob",
+          "core": [
+            "korrhob",
+            "pyrnak",
+            "korrglim",
+            "lornjen",
+            "nakqen",
+            "aztclo"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "the anchor against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D5",
+            "text": "Let e be the nyrvor and x any aztfal."
+          },
+          {
+            "cites": "D5",
+            "text": "Then e & x = x and x & e = x."
+          },
+          {
+            "cites": "D2",
+            "text": "So e & x = x & e, which is what it means to muxzel."
+          },
+          {
+            "cites": "D6",
+            "text": "Since x was arbitrary, e belongs to the nakpyr."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T3",
+      "kind": "theorem",
+      "key": "thm:core_sealed",
+      "theme": "operations",
+      "title": "the nakpyr is vintpon",
+      "statement": "If x and y both muxzel with every aztfal, then so does x & y.",
+      "depends_on": [
+        "D6",
+        "D3",
+        "A2"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "core": [
+            "korrhob",
+            "pyrnak",
+            "korrglim",
+            "lornjen",
+            "nakqen",
+            "aztclo"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair drawn from the core",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "Let x and y lie in the nakpyr and let z be any aztfal."
+          },
+          {
+            "cites": "A2",
+            "text": "Then (x & y) & z = x & (y & z)."
+          },
+          {
+            "cites": "D6",
+            "text": "Move z past y, then past x, using that each muxzels with everything."
+          },
+          {
+            "cites": "D3",
+            "text": "So x & y muxzels with z, and the nakpyr is vintpon."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T4",
+      "kind": "theorem",
+      "key": "thm:span_sealed",
+      "theme": "collections",
+      "title": "the quilnak of a aztfal is vintpon",
+      "statement": "For every aztfal x, the collection [x] is vintpon.",
+      "depends_on": [
+        "D8",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 216,
+          "domain": "every object, then every pair inside its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "[x] is built by taking x and closing under &."
+          },
+          {
+            "cites": "D3",
+            "text": "Closing under an operation is exactly the sealing condition."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the closure stops after finitely many rounds."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T5",
+      "kind": "theorem",
+      "key": "thm:span_smallest",
+      "theme": "collections",
+      "title": "the quilnak is contained in every vintpon collection",
+      "statement": "If S is vintpon and contains x, then S contains all of [x].",
+      "depends_on": [
+        "D8",
+        "T4"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": {
+          "sealed_count": 45
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 270,
+          "domain": "every sealed collection against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "Every member of [x] is reached from x by finitely many applications of the operation."
+          },
+          {
+            "cites": "D3",
+            "text": "A sealed S containing x is closed under each of those applications."
+          },
+          {
+            "cites": null,
+            "text": "So each member of [x] is in S, by induction on the number of applications."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T6",
+      "kind": "theorem",
+      "key": "thm:steady_iff_reach_one",
+      "theme": "collections",
+      "title": "a aztfal is vorduth exactly when its duthnyr is one",
+      "statement": "x & x = x holds if and only if [x] contains x alone.",
+      "depends_on": [
+        "D1",
+        "D11",
+        "T4"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D1",
+            "text": "If x & x = x then {x} is already closed under &."
+          },
+          {
+            "cites": "T4",
+            "text": "So [x] = {x} and the duthnyr is one."
+          },
+          {
+            "cites": "D11",
+            "text": "Conversely a span of one object must contain x & x, which is then x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T7",
+      "kind": "theorem",
+      "key": "thm:reach_divides_size",
+      "theme": "collections",
+      "title": "the duthnyr divides the number of aztfals",
+      "statement": "For every aztfal x, the duthnyr of x divides 6.",
+      "depends_on": [
+        "D11",
+        "T4"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T4",
+            "text": "[x] is a vintpon collection."
+          },
+          {
+            "cites": "D11",
+            "text": "Its size is the duthnyr of x."
+          },
+          {
+            "cites": null,
+            "text": "The claim is that this size always divides 6."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T8",
+      "kind": "theorem",
+      "key": "thm:span_inside_core",
+      "theme": "operations",
+      "title": "the quilnak of a nakpyr aztfal stays in the nakpyr",
+      "statement": "If x lies in the nakpyr then every aztfal of [x] lies in the nakpyr.",
+      "depends_on": [
+        "D8",
+        "D6",
+        "T3"
+      ],
+      "layer": 6,
+      "chapter": 8,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every object of the core, then its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T3",
+            "text": "The nakpyr is vintpon."
+          },
+          {
+            "cites": "D8",
+            "text": "[x] is the smallest vintpon collection containing x."
+          },
+          {
+            "cites": null,
+            "text": "A smallest such collection sits inside any other, and the nakpyr is one."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T9",
+      "kind": "theorem",
+      "key": "thm:ridge_sealed",
+      "theme": "operations",
+      "title": "the iskopal is vintpon",
+      "statement": "If x and y are both vorduth then so is x & y.",
+      "depends_on": [
+        "D7",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "ridge": [
+            "korrhob",
+            "pyrnak",
+            "korrglim",
+            "lornjen",
+            "nakqen",
+            "aztclo"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair drawn from the ridge",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "Let x and y be vorduth."
+          },
+          {
+            "cites": "D1",
+            "text": "The claim asks whether (x & y) & (x & y) returns x & y."
+          },
+          {
+            "cites": null,
+            "text": "Whether it does is settled by running the operation table on every such pair."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T10",
+      "kind": "theorem",
+      "key": "thm:shadow_nested",
+      "theme": "relation",
+      "title": "tezmis are nested along the relation",
+      "statement": "If y lies in the tezmi of x, then the tezmi of y is contained in the tezmi of x.",
+      "depends_on": [
+        "D4",
+        "A9"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 216,
+          "domain": "every ordered triple",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D4",
+            "text": "Let y satisfy x << y and let z satisfy y << z."
+          },
+          {
+            "cites": "A9",
+            "text": "Transitivity gives x << z."
+          },
+          {
+            "cites": "D4",
+            "text": "So every member of the tezmi of y is a member of that of x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T11",
+      "kind": "theorem",
+      "key": "thm:floor_unique",
+      "theme": "relation",
+      "title": "there is at most one tarntez",
+      "statement": "No two distinct aztfals can both be tarntezs.",
+      "depends_on": [
+        "D9",
+        "A8"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "floors": [
+            "aztclo"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every candidate against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D9",
+            "text": "Let f and h both be floors."
+          },
+          {
+            "cites": "D9",
+            "text": "Then f << h, since h is any object, and h << f likewise."
+          },
+          {
+            "cites": "A8",
+            "text": "Antisymmetry forces f = h."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T12",
+      "kind": "theorem",
+      "key": "thm:shadow_compatible",
+      "theme": "relation",
+      "title": "the relation survives combination on the right",
+      "statement": "If x << y then (x & z) << (y & z) for every aztfal z.",
+      "depends_on": [
+        "D4",
+        "A10"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 216,
+          "domain": "every ordered triple",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D4",
+            "text": "Let y lie in the tezmi of x."
+          },
+          {
+            "cites": "A10",
+            "text": "Compatibility applies the operation to both sides at once."
+          },
+          {
+            "cites": null,
+            "text": "Nothing else is needed, since z was arbitrary."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T13",
+      "kind": "theorem",
+      "key": "thm:tight_empty",
+      "theme": "relation",
+      "title": "no grixespa pairs exist",
+      "statement": "No two distinct aztfals lie in each other's tezmi.",
+      "depends_on": [
+        "D13",
+        "A8"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "witness": {
+          "tight": []
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D13",
+            "text": "Suppose x and y form a tight pair."
+          },
+          {
+            "cites": "A8",
+            "text": "Antisymmetry then identifies x with y."
+          },
+          {
+            "cites": null,
+            "text": "So a tight pair of distinct objects cannot arise."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T14",
+      "kind": "theorem",
+      "key": "thm:core_is_everything",
+      "theme": "operations",
+      "title": "every aztfal lies in the nakpyr",
+      "statement": "Every pair of aztfals muxzels.",
+      "depends_on": [
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "The nakpyr is defined by muxzeling with everything."
+          },
+          {
+            "cites": "D2",
+            "text": "The claim is that x & y = y & x for every pair."
+          },
+          {
+            "cites": null,
+            "text": "That is settled by scanning the table for a pair that disagrees."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T15",
+      "kind": "theorem",
+      "key": "thm:ridge_is_everything",
+      "theme": "operations",
+      "title": "every aztfal is vorduth",
+      "statement": "x & x = x for every aztfal x.",
+      "depends_on": [
+        "D7"
+      ],
+      "layer": 5,
+      "chapter": 7,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 6,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D1",
+            "text": "Being vorduth is the condition x & x = x."
+          },
+          {
+            "cites": "D7",
+            "text": "The claim is that the iskopal is the whole system."
+          },
+          {
+            "cites": null,
+            "text": "Only the diagonal of the table is involved."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R4",
+      "kind": "refutation",
+      "key": "thm:some_object_spans_all",
+      "theme": "collections",
+      "title": "where some aztfal reaches every other breaks down",
+      "statement": "It is not the case that: There is a aztfal whose quilnak is the whole system.",
+      "depends_on": [
+        "D8",
+        "D11"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": {
+          "largest_span": 1,
+          "size": 6
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 6,
+          "domain": "every object and its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case largest_span = 1, size = 6, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R5",
+      "kind": "refutation",
+      "key": "thm:relation_symmetric",
+      "theme": "relation",
+      "title": "where the relation reads the same in both directions breaks down",
+      "statement": "It is not the case that: If x << y then y << x.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "witness": {
+          "x": "pyrnak",
+          "y": "korrhob"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 36,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = pyrnak, y = korrhob, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R6",
+      "kind": "refutation",
+      "key": "thm:anchor_is_absorbing",
+      "theme": "neutral",
+      "title": "where the nyrvor swallows everything breaks down",
+      "statement": "It is not the case that: e & x equals the nyrvor for every aztfal x.",
+      "depends_on": [
+        "D5"
+      ],
+      "layer": 4,
+      "chapter": 5,
+      "payload": {
+        "witness": {
+          "anchor": "korrhob",
+          "x": "pyrnak",
+          "value": "pyrnak"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 6,
+          "domain": "the anchor against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case anchor = korrhob, x = pyrnak, value = pyrnak, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "S1",
+      "to": "S2"
+    },
+    {
+      "from": "S2",
+      "to": "A1"
+    },
+    {
+      "from": "S2",
+      "to": "A2"
+    },
+    {
+      "from": "S2",
+      "to": "A3"
+    },
+    {
+      "from": "S2",
+      "to": "A4"
+    },
+    {
+      "from": "S2",
+      "to": "A5"
+    },
+    {
+      "from": "S2",
+      "to": "A6"
+    },
+    {
+      "from": "S2",
+      "to": "A7"
+    },
+    {
+      "from": "S2",
+      "to": "A8"
+    },
+    {
+      "from": "S2",
+      "to": "A9"
+    },
+    {
+      "from": "S2",
+      "to": "A10"
+    },
+    {
+      "from": "S2",
+      "to": "R1"
+    },
+    {
+      "from": "S2",
+      "to": "R2"
+    },
+    {
+      "from": "S2",
+      "to": "R3"
+    },
+    {
+      "from": "A1",
+      "to": "D1"
+    },
+    {
+      "from": "A1",
+      "to": "D2"
+    },
+    {
+      "from": "A1",
+      "to": "D3"
+    },
+    {
+      "from": "S2",
+      "to": "D4"
+    },
+    {
+      "from": "A4",
+      "to": "D5"
+    },
+    {
+      "from": "D2",
+      "to": "D6"
+    },
+    {
+      "from": "D1",
+      "to": "D7"
+    },
+    {
+      "from": "D3",
+      "to": "D8"
+    },
+    {
+      "from": "D4",
+      "to": "D9"
+    },
+    {
+      "from": "D5",
+      "to": "D10"
+    },
+    {
+      "from": "D1",
+      "to": "D10"
+    },
+    {
+      "from": "D8",
+      "to": "D11"
+    },
+    {
+      "from": "D11",
+      "to": "D12"
+    },
+    {
+      "from": "D4",
+      "to": "D13"
+    },
+    {
+      "from": "D5",
+      "to": "T1"
+    },
+    {
+      "from": "A4",
+      "to": "T1"
+    },
+    {
+      "from": "D5",
+      "to": "T2"
+    },
+    {
+      "from": "D6",
+      "to": "T2"
+    },
+    {
+      "from": "D6",
+      "to": "T3"
+    },
+    {
+      "from": "D3",
+      "to": "T3"
+    },
+    {
+      "from": "A2",
+      "to": "T3"
+    },
+    {
+      "from": "D8",
+      "to": "T4"
+    },
+    {
+      "from": "D3",
+      "to": "T4"
+    },
+    {
+      "from": "D8",
+      "to": "T5"
+    },
+    {
+      "from": "T4",
+      "to": "T5"
+    },
+    {
+      "from": "D1",
+      "to": "T6"
+    },
+    {
+      "from": "D11",
+      "to": "T6"
+    },
+    {
+      "from": "T4",
+      "to": "T6"
+    },
+    {
+      "from": "D11",
+      "to": "T7"
+    },
+    {
+      "from": "T4",
+      "to": "T7"
+    },
+    {
+      "from": "D8",
+      "to": "T8"
+    },
+    {
+      "from": "D6",
+      "to": "T8"
+    },
+    {
+      "from": "T3",
+      "to": "T8"
+    },
+    {
+      "from": "D7",
+      "to": "T9"
+    },
+    {
+      "from": "D3",
+      "to": "T9"
+    },
+    {
+      "from": "D4",
+      "to": "T10"
+    },
+    {
+      "from": "A9",
+      "to": "T10"
+    },
+    {
+      "from": "D9",
+      "to": "T11"
+    },
+    {
+      "from": "A8",
+      "to": "T11"
+    },
+    {
+      "from": "D4",
+      "to": "T12"
+    },
+    {
+      "from": "A10",
+      "to": "T12"
+    },
+    {
+      "from": "D13",
+      "to": "T13"
+    },
+    {
+      "from": "A8",
+      "to": "T13"
+    },
+    {
+      "from": "D6",
+      "to": "T14"
+    },
+    {
+      "from": "D7",
+      "to": "T15"
+    },
+    {
+      "from": "D8",
+      "to": "R4"
+    },
+    {
+      "from": "D11",
+      "to": "R4"
+    },
+    {
+      "from": "D4",
+      "to": "R5"
+    },
+    {
+      "from": "D5",
+      "to": "R6"
+    }
+  ],
+  "depth": 6,
+  "counts": {
+    "signature": 2,
+    "axiom": 10,
+    "definition": 13,
+    "theorem": 15,
+    "refutation": 6
+  }
+}

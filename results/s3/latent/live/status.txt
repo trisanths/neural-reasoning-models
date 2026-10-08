@@ -1,0 +1,45 @@
+== 2026-08-29T04:39:03Z
+dsweep   step 4450 loss 0.5082 R 2 peak 28.21 secs 7801.0
+esweep   ( -c Expecting value: line 1 column 2 (char 1) )
+w_a      stopped 
+w_b      stopped [b] finished
+
+w_c      stopped [c] finished
+
+w_d      stopped [d] finished
+
+-- results
+215186 results/latent/e_s1.json
+42495 results/latent/early_1000.json
+208626 results/latent/m_direct_s0.json
+208950 results/latent/m_direct_s1.json
+211272 results/latent/m_opgraph_s0.json
+211347 results/latent/m_opgraph_s1.json
+54034 results/latent/m_trace_s0.json
+83125 results/latent/mb_direct_s0.json
+83337 results/latent/mb_direct_s1.json
+84019 results/latent/mb_opgraph_s0.json
+84059 results/latent/mb_opgraph_s1.json
+48819 results/latent/plan_nocur.json
+10807 results/latent/plan_nocur.pt.log.json
+718 results/latent/verify.json
+-- done markers
+results/latent/bench.done results/latent/check_e.done results/latent/e_ind_s0.done results/latent/e_r0_s0.done results/latent/e_r0_s1.done results/latent/e_s0.done results/latent/e_s1.done results/latent/early_1000.done results/latent/m_direct_s0.done results/latent/m_direct_s1.done results/latent/m_opgraph_s0.done results/latent/m_opgraph_s1.done results/latent/m_trace_s0.done results/latent/mb_direct_s0.done results/latent/mb_direct_s1.done results/latent/mb_opgraph_s0.done results/latent/mb_opgraph_s1.done results/latent/verify_stream.done 
+-- gpus
+0, 78 %, 38999 MiB|1, 100 %, 30533 MiB|2, 100 %, 30447 MiB|3, 88 %, 46629 MiB|4, 100 %, 30253 MiB|5, 0 %, 0 MiB|6, 11 %, 24631 MiB|7, 100 %, 50411 MiB|
+-- training logs
+{"step": 4450, "loss": 0.5081599801778793, "n_latent": 2, "induction": false, "lr": 8.594975296149074e-06, "tokens": 84591144, "supervised": 596559, "fwd_passes": 154440, "fwd_positions": 734804024, "reason_passes": 136640, "peak_gib": 28.21, "secs": 7801.0}
+[done] latent_plan -> runs/latent/esweep.pt passes=39499 positions=147215904 secs=2969.9
+-- w_a
+-- w_b
+[b] finished
+-- w_c
+[done] -> results/latent/bench_sweep.json
+[c] finished
+-- w_d
+[done] -> results/latent/m_trace_s0.json
+[d] finished
+-- chain
+[stage2] launched
+[b] gpu 5
+[stage2] launched

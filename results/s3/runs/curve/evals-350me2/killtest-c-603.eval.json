@@ -1,0 +1,4739 @@
+{
+ "meta": {
+  "run_dir": "/home/ec2-user/eval-e2/ckpts/killtest-c-603",
+  "checkpoint": "/home/ec2-user/eval-e2/ckpts/killtest-c-603/ckpt-0026700.pt",
+  "step": 26700,
+  "regime": "c",
+  "train_seed": 603,
+  "model_config": {
+   "d_ff": 2816,
+   "d_model": 1024,
+   "max_seq_len": 4096,
+   "n_heads": 16,
+   "n_layers": 24,
+   "norm_eps": 1e-05,
+   "rope_theta": 10000.0,
+   "vocab_size": 32768
+  },
+  "device": "cuda",
+  "battery_args": {
+   "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+   "heldout": "/home/ec2-user/data/regime_c/heldout.jsonl",
+   "out": "/home/ec2-user/eval-e2/out",
+   "device": "cuda",
+   "step": null,
+   "naturalized_n": 0,
+   "probes_n": 0,
+   "heldout_episodes": 500,
+   "noise_episodes": 200,
+   "noise_rates": [
+    0.0,
+    0.1,
+    0.25,
+    0.5
+   ],
+   "max_rounds": 6,
+   "nat_max_new": 32,
+   "heldout_max_new": 64,
+   "noise_max_new": 128,
+   "seed": 0,
+   "components": "naturalized,heldout,noise",
+   "skip_existing": false
+  }
+ },
+ "naturalized": {
+  "clean": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.028,
+   "contains": 0.028,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.04,
+     "contains": 0.04
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.06,
+     "contains": 0.06
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "4.2"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "The Office estimates the change will require four additional field inspectors and raise annual program costs by 410,000 dollars, to be recovered through an increase in the per"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Lost"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "2,200"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "Norgard"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "Pesgri"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "TRARBRI"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "Diex"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1,520"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Tital"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1.2"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,000,001"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "LUXKLU"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Larkfield"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "Semiannual progress report"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "Fork"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "99,000"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "Metallurgical examination"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vantage"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "Brusto"
+    },
+    {
+     "id": "filing-025",
+     "em": true,
+     "contains": true,
+     "pred": "176"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "Pesgri"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "Toward"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "Findings"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "to 1"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdru"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "Stoxdre"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "212,000"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "harvest excludes"
+    },
+    {
+     "id": "filing-038",
+     "em": true,
+     "contains": true,
+     "pred": "1,890"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "Trolda"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "Franchise renewal application"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "Notification"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "Sesvur"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "2,900"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Draplur"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "28"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Die"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "DILTRI"
+    },
+    {
+     "id": "letter-008",
+     "em": true,
+     "contains": true,
+     "pred": "1,204,"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "Quayle"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Sanna"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Dearender without its story"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "Vera"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Standish"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Miri"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "Fenwick"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Ms."
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Stores"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Mr"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Nephew"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "Drasgri"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "Fifim"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "Stairs"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Sigrid"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "29"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-037",
+     "em": true,
+     "contains": true,
+     "pred": "61"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "Dearariat"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "5,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu Vrolda"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "Sofie"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "Drasgri"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "190,"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "Fairhurst"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Vibeke"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "Dearroller"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "Drill"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "Bandwidth throttling uses"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "Distel"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "Become"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "SELKLU"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "Brande"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bed"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "Raise"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "Perform"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "90"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "Setra"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "Fill"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "Peel"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "STOXKLU"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "Rigging guide"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "Bexbex"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "Dilution"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "Lozu"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Grower"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "PELKLU"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "Fitra"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "Darkroom guide"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "DANDE"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "Run"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "Stake"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "Millward scans bound volumes face up in a Vrolda?"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "Mill"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "Trumdre"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "Foxvram"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "LUXKLU"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "Wind"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "Rotate"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bits and punties"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "1.8"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "1,140"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Stonvox Vrelda"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "Trumdre"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "Fenwick High robotics"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Fares"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Girbex"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Nearby runner finished third after losing a shoe at the second water station and stopping to relace it?"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "Brame"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "BRILKLU"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "Stomtro"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Plansi"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vasquez"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "Bell"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "1.4"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "BRIMKLU"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Truvox Vrolda"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdri"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "480,000"
+    },
+    {
+     "id": "news-023",
+     "em": true,
+     "contains": true,
+     "pred": "1,300"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "Vrorta"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "1,600"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "2,100"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Divers"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "Rachlin"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "1.1"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.9"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "2,920"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Trumdre"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "RUXKLU"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo Vrolda"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "Piotrowski"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Tansy"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "Defer"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "Trevu"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "20,000"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "Verbatim"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Delacroix"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "TOPLON"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Bellen"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "Sorel"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "25"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "Fennick events"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "Golfe"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "Pell"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "Drunte"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "Moved"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "Vossu"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Bidrun"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,100"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "Danby"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Satur"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "Transcript"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "Vossi"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdru"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vosku"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "Lamb"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "Amaraolent"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "Mondas"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bucklerstaff"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "Transcript"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "Pell"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-050",
+     "em": true,
+     "contains": true,
+     "pred": "4,100"
+    }
+   ]
+  },
+  "contradiction": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.028,
+   "contains": 0.028,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.04,
+     "contains": 0.04
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.06,
+     "contains": 0.06
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "4.2"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "The Office estimates the change will require four additional field inspectors and raise annual program costs by 410,000 dollars, to be recovered through an increase in the per"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Lost"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "2,200"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "Norgard"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "Pesgri"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "Diex"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "1,520"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Tital"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "1.2"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,000,001"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "LUXKLU"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "Larkfield"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "Semiannual progress report"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "Fork"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "99,000"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "Metallurgical examination"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vantage"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "Brusto"
+    },
+    {
+     "id": "filing-025",
+     "em": true,
+     "contains": true,
+     "pred": "176"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "Pesgri"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "Toward"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "Findings"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "to 1"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdru"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "Stoxdre"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "212,000"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "harvest excludes"
+    },
+    {
+     "id": "filing-038",
+     "em": true,
+     "contains": true,
+     "pred": "1,890"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "Trolda"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "1,150"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "Franchise renewal application"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "Notification"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "Sesvur"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "2,900"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "28"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Die"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "DILTRI"
+    },
+    {
+     "id": "letter-008",
+     "em": true,
+     "contains": true,
+     "pred": "1,204,"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "Quayle"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Sanna"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Dearender without its story"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "Vera"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Standish"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Miri"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "letter-019",
+     "em": true,
+     "contains": true,
+     "pred": "380"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "Fenwick"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Ms."
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Stores"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Mr"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Nephew"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "DRIMKLU"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "Fifim"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "Stairs"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Sigrid"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "29"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "letter-037",
+     "em": true,
+     "contains": true,
+     "pred": "61"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "Dearariat"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "5,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "Karin"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu Vrolda"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "Sofie"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "Drasgri"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "190,"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "Fairhurst"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Vibeke"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "Dearroller"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "Drill"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "Bandwidth throttling uses"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "Distel"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "Become"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "SELKLU"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "Brande"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bed"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "Raise"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "Perform"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "90"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "Setra"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "Fill"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "Peel"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "STOXKLU"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "Rigging guide"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "Bexbex"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "Dilution"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "Lozu"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Grower"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "PELKLU"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "Fitra"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "Darkroom guide"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "DANDE"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "Run"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "Stake"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "Millward scans bound"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "Mill"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "Trumdre"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "Foxvram"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "LUXKLU"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "Wind"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "Rotate"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bits and punties"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "Lusdri"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "1.8"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "1,140"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Stonvox Vrelda"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "Trumdre"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "Fenwick High robotics"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Fares"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Girbex"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Nearby runner finished third after losing a shoe at the second water station and stopping to relace it?"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "Brame"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "BRILKLU"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "Stomtro"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "Plansi"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vasquez"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "Bell"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "1.4"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "BRIMKLU"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Truvox Vrolda"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdri"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "480,000"
+    },
+    {
+     "id": "news-023",
+     "em": true,
+     "contains": true,
+     "pred": "1,300"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "Vrorta"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "1,600"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "2,100"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Divers"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "Rachlin"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "1.1"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.9"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "2,920"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Trumdre"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "RUXKLU"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo Vrolda"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "1,000"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "Piotrowski"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Tansy"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "Defer"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "Trevu"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "20,000"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "Verbatim"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Delacroix"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "TOPLON"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Bellen"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "Sorel"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "25"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "Klelvrim"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "Fennick events"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "Golfe"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "Pell"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "Drunte"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "Moved"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "Vossu"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Bidrun"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,100"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "2,"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "Danby"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Satur"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "Transcript"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "Vossi"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "Bresdru"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vosku"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "Bramdru"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "Amaraolent"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "Mondas"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bucket"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "Transcript"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "Pell"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-050",
+     "em": true,
+     "contains": true,
+     "pred": "4,100"
+    }
+   ],
+   "injection_rate": 0.15,
+   "injection_seed": 20260824,
+   "n_contradicted": 36
+  },
+  "ocr": {
+   "suite": "naturalized_reading",
+   "version": "DRAFT-1",
+   "n": 250,
+   "em": 0.008,
+   "contains": 0.008,
+   "per_register": {
+    "filing": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "letter": {
+     "n": 50,
+     "em": 0.02,
+     "contains": 0.02
+    },
+    "manual": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "news": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    },
+    "transcript": {
+     "n": 50,
+     "em": 0.0,
+     "contains": 0.0
+    }
+   },
+   "per_item": [
+    {
+     "id": "filing-001",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "filing-002",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-003",
+     "em": false,
+     "contains": false,
+     "pred": "Nolice"
+    },
+    {
+     "id": "filing-004",
+     "em": false,
+     "contains": false,
+     "pred": "Lost"
+    },
+    {
+     "id": "filing-005",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "filing-006",
+     "em": false,
+     "contains": false,
+     "pred": "Norgard"
+    },
+    {
+     "id": "filing-007",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-008",
+     "em": false,
+     "contains": false,
+     "pred": "TRARBRI"
+    },
+    {
+     "id": "filing-009",
+     "em": false,
+     "contains": false,
+     "pred": "Tbezex"
+    },
+    {
+     "id": "filing-010",
+     "em": false,
+     "contains": false,
+     "pred": "Tebru"
+    },
+    {
+     "id": "filing-011",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "filing-012",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "filing-013",
+     "em": false,
+     "contains": false,
+     "pred": "Renevval is requested"
+    },
+    {
+     "id": "filing-014",
+     "em": false,
+     "contains": false,
+     "pred": "0.2"
+    },
+    {
+     "id": "filing-015",
+     "em": false,
+     "contains": false,
+     "pred": "0,"
+    },
+    {
+     "id": "filing-016",
+     "em": false,
+     "contains": false,
+     "pred": "Griplux"
+    },
+    {
+     "id": "filing-017",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-018",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "filing-019",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "filing-020",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-021",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "filing-022",
+     "em": false,
+     "contains": false,
+     "pred": "Metallurgical examinatioriof"
+    },
+    {
+     "id": "filing-023",
+     "em": false,
+     "contains": false,
+     "pred": "Vantage"
+    },
+    {
+     "id": "filing-024",
+     "em": false,
+     "contains": false,
+     "pred": "TRIXKLU"
+    },
+    {
+     "id": "filing-025",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "filing-026",
+     "em": false,
+     "contains": false,
+     "pred": "Pesvur"
+    },
+    {
+     "id": "filing-027",
+     "em": false,
+     "contains": false,
+     "pred": "Trumtro"
+    },
+    {
+     "id": "filing-028",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "filing-029",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "filing-030",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "filing-031",
+     "em": false,
+     "contains": false,
+     "pred": "Findings"
+    },
+    {
+     "id": "filing-032",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "filing-033",
+     "em": false,
+     "contains": false,
+     "pred": "Stal1on"
+    },
+    {
+     "id": "filing-034",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "filing-035",
+     "em": false,
+     "contains": false,
+     "pred": "VREXKLU"
+    },
+    {
+     "id": "filing-036",
+     "em": false,
+     "contains": false,
+     "pred": "2,040"
+    },
+    {
+     "id": "filing-037",
+     "em": false,
+     "contains": false,
+     "pred": "harvest excludez"
+    },
+    {
+     "id": "filing-038",
+     "em": true,
+     "contains": true,
+     "pred": "1,890"
+    },
+    {
+     "id": "filing-039",
+     "em": false,
+     "contains": false,
+     "pred": "1.3"
+    },
+    {
+     "id": "filing-040",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivro"
+    },
+    {
+     "id": "filing-041",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "filing-042",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "filing-043",
+     "em": false,
+     "contains": false,
+     "pred": "1,150"
+    },
+    {
+     "id": "filing-044",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "filing-045",
+     "em": false,
+     "contains": false,
+     "pred": "GREXKLU"
+    },
+    {
+     "id": "filing-046",
+     "em": false,
+     "contains": false,
+     "pred": "FERBRI"
+    },
+    {
+     "id": "filing-047",
+     "em": false,
+     "contains": false,
+     "pred": "Notification"
+    },
+    {
+     "id": "filing-048",
+     "em": false,
+     "contains": false,
+     "pred": "LERKLU"
+    },
+    {
+     "id": "filing-049",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "filing-050",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-001",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-002",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "letter-003",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "letter-004",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-005",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "letter-006",
+     "em": false,
+     "contains": false,
+     "pred": "Duplol"
+    },
+    {
+     "id": "letter-007",
+     "em": false,
+     "contains": false,
+     "pred": "DILTUN"
+    },
+    {
+     "id": "letter-008",
+     "em": true,
+     "contains": true,
+     "pred": "1,204,"
+    },
+    {
+     "id": "letter-009",
+     "em": false,
+     "contains": false,
+     "pred": "Quayle"
+    },
+    {
+     "id": "letter-010",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "letter-011",
+     "em": false,
+     "contains": false,
+     "pred": "Dean Sanna"
+    },
+    {
+     "id": "letter-012",
+     "em": false,
+     "contains": false,
+     "pred": "Drasdre"
+    },
+    {
+     "id": "letter-013",
+     "em": false,
+     "contains": false,
+     "pred": "Dovru"
+    },
+    {
+     "id": "letter-014",
+     "em": false,
+     "contains": false,
+     "pred": "Standish"
+    },
+    {
+     "id": "letter-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-016",
+     "em": false,
+     "contains": false,
+     "pred": "Dadram"
+    },
+    {
+     "id": "letter-017",
+     "em": false,
+     "contains": false,
+     "pred": "Miri"
+    },
+    {
+     "id": "letter-018",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "letter-019",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-020",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "letter-021",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-022",
+     "em": false,
+     "contains": false,
+     "pred": "Lomtro"
+    },
+    {
+     "id": "letter-023",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Tarni"
+    },
+    {
+     "id": "letter-024",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Mr"
+    },
+    {
+     "id": "letter-025",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "letter-026",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Nephew"
+    },
+    {
+     "id": "letter-027",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "letter-028",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-029",
+     "em": false,
+     "contains": false,
+     "pred": "Dear"
+    },
+    {
+     "id": "letter-030",
+     "em": false,
+     "contains": false,
+     "pred": "Drumen"
+    },
+    {
+     "id": "letter-031",
+     "em": false,
+     "contains": false,
+     "pred": "none of the"
+    },
+    {
+     "id": "letter-032",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-033",
+     "em": false,
+     "contains": false,
+     "pred": "Dear Sigrid"
+    },
+    {
+     "id": "letter-034",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "letter-035",
+     "em": false,
+     "contains": false,
+     "pred": "11"
+    },
+    {
+     "id": "letter-036",
+     "em": false,
+     "contains": false,
+     "pred": "Briidence"
+    },
+    {
+     "id": "letter-037",
+     "em": false,
+     "contains": false,
+     "pred": "56"
+    },
+    {
+     "id": "letter-038",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "letter-039",
+     "em": false,
+     "contains": false,
+     "pred": "5,"
+    },
+    {
+     "id": "letter-040",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "letter-041",
+     "em": false,
+     "contains": false,
+     "pred": "Durvur"
+    },
+    {
+     "id": "letter-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu Vrolda"
+    },
+    {
+     "id": "letter-043",
+     "em": false,
+     "contains": false,
+     "pred": "Sofie"
+    },
+    {
+     "id": "letter-044",
+     "em": false,
+     "contains": false,
+     "pred": "Drasgri"
+    },
+    {
+     "id": "letter-045",
+     "em": false,
+     "contains": false,
+     "pred": "Tlie countyllbrary"
+    },
+    {
+     "id": "letter-046",
+     "em": false,
+     "contains": false,
+     "pred": "Groldo"
+    },
+    {
+     "id": "letter-047",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "letter-048",
+     "em": false,
+     "contains": false,
+     "pred": "Vibeke"
+    },
+    {
+     "id": "letter-049",
+     "em": false,
+     "contains": false,
+     "pred": "Dearboard"
+    },
+    {
+     "id": "letter-050",
+     "em": false,
+     "contains": false,
+     "pred": "Dimtro"
+    },
+    {
+     "id": "manual-001",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "manual-002",
+     "em": false,
+     "contains": false,
+     "pred": "Tesf"
+    },
+    {
+     "id": "manual-003",
+     "em": false,
+     "contains": false,
+     "pred": "Plelgri"
+    },
+    {
+     "id": "manual-004",
+     "em": false,
+     "contains": false,
+     "pred": "Bandwidtb throttliny uzes the keywcrd ceiling with a value in megabits per second; ceiling 80 caps tronsfer"
+    },
+    {
+     "id": "manual-005",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-006",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-007",
+     "em": false,
+     "contains": false,
+     "pred": "BRASKLU"
+    },
+    {
+     "id": "manual-008",
+     "em": false,
+     "contains": false,
+     "pred": "Lenvur"
+    },
+    {
+     "id": "manual-009",
+     "em": false,
+     "contains": false,
+     "pred": "BRILKLU"
+    },
+    {
+     "id": "manual-010",
+     "em": false,
+     "contains": false,
+     "pred": "Bed"
+    },
+    {
+     "id": "manual-011",
+     "em": false,
+     "contains": false,
+     "pred": "VOXKLU"
+    },
+    {
+     "id": "manual-012",
+     "em": false,
+     "contains": false,
+     "pred": "Perfor"
+    },
+    {
+     "id": "manual-013",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-014",
+     "em": false,
+     "contains": false,
+     "pred": "90"
+    },
+    {
+     "id": "manual-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-016",
+     "em": false,
+     "contains": false,
+     "pred": "Lheel"
+    },
+    {
+     "id": "manual-017",
+     "em": false,
+     "contains": false,
+     "pred": "F1ll"
+    },
+    {
+     "id": "manual-018",
+     "em": false,
+     "contains": false,
+     "pred": "Peel"
+    },
+    {
+     "id": "manual-019",
+     "em": false,
+     "contains": false,
+     "pred": "STAXKLU"
+    },
+    {
+     "id": "manual-020",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-021",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "manual-022",
+     "em": false,
+     "contains": false,
+     "pred": "Rigging guide"
+    },
+    {
+     "id": "manual-023",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-024",
+     "em": false,
+     "contains": false,
+     "pred": "Bexbex"
+    },
+    {
+     "id": "manual-025",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-026",
+     "em": false,
+     "contains": false,
+     "pred": "Lomdre"
+    },
+    {
+     "id": "manual-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-028",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-029",
+     "em": false,
+     "contains": false,
+     "pred": "Grertro"
+    },
+    {
+     "id": "manual-030",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "manual-031",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "manual-032",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "manual-033",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-034",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "manual-035",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-036",
+     "em": false,
+     "contains": false,
+     "pred": "check"
+    },
+    {
+     "id": "manual-037",
+     "em": false,
+     "contains": false,
+     "pred": "Stake"
+    },
+    {
+     "id": "manual-038",
+     "em": false,
+     "contains": false,
+     "pred": "Millur"
+    },
+    {
+     "id": "manual-039",
+     "em": false,
+     "contains": false,
+     "pred": "RIever"
+    },
+    {
+     "id": "manual-040",
+     "em": false,
+     "contains": false,
+     "pred": "Treklo"
+    },
+    {
+     "id": "manual-041",
+     "em": false,
+     "contains": false,
+     "pred": "Ligbl"
+    },
+    {
+     "id": "manual-042",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-043",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-044",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-045",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "manual-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bits and pvnties"
+    },
+    {
+     "id": "manual-047",
+     "em": false,
+     "contains": false,
+     "pred": "PLAXKLU"
+    },
+    {
+     "id": "manual-048",
+     "em": false,
+     "contains": false,
+     "pred": "GRIXKLU"
+    },
+    {
+     "id": "manual-049",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "manual-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-001",
+     "em": false,
+     "contains": false,
+     "pred": "1.8"
+    },
+    {
+     "id": "news-002",
+     "em": false,
+     "contains": false,
+     "pred": "Gulted"
+    },
+    {
+     "id": "news-003",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-004",
+     "em": false,
+     "contains": false,
+     "pred": "Fbe mozf dchated feature"
+    },
+    {
+     "id": "news-005",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-006",
+     "em": false,
+     "contains": false,
+     "pred": "TITRU"
+    },
+    {
+     "id": "news-007",
+     "em": false,
+     "contains": false,
+     "pred": "Fares"
+    },
+    {
+     "id": "news-008",
+     "em": false,
+     "contains": false,
+     "pred": "Bunstus"
+    },
+    {
+     "id": "news-009",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-010",
+     "em": false,
+     "contains": false,
+     "pred": "Near Naxdra"
+    },
+    {
+     "id": "news-011",
+     "em": false,
+     "contains": false,
+     "pred": "Tbe"
+    },
+    {
+     "id": "news-012",
+     "em": false,
+     "contains": false,
+     "pred": "BREXKLU"
+    },
+    {
+     "id": "news-013",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-014",
+     "em": false,
+     "contains": false,
+     "pred": "PLEXKLU"
+    },
+    {
+     "id": "news-015",
+     "em": false,
+     "contains": false,
+     "pred": "Vorkers"
+    },
+    {
+     "id": "news-016",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-017",
+     "em": false,
+     "contains": false,
+     "pred": "1.4"
+    },
+    {
+     "id": "news-018",
+     "em": false,
+     "contains": false,
+     "pred": "Lhe board"
+    },
+    {
+     "id": "news-019",
+     "em": false,
+     "contains": false,
+     "pred": "1,900"
+    },
+    {
+     "id": "news-020",
+     "em": false,
+     "contains": false,
+     "pred": "Trunte Vrolda"
+    },
+    {
+     "id": "news-021",
+     "em": false,
+     "contains": false,
+     "pred": "Lexdra"
+    },
+    {
+     "id": "news-022",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-023",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-024",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-025",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "news-026",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-027",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-028",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "news-029",
+     "em": false,
+     "contains": false,
+     "pred": "Grolda"
+    },
+    {
+     "id": "news-030",
+     "em": false,
+     "contains": false,
+     "pred": "GREXKLU"
+    },
+    {
+     "id": "news-031",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "news-032",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-033",
+     "em": false,
+     "contains": false,
+     "pred": "Fhe"
+    },
+    {
+     "id": "news-034",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-035",
+     "em": false,
+     "contains": false,
+     "pred": "1,100"
+    },
+    {
+     "id": "news-036",
+     "em": false,
+     "contains": false,
+     "pred": "Divers"
+    },
+    {
+     "id": "news-037",
+     "em": false,
+     "contains": false,
+     "pred": "1,"
+    },
+    {
+     "id": "news-038",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-039",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-040",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-041",
+     "em": false,
+     "contains": false,
+     "pred": "1,400"
+    },
+    {
+     "id": "news-042",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-043",
+     "em": false,
+     "contains": false,
+     "pred": "Trelda"
+    },
+    {
+     "id": "news-044",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "news-045",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "news-046",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "news-047",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivu Vrolda"
+    },
+    {
+     "id": "news-048",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "news-049",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "news-050",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-001",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-002",
+     "em": false,
+     "contains": false,
+     "pred": "Tranfal"
+    },
+    {
+     "id": "transcript-003",
+     "em": false,
+     "contains": false,
+     "pred": "1,400"
+    },
+    {
+     "id": "transcript-004",
+     "em": false,
+     "contains": false,
+     "pred": "Fenwick haz moved"
+    },
+    {
+     "id": "transcript-005",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "transcript-006",
+     "em": false,
+     "contains": false,
+     "pred": "Gramtro"
+    },
+    {
+     "id": "transcript-007",
+     "em": false,
+     "contains": false,
+     "pred": "4"
+    },
+    {
+     "id": "transcript-008",
+     "em": false,
+     "contains": false,
+     "pred": "Vasgil"
+    },
+    {
+     "id": "transcript-009",
+     "em": false,
+     "contains": false,
+     "pred": "Delao"
+    },
+    {
+     "id": "transcript-010",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-011",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-012",
+     "em": false,
+     "contains": false,
+     "pred": "Sevon"
+    },
+    {
+     "id": "transcript-013",
+     "em": false,
+     "contains": false,
+     "pred": "Trolda"
+    },
+    {
+     "id": "transcript-014",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-015",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-016",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-017",
+     "em": false,
+     "contains": false,
+     "pred": "Brasser"
+    },
+    {
+     "id": "transcript-018",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-019",
+     "em": false,
+     "contains": false,
+     "pred": "Pitro"
+    },
+    {
+     "id": "transcript-020",
+     "em": false,
+     "contains": false,
+     "pred": "Lieber"
+    },
+    {
+     "id": "transcript-021",
+     "em": false,
+     "contains": false,
+     "pred": "25"
+    },
+    {
+     "id": "transcript-022",
+     "em": false,
+     "contains": false,
+     "pred": "Klelvram"
+    },
+    {
+     "id": "transcript-023",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-024",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-025",
+     "em": false,
+     "contains": false,
+     "pred": "Pell"
+    },
+    {
+     "id": "transcript-026",
+     "em": false,
+     "contains": false,
+     "pred": "BRIXKLU"
+    },
+    {
+     "id": "transcript-027",
+     "em": false,
+     "contains": false,
+     "pred": "1"
+    },
+    {
+     "id": "transcript-028",
+     "em": false,
+     "contains": false,
+     "pred": "Moved"
+    },
+    {
+     "id": "transcript-029",
+     "em": false,
+     "contains": false,
+     "pred": "Dovle"
+    },
+    {
+     "id": "transcript-030",
+     "em": false,
+     "contains": false,
+     "pred": "99"
+    },
+    {
+     "id": "transcript-031",
+     "em": false,
+     "contains": false,
+     "pred": "Bidwell"
+    },
+    {
+     "id": "transcript-032",
+     "em": false,
+     "contains": false,
+     "pred": "2,1"
+    },
+    {
+     "id": "transcript-033",
+     "em": false,
+     "contains": false,
+     "pred": "Tronscript"
+    },
+    {
+     "id": "transcript-034",
+     "em": false,
+     "contains": false,
+     "pred": "Danby"
+    },
+    {
+     "id": "transcript-035",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "transcript-036",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-037",
+     "em": false,
+     "contains": false,
+     "pred": "3"
+    },
+    {
+     "id": "transcript-038",
+     "em": false,
+     "contains": false,
+     "pred": "Miriutes"
+    },
+    {
+     "id": "transcript-039",
+     "em": false,
+     "contains": false,
+     "pred": "KLUXKLU"
+    },
+    {
+     "id": "transcript-040",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    },
+    {
+     "id": "transcript-041",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-042",
+     "em": false,
+     "contains": false,
+     "pred": "Vosku"
+    },
+    {
+     "id": "transcript-043",
+     "em": false,
+     "contains": false,
+     "pred": "Klelgri"
+    },
+    {
+     "id": "transcript-044",
+     "em": false,
+     "contains": false,
+     "pred": "0"
+    },
+    {
+     "id": "transcript-045",
+     "em": false,
+     "contains": false,
+     "pred": "Vrivo"
+    },
+    {
+     "id": "transcript-046",
+     "em": false,
+     "contains": false,
+     "pred": "Bickenstaff"
+    },
+    {
+     "id": "transcript-047",
+     "em": false,
+     "contains": false,
+     "pred": "2"
+    },
+    {
+     "id": "transcript-048",
+     "em": false,
+     "contains": false,
+     "pred": "Pell"
+    },
+    {
+     "id": "transcript-049",
+     "em": false,
+     "contains": false,
+     "pred": "Laughter"
+    },
+    {
+     "id": "transcript-050",
+     "em": false,
+     "contains": false,
+     "pred": "5"
+    }
+   ],
+   "ocr_rate": 0.05,
+   "ocr_seed": 20260825
+  },
+  "elicitation": "episode_trace"
+ },
+ "heldout": {
+  "suite": "heldout_worlds",
+  "n_episodes": 500,
+  "n_questions": 2314,
+  "accuracy": 0.8747,
+  "chance": 0.3101,
+  "per_domain": {
+   "corporate": {
+    "n": 698,
+    "correct": 693,
+    "accuracy": 0.9928
+   },
+   "regulatory": {
+    "n": 556,
+    "correct": 382,
+    "accuracy": 0.6871
+   },
+   "logistics": {
+    "n": 499,
+    "correct": 416,
+    "accuracy": 0.8337
+   },
+   "kinship_temporal": {
+    "n": 561,
+    "correct": 533,
+    "accuracy": 0.9501
+   }
+  },
+  "per_type": {
+   "lookup": {
+    "n": 1426,
+    "correct": 1318,
+    "accuracy": 0.9243
+   },
+   "multi_hop": {
+    "n": 514,
+    "correct": 476,
+    "accuracy": 0.9261
+   },
+   "yes_no": {
+    "n": 374,
+    "correct": 230,
+    "accuracy": 0.615
+   }
+  },
+  "use_retrieval": true,
+  "mean_rounds": 1.0946
+ },
+ "noise_axis": {
+  "suite": "noise_axis",
+  "n": 925,
+  "seed": 0,
+  "rates": [
+   0.0,
+   0.1,
+   0.25,
+   0.5
+  ],
+  "accuracy_per_rate": {
+   "0": 0.5783783783783784,
+   "0.1": 0.5491891891891892,
+   "0.25": 0.534054054054054,
+   "0.5": 0.42486486486486486
+  },
+  "slope": -0.2996547208000953,
+  "clean_accuracy": 0.5783783783783784,
+  "noisiest_accuracy": 0.42486486486486486,
+  "degradation": 0.1535135135135135,
+  "n_episodes": 200
+ },
+ "timings": {
+  "load_s": 7.0,
+  "naturalized_clean_s": 20.4,
+  "naturalized_contradiction_s": 20.0,
+  "naturalized_ocr_s": 19.6,
+  "heldout_s": 593.5,
+  "noise_axis_s": 794.4,
+  "total_s": 1454.9
+ }
+}

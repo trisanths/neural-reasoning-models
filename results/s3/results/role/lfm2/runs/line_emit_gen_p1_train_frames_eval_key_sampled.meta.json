@@ -1,0 +1,38 @@
+{
+ "model": "LiquidAI/LFM2-350M",
+ "form": "line_emit_gen",
+ "split": "train_frames_eval",
+ "direction": "key",
+ "n": 4500,
+ "decode": "sampled",
+ "max_new": 256,
+ "dtype": "bfloat16",
+ "seed": 1234,
+ "items_file": "/home/ec2-user/decoupled-reasoner/results/role/lfm2/items/train_frames_eval.jsonl.gz",
+ "params_total": 354483968,
+ "bos_token": "<|startoftext|>",
+ "bos_token_id": 1,
+ "first_prompt_rendered": "<|startoftext|><|im_start|>user\nRead this line from a reference page.\n\nA verxjarn token is sent to the tarnthox value.\n\nRewrite that line as a single arrow rule of the form\n\ntoken -> value\n\nusing the two invented names from the line and nothing else.<|im_end|>\n<|im_start|>assistant\n",
+ "first_prompt_first_ids": [
+  1,
+  6,
+  6423,
+  708,
+  10384,
+  1033,
+  2717,
+  988
+ ],
+ "chat_template_sha256": "5504d163d879bfb6fd4135b7fa3d56768b2e69dd718338f7b146750289f46ab0",
+ "gen_kwargs": {
+  "max_new_tokens": 256,
+  "do_sample": true,
+  "temperature": 0.1,
+  "top_k": 50,
+  "repetition_penalty": 1.05
+ },
+ "seconds": 153.9,
+ "phrasing": "p1",
+ "shots": 0,
+ "records": "/home/ec2-user/decoupled-reasoner/results/role/lfm2/runs/line_emit_gen_p1_train_frames_eval_key_sampled.jsonl.gz"
+}

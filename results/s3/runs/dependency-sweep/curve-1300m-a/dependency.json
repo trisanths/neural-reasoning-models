@@ -1,0 +1,571 @@
+{
+  "run_id": "curve-1300m-a",
+  "checkpoint": "/home/ec2-user/depsweep/curve-1300m-a.pt",
+  "suite": "worldgen",
+  "protocols": [
+    "gen",
+    "mc"
+  ],
+  "primary_protocol": "mc",
+  "temperature": 0.8,
+  "seed": 1234,
+  "n_tasks": 1158,
+  "conditions": {
+    "correct": {
+      "n_rollouts": 500,
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "accuracy": 0.0,
+      "mean_rounds": 0.0,
+      "any_retrieval": 0.0,
+      "mean_query_len": 0.0,
+      "mean_generated": 150.92,
+      "well_formed": 0.0,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "max_new_tokens": 442,
+        "eot": 58
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.0,
+      "wall_clock_s": 60.5,
+      "n_tasks": 500
+    },
+    "wrong_textbook": {
+      "n_rollouts": 500,
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "accuracy": 0.0,
+      "mean_rounds": 0.0,
+      "any_retrieval": 0.0,
+      "mean_query_len": 0.0,
+      "mean_generated": 150.798,
+      "well_formed": 0.0,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "max_new_tokens": 439,
+        "eot": 61
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.0,
+      "wall_clock_s": 46.9,
+      "n_tasks": 500
+    },
+    "no_documents": {
+      "n_rollouts": 500,
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "accuracy": 0.0,
+      "mean_rounds": 0.0,
+      "any_retrieval": 0.0,
+      "mean_query_len": 0.0,
+      "mean_generated": 151.798,
+      "well_formed": 0.0,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "max_new_tokens": 451,
+        "eot": 49
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.0,
+      "wall_clock_s": 46.6,
+      "n_tasks": 500
+    }
+  },
+  "gen_conditions": {
+    "correct": {
+      "n_rollouts": 500,
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "accuracy": 0.0,
+      "mean_rounds": 0.0,
+      "any_retrieval": 0.0,
+      "mean_query_len": 0.0,
+      "mean_generated": 150.92,
+      "well_formed": 0.0,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "max_new_tokens": 442,
+        "eot": 58
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.0,
+      "wall_clock_s": 60.5,
+      "n_tasks": 500
+    },
+    "wrong": {
+      "n_rollouts": 500,
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "accuracy": 0.0,
+      "mean_rounds": 0.0,
+      "any_retrieval": 0.0,
+      "mean_query_len": 0.0,
+      "mean_generated": 150.798,
+      "well_formed": 0.0,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "max_new_tokens": 439,
+        "eot": 61
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.0,
+      "wall_clock_s": 46.9,
+      "n_tasks": 500
+    },
+    "blank": {
+      "n_rollouts": 500,
+      "reward_mean": 0.0,
+      "reward_std": 0.0,
+      "accuracy": 0.0,
+      "mean_rounds": 0.0,
+      "any_retrieval": 0.0,
+      "mean_query_len": 0.0,
+      "mean_generated": 151.798,
+      "well_formed": 0.0,
+      "degenerate_queries": 0.0,
+      "stop_reasons": {
+        "max_new_tokens": 451,
+        "eot": 49
+      },
+      "n_copyable": 0,
+      "accuracy_noncopyable": 0.0,
+      "wall_clock_s": 46.6,
+      "n_tasks": 500
+    }
+  },
+  "mc_conditions": {
+    "correct": {
+      "suite": "heldout_worlds",
+      "n_episodes": 250,
+      "n_questions": 1158,
+      "accuracy": 0.6943,
+      "chance": 0.31,
+      "per_domain": {
+        "corporate": {
+          "n": 351,
+          "correct": 349,
+          "accuracy": 0.9943
+        },
+        "regulatory": {
+          "n": 278,
+          "correct": 103,
+          "accuracy": 0.3705
+        },
+        "logistics": {
+          "n": 248,
+          "correct": 138,
+          "accuracy": 0.5565
+        },
+        "kinship_temporal": {
+          "n": 281,
+          "correct": 214,
+          "accuracy": 0.7616
+        }
+      },
+      "per_type": {
+        "lookup": {
+          "n": 715,
+          "correct": 546,
+          "accuracy": 0.7636
+        },
+        "multi_hop": {
+          "n": 254,
+          "correct": 183,
+          "accuracy": 0.7205
+        },
+        "yes_no": {
+          "n": 189,
+          "correct": 75,
+          "accuracy": 0.3968
+        }
+      },
+      "use_retrieval": false,
+      "wall_clock_s": 224.1
+    },
+    "wrong": {
+      "suite": "heldout_worlds",
+      "n_episodes": 250,
+      "n_questions": 1158,
+      "accuracy": 0.6036,
+      "chance": 0.31,
+      "per_domain": {
+        "corporate": {
+          "n": 351,
+          "correct": 333,
+          "accuracy": 0.9487
+        },
+        "regulatory": {
+          "n": 278,
+          "correct": 90,
+          "accuracy": 0.3237
+        },
+        "logistics": {
+          "n": 248,
+          "correct": 119,
+          "accuracy": 0.4798
+        },
+        "kinship_temporal": {
+          "n": 281,
+          "correct": 157,
+          "accuracy": 0.5587
+        }
+      },
+      "per_type": {
+        "lookup": {
+          "n": 715,
+          "correct": 484,
+          "accuracy": 0.6769
+        },
+        "multi_hop": {
+          "n": 254,
+          "correct": 141,
+          "accuracy": 0.5551
+        },
+        "yes_no": {
+          "n": 189,
+          "correct": 74,
+          "accuracy": 0.3915
+        }
+      },
+      "use_retrieval": false,
+      "wall_clock_s": 194.1
+    },
+    "blank": {
+      "suite": "heldout_worlds",
+      "n_episodes": 250,
+      "n_questions": 1158,
+      "accuracy": 0.614,
+      "chance": 0.31,
+      "per_domain": {
+        "corporate": {
+          "n": 351,
+          "correct": 342,
+          "accuracy": 0.9744
+        },
+        "regulatory": {
+          "n": 278,
+          "correct": 66,
+          "accuracy": 0.2374
+        },
+        "logistics": {
+          "n": 248,
+          "correct": 119,
+          "accuracy": 0.4798
+        },
+        "kinship_temporal": {
+          "n": 281,
+          "correct": 184,
+          "accuracy": 0.6548
+        }
+      },
+      "per_type": {
+        "lookup": {
+          "n": 715,
+          "correct": 517,
+          "accuracy": 0.7231
+        },
+        "multi_hop": {
+          "n": 254,
+          "correct": 129,
+          "accuracy": 0.5079
+        },
+        "yes_no": {
+          "n": 189,
+          "correct": 65,
+          "accuracy": 0.3439
+        }
+      },
+      "use_retrieval": false,
+      "wall_clock_s": 78.9
+    }
+  },
+  "protocol_metrics": {
+    "gen": {
+      "acc_correct_evidence": 0.0,
+      "acc_wrong_evidence": 0.0,
+      "acc_no_evidence": 0.0,
+      "retrieval_dependency": 0.0,
+      "evidence_lift": 0.0,
+      "n_items": 500
+    },
+    "mc": {
+      "acc_correct_evidence": 0.6943,
+      "acc_wrong_evidence": 0.6036,
+      "acc_no_evidence": 0.614,
+      "retrieval_dependency": 0.0907,
+      "evidence_lift": 0.08030000000000004,
+      "n_items": 1158,
+      "chance": 0.31,
+      "mc_retrieval": false
+    }
+  },
+  "per_family": {
+    "correct": {
+      "corporate": {
+        "n_rollouts": 126,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 148.9126984126984,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 107,
+          "eot": 19
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "kinship_temporal": {
+        "n_rollouts": 124,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 148.98387096774192,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 108,
+          "eot": 16
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "logistics": {
+        "n_rollouts": 124,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 153.45967741935485,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 13,
+          "max_new_tokens": 111
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "regulatory": {
+        "n_rollouts": 126,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 152.33333333333334,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 116,
+          "eot": 10
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      }
+    },
+    "wrong": {
+      "corporate": {
+        "n_rollouts": 126,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 148.70634920634922,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 106,
+          "eot": 20
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "kinship_temporal": {
+        "n_rollouts": 124,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 148.7983870967742,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 107,
+          "eot": 17
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "logistics": {
+        "n_rollouts": 124,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 153.36290322580646,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "eot": 14,
+          "max_new_tokens": 110
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "regulatory": {
+        "n_rollouts": 126,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 152.33333333333334,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 116,
+          "eot": 10
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      }
+    },
+    "blank": {
+      "corporate": {
+        "n_rollouts": 126,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 149.31746031746033,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 110,
+          "eot": 16
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "kinship_temporal": {
+        "n_rollouts": 124,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 150.1451612903226,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 110,
+          "eot": 14
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "logistics": {
+        "n_rollouts": 124,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 155.42741935483872,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 116,
+          "eot": 8
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      },
+      "regulatory": {
+        "n_rollouts": 126,
+        "reward_mean": 0.0,
+        "reward_std": 0.0,
+        "accuracy": 0.0,
+        "mean_rounds": 0.0,
+        "any_retrieval": 0.0,
+        "mean_query_len": 0.0,
+        "mean_generated": 152.33333333333334,
+        "well_formed": 0.0,
+        "degenerate_queries": 0.0,
+        "stop_reasons": {
+          "max_new_tokens": 115,
+          "eot": 11
+        },
+        "n_copyable": 0,
+        "accuracy_noncopyable": 0.0
+      }
+    }
+  },
+  "metrics": {
+    "acc_correct_evidence": 0.6943,
+    "acc_wrong_evidence": 0.6036,
+    "acc_no_evidence": 0.614,
+    "retrieval_dependency": 0.0907,
+    "evidence_lift": 0.08030000000000004
+  },
+  "arch": {
+    "params_total": 1348569088,
+    "params_non_embedding": 1214351360,
+    "d_model": 2048,
+    "n_layers": 24,
+    "n_heads": 32,
+    "d_ff": 5504,
+    "vocab_size": 32768,
+    "max_seq_len": 4096
+  },
+  "compute": {
+    "decode_flops_per_answer": 366539814502.39996,
+    "params_effective_non_embedding": 1214351360.0,
+    "mean_generated_tokens": 150.92
+  },
+  "env": {
+    "max_rounds": 4,
+    "max_new_tokens": 160,
+    "query_max_tokens": 24,
+    "max_len": 2048,
+    "correct_reward": 1.0,
+    "format_bonus": 0.05,
+    "retrieval_bonus": 0.05,
+    "degenerate_query_penalty": 0.05,
+    "contains_slack_tokens": 6,
+    "partial_credit": 0.0,
+    "revision_attempts": 1,
+    "calculator": true
+  },
+  "tasks_cfg": {
+    "questions_per_episode": 2,
+    "min_hops": 1,
+    "max_prompt_tokens": 1024
+  },
+  "episodes_source": "/home/ec2-user/data/regime_c/heldout.jsonl",
+  "episodes_skip": 0,
+  "step": 26700
+}

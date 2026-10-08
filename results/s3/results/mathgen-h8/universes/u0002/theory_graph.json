@@ -1,0 +1,1751 @@
+{
+  "system": "Bramorn",
+  "seed": 2,
+  "nodes": [
+    {
+      "node_id": "S1",
+      "kind": "signature",
+      "key": "signature",
+      "theme": "signature",
+      "title": "the Bramorn signature",
+      "statement": "The Bramorn system concerns objects called zelbras. There are exactly 4 of them: tarnnyr, cloxil, isktez, iskmi. Two operations are written * and -. One relation is written <~, read as \"shadows\".",
+      "depends_on": [],
+      "layer": 0,
+      "chapter": 0,
+      "payload": {
+        "elements": [
+          "tarnnyr",
+          "cloxil",
+          "isktez",
+          "iskmi"
+        ],
+        "op_glyphs": [
+          "*",
+          "-"
+        ],
+        "rel_glyph": "<~",
+        "size": 4
+      }
+    },
+    {
+      "node_id": "S2",
+      "kind": "signature",
+      "key": "tables",
+      "theme": "signature",
+      "title": "the Bramorn combination tables",
+      "statement": "The value of x * y for every pair of zelbras is fixed by the table of the first operation, and likewise for -. The pairs standing in the <~ relation are listed in full.",
+      "depends_on": [
+        "S1"
+      ],
+      "layer": 1,
+      "chapter": 0,
+      "payload": {
+        "tables": [
+          [
+            [
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              1,
+              0,
+              0
+            ],
+            [
+              3,
+              2,
+              1,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              1,
+              2,
+              3
+            ],
+            [
+              1,
+              1,
+              2,
+              3
+            ],
+            [
+              2,
+              2,
+              2,
+              3
+            ],
+            [
+              3,
+              3,
+              3,
+              3
+            ]
+          ]
+        ],
+        "relation_pairs": [
+          [
+            "tarnnyr",
+            "tarnnyr"
+          ],
+          [
+            "tarnnyr",
+            "cloxil"
+          ],
+          [
+            "tarnnyr",
+            "isktez"
+          ],
+          [
+            "tarnnyr",
+            "iskmi"
+          ],
+          [
+            "cloxil",
+            "cloxil"
+          ],
+          [
+            "cloxil",
+            "isktez"
+          ],
+          [
+            "cloxil",
+            "iskmi"
+          ],
+          [
+            "isktez",
+            "isktez"
+          ],
+          [
+            "isktez",
+            "iskmi"
+          ],
+          [
+            "iskmi",
+            "iskmi"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "A1",
+      "kind": "axiom",
+      "key": "axiom:closure_first",
+      "theme": "operations",
+      "title": "closure under the first operation",
+      "statement": "For all zelbras x and y, x * y is again a zelbra.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "closure_first",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A2",
+      "kind": "axiom",
+      "key": "axiom:closure_second",
+      "theme": "second_operation",
+      "title": "closure under the second operation",
+      "statement": "For all zelbras x and y, x - y is again a zelbra.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "closure_second",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A3",
+      "kind": "axiom",
+      "key": "axiom:associativity_second",
+      "theme": "second_operation",
+      "title": "association of the second operation",
+      "statement": "For all zelbras x, y, z: (x - y) - z = x - (y - z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "associativity_second",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A4",
+      "kind": "axiom",
+      "key": "axiom:commutativity_second",
+      "theme": "second_operation",
+      "title": "commutation of the second operation",
+      "statement": "For all zelbras x and y: x - y = y - x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "commutativity_second",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A5",
+      "kind": "axiom",
+      "key": "axiom:identity_second",
+      "theme": "second_operation",
+      "title": "a neutral object for the second operation",
+      "statement": "There is a zelbra tarnnyr with tarnnyr - x = x for every x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "identity_second",
+        "witness": {
+          "identity": "tarnnyr"
+        },
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A6",
+      "kind": "axiom",
+      "key": "axiom:idempotence_second",
+      "theme": "second_operation",
+      "title": "self combination under the second operation",
+      "statement": "For every zelbra x: x - x = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "idempotence_second",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A7",
+      "kind": "axiom",
+      "key": "axiom:relation_reflexive",
+      "theme": "relation",
+      "title": "reflexivity of the relation",
+      "statement": "For every zelbra x: x <~ x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_reflexive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A8",
+      "kind": "axiom",
+      "key": "axiom:relation_antisymmetric",
+      "theme": "relation",
+      "title": "antisymmetry of the relation",
+      "statement": "For all zelbras x and y: if x <~ y and y <~ x then x = y.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_antisymmetric",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A9",
+      "kind": "axiom",
+      "key": "axiom:relation_transitive",
+      "theme": "relation",
+      "title": "transitivity of the relation",
+      "statement": "For all zelbras x, y, z: if x <~ y and y <~ z then x <~ z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_transitive",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A10",
+      "kind": "axiom",
+      "key": "axiom:relation_total",
+      "theme": "relation",
+      "title": "comparability of every pair",
+      "statement": "For all zelbras x and y, at least one of x <~ y and y <~ x holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_total",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "A11",
+      "kind": "axiom",
+      "key": "axiom:relation_compatible_second",
+      "theme": "relation",
+      "title": "agreement of the relation with the second operation",
+      "statement": "For all zelbras x, y, z: if x <~ y then (z - x) <~ (z - y) and (x - z) <~ (y - z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_compatible_second",
+        "witness": null,
+        "verified_by": "exhaustive enumeration of the carrier"
+      }
+    },
+    {
+      "node_id": "R1",
+      "kind": "refutation",
+      "key": "axiom_fails:associativity_first",
+      "theme": "operations",
+      "title": "the system does not have association of the first operation",
+      "statement": "It is not the case that: For all zelbras x, y, z: (x * y) * z = x * (y * z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "associativity_first",
+        "witness": {
+          "x": "cloxil",
+          "y": "tarnnyr",
+          "z": "cloxil",
+          "left": "tarnnyr",
+          "right": "cloxil"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = cloxil, y = tarnnyr, z = cloxil, left = tarnnyr, right = cloxil, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R2",
+      "kind": "refutation",
+      "key": "axiom_fails:commutativity_first",
+      "theme": "operations",
+      "title": "the system does not have commutation of the first operation",
+      "statement": "It is not the case that: For all zelbras x and y: x * y = y * x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "commutativity_first",
+        "witness": {
+          "x": "tarnnyr",
+          "y": "cloxil",
+          "left": "tarnnyr",
+          "right": "cloxil"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = tarnnyr, y = cloxil, left = tarnnyr, right = cloxil, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R3",
+      "kind": "refutation",
+      "key": "axiom_fails:identity_first",
+      "theme": "neutral",
+      "title": "the system does not have a neutral object for the first operation",
+      "statement": "There is no zelbra e with e * x = x * e = x for every zelbra x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "identity_first",
+        "witness": {
+          "reason": "no two sided identity exists"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no two sided identity exists, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R4",
+      "kind": "refutation",
+      "key": "axiom_fails:inverses_first",
+      "theme": "neutral",
+      "title": "the system does not have reversal under the first operation",
+      "statement": "Some zelbra x admits no zelbra y for which x * y and y * x both land on a neutral object.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "inverses_first",
+        "witness": {
+          "reason": "no identity, so inverses are not defined"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no identity, so inverses are not defined, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R5",
+      "kind": "refutation",
+      "key": "axiom_fails:idempotence_first",
+      "theme": "operations",
+      "title": "the system does not have self combination under the first operation",
+      "statement": "It is not the case that: For every zelbra x: x * x = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "idempotence_first",
+        "witness": {
+          "x": "cloxil",
+          "value": "tarnnyr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = cloxil, value = tarnnyr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R6",
+      "kind": "refutation",
+      "key": "axiom_fails:cancellation_first",
+      "theme": "operations",
+      "title": "the system does not have cancellation in the first operation",
+      "statement": "It is not the case that: For all zelbras x, y, z: if x * y = x * z then y = z.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 0,
+      "payload": {
+        "axiom": "cancellation_first",
+        "witness": {
+          "x": "tarnnyr",
+          "y": "tarnnyr",
+          "z": "cloxil"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = tarnnyr, y = tarnnyr, z = cloxil, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R7",
+      "kind": "refutation",
+      "key": "axiom_fails:absorbing_first",
+      "theme": "neutral",
+      "title": "the system does not have an absorbing object for the first operation",
+      "statement": "There is no zelbra z with z * x = x * z = z for every zelbra x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 1,
+      "payload": {
+        "axiom": "absorbing_first",
+        "witness": {
+          "reason": "no absorbing element"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case reason = no absorbing element, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R8",
+      "kind": "refutation",
+      "key": "axiom_fails:distributivity",
+      "theme": "second_operation",
+      "title": "the system does not have spreading of the second operation over the first",
+      "statement": "It is not the case that: For all zelbras x, y, z: x - (y * z) = (x - y) * (x - z), and the same on the right.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "distributivity",
+        "witness": {
+          "x": "cloxil",
+          "y": "tarnnyr",
+          "z": "tarnnyr",
+          "left": "cloxil",
+          "right": "tarnnyr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = cloxil, y = tarnnyr, z = tarnnyr, left = cloxil, right = tarnnyr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R9",
+      "kind": "refutation",
+      "key": "axiom_fails:absorption",
+      "theme": "second_operation",
+      "title": "the system does not have the absorption pair",
+      "statement": "It is not the case that: For all zelbras x and y: x * (x - y) = x and x - (x * y) = x.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 3,
+      "payload": {
+        "axiom": "absorption",
+        "witness": {
+          "x": "cloxil",
+          "y": "tarnnyr",
+          "value": "tarnnyr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = cloxil, y = tarnnyr, value = tarnnyr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R10",
+      "kind": "refutation",
+      "key": "axiom_fails:relation_compatible_first",
+      "theme": "relation",
+      "title": "the system does not have agreement of the relation with the first operation",
+      "statement": "It is not the case that: For all zelbras x, y, z: if x <~ y then (z * x) <~ (z * y) and (x * z) <~ (y * z).",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "axiom": "relation_compatible_first",
+        "witness": {
+          "x": "tarnnyr",
+          "y": "cloxil",
+          "z": "cloxil",
+          "side": "left"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 64,
+          "domain": "every tuple of the carrier the axiom quantifies over",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = tarnnyr, y = cloxil, z = cloxil, side = left, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "D1",
+      "kind": "definition",
+      "key": "def:steady",
+      "theme": "operations",
+      "title": "pyrtez zelbras",
+      "statement": "A zelbra x is called pyrtez when x * x = x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "pyrtez",
+        "extension": [
+          "tarnnyr"
+        ]
+      }
+    },
+    {
+      "node_id": "D2",
+      "kind": "definition",
+      "key": "def:agree",
+      "theme": "operations",
+      "title": "zelbras that vorazt",
+      "statement": "Two zelbras x and y are said to vorazt when x * y = y * x.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "vorazt",
+        "pairs": [
+          [
+            "tarnnyr",
+            "tarnnyr"
+          ],
+          [
+            "cloxil",
+            "cloxil"
+          ],
+          [
+            "isktez",
+            "isktez"
+          ],
+          [
+            "iskmi",
+            "iskmi"
+          ]
+        ]
+      }
+    },
+    {
+      "node_id": "D3",
+      "kind": "definition",
+      "key": "def:sealed",
+      "theme": "collections",
+      "title": "naknak collections",
+      "statement": "A collection S of zelbras is naknak when x * y belongs to S for every pair x, y drawn from S.",
+      "depends_on": [
+        "A1"
+      ],
+      "layer": 3,
+      "chapter": 4,
+      "payload": {
+        "notion": "naknak"
+      }
+    },
+    {
+      "node_id": "D4",
+      "kind": "definition",
+      "key": "def:shadow",
+      "theme": "relation",
+      "title": "the opalpyr of a zelbra",
+      "statement": "The opalpyr of a zelbra x is the collection of zelbras y for which x <~ y holds.",
+      "depends_on": [
+        "S2"
+      ],
+      "layer": 2,
+      "chapter": 2,
+      "payload": {
+        "notion": "opalpyr",
+        "map": {
+          "tarnnyr": [
+            "tarnnyr",
+            "cloxil",
+            "isktez",
+            "iskmi"
+          ],
+          "cloxil": [
+            "cloxil",
+            "isktez",
+            "iskmi"
+          ],
+          "isktez": [
+            "isktez",
+            "iskmi"
+          ],
+          "iskmi": [
+            "iskmi"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D5",
+      "kind": "definition",
+      "key": "def:core",
+      "theme": "operations",
+      "title": "the zelquil",
+      "statement": "The zelquil of the system is the collection of zelbras that vorazt with every zelbra.",
+      "depends_on": [
+        "D2"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "zelquil",
+        "extension": []
+      }
+    },
+    {
+      "node_id": "D6",
+      "kind": "definition",
+      "key": "def:ridge",
+      "theme": "operations",
+      "title": "the rastmorn",
+      "statement": "The rastmorn is the collection of all pyrtez zelbras.",
+      "depends_on": [
+        "D1"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "rastmorn",
+        "extension": [
+          "tarnnyr"
+        ]
+      }
+    },
+    {
+      "node_id": "D7",
+      "kind": "definition",
+      "key": "def:span",
+      "theme": "collections",
+      "title": "the vintka of a zelbra",
+      "statement": "The vintka of a zelbra x, written [x], is the smallest naknak collection that contains x.",
+      "depends_on": [
+        "D3"
+      ],
+      "layer": 4,
+      "chapter": 6,
+      "payload": {
+        "notion": "vintka",
+        "map": {
+          "tarnnyr": [
+            "tarnnyr"
+          ],
+          "cloxil": [
+            "tarnnyr",
+            "cloxil"
+          ],
+          "isktez": [
+            "tarnnyr",
+            "isktez"
+          ],
+          "iskmi": [
+            "tarnnyr",
+            "iskmi"
+          ]
+        }
+      }
+    },
+    {
+      "node_id": "D8",
+      "kind": "definition",
+      "key": "def:floor",
+      "theme": "relation",
+      "title": "a nakpyr",
+      "statement": "A zelbra f is a nakpyr when f <~ y holds for every zelbra y, that is, when the opalpyr of f is the whole system.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 5,
+      "payload": {
+        "notion": "nakpyr",
+        "extension": [
+          "tarnnyr"
+        ]
+      }
+    },
+    {
+      "node_id": "D9",
+      "kind": "definition",
+      "key": "def:reach",
+      "theme": "collections",
+      "title": "the jenfal of a zelbra",
+      "statement": "The jenfal of a zelbra x is the number of zelbras in its vintka [x].",
+      "depends_on": [
+        "D7"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "notion": "jenfal",
+        "map": {
+          "tarnnyr": 1,
+          "cloxil": 2,
+          "isktez": 2,
+          "iskmi": 2
+        }
+      }
+    },
+    {
+      "node_id": "D10",
+      "kind": "definition",
+      "key": "def:crest",
+      "theme": "collections",
+      "title": "the cloopal",
+      "statement": "The cloopal of the system is the collection of zelbras whose jenfal is largest.",
+      "depends_on": [
+        "D9"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "notion": "cloopal",
+        "extension": [
+          "cloxil",
+          "isktez",
+          "iskmi"
+        ]
+      }
+    },
+    {
+      "node_id": "D11",
+      "kind": "definition",
+      "key": "def:tight",
+      "theme": "relation",
+      "title": "mishen pairs",
+      "statement": "Two distinct zelbras x and y form a mishen pair when x <~ y and y <~ x both hold, that is, when each lies in the opalpyr of the other.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 5,
+      "payload": {
+        "notion": "mishen",
+        "extension": []
+      }
+    },
+    {
+      "node_id": "T1",
+      "kind": "theorem",
+      "key": "thm:span_sealed",
+      "theme": "collections",
+      "title": "the vintka of a zelbra is naknak",
+      "statement": "For every zelbra x, the collection [x] is naknak.",
+      "depends_on": [
+        "D7",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 64,
+          "domain": "every object, then every pair inside its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "[x] is built by taking x and closing under *."
+          },
+          {
+            "cites": "D3",
+            "text": "Closing under an operation is exactly the sealing condition."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the closure stops after finitely many rounds."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T2",
+      "kind": "theorem",
+      "key": "thm:span_smallest",
+      "theme": "collections",
+      "title": "the vintka is contained in every naknak collection",
+      "statement": "If S is naknak and contains x, then S contains all of [x].",
+      "depends_on": [
+        "D7",
+        "T1"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": {
+          "sealed_count": 6
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 24,
+          "domain": "every sealed collection against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D7",
+            "text": "Every member of [x] is reached from x by finitely many applications of the operation."
+          },
+          {
+            "cites": "D3",
+            "text": "A sealed S containing x is closed under each of those applications."
+          },
+          {
+            "cites": null,
+            "text": "So each member of [x] is in S, by induction on the number of applications."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T3",
+      "kind": "theorem",
+      "key": "thm:steady_iff_reach_one",
+      "theme": "collections",
+      "title": "a zelbra is pyrtez exactly when its jenfal is one",
+      "statement": "x * x = x holds if and only if [x] contains x alone.",
+      "depends_on": [
+        "D1",
+        "D9",
+        "T1"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D1",
+            "text": "If x * x = x then {x} is already closed under *."
+          },
+          {
+            "cites": "T1",
+            "text": "So [x] = {x} and the jenfal is one."
+          },
+          {
+            "cites": "D9",
+            "text": "Conversely a span of one object must contain x * x, which is then x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T4",
+      "kind": "theorem",
+      "key": "thm:reach_divides_size",
+      "theme": "collections",
+      "title": "the jenfal divides the number of zelbras",
+      "statement": "For every zelbra x, the jenfal of x divides 4.",
+      "depends_on": [
+        "D9",
+        "T1"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "T1",
+            "text": "[x] is a naknak collection."
+          },
+          {
+            "cites": "D9",
+            "text": "Its size is the jenfal of x."
+          },
+          {
+            "cites": null,
+            "text": "The claim is that this size always divides 4."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T5",
+      "kind": "theorem",
+      "key": "thm:ridge_sealed",
+      "theme": "operations",
+      "title": "the rastmorn is naknak",
+      "statement": "If x and y are both pyrtez then so is x * y.",
+      "depends_on": [
+        "D6",
+        "D3"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "ridge": [
+            "tarnnyr"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair drawn from the ridge",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D6",
+            "text": "Let x and y be pyrtez."
+          },
+          {
+            "cites": "D1",
+            "text": "The claim asks whether (x * y) * (x * y) returns x * y."
+          },
+          {
+            "cites": null,
+            "text": "Whether it does is settled by running the operation table on every such pair."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T6",
+      "kind": "theorem",
+      "key": "thm:shadow_nested",
+      "theme": "relation",
+      "title": "opalpyrs are nested along the relation",
+      "statement": "If y lies in the opalpyr of x, then the opalpyr of y is contained in the opalpyr of x.",
+      "depends_on": [
+        "D4",
+        "A9"
+      ],
+      "layer": 3,
+      "chapter": 5,
+      "payload": {
+        "witness": null,
+        "verification": {
+          "result": true,
+          "cases_enumerated": 64,
+          "domain": "every ordered triple",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D4",
+            "text": "Let y satisfy x <~ y and let z satisfy y <~ z."
+          },
+          {
+            "cites": "A9",
+            "text": "Transitivity gives x <~ z."
+          },
+          {
+            "cites": "D4",
+            "text": "So every member of the opalpyr of y is a member of that of x."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T7",
+      "kind": "theorem",
+      "key": "thm:floor_unique",
+      "theme": "relation",
+      "title": "there is at most one nakpyr",
+      "statement": "No two distinct zelbras can both be nakpyrs.",
+      "depends_on": [
+        "D8",
+        "A8"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "floors": [
+            "tarnnyr"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every candidate against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D8",
+            "text": "Let f and h both be floors."
+          },
+          {
+            "cites": "D8",
+            "text": "Then f <~ h, since h is any object, and h <~ f likewise."
+          },
+          {
+            "cites": "A8",
+            "text": "Antisymmetry forces f = h."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T8",
+      "kind": "theorem",
+      "key": "thm:floor_exists",
+      "theme": "relation",
+      "title": "the system has a nakpyr",
+      "statement": "Some zelbra nakpyrs the whole system.",
+      "depends_on": [
+        "D8",
+        "A10"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "floors": [
+            "tarnnyr"
+          ]
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every candidate against every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "A10",
+            "text": "Every pair is comparable, so the relation orders the objects into a line."
+          },
+          {
+            "cites": "D8",
+            "text": "The claim is that the line has a bottom."
+          },
+          {
+            "cites": null,
+            "text": "The carrier is finite, so the search over candidates terminates."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "T9",
+      "kind": "theorem",
+      "key": "thm:tight_empty",
+      "theme": "relation",
+      "title": "no mishen pairs exist",
+      "statement": "No two distinct zelbras lie in each other's opalpyr.",
+      "depends_on": [
+        "D11",
+        "A8"
+      ],
+      "layer": 4,
+      "chapter": 7,
+      "payload": {
+        "witness": {
+          "tight": []
+        },
+        "verification": {
+          "result": true,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "D11",
+            "text": "Suppose x and y form a tight pair."
+          },
+          {
+            "cites": "A8",
+            "text": "Antisymmetry then identifies x with y."
+          },
+          {
+            "cites": null,
+            "text": "So a tight pair of distinct objects cannot arise."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R11",
+      "kind": "refutation",
+      "key": "thm:core_is_everything",
+      "theme": "operations",
+      "title": "where every zelbra lies in the zelquil breaks down",
+      "statement": "It is not the case that: Every pair of zelbras vorazts.",
+      "depends_on": [
+        "D5"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "x": "tarnnyr",
+          "y": "cloxil",
+          "left": "tarnnyr",
+          "right": "cloxil"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = tarnnyr, y = cloxil, left = tarnnyr, right = cloxil, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R12",
+      "kind": "refutation",
+      "key": "thm:ridge_is_everything",
+      "theme": "operations",
+      "title": "where every zelbra is pyrtez breaks down",
+      "statement": "It is not the case that: x * x = x for every zelbra x.",
+      "depends_on": [
+        "D6"
+      ],
+      "layer": 5,
+      "chapter": 8,
+      "payload": {
+        "witness": {
+          "x": "cloxil",
+          "value": "tarnnyr"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 4,
+          "domain": "every object",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = cloxil, value = tarnnyr, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R13",
+      "kind": "refutation",
+      "key": "thm:some_object_spans_all",
+      "theme": "collections",
+      "title": "where some zelbra reaches every other breaks down",
+      "statement": "It is not the case that: There is a zelbra whose vintka is the whole system.",
+      "depends_on": [
+        "D7",
+        "D9"
+      ],
+      "layer": 6,
+      "chapter": 9,
+      "payload": {
+        "witness": {
+          "largest_span": 2,
+          "size": 4
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 4,
+          "domain": "every object and its span",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case largest_span = 2, size = 4, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "R14",
+      "kind": "refutation",
+      "key": "thm:relation_symmetric",
+      "theme": "relation",
+      "title": "where the relation reads the same in both directions breaks down",
+      "statement": "It is not the case that: If x <~ y then y <~ x.",
+      "depends_on": [
+        "D4"
+      ],
+      "layer": 3,
+      "chapter": 5,
+      "payload": {
+        "witness": {
+          "x": "tarnnyr",
+          "y": "cloxil"
+        },
+        "verification": {
+          "result": false,
+          "cases_enumerated": 16,
+          "domain": "every ordered pair",
+          "method": "exhaustive enumeration by the reference implementation"
+        },
+        "proof": [
+          {
+            "cites": "S2",
+            "text": "Take the case x = tarnnyr, y = cloxil, read straight from the tables."
+          },
+          {
+            "cites": "S2",
+            "text": "The two sides of the claim come apart on that case, so the claim cannot hold for every case."
+          },
+          {
+            "cites": null,
+            "text": "One counterexample is enough. Note that the claim may still hold for many particular objects; what fails is the universal reading."
+          }
+        ]
+      }
+    }
+  ],
+  "edges": [
+    {
+      "from": "S1",
+      "to": "S2"
+    },
+    {
+      "from": "S2",
+      "to": "A1"
+    },
+    {
+      "from": "S2",
+      "to": "A2"
+    },
+    {
+      "from": "S2",
+      "to": "A3"
+    },
+    {
+      "from": "S2",
+      "to": "A4"
+    },
+    {
+      "from": "S2",
+      "to": "A5"
+    },
+    {
+      "from": "S2",
+      "to": "A6"
+    },
+    {
+      "from": "S2",
+      "to": "A7"
+    },
+    {
+      "from": "S2",
+      "to": "A8"
+    },
+    {
+      "from": "S2",
+      "to": "A9"
+    },
+    {
+      "from": "S2",
+      "to": "A10"
+    },
+    {
+      "from": "S2",
+      "to": "A11"
+    },
+    {
+      "from": "S2",
+      "to": "R1"
+    },
+    {
+      "from": "S2",
+      "to": "R2"
+    },
+    {
+      "from": "S2",
+      "to": "R3"
+    },
+    {
+      "from": "S2",
+      "to": "R4"
+    },
+    {
+      "from": "S2",
+      "to": "R5"
+    },
+    {
+      "from": "S2",
+      "to": "R6"
+    },
+    {
+      "from": "S2",
+      "to": "R7"
+    },
+    {
+      "from": "S2",
+      "to": "R8"
+    },
+    {
+      "from": "S2",
+      "to": "R9"
+    },
+    {
+      "from": "S2",
+      "to": "R10"
+    },
+    {
+      "from": "A1",
+      "to": "D1"
+    },
+    {
+      "from": "A1",
+      "to": "D2"
+    },
+    {
+      "from": "A1",
+      "to": "D3"
+    },
+    {
+      "from": "S2",
+      "to": "D4"
+    },
+    {
+      "from": "D2",
+      "to": "D5"
+    },
+    {
+      "from": "D1",
+      "to": "D6"
+    },
+    {
+      "from": "D3",
+      "to": "D7"
+    },
+    {
+      "from": "D4",
+      "to": "D8"
+    },
+    {
+      "from": "D7",
+      "to": "D9"
+    },
+    {
+      "from": "D9",
+      "to": "D10"
+    },
+    {
+      "from": "D4",
+      "to": "D11"
+    },
+    {
+      "from": "D7",
+      "to": "T1"
+    },
+    {
+      "from": "D3",
+      "to": "T1"
+    },
+    {
+      "from": "D7",
+      "to": "T2"
+    },
+    {
+      "from": "T1",
+      "to": "T2"
+    },
+    {
+      "from": "D1",
+      "to": "T3"
+    },
+    {
+      "from": "D9",
+      "to": "T3"
+    },
+    {
+      "from": "T1",
+      "to": "T3"
+    },
+    {
+      "from": "D9",
+      "to": "T4"
+    },
+    {
+      "from": "T1",
+      "to": "T4"
+    },
+    {
+      "from": "D6",
+      "to": "T5"
+    },
+    {
+      "from": "D3",
+      "to": "T5"
+    },
+    {
+      "from": "D4",
+      "to": "T6"
+    },
+    {
+      "from": "A9",
+      "to": "T6"
+    },
+    {
+      "from": "D8",
+      "to": "T7"
+    },
+    {
+      "from": "A8",
+      "to": "T7"
+    },
+    {
+      "from": "D8",
+      "to": "T8"
+    },
+    {
+      "from": "A10",
+      "to": "T8"
+    },
+    {
+      "from": "D11",
+      "to": "T9"
+    },
+    {
+      "from": "A8",
+      "to": "T9"
+    },
+    {
+      "from": "D5",
+      "to": "R11"
+    },
+    {
+      "from": "D6",
+      "to": "R12"
+    },
+    {
+      "from": "D7",
+      "to": "R13"
+    },
+    {
+      "from": "D9",
+      "to": "R13"
+    },
+    {
+      "from": "D4",
+      "to": "R14"
+    }
+  ],
+  "depth": 6,
+  "counts": {
+    "signature": 2,
+    "axiom": 11,
+    "definition": 11,
+    "theorem": 9,
+    "refutation": 14
+  }
+}

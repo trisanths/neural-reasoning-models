@@ -1,0 +1,257 @@
+{
+ "checkpoint": "/home/ec2-user/ca/ckpt/rlsimple_final.pt",
+ "start": 900000,
+ "count": 40,
+ "summary": {
+  "doc": {
+   "acc": 0.0,
+   "well_formed": 0.98125,
+   "n": 160,
+   "mean_prompt_toks": 249.94375
+  },
+  "wrong_doc": {
+   "acc": 0.0,
+   "well_formed": 0.975,
+   "n": 160,
+   "mean_prompt_toks": 259.09375
+  },
+  "no_doc": {
+   "acc": 0.0,
+   "well_formed": 1.0,
+   "n": 160,
+   "mean_prompt_toks": 28.24375
+  },
+  "result": {
+   "acc": 0.0,
+   "well_formed": 0.96875,
+   "n": 160,
+   "mean_prompt_toks": 256.11875
+  }
+ },
+ "stats": {
+  "doc": {
+   "n": 160,
+   "correct": 0,
+   "well_formed": 157,
+   "prompt_toks": 39991,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "y is worked",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "11.5.1.1.1 lummi",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "11.5.1.1.1.1.1.1.1.1.1.1.1.1.1.1.",
+     "ok": false,
+     "wf": false
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "Evaluate 4 @ 19.<|a|>Evaluate 4 @ 19.<|a|>Evaluate 4 @ 19.<|a|>Evaluate 4 @ 19.",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "yes, the distance is zeltu.<|a|>yes, the distance is zeltu",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "136 driwren",
+     "ok": false,
+     "wf": true
+    }
+   ]
+  },
+  "wrong_doc": {
+   "n": 160,
+   "correct": 0,
+   "well_formed": 156,
+   "prompt_toks": 41455,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "yes fexpyr tezclo",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "11 fexpyr tezclo.",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "1 fexpyr tezclo",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "Kadri",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "Driwren vortu",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "13 driwren are vortu",
+     "ok": false,
+     "wf": true
+    }
+   ]
+  },
+  "no_doc": {
+   "n": 160,
+   "correct": 0,
+   "well_formed": 160,
+   "prompt_toks": 4519,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "Vramdra",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "Vramgrum",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "Vramgrum",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "Vramgrum",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "Vramgrum",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "Vramtrum",
+     "ok": false,
+     "wf": true
+    }
+   ]
+  },
+  "result": {
+   "n": 160,
+   "correct": 0,
+   "well_formed": 155,
+   "prompt_toks": 40979,
+   "examples": [
+    {
+     "fam": "binary_op",
+     "q": "In the Nakfex system, 13 @ y equals 14. What is y?",
+     "gold": "11",
+     "pred": "The Driwren",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 15.",
+     "gold": "2",
+     "pred": "The Driwren",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 11 @ 1.",
+     "gold": "30",
+     "pred": "The Driwren",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "binary_op",
+     "q": "Evaluate 4 @ 19.",
+     "gold": "-20",
+     "pred": "The Driwren",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "A distance is 1 zeltu plus 6 tezzam. Express the total in driwren.",
+     "gold": "732",
+     "pred": "Decision.<|a|>Decision.<|a|>Decision.\nDecision.<|a|>Decision. Decision.<|a|>Deci",
+     "ok": false,
+     "wf": true
+    },
+    {
+     "fam": "units",
+     "q": "How many driwren are 13 zeltu?",
+     "gold": "156",
+     "pred": "Decision.<|a|>Decision.\nDecision.<|a|>Decision.\nDecision.<|a|>Decision. Decision",
+     "ok": false,
+     "wf": false
+    }
+   ]
+  }
+ }
+}
