@@ -1,0 +1,19 @@
+### batch=32 r=4 backprop_last_k=none
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 78.00 MiB. GPU 0 has a total capacity of 79.18 GiB of which 32.19 MiB is free. Including non-PyTorch memory, this process has 79.14 GiB memory in use. Of the allocated memory 76.97 GiB is allocated by PyTorch, and 1.50 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+### batch=32 r=4 backprop_last_k=1
+{"step": 1, "loss": 7.288046360015869, "n_latent": 4, "induction": false, "lr": 1.0000000000000001e-07, "tokens": 19680, "supervised": 132, "fwd_passes": 5, "fwd_positions": 98080, "reason_passes": 4, "peak_gib": 28.94, "secs": 1.4}
+{"step": 2, "loss": 7.273967742919922, "n_latent": 4, "induction": false, "lr": 2.0000000000000002e-07, "tokens": 38752, "supervised": 268, "fwd_passes": 10, "fwd_positions": 193120, "reason_passes": 8, "peak_gib": 32.09, "secs": 2.1}
+{"step": 3, "loss": 6.9048261642456055, "n_latent": 4, "induction": false, "lr": 3.0000000000000004e-07, "tokens": 58368, "supervised": 402, "fwd_passes": 15, "fwd_positions": 290880, "reason_passes": 12, "peak_gib": 32.85, "secs": 2.6}
+### batch=32 r=4 backprop_last_k=2
+{"step": 1, "loss": 7.288046360015869, "n_latent": 4, "induction": false, "lr": 1.0000000000000001e-07, "tokens": 19680, "supervised": 132, "fwd_passes": 5, "fwd_positions": 98080, "reason_passes": 4, "peak_gib": 55.32, "secs": 1.3}
+{"step": 2, "loss": 7.2787675857543945, "n_latent": 4, "induction": false, "lr": 2.0000000000000002e-07, "tokens": 38752, "supervised": 268, "fwd_passes": 10, "fwd_positions": 193120, "reason_passes": 8, "peak_gib": 57.61, "secs": 2.1}
+{"step": 3, "loss": 6.896059036254883, "n_latent": 4, "induction": false, "lr": 3.0000000000000004e-07, "tokens": 58368, "supervised": 402, "fwd_passes": 15, "fwd_positions": 290880, "reason_passes": 12, "peak_gib": 59.19, "secs": 2.9}
+### batch=16 r=4 backprop_last_k=none
+{"step": 1, "loss": 7.457118988037109, "n_latent": 4, "induction": false, "lr": 1.0000000000000001e-07, "tokens": 9664, "supervised": 66, "fwd_passes": 5, "fwd_positions": 48160, "reason_passes": 4, "peak_gib": 67.27, "secs": 1.9}
+{"step": 2, "loss": 7.05355167388916, "n_latent": 4, "induction": false, "lr": 2.0000000000000002e-07, "tokens": 19504, "supervised": 132, "fwd_passes": 10, "fwd_positions": 97200, "reason_passes": 8, "peak_gib": 73.25, "secs": 3.4}
+{"step": 3, "loss": 7.13714075088501, "n_latent": 4, "induction": false, "lr": 3.0000000000000004e-07, "tokens": 28960, "supervised": 200, "fwd_passes": 15, "fwd_positions": 144320, "reason_passes": 12, "peak_gib": 73.25, "secs": 4.4}
+### batch=8 r=8 backprop_last_k=2
+{"step": 1, "loss": 7.075990676879883, "n_latent": 8, "induction": false, "lr": 1.0000000000000001e-07, "tokens": 4864, "supervised": 34, "fwd_passes": 9, "fwd_positions": 43488, "reason_passes": 8, "peak_gib": 15.56, "secs": 1.3}
+{"step": 2, "loss": 7.511882781982422, "n_latent": 8, "induction": false, "lr": 2.0000000000000002e-07, "tokens": 9672, "supervised": 66, "fwd_passes": 18, "fwd_positions": 86472, "reason_passes": 16, "peak_gib": 19.39, "secs": 2.1}
+{"step": 3, "loss": 7.083760738372803, "n_latent": 8, "induction": false, "lr": 3.0000000000000004e-07, "tokens": 14408, "supervised": 99, "fwd_passes": 27, "fwd_positions": 128808, "reason_passes": 24, "peak_gib": 19.39, "secs": 2.9}
+MEM_DONE

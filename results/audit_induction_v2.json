@@ -1,0 +1,76 @@
+{
+ "ckpt": "runs/opgraph2.pt",
+ "stats": {
+  "pages": 120,
+  "parsed": 120,
+  "body_exact": 120,
+  "assoc_present": 120,
+  "assoc_correct": 120,
+  "params_same": 120,
+  "full_exact": 120
+ },
+ "samples": [
+  {
+   "page_assoc": "left",
+   "gold_op": "(defop / (x y) (% (+ (* 2 (- x y)) 1) 100) (assoc left) (ex (7 4) 7) (ex (12 5) 15))",
+   "induced_op": "(defop / (x y) (% (+ (* 2 (- x y)) 1) 100) (assoc left) (ex (7 4) 7) (ex (12 5) 15))",
+   "raw": "(defop / (x y) (% (+ (* 2 (- x y)) 1) 100) (assoc left) (ex (7 4) 7) (ex (12 5) 15))"
+  },
+  {
+   "page_assoc": "left",
+   "gold_op": "(defop # (x y) (% (+ (* 2 (- x y)) 10) 1000) (assoc left) (ex (7 4) 16) (ex (12 5) 24))",
+   "induced_op": "(defop # (x y) (% (+ (* 2 (- x y)) 10) 1000) (assoc left) (ex (7 4) 16) (ex (12 5) 24))",
+   "raw": "(defop # (x y) (% (+ (* 2 (- x y)) 10) 1000) (assoc left) (ex (7 4) 16) (ex (12 5) 24))"
+  },
+  {
+   "page_assoc": "left",
+   "gold_op": "(defop * (x y) (% (- (+ (* x x) (* 7 y)) 2) 1000) (assoc left) (ex (7 4) 75) (ex (12 5) 177))",
+   "induced_op": "(defop * (x y) (% (- (+ (* x x) (* 7 y)) 2) 1000) (assoc left) (ex (7 4) 75) (ex (12 5) 177))",
+   "raw": "(defop * (x y) (% (- (+ (* x x) (* 7 y)) 2) 1000) (assoc left) (ex (7 4) 75) (ex (12 5) 177))"
+  },
+  {
+   "page_assoc": "right",
+   "gold_op": "(defop # (x y) (% (+ (* 4 x) (* 7 y) 5) 1000) (assoc right) (ex (7 4) 61) (ex (12 5) 88))",
+   "induced_op": "(defop # (x y) (% (+ (* 4 x) (* 7 y) 5) 1000) (assoc right) (ex (7 4) 61) (ex (12 5) 88))",
+   "raw": "(defop # (x y) (% (+ (* 4 x) (* 7 y) 5) 1000) (assoc right) (ex (7 4) 61) (ex (12 5) 88))"
+  },
+  {
+   "page_assoc": "right",
+   "gold_op": "(defop + (x y) (% (- (+ (* x x) (* 2 y)) 1) 100) (assoc right) (ex (7 4) 56) (ex (12 5) 53))",
+   "induced_op": "(defop + (x y) (% (- (+ (* x x) (* 2 y)) 1) 100) (assoc right) (ex (7 4) 56) (ex (12 5) 53))",
+   "raw": "(defop + (x y) (% (- (+ (* x x) (* 2 y)) 1) 100) (assoc right) (ex (7 4) 56) (ex (12 5) 53))"
+  },
+  {
+   "page_assoc": "right",
+   "gold_op": "(defop ^ (x y) (% (- (+ (* x x) (* 2 y)) 10) 100) (assoc right) (ex (7 4) 47) (ex (12 5) 44))",
+   "induced_op": "(defop ^ (x y) (% (- (+ (* x x) (* 2 y)) 10) 100) (assoc right) (ex (7 4) 47) (ex (12 5) 44))",
+   "raw": "(defop ^ (x y) (% (- (+ (* x x) (* 2 y)) 10) 100) (assoc right) (ex (7 4) 47) (ex (12 5) 44))"
+  }
+ ],
+ "signatures": [
+  {
+   "gold_signature": "//2/left",
+   "induced_signature": "//2/left"
+  },
+  {
+   "gold_signature": "#/2/left",
+   "induced_signature": "#/2/left"
+  },
+  {
+   "gold_signature": "*/2/left",
+   "induced_signature": "*/2/left"
+  },
+  {
+   "gold_signature": "#/2/right",
+   "induced_signature": "#/2/right"
+  },
+  {
+   "gold_signature": "+/2/right",
+   "induced_signature": "+/2/right"
+  },
+  {
+   "gold_signature": "^/2/right",
+   "induced_signature": "^/2/right"
+  }
+ ]
+}

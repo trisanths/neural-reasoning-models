@@ -1,0 +1,55 @@
+{
+ "ckpt": "runs/opgraph2.pt",
+ "identity": {
+  "distinguishable": 290,
+  "follows_training": 279,
+  "assoc_kept": 279,
+  "indistinguishable": 10,
+  "absent": 11
+ },
+ "cells": {
+  "1": {
+   "n": 131,
+   "page": 0,
+   "train": 124
+  },
+  "2": {
+   "n": 136,
+   "page": 0,
+   "train": 132
+  },
+  "3": {
+   "n": 140,
+   "page": 0,
+   "train": 133
+  },
+  "4": {
+   "n": 135,
+   "page": 0,
+   "train": 130
+  },
+  "8": {
+   "n": 136,
+   "page": 0,
+   "train": 131
+  }
+ },
+ "samples": [
+  {
+   "page": "(defop / (x y) (% (+ (* 2 (- y x)) 1) 100) (assoc left) (ex (7 4) 95) (ex (12 5) 87))",
+   "got": "(defop / (x y) (% (+ (* 2 (- x y)) 1) 100) (assoc left) (ex (7 4) 95) (ex (12 5) 88))"
+  },
+  {
+   "page": "(defop # (x y) (% (+ (* 2 (- y x)) 10) 1000) (assoc left) (ex (7 4) 4) (ex (12 5) 996))",
+   "got": "(defop # (x y) (% (+ (* 2 (- x y)) 10) 1000) (assoc left) (ex (7 4) 4) (ex (12 5) 9))"
+  },
+  {
+   "page": "(defop # (x y) (% (+ (* 4 y) (* 7 x) 5) 1000) (assoc right) (ex (7 4) 70) (ex (12 5) 109))",
+   "got": "(defop # (x y) (% (+ (* 4 x) (* 7 y) 5) 1000) (assoc right) (ex (7 4) 70) (ex (12 5) 109))"
+  },
+  {
+   "page": "(defop * (x y) (% (- (+ (* y y) (* 7 x)) 2) 1000) (assoc left) (ex (7 4) 63) (ex (12 5) 107))",
+   "got": "(defop * (x y) (% (- (+ (* x x) (* 7 y)) 2) 1000) (assoc left) (ex (7 4) 63) (ex (12 5) 105))"
+  }
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "arm": "ladder_slots",
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "arm": "ladder_slots",
+  "out": "runs/ladder/trial_slots.pt",
+  "steps": 40,
+  "batch_size": 8,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "warmup": 10,
+  "worlds": 400,
+  "log_every": 20,
+  "rounds": 3,
+  "seed": 0
+ },
+ "log": [
+  {
+   "step": 1,
+   "loss": 4.211969375610352,
+   "lr": 2.0000000000000003e-06,
+   "tokens": 1720,
+   "supervised": 627,
+   "secs": 1.5
+  },
+  {
+   "step": 20,
+   "loss": 1.6654061079025269,
+   "lr": 1.5000000000000002e-05,
+   "tokens": 51504,
+   "supervised": 22098,
+   "secs": 4.6
+  },
+  {
+   "step": 40,
+   "loss": 0.05486951395869255,
+   "lr": 0.0,
+   "tokens": 93120,
+   "supervised": 37271,
+   "secs": 7.3
+  }
+ ]
+}

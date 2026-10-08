@@ -21,6 +21,12 @@ Not matched, and reported rather than buried:
                FLOPs, and this asymmetry favours the latent conditions. Every
                log line carries the passes and the token positions spent.
 
+--micro-batch splits the step's sequences across several forward and backward
+passes and accumulates the gradient. The optimizer still sees --batch-size
+sequences per step and the number of steps is unchanged, so neither axis the
+arms are matched on moves. It exists because backpropagating through more than
+the last pass of the chain does not fit at batch 32 on an 80 GiB card.
+
 Run without a curriculum first. Whether latent recurrence trains at all with
 the loss placed only on the answer is a finding on its own, and reporting "it
 did not train" as "it does not work" would be the worst outcome available here.
@@ -69,6 +75,20 @@ def parse_args(argv=None):
     ap.add_argument("--r-sampling", default="",
                     help="lo,hi to draw R per optimizer step, the same idea as "
                          "model.recurrent.train_loop_sampling")
+    ap.add_argument("--r-choices", default="",
+                    help="comma separated set to draw R from per optimizer "
+                         "step, uniformly. Use this when the eval sweep is over "
+                         "a set rather than a range, so no R in the sweep is "
+                         "special and none of them is interpolated between two "
+                         "trained neighbours.")
+    ap.add_argument("--micro-batch", type=int, default=0,
+                    help="sequences per forward pass. --batch-size sequences "
+                         "still make one optimizer step; this only splits them, "
+                         "so the match against the arms on batch size in "
+                         "sequences and on optimizer steps is unaffected. 0 "
+                         "means one micro batch of the full batch.")
+    ap.add_argument("--save-every", type=int, default=0,
+                    help="write an intermediate checkpoint every N steps")
     ap.add_argument("--proj", default="none", choices=["none", "linear"])
     ap.add_argument("--film-slots", type=int, default=0,
                     help="0 means the largest R this run can ask for")
@@ -93,6 +113,8 @@ def parse_args(argv=None):
 
 
 def max_r(args) -> int:
+    if args.r_choices:
+        return max([args.r] + [int(x) for x in args.r_choices.split(",")])
     if args.r_sampling:
         return max(args.r, int(args.r_sampling.split(",")[1]))
     if args.curriculum == "stage":
@@ -226,6 +248,9 @@ def main(argv=None) -> int:
     if args.r_sampling:
         lo, hi = (int(x) for x in args.r_sampling.split(","))
         r_sample = (lo, hi)
+    r_choices = [int(x) for x in args.r_choices.split(",")] if args.r_choices \
+        else None
+    micro = args.micro_batch or args.batch_size
 
     for step in range(1, args.steps + 1):
         use_induction = (args.arm == "latent_plan" and induction
@@ -249,6 +274,8 @@ def main(argv=None) -> int:
                 n_latent = min(args.r, args.latents_per_step * stage)
             if r_sample is not None:
                 n_latent = rng.randint(*r_sample)
+            if r_choices is not None:
+                n_latent = rng.choice(r_choices)
             batch, cursor = _take(prep.kept, order, cursor, args.batch_size, rng)
             enc = []
             for ep, prompt in batch:
@@ -262,32 +289,55 @@ def main(argv=None) -> int:
             if not enc:
                 continue
 
-        packed = collate(enc)
-        packed = {k: (v.to(device) if torch.is_tensor(v) else v)
-                  for k, v in packed.items()}
-        seen_tokens += int(packed["ids"].numel())
-        supervised += int((packed["tgt"] != -100).sum())
-
         frac = (step / args.warmup if step < args.warmup else
                 0.5 * (1 + math.cos(math.pi * (step - args.warmup) /
                                     max(1, args.steps - args.warmup))))
         for g, base in zip(opt.param_groups, base_lrs):
             g["lr"] = base * frac
 
-        with torch.autocast(device_type=device, dtype=torch.bfloat16):
-            out = run_chain(model, head, packed, gate=gate,
-                            ponder_beta=args.ponder_beta,
-                            backprop_last_k=args.backprop_last_k,
-                            loss_at="all" if gate is not None else "last")
+        # Gradient accumulation. The optimizer sees args.batch_size sequences
+        # per step whatever the micro batch is, so the two axes the arms are
+        # matched on, sequences per step and number of steps, do not move. What
+        # moves is peak memory, which is what makes backpropagating through more
+        # than the last pass of the chain possible at all.
+        chunks = [enc[i:i + micro] for i in range(0, len(enc), micro)]
         opt.zero_grad(set_to_none=True)
-        out.loss.backward()
+        loss_sum = 0.0
+        ponder_val = None
+        halt_mean = None
+        for ch in chunks:
+            packed = collate(ch)
+            packed = {k: (v.to(device) if torch.is_tensor(v) else v)
+                      for k, v in packed.items()}
+            seen_tokens += int(packed["ids"].numel())
+            supervised += int((packed["tgt"] != -100).sum())
+            with torch.autocast(device_type=device, dtype=torch.bfloat16):
+                out = run_chain(model, head, packed, gate=gate,
+                                ponder_beta=args.ponder_beta,
+                                backprop_last_k=args.backprop_last_k,
+                                loss_at="all" if gate is not None else "last")
+            scaled = out.loss * (len(ch) / len(enc))
+            scaled.backward()
+            loss_sum += float(out.loss.item()) * (len(ch) / len(enc))
+            total.add(out.cost)
+            if out.ponder is not None:
+                ponder_val = float(out.ponder.item())
+                halt_mean = float(
+                    (out.halt_probs
+                     * torch.arange(out.halt_probs.shape[1],
+                                    device=out.halt_probs.device)
+                     ).sum(1).mean().item())
         torch.nn.utils.clip_grad_norm_(
             [p for g in opt.param_groups for p in g["params"]], 1.0)
         opt.step()
-        total.add(out.cost)
+
+        if args.save_every and step % args.save_every == 0 \
+                and step != args.steps:
+            _save(args, model, head, gate, state, setup, total, step,
+                  log, device, args.out + f".step{step}")
 
         if step % args.log_every == 0 or step == 1:
-            rec = {"step": step, "loss": float(out.loss.item()),
+            rec = {"step": step, "loss": loss_sum,
                    "n_latent": n_latent, "induction": bool(use_induction),
                    "lr": base_lrs[0] * frac, "tokens": seen_tokens,
                    "supervised": supervised,
@@ -297,32 +347,35 @@ def main(argv=None) -> int:
                    "peak_gib": (round(torch.cuda.max_memory_allocated() / 2**30, 2)
                                 if device == "cuda" else 0.0),
                    "secs": round(time.time() - t0, 1)}
-            if out.ponder is not None:
-                rec["ponder_kl"] = float(out.ponder.item())
-                rec["halt_mean_step"] = float(
-                    (out.halt_probs
-                     * torch.arange(out.halt_probs.shape[1],
-                                    device=out.halt_probs.device)
-                     ).sum(1).mean().item())
+            if ponder_val is not None:
+                rec["ponder_kl"] = ponder_val
+                rec["halt_mean_step"] = halt_mean
             log.append(rec)
             print(json.dumps(rec), flush=True)
 
-    payload = {"model": model.state_dict(), "head": head.state_dict(),
-               "head_config": head.config(), "config": state["config"],
-               "arm": args.arm, "args": vars(args), "setup": setup,
-               "cost": total.as_dict(), "step": args.steps,
-               "peak_gib": (round(torch.cuda.max_memory_allocated() / 2**30, 2)
-                            if device == "cuda" else 0.0)}
-    if gate is not None:
-        payload["gate"] = gate.state_dict()
-    torch.save(payload, args.out)
-    with open(args.out + ".log.json", "w") as fh:
-        json.dump({"arm": args.arm, "args": vars(args), "setup": setup,
-                   "cost": total.as_dict(), "log": log}, fh, indent=1)
+    _save(args, model, head, gate, state, setup, total, args.steps, log,
+          device, args.out)
     print(f"[done] {args.arm} -> {args.out} passes={total.passes} "
           f"positions={total.positions} secs={round(time.time() - t0, 1)}",
           flush=True)
     return 0
+
+
+def _save(args, model, head, gate, state, setup, total, step, log, device,
+          path):
+    payload = {"model": model.state_dict(), "head": head.state_dict(),
+               "head_config": head.config(), "config": state["config"],
+               "arm": args.arm, "args": vars(args), "setup": setup,
+               "cost": total.as_dict(), "step": step,
+               "peak_gib": (round(torch.cuda.max_memory_allocated() / 2**30, 2)
+                            if device == "cuda" else 0.0)}
+    if gate is not None:
+        payload["gate"] = gate.state_dict()
+    torch.save(payload, path)
+    with open(path + ".log.json", "w") as fh:
+        json.dump({"arm": args.arm, "args": vars(args), "setup": setup,
+                   "cost": total.as_dict(), "step": step, "log": log}, fh,
+                  indent=1)
 
 
 def _take(pool, order, cursor, n, rng):
@@ -339,3 +392,4 @@ def _take(pool, order, cursor, n, rng):
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

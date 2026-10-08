@@ -19,6 +19,7 @@ often they are used so their contribution stays visible.
 
 from __future__ import annotations
 
+import os
 import re
 from dataclasses import dataclass
 
@@ -30,7 +31,14 @@ BUILTIN_STEPS = {
     "mul": (2, lambda a, b: a * b),
 }
 
-MAX_STEPS = 32
+# The strict parser rejects a plan with more than MAX_STEPS steps. It was 32,
+# which is the length of the deepest plan the ceiling sweep ever asked for. A
+# depth horizon has to train and score plans longer than that, and a plan that
+# fails to parse is recorded as a parse failure rather than as a long plan, so
+# the cap has to sit above the deepest arm. Raising it can only let a longer
+# plan through: nothing that parsed at 32 parses differently at 64. Set
+# OPGRAPH_MAX_STEPS to reproduce the old cap.
+MAX_STEPS = int(os.environ.get("OPGRAPH_MAX_STEPS", "64"))
 _TEMP_RE = re.compile(r"^t\d+$")
 _INT_RE = re.compile(r"^-?\d+$")
 

@@ -1,0 +1,120 @@
+{
+ "head": "p1",
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p1",
+  "out": "runs/smoke/p1.pt",
+  "steps": 1000,
+  "batch_size": 8,
+  "max_len": 640,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 50,
+  "worlds": 2000,
+  "log_every": 100,
+  "seed": 17
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 4717,
+   "2": 1585,
+   "3": 1698
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 8000
+ },
+ "corruption_mixture": {
+  "all_mask": 0.25,
+  "random_mask": 0.25,
+  "transpose": 0.1,
+  "wrong_op": 0.15,
+  "truncate": 0.15,
+  "sparse": 0.1
+ },
+ "corruption_counts": {},
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 8000
+ },
+ "log": [
+  {
+   "step": 1,
+   "kind": "induce",
+   "loss": 4.16818,
+   "lr": 4e-07,
+   "secs": 0.7
+  },
+  {
+   "step": 100,
+   "kind": "plan",
+   "loss": 0.28862,
+   "lr": 1.986e-05,
+   "secs": 16.3
+  },
+  {
+   "step": 200,
+   "kind": "plan",
+   "loss": 0.04277,
+   "lr": 1.879e-05,
+   "secs": 28.0
+  },
+  {
+   "step": 300,
+   "kind": "plan",
+   "loss": 0.08469,
+   "lr": 1.677e-05,
+   "secs": 37.9
+  },
+  {
+   "step": 400,
+   "kind": "plan",
+   "loss": 0.01325,
+   "lr": 1.402e-05,
+   "secs": 47.8
+  },
+  {
+   "step": 500,
+   "kind": "plan",
+   "loss": 0.00916,
+   "lr": 1.083e-05,
+   "secs": 58.9
+  },
+  {
+   "step": 600,
+   "kind": "plan",
+   "loss": 0.0241,
+   "lr": 7.55e-06,
+   "secs": 69.4
+  },
+  {
+   "step": 700,
+   "kind": "plan",
+   "loss": 0.02041,
+   "lr": 4.53e-06,
+   "secs": 79.8
+  },
+  {
+   "step": 800,
+   "kind": "plan",
+   "loss": 0.00508,
+   "lr": 2.11e-06,
+   "secs": 89.8
+  },
+  {
+   "step": 900,
+   "kind": "plan",
+   "loss": 0.01779,
+   "lr": 5.4e-07,
+   "secs": 99.5
+  },
+  {
+   "step": 1000,
+   "kind": "plan",
+   "loss": 0.0001,
+   "lr": 0.0,
+   "secs": 109.6
+  }
+ ]
+}

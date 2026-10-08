@@ -1,0 +1,358 @@
+{
+ "config": {
+  "ckpt": "runs/iter/p4_s14000.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "out": "results/iter/conv_p4_s14000.json",
+  "n": 48,
+  "batch_size": 24,
+  "gen_batch_size": 96,
+  "kinds": "sequential",
+  "depths": "1,2,3,4,6,8,12",
+  "styles": "0",
+  "iters": "8",
+  "temperatures": "0.0,0.8",
+  "conditions": "plan_execute",
+  "wide": false,
+  "record_revisions": false,
+  "verify_counter": false,
+  "skip_gold": true
+ },
+ "head": "p4",
+ "wide": false,
+ "schema_nodes": 12,
+ "n_slots": 145,
+ "corruption_mixture": {
+  "all_mask": 0.22,
+  "random_mask": 0.22,
+  "transpose": 0.09,
+  "wrong_op": 0.13,
+  "truncate": 0.13,
+  "sparse": 0.08,
+  "edge_noise": 0.13
+ },
+ "train_args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p4",
+  "out": "runs/iter/p4.pt",
+  "steps": 16000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 250,
+  "seed": 17,
+  "ckpt_every": 2000
+ },
+ "train_step": 14000,
+ "holdout": {
+  "depth_histogram": {
+   "1": 93126,
+   "2": 33154,
+   "3": 33720
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160000
+ },
+ "codec": {
+  "sequential": {
+   "1": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "2": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "3": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "4": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "6": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "8": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "12": {
+    "n": 48,
+    "codec_ok": 48,
+    "codec_rate": 1.0,
+    "first_error": ""
+   }
+  }
+ },
+ "induction": {
+  "pages": 192,
+  "pages_parsed": 192,
+  "gold_ops": 288,
+  "induced_ops": 288,
+  "self_verified": 288,
+  "exact_text": 288,
+  "behavioural": 288,
+  "secs": 12.3
+ },
+ "plan_execute@T0@it8": {
+  "sequential": {
+   "1": {
+    "n": 48,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1233.0,
+    "reasons": {
+     "ok": 48
+    },
+    "secs": 0.7,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 48,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1235.0,
+    "reasons": {
+     "ok": 48
+    },
+    "secs": 0.6,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 48,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1237.0,
+    "reasons": {
+     "ok": 48
+    },
+    "secs": 0.6,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 48,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1239.0,
+    "reasons": {
+     "wrong_value": 48
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "6": {
+    "n": 48,
+    "acc": 0.0417,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9583,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1243.0,
+    "reasons": {
+     "wrong_value": 46,
+     "ok": 2
+    },
+    "secs": 0.6,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 48,
+    "acc": 0.0,
+    "parse_rate": 0.1042,
+    "well_typed_rate": 0.1042,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.1042,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1247.0,
+    "reasons": {
+     "slot_decode:node 2 depends on inactive node 1": 28,
+     "plan_parse": 7,
+     "slot_decode:active node 1 has an empty opcode": 8,
+     "wrong_value": 5
+    },
+    "secs": 0.6,
+    "sample": "slot_decode:node 2 depends on inactive node 1"
+   },
+   "12": {
+    "n": 48,
+    "acc": 0.0417,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9583,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1255.0,
+    "reasons": {
+     "wrong_value": 46,
+     "ok": 2
+    },
+    "secs": 0.6,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3"
+   }
+  }
+ },
+ "plan_execute@T0.8@it8": {
+  "sequential": {
+   "1": {
+    "n": 48,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1233.0,
+    "reasons": {
+     "ok": 48
+    },
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 48,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1235.0,
+    "reasons": {
+     "ok": 48
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 48,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1237.0,
+    "reasons": {
+     "ok": 48
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 48,
+    "acc": 0.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 1.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1239.0,
+    "reasons": {
+     "wrong_value": 48
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "6": {
+    "n": 48,
+    "acc": 0.0417,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9583,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1243.0,
+    "reasons": {
+     "wrong_value": 46,
+     "ok": 2
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 48,
+    "acc": 0.0,
+    "parse_rate": 0.125,
+    "well_typed_rate": 0.125,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.125,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1247.0,
+    "reasons": {
+     "slot_decode:node 2 depends on inactive node 1": 26,
+     "plan_parse": 7,
+     "slot_decode:active node 1 has an empty opcode": 8,
+     "slot_decode:active node 1 has no output register": 1,
+     "wrong_value": 6
+    },
+    "secs": 0.5,
+    "sample": "slot_decode:node 2 depends on inactive node 1"
+   },
+   "12": {
+    "n": 48,
+    "acc": 0.0417,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9583,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 1160.0,
+    "position_evals_mean": 1255.0,
+    "reasons": {
+     "wrong_value": 46,
+     "ok": 2
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3"
+   }
+  }
+ }
+}

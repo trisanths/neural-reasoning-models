@@ -1,0 +1,3118 @@
+{
+ "config": {
+  "ckpt": "runs/ladder_ab/ladder_symbolic.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "rep": null,
+  "out": "results/ladder_ab/symbolic_main_sampled.json",
+  "n": 150,
+  "batch_size": 24,
+  "slot_batch_size": 8,
+  "rounds": 3,
+  "kinds": "sequential,breadth,novel,sequential_paren,same_page_pair,units",
+  "seq_depths": null,
+  "styles": "0,1",
+  "temperature": 0.8,
+  "max_new": 320,
+  "conditions": "plan_execute,oracle_plan,oracle_ops,oracle_both"
+ },
+ "rep": "symbolic",
+ "grid": {
+  "sequential": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "breadth": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "novel": [
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "sequential_paren": [
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "same_page_pair": [
+   2
+  ],
+  "units": [
+   1
+  ]
+ },
+ "checkpoint": {
+  "arm": "ladder_symbolic",
+  "rep": "symbolic",
+  "step": 8000,
+  "tokens": 36738784,
+  "supervised_tokens": 9026285,
+  "examples": 320000,
+  "reinit_tokens": 0,
+  "rounds": 3
+ },
+ "budget": {
+  "style0/sequential/1": {
+   "longest_gold_plan_tokens": 11,
+   "longest_prompt_tokens": 66,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/2": {
+   "longest_gold_plan_tokens": 18,
+   "longest_prompt_tokens": 68,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/3": {
+   "longest_gold_plan_tokens": 25,
+   "longest_prompt_tokens": 70,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/4": {
+   "longest_gold_plan_tokens": 32,
+   "longest_prompt_tokens": 72,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/5": {
+   "longest_gold_plan_tokens": 39,
+   "longest_prompt_tokens": 74,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/6": {
+   "longest_gold_plan_tokens": 46,
+   "longest_prompt_tokens": 76,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/7": {
+   "longest_gold_plan_tokens": 53,
+   "longest_prompt_tokens": 78,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential/8": {
+   "longest_gold_plan_tokens": 60,
+   "longest_prompt_tokens": 80,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/breadth/1": {
+   "longest_gold_plan_tokens": 11,
+   "longest_prompt_tokens": 86,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/breadth/2": {
+   "longest_gold_plan_tokens": 12,
+   "longest_prompt_tokens": 94,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/breadth/3": {
+   "longest_gold_plan_tokens": 13,
+   "longest_prompt_tokens": 102,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/breadth/4": {
+   "longest_gold_plan_tokens": 14,
+   "longest_prompt_tokens": 111,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/breadth/5": {
+   "longest_gold_plan_tokens": 15,
+   "longest_prompt_tokens": 119,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/breadth/6": {
+   "longest_gold_plan_tokens": 16,
+   "longest_prompt_tokens": 127,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/novel/2": {
+   "longest_gold_plan_tokens": 18,
+   "longest_prompt_tokens": 70,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/novel/3": {
+   "longest_gold_plan_tokens": 25,
+   "longest_prompt_tokens": 74,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/novel/4": {
+   "longest_gold_plan_tokens": 32,
+   "longest_prompt_tokens": 77,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/novel/5": {
+   "longest_gold_plan_tokens": 39,
+   "longest_prompt_tokens": 81,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/novel/6": {
+   "longest_gold_plan_tokens": 46,
+   "longest_prompt_tokens": 84,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential_paren/2": {
+   "longest_gold_plan_tokens": 18,
+   "longest_prompt_tokens": 70,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential_paren/3": {
+   "longest_gold_plan_tokens": 25,
+   "longest_prompt_tokens": 74,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential_paren/4": {
+   "longest_gold_plan_tokens": 32,
+   "longest_prompt_tokens": 77,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential_paren/5": {
+   "longest_gold_plan_tokens": 39,
+   "longest_prompt_tokens": 81,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/sequential_paren/6": {
+   "longest_gold_plan_tokens": 46,
+   "longest_prompt_tokens": 84,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/same_page_pair/2": {
+   "longest_gold_plan_tokens": 19,
+   "longest_prompt_tokens": 102,
+   "max_new": 320,
+   "fits": true
+  },
+  "style0/units/1": {
+   "longest_gold_plan_tokens": 10,
+   "longest_prompt_tokens": 73,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/1": {
+   "longest_gold_plan_tokens": 11,
+   "longest_prompt_tokens": 66,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/2": {
+   "longest_gold_plan_tokens": 18,
+   "longest_prompt_tokens": 68,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/3": {
+   "longest_gold_plan_tokens": 25,
+   "longest_prompt_tokens": 70,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/4": {
+   "longest_gold_plan_tokens": 32,
+   "longest_prompt_tokens": 72,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/5": {
+   "longest_gold_plan_tokens": 39,
+   "longest_prompt_tokens": 74,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/6": {
+   "longest_gold_plan_tokens": 46,
+   "longest_prompt_tokens": 76,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/7": {
+   "longest_gold_plan_tokens": 53,
+   "longest_prompt_tokens": 78,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential/8": {
+   "longest_gold_plan_tokens": 60,
+   "longest_prompt_tokens": 80,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/breadth/1": {
+   "longest_gold_plan_tokens": 11,
+   "longest_prompt_tokens": 86,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/breadth/2": {
+   "longest_gold_plan_tokens": 12,
+   "longest_prompt_tokens": 94,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/breadth/3": {
+   "longest_gold_plan_tokens": 13,
+   "longest_prompt_tokens": 102,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/breadth/4": {
+   "longest_gold_plan_tokens": 14,
+   "longest_prompt_tokens": 111,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/breadth/5": {
+   "longest_gold_plan_tokens": 15,
+   "longest_prompt_tokens": 119,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/breadth/6": {
+   "longest_gold_plan_tokens": 16,
+   "longest_prompt_tokens": 127,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/novel/2": {
+   "longest_gold_plan_tokens": 18,
+   "longest_prompt_tokens": 70,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/novel/3": {
+   "longest_gold_plan_tokens": 25,
+   "longest_prompt_tokens": 74,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/novel/4": {
+   "longest_gold_plan_tokens": 32,
+   "longest_prompt_tokens": 77,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/novel/5": {
+   "longest_gold_plan_tokens": 39,
+   "longest_prompt_tokens": 81,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/novel/6": {
+   "longest_gold_plan_tokens": 46,
+   "longest_prompt_tokens": 84,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential_paren/2": {
+   "longest_gold_plan_tokens": 18,
+   "longest_prompt_tokens": 70,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential_paren/3": {
+   "longest_gold_plan_tokens": 25,
+   "longest_prompt_tokens": 74,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential_paren/4": {
+   "longest_gold_plan_tokens": 32,
+   "longest_prompt_tokens": 77,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential_paren/5": {
+   "longest_gold_plan_tokens": 39,
+   "longest_prompt_tokens": 81,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/sequential_paren/6": {
+   "longest_gold_plan_tokens": 46,
+   "longest_prompt_tokens": 84,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/same_page_pair/2": {
+   "longest_gold_plan_tokens": 19,
+   "longest_prompt_tokens": 102,
+   "max_new": 320,
+   "fits": true
+  },
+  "style1/units/1": {
+   "longest_gold_plan_tokens": 10,
+   "longest_prompt_tokens": 73,
+   "max_new": 320,
+   "fits": true
+  }
+ },
+ "budget_clipped_cells": [],
+ "induction": {
+  "pages": 6600,
+  "pages_parsed": 6600,
+  "gold_ops": 9897,
+  "induced_ops": 9897,
+  "self_verified": 9487,
+  "exact_text": 9444,
+  "behavioural": 9444
+ },
+ "plan_execute": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 3 > ans A",
+     "A = op0 9 9 > ans A",
+     "A = op0 6 11 > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 8 2 > B = op1 A 3 > ans B",
+     "A = op1 7 3 > B = op1 A 7 > ans B",
+     "A = op0 2 8 > B = op0 1 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 12 8 > B = op0 A 6 > C = op0 B 10 > ans C",
+     "A = op1 2 2 > B = op1 A 8 > C = op1 B 11 > ans C",
+     "A = op0 5 12 > B = op0 3 A > C = op0 9 B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.98,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "samples": [
+     "A = op0 1 7 > B = op0 A 5 > C = op0 B 2 > ans C",
+     "A = op1 1 9 > B = op1 A 5 > C = op1 B 8 > ans C",
+     "A = op0 11 3 > B = op0 12 A > C = op0 2 B > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 145,
+     "ok": 5
+    },
+    "samples": [
+     "A = op1 11 9 > B = op1 A 10 > C = op1 B 4 > ans C",
+     "A = op1 9 10 > B = op1 A 11 > C = op1 B 7 > ans C",
+     "A = op0 8 5 > B = op0 4 A > C = op0 11 B > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.02,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.98,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "samples": [
+     "A = op0 3 5 > B = op0 A 3 > C = op0 B 1 > ans C",
+     "A = op1 6 1 > B = op1 A 3 > C = op1 B 6 > ans C",
+     "A = op1 3 1 > B = op1 7 A > C = op1 12 B > ans C"
+    ]
+   },
+   "7": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 145,
+     "ok": 5
+    },
+    "samples": [
+     "A = op0 9 3 > B = op0 A 10 > C = op0 B 8 > ans C",
+     "A = op0 4 11 > B = op0 6 A > C = op0 6 B > ans C",
+     "A = op0 3 2 > B = op0 1 A > C = op0 8 B > ans C"
+    ]
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9733,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "samples": [
+     "A = op0 3 8 > B = op0 A 12 > C = op0 B 4 > ans C",
+     "A = op0 1 12 > B = op0 2 A > C = op0 1 B > ans C",
+     "A = op1 1 11 > B = op1 10 A > C = op1 10 B > ans C"
+    ]
+   }
+  },
+  "breadth": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 40 true > ans A",
+     "A = op4 44 false > ans A",
+     "A = op4 60 false > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 23 false true > ans A",
+     "A = op4 56 false true > ans A",
+     "A = op4 50 true true > ans A"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op5 56 true false true > ans A",
+     "A = op4 80 false true false > ans A",
+     "A = op4 52 true false false > ans A"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.42,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.58,
+    "reasons": {
+     "wrong_value": 87,
+     "ok": 63
+    },
+    "samples": [
+     "A = op4 57 true true false > ans A",
+     "A = op5 31 true false true > ans A",
+     "A = op4 42 true false true > ans A"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.3467,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.6533,
+    "reasons": {
+     "ok": 52,
+     "wrong_value": 98
+    },
+    "samples": [
+     "A = op5 31 true true false > ans A",
+     "A = op4 39 true true false > ans A",
+     "A = op3 49 false false true > ans A"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.1933,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.8067,
+    "reasons": {
+     "wrong_value": 121,
+     "ok": 29
+    },
+    "samples": [
+     "A = op4 40 true false true > ans A",
+     "A = op3 24 true false true > ans A",
+     "A = op4 60 true false true > ans A"
+    ]
+   }
+  },
+  "novel": {
+   "2": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "A = op1 7 6 > B = op1 5 A > ans B",
+     "A = op1 6 1 > B = op1 11 A > ans B",
+     "A = op0 7 9 > B = op0 A 11 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "ok": 1
+    },
+    "samples": [
+     "A = op1 10 3 > B = op1 A 12 > C = op1 B 3 > ans C",
+     "A = op1 4 7 > B = op1 11 A > C = op1 B 10 > ans C",
+     "A = op1 4 3 > B = op1 5 6 > C = op1 A B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "A = op0 2 7 > B = op0 3 8 > C = op0 A 7 > ans C",
+     "A = op1 12 9 > B = op1 6 8 > C = op1 A 2 > ans C",
+     "A = op0 7 9 > B = op0 9 5 > C = op0 A B > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 4,
+     "plan_parse": 2
+    },
+    "samples": [
+     "A = op0 3 9 > B = op0 A 12 > C = op0 B 3 > ans C",
+     "A = op0 7 2 > B = op0 7 A > C = op0 B 5 > ans C",
+     "A = op1 1 10 > B = op1 3 A > C = op1 B 6 > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9933,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op1 8 3 > B = op1 7 A > C = op1 B 7 > ans C",
+     "A = op0 12 8 > B = op0 1 11 > C = op0 A B > ans C",
+     "A = op0 7 11 > B = op0 11 6 > C = op0 10 B > ans C"
+    ]
+   }
+  },
+  "sequential_paren": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 10 > B = op0 6 A > ans B",
+     "A = op1 2 9 > B = op1 3 A > ans B",
+     "A = op0 12 11 > B = op0 7 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 6 2 > B = op1 5 4 > C = op1 A B > ans C",
+     "A = op1 5 6 > B = op1 A 3 > C = op1 B 10 > ans C",
+     "A = op1 6 5 > B = op1 A 11 > C = op1 B 5 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0533,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9467,
+    "reasons": {
+     "wrong_value": 142,
+     "ok": 8
+    },
+    "samples": [
+     "A = op1 11 8 > B = op1 A 1 > C = op1 B 1 > ans C",
+     "A = op0 9 4 > B = op0 A 1 > C = op0 11 B > ans C",
+     "A = op1 8 8 > B = op1 5 A > C = op1 B 11 > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0467,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9533,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 7
+    },
+    "samples": [
+     "A = op0 5 12 > B = op0 2 9 > C = op0 A 9 > ans C",
+     "A = op1 2 12 > B = op1 7 9 > C = op1 A B > ans C",
+     "A = op0 7 4 > B = op0 2 A > C = op0 2 B > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 145,
+     "ok": 5
+    },
+    "samples": [
+     "A = op1 2 2 > B = op1 4 A > C = op1 B 10 > ans C",
+     "A = op1 6 3 > B = op1 A 2 > C = op1 B 7 > ans C",
+     "A = op1 11 1 > B = op1 8 A > C = op1 B 3 > ans C"
+    ]
+   }
+  },
+  "same_page_pair": {
+   "2": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.76,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 114,
+     "execute": 36
+    },
+    "samples": [
+     "A = op3 80 true true true > ans A",
+     "A = op4 75 true true true > ans A",
+     "A = op4 35 false true true > ans A"
+    ]
+   }
+  },
+  "units": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op3 6 > ans A",
+     "A = op4 5 > ans A",
+     "A = op4 9 > ans A"
+    ]
+   }
+  }
+ },
+ "oracle_plan": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 3 > ans A",
+     "A = op0 9 9 > ans A",
+     "A = op0 6 11 > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 8 2 > B = op1 A 3 > ans B",
+     "A = op1 7 3 > B = op1 A 7 > ans B",
+     "A = op0 2 8 > B = op0 1 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 12 8 > B = op0 A 6 > C = op0 B 10 > ans C",
+     "A = op1 2 2 > B = op1 A 8 > C = op1 B 11 > ans C",
+     "A = op0 5 12 > B = op0 3 A > C = op0 9 B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 1 7 > B = op0 A 5 > C = op0 B 5 > D = op0 C 2 > ans D",
+     "A = op1 1 9 > B = op1 A 5 > C = op1 B 6 > D = op1 C 8 > ans D",
+     "A = op0 11 3 > B = op0 12 A > C = op0 5 B > D = op0 2 C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 9 > B = op1 A 10 > C = op1 B 6 > D = op1 C 3 > E = op1 D 4 > ans E",
+     "A = op1 9 10 > B = op1 A 11 > C = op1 B 8 > D = op1 C 1 > E = op1 D 7 > ans E",
+     "A = op0 8 5 > B = op0 4 A > C = op0 6 B > D = op0 1 C > E = op0 11 D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 5 > B = op0 A 3 > C = op0 B 3 > D = op0 C 10 > E = op0 D 12 > F = op0 E 1 > ans F",
+     "A = op1 6 1 > B = op1 A 3 > C = op1 B 1 > D = op1 C 1 > E = op1 D 2 > F = op1 E 6 > ans F",
+     "A = op1 3 1 > B = op1 7 A > C = op1 2 B > D = op1 3 C > E = op1 12 D > F = op1 12 E > ans F"
+    ]
+   },
+   "7": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 9 3 > B = op0 A 10 > C = op0 B 11 > D = op0 C 5 > E = op0 D 4 > F = op0 E 2 > G = op0 F 8 > ans G",
+     "A = op0 4 6 > B = op0 3 A > C = op0 11 B > D = op0 9 C > E = op0 4 D > F = op0 8 E > G = op0 6 F > ans G",
+     "A = op0 3 2 > B = op0 6 A > C = op0 1 B > D = op0 1 C > E = op0 1 D > F = op0 1 E > G = op0 8 F > ans G"
+    ]
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 8 > B = op0 A 12 > C = op0 B 2 > D = op0 C 2 > E = op0 D 9 > F = op0 E 5 > G = op0 F 2 > H = op0 G 4 > ans H",
+     "A = op0 1 12 > B = op0 9 A > C = op0 2 B > D = op0 1 C > E = op0 10 D > F = op0 11 E > G = op0 3 F > H = op0 1 G > ans H",
+     "A = op1 1 11 > B = op1 11 A > C = op1 10 B > D = op1 5 C > E = op1 1 D > F = op1 3 E > G = op1 11 F > H = op1 10 G > ans H"
+    ]
+   }
+  },
+  "breadth": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 40 true > ans A",
+     "A = op4 44 false > ans A",
+     "A = op4 60 false > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 23 false true > ans A",
+     "A = op4 56 false true > ans A",
+     "A = op4 50 true true > ans A"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op5 56 true false true > ans A",
+     "A = op4 80 false true false > ans A",
+     "A = op4 52 true false false > ans A"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "execute": 150
+    },
+    "samples": [
+     "A = op4 57 true true true false > ans A",
+     "A = op5 31 true false true false > ans A",
+     "A = op4 42 true false false true > ans A"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "execute": 150
+    },
+    "samples": [
+     "A = op5 31 true true false false false > ans A",
+     "A = op4 39 true true true true false > ans A",
+     "A = op3 49 false false false true true > ans A"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "execute": 150
+    },
+    "samples": [
+     "A = op4 40 true false false true false false > ans A",
+     "A = op3 24 true false false false false true > ans A",
+     "A = op4 60 true false false true true true > ans A"
+    ]
+   }
+  },
+  "novel": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 7 6 > B = op1 5 A > ans B",
+     "A = op0 6 1 > B = op1 11 A > ans B",
+     "A = op0 7 9 > B = op1 A 11 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 10 3 > B = op0 A 12 > C = op0 B 3 > ans C",
+     "A = op1 4 7 > B = op1 11 A > C = op0 B 10 > ans C",
+     "A = op1 4 3 > B = op1 5 6 > C = op0 A B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 2 7 > B = op1 A 7 > C = op1 3 8 > D = op1 B C > ans D",
+     "A = op1 12 9 > B = op1 A 2 > C = op0 6 8 > D = op1 B C > ans D",
+     "A = op0 7 9 > B = op0 2 5 > C = op1 9 B > D = op1 A C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 9 > B = op1 9 1 > C = op1 B 12 > D = op0 C 3 > E = op1 A D > ans E",
+     "A = op0 9 2 > B = op0 7 A > C = op0 7 B > D = op1 C 6 > E = op1 D 5 > ans E",
+     "A = op1 1 10 > B = op0 A 9 > C = op1 3 B > D = op1 4 6 > E = op0 C D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 8 3 > B = op0 A 1 > C = op1 10 1 > D = op1 C 7 > E = op1 7 D > F = op1 B E > ans F",
+     "A = op0 12 8 > B = op1 1 11 > C = op1 A B > D = op1 3 12 > E = op1 9 D > F = op1 C E > ans F",
+     "A = op1 7 11 > B = op0 11 6 > C = op1 B 1 > D = op1 A C > E = op1 D 9 > F = op0 10 E > ans F"
+    ]
+   }
+  },
+  "sequential_paren": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 10 > B = op0 6 A > ans B",
+     "A = op1 2 9 > B = op1 3 A > ans B",
+     "A = op0 12 11 > B = op0 7 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 6 2 > B = op1 5 4 > C = op1 A B > ans C",
+     "A = op1 5 6 > B = op1 A 3 > C = op1 B 10 > ans C",
+     "A = op1 6 5 > B = op1 A 11 > C = op1 B 5 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 8 > B = op1 1 3 > C = op1 B 1 > D = op1 A C > ans D",
+     "A = op0 9 4 > B = op0 A 1 > C = op0 4 B > D = op0 11 C > ans D",
+     "A = op1 8 8 > B = op1 5 A > C = op1 2 11 > D = op1 B C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 5 12 > B = op0 A 9 > C = op0 10 B > D = op0 2 9 > E = op0 C D > ans E",
+     "A = op1 2 12 > B = op1 7 9 > C = op1 A B > D = op1 3 6 > E = op1 C D > ans E",
+     "A = op0 7 4 > B = op0 10 A > C = op0 12 4 > D = op0 B C > E = op0 2 D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 2 2 > B = op1 4 A > C = op1 12 9 > D = op1 B C > E = op1 9 10 > F = op1 D E > ans F",
+     "A = op1 6 3 > B = op1 A 2 > C = op1 B 3 > D = op1 C 7 > E = op1 D 9 > F = op1 E 7 > ans F",
+     "A = op1 2 1 > B = op1 11 A > C = op1 8 B > D = op1 6 4 > E = op1 C D > F = op1 E 3 > ans F"
+    ]
+   }
+  },
+  "same_page_pair": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op3 80 true true true > B = op2 A > ans B",
+     "A = op4 75 true true true > B = op2 A > ans B",
+     "A = op5 35 false true true > B = op2 A > ans B"
+    ]
+   }
+  },
+  "units": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op3 6 > ans A",
+     "A = op4 5 > ans A",
+     "A = op4 9 > ans A"
+    ]
+   }
+  }
+ },
+ "oracle_ops": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 3 > ans A",
+     "A = op0 9 9 > ans A",
+     "A = op0 6 11 > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 8 2 > B = op1 A 3 > ans B",
+     "A = op1 7 3 > B = op1 A 7 > ans B",
+     "A = op0 2 8 > B = op0 1 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 12 8 > B = op0 A 6 > C = op0 B 10 > ans C",
+     "A = op1 2 2 > B = op1 A 8 > C = op1 B 11 > ans C",
+     "A = op0 5 12 > B = op0 3 A > C = op0 9 B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.98,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "samples": [
+     "A = op0 1 7 > B = op0 A 5 > C = op0 B 2 > ans C",
+     "A = op1 1 9 > B = op1 A 5 > C = op1 B 8 > ans C",
+     "A = op0 11 3 > B = op0 12 A > C = op0 2 B > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 145,
+     "ok": 5
+    },
+    "samples": [
+     "A = op1 11 9 > B = op1 A 10 > C = op1 B 4 > ans C",
+     "A = op1 9 10 > B = op1 A 11 > C = op1 B 7 > ans C",
+     "A = op0 8 5 > B = op0 4 A > C = op0 11 B > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.02,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.98,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "samples": [
+     "A = op0 3 5 > B = op0 A 3 > C = op0 B 1 > ans C",
+     "A = op1 6 1 > B = op1 A 3 > C = op1 B 6 > ans C",
+     "A = op1 3 1 > B = op1 7 A > C = op1 12 B > ans C"
+    ]
+   },
+   "7": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 145,
+     "ok": 5
+    },
+    "samples": [
+     "A = op0 9 3 > B = op0 A 10 > C = op0 B 8 > ans C",
+     "A = op0 4 11 > B = op0 6 A > C = op0 6 B > ans C",
+     "A = op0 3 2 > B = op0 1 A > C = op0 8 B > ans C"
+    ]
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9733,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "samples": [
+     "A = op0 3 8 > B = op0 A 12 > C = op0 B 4 > ans C",
+     "A = op0 1 12 > B = op0 2 A > C = op0 1 B > ans C",
+     "A = op1 1 11 > B = op1 10 A > C = op1 10 B > ans C"
+    ]
+   }
+  },
+  "breadth": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 40 true > ans A",
+     "A = op4 44 false > ans A",
+     "A = op4 60 false > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 23 false true > ans A",
+     "A = op4 56 false true > ans A",
+     "A = op4 50 true true > ans A"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op5 56 true false true > ans A",
+     "A = op4 80 false true false > ans A",
+     "A = op4 52 true false false > ans A"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "execute": 150
+    },
+    "samples": [
+     "A = op4 57 true true false > ans A",
+     "A = op5 31 true false true > ans A",
+     "A = op4 42 true false true > ans A"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "execute": 150
+    },
+    "samples": [
+     "A = op5 31 true true false > ans A",
+     "A = op4 39 true true false > ans A",
+     "A = op3 49 false false true > ans A"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "execute": 150
+    },
+    "samples": [
+     "A = op4 40 true false true > ans A",
+     "A = op3 24 true false true > ans A",
+     "A = op4 60 true false true > ans A"
+    ]
+   }
+  },
+  "novel": {
+   "2": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "A = op1 7 6 > B = op1 5 A > ans B",
+     "A = op1 6 1 > B = op1 11 A > ans B",
+     "A = op0 7 9 > B = op0 A 11 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "ok": 1
+    },
+    "samples": [
+     "A = op1 10 3 > B = op1 A 12 > C = op1 B 3 > ans C",
+     "A = op1 4 7 > B = op1 11 A > C = op1 B 10 > ans C",
+     "A = op1 4 3 > B = op1 5 6 > C = op1 A B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "A = op0 2 7 > B = op0 3 8 > C = op0 A 7 > ans C",
+     "A = op1 12 9 > B = op1 6 8 > C = op1 A 2 > ans C",
+     "A = op0 7 9 > B = op0 9 5 > C = op0 A B > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 4,
+     "plan_parse": 2
+    },
+    "samples": [
+     "A = op0 3 9 > B = op0 A 12 > C = op0 B 3 > ans C",
+     "A = op0 7 2 > B = op0 7 A > C = op0 B 5 > ans C",
+     "A = op1 1 10 > B = op1 3 A > C = op1 B 6 > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9933,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op1 8 3 > B = op1 7 A > C = op1 B 7 > ans C",
+     "A = op0 12 8 > B = op0 1 11 > C = op0 A B > ans C",
+     "A = op0 7 11 > B = op0 11 6 > C = op0 10 B > ans C"
+    ]
+   }
+  },
+  "sequential_paren": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 10 > B = op0 6 A > ans B",
+     "A = op1 2 9 > B = op1 3 A > ans B",
+     "A = op0 12 11 > B = op0 7 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 6 2 > B = op1 5 4 > C = op1 A B > ans C",
+     "A = op1 5 6 > B = op1 A 3 > C = op1 B 10 > ans C",
+     "A = op1 6 5 > B = op1 A 11 > C = op1 B 5 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0533,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9467,
+    "reasons": {
+     "wrong_value": 142,
+     "ok": 8
+    },
+    "samples": [
+     "A = op1 11 8 > B = op1 A 1 > C = op1 B 1 > ans C",
+     "A = op0 9 4 > B = op0 A 1 > C = op0 11 B > ans C",
+     "A = op1 8 8 > B = op1 5 A > C = op1 B 11 > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0467,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9533,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 7
+    },
+    "samples": [
+     "A = op0 5 12 > B = op0 2 9 > C = op0 A 9 > ans C",
+     "A = op1 2 12 > B = op1 7 9 > C = op1 A B > ans C",
+     "A = op0 7 4 > B = op0 2 A > C = op0 2 B > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 145,
+     "ok": 5
+    },
+    "samples": [
+     "A = op1 2 2 > B = op1 4 A > C = op1 B 10 > ans C",
+     "A = op1 6 3 > B = op1 A 2 > C = op1 B 7 > ans C",
+     "A = op1 11 1 > B = op1 8 A > C = op1 B 3 > ans C"
+    ]
+   }
+  },
+  "same_page_pair": {
+   "2": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.76,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 1.0,
+    "reasons": {
+     "wrong_value": 114,
+     "execute": 36
+    },
+    "samples": [
+     "A = op3 80 true true true > ans A",
+     "A = op4 75 true true true > ans A",
+     "A = op4 35 false true true > ans A"
+    ]
+   }
+  },
+  "units": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op3 6 > ans A",
+     "A = op4 5 > ans A",
+     "A = op4 9 > ans A"
+    ]
+   }
+  }
+ },
+ "oracle_both": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 3 > ans A",
+     "A = op0 9 9 > ans A",
+     "A = op0 6 11 > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 8 2 > B = op1 A 3 > ans B",
+     "A = op1 7 3 > B = op1 A 7 > ans B",
+     "A = op0 2 8 > B = op0 1 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 12 8 > B = op0 A 6 > C = op0 B 10 > ans C",
+     "A = op1 2 2 > B = op1 A 8 > C = op1 B 11 > ans C",
+     "A = op0 5 12 > B = op0 3 A > C = op0 9 B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 1 7 > B = op0 A 5 > C = op0 B 5 > D = op0 C 2 > ans D",
+     "A = op1 1 9 > B = op1 A 5 > C = op1 B 6 > D = op1 C 8 > ans D",
+     "A = op0 11 3 > B = op0 12 A > C = op0 5 B > D = op0 2 C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 9 > B = op1 A 10 > C = op1 B 6 > D = op1 C 3 > E = op1 D 4 > ans E",
+     "A = op1 9 10 > B = op1 A 11 > C = op1 B 8 > D = op1 C 1 > E = op1 D 7 > ans E",
+     "A = op0 8 5 > B = op0 4 A > C = op0 6 B > D = op0 1 C > E = op0 11 D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 5 > B = op0 A 3 > C = op0 B 3 > D = op0 C 10 > E = op0 D 12 > F = op0 E 1 > ans F",
+     "A = op1 6 1 > B = op1 A 3 > C = op1 B 1 > D = op1 C 1 > E = op1 D 2 > F = op1 E 6 > ans F",
+     "A = op1 3 1 > B = op1 7 A > C = op1 2 B > D = op1 3 C > E = op1 12 D > F = op1 12 E > ans F"
+    ]
+   },
+   "7": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 9 3 > B = op0 A 10 > C = op0 B 11 > D = op0 C 5 > E = op0 D 4 > F = op0 E 2 > G = op0 F 8 > ans G",
+     "A = op0 4 6 > B = op0 3 A > C = op0 11 B > D = op0 9 C > E = op0 4 D > F = op0 8 E > G = op0 6 F > ans G",
+     "A = op0 3 2 > B = op0 6 A > C = op0 1 B > D = op0 1 C > E = op0 1 D > F = op0 1 E > G = op0 8 F > ans G"
+    ]
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 8 > B = op0 A 12 > C = op0 B 2 > D = op0 C 2 > E = op0 D 9 > F = op0 E 5 > G = op0 F 2 > H = op0 G 4 > ans H",
+     "A = op0 1 12 > B = op0 9 A > C = op0 2 B > D = op0 1 C > E = op0 10 D > F = op0 11 E > G = op0 3 F > H = op0 1 G > ans H",
+     "A = op1 1 11 > B = op1 11 A > C = op1 10 B > D = op1 5 C > E = op1 1 D > F = op1 3 E > G = op1 11 F > H = op1 10 G > ans H"
+    ]
+   }
+  },
+  "breadth": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 40 true > ans A",
+     "A = op4 44 false > ans A",
+     "A = op4 60 false > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 23 false true > ans A",
+     "A = op4 56 false true > ans A",
+     "A = op4 50 true true > ans A"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op5 56 true false true > ans A",
+     "A = op4 80 false true false > ans A",
+     "A = op4 52 true false false > ans A"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 57 true true true false > ans A",
+     "A = op5 31 true false true false > ans A",
+     "A = op4 42 true false false true > ans A"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op5 31 true true false false false > ans A",
+     "A = op4 39 true true true true false > ans A",
+     "A = op3 49 false false false true true > ans A"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op4 40 true false false true false false > ans A",
+     "A = op3 24 true false false false false true > ans A",
+     "A = op4 60 true false false true true true > ans A"
+    ]
+   }
+  },
+  "novel": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 7 6 > B = op1 5 A > ans B",
+     "A = op0 6 1 > B = op1 11 A > ans B",
+     "A = op0 7 9 > B = op1 A 11 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 10 3 > B = op0 A 12 > C = op0 B 3 > ans C",
+     "A = op1 4 7 > B = op1 11 A > C = op0 B 10 > ans C",
+     "A = op1 4 3 > B = op1 5 6 > C = op0 A B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 2 7 > B = op1 A 7 > C = op1 3 8 > D = op1 B C > ans D",
+     "A = op1 12 9 > B = op1 A 2 > C = op0 6 8 > D = op1 B C > ans D",
+     "A = op0 7 9 > B = op0 2 5 > C = op1 9 B > D = op1 A C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 9 > B = op1 9 1 > C = op1 B 12 > D = op0 C 3 > E = op1 A D > ans E",
+     "A = op0 9 2 > B = op0 7 A > C = op0 7 B > D = op1 C 6 > E = op1 D 5 > ans E",
+     "A = op1 1 10 > B = op0 A 9 > C = op1 3 B > D = op1 4 6 > E = op0 C D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 8 3 > B = op0 A 1 > C = op1 10 1 > D = op1 C 7 > E = op1 7 D > F = op1 B E > ans F",
+     "A = op0 12 8 > B = op1 1 11 > C = op1 A B > D = op1 3 12 > E = op1 9 D > F = op1 C E > ans F",
+     "A = op1 7 11 > B = op0 11 6 > C = op1 B 1 > D = op1 A C > E = op1 D 9 > F = op0 10 E > ans F"
+    ]
+   }
+  },
+  "sequential_paren": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 3 10 > B = op0 6 A > ans B",
+     "A = op1 2 9 > B = op1 3 A > ans B",
+     "A = op0 12 11 > B = op0 7 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 6 2 > B = op1 5 4 > C = op1 A B > ans C",
+     "A = op1 5 6 > B = op1 A 3 > C = op1 B 10 > ans C",
+     "A = op1 6 5 > B = op1 A 11 > C = op1 B 5 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 11 8 > B = op1 1 3 > C = op1 B 1 > D = op1 A C > ans D",
+     "A = op0 9 4 > B = op0 A 1 > C = op0 4 B > D = op0 11 C > ans D",
+     "A = op1 8 8 > B = op1 5 A > C = op1 2 11 > D = op1 B C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op0 5 12 > B = op0 A 9 > C = op0 10 B > D = op0 2 9 > E = op0 C D > ans E",
+     "A = op1 2 12 > B = op1 7 9 > C = op1 A B > D = op1 3 6 > E = op1 C D > ans E",
+     "A = op0 7 4 > B = op0 10 A > C = op0 12 4 > D = op0 B C > E = op0 2 D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op1 2 2 > B = op1 4 A > C = op1 12 9 > D = op1 B C > E = op1 9 10 > F = op1 D E > ans F",
+     "A = op1 6 3 > B = op1 A 2 > C = op1 B 3 > D = op1 C 7 > E = op1 D 9 > F = op1 E 7 > ans F",
+     "A = op1 2 1 > B = op1 11 A > C = op1 8 B > D = op1 6 4 > E = op1 C D > F = op1 E 3 > ans F"
+    ]
+   }
+  },
+  "same_page_pair": {
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op3 80 true true true > B = op2 A > ans B",
+     "A = op4 75 true true true > B = op2 A > ans B",
+     "A = op5 35 false true true > B = op2 A > ans B"
+    ]
+   }
+  },
+  "units": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 1.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "A = op3 6 > ans A",
+     "A = op4 5 > ans A",
+     "A = op4 9 > ans A"
+    ]
+   }
+  }
+ },
+ "induction@para": {
+  "pages": 6600,
+  "pages_parsed": 6401,
+  "gold_ops": 9897,
+  "induced_ops": 9304,
+  "self_verified": 731,
+  "exact_text": 4282,
+  "behavioural": 5126
+ },
+ "plan_execute@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 0.98,
+    "plan_parses": 1.0,
+    "well_typed": 0.9933,
+    "exact_gold_plan": 0.9933,
+    "parsed_but_wrong": 0.02,
+    "reasons": {
+     "ok": 147,
+     "wrong_value": 2,
+     "execute": 1
+    },
+    "samples": [
+     "A = op1 11 3 > ans A",
+     "A = op0 9 9 > ans A",
+     "A = op0 6 11 > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.4467,
+    "plan_parses": 0.9933,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.44,
+    "parsed_but_wrong": 0.5467,
+    "reasons": {
+     "ok": 67,
+     "wrong_value": 80,
+     "plan_parse": 1,
+     "execute": 2
+    },
+    "samples": [
+     "A = op1 8 2 > B = op1 A 3 > ans B",
+     "A = op1 7 3 > B = op1 A 7 > ans B",
+     "A = op0 1 2 > B = op0 A 8 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.4867,
+    "plan_parses": 1.0,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.4867,
+    "parsed_but_wrong": 0.5133,
+    "reasons": {
+     "ok": 73,
+     "wrong_value": 75,
+     "execute": 2
+    },
+    "samples": [
+     "A = op0 12 8 > B = op0 A 6 > C = op0 B 10 > ans C",
+     "A = op1 2 2 > B = op1 A 8 > C = op1 B 11 > ans C",
+     "A = op0 9 3 > B = op0 A 5 > C = op0 B 12 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "plan_parses": 0.9933,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9733,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 3,
+     "execute": 2,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op0 1 7 > B = op0 A 5 > C = op0 B 2 > ans C",
+     "A = op1 1 9 > B = op1 A 5 > C = op1 B 8 > ans C",
+     "A = op0 2 5 > B = op0 A 12 > C = op0 B 3 > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 4,
+     "plan_parse": 1,
+     "execute": 1
+    },
+    "samples": [
+     "A = op1 11 9 > B = op1 A 10 > C = op1 B 4 > ans C",
+     "A = op1 9 10 > B = op1 A 11 > C = op1 B 7 > ans C",
+     "A = op0 11 1 > B = op0 A 6 > C = op0 B 5 > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9733,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "samples": [
+     "A = op0 3 5 > B = op0 A 3 > C = op0 B 1 > ans C",
+     "A = op1 6 1 > B = op1 A 3 > C = op1 B 6 > ans C",
+     "A = op1 12 12 > B = op1 A 3 > C = op1 B 1 > ans C"
+    ]
+   },
+   "7": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 146,
+     "execute": 3,
+     "ok": 1
+    },
+    "samples": [
+     "A = op0 9 3 > B = op0 A 10 > C = op0 B 8 > ans C",
+     "A = op0 6 8 > B = op0 A 4 > C = op0 B 11 > ans C",
+     "A = op0 8 1 > B = op0 A 1 > C = op0 B 2 > ans C"
+    ]
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 0.9733,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 145,
+     "execute": 4,
+     "ok": 1
+    },
+    "samples": [
+     "A = op0 3 8 > B = op0 A 12 > C = op0 B 4 > ans C",
+     "A = op0 1 3 > B = op0 A 11 > C = op0 B 12 > ans C",
+     "A = op1 10 11 > B = op1 A 3 > C = op1 B 11 > ans C"
+    ]
+   }
+  },
+  "breadth": {
+   "1": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.9667,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.7067,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "execute": 145,
+     "plan_parse": 5
+    },
+    "samples": [
+     "A = op3 40 true > ans A",
+     "A = op4 44 false > ans A",
+     "A = op4 60 false > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.38,
+    "plan_parses": 0.9933,
+    "well_typed": 0.38,
+    "exact_gold_plan": 0.8733,
+    "parsed_but_wrong": 0.6133,
+    "reasons": {
+     "execute": 92,
+     "ok": 57,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op4 23 false true > ans A",
+     "A = op4 56 false true > ans A",
+     "A = op4 50 true true > ans A"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.66,
+    "plan_parses": 0.9867,
+    "well_typed": 0.8267,
+    "exact_gold_plan": 0.8467,
+    "parsed_but_wrong": 0.3267,
+    "reasons": {
+     "ok": 99,
+     "execute": 24,
+     "wrong_value": 25,
+     "plan_parse": 2
+    },
+    "samples": [
+     "A = op4 56 true false true > ans A",
+     "A = op4 80 false true false > ans A",
+     "A = op4 52 true false false > ans A"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.3733,
+    "plan_parses": 0.98,
+    "well_typed": 0.7867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.6067,
+    "reasons": {
+     "wrong_value": 62,
+     "ok": 56,
+     "plan_parse": 3,
+     "execute": 29
+    },
+    "samples": [
+     "A = op4 57 true true false > ans A",
+     "A = op5 31 true false true > ans A",
+     "A = op3 42 true false true > ans A"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.22,
+    "plan_parses": 0.9933,
+    "well_typed": 0.7733,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.7733,
+    "reasons": {
+     "ok": 33,
+     "wrong_value": 83,
+     "execute": 33,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op5 31 true true false > ans A",
+     "A = op3 39 true true false > ans A",
+     "A = op3 49 false false true > ans A"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.14,
+    "plan_parses": 0.9667,
+    "well_typed": 0.74,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.8267,
+    "reasons": {
+     "wrong_value": 90,
+     "ok": 21,
+     "execute": 34,
+     "plan_parse": 5
+    },
+    "samples": [
+     "A = op3 40 true false false > ans A",
+     "A = op3 24 true false true > ans A",
+     "A = op3 60 true false true > ans A"
+    ]
+   }
+  },
+  "novel": {
+   "2": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 146,
+     "execute": 2,
+     "ok": 2
+    },
+    "samples": [
+     "A = op1 7 6 > B = op1 5 A > ans B",
+     "A = op1 6 1 > B = op1 11 A > ans B",
+     "A = op0 7 9 > B = op0 A 11 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 1.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "ok": 1
+    },
+    "samples": [
+     "A = op1 10 3 > B = op1 A 12 > C = op1 B 3 > ans C",
+     "A = op1 4 7 > B = op1 11 A > C = op1 B 10 > ans C",
+     "A = op1 4 3 > B = op1 5 6 > C = op1 A B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 146,
+     "execute": 2,
+     "ok": 2
+    },
+    "samples": [
+     "A = op0 2 7 > B = op0 3 8 > C = op0 A 7 > ans C",
+     "A = op1 12 9 > B = op1 6 8 > C = op1 A 2 > ans C",
+     "A = op0 7 9 > B = op0 9 5 > C = op0 A B > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "plan_parses": 0.9867,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 4,
+     "plan_parse": 2,
+     "execute": 1
+    },
+    "samples": [
+     "A = op0 3 9 > B = op0 A 12 > C = op0 B 3 > ans C",
+     "A = op0 7 2 > B = op0 7 A > C = op0 B 5 > ans C",
+     "A = op1 1 10 > B = op1 3 A > C = op1 B 6 > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 148,
+     "execute": 1,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op1 8 3 > B = op1 7 A > C = op1 B 7 > ans C",
+     "A = op0 3 8 > B = op0 1 11 > C = op0 A B > ans C",
+     "A = op0 7 11 > B = op0 11 6 > C = op0 A B > ans C"
+    ]
+   }
+  },
+  "sequential_paren": {
+   "2": {
+    "n": 150,
+    "acc": 0.9667,
+    "plan_parses": 0.9933,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.9733,
+    "parsed_but_wrong": 0.0267,
+    "reasons": {
+     "ok": 145,
+     "wrong_value": 2,
+     "execute": 2,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op0 3 10 > B = op0 6 A > ans B",
+     "A = op1 2 9 > B = op1 3 A > ans B",
+     "A = op0 12 11 > B = op0 7 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.9667,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9667,
+    "exact_gold_plan": 0.9667,
+    "parsed_but_wrong": 0.0267,
+    "reasons": {
+     "ok": 145,
+     "execute": 4,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op1 6 2 > B = op1 5 4 > C = op1 A B > ans C",
+     "A = op1 5 6 > B = op1 A 3 > C = op1 B 10 > ans C",
+     "A = op1 6 5 > B = op1 A 11 > C = op1 B 5 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0467,
+    "plan_parses": 0.9933,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9467,
+    "reasons": {
+     "wrong_value": 140,
+     "execute": 2,
+     "ok": 7,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op1 11 8 > B = op1 A 1 > C = op1 B 1 > ans C",
+     "A = op0 9 4 > B = op0 A 1 > C = op0 B 4 > ans C",
+     "A = op1 8 8 > B = op1 5 A > C = op1 B 11 > ans C"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0467,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9667,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.94,
+    "reasons": {
+     "wrong_value": 138,
+     "execute": 3,
+     "ok": 7,
+     "plan_parse": 2
+    },
+    "samples": [
+     "A = op0 5 12 > B = op0 2 9 > C = op0 A 9 > ans C",
+     "A = op1 2 12 > B = op1 7 9 > C = op1 A B > ans C",
+     "A = op0 7 4 > B = op0 2 A > C = op0 2 B > ans C"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0333,
+    "plan_parses": 1.0,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9667,
+    "reasons": {
+     "wrong_value": 143,
+     "execute": 2,
+     "ok": 5
+    },
+    "samples": [
+     "A = op1 2 2 > B = op1 4 A > C = op1 B 10 > ans C",
+     "A = op1 6 3 > B = op1 A 2 > C = op1 B 7 > ans C",
+     "A = op1 11 1 > B = op1 8 A > C = op1 B 3 > ans C"
+    ]
+   }
+  },
+  "same_page_pair": {
+   "2": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.9933,
+    "well_typed": 0.6067,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 91,
+     "execute": 58,
+     "plan_parse": 1
+    },
+    "samples": [
+     "A = op3 80 true true true > ans A",
+     "A = op4 75 true true true > ans A",
+     "A = op3 35 false true true > ans A"
+    ]
+   }
+  },
+  "units": {
+   "1": {
+    "n": 150,
+    "acc": 0.5067,
+    "plan_parses": 0.98,
+    "well_typed": 0.9133,
+    "exact_gold_plan": 0.76,
+    "parsed_but_wrong": 0.4733,
+    "reasons": {
+     "wrong_value": 61,
+     "ok": 76,
+     "execute": 10,
+     "plan_parse": 3
+    },
+    "samples": [
+     "A = op4 6 > ans A",
+     "A = op4 5 > ans A",
+     "A = op4 9 > ans A"
+    ]
+   }
+  }
+ },
+ "oracle_plan@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 0.98,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9933,
+    "exact_gold_plan": 0.9933,
+    "parsed_but_wrong": 0.0133,
+    "reasons": {
+     "ok": 147,
+     "wrong_value": 2,
+     "gold_encode": 1
+    },
+    "samples": [
+     "A = op1 11 3 > ans A",
+     "A = op0 9 9 > ans A",
+     "A = op0 6 11 > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.9733,
+    "plan_parses": 0.9733,
+    "well_typed": 0.9733,
+    "exact_gold_plan": 0.9733,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 146,
+     "gold_encode": 4
+    },
+    "samples": [
+     "A = op1 8 2 > B = op1 A 3 > ans B",
+     "A = op1 7 3 > B = op1 A 7 > ans B",
+     "A = op0 2 8 > B = op0 1 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.98,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0067,
+    "reasons": {
+     "ok": 147,
+     "gold_encode": 2,
+     "wrong_value": 1
+    },
+    "samples": [
+     "A = op0 12 8 > B = op0 A 6 > C = op0 B 10 > ans C",
+     "A = op1 2 2 > B = op1 A 8 > C = op1 B 11 > ans C",
+     "A = op0 5 12 > B = op0 3 A > C = op0 9 B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.98,
+    "plan_parses": 0.98,
+    "well_typed": 0.98,
+    "exact_gold_plan": 0.98,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 147,
+     "gold_encode": 3
+    },
+    "samples": [
+     "A = op0 1 7 > B = op0 A 5 > C = op0 B 5 > D = op0 C 2 > ans D",
+     "A = op1 1 9 > B = op1 A 5 > C = op1 B 6 > D = op1 C 8 > ans D",
+     "A = op0 11 3 > B = op0 12 A > C = op0 5 B > D = op0 2 C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.9933,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9933,
+    "exact_gold_plan": 0.9933,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 149,
+     "gold_encode": 1
+    },
+    "samples": [
+     "A = op1 11 9 > B = op1 A 10 > C = op1 B 6 > D = op1 C 3 > E = op1 D 4 > ans E",
+     "A = op1 9 10 > B = op1 A 11 > C = op1 B 8 > D = op1 C 1 > E = op1 D 7 > ans E",
+     "A = op0 8 5 > B = op0 4 A > C = op0 6 B > D = op0 1 C > E = op0 11 D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.9933,
+    "plan_parses": 0.9933,
+    "well_typed": 0.9933,
+    "exact_gold_plan": 0.9933,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 149,
+     "gold_encode": 1
+    },
+    "samples": [
+     "A = op0 3 5 > B = op0 A 3 > C = op0 B 3 > D = op0 C 10 > E = op0 D 12 > F = op0 E 1 > ans F",
+     "A = op1 6 1 > B = op1 A 3 > C = op1 B 1 > D = op1 C 1 > E = op1 D 2 > F = op1 E 6 > ans F",
+     "A = op1 3 1 > B = op1 7 A > C = op1 2 B > D = op1 3 C > E = op1 12 D > F = op1 12 E > ans F"
+    ]
+   },
+   "7": {
+    "n": 150,
+    "acc": 0.96,
+    "plan_parses": 0.9733,
+    "well_typed": 0.9733,
+    "exact_gold_plan": 0.9733,
+    "parsed_but_wrong": 0.0133,
+    "reasons": {
+     "ok": 144,
+     "wrong_value": 2,
+     "gold_encode": 4
+    },
+    "samples": [
+     "A = op0 9 3 > B = op0 A 10 > C = op0 B 11 > D = op0 C 5 > E = op0 D 4 > F = op0 E 2 > G = op0 F 8 > ans G",
+     "A = op0 4 6 > B = op0 3 A > C = op0 11 B > D = op0 9 C > E = op0 4 D > F = op0 8 E > G = op0 6 F > ans G",
+     "A = op0 3 2 > B = op0 6 A > C = op0 1 B > D = op0 1 C > E = op0 1 D > F = op0 1 E > G = op0 8 F > ans G"
+    ]
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.96,
+    "plan_parses": 0.9733,
+    "well_typed": 0.9733,
+    "exact_gold_plan": 0.9733,
+    "parsed_but_wrong": 0.0133,
+    "reasons": {
+     "ok": 144,
+     "wrong_value": 2,
+     "gold_encode": 4
+    },
+    "samples": [
+     "A = op0 3 8 > B = op0 A 12 > C = op0 B 2 > D = op0 C 2 > E = op0 D 9 > F = op0 E 5 > G = op0 F 2 > H = op0 G 4 > ans H",
+     "A = op0 1 12 > B = op0 9 A > C = op0 2 B > D = op0 1 C > E = op0 10 D > F = op0 11 E > G = op0 3 F > H = op0 1 G > ans H",
+     "A = op1 1 11 > B = op1 11 A > C = op1 10 B > D = op1 5 C > E = op1 1 D > F = op1 3 E > G = op1 11 F > H = op1 10 G > ans H"
+    ]
+   }
+  },
+  "breadth": {
+   "1": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.7067,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.7067,
+    "parsed_but_wrong": 0.7067,
+    "reasons": {
+     "execute": 106,
+     "gold_encode": 44
+    },
+    "samples": [
+     "A = op3 40 true > ans A",
+     "A = op4 44 false > ans A",
+     "A = op4 60 false > ans A"
+    ]
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.38,
+    "plan_parses": 0.8733,
+    "well_typed": 0.38,
+    "exact_gold_plan": 0.8733,
+    "parsed_but_wrong": 0.4933,
+    "reasons": {
+     "execute": 74,
+     "ok": 57,
+     "gold_encode": 19
+    },
+    "samples": [
+     "A = op4 23 false true > ans A",
+     "A = op4 56 false true > ans A",
+     "A = op4 50 true true > ans A"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.66,
+    "plan_parses": 0.8467,
+    "well_typed": 0.8267,
+    "exact_gold_plan": 0.8467,
+    "parsed_but_wrong": 0.1867,
+    "reasons": {
+     "ok": 99,
+     "gold_encode": 23,
+     "wrong_value": 25,
+     "execute": 3
+    },
+    "samples": [
+     "A = op4 56 true false true > ans A",
+     "A = op4 80 false true false > ans A",
+     "A = op4 52 true false false > ans A"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.82,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.82,
+    "parsed_but_wrong": 0.82,
+    "reasons": {
+     "execute": 123,
+     "gold_encode": 27
+    },
+    "samples": [
+     "A = op4 57 true true true false > ans A",
+     "A = op5 31 true false true false > ans A",
+     "A = op3 42 true false false true > ans A"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.7867,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.7867,
+    "parsed_but_wrong": 0.7867,
+    "reasons": {
+     "execute": 118,
+     "gold_encode": 32
+    },
+    "samples": [
+     "A = op5 31 true true false false false > ans A",
+     "A = op3 39 true true true true false > ans A",
+     "A = op3 49 false false false true true > ans A"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0,
+    "plan_parses": 0.78,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.78,
+    "parsed_but_wrong": 0.78,
+    "reasons": {
+     "execute": 117,
+     "gold_encode": 33
+    },
+    "samples": [
+     "A = op3 40 true false false true false false > ans A",
+     "A = op3 24 true false false false false true > ans A",
+     "A = op3 60 true false false true true true > ans A"
+    ]
+   }
+  },
+  "novel": {
+   "2": {
+    "n": 150,
+    "acc": 0.9867,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 148,
+     "gold_encode": 2
+    },
+    "samples": [
+     "A = op0 7 6 > B = op1 5 A > ans B",
+     "A = op0 6 1 > B = op1 11 A > ans B",
+     "A = op0 7 9 > B = op1 A 11 > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.9867,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 148,
+     "gold_encode": 2
+    },
+    "samples": [
+     "A = op1 10 3 > B = op0 A 12 > C = op0 B 3 > ans C",
+     "A = op1 4 7 > B = op1 11 A > C = op0 B 10 > ans C",
+     "A = op1 4 3 > B = op1 5 6 > C = op0 A B > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.9867,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 148,
+     "gold_encode": 2
+    },
+    "samples": [
+     "A = op0 2 7 > B = op1 A 7 > C = op1 3 8 > D = op1 B C > ans D",
+     "A = op1 12 9 > B = op1 A 2 > C = op0 6 8 > D = op1 B C > ans D",
+     "A = op0 7 9 > B = op0 2 5 > C = op1 9 B > D = op1 A C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.9867,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 148,
+     "gold_encode": 2
+    },
+    "samples": [
+     "A = op0 3 9 > B = op1 9 1 > C = op1 B 12 > D = op0 C 3 > E = op1 A D > ans E",
+     "A = op0 9 2 > B = op0 7 A > C = op0 7 B > D = op1 C 6 > E = op1 D 5 > ans E",
+     "A = op1 1 10 > B = op0 A 9 > C = op1 3 B > D = op1 4 6 > E = op0 C D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.9867,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 148,
+     "gold_encode": 2
+    },
+    "samples": [
+     "A = op1 8 3 > B = op0 A 1 > C = op1 10 1 > D = op1 C 7 > E = op1 7 D > F = op1 B E > ans F",
+     "A = op0 12 8 > B = op1 1 11 > C = op1 A B > D = op1 3 12 > E = op1 9 D > F = op1 C E > ans F",
+     "A = op1 7 11 > B = op0 11 6 > C = op1 B 1 > D = op1 A C > E = op1 D 9 > F = op0 10 E > ans F"
+    ]
+   }
+  },
+  "sequential_paren": {
+   "2": {
+    "n": 150,
+    "acc": 0.9667,
+    "plan_parses": 0.9733,
+    "well_typed": 0.9733,
+    "exact_gold_plan": 0.9733,
+    "parsed_but_wrong": 0.0067,
+    "reasons": {
+     "ok": 145,
+     "wrong_value": 1,
+     "gold_encode": 4
+    },
+    "samples": [
+     "A = op0 3 10 > B = op0 6 A > ans B",
+     "A = op1 2 9 > B = op1 3 A > ans B",
+     "A = op0 12 11 > B = op0 7 A > ans B"
+    ]
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.9667,
+    "plan_parses": 0.9667,
+    "well_typed": 0.9667,
+    "exact_gold_plan": 0.9667,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 145,
+     "gold_encode": 5
+    },
+    "samples": [
+     "A = op1 6 2 > B = op1 5 4 > C = op1 A B > ans C",
+     "A = op1 5 6 > B = op1 A 3 > C = op1 B 10 > ans C",
+     "A = op1 6 5 > B = op1 A 11 > C = op1 B 5 > ans C"
+    ]
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.9667,
+    "plan_parses": 0.9733,
+    "well_typed": 0.9733,
+    "exact_gold_plan": 0.9733,
+    "parsed_but_wrong": 0.0067,
+    "reasons": {
+     "ok": 145,
+     "gold_encode": 4,
+     "wrong_value": 1
+    },
+    "samples": [
+     "A = op1 11 8 > B = op1 1 3 > C = op1 B 1 > D = op1 A C > ans D",
+     "A = op0 9 4 > B = op0 A 1 > C = op0 4 B > D = op0 11 C > ans D",
+     "A = op1 8 8 > B = op1 5 A > C = op1 2 11 > D = op1 B C > ans D"
+    ]
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.96,
+    "plan_parses": 0.9667,
+    "well_typed": 0.9667,
+    "exact_gold_plan": 0.9667,
+    "parsed_but_wrong": 0.0067,
+    "reasons": {
+     "ok": 144,
+     "wrong_value": 1,
+     "gold_encode": 5
+    },
+    "samples": [
+     "A = op0 5 12 > B = op0 A 9 > C = op0 10 B > D = op0 2 9 > E = op0 C D > ans E",
+     "A = op1 2 12 > B = op1 7 9 > C = op1 A B > D = op1 3 6 > E = op1 C D > ans E",
+     "A = op0 7 4 > B = op0 10 A > C = op0 12 4 > D = op0 B C > E = op0 2 D > ans E"
+    ]
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.98,
+    "plan_parses": 0.9867,
+    "well_typed": 0.9867,
+    "exact_gold_plan": 0.9867,
+    "parsed_but_wrong": 0.0067,
+    "reasons": {
+     "ok": 147,
+     "gold_encode": 2,
+     "wrong_value": 1
+    },
+    "samples": [
+     "A = op1 2 2 > B = op1 4 A > C = op1 12 9 > D = op1 B C > E = op1 9 10 > F = op1 D E > ans F",
+     "A = op1 6 3 > B = op1 A 2 > C = op1 B 3 > D = op1 C 7 > E = op1 D 9 > F = op1 E 7 > ans F",
+     "A = op1 2 1 > B = op1 11 A > C = op1 8 B > D = op1 6 4 > E = op1 C D > F = op1 E 3 > ans F"
+    ]
+   }
+  },
+  "same_page_pair": {
+   "2": {
+    "n": 150,
+    "acc": 0.6267,
+    "plan_parses": 0.76,
+    "well_typed": 0.74,
+    "exact_gold_plan": 0.76,
+    "parsed_but_wrong": 0.1333,
+    "reasons": {
+     "ok": 94,
+     "gold_encode": 36,
+     "wrong_value": 17,
+     "execute": 3
+    },
+    "samples": [
+     "A = op3 80 true true true > B = op2 A > ans B",
+     "A = op4 75 true true true > B = op2 A > ans B",
+     "A = op4 39 false true true > B = op2 A > ans B"
+    ]
+   }
+  },
+  "units": {
+   "1": {
+    "n": 150,
+    "acc": 0.48,
+    "plan_parses": 0.76,
+    "well_typed": 0.76,
+    "exact_gold_plan": 0.76,
+    "parsed_but_wrong": 0.28,
+    "reasons": {
+     "gold_encode": 36,
+     "ok": 72,
+     "wrong_value": 42
+    },
+    "samples": [
+     "A = op4 5 > ans A",
+     "A = op4 9 > ans A",
+     "A = op4 11 > ans A"
+    ]
+   }
+  }
+ },
+ "oracle_both_all_one": true,
+ "oracle_both_failures": []
+}

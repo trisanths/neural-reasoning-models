@@ -1,0 +1,2593 @@
+{
+ "config": {
+  "ckpt": "runs/iter/p3.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "out": "results/iter/iters_p3.json",
+  "n": 150,
+  "batch_size": 24,
+  "gen_batch_size": 96,
+  "kinds": "sequential",
+  "depths": "1,2,3,4,6,8,12",
+  "styles": "0",
+  "iters": "1,2,4,8,16,32",
+  "temperatures": "0.0,0.8",
+  "conditions": "plan_execute",
+  "wide": false,
+  "record_revisions": true,
+  "verify_counter": false,
+  "skip_gold": true
+ },
+ "head": "p3",
+ "wide": false,
+ "schema_nodes": 12,
+ "n_slots": 97,
+ "corruption_mixture": {
+  "all_mask": 0.25,
+  "random_mask": 0.25,
+  "transpose": 0.1,
+  "wrong_op": 0.15,
+  "truncate": 0.15,
+  "sparse": 0.1
+ },
+ "train_args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p3",
+  "out": "runs/iter/p3.pt",
+  "steps": 16000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 250,
+  "seed": 17,
+  "ckpt_every": 2000
+ },
+ "train_step": 16000,
+ "holdout": {
+  "depth_histogram": {
+   "1": 93126,
+   "2": 33154,
+   "3": 33720
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160000
+ },
+ "codec": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "2": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "3": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "4": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "6": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "8": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   },
+   "12": {
+    "n": 150,
+    "codec_ok": 150,
+    "codec_rate": 1.0,
+    "first_error": ""
+   }
+  }
+ },
+ "induction": {
+  "pages": 600,
+  "pages_parsed": 600,
+  "gold_ops": 900,
+  "induced_ops": 900,
+  "self_verified": 900,
+  "exact_text": 900,
+  "behavioural": 900,
+  "secs": 34.0
+ },
+ "plan_execute@T0@it1": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 169.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 171.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.4,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 173.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.4,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 175.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.4,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.96,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 179.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 6
+    },
+    "secs": 0.4,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 0.9667,
+    "well_typed_rate": 0.9667,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9467,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 183.96,
+    "reasons": {
+     "wrong_value": 142,
+     "slot_decode:node 2 argument 0 is empty or masked": 5,
+     "ok": 3
+    },
+    "secs": 0.4,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 191.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.4,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0@it2": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 266.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 268.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 270.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 272.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 0.9933,
+    "well_typed_rate": 0.9933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9533,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 276.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "slot_decode:node 2 argument 0 is empty or masked": 1
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.7867,
+    "well_typed_rate": 0.7867,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.7733,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 280.96,
+    "reasons": {
+     "wrong_value": 116,
+     "slot_decode:node 2 argument 0 is empty or masked": 31,
+     "slot_decode:node 2 argument 1 is empty or masked": 1,
+     "ok": 2
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 288.96,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0@it4": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 460.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.9,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10950,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 462.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.9,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10955,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0021,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1467,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 464.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10953,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0008,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 466.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10959,
+     "slots_committed_early_per_item": 73.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0014,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0867,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 0.9933,
+    "well_typed_rate": 0.9933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9533,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 470.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "slot_decode:node 2 argument 0 is empty or masked": 1
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10963,
+     "slots_committed_early_per_item": 73.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0043,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2667,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.7333,
+    "well_typed_rate": 0.7333,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.72,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 474.96,
+    "reasons": {
+     "wrong_value": 108,
+     "slot_decode:node 2 argument 0 is empty or masked": 39,
+     "ok": 2,
+     "slot_decode:node 2 argument 1 is empty or masked": 1
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10972,
+     "slots_committed_early_per_item": 73.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0039,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 482.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 1.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10952,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0005,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0333,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0@it8": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 848.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 1.7,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12750,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 850.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 1.7,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12754,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0026,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2067,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 852.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 1.7,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12754,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0013,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.08,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 854.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 1.7,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12757,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0013,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.96,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 858.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 6
+    },
+    "secs": 1.7,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12764,
+     "slots_committed_early_per_item": 85.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0042,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2867,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.6133,
+    "well_typed_rate": 0.6133,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.6,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 862.96,
+    "reasons": {
+     "wrong_value": 90,
+     "slot_decode:node 2 argument 0 is empty or masked": 52,
+     "slot_decode:node 2 argument 1 is empty or masked": 6,
+     "ok": 2
+    },
+    "secs": 1.8,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12776,
+     "slots_committed_early_per_item": 85.2,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0052,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2933,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 870.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 1.8,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12755,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0005,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0@it16": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1624.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 3.2,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13650,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1626.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 3.3,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13660,
+     "slots_committed_early_per_item": 91.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0024,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2067,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1628.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 3.3,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13653,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0012,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.08,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1630.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 3.3,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13656,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0015,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1133,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.96,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1634.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 6
+    },
+    "secs": 3.4,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13677,
+     "slots_committed_early_per_item": 91.2,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0042,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.3,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.6067,
+    "well_typed_rate": 0.6067,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.5933,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1638.96,
+    "reasons": {
+     "wrong_value": 89,
+     "slot_decode:node 2 argument 0 is empty or masked": 56,
+     "slot_decode:node 2 argument 1 is empty or masked": 3,
+     "ok": 2
+    },
+    "secs": 3.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13678,
+     "slots_committed_early_per_item": 91.2,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0054,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.3267,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1646.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 3.6,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13653,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0004,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0@it32": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3176.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 6.5,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14100,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3178.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 6.4,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14109,
+     "slots_committed_early_per_item": 94.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0024,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2133,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3180.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 6.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14102,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0012,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0867,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3182.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 6.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14106,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0014,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1133,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 0.9933,
+    "well_typed_rate": 0.9933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9533,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3186.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "slot_decode:node 2 argument 0 is empty or masked": 1
+    },
+    "secs": 6.7,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14118,
+     "slots_committed_early_per_item": 94.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0041,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2933,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.62,
+    "well_typed_rate": 0.62,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.6067,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3190.96,
+    "reasons": {
+     "wrong_value": 91,
+     "slot_decode:node 2 argument 0 is empty or masked": 55,
+     "slot_decode:node 2 argument 1 is empty or masked": 2,
+     "ok": 2
+    },
+    "secs": 6.7,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14123,
+     "slots_committed_early_per_item": 94.2,
+     "value_changed_rate": 0.0004,
+     "returned_to_mask_rate": 0.0062,
+     "final_differs_from_first_rate": 0.0004,
+     "mean_distinct_values_per_slot": 1.0004,
+     "items_with_any_revision_rate": 0.42,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3198.96,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "secs": 7.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14101,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0004,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0.8@it1": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 169.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.3,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 171.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.3,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 173.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.3,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 175.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.3,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.96,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 179.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 6
+    },
+    "secs": 0.3,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 0.9667,
+    "well_typed_rate": 0.9667,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9467,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 183.96,
+    "reasons": {
+     "wrong_value": 142,
+     "slot_decode:node 2 argument 0 is empty or masked": 5,
+     "ok": 3
+    },
+    "secs": 0.3,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 1.0,
+    "slot_decisions_mean": 97.0,
+    "position_evals_mean": 191.96,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 3,
+     "execute": 1
+    },
+    "secs": 0.3,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 0,
+     "slots_per_item": 0.0,
+     "slots_committed_before_last_pass": 0,
+     "slots_committed_early_per_item": 0.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 0.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0.8@it2": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 266.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 268.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 270.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 272.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 0.9933,
+    "well_typed_rate": 0.9933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9533,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 276.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "slot_decode:node 2 argument 0 is empty or masked": 1
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.7933,
+    "well_typed_rate": 0.7933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.78,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 280.96,
+    "reasons": {
+     "wrong_value": 117,
+     "slot_decode:node 2 argument 0 is empty or masked": 30,
+     "slot_decode:node 2 argument 1 is empty or masked": 1,
+     "ok": 2
+    },
+    "secs": 0.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 2.0,
+    "slot_decisions_mean": 194.0,
+    "position_evals_mean": 288.96,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "secs": 0.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 7200,
+     "slots_committed_early_per_item": 48.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0.8@it4": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 460.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.9,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10950,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 462.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.9,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10955,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0021,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1467,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 464.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10953,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0008,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 466.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10959,
+     "slots_committed_early_per_item": 73.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0014,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0867,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 0.9933,
+    "well_typed_rate": 0.9933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9533,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 470.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "slot_decode:node 2 argument 0 is empty or masked": 1
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10963,
+     "slots_committed_early_per_item": 73.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0043,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2667,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.7333,
+    "well_typed_rate": 0.7333,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.72,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 474.96,
+    "reasons": {
+     "wrong_value": 108,
+     "slot_decode:node 2 argument 0 is empty or masked": 38,
+     "ok": 2,
+     "slot_decode:node 2 argument 1 is empty or masked": 2
+    },
+    "secs": 0.9,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10972,
+     "slots_committed_early_per_item": 73.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0039,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 4.0,
+    "slot_decisions_mean": 388.0,
+    "position_evals_mean": 482.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 1.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 10952,
+     "slots_committed_early_per_item": 73.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0005,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0333,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0.8@it8": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 848.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 1.7,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12750,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 850.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 1.6,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12754,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0026,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2067,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 852.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 1.7,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12754,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0013,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.08,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 854.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 1.7,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12757,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0013,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.96,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 858.96,
+    "reasons": {
+     "wrong_value": 144,
+     "ok": 6
+    },
+    "secs": 1.8,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12764,
+     "slots_committed_early_per_item": 85.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0042,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2867,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.6067,
+    "well_typed_rate": 0.6067,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.5933,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 862.96,
+    "reasons": {
+     "wrong_value": 89,
+     "slot_decode:node 2 argument 0 is empty or masked": 53,
+     "slot_decode:node 2 argument 1 is empty or masked": 6,
+     "ok": 2
+    },
+    "secs": 1.8,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12776,
+     "slots_committed_early_per_item": 85.2,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0052,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2933,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 8.0,
+    "slot_decisions_mean": 776.0,
+    "position_evals_mean": 870.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 1.8,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 12755,
+     "slots_committed_early_per_item": 85.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0005,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0.8@it16": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1624.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 3.2,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13650,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1626.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 3.3,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13660,
+     "slots_committed_early_per_item": 91.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0024,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2067,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1628.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 3.3,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13653,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0012,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.08,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1630.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 3.3,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13656,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0015,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1133,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.96,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1634.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "execute": 1
+    },
+    "secs": 3.4,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13677,
+     "slots_committed_early_per_item": 91.2,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0042,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.3,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.6,
+    "well_typed_rate": 0.6,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.5867,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1638.96,
+    "reasons": {
+     "wrong_value": 88,
+     "slot_decode:node 2 argument 0 is empty or masked": 56,
+     "slot_decode:node 2 argument 1 is empty or masked": 4,
+     "ok": 2
+    },
+    "secs": 3.4,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13678,
+     "slots_committed_early_per_item": 91.2,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0054,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.3267,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 16.0,
+    "slot_decisions_mean": 1552.0,
+    "position_evals_mean": 1646.96,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "secs": 3.6,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 13653,
+     "slots_committed_early_per_item": 91.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0004,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ },
+ "plan_execute@T0.8@it32": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3176.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 6.4,
+    "sample": "t1 = / 11 3 ; ans t1",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14100,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3178.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 6.4,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14109,
+     "slots_committed_early_per_item": 94.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0024,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2133,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3180.96,
+    "reasons": {
+     "ok": 150
+    },
+    "secs": 6.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14102,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0012,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.0867,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3182.96,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "secs": 6.6,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14106,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0014,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.1133,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.04,
+    "parse_rate": 0.9933,
+    "well_typed_rate": 0.9933,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9533,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3186.96,
+    "reasons": {
+     "wrong_value": 143,
+     "ok": 6,
+     "slot_decode:node 2 argument 0 is empty or masked": 1
+    },
+    "secs": 6.9,
+    "sample": "t1 = # 3 5 ; t2 = # t1 12 ; t3 = # t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14118,
+     "slots_committed_early_per_item": 94.1,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0041,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.2933,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 0.62,
+    "well_typed_rate": 0.62,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.6067,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3190.96,
+    "reasons": {
+     "wrong_value": 91,
+     "slot_decode:node 2 argument 0 is empty or masked": 55,
+     "slot_decode:node 2 argument 1 is empty or masked": 2,
+     "ok": 2
+    },
+    "secs": 7.9,
+    "sample": "t1 = # 3 8 ; t2 = # t1 2 ; t3 = # t2 4 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14123,
+     "slots_committed_early_per_item": 94.2,
+     "value_changed_rate": 0.0004,
+     "returned_to_mask_rate": 0.0062,
+     "final_differs_from_first_rate": 0.0004,
+     "mean_distinct_values_per_slot": 1.0004,
+     "items_with_any_revision_rate": 0.42,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 32.0,
+    "slot_decisions_mean": 3104.0,
+    "position_evals_mean": 3198.96,
+    "reasons": {
+     "wrong_value": 146,
+     "execute": 1,
+     "ok": 3
+    },
+    "secs": 9.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 5 ; t3 = / t2 1 ; ans t3",
+    "revision": {
+     "items": 150,
+     "slots_per_item": 97.0,
+     "slots_committed_before_last_pass": 14101,
+     "slots_committed_early_per_item": 94.0,
+     "value_changed_rate": 0.0,
+     "returned_to_mask_rate": 0.0004,
+     "final_differs_from_first_rate": 0.0,
+     "mean_distinct_values_per_slot": 1.0,
+     "items_with_any_revision_rate": 0.04,
+     "answer_slot_final_differs_rate": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,278 @@
+{
+ "head": "p4",
+ "step": 8000,
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p4",
+  "out": "runs/iter/p4.pt",
+  "steps": 16000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 250,
+  "seed": 17,
+  "ckpt_every": 2000
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 93126,
+   "2": 33154,
+   "3": 33720
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160000
+ },
+ "corruption_mixture": {
+  "all_mask": 0.22,
+  "random_mask": 0.22,
+  "transpose": 0.09,
+  "wrong_op": 0.13,
+  "truncate": 0.13,
+  "sparse": 0.08,
+  "edge_noise": 0.13
+ },
+ "corruption_counts": {
+  "all_mask": 28162,
+  "wrong_op": 16595,
+  "edge_noise": 16507,
+  "truncate": 16646,
+  "random_mask": 28163,
+  "transpose": 11619,
+  "sparse": 10308
+ },
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 256000
+ },
+ "log": [
+  {
+   "step": 1,
+   "kind": "induce",
+   "loss": 4.12182,
+   "lr": 1e-07,
+   "secs": 1.0
+  },
+  {
+   "step": 250,
+   "kind": "plan",
+   "loss": 0.06281,
+   "lr": 2e-05,
+   "secs": 87.8
+  },
+  {
+   "step": 500,
+   "kind": "plan",
+   "loss": 0.02026,
+   "lr": 1.998e-05,
+   "secs": 174.0
+  },
+  {
+   "step": 750,
+   "kind": "plan",
+   "loss": 0.00841,
+   "lr": 1.994e-05,
+   "secs": 257.5
+  },
+  {
+   "step": 1000,
+   "kind": "plan",
+   "loss": 0.00216,
+   "lr": 1.987e-05,
+   "secs": 341.1
+  },
+  {
+   "step": 1250,
+   "kind": "plan",
+   "loss": 0.00525,
+   "lr": 1.978e-05,
+   "secs": 422.9
+  },
+  {
+   "step": 1500,
+   "kind": "plan",
+   "loss": 0.00417,
+   "lr": 1.967e-05,
+   "secs": 507.2
+  },
+  {
+   "step": 1750,
+   "kind": "plan",
+   "loss": 0.00362,
+   "lr": 1.953e-05,
+   "secs": 590.8
+  },
+  {
+   "step": 2000,
+   "kind": "plan",
+   "loss": 0.00046,
+   "lr": 1.937e-05,
+   "secs": 673.8
+  },
+  {
+   "step": 2250,
+   "kind": "plan",
+   "loss": 0.00065,
+   "lr": 1.918e-05,
+   "secs": 755.6
+  },
+  {
+   "step": 2500,
+   "kind": "plan",
+   "loss": 0.00013,
+   "lr": 1.897e-05,
+   "secs": 837.2
+  },
+  {
+   "step": 2750,
+   "kind": "plan",
+   "loss": 8e-05,
+   "lr": 1.874e-05,
+   "secs": 918.9
+  },
+  {
+   "step": 3000,
+   "kind": "plan",
+   "loss": 3e-05,
+   "lr": 1.849e-05,
+   "secs": 1000.6
+  },
+  {
+   "step": 3250,
+   "kind": "plan",
+   "loss": 2e-05,
+   "lr": 1.822e-05,
+   "secs": 1082.1
+  },
+  {
+   "step": 3500,
+   "kind": "plan",
+   "loss": 1e-05,
+   "lr": 1.792e-05,
+   "secs": 1163.3
+  },
+  {
+   "step": 3750,
+   "kind": "plan",
+   "loss": 2e-05,
+   "lr": 1.761e-05,
+   "secs": 1225.2
+  },
+  {
+   "step": 4000,
+   "kind": "plan",
+   "loss": 0.00014,
+   "lr": 1.728e-05,
+   "secs": 1253.8
+  },
+  {
+   "step": 4250,
+   "kind": "plan",
+   "loss": 0.00045,
+   "lr": 1.693e-05,
+   "secs": 1280.9
+  },
+  {
+   "step": 4500,
+   "kind": "plan",
+   "loss": 0.00027,
+   "lr": 1.656e-05,
+   "secs": 1307.9
+  },
+  {
+   "step": 4750,
+   "kind": "plan",
+   "loss": 8e-05,
+   "lr": 1.618e-05,
+   "secs": 1335.0
+  },
+  {
+   "step": 5000,
+   "kind": "plan",
+   "loss": 0.00176,
+   "lr": 1.578e-05,
+   "secs": 1362.0
+  },
+  {
+   "step": 5250,
+   "kind": "plan",
+   "loss": 0.00041,
+   "lr": 1.537e-05,
+   "secs": 1389.1
+  },
+  {
+   "step": 5500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.494e-05,
+   "secs": 1416.1
+  },
+  {
+   "step": 5750,
+   "kind": "plan",
+   "loss": 1e-05,
+   "lr": 1.45e-05,
+   "secs": 1443.1
+  },
+  {
+   "step": 6000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.406e-05,
+   "secs": 1471.7
+  },
+  {
+   "step": 6250,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.36e-05,
+   "secs": 1498.9
+  },
+  {
+   "step": 6500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.313e-05,
+   "secs": 1526.0
+  },
+  {
+   "step": 6750,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.265e-05,
+   "secs": 1553.1
+  },
+  {
+   "step": 7000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.217e-05,
+   "secs": 1580.1
+  },
+  {
+   "step": 7250,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.168e-05,
+   "secs": 1607.3
+  },
+  {
+   "step": 7500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.119e-05,
+   "secs": 1634.3
+  },
+  {
+   "step": 7750,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.07e-05,
+   "secs": 1661.3
+  }
+ ]
+}

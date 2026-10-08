@@ -1,0 +1,60 @@
+{
+ "head": "p4",
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p4",
+  "out": "runs/iter/mem.pt",
+  "steps": 12,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 400,
+  "log_every": 100,
+  "seed": 17,
+  "ckpt_every": 0
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 949,
+   "2": 323,
+   "3": 328
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 1600
+ },
+ "corruption_mixture": {
+  "all_mask": 0.22,
+  "random_mask": 0.22,
+  "transpose": 0.09,
+  "wrong_op": 0.13,
+  "truncate": 0.13,
+  "sparse": 0.08,
+  "edge_noise": 0.13
+ },
+ "corruption_counts": {
+  "all_mask": 46,
+  "wrong_op": 21,
+  "edge_noise": 29,
+  "truncate": 27,
+  "random_mask": 40,
+  "transpose": 14,
+  "sparse": 15
+ },
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 384
+ },
+ "log": [
+  {
+   "step": 1,
+   "kind": "induce",
+   "loss": 4.21134,
+   "lr": 1e-07,
+   "secs": 0.9
+  }
+ ]
+}

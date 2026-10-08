@@ -1,0 +1,21 @@
+style 2 cap 288: {'failed': 49, 'parsed': 31} n=80 len med=42 max=288 at_cap=2
+style 2 cap 640: {'failed': 49, 'parsed': 31} n=80 len med=42 max=640 at_cap=2
+--- sample failures, style 2
+PAGE: Zelsol operator sheet. |  | symbol /: two whole numbers in, one whole number out. | operands: x is the number written left of /, y the number written right of it. | value: x less y, scaled by 2, plus 
+GOT : (defop / (x y) (% (+ (* x x) (* 2 y)) 1) 100) (ex (7 4) 7) (ex (12 5) 15))
+PAGE: Tuqen operator sheet. |  | symbol #: two whole numbers in, one whole number out. | operands: x is the number written left of #, y the number written right of it. | value: x less y, scaled by 2, plus 1
+GOT : (defop # (x y) (% (+ (* x x) (* 2 y)) 10) 1000) (ex (7 4) 7) (ex (12 5) 24))
+PAGE: Lummi operator sheet. |  | symbol #: two whole numbers in, one whole number out. | operands: x is the number written left of #, y the number written right of it. | value: 4 lots of x plus 7 lots of y 
+GOT : (defop # (x y) (% (+ (* x x) (* 5 y)) 1000) (ex (7 4) 7) (ex (12 y) 5)
+style 3 cap 288: {'failed': 59, 'parsed': 21} n=80 len med=42 max=46 at_cap=0
+style 3 cap 640: {'failed': 59, 'parsed': 21} n=80 len med=42 max=46 at_cap=0
+--- sample failures, style 3
+PAGE: A letter about Zelsol. |  | You asked what the sign / does. It joins two whole numbers and hands back a whole number. | Here is the rule. Take the second number away from the first number. Multiply wh
+GOT : (defop / (x y) (% (+ (* x x) (* 1 y)) 1) 100) (ex (7 4) 7) (ex (12 5) 15))
+PAGE: A letter about Tuqen. |  | You asked what the sign # does. It joins two whole numbers and hands back a whole number. | Here is the rule. Take the second number away from the first number. Multiply wha
+GOT : (defop # (x y) (% (+ (* x x) (* 10 y)) 10) 1000) (ex (7 4) 17) (ex (12 5) 24))
+PAGE: A letter about Lummi. |  | You asked what the sign # does. It joins two whole numbers and hands back a whole number. | Here is the rule. Multiply the first number by 4. Multiply the second number by 7
+GOT : (defop # (x y) (% (+ (* 4 x) (* 7 y)) 5) 1000) (ex (7 4) 7) (ex (12 5) 88))
+style 0 cap 288: {'parsed': 80} n=80 len med=43 max=46 at_cap=0
+style 0 cap 640: {'parsed': 80} n=80 len med=43 max=46 at_cap=0
+--- sample failures, style 0
