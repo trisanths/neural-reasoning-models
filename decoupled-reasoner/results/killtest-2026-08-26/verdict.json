@@ -1,0 +1,99 @@
+{
+ "generated_at": "2026-08-26T02:34:45Z",
+ "results_file": "/home/ec2-user/eval-out/killtest-final/results.json",
+ "gate_metric": "naturalized_reading.contains_answer.clean",
+ "n_items": 250,
+ "regimes": {
+  "a": {
+   "n_seeds": 3,
+   "per_seed": {
+    "101": 0.228,
+    "102": 0.196,
+    "103": 0.192
+   },
+   "mean": 0.205333,
+   "std": 0.019732
+  },
+  "c": {
+   "n_seeds": 3,
+   "per_seed": {
+    "201": 0.0,
+    "202": 0.0,
+    "203": 0.0
+   },
+   "mean": 0.0,
+   "std": 0.0
+  }
+ },
+ "em": {
+  "a_mean": 0.002667,
+  "a_std": 0.002309,
+  "c_mean": 0.0,
+  "c_std": 0.0,
+  "ratio": 0.0
+ },
+ "ratio": 0.0,
+ "bootstrap": {
+  "n_reps": 10000,
+  "seed": 0,
+  "ci95": [
+   0.0,
+   0.0
+  ],
+  "n_degenerate": 0
+ },
+ "rule": {
+  "source": "SPEC.md section 7",
+  "text": "Compare regime C against regime A at the 350M class on the naturalized reading suite. If C reaches at least 90 percent of A's score, the strict form survives and Phase 2 tests it. Between 60 and 90 percent, the strict form is weakened: Phase 2 uses a frequency-ordered resident knowledge diet plus teacher distillation. Below 60 percent, the strict form is dead; Phase 2 tests only the weakened form and the writeup says so plainly.",
+  "strict_threshold": 0.9,
+  "weak_threshold": 0.6
+ },
+ "outcome": "strict_dead",
+ "outcome_text": "The ratio 0.0000 is below 0.6. The strict form is dead; Phase 2 tests only the weakened form.",
+ "leakage_flags": {
+  "killtest-a-101": true,
+  "killtest-a-102": true,
+  "killtest-a-103": true,
+  "killtest-c-201": false,
+  "killtest-c-202": false,
+  "killtest-c-203": false
+ },
+ "leakage_flags_c_raised": [],
+ "heldout_mean_rounds": {
+  "killtest-c-201": 0.8898,
+  "killtest-c-202": 0.7736,
+  "killtest-c-203": 0.7597
+ },
+ "checkpoints": [
+  {
+   "name": "killtest-a-101",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/runs/killtest-a-101/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-102",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/runs/killtest-a-102/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-a-103",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/runs/killtest-a-103/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-201",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/runs/killtest-c-201/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-202",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/runs/killtest-c-202/ckpt-0026700.pt"
+  },
+  {
+   "name": "killtest-c-203",
+   "step": 26700,
+   "checkpoint": "/home/ec2-user/runs/killtest-c-203/ckpt-0026700.pt"
+  }
+ ]
+}

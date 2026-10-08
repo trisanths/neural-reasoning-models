@@ -1,0 +1,100 @@
+{
+ "items": "/home/ec2-user/decoupled-reasoner/results/norm/compare/x_items.jsonl.gz",
+ "runs": {
+  "ckpt_l": {
+   "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_l.pt",
+   "size": "l",
+   "finetune": null,
+   "counts": {
+    "original|malformed": 750,
+    "transposed|malformed": 750
+   }
+  },
+  "ckpt_xs": {
+   "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_xs.pt",
+   "size": "xs",
+   "finetune": null,
+   "counts": {
+    "original|malformed": 713,
+    "original|other": 37,
+    "transposed|malformed": 712,
+    "transposed|other": 38
+   }
+  },
+  "ft_xs_k64": {
+   "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/compare/ft_xs_k64.pt",
+   "size": "xs",
+   "finetune": {
+    "k": 64,
+    "steps": 1500,
+    "lr": 0.00015,
+    "rows": 24,
+    "from": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_xs.pt",
+    "grids": "/home/ec2-user/decoupled-reasoner/data/norm/grid_train.npz"
+   },
+   "counts": {
+    "original|exact": 306,
+    "original|malformed": 97,
+    "original|other": 347,
+    "transposed|key_order_canonical": 596,
+    "transposed|malformed": 80,
+    "transposed|other": 74
+   }
+  },
+  "ft_xs_k1024": {
+   "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/compare/ft_xs_k1024.pt",
+   "size": "xs",
+   "finetune": {
+    "k": 1024,
+    "steps": 1500,
+    "lr": 0.00015,
+    "rows": 24,
+    "from": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_xs.pt",
+    "grids": "/home/ec2-user/decoupled-reasoner/data/norm/grid_train.npz"
+   },
+   "counts": {
+    "original|exact": 404,
+    "original|malformed": 89,
+    "original|other": 257,
+    "transposed|key_order_canonical": 604,
+    "transposed|malformed": 82,
+    "transposed|other": 64
+   }
+  },
+  "ft_l_k0": {
+   "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/compare/ft_l_k0.pt",
+   "size": "l",
+   "finetune": {
+    "k": 0,
+    "steps": 1500,
+    "lr": 4e-05,
+    "rows": 24,
+    "from": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_l.pt",
+    "grids": "/home/ec2-user/decoupled-reasoner/data/norm/grid_train.npz"
+   },
+   "counts": {
+    "original|malformed": 750,
+    "transposed|malformed": 750
+   }
+  },
+  "ft_l_k1024": {
+   "ckpt": "/home/ec2-user/decoupled-reasoner/results/norm/compare/ft_l_k1024.pt",
+   "size": "l",
+   "finetune": {
+    "k": 1024,
+    "steps": 1500,
+    "lr": 4e-05,
+    "rows": 24,
+    "from": "/home/ec2-user/decoupled-reasoner/results/norm/train/ckpt_l.pt",
+    "grids": "/home/ec2-user/decoupled-reasoner/data/norm/grid_train.npz"
+   },
+   "counts": {
+    "original|exact": 672,
+    "original|malformed": 20,
+    "original|other": 58,
+    "transposed|key_order_canonical": 733,
+    "transposed|malformed": 17
+   }
+  }
+ }
+}

@@ -1,0 +1,17 @@
+# Harness gate. Env budget copied from configs/rl-350m.yaml, which is the
+# budget the recorded substitution_rule and threshold_rule controls were
+# measured under.
+env:
+  max_rounds: 4
+  max_new_tokens: 96
+  query_max_tokens: 24
+  max_len: 640
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.05
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 384

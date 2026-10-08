@@ -1,0 +1,71 @@
+{
+ "unverifiable": {
+  "/mnt/nvme/e3eval/mmlu_ref_n1000.json": "instance store on a terminated worker, never mirrored to S3",
+  "/mnt/nvme/e3eval/mmlu_ref-eot_n500.json": "instance store on a terminated worker, never mirrored to S3"
+ },
+ "rows": {
+  "n200_no_prefix": {
+   "n": 200,
+   "acc_recounted": 0.275,
+   "acc_in_file": 0.275,
+   "reproduces": true,
+   "predictions": [
+    146,
+    7,
+    35,
+    12
+   ],
+   "modal_share": 0.73,
+   "gold_A_share": 0.3,
+   "always_A_would_score": 0.3,
+   "eot_prefix": null,
+   "floor": 0.25,
+   "seed": 1234,
+   "shots": 5,
+   "model": "ours:corpus-v1-8k",
+   "artifact": "/home/ec2-user/decoupled-reasoner/results/extern/bench/ours_corpus-v1-8k_mmlu.json"
+  },
+  "n200_eot_prefix": {
+   "n": 200,
+   "acc_recounted": 0.27,
+   "acc_in_file": 0.27,
+   "reproduces": true,
+   "predictions": [
+    144,
+    8,
+    37,
+    11
+   ],
+   "modal_share": 0.72,
+   "gold_A_share": 0.3,
+   "always_A_would_score": 0.3,
+   "eot_prefix": true,
+   "floor": 0.25,
+   "seed": 1234,
+   "shots": 5,
+   "model": "ours:corpus-v1-8k",
+   "artifact": "/home/ec2-user/decoupled-reasoner/results/extern/bench/ours_mmlu_eotprefix_n200.json"
+  },
+  "n500_no_prefix": {
+   "n": 500,
+   "acc_recounted": 0.264,
+   "acc_in_file": 0.264,
+   "reproduces": true,
+   "predictions": [
+    353,
+    23,
+    91,
+    33
+   ],
+   "modal_share": 0.706,
+   "gold_A_share": 0.254,
+   "always_A_would_score": 0.254,
+   "eot_prefix": false,
+   "floor": 0.25,
+   "seed": 1234,
+   "shots": 5,
+   "model": "ours:corpus-v1-8k",
+   "artifact": "s3://decoupled-reasoner-009398924577/runs/real-v1-8k/results/mmlu_closed_corpus-v1-8k_n500.json"
+  }
+ }
+}

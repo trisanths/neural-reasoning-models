@@ -1,0 +1,13 @@
+[gate/substitution_rule] 500 questions
+  greedy  rollouts    500 raw_mean_correct 0.9760 (71s)
+  t1      rollouts   2000 raw_mean_correct 0.8610 (375s)
+[gate/threshold_rule] 500 questions
+  greedy  rollouts    500 raw_mean_correct 0.9960 (414s)
+  t1      rollouts   2000 raw_mean_correct 0.9035 (597s)
+wrote 5000 rollouts to results/system/gate/roll_gate_base.jsonl
+cell                                      nQ     nR  floor   ship forced  first  c_ship   c_frc  hedge   none  rnds anyret     wf  degen
+gate|substitution_rule|greedy|n/a|all    500    500  0.200  0.976  0.954  0.958   0.970   0.943  0.022  0.016  1.00  1.000  0.988  0.000
+gate|substitution_rule|t1|n/a|all        500   2000  0.200  0.861  0.866  0.871   0.826   0.832  0.009  0.118  0.98  0.980  0.944  0.000
+gate|threshold_rule|greedy|n/a|all       500    500  0.500  0.996  0.008  0.464   0.992  -0.984  0.988  0.000  1.00  1.000  1.000  0.000
+gate|threshold_rule|t1|n/a|all           500   2000  0.500  0.903  0.060  0.456   0.807  -0.879  0.853  0.043  0.98  0.985  0.949  0.000
+wrote results/system/gate/strict_gate_base.json

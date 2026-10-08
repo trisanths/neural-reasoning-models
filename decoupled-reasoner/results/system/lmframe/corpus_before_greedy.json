@@ -1,0 +1,665 @@
+{
+ "ckpt": "/home/ec2-user/retrain/corpus-v1-8k.pt",
+ "tag": "corpus_before",
+ "mode": "greedy",
+ "n": 1500,
+ "domain": "skill_exception_rule",
+ "seed": 0,
+ "max_new_tokens": 192,
+ "max_rounds": 6,
+ "step": 8000,
+ "rollouts": "/home/ec2-user/decoupled-reasoner/results/system/lmframe/rolls_corpus_before_greedy.jsonl.gz",
+ "seconds": 720.0,
+ "cells": {
+  "lexicon|ALL_SHAPES": {
+   "n": 300,
+   "floor": 0.2686,
+   "strict": 0.53,
+   "lenient": 0.53,
+   "corrected": 0.3574,
+   "hedge": 0.0,
+   "none": 0.1233,
+   "mean_rounds": 1.04
+  },
+  "lexicon|band_then_lookup": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.6,
+   "lenient": 0.6,
+   "corrected": 0.3478,
+   "hedge": 0.0,
+   "none": 0.2,
+   "mean_rounds": 1.0
+  },
+  "lexicon|classify": {
+   "n": 25,
+   "floor": 0.34,
+   "strict": 0.92,
+   "lenient": 0.92,
+   "corrected": 0.8788,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "lexicon|compose": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.32,
+   "lenient": 0.32,
+   "corrected": 0.0933,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.44
+  },
+  "lexicon|exclusion": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.0,
+   "lenient": 0.0,
+   "corrected": -0.3333,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "lexicon|inverse": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.8,
+   "lenient": 0.8,
+   "corrected": 0.7333,
+   "hedge": 0.0,
+   "none": 0.2,
+   "mean_rounds": 1.0
+  },
+  "lexicon|iterate": {
+   "n": 25,
+   "floor": 0.1638,
+   "strict": 0.24,
+   "lenient": 0.24,
+   "corrected": 0.0911,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.0
+  },
+  "lexicon|lookup": {
+   "n": 25,
+   "floor": 0.2,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "lexicon|lookup_general": {
+   "n": 25,
+   "floor": 0.5,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "lexicon|lookup_then_band": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.48,
+   "lenient": 0.48,
+   "corrected": 0.1522,
+   "hedge": 0.0,
+   "none": 0.08,
+   "mean_rounds": 1.08
+  },
+  "lexicon|pair": {
+   "n": 25,
+   "floor": 0.1111,
+   "strict": 0.12,
+   "lenient": 0.12,
+   "corrected": 0.01,
+   "hedge": 0.0,
+   "none": 0.84,
+   "mean_rounds": 1.0
+  },
+  "lexicon|precedence": {
+   "n": 25,
+   "floor": 0.125,
+   "strict": 0.36,
+   "lenient": 0.36,
+   "corrected": 0.2686,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "lexicon|priority": {
+   "n": 25,
+   "floor": 0.26,
+   "strict": 0.52,
+   "lenient": 0.52,
+   "corrected": 0.3514,
+   "hedge": 0.0,
+   "none": 0.08,
+   "mean_rounds": 0.96
+  },
+  "mixed|ALL_SHAPES": {
+   "n": 300,
+   "floor": 0.2686,
+   "strict": 0.5133,
+   "lenient": 0.5133,
+   "corrected": 0.3346,
+   "hedge": 0.0,
+   "none": 0.14,
+   "mean_rounds": 1.027
+  },
+  "mixed|band_then_lookup": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.68,
+   "lenient": 0.68,
+   "corrected": 0.4783,
+   "hedge": 0.0,
+   "none": 0.12,
+   "mean_rounds": 1.0
+  },
+  "mixed|classify": {
+   "n": 25,
+   "floor": 0.34,
+   "strict": 0.88,
+   "lenient": 0.88,
+   "corrected": 0.8182,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mixed|compose": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.28,
+   "lenient": 0.28,
+   "corrected": 0.04,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.16
+  },
+  "mixed|exclusion": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.04,
+   "lenient": 0.04,
+   "corrected": -0.28,
+   "hedge": 0.0,
+   "none": 0.12,
+   "mean_rounds": 1.0
+  },
+  "mixed|inverse": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.6,
+   "lenient": 0.6,
+   "corrected": 0.4667,
+   "hedge": 0.0,
+   "none": 0.4,
+   "mean_rounds": 1.0
+  },
+  "mixed|iterate": {
+   "n": 25,
+   "floor": 0.1638,
+   "strict": 0.12,
+   "lenient": 0.12,
+   "corrected": -0.0524,
+   "hedge": 0.0,
+   "none": 0.08,
+   "mean_rounds": 1.0
+  },
+  "mixed|lookup": {
+   "n": 25,
+   "floor": 0.2,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mixed|lookup_general": {
+   "n": 25,
+   "floor": 0.5,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mixed|lookup_then_band": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.52,
+   "lenient": 0.52,
+   "corrected": 0.2174,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.24
+  },
+  "mixed|pair": {
+   "n": 25,
+   "floor": 0.1111,
+   "strict": 0.16,
+   "lenient": 0.16,
+   "corrected": 0.055,
+   "hedge": 0.0,
+   "none": 0.84,
+   "mean_rounds": 1.0
+  },
+  "mixed|precedence": {
+   "n": 25,
+   "floor": 0.125,
+   "strict": 0.48,
+   "lenient": 0.48,
+   "corrected": 0.4057,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mixed|priority": {
+   "n": 25,
+   "floor": 0.26,
+   "strict": 0.4,
+   "lenient": 0.4,
+   "corrected": 0.1892,
+   "hedge": 0.0,
+   "none": 0.12,
+   "mean_rounds": 0.92
+  },
+  "mode|ALL_SHAPES": {
+   "n": 300,
+   "floor": 0.2686,
+   "strict": 0.5633,
+   "lenient": 0.5633,
+   "corrected": 0.403,
+   "hedge": 0.0,
+   "none": 0.13,
+   "mean_rounds": 1.073
+  },
+  "mode|band_then_lookup": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.56,
+   "lenient": 0.56,
+   "corrected": 0.2826,
+   "hedge": 0.0,
+   "none": 0.28,
+   "mean_rounds": 1.0
+  },
+  "mode|classify": {
+   "n": 25,
+   "floor": 0.34,
+   "strict": 0.96,
+   "lenient": 0.96,
+   "corrected": 0.9394,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mode|compose": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.36,
+   "lenient": 0.36,
+   "corrected": 0.1467,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.68
+  },
+  "mode|exclusion": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.0,
+   "lenient": 0.0,
+   "corrected": -0.3333,
+   "hedge": 0.0,
+   "none": 0.16,
+   "mean_rounds": 1.0
+  },
+  "mode|inverse": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.8,
+   "lenient": 0.8,
+   "corrected": 0.7333,
+   "hedge": 0.0,
+   "none": 0.2,
+   "mean_rounds": 1.0
+  },
+  "mode|iterate": {
+   "n": 25,
+   "floor": 0.1638,
+   "strict": 0.24,
+   "lenient": 0.24,
+   "corrected": 0.0911,
+   "hedge": 0.0,
+   "none": 0.08,
+   "mean_rounds": 1.0
+  },
+  "mode|lookup": {
+   "n": 25,
+   "floor": 0.2,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mode|lookup_general": {
+   "n": 25,
+   "floor": 0.5,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mode|lookup_then_band": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.56,
+   "lenient": 0.56,
+   "corrected": 0.2826,
+   "hedge": 0.0,
+   "none": 0.08,
+   "mean_rounds": 1.24
+  },
+  "mode|pair": {
+   "n": 25,
+   "floor": 0.1111,
+   "strict": 0.28,
+   "lenient": 0.28,
+   "corrected": 0.19,
+   "hedge": 0.0,
+   "none": 0.68,
+   "mean_rounds": 1.0
+  },
+  "mode|precedence": {
+   "n": 25,
+   "floor": 0.125,
+   "strict": 0.56,
+   "lenient": 0.56,
+   "corrected": 0.4971,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "mode|priority": {
+   "n": 25,
+   "floor": 0.26,
+   "strict": 0.44,
+   "lenient": 0.44,
+   "corrected": 0.2432,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 0.96
+  },
+  "qframe|ALL_SHAPES": {
+   "n": 300,
+   "floor": 0.2686,
+   "strict": 0.5333,
+   "lenient": 0.5333,
+   "corrected": 0.362,
+   "hedge": 0.0,
+   "none": 0.1333,
+   "mean_rounds": 1.003
+  },
+  "qframe|band_then_lookup": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.52,
+   "lenient": 0.52,
+   "corrected": 0.2174,
+   "hedge": 0.0,
+   "none": 0.28,
+   "mean_rounds": 1.0
+  },
+  "qframe|classify": {
+   "n": 25,
+   "floor": 0.34,
+   "strict": 0.96,
+   "lenient": 0.96,
+   "corrected": 0.9394,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "qframe|compose": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.28,
+   "lenient": 0.28,
+   "corrected": 0.04,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "qframe|exclusion": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.04,
+   "lenient": 0.04,
+   "corrected": -0.28,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.0
+  },
+  "qframe|inverse": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.8,
+   "lenient": 0.8,
+   "corrected": 0.7333,
+   "hedge": 0.0,
+   "none": 0.2,
+   "mean_rounds": 1.0
+  },
+  "qframe|iterate": {
+   "n": 25,
+   "floor": 0.1638,
+   "strict": 0.16,
+   "lenient": 0.16,
+   "corrected": -0.0046,
+   "hedge": 0.0,
+   "none": 0.2,
+   "mean_rounds": 1.0
+  },
+  "qframe|lookup": {
+   "n": 25,
+   "floor": 0.2,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "qframe|lookup_general": {
+   "n": 25,
+   "floor": 0.5,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "qframe|lookup_then_band": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.52,
+   "lenient": 0.52,
+   "corrected": 0.2174,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.08
+  },
+  "qframe|pair": {
+   "n": 25,
+   "floor": 0.1111,
+   "strict": 0.2,
+   "lenient": 0.2,
+   "corrected": 0.1,
+   "hedge": 0.0,
+   "none": 0.68,
+   "mean_rounds": 1.0
+  },
+  "qframe|precedence": {
+   "n": 25,
+   "floor": 0.125,
+   "strict": 0.4,
+   "lenient": 0.4,
+   "corrected": 0.3143,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.04
+  },
+  "qframe|priority": {
+   "n": 25,
+   "floor": 0.26,
+   "strict": 0.52,
+   "lenient": 0.52,
+   "corrected": 0.3514,
+   "hedge": 0.0,
+   "none": 0.16,
+   "mean_rounds": 0.92
+  },
+  "train|ALL_SHAPES": {
+   "n": 300,
+   "floor": 0.2686,
+   "strict": 0.5367,
+   "lenient": 0.5367,
+   "corrected": 0.3665,
+   "hedge": 0.0,
+   "none": 0.12,
+   "mean_rounds": 1.043
+  },
+  "train|band_then_lookup": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.6,
+   "lenient": 0.6,
+   "corrected": 0.3478,
+   "hedge": 0.0,
+   "none": 0.24,
+   "mean_rounds": 1.0
+  },
+  "train|classify": {
+   "n": 25,
+   "floor": 0.34,
+   "strict": 0.92,
+   "lenient": 0.92,
+   "corrected": 0.8788,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "train|compose": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.36,
+   "lenient": 0.36,
+   "corrected": 0.1467,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.48
+  },
+  "train|exclusion": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.0,
+   "lenient": 0.0,
+   "corrected": -0.3333,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "train|inverse": {
+   "n": 25,
+   "floor": 0.25,
+   "strict": 0.72,
+   "lenient": 0.72,
+   "corrected": 0.6267,
+   "hedge": 0.0,
+   "none": 0.28,
+   "mean_rounds": 1.0
+  },
+  "train|iterate": {
+   "n": 25,
+   "floor": 0.1638,
+   "strict": 0.16,
+   "lenient": 0.16,
+   "corrected": -0.0046,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.0
+  },
+  "train|lookup": {
+   "n": 25,
+   "floor": 0.2,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "train|lookup_general": {
+   "n": 25,
+   "floor": 0.5,
+   "strict": 1.0,
+   "lenient": 1.0,
+   "corrected": 1.0,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "train|lookup_then_band": {
+   "n": 25,
+   "floor": 0.3867,
+   "strict": 0.48,
+   "lenient": 0.48,
+   "corrected": 0.1522,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 1.08
+  },
+  "train|pair": {
+   "n": 25,
+   "floor": 0.1111,
+   "strict": 0.12,
+   "lenient": 0.12,
+   "corrected": 0.01,
+   "hedge": 0.0,
+   "none": 0.8,
+   "mean_rounds": 1.0
+  },
+  "train|precedence": {
+   "n": 25,
+   "floor": 0.125,
+   "strict": 0.52,
+   "lenient": 0.52,
+   "corrected": 0.4514,
+   "hedge": 0.0,
+   "none": 0.0,
+   "mean_rounds": 1.0
+  },
+  "train|priority": {
+   "n": 25,
+   "floor": 0.26,
+   "strict": 0.56,
+   "lenient": 0.56,
+   "corrected": 0.4054,
+   "hedge": 0.0,
+   "none": 0.04,
+   "mean_rounds": 0.96
+  }
+ }
+}

@@ -1,0 +1,124 @@
+{
+ "tie_break": "content",
+ "orders": [
+  "chain"
+ ],
+ "cells": [
+  {
+   "order": "chain",
+   "depth": 2,
+   "n_rollouts": 400,
+   "n_questions": 100,
+   "samples": 4,
+   "dropped_long_prompts": 0,
+   "pass_at_1": 0.0025,
+   "pass_at_1_ci95": [
+    0.0004,
+    0.014
+   ],
+   "pass_at_1_forced": 0.0025,
+   "pass_at_1_forced_ci95": [
+    0.0004,
+    0.014
+   ],
+   "hedge_rate": 0.005,
+   "pass_at_k": 0.01,
+   "pass_at_k_forced": 0.01,
+   "chance_per_step": 0.027777777777777776,
+   "chance_per_chain": 0.0007716049382716049,
+   "mean_rounds": 0.6775,
+   "any_retrieval": 0.6775,
+   "served_preamble": 0.4075,
+   "served_table_by_chain_step": {
+    "0": 0.2225,
+    "1": 0.0475
+   },
+   "served_final_table": 0.0475,
+   "acc_given_final_table": 0.05263157894736842,
+   "n_given_final_table": 19,
+   "answer_classes": {
+    "no_token": 0.74,
+    "stopped_at_1": 0.21,
+    "echoed_start": 0.0375,
+    "other_token": 0.01,
+    "correct": 0.0025
+   },
+   "first_round_ranking_final_table": {
+    "n": 271,
+    "hit_at_1": 0.0036900369003690036,
+    "tie_loss": 0.14760147601476015,
+    "score_loss": 0.8487084870848709,
+    "absent": 0.0,
+    "tie_share_of_misses": 0.14814814814814814,
+    "mean_gold_rank": 2.6752767527675276,
+    "mean_tie_group": 1.154981549815498,
+    "hit_at_2": 0.3210332103321033,
+    "hit_at_3": 1.0,
+    "expected_served_position_blind": 0.07626076260762608
+   },
+   "episodes_path": "/home/ec2-user/minrepro/t/ta6-d2-minimal-ret.jsonl",
+   "tie_break": "content"
+  },
+  {
+   "order": "chain",
+   "depth": 3,
+   "n_rollouts": 400,
+   "n_questions": 100,
+   "samples": 4,
+   "dropped_long_prompts": 0,
+   "pass_at_1": 0.0,
+   "pass_at_1_ci95": [
+    0.0,
+    0.0095
+   ],
+   "pass_at_1_forced": 0.0,
+   "pass_at_1_forced_ci95": [
+    0.0,
+    0.0095
+   ],
+   "hedge_rate": 0.0,
+   "pass_at_k": 0.0,
+   "pass_at_k_forced": 0.0,
+   "chance_per_step": 0.027777777777777776,
+   "chance_per_chain": 2.1433470507544577e-05,
+   "mean_rounds": 0.5775,
+   "any_retrieval": 0.5775,
+   "served_preamble": 0.3825,
+   "served_table_by_chain_step": {
+    "0": 0.1425,
+    "1": 0.0375,
+    "2": 0.015
+   },
+   "served_final_table": 0.015,
+   "acc_given_final_table": 0.0,
+   "n_given_final_table": 6,
+   "answer_classes": {
+    "no_token": 0.8425,
+    "stopped_at_1": 0.135,
+    "echoed_start": 0.015,
+    "other_token": 0.0075
+   },
+   "first_round_ranking_final_table": {
+    "n": 231,
+    "hit_at_1": 0.004329004329004329,
+    "tie_loss": 0.1341991341991342,
+    "score_loss": 0.8614718614718615,
+    "absent": 0.0,
+    "tie_share_of_misses": 0.13478260869565217,
+    "mean_gold_rank": 3.6796536796536796,
+    "mean_tie_group": 1.277056277056277,
+    "hit_at_2": 0.017316017316017316,
+    "hit_at_3": 0.2987012987012987,
+    "expected_served_position_blind": 0.04834054834054835
+   },
+   "episodes_path": "/home/ec2-user/minrepro/t/ta6-d3-minimal-ret.jsonl",
+   "tie_break": "content"
+  }
+ ],
+ "config": {
+  "samples": 4,
+  "seed": 99,
+  "temperature": 1.0,
+  "max_rounds": 6
+ }
+}

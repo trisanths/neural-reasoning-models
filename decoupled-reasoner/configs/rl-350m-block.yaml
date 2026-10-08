@@ -1,0 +1,65 @@
+# GRPO shape for one H100 lane of an 8 GPU block, sized from the two L40S
+# runs in runs/rlvr (rl-350m-a and rl-350m-b).
+#
+# Two changes from configs/rl-350m-wide.yaml carry the reasoning. Group size
+# goes 8 to 16 because 80 percent of the groups in run B produced no gradient
+# at all: every rollout in the group scored the same, so the group was
+# dropped. Sixteen samples per prompt roughly halves that. Prompts per step
+# goes 8 to 16 because run B trained on about 230 tokens per optimizer step,
+# which is a thin update; at 16 prompts it lands near 900.
+#
+# That makes 256 rollouts per step. On the L40S 32 lanes with a 640 token
+# cache peaked at 31.3 GB, and the update's logits dominate the KV cache, so
+# micro_batch_size stays at 16 and is the knob to cut first if an H100 lane
+# runs out of memory. configs/rl-350m-block-narrow.yaml is the provisioned
+# fallback.
+#
+# kl_coef rises 0.02 to 0.05. Both L40S runs reached about 0.45 nats per
+# token against the frozen reference by step 400 at 0.02 with no visible
+# collapse, but this config runs thousands of steps rather than hundreds and
+# that number should not be extrapolated.
+#
+# limit_episodes rises 1500 to 4000 so the policy re-solves seen prompts less
+# often; regime_c/heldout.jsonl holds 5000 episodes.
+env:
+  max_rounds: 4
+  max_new_tokens: 96
+  query_max_tokens: 24
+  max_len: 640
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.05
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+grpo:
+  group_size: 16
+  prompts_per_step: 16
+  inner_epochs: 1
+  micro_batch_size: 16
+  clip_eps: 0.2
+  kl_coef: 0.05
+  ent_coef: 0.0
+  normalize_advantage: true
+  drop_zero_variance_groups: true
+  lr: 2.0e-6
+  weight_decay: 0.0
+  grad_clip: 1.0
+  warmup_steps: 20
+  max_steps: 3000
+  min_lr_ratio: 1.0
+  seed: 1234
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 384
+  limit_episodes: 4000
+run:
+  temperature: 1.0
+  top_k: 0
+  eval_tasks: 192
+  eval_batch: 32
+  eval_every: 100
+  sample_every: 100
+  sample_n: 8
+  ckpt_every: 250
+  log_every: 1

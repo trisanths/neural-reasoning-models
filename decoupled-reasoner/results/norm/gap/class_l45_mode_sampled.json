@@ -1,0 +1,3843 @@
+{
+ "tag": "l45",
+ "mode": "sampled",
+ "split": "mode",
+ "group": "new keys",
+ "shapes": [
+  "lookup",
+  "inverse",
+  "iterate",
+  "compose",
+  "exclusion",
+  "sum_chain",
+  "precedence",
+  "priority"
+ ],
+ "built": "2026-09-03 04:29 UTC",
+ "record_file": "/home/ec2-user/decoupled-reasoner/results/norm/gap/records_l45_mode_sampled.jsonl.gz",
+ "record_written": "2026-09-03 02:11 UTC",
+ "gold_structure_size": {
+  "lookup": {
+   "mean_defs": 1.0,
+   "mean_steps": 1.0,
+   "mean_entries": 4.0
+  },
+  "inverse": {
+   "mean_defs": 1.0,
+   "mean_steps": 1.0,
+   "mean_entries": 4.0
+  },
+  "compose": {
+   "mean_defs": 3.5,
+   "mean_steps": 3.5,
+   "mean_entries": 14.0
+  },
+  "iterate": {
+   "mean_defs": 1.0,
+   "mean_steps": 4.52,
+   "mean_entries": 6.66
+  },
+  "priority": {
+   "mean_defs": 1.0,
+   "mean_steps": 1.0,
+   "mean_entries": 3.99
+  },
+  "exclusion": {
+   "mean_defs": 1.0,
+   "mean_steps": 1.0,
+   "mean_entries": 4.0
+  },
+  "sum_chain": {
+   "mean_defs": 7.05,
+   "mean_steps": 9.57,
+   "mean_entries": 28.19
+  },
+  "precedence": {
+   "mean_defs": 2.0,
+   "mean_steps": 1.0,
+   "mean_entries": 8.0
+  }
+ },
+ "by_shape_position": {
+  "compose": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 94,
+      "n": 252,
+      "share": 0.373,
+      "ci": [
+       0.3156,
+       0.4342
+      ]
+     },
+     "malformed": {
+      "k": 2,
+      "n": 252,
+      "share": 0.0079,
+      "ci": [
+       0.0022,
+       0.0285
+      ]
+     },
+     "refused": {
+      "k": 2,
+      "n": 252,
+      "share": 0.0079,
+      "ci": [
+       0.0022,
+       0.0285
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 151,
+      "n": 252,
+      "share": 0.5992,
+      "ci": [
+       0.5376,
+       0.6578
+      ]
+     },
+     "wrong content": {
+      "k": 3,
+      "n": 252,
+      "share": 0.0119,
+      "ci": [
+       0.0041,
+       0.0344
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 2,
+      "n": 158,
+      "share": 0.0127,
+      "ci": [
+       0.0035,
+       0.045
+      ]
+     },
+     "refused": {
+      "k": 2,
+      "n": 158,
+      "share": 0.0127,
+      "ci": [
+       0.0035,
+       0.045
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 158,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0237
+      ]
+     },
+     "wrong binding": {
+      "k": 151,
+      "n": 158,
+      "share": 0.9557,
+      "ci": [
+       0.9114,
+       0.9784
+      ]
+     },
+     "wrong content": {
+      "k": 3,
+      "n": 158,
+      "share": 0.019,
+      "ci": [
+       0.0065,
+       0.0543
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 158,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0237
+      ]
+     }
+    },
+    "n_failures": 158,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 158,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0237
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 36,
+     "n": 158,
+     "share": 0.2278,
+     "ci": [
+      0.1694,
+      0.2993
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 156,
+     "mean_share_of_entries_wrong": 0.32,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 156,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.024
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 38,
+      "n": 156,
+      "share": 0.2436,
+      "ci": [
+       0.1829,
+       0.3166
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 35,
+     "wrong content": 1,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 16,
+     "n": 252,
+     "share": 0.0635,
+     "ci": [
+      0.0395,
+      0.1006
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 1,
+      "n": 248,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0225
+      ]
+     },
+     "refused": {
+      "k": 7,
+      "n": 248,
+      "share": 0.0282,
+      "ci": [
+       0.0137,
+       0.0571
+      ]
+     },
+     "wrong kind": {
+      "k": 45,
+      "n": 248,
+      "share": 0.1815,
+      "ci": [
+       0.1385,
+       0.2342
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 195,
+      "n": 248,
+      "share": 0.7863,
+      "ci": [
+       0.7311,
+       0.8327
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 1,
+      "n": 248,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0225
+      ]
+     },
+     "refused": {
+      "k": 7,
+      "n": 248,
+      "share": 0.0282,
+      "ci": [
+       0.0137,
+       0.0571
+      ]
+     },
+     "wrong kind": {
+      "k": 45,
+      "n": 248,
+      "share": 0.1815,
+      "ci": [
+       0.1385,
+       0.2342
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 195,
+      "n": 248,
+      "share": 0.7863,
+      "ci": [
+       0.7311,
+       0.8327
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 41,
+     "n": 248,
+     "share": 0.1653,
+     "ci": [
+      0.1243,
+      0.2166
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 107,
+     "n": 248,
+     "share": 0.4315,
+     "ci": [
+      0.3713,
+      0.4937
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 247,
+     "mean_share_of_entries_wrong": 0.7453,
+     "every_entry_wrong": {
+      "k": 80,
+      "n": 247,
+      "share": 0.3239,
+      "ci": [
+       0.2686,
+       0.3846
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 247,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 41,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 41,
+     "wrong binding": 0,
+     "wrong content": 66,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    }
+   }
+  },
+  "exclusion": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 111,
+      "n": 252,
+      "share": 0.4405,
+      "ci": [
+       0.3805,
+       0.5022
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 141,
+      "n": 252,
+      "share": 0.5595,
+      "ci": [
+       0.4978,
+       0.6195
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 141,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0265
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 141,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0265
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 141,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0265
+      ]
+     },
+     "wrong binding": {
+      "k": 141,
+      "n": 141,
+      "share": 1.0,
+      "ci": [
+       0.9735,
+       1.0
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 141,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0265
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 141,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0265
+      ]
+     }
+    },
+    "n_failures": 141,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 141,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0265
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 141,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0265
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 141,
+     "mean_share_of_entries_wrong": 0.6117,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 141,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0265
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 78,
+      "n": 141,
+      "share": 0.5532,
+      "ci": [
+       0.4708,
+       0.6328
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 165,
+      "n": 248,
+      "share": 0.6653,
+      "ci": [
+       0.6045,
+       0.7211
+      ]
+     },
+     "wrong kind": {
+      "k": 83,
+      "n": 248,
+      "share": 0.3347,
+      "ci": [
+       0.2789,
+       0.3955
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 165,
+      "n": 248,
+      "share": 0.6653,
+      "ci": [
+       0.6045,
+       0.7211
+      ]
+     },
+     "wrong kind": {
+      "k": 83,
+      "n": 248,
+      "share": 0.3347,
+      "ci": [
+       0.2789,
+       0.3955
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 248,
+     "mean_share_of_entries_wrong": 0.8216,
+     "every_entry_wrong": {
+      "k": 138,
+      "n": 248,
+      "share": 0.5565,
+      "ci": [
+       0.4942,
+       0.617
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 67,
+      "n": 248,
+      "share": 0.2702,
+      "ci": [
+       0.2187,
+       0.3286
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 73,
+     "n": 248,
+     "share": 0.2944,
+     "ci": [
+      0.2411,
+      0.3539
+     ]
+    }
+   }
+  },
+  "inverse": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 252,
+      "n": 252,
+      "share": 1.0,
+      "ci": [
+       0.985,
+       1.0
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "n_failures": 0,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 0,
+     "share": null,
+     "ci": [
+      0.0,
+      0.0
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 0,
+     "share": null,
+     "ci": [
+      0.0,
+      0.0
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 0,
+     "mean_share_of_entries_wrong": null,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 69,
+     "n": 252,
+     "share": 0.2738,
+     "ci": [
+      0.2225,
+      0.332
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 248,
+      "n": 248,
+      "share": 1.0,
+      "ci": [
+       0.9847,
+       1.0
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 248,
+      "n": 248,
+      "share": 1.0,
+      "ci": [
+       0.9847,
+       1.0
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 248,
+     "mean_share_of_entries_wrong": 1.0,
+     "every_entry_wrong": {
+      "k": 248,
+      "n": 248,
+      "share": 1.0,
+      "ci": [
+       0.9847,
+       1.0
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 248,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 248,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    }
+   }
+  },
+  "iterate": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 250,
+      "n": 252,
+      "share": 0.9921,
+      "ci": [
+       0.9715,
+       0.9978
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong content": {
+      "k": 2,
+      "n": 252,
+      "share": 0.0079,
+      "ci": [
+       0.0022,
+       0.0285
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     },
+     "wrong content": {
+      "k": 2,
+      "n": 2,
+      "share": 1.0,
+      "ci": [
+       0.3424,
+       1.0
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     }
+    },
+    "n_failures": 2,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 2,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.6576
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 2,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.6576
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 2,
+     "mean_share_of_entries_wrong": 0.0,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 2,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.6576
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 14,
+     "n": 252,
+     "share": 0.0556,
+     "ci": [
+      0.0334,
+      0.0911
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 234,
+      "n": 248,
+      "share": 0.9435,
+      "ci": [
+       0.9075,
+       0.9661
+      ]
+     },
+     "wrong content": {
+      "k": 14,
+      "n": 248,
+      "share": 0.0565,
+      "ci": [
+       0.0339,
+       0.0925
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 234,
+      "n": 248,
+      "share": 0.9435,
+      "ci": [
+       0.9075,
+       0.9661
+      ]
+     },
+     "wrong content": {
+      "k": 14,
+      "n": 248,
+      "share": 0.0565,
+      "ci": [
+       0.0339,
+       0.0925
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 103,
+     "n": 248,
+     "share": 0.4153,
+     "ci": [
+      0.3557,
+      0.4775
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 248,
+     "mean_share_of_entries_wrong": 0.4485,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 94,
+     "wrong content": 9,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    }
+   }
+  },
+  "lookup": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 249,
+      "n": 252,
+      "share": 0.9881,
+      "ci": [
+       0.9656,
+       0.9959
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong content": {
+      "k": 3,
+      "n": 252,
+      "share": 0.0119,
+      "ci": [
+       0.0041,
+       0.0344
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     },
+     "wrong content": {
+      "k": 3,
+      "n": 3,
+      "share": 1.0,
+      "ci": [
+       0.4385,
+       1.0
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     }
+    },
+    "n_failures": 3,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 3,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.5615
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 3,
+     "n": 3,
+     "share": 1.0,
+     "ci": [
+      0.4385,
+      1.0
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 3,
+     "mean_share_of_entries_wrong": 0.0,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 3,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.5615
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 3,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 68,
+     "n": 252,
+     "share": 0.2698,
+     "ci": [
+      0.2188,
+      0.3278
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 1,
+      "n": 248,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0225
+      ]
+     },
+     "wrong binding": {
+      "k": 157,
+      "n": 248,
+      "share": 0.6331,
+      "ci": [
+       0.5715,
+       0.6906
+      ]
+     },
+     "wrong content": {
+      "k": 90,
+      "n": 248,
+      "share": 0.3629,
+      "ci": [
+       0.3056,
+       0.4244
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 1,
+      "n": 248,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0225
+      ]
+     },
+     "wrong binding": {
+      "k": 157,
+      "n": 248,
+      "share": 0.6331,
+      "ci": [
+       0.5715,
+       0.6906
+      ]
+     },
+     "wrong content": {
+      "k": 90,
+      "n": 248,
+      "share": 0.3629,
+      "ci": [
+       0.3056,
+       0.4244
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 247,
+     "n": 248,
+     "share": 0.996,
+     "ci": [
+      0.9775,
+      0.9993
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 62,
+     "n": 248,
+     "share": 0.25,
+     "ci": [
+      0.2002,
+      0.3074
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 248,
+     "mean_share_of_entries_wrong": 1.0,
+     "every_entry_wrong": {
+      "k": 248,
+      "n": 248,
+      "share": 1.0,
+      "ci": [
+       0.9847,
+       1.0
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 157,
+     "wrong content": 90,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 62,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    }
+   }
+  },
+  "precedence": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 252,
+      "n": 252,
+      "share": 1.0,
+      "ci": [
+       0.985,
+       1.0
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "n_failures": 0,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 0,
+     "share": null,
+     "ci": [
+      0.0,
+      0.0
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 0,
+     "share": null,
+     "ci": [
+      0.0,
+      0.0
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 0,
+     "mean_share_of_entries_wrong": null,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 1,
+      "n": 248,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0225
+      ]
+     },
+     "refused": {
+      "k": 157,
+      "n": 248,
+      "share": 0.6331,
+      "ci": [
+       0.5715,
+       0.6906
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 90,
+      "n": 248,
+      "share": 0.3629,
+      "ci": [
+       0.3056,
+       0.4244
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 1,
+      "n": 248,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0225
+      ]
+     },
+     "refused": {
+      "k": 157,
+      "n": 248,
+      "share": 0.6331,
+      "ci": [
+       0.5715,
+       0.6906
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 90,
+      "n": 248,
+      "share": 0.3629,
+      "ci": [
+       0.3056,
+       0.4244
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 247,
+     "mean_share_of_entries_wrong": 0.9929,
+     "every_entry_wrong": {
+      "k": 240,
+      "n": 247,
+      "share": 0.9717,
+      "ci": [
+       0.9427,
+       0.9862
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 247,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 67,
+     "n": 248,
+     "share": 0.2702,
+     "ci": [
+      0.2187,
+      0.3286
+     ]
+    }
+   }
+  },
+  "priority": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 252,
+      "n": 252,
+      "share": 1.0,
+      "ci": [
+       0.985,
+       1.0
+      ]
+     },
+     "malformed": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "wrong content": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "n_failures": 0,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 0,
+     "share": null,
+     "ci": [
+      0.0,
+      0.0
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 0,
+     "share": null,
+     "ci": [
+      0.0,
+      0.0
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 0,
+     "mean_share_of_entries_wrong": null,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 0,
+      "share": null,
+      "ci": [
+       0.0,
+       0.0
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 22,
+     "n": 252,
+     "share": 0.0873,
+     "ci": [
+      0.0584,
+      0.1286
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 10,
+      "n": 248,
+      "share": 0.0403,
+      "ci": [
+       0.022,
+       0.0726
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 128,
+      "n": 248,
+      "share": 0.5161,
+      "ci": [
+       0.4542,
+       0.5776
+      ]
+     },
+     "wrong content": {
+      "k": 110,
+      "n": 248,
+      "share": 0.4435,
+      "ci": [
+       0.383,
+       0.5058
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 10,
+      "n": 248,
+      "share": 0.0403,
+      "ci": [
+       0.022,
+       0.0726
+      ]
+     },
+     "refused": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 128,
+      "n": 248,
+      "share": 0.5161,
+      "ci": [
+       0.4542,
+       0.5776
+      ]
+     },
+     "wrong content": {
+      "k": 110,
+      "n": 248,
+      "share": 0.4435,
+      "ci": [
+       0.383,
+       0.5058
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 238,
+     "n": 248,
+     "share": 0.9597,
+     "ci": [
+      0.9274,
+      0.978
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 238,
+     "mean_share_of_entries_wrong": 1.0,
+     "every_entry_wrong": {
+      "k": 238,
+      "n": 238,
+      "share": 1.0,
+      "ci": [
+       0.9841,
+       1.0
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 238,
+      "share": 0.0,
+      "ci": [
+       -0.0,
+       0.0159
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 128,
+     "wrong content": 110,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    }
+   }
+  },
+  "sum_chain": {
+   "key_first": {
+    "n": 252,
+    "outcomes": {
+     "exact": {
+      "k": 25,
+      "n": 252,
+      "share": 0.0992,
+      "ci": [
+       0.0681,
+       0.1423
+      ]
+     },
+     "malformed": {
+      "k": 1,
+      "n": 252,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0221
+      ]
+     },
+     "refused": {
+      "k": 1,
+      "n": 252,
+      "share": 0.004,
+      "ci": [
+       0.0007,
+       0.0221
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     },
+     "wrong binding": {
+      "k": 17,
+      "n": 252,
+      "share": 0.0675,
+      "ci": [
+       0.0425,
+       0.1054
+      ]
+     },
+     "wrong content": {
+      "k": 208,
+      "n": 252,
+      "share": 0.8254,
+      "ci": [
+       0.7737,
+       0.8673
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 252,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.015
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 1,
+      "n": 227,
+      "share": 0.0044,
+      "ci": [
+       0.0008,
+       0.0245
+      ]
+     },
+     "refused": {
+      "k": 1,
+      "n": 227,
+      "share": 0.0044,
+      "ci": [
+       0.0008,
+       0.0245
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 227,
+      "share": 0.0,
+      "ci": [
+       -0.0,
+       0.0166
+      ]
+     },
+     "wrong binding": {
+      "k": 17,
+      "n": 227,
+      "share": 0.0749,
+      "ci": [
+       0.0473,
+       0.1166
+      ]
+     },
+     "wrong content": {
+      "k": 208,
+      "n": 227,
+      "share": 0.9163,
+      "ci": [
+       0.873,
+       0.9458
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 227,
+      "share": 0.0,
+      "ci": [
+       -0.0,
+       0.0166
+      ]
+     }
+    },
+    "n_failures": 227,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 227,
+     "share": 0.0,
+     "ci": [
+      -0.0,
+      0.0166
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 57,
+     "n": 227,
+     "share": 0.2511,
+     "ci": [
+      0.1991,
+      0.3113
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 226,
+     "mean_share_of_entries_wrong": 0.2591,
+     "every_entry_wrong": {
+      "k": 0,
+      "n": 226,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0167
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 53,
+      "n": 226,
+      "share": 0.2345,
+      "ci": [
+       0.184,
+       0.2939
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 5,
+     "wrong content": 52,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 252,
+     "n": 252,
+     "share": 1.0,
+     "ci": [
+      0.985,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 252,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.015
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 1,
+     "n": 252,
+     "share": 0.004,
+     "ci": [
+      0.0007,
+      0.0221
+     ]
+    }
+   },
+   "value_first": {
+    "n": 248,
+    "outcomes": {
+     "exact": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "malformed": {
+      "k": 4,
+      "n": 248,
+      "share": 0.0161,
+      "ci": [
+       0.0063,
+       0.0407
+      ]
+     },
+     "refused": {
+      "k": 4,
+      "n": 248,
+      "share": 0.0161,
+      "ci": [
+       0.0063,
+       0.0407
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 240,
+      "n": 248,
+      "share": 0.9677,
+      "ci": [
+       0.9376,
+       0.9836
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "of_failures": {
+     "exact": null,
+     "malformed": {
+      "k": 4,
+      "n": 248,
+      "share": 0.0161,
+      "ci": [
+       0.0063,
+       0.0407
+      ]
+     },
+     "refused": {
+      "k": 4,
+      "n": 248,
+      "share": 0.0161,
+      "ci": [
+       0.0063,
+       0.0407
+      ]
+     },
+     "wrong kind": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong binding": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     },
+     "wrong content": {
+      "k": 240,
+      "n": 248,
+      "share": 0.9677,
+      "ci": [
+       0.9376,
+       0.9836
+      ]
+     },
+     "downstream": {
+      "k": 0,
+      "n": 248,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0153
+      ]
+     }
+    },
+    "n_failures": 248,
+    "failures_tables_transposed": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "failures_answer_matches_gold": {
+     "k": 21,
+     "n": 248,
+     "share": 0.0847,
+     "ci": [
+      0.056,
+      0.126
+     ]
+    },
+    "entry_error": {
+     "n_failures_that_parsed": 244,
+     "mean_share_of_entries_wrong": 0.7586,
+     "every_entry_wrong": {
+      "k": 60,
+      "n": 244,
+      "share": 0.2459,
+      "ci": [
+       0.1961,
+       0.3036
+      ]
+     },
+     "at_most_two_entries_wrong": {
+      "k": 0,
+      "n": 244,
+      "share": 0.0,
+      "ci": [
+       0.0,
+       0.0155
+      ]
+     }
+    },
+    "transposed_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 0,
+     "downstream": 0
+    },
+    "answer_matches_within_outcome": {
+     "malformed": 0,
+     "refused": 0,
+     "wrong kind": 0,
+     "wrong binding": 0,
+     "wrong content": 21,
+     "downstream": 0
+    },
+    "parser_exact": {
+     "k": 248,
+     "n": 248,
+     "share": 1.0,
+     "ci": [
+      0.9847,
+      1.0
+     ]
+    },
+    "modal_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    },
+    "modal_shape_exact": {
+     "k": 0,
+     "n": 248,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0153
+     ]
+    }
+   }
+  }
+ },
+ "group_by_position": {
+  "key_first": {
+   "n": 2016,
+   "outcomes": {
+    "exact": {
+     "k": 1485,
+     "n": 2016,
+     "share": 0.7366,
+     "ci": [
+      0.7169,
+      0.7554
+     ]
+    },
+    "malformed": {
+     "k": 3,
+     "n": 2016,
+     "share": 0.0015,
+     "ci": [
+      0.0005,
+      0.0044
+     ]
+    },
+    "refused": {
+     "k": 3,
+     "n": 2016,
+     "share": 0.0015,
+     "ci": [
+      0.0005,
+      0.0044
+     ]
+    },
+    "wrong kind": {
+     "k": 0,
+     "n": 2016,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0019
+     ]
+    },
+    "wrong binding": {
+     "k": 309,
+     "n": 2016,
+     "share": 0.1533,
+     "ci": [
+      0.1382,
+      0.1697
+     ]
+    },
+    "wrong content": {
+     "k": 216,
+     "n": 2016,
+     "share": 0.1071,
+     "ci": [
+      0.0944,
+      0.1214
+     ]
+    },
+    "downstream": {
+     "k": 0,
+     "n": 2016,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0019
+     ]
+    }
+   },
+   "of_failures": {
+    "exact": null,
+    "malformed": {
+     "k": 3,
+     "n": 531,
+     "share": 0.0056,
+     "ci": [
+      0.0019,
+      0.0165
+     ]
+    },
+    "refused": {
+     "k": 3,
+     "n": 531,
+     "share": 0.0056,
+     "ci": [
+      0.0019,
+      0.0165
+     ]
+    },
+    "wrong kind": {
+     "k": 0,
+     "n": 531,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0072
+     ]
+    },
+    "wrong binding": {
+     "k": 309,
+     "n": 531,
+     "share": 0.5819,
+     "ci": [
+      0.5395,
+      0.6231
+     ]
+    },
+    "wrong content": {
+     "k": 216,
+     "n": 531,
+     "share": 0.4068,
+     "ci": [
+      0.3658,
+      0.4491
+     ]
+    },
+    "downstream": {
+     "k": 0,
+     "n": 531,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0072
+     ]
+    }
+   },
+   "n_failures": 531,
+   "failures_tables_transposed": {
+    "k": 0,
+    "n": 531,
+    "share": 0.0,
+    "ci": [
+     0.0,
+     0.0072
+    ]
+   },
+   "failures_answer_matches_gold": {
+    "k": 96,
+    "n": 531,
+    "share": 0.1808,
+    "ci": [
+     0.1504,
+     0.2158
+    ]
+   },
+   "entry_error": {
+    "n_failures_that_parsed": 528,
+    "mean_share_of_entries_wrong": 0.2957,
+    "every_entry_wrong": {
+     "k": 0,
+     "n": 528,
+     "share": 0.0,
+     "ci": [
+      -0.0,
+      0.0072
+     ]
+    },
+    "at_most_two_entries_wrong": {
+     "k": 169,
+     "n": 528,
+     "share": 0.3201,
+     "ci": [
+      0.2817,
+      0.361
+     ]
+    }
+   },
+   "transposed_within_outcome": {
+    "malformed": 0,
+    "refused": 0,
+    "wrong kind": 0,
+    "wrong binding": 0,
+    "wrong content": 0,
+    "downstream": 0
+   },
+   "answer_matches_within_outcome": {
+    "malformed": 0,
+    "refused": 0,
+    "wrong kind": 0,
+    "wrong binding": 40,
+    "wrong content": 56,
+    "downstream": 0
+   },
+   "parser_exact": {
+    "k": 2016,
+    "n": 2016,
+    "share": 1.0,
+    "ci": [
+     0.9981,
+     1.0
+    ]
+   },
+   "modal_exact": {
+    "k": 0,
+    "n": 2016,
+    "share": 0.0,
+    "ci": [
+     0.0,
+     0.0019
+    ]
+   },
+   "modal_shape_exact": {
+    "k": 190,
+    "n": 2016,
+    "share": 0.0942,
+    "ci": [
+     0.0823,
+     0.1078
+    ]
+   }
+  },
+  "value_first": {
+   "n": 1984,
+   "outcomes": {
+    "exact": {
+     "k": 0,
+     "n": 1984,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0019
+     ]
+    },
+    "malformed": {
+     "k": 16,
+     "n": 1984,
+     "share": 0.0081,
+     "ci": [
+      0.005,
+      0.0131
+     ]
+    },
+    "refused": {
+     "k": 333,
+     "n": 1984,
+     "share": 0.1678,
+     "ci": [
+      0.152,
+      0.1849
+     ]
+    },
+    "wrong kind": {
+     "k": 377,
+     "n": 1984,
+     "share": 0.19,
+     "ci": [
+      0.1734,
+      0.2079
+     ]
+    },
+    "wrong binding": {
+     "k": 519,
+     "n": 1984,
+     "share": 0.2616,
+     "ci": [
+      0.2427,
+      0.2814
+     ]
+    },
+    "wrong content": {
+     "k": 739,
+     "n": 1984,
+     "share": 0.3725,
+     "ci": [
+      0.3515,
+      0.394
+     ]
+    },
+    "downstream": {
+     "k": 0,
+     "n": 1984,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0019
+     ]
+    }
+   },
+   "of_failures": {
+    "exact": null,
+    "malformed": {
+     "k": 16,
+     "n": 1984,
+     "share": 0.0081,
+     "ci": [
+      0.005,
+      0.0131
+     ]
+    },
+    "refused": {
+     "k": 333,
+     "n": 1984,
+     "share": 0.1678,
+     "ci": [
+      0.152,
+      0.1849
+     ]
+    },
+    "wrong kind": {
+     "k": 377,
+     "n": 1984,
+     "share": 0.19,
+     "ci": [
+      0.1734,
+      0.2079
+     ]
+    },
+    "wrong binding": {
+     "k": 519,
+     "n": 1984,
+     "share": 0.2616,
+     "ci": [
+      0.2427,
+      0.2814
+     ]
+    },
+    "wrong content": {
+     "k": 739,
+     "n": 1984,
+     "share": 0.3725,
+     "ci": [
+      0.3515,
+      0.394
+     ]
+    },
+    "downstream": {
+     "k": 0,
+     "n": 1984,
+     "share": 0.0,
+     "ci": [
+      0.0,
+      0.0019
+     ]
+    }
+   },
+   "n_failures": 1984,
+   "failures_tables_transposed": {
+    "k": 774,
+    "n": 1984,
+    "share": 0.3901,
+    "ci": [
+     0.3689,
+     0.4118
+    ]
+   },
+   "failures_answer_matches_gold": {
+    "k": 541,
+    "n": 1984,
+    "share": 0.2727,
+    "ci": [
+     0.2535,
+     0.2927
+    ]
+   },
+   "entry_error": {
+    "n_failures_that_parsed": 1968,
+    "mean_share_of_entries_wrong": 0.7961,
+    "every_entry_wrong": {
+     "k": 1252,
+     "n": 1968,
+     "share": 0.6362,
+     "ci": [
+      0.6147,
+      0.6571
+     ]
+    },
+    "at_most_two_entries_wrong": {
+     "k": 67,
+     "n": 1968,
+     "share": 0.034,
+     "ci": [
+      0.0269,
+      0.043
+     ]
+    }
+   },
+   "transposed_within_outcome": {
+    "malformed": 0,
+    "refused": 0,
+    "wrong kind": 289,
+    "wrong binding": 285,
+    "wrong content": 200,
+    "downstream": 0
+   },
+   "answer_matches_within_outcome": {
+    "malformed": 0,
+    "refused": 0,
+    "wrong kind": 289,
+    "wrong binding": 156,
+    "wrong content": 96,
+    "downstream": 0
+   },
+   "parser_exact": {
+    "k": 1984,
+    "n": 1984,
+    "share": 1.0,
+    "ci": [
+     0.9981,
+     1.0
+    ]
+   },
+   "modal_exact": {
+    "k": 0,
+    "n": 1984,
+    "share": 0.0,
+    "ci": [
+     0.0,
+     0.0019
+    ]
+   },
+   "modal_shape_exact": {
+    "k": 140,
+    "n": 1984,
+    "share": 0.0706,
+    "ci": [
+     0.0601,
+     0.0827
+    ]
+   }
+  }
+ }
+}

@@ -1,0 +1,1000 @@
+# The thesis
+
+This project is not building a small language model. It is building a different
+computational object and testing whether that object can do what a large one
+does.
+
+## Two systems
+
+X, the conventional system. One large static network whose parameters
+simultaneously store declarative facts, mathematical knowledge, programming
+interfaces, linguistic competence, procedural patterns, and reasoning machinery.
+Capability is a function of parameter count. Learning happens during training,
+the weights freeze, and inference applies what was learned.
+
+Y, the system under test. A small permanent computation engine, an external
+knowledge substrate, autonomous acquisition, temporary skill formation, and
+adaptive test-time computation. Learning how to learn happens during training,
+and the actual learning happens at inference.
+
+Comparing X and Y by parameter count is close to the wrong abstraction. A
+frontier model carries an enormous amount of precomputed civilization in its
+weights. The hypothesis is that most of that does not need to live in the
+reasoning engine.
+
+## The capability function
+
+For X, capability is approximately a function of parameters alone. For Y it is a
+function of permanent parameters, accessible external knowledge, retrieval and
+search quality, available test-time compute, temporary learned state, and the
+ability to acquire new abstractions. That last term is the one ordinary
+retrieval augmentation does not have, and it is the one this project exists to
+build.
+
+## The research question
+
+Not "can retrieval improve small models" and not "can a 4B compete with a 27B".
+The question is:
+
+  How small can the permanent neural substrate become, if declarative knowledge,
+  task-specific knowledge, and mathematical skill can all be acquired externally
+  at inference time?
+
+The answer might be 7B. It might be 800M. It might be 200M. Nothing is served by
+deciding in advance; the experiment should discover the lower bound. The
+substrate sweep is therefore a primary experiment, not a footnote: train the same
+acquisition machinery at several sizes and find where the capability breaks.
+
+## What the weights should contain
+
+If the thesis holds, the model should not know calculus the way a conventional
+model knows calculus. It should hold primitives instead: enough language to parse
+a definition it has never seen; primitive logic and inference; variable binding,
+so symbols can carry local meaning; composition of transformations; analogy
+across domains; induction of rules from examples; causal dependency; search
+control, meaning the recognition that some machinery is missing;
+reading-to-model conversion, turning prose definitions into executable
+conceptual structure; verification of its own interpretation; and meta-learning,
+changing behaviour in response to newly acquired rules.
+
+If those fit in a few hundred million parameters, there is no law requiring tens
+of billions of active parameters to reason.
+
+## Why the small version is the clean test
+
+A 7B result invites the objection that 7B models already know a great deal. A
+model in the hundreds of millions that fails closed-book, recognises what it
+lacks, retrieves a textbook it has never seen, learns the machinery, passes
+hidden-source tests on the newly acquired concepts, and then solves the original
+problem, cannot be explained by hidden memorisation. That is why the
+invented-mathematics benchmark matters: a small model cannot have memorised the
+axioms of a mathematical universe generated after its training ended.
+
+## Evaluation must be resource-matched, not context-matched
+
+Giving Y a searchable library and X only the problem sounds unfair, and is not.
+X's external memory is its own weights; Y's is a corpus. The honest comparison
+holds resources constant, not inputs: comparable wall-clock time, comparable
+energy, comparable dollars, comparable latency budget. Report capability per
+parameter, per joule, per second, per dollar, and per byte of resident weights,
+alongside raw capability.
+
+Frontier parity also need not happen in one forward pass. A system that spends
+two minutes understanding, identifying its gap, searching, reading, compiling a
+skill, self-testing, reasoning and verifying, and arrives at the same answer with
+orders of magnitude less resident memory, has demonstrated the thing. Speed is an
+optimisation problem after capability is proven: cache acquired skills,
+parallelise search, speculate retrieval, compile a book once, run recurrence
+efficiently.
+
+## Prior evidence, checked, and what it actually supports
+
+Four results are commonly cited in support of this direction. All four were
+verified, and they support something weaker than they are usually taken to mean.
+
+RETRO reported a 7.5B retrieval-native model matching models 25x larger on the
+Pile. Norlund et al. (EACL 2023 Findings) reproduced it at 425M and bucketed the
+loss by token overlap: the gains come almost entirely from tokens overlapping
+retrieved text, with a small net negative effect on non-overlapping tokens. Their
+conclusion is that the improvement is verbatim copying. This is the only careful
+separation anyone has published between "retrieved the answer and copied it" and
+"integrated retrieved content into a computation", and it came out on the wrong
+side for us. RETRO's own downstream numbers agree: 45.5 exact match on Natural
+Questions against FiD's 51.4 from a far smaller model.
+
+Atlas reported an 11B model beating PaLM-540B on Natural Questions 64-shot. Atlas
+was gradient fine-tuned on those 64 examples, reader and retriever both, with a
+387M-passage index of the exact domain the questions came from. PaLM was prompted,
+with no gradients and no retrieval. The authors footnote this. It is not evidence
+about the parameter-capability curve.
+
+Co-LMLM externalises facts through dense queries at 360M and scores 21.7 on
+SimpleQA Verified. That benchmark is explicitly designed to measure parametric
+knowledge, and its own paper notes that enabling tools yields near-perfect scores.
+The comparison models had no retrieval; Co-LMLM had a 240M-entry index of
+Wikipedia fact spans. It evaluates no mathematical, procedural or multi-hop task,
+and retrieves single atomic facts top-1.
+
+Recurrent-depth work (Huginn, 3.5B) showed continued improvement with more
+iterations up to the FLOP load of a 50B model. The authors are explicit that this
+is compute equivalence, not capability equivalence, and their tables show it does
+not reach a 50B model's scores. Usefully for us, gains saturate near eight
+iterations on knowledge and commonsense tasks and keep accruing on math, code and
+multi-step reasoning. Recurrence deepens computation in a model that already has
+the machinery; it does not add machinery.
+
+What this set actually establishes: factual capacity can be decoupled from
+parameter count, and computational depth can be decoupled from parameter count.
+What it leaves untouched, and in RETRO's case actively discourages, is whether
+PROCEDURAL capability can be externalised. Three of the four compare a
+retrieval-equipped model against models denied retrieval, so the counterargument
+writes itself: give the large model the index and the comparison reverses.
+
+One paper comes closer than the rest and the claim must be precise about it.
+Yang et al. (Findings of EMNLP 2025) retrieve proofs and proof techniques from
+raw textbooks and papers and show models transferring a retrieved technique to a
+novel theorem. So it is wrong to say nobody has tested retrieving a procedure.
+Their own limitation section draws the sharper boundary: no significant gain when
+the needed proof strategy is fundamentally novel and encoded neither in the model
+nor in the retrieved context. That boundary, not the absence of prior work, is
+what this project targets.
+
+The precise claim is therefore: existing retrieval systems can expose a model to
+facts and to reusable solution patterns. The open question is whether a
+deliberately knowledge-limited substrate can convert external instruction into
+new executable abstractions, compose those abstractions beyond the demonstrated
+patterns, and thereby acquire capabilities absent from its weights.
+
+That is where this project sits, and it is why the invented-mathematics
+benchmark matters more than another factual evaluation. Our own strongest result
+is a procedure-retrieval result: a model reads a page stating a rule it has never
+seen and applies it, 0.680 against 0.002 with a different page. And our pointer
+head independently reproduced the Norlund split without knowing it, lifting
+copy-heavy accuracy from 0.021 to 0.514 while being slightly worse where
+arithmetic was required. The literature and our own measurements agree on where
+the line falls. The open question is whether anything crosses it.
+
+## What our own evidence says so far
+
+Established, with controls: a fact-free 350M model reads a page defining a system
+invented after training and applies it, at 0.680 against 0.002 with a different
+system's page and 0.000 with a blank page. A pointer head that selects spans from
+evidence lifts copy-heavy accuracy from 0.021 to 0.514 while being slightly worse
+where arithmetic is needed. Reinforcement learning against programmatic verifiers
+is three to five orders of magnitude cheaper per point of accuracy than
+pretraining.
+
+Not established, and the current wall: composing or computing over an acquired
+rule. Six objectives have failed at zero, and a controlled comparison of a 4B
+against a 27B of the same generation shows factual knowledge retaining 92 percent
+under a 6.75x parameter cut while search depth retains 30 to 69 percent. The
+cheap axis is the one we have been externalising. The expensive axis is depth,
+and the only lever we hold for it is test-time computation.
+
+## The claim to be proven or disproven
+
+Given a searchable textbook for a mathematical system that did not exist when
+training ended, and a problem requiring that system, can a model in the hundreds
+of millions of parameters autonomously discover what it must learn, acquire the
+prerequisite structure, demonstrate mastery on unseen exercises, and transfer the
+acquired machinery to solve the target, with no weight update?
+
+Closed-book at chance, high accuracy after autonomous study. That result would
+show the intelligence was in the parameters and the mathematics was not.
+
+## The falsifiable target
+
+Build the highest-intelligence-per-permanent-parameter general-purpose model,
+while remaining competitive with substantially larger frontier systems at the
+system level.
+
+Stated as a target rather than a prediction. The denominator is permanent neural
+parameters. Books, indices, the web and any other environmental information are
+excluded from it, because they are information the world already contains rather
+than learned computation. A person is not credited with the parameters of a
+library.
+
+The reference point is Qwen3.8-27B: a dense 27B with a hybrid Gated DeltaNet and
+attention design, 64 layers, multi-token prediction, 262K native context
+extensible to a million, positioned by its authors around intelligence density.
+It is not a strawman. Note that "Max" in its family is a reasoning-effort setting
+rather than a model name.
+
+Against it: a 7B system at parity is a 4x parameter-efficiency result, 4B is
+nearly 7x, and under 1B is more than 27x. If a sub-1B system approaches
+frontier-class system capability, the conventional parameter-efficiency curve has
+been broken rather than improved.
+
+## Three efficiencies, reported separately
+
+Intelligence per permanent parameter is the metric the thesis is about, and the
+denominator counts only weights.
+
+Intelligence per unit of inference compute prevents winning by running a small
+model fifty thousand times. That may still be useful, but it is a different
+result and must be reported as one.
+
+Intelligence per dollar and per joule, counting inference, retrieval, search,
+context processing, tool execution and temporary memory, is what decides whether
+this replaces anything in practice.
+
+Y does not have to win all three at once. A system with better capability, seven
+times the parameter efficiency, lower cost and worse latency is already a
+significant result, and latency then becomes an engineering problem.
+
+## Two axes of intelligence
+
+Static intelligence asks whether the model already knows something. Conventional
+benchmarks measure this, and they structurally favour the conventional system,
+because that is what its parameters were spent on.
+
+Acquisitional intelligence asks whether the model can become competent at
+something it did not know five minutes ago. That is this system's intended
+advantage, and it is measured on unseen mathematical systems, newly released
+interfaces, invented programming languages, synthetic scientific domains,
+literature published after training, unfamiliar codebases, novel tools, and
+problems requiring autonomous prerequisite learning.
+
+Conventional benchmarks then become a second question rather than the primary
+one: can the system recover a conventional model's capabilities through
+acquisition rather than through memory?
+
+The aggregate capability score weights novel reasoning, mathematics, coding,
+agentic execution, learning and acquisition, tool use, and general problem
+solving. Intelligence density is that aggregate over permanent parameters; system
+efficiency is that aggregate over total serving cost.
+
+## Milestones
+
+A. A model between 350M and 1B demonstrates genuine acquisition of an unseen
+   skill, with controls that rule out memorisation.
+B. A model at or under 1B beats ordinary models of the same size by a wide margin
+   under system evaluation.
+C. A model at or under 1B becomes competitive with 4 to 8B frontier models.
+D. A 4B system beats Qwen3.8-27B on intelligence per parameter and approaches it
+   in absolute capability.
+E. A 4 to 7B system beats it broadly at the system level.
+F. Push the substrate down again until the smallest size preserving the behaviour
+   is found.
+
+Endgame: a sub-1B system that converts additional retrieval, learning and
+reasoning compute into capability, climbing toward the contemporary frontier.
+
+The real target is not parity at some parameter count. It is that capability
+becomes weakly coupled to permanent parameter count, so knowledge scales by
+adding information, reasoning scales by adding test-time computation, skill
+scales through online acquisition, memory scales externally, and the neural core
+only grows when a cognitive operation is discovered that the substrate cannot
+perform.
+
+## Where we stand
+
+Milestone A is provisionally met and under active attack. A fact-free 350M model
+reads a page defining a system invented after its training and applies it, at
+0.680 against 0.002 with a different system's page and 0.000 with a blank page,
+retrieving and answering well-formed in all three conditions. The falsification
+lane is currently attempting to destroy this result with a heuristic baseline, a
+shortcut audit, a same-family control and an unseen-family transfer test. Until
+that returns, the milestone is provisional.
+
+Nothing beyond A has been attempted. The known obstacle is composition: six
+independent objectives have failed to teach computation over an acquired rule,
+and a controlled comparison of a 4B against a 27B of the same generation shows
+factual knowledge retaining 92 percent under a 6.75x parameter cut while search
+depth retains 30 to 69 percent. Acquisition is demonstrated; composition is not.
+
+
+## Capacity floor is not trainability floor
+
+Every primitive is measured twice: integrated capability as a function of
+substrate size, and oracle-isolated capability as a function of substrate size.
+The distance between those curves is the architecture and training gap. The point
+where even the oracle-isolated version fails is evidence of a capacity gap.
+
+This distinction decides what to build next. If a 350M model scores 8 percent on
+composition depth three inside an integrated acquisition episode but 91 percent
+when trained directly on isolated composition, then the substrate has the
+machinery and the failure lives in representation, skill compilation, credit
+assignment, curriculum, state interface or orchestration. If instead the model is
+given gold intent, gold gap, gold retrieval, gold abstractions, a structured
+skill state and direct composition training, and still falls off a cliff at depth
+five while a 1B survives to depth eleven, that is a substrate bottleneck.
+
+The programme therefore never asks whether a size works. It asks what breaks,
+whether an oracle rescues it, whether recurrence rescues it, and whether the break
+is capacity or trainability. That produces a map of the irreducible learner
+rather than a leaderboard, and it produces knowledge whether or not the
+sub-billion-parameter outcome holds.
+
+## Correction, 2026-08-28: the rule-application headline is partly an artifact
+
+A falsification lane re-ran the headline result against the shipped artifacts and
+attacked it four ways. One third of it is a grading artifact, two thirds survive,
+and the "correct page" framing collapses separately. Every number below replaces
+what earlier sections of this document claim.
+
+### The recorded number had no provenance
+
+`scripts/skill_rule_test.py` on `s3://.../runs/final/rlsimple-503-921/` gives
+textbook 0.958, wrong textbook 0.002, blank 0.000 at n=500, and 0.968 / 0.001 /
+0.000 at n=1000. The controls reproduce to the digit. The headline does not: the
+recorded 0.680 is stale and its provenance could not be found. Any statement
+resting on 0.680 should be restated against the re-measured figure.
+
+### The controls are weaker than they look
+
+The invented answer words appear nowhere except the retrieved page, so a model
+that copies any word off that page fails both controls without reading anything.
+The chance floor is 0.401, not 0.000. The 0.958 / 0.002 / 0.000 pattern is
+therefore consistent with copying, and on its own it does not establish reading.
+
+### One family is a pure grading artifact
+
+The environment grader accepts any prediction containing the gold answer within
+six tokens of slack, so naming both candidate words scores correct whichever is
+right. `threshold_rule` does that in 94.3% of its answers, and its first named
+word is the same one 96.1% of the time regardless of the reading in the question,
+which makes it a constant. Fifteen pairs of items were found with byte-identical
+model output and opposite gold answers, and all thirty were graded correct. One
+episode answered "wrenclo xilovi." to both reading 48, gold xilovi, and reading
+12, gold wrenclo, and scored correct on both. Disallowing hedging moves
+`threshold_rule` from 0.985 to 0.009.
+
+`exception_rule` at 0.959 and `substitution_rule` at 0.951 are unaffected and are
+real.
+
+### What survives, with the floor stated
+
+Textbook condition, n=1000, macro over three families:
+
+| Scoring | Value |
+|---|---|
+| Published grader, contains with six token slack | 0.968 |
+| Forced choice, first candidate word named | 0.795 |
+| Naming more than one candidate counts wrong | 0.646 |
+| Non-trivial items only, 416 of 1000 kept | 0.640 |
+| Chance floor for that set | 0.401 |
+| Chance corrected | 0.292 |
+
+About two thirds of the raw score survives as raw score, and 0.292 of the
+headroom above guessing is real rule application.
+
+### The model reads values, and this part held under attack
+
+A page with identical wording and permuted values moves the answer with the page:
+0.938 forced choice toward the page-implied answer against 0.008 toward the
+original for substitution, and 0.961 against 0.012 for exception. The attack
+expected to be decisive failed to falsify and produced the strongest positive
+evidence in the set. Value reading is real.
+
+### The "correct page" framing does not survive
+
+Placing a second system of the same family in the same store, differing only in
+name and values, drops accuracy to 0.463. The model names the twin's candidate
+words 48.8% of the time against its own 47.5%, which is a coin flip. Retitling
+every page to name its own system does not help: 0.486, twin 47.7% against own
+51.2%. A regex baseline reaches 0.993 on those same items.
+
+So the model selects the right line off a rule page but cannot tell which
+system's page it is reading. Claims of the form "with the correct page
+retrievable" describe work the model does not do.
+
+### Generalisation to new relation types fails at chance
+
+Three relation types in the same style, never trained, on balanced scoring:
+inverse_table 0.107 against a chance of 0.251, chain_rule 0.008 against 0.334,
+band_rule 0.313 against 0.334. band_rule's apparent 0.671 under the shipped
+grader is the same hedging artifact at a 94.2% hedge rate. A regex scored 0.993,
+0.981 and 1.000 on the identical items. chain_rule is partly a retrieval failure,
+since the two pages it needs were served together in only 3.6% of rollouts.
+
+### The model loses to a parser
+
+A roughly fifty line regex over the top ranked pages scores 1.000 against the
+model's 0.968 on identical items, and beats it on every untrained family. Generic
+value-blind heuristics are much weaker, the best being nearest invented word to a
+question keyword at 0.387, so the task is not trivially guessable. It is trivially
+programmable. The parser also degrades gracefully where the model collapses.
+
+### Unresolved
+
+On the textbook condition a chunk naming two or more candidates reached the model
+in only 65.6% of rollouts, yet accuracy when no such chunk was served was 0.930.
+Either the retrieval detection heuristic is too strict, since chunking may split
+a rule page, or the model is scoring without the defining page. Not resolved.
+
+### Consequences for the rest of the programme
+
+Every accuracy in this project must now be reported with its chance floor, its
+hedge rate, and a forced-choice score alongside the grader score, and must never
+be pooled across families. A single artifact family inside a three-family macro
+average moved the headline by a third.
+
+## Correction 2, 2026-08-28: the acquisition result is frame matching
+
+An independently built renderer swap answers the confound flagged in
+`src/disc/SLATE.md` section 3. The result does not survive.
+
+The independent harness cross-checks the first one: its native renderer gives
+0.966 pooled against the falsification lane's 0.958 at n=500 and 0.968 at n=1000,
+and it reproduced the hedging artifact from scratch, with native
+`threshold_rule` naming both labels in 100 percent of greedy answers and 1.000
+shipped becoming 0.000 forced. `exception_rule` and `substitution_rule` never
+hedge in any renderer, so they carry the conclusion.
+
+### Forced choice, greedy, per family, n=66 to 68 per cell
+
+| Family | native | personnel | abstract | inventory | chance |
+|---|---|---|---|---|---|
+| substitution_rule | 0.970 | 0.045 | 0.045 | 0.015 | 0.200 |
+| exception_rule | 1.000 | 0.606 | 0.258 | 0.106 | 0.500 |
+| threshold_rule, artifact | 0.000 | 0.191 | 0.191 | 0.132 | 0.500 |
+
+Three of four renderers on substitution fall below chance. The failures are not
+near misses: 0.53 to 0.94 of answers in the distant renderers name no candidate
+at all. exception discriminates poorly against a 0.500 floor and a 0.750
+page-word floor, so substitution carries the weight.
+
+### The mechanism, isolated
+
+The chain task with a single document in the store removes page identification
+entirely. Forced choice, chance 0.028:
+
+routing 0.970, processing 0.840, routing_postvalue 0.830, routing_keyphrase
+0.820, reaction 0.090, routing_frameb 0.030, inventory and abstract 0.010,
+personnel 0.000.
+
+`processing` shares no content word with the native idiom and scores 0.840.
+`routing_frameb` keeps every content word and changes only the sentence frame,
+scoring 0.030. Nouns cost 0.13. Sentence shape costs 0.94.
+
+The sentence frame carries the result. The vocabulary does not.
+
+### The escape that was closed
+
+Under the twin control, native `substitution_rule` holds at 0.939 with the twin's
+words named in 4.5 percent of answers, while native `exception_rule` falls from
+1.000 to 0.682 with 28.8 percent twin naming. The family carrying the renderer
+conclusion is the one that does identify its page, so the template effect is not
+a page-identification confound.
+
+### What this replaces
+
+Under matched presentation the routing-to-abstract gap is 0.960, wider than the
+0.19 to 0.84 that SLATE section 3 recorded with presentation confounded.
+Template accounts for the whole gap and nothing remains for presentation.
+
+### The statement that survives
+
+This checkpoint binds new values into a sentence frame it already knows, and does
+essentially nothing with a frame it does not know. That is consistent with the
+untrained relation types scoring at or below chance, with the twin-system coin
+flip on source identity, and with a fifty line parser outscoring the model.
+
+Claims of inference-time skill acquisition are not supported. What is supported is
+frame-conditioned value binding.
+
+### The one axis pointing the other way
+
+Under paraphrase, direct answering falls from 0.480 to 0.187 while oracle_plan
+holds flat near 0.59 across all eight depths. The operator and plan interface is
+markedly more frame-robust than direct answering, which is the single place the
+architecture direction currently earns its keep.
+
+### What this implies for the programme
+
+If the sentence frame is the unit of generalisation, the intervention is frame
+diversity in training rather than a better plan head. That is a data decision.
+Any architecture result measured only inside the native frame should be read as
+within-frame until it is rerun across renderers.
+
+### Caveats carried
+
+One checkpoint, rlsimple-503-921. Renderers are hand written rather than sampled.
+A temperature 0.7 run lost 150 of 250 episodes in one arm to the 384 token prompt
+cap, so the greedy tables above, where all four renderers keep exactly 200
+questions, are the unfiltered ones and should be preferred.
+
+## Correction 3, 2026-08-29: the operator-graph result does not show induction
+
+The eight-check audit commissioned against the oracle_plan flat-to-depth-eight
+result returned two lanes failed and one passed. The failures remove the reading
+the result was being used for.
+
+### The model follows training identity, not the page
+
+On pages whose operand roles were transposed after training, the model followed
+the training identity on 678 of 678 items and the page on 0 of 678. The operator
+it produces reflects what it was trained on rather than what the page states,
+whenever the two disagree. Nothing in this experiment demonstrates induction from
+a page.
+
+### The flat row is a single-wording result
+
+oracle_plan at 1.000 through depth eight holds only under the one trained page
+wording. Under three other wordings it reads 0.087 to 0.207. The flatness in
+depth is real within that wording and does not survive outside it.
+
+### The depth two and depth three cells are coin flips
+
+The checkpoint writes a byte-identical plan for a page stating left to right and
+a page stating right to left, in 750 of 750 pairs. The two arms sum to
+0.480 + 0.533 = 1.013. That is chance across the pair, not partial composition.
+Any reading of 0.480 or 0.500 as "half the compositions succeed" is wrong.
+
+### An internal check that was reported and is dead
+
+The claim that plan_execute equals oracle_ops to three decimals at every depth,
+used to argue that gold operators change nothing and therefore that induction is
+not the sequential bottleneck, does not hold. The two differ in 5 of 26 cells by
+up to 0.420.
+
+### What survived
+
+No packaging channel encodes the plan: page order, rule names, operator
+identifiers, lengths and formatting do not carry it. And the executor under
+oracle_plan invoked a model-induced operator object 8850 of 8850 times and a gold
+one zero times, so the condition is wired as described. The mechanism is honest.
+What it establishes is narrower than what was claimed from it.
+
+### Gold generation held
+
+An independently written prose interpreter reproduced the gold answers with 0
+disagreements in 7800, so the task's answers are not an artifact of the generator
+grading itself.
+
+### Status of dependent claims
+
+Dead: that the model induces operators from unseen pages; that induction works
+and only planning fails; that gold operators change nothing; that depth costs
+nothing once a correct plan exists, stated generally rather than within one
+wording.
+
+Still standing: that emitted plan length saturates exactly at the training
+ceiling and the extrapolation constant is zero, which is measured on emitted
+structure rather than on accuracy and is independent of the induction question.
+
+## Result, 2026-08-30: three ceilings were data, and the real failure is chaining
+
+Fine tune of the 350M base on corpus v1, 8000 steps at batch 32 reached as micro
+batch 8 with 4 accumulations. Harness gate passed first: substitution_rule 0.976
+shipped and 0.954 forced against 0.969 and 0.950 on record, threshold_rule 0.996
+shipped and 0.008 forced against 1.000 and 0.009, including the known forced
+choice collapse. Full report src/corpus/RETRAIN.md, artifacts mirrored to
+s3://decoupled-reasoner-009398924577/runs/corpus-v1-8k/.
+
+### Frame boundedness was a corpus property
+
+substitution_rule, forced choice, greedy, 32 frames, chance 0.200:
+
+| shape distance from trained | frames | n | original | retrained |
+|---|---:|---:|---:|---:|
+| seen | 13 | 2600 | 0.140 | 0.990 |
+| 0.00 to 0.05 | 4 | 800 | 0.184 | 1.000 |
+| 0.05 to 0.12 | 3 | 600 | 0.083 | 0.998 |
+| 0.12 to 0.22 | 2 | 400 | 0.028 | 0.990 |
+| 0.22 to 0.30 | 5 | 1000 | 0.022 | 0.722 |
+| 0.30 and above | 5 | 1000 | 0.009 | 0.997 |
+
+Macro chance corrected moves from -0.120 to 0.943 on substitution_rule and from
+-0.208 to 0.691 on exception_rule. All four held out lexicons transfer
+completely. Three of four never trained sentence shapes read at ceiling. The
+three imperative frames where the original served the page on 0 of 1200 rollouts
+now read 0.995 to 1.000.
+
+The dip at 0.22 to 0.30 is not distance. It is two tablepipe frames, one of which
+differs from a trained frame by a colon becoming a pipe.
+
+### Plan length and symbol count also moved
+
+Matched items against the depth-3 opgraph arm, determinate subset:
+
+| required steps | opgraph arm emitted | retrained emitted |
+|---:|---:|---:|
+| 4 | 2.64, max 3 | 4.00 |
+| 48 | 2.65, max 3 | 47.69 |
+| 96 | 2.16, max 3 | 76.50 |
+
+Emitted steps track required exactly at all 18 trained lengths and extrapolate
+past the 48 training maximum: 56.20 at 56, 64.33 at 64, plans to 111 steps. The
+extrapolation constant is no longer zero. Symbols go from 1.00 to 1.06 regardless
+of need, to exactly 1, 2, 3, 4 and 4.98.
+
+Accuracy past 48 is 0.000 even where the emitted length is right, so length and
+correctness came apart.
+
+### The failure that is not an artifact
+
+Multi-hop chaining fails inside the training distribution. chain_rule 1.000 at
+one hop and 0.220 at two against a 0.250 floor. inverse_chain 0.760 and 0.180.
+weighted_chain 1.000 and 0.039. All were trained at those depths.
+
+The same checkpoint writes a correct 48 step plan over an expression printed in
+its prompt. So it composes over material in front of it and fails when a step's
+input must come from a previous step's retrieved result. That is the distinction
+this project has been circling since the minimal repro, now isolated in
+distribution rather than at an extrapolation boundary.
+
+The four structurally new relations sit at or below their floors. exclusion is
+0.000 with the page served 1.000: it reads the list and not the negation.
+
+### What this run could not test
+
+Page semantics induction is a fifth axis the corpus does not widen. Neither
+checkpoint emits an operator definition and parsed is 0 of 298 for both, because
+the plan component hands the scheduler a signature line and carries no page
+stating what an operator does. The 0 of 689 toward the page stands unmoved
+because nothing aimed at it. The rebuilt instrument reproduces the record exactly
+on the opgraph arm, 0 of 689 at item level and 0 of 293 at operator level, with a
+prose reader at 1.000, so it is ready for whoever does aim at it.
+
+### A generator defect found, and its size
+
+src/corpus/plans.py render_tree writes binary infix for any node with more than
+two children, so score/4 items print two of four operands. 11,887 of 32,000
+training and 1,196 of 3,199 held out whole plan items are underdetermined, and on
+those a wrong plan lands on the right value 0.642 of the time. Every plan table
+reports the determinate subset only. Separately, modular_apply and weighted_chain
+carry no candidate set, which returned a spurious 0.000 under forced choice until
+they were split into an exact match block.
+
+### Deviations from the standard budget
+
+Batch 32 reached as micro batch 8 with 4 accumulations, since 32 by 1024 logits
+are 4.3 GB in fp32. MAX_STEPS raised from 32 to 128 in src/opgraph/plan.py. Frame
+evaluation used 192 new tokens rather than 96, because four rounds of a 24 token
+query cost 104 emitted tokens before the answer; both checkpoints ran at 192.
+Training queries are the question's tail rather than its head, because the corpus
+lead in padding is variable length and a head query would vary with the frame.
+
+Freshness check passed on 33 record and report pairs, and every grader was oracle
+checked before any model number was read.
+
+## The first representational failure, 2026-08-31: axis composition
+
+Every failure this project had isolated until now dissolved when the training
+distribution was widened. This one does not, and it was established by counting
+the training draw rather than the frame bank.
+
+### The measurement
+
+Seven structure shapes score exactly 0.0000 reading a page whose value is named
+before its key, in a held-out sentence mode. Their training draw is balanced on
+that axis: between 42,567 and 42,917 value-first items per shape, a share between
+0.4978 and 0.5006, and between 8,362 and 8,910 value-first items inside each of
+the five trained sentence modes.
+
+The sharpest cell, at 45M: four shapes are exact on 107 of 107 key-first items
+and 0 of 93 value-first ones. Same shape, same group, same sentence mode, same
+gold structures. Only which of the two the sentence names first differs.
+
+### Three controls
+
+The reader handles value-first well where the mode is familiar: 0.9264 key-first
+against 0.9158 value-first on trained modes, and 0.8245 against 0.7992 on a
+held-out lexicon. It has the order. It loses it when the sentence mode changes,
+where the same split reads 0.7223 against 0.3280.
+
+The surface is unambiguous. A hand-written parser reads the value-first half of
+the held-out mode at 1302 of 1302, and 93 of 93 for each of the seven shapes.
+
+The failure is confident rather than confused. Over the seven shapes on value
+first in the held-out mode: exact 0 of 651, wrong but executable 531, refused
+120, malformed 0. It writes a well-formed structure with the binding swapped and
+the interpreter executes it.
+
+### Why this is not distributional
+
+What fails to transfer is the composition of an axis value seen about 42,800
+times per shape with an axis value never seen. Rebuilding the draw balanced on
+key position changes nothing, because it is already balanced and has been
+throughout. That is why no balanced-draw retrain was run for this case.
+
+### The case that IS distributional, kept separate
+
+The transposed-operand failure is a hole in a draw rather than the same thing.
+One fine tune listed its key pairs in row-major order on 4096 of 4096 pages and
+never showed the layout its test asks for. A balanced draw moves transposed exact
+from 0 of 750 to 462 of 750, at a cost: original page accuracy falls from 672 to
+404, and the gain is smallest on the held-out sentence mode, which ties it back
+to the compositional failure above.
+
+So the 678 of 678 page-following result has two separable causes, one of which is
+fixable data.
+
+### Scale does not help
+
+At matched learning rate the 93M rung has closed about 72 percent of its loss gap
+to the 45M rung and 45M is still ahead. The earlier reading that doubling
+parameters made every group worse was confounded by an inverse-width rate rule,
+caught because the larger rung was behind on its own training loss at every
+logged step with identical steps, batch, seed and data.
+
+### What is not yet known
+
+Whether the collapse is specific to sentence mode or general to axis
+composition. The held-out mode is a single constant, so a result resting on it is
+a result about it until a second axis is held out and measured the same way. That
+test is running.
+
+And whether corpus pretraining buys the composition a from-scratch reader lacks.
+The 350M corpus-initialised arm scored on the same key-position split is the cell
+that answers it.
+
+### A safety claim that was overstated
+
+The interpreter refusing malformed structures was reported as a property of the
+design. On trained frames the refusal ratio is 0.000: every failure there is a
+wrong structure that executes silently. Only on genuinely unfamiliar page shapes
+does roughly one failure in eight become a refusal.
+
+## The pre-registered prediction held, 2026-08-31: role order lives in the statement template
+
+Two frame splits were built to test whether the axis-composition collapse is
+general or specific. The prediction was derived from the generator's own code
+and written into src/system/THRESHOLD.md before either arm ran.
+
+`src/corpus/frames_default.py` renders the statement from ASSOC, a twelve entry
+table keyed on the PAIR (statement mode, key position). Withholding a statement
+mode therefore removes both of that mode's key-position templates. The question
+comes from a different table, indexed by question form inside scope position,
+and key position is not part of that key at all.
+
+So b45, which withholds a statement mode, should collapse. c45, which withholds
+a whole question-form value, should not.
+
+### Result, key-first against value-first, n about 3500 per cell
+
+| split | group | key first | value first |
+|---|---|---:|---:|
+| b45, withholds statement mode table_row | mode | 0.6165 | 0.2471 |
+| c45, withholds question form wh | qframe | 0.7440 | 0.7611 |
+
+Both predictions held. The held-out statement mode loses two thirds of its
+accuracy when the value is named first. The held-out question form is balanced,
+with value-first fractionally higher.
+
+Every other group in both splits is balanced. b45 trained frames 0.9269 against
+0.9332, c45 trained frames 0.8688 against 0.8652, lexicon balanced in both. The
+collapse appears in exactly one place, and it is the place the code predicted.
+
+### What this changes
+
+The failure is not general compositional collapse. Unfamiliar surface does not
+degrade role binding. Unfamiliar surface on the axis carrying the role-order
+template does, and only that.
+
+That is narrower than the earlier reading and more actionable. Which token is
+the key and which is the value is currently implied by a surface template. When
+the model has never seen that template, it has no other channel through which
+the roles are stated, so it falls back on position. The fix is a representation
+in which role is named rather than positioned.
+
+Both splits also collapse on their own held-out mode group, which is the
+within-axis replication and rules out relative_clause being a special case.
+
+## The positional collapse flips with scale, 2026-09-01
+
+The matched-token-budget rung settles two questions at once, and the second was
+not one anyone had asked.
+
+### More parameters help, except on the compositional axis
+
+Both rungs at 4.0e-4, matched on tokens per parameter rather than on steps, so
+the larger rung trains 61,724 steps against the smaller one's 30,000. Structure
+exact match, greedy, n=7,000 per group:
+
+| rung | train | qframe | lexicon | mode | mixed |
+|---|---:|---:|---:|---:|---:|
+| l45, 45,483,008 | 0.9209 | 0.9161 | 0.8181 | 0.5256 | 0.5834 |
+| xl93match, 93,579,520 | 0.9574 | 0.9569 | 0.7951 | 0.5231 | 0.5644 |
+
+The earlier reading that doubling parameters made every group worse was an
+artifact of training both rungs on the same token budget, which left the larger
+one at half the tokens per parameter it needed. Corrected, it gains 3.7 points
+on trained frames and 4.1 on the held-out question frame.
+
+It gains nothing on the held-out sentence mode. The two rungs are within noise
+there, 0.5231 against 0.5256, while separating cleanly everywhere else. That is
+the dissociation: parameters buy reading and buy nothing on axis composition.
+
+### The collapse flips position with scale
+
+The aggregate above conceals the finding. Split by which of the pair the
+sentence names first:
+
+| rung | group | key first | value first |
+|---|---|---:|---:|
+| l45 | mode | 0.7302 (3528) | 0.3177 (3472) |
+| xl93match | mode | 0.3243 (3528) | 0.7252 (3472) |
+
+The smaller rung handles key-first and fails value-first. The larger rung does
+the exact opposite, on the same data, the same task and the same axis.
+
+So the model commits to one positional convention and applies it regardless of
+what the sentence says, and which convention it commits to is arbitrary, a
+property of the training run rather than of the language. Scale does not teach it
+that role is distinct from position. It changes which position it commits to.
+
+Pooled, the two rungs read 0.5231 and 0.5256 and look identical. An aggregate
+would report no effect and miss that both models fail completely, in opposite
+directions, on half their items each. That is the second time on this project
+that a split has revealed something an average erased.
+
+The lexicon column carries the same asymmetry in the same direction, 0.8294 and
+0.8067 at the smaller rung against 0.7494 and 0.8416 at the larger, so this is
+not specific to the mode group.
+
+### What follows
+
+Role order has no representation of its own. It is inferred from a surface
+template, and when that template is absent the model falls back on a positional
+habit fixed during training. The fix is a representation in which role is named
+rather than positioned, and no amount of scale substitutes for it.
+
+## Four interventions, none fix the positional collapse, 2026-09-02
+
+The role experiment ran four matched arms from the same base, same data volume,
+same 30,000 steps, changing only how role order is supplied. Held-out sentence
+mode, structure exact match, greedy, n about 3,500 per cell.
+
+| arm | key first | value first | gap |
+|---|---:|---:|---:|
+| l45 baseline, published | 0.7302 | 0.3177 | 0.413 |
+| A, reproduction and gate | 0.7112 | 0.3119 | 0.399 |
+| B, minimal pairs | 0.7863 | 0.3787 | 0.408 |
+| C, auxiliary role head | 0.5519 | 0.2632 | 0.289 |
+| D, pairs plus auxiliary head | 0.2639 | 0.5942 | -0.330 |
+
+Arm A reproduces the published split, so the gate passes and the rest is
+interpretable.
+
+Minimal pairs lift both positions by about five points and leave the gap
+unchanged. That arm was the strongest candidate, since pairing removes the
+per-template positional shortcut rather than merely balancing its marginal, and
+the draw was verified as 394,367 pairs over all 600,000 slots with every pair
+differing in the key-position field alone. The model learned the task slightly
+better and learned nothing about role.
+
+The auxiliary role head lowers both cells. Its narrower gap is both numbers
+falling, not a repair.
+
+Arm D flips the direction entirely, with the same magnitude of asymmetry
+pointing the other way.
+
+Trained frames stay balanced in every arm, 0.9354 and 0.9404 at A through 0.8688
+and 0.8701 at D, so this is specific to unseen sentence forms rather than a
+general degradation.
+
+### The reading
+
+On a sentence form it has never seen, this architecture commits to one
+positional convention and applies it regardless of what the sentence says.
+Balanced data does not prevent it. Minimal pairs do not prevent it. An auxiliary
+objective predicting role does not prevent it. Every intervention changed which
+convention was chosen and none changed whether one was chosen.
+
+This is the third flip observed. The 93M rung flips against the 45M rung at a
+matched token budget, and arm D flips against its own baseline. A property that
+reverses under scale and under training-signal changes, while never disappearing,
+is a property of the substrate rather than of the data.
+
+### What this does not establish
+
+These four arms are four specific interventions, not the space of them. The
+auxiliary head predicts role as a side objective; it does not force the
+representation through a role-typed channel, and nothing here tests an
+architecture in which role is a structural field the decoder must fill rather
+than a label a head must guess. That is the remaining version of the hypothesis
+and it is untested.
+
+## Correction 4, 2026-09-02: the positional collapse is capacity, and it resolves between 93M and 167M
+
+Recorded earlier today as a property of the substrate, on the grounds that it
+reversed under scale and under four training-signal interventions while never
+disappearing. That conclusion was wrong. It disappears; we had not looked above
+93M.
+
+### The ladder, all rungs at a matched tokens-per-parameter budget
+
+Held-out sentence mode, structure exact match, greedy, n about 3,500 per cell.
+
+| rung | parameters | steps | key first | value first | gap |
+|---|---:|---:|---:|---:|---:|
+| l45 | 45,483,008 | 30,000 | 0.7302 | 0.3177 | 0.413 |
+| xl93match | 93,579,520 | 61,724 | 0.3243 | 0.7252 | -0.330 |
+| xxl167 | 167,376,384 | 110,271 | 0.6341 | 0.6063 | 0.028 |
+
+At 167M both positions read near 0.62 and the asymmetry is gone.
+
+Every other group improves with it. Held-out sentence mode overall goes 0.5256,
+0.5231, 0.6203. Lexicon goes 0.8181, 0.7951, 0.8841. Mixed goes 0.5834, 0.5644,
+0.7123. Trained frames and the held-out question frame stay near 0.92 to 0.96
+throughout.
+
+### So there is a perception threshold and it sits between 93M and 167M
+
+That is the number this ladder was commissioned to find. Below it the reader
+commits to one positional convention on a sentence form it has never seen and
+applies it regardless, with the direction of the commitment varying by run.
+Above it the reader handles both orders.
+
+### What the four failed role interventions now mean
+
+They still stand as measurements: at 45M, balanced data, minimal pairs, an
+auxiliary role head, and pairs plus head all leave the gap intact, and only
+change which convention is chosen. The reading changes. It is not that role
+cannot be represented. It is that at 45M nothing done to the training signal
+substitutes for the capacity, and at 167M the capacity makes the intervention
+unnecessary.
+
+### An oddity kept in view rather than smoothed
+
+The 167M rung's final training loss is 0.034 against the 45M rung's 0.0126, so it
+fits its training data worse while generalising substantially better. With about
+four passes over a 1.2 million example file that is consistent with the smaller
+rungs memorising more, and it is a reason to prefer held-out numbers over
+training loss when comparing rungs here.
+
+### What this does not settle
+
+The 355M rung was not run; a matched budget there is about 234,000 steps, some 64
+hours on one L40S, and it was dropped as unaffordable rather than measured. So
+the threshold is bracketed between 93M and 167M from below and is not
+characterised above 167M.
+
+## The undertraining hypothesis is dead, 2026-09-04
+
+A 350M model trained from scratch on regime_e3 to its full budget reads MMLU at
+chance. Architecture matched to the corpus-v1-8k checkpoint by reading it off
+that checkpoint's own stored config, same tokenizer, same objective. 26,700
+steps, 6,999,244,800 tokens, 18.64 tokens per parameter, cosine fully annealed,
+final loss 2.5409, zero restarts.
+
+MMLU n=500, chance floor 0.2500, measured on the harness calibrated to reproduce
+LFM2-350M's published 43.43 to within 0.43:
+
+| step | tokens per parameter | accuracy | 95% Wilson |
+|---:|---:|---:|---|
+| 21,000 | 14.66 | 0.262 | [0.2254, 0.3023] |
+| 22,000 | 15.36 | 0.270 | [0.2329, 0.3106] |
+| 23,000 | 16.06 | 0.280 | [0.2424, 0.3209] |
+| 24,000 | 16.76 | 0.288 | [0.2500, 0.3292] |
+| 25,000 | 17.46 | 0.268 | [0.2311, 0.3085] |
+| 26,000 | 18.15 | 0.272 | [0.2348, 0.3126] |
+
+Every interval contains the floor. The highest point, 0.288 at step 24,000, has a
+lower bound sitting exactly on 0.2500. Six adjacent points scatter around 0.27
+with no trend.
+
+The old checkpoint, trained on roughly a fourteenth of this budget, reads 0.2750
+at n=200 and 0.2640 at n=500. Five and a half times the tokens moved nothing.
+
+### What this settles
+
+The reading that our results were artifacts of a starved model does not survive.
+It was the largest open ambiguity in the project and the reason the remaining
+budget was withheld from a 1B pretrain. A model at compute-optimal data for its
+size, on a corpus built for this thesis, does not read a public benchmark above
+chance.
+
+### What it does not settle
+
+Stage B has not run at the time of writing. The comparison designed to be clean
+applies the identical mix1 SFT pack to this checkpoint and to corpus-v1-8k, so
+the pair differs only in the pretrain beneath. Stage A carries no RL and no SFT,
+while corpus-v1-8k carries both, so the closed-book rows above are the honest
+data-volume reading and the frame and hop measurements belong to Stage B.
+
+The gap decomposition predicted this. Binding failures are about 0.58 of the
+reader's gap, they are structural, they do not fall with capacity, and four
+training interventions could not move them. A pretrain was always testing the
+smaller half of the problem, and it did not move that half either.
+
+### An operational note worth keeping
+
+The unattended driver died at some point after launch and Stage B never fired.
+The trainer wrote its sentinel and its final checkpoint, and the box then sat
+idle with only a watcher process alive. Detached supervision that is itself
+unsupervised fails silently, and the failure looks identical to work in progress
+from outside.

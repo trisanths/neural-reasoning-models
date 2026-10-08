@@ -1,0 +1,67 @@
+{
+ "tie_break": "first",
+ "orders": [
+  "chain"
+ ],
+ "cells": [
+  {
+   "order": "chain",
+   "depth": 1,
+   "n_rollouts": 400,
+   "n_questions": 100,
+   "samples": 4,
+   "dropped_long_prompts": 0,
+   "pass_at_1": 0.485,
+   "pass_at_1_ci95": [
+    0.4364,
+    0.5339
+   ],
+   "pass_at_1_forced": 0.48,
+   "pass_at_1_forced_ci95": [
+    0.4315,
+    0.5289
+   ],
+   "hedge_rate": 0.01,
+   "pass_at_k": 0.92,
+   "pass_at_k_forced": 0.92,
+   "chance_per_step": 0.027777777777777776,
+   "chance_per_chain": 0.027777777777777776,
+   "mean_rounds": 0.985,
+   "any_retrieval": 0.985,
+   "served_preamble": 0.4725,
+   "served_table_by_chain_step": {
+    "0": 0.5125
+   },
+   "served_final_table": 0.5125,
+   "acc_given_final_table": 0.9463414634146341,
+   "n_given_final_table": 205,
+   "answer_classes": {
+    "correct": 0.485,
+    "echoed_start": 0.025,
+    "no_token": 0.4875,
+    "other_token": 0.0025
+   },
+   "first_round_ranking_final_table": {
+    "n": 394,
+    "hit_at_1": 0.5203045685279187,
+    "tie_loss": 0.0025380710659898475,
+    "score_loss": 0.47715736040609136,
+    "absent": 0.0,
+    "tie_share_of_misses": 0.005291005291005291,
+    "mean_gold_rank": 1.4796954314720812,
+    "mean_tie_group": 1.00253807106599,
+    "hit_at_2": 1.0,
+    "hit_at_3": 1.0,
+    "expected_served_position_blind": 0.5215736040609137
+   },
+   "episodes_path": "/home/ec2-user/minrepro/t/ta6-d1-minimal-ret.jsonl",
+   "tie_break": "first"
+  }
+ ],
+ "config": {
+  "samples": 4,
+  "seed": 99,
+  "temperature": 1.0,
+  "max_rounds": 6
+ }
+}

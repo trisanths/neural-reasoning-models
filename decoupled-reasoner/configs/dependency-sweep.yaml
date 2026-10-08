@@ -1,0 +1,37 @@
+# One rollout protocol for the whole sweep.
+#
+# Every checkpoint in the sweep is measured under this env, not under the env
+# it was trained with. The alternative was tempting and wrong: matching each
+# checkpoint's own training config would make the correct-evidence column
+# incomparable across rows, and the frontier this feeds is drawn across rows.
+# Retrieval dependency is a within-checkpoint difference, so it survives the
+# choice either way.
+#
+# Two settings are worth arguing with. calculator stays true because every RL
+# config in configs/ trains with it on, and turning it off would measure a
+# channel the arithmetic policies were never without; it does mean the blank
+# condition still has one working tool, which matters only for the three
+# arithmetic runs and is recorded in their artefacts. revision_attempts stays
+# at 1 although rl-350m-revise.yaml and the procedure-revision lane trained
+# at 4, so those two rows read lower here than in their own logs.
+#
+# max_new_tokens is 160, the largest any lane trained with, so no rollout is
+# truncated by a budget smaller than the one it learned under. max_len is
+# clamped down to the model's own context window at load time.
+env:
+  max_rounds: 4
+  max_new_tokens: 160
+  query_max_tokens: 24
+  max_len: 2048
+  correct_reward: 1.0
+  format_bonus: 0.05
+  retrieval_bonus: 0.05
+  degenerate_query_penalty: 0.05
+  contains_slack_tokens: 6
+  partial_credit: 0.0
+  revision_attempts: 1
+  calculator: true
+tasks:
+  questions_per_episode: 2
+  min_hops: 1
+  max_prompt_tokens: 1024
