@@ -1,0 +1,282 @@
+{
+ "head": "p3",
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p3",
+  "out": "runs/iter/p3w.pt",
+  "steps": 16000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 500,
+  "seed": 17,
+  "ckpt_every": 0
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 93126,
+   "2": 33154,
+   "3": 33720
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160000
+ },
+ "corruption_mixture": {
+  "all_mask": 0.25,
+  "random_mask": 0.25,
+  "transpose": 0.1,
+  "wrong_op": 0.15,
+  "truncate": 0.15,
+  "sparse": 0.1
+ },
+ "corruption_counts": {
+  "all_mask": 64275,
+  "wrong_op": 38366,
+  "truncate": 38387,
+  "random_mask": 63586,
+  "transpose": 25611,
+  "sparse": 25775
+ },
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 512000
+ },
+ "log": [
+  {
+   "step": 1,
+   "kind": "induce",
+   "loss": 4.12182,
+   "lr": 1e-07,
+   "secs": 1.1
+  },
+  {
+   "step": 500,
+   "kind": "plan",
+   "loss": 0.01136,
+   "lr": 1.998e-05,
+   "secs": 214.6
+  },
+  {
+   "step": 1000,
+   "kind": "plan",
+   "loss": 0.00141,
+   "lr": 1.987e-05,
+   "secs": 431.0
+  },
+  {
+   "step": 1500,
+   "kind": "plan",
+   "loss": 5e-05,
+   "lr": 1.967e-05,
+   "secs": 645.0
+  },
+  {
+   "step": 2000,
+   "kind": "plan",
+   "loss": 3e-05,
+   "lr": 1.937e-05,
+   "secs": 863.8
+  },
+  {
+   "step": 2500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.897e-05,
+   "secs": 1036.8
+  },
+  {
+   "step": 3000,
+   "kind": "plan",
+   "loss": 3e-05,
+   "lr": 1.849e-05,
+   "secs": 1200.1
+  },
+  {
+   "step": 3500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.792e-05,
+   "secs": 1377.0
+  },
+  {
+   "step": 4000,
+   "kind": "plan",
+   "loss": 4e-05,
+   "lr": 1.728e-05,
+   "secs": 1522.3
+  },
+  {
+   "step": 4500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.656e-05,
+   "secs": 1617.6
+  },
+  {
+   "step": 5000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.578e-05,
+   "secs": 1713.5
+  },
+  {
+   "step": 5500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.494e-05,
+   "secs": 1799.2
+  },
+  {
+   "step": 6000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.406e-05,
+   "secs": 1918.7
+  },
+  {
+   "step": 6500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.313e-05,
+   "secs": 2042.9
+  },
+  {
+   "step": 7000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.217e-05,
+   "secs": 2157.1
+  },
+  {
+   "step": 7500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.119e-05,
+   "secs": 2278.0
+  },
+  {
+   "step": 8000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.02e-05,
+   "secs": 2401.8
+  },
+  {
+   "step": 8500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 9.21e-06,
+   "secs": 2508.7
+  },
+  {
+   "step": 9000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 8.22e-06,
+   "secs": 2603.5
+  },
+  {
+   "step": 9500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 7.25e-06,
+   "secs": 2699.2
+  },
+  {
+   "step": 10000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 6.31e-06,
+   "secs": 2797.1
+  },
+  {
+   "step": 10500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 5.41e-06,
+   "secs": 2891.5
+  },
+  {
+   "step": 11000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 4.55e-06,
+   "secs": 2984.5
+  },
+  {
+   "step": 11500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 3.74e-06,
+   "secs": 3073.8
+  },
+  {
+   "step": 12000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 3e-06,
+   "secs": 3166.7
+  },
+  {
+   "step": 12500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 2.33e-06,
+   "secs": 3261.5
+  },
+  {
+   "step": 13000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.73e-06,
+   "secs": 3357.2
+  },
+  {
+   "step": 13500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 1.21e-06,
+   "secs": 3452.7
+  },
+  {
+   "step": 14000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 7.8e-07,
+   "secs": 3545.1
+  },
+  {
+   "step": 14500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 4.4e-07,
+   "secs": 3643.3
+  },
+  {
+   "step": 15000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 2e-07,
+   "secs": 3739.4
+  },
+  {
+   "step": 15500,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 5e-08,
+   "secs": 3838.7
+  },
+  {
+   "step": 16000,
+   "kind": "plan",
+   "loss": 0.0,
+   "lr": 0.0,
+   "secs": 3932.7
+  }
+ ]
+}

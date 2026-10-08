@@ -1,0 +1,374 @@
+{
+ "config": {
+  "ckpt": "runs/opgraph.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "out": "results/ladder_ab/opgraph_deep.json",
+  "n": 150,
+  "batch_size": 24,
+  "depths": "8,16,32",
+  "styles": "0,1",
+  "max_new": 512
+ },
+ "budget": {
+  "style0/sequential/8": {
+   "longest_gold_plan_tokens": 68,
+   "max_new": 512,
+   "fits": true
+  },
+  "style0/sequential/16": {
+   "longest_gold_plan_tokens": 132,
+   "max_new": 512,
+   "fits": true
+  },
+  "style0/sequential/32": {
+   "longest_gold_plan_tokens": 260,
+   "max_new": 512,
+   "fits": true
+  },
+  "style1/sequential/8": {
+   "longest_gold_plan_tokens": 68,
+   "max_new": 512,
+   "fits": true
+  },
+  "style1/sequential/16": {
+   "longest_gold_plan_tokens": 132,
+   "max_new": 512,
+   "fits": true
+  },
+  "style1/sequential/32": {
+   "longest_gold_plan_tokens": 260,
+   "max_new": 512,
+   "fits": true
+  }
+ },
+ "plan_execute": {
+  "sequential": {
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3",
+     "t1 = # 1 12 ; t2 = # 9 t1 ; t3 = # 1 t2 ; ans t3",
+     "t1 = ^ 10 11 ; t2 = ^ t1 3 ; t3 = ^ t2 11 ; ans t3"
+    ]
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 9 ; ans t3",
+     "t1 = * 5 2 ; t2 = * t1 4 ; t3 = * t2 8 ; ans t3",
+     "t1 = ^ 12 11 ; t2 = ^ t1 4 ; t3 = ^ t2 9 ; ans t3"
+    ]
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "ok": 1
+    },
+    "samples": [
+     "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3",
+     "t1 = * 4 6 ; t2 = * t1 4 ; t3 = * t2 2 ; ans t3",
+     "t1 = + 7 6 ; t2 = + t1 3 ; t3 = + t2 4 ; ans t3"
+    ]
+   }
+  }
+ },
+ "oracle_plan": {
+  "sequential": {
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8",
+     "t1 = # 1 12 ; t2 = # 9 t1 ; t3 = # 2 t2 ; t4 = # 1 t3 ; t5 = # 10 t4 ; t6 = # 11 t5 ; t7 = # 3 t6 ; t8 = # 1 t7 ; ans t8",
+     "t1 = ^ 1 11 ; t2 = ^ 11 t1 ; t3 = ^ 10 t2 ; t4 = ^ 5 t3 ; t5 = ^ 1 t4 ; t6 = ^ 3 t5 ; t7 = ^ 11 t6 ; t8 = ^ 10 t7 ; ans t8"
+    ]
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14 5 ; t16 = # t15 9 ; ans t16",
+     "t1 = * 5 2 ; t2 = * t1 4 ; t3 = * t2 8 ; t4 = * t3 9 ; t5 = * t4 1 ; t6 = * t5 12 ; t7 = * t6 3 ; t8 = * t7 3 ; t9 = * t8 8 ; t10 = * t9 8 ; t11 = * t10 12 ; t12 = * t11 8 ; t13 = * t12 8 ; t14 = * t13 8 ; t15 = * t14 12 ; t16 = * t15 11 ; ans t16",
+     "t1 = ^ 2 9 ; t2 = ^ 12 t1 ; t3 = ^ 10 t2 ; t4 = ^ 8 t3 ; t5 = ^ 12 t4 ; t6 = ^ 11 t5 ; t7 = ^ 2 t6 ; t8 = ^ 12 t7 ; t9 = ^ 9 t8 ; t10 = ^ 3 t9 ; t11 = ^ 11 t10 ; t12 = ^ 11 t11 ; t13 = ^ 5 t12 ; t14 = ^ 4 t13 ; t15 = ^ 11 t14 ; t16 = ^ 12 t15 ; ans t16"
+    ]
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14 9 ; t16 = / t15 10 ; t17 = / t16 4 ; t18 = / t17 5 ; t19 = / t18 3 ; t20 = / t19 12 ; t21 = / t20 3 ; t22 = / t21 7 ; t23 = / t22 11 ; t24 = / t23 7 ; t25 = / t24 7 ; t26 = / t25 9 ; t27 = / t26 12 ; t28 = / t27 5 ; t29 = / t28 11 ; t30 = / t29 3 ; t31 = / t30 8 ; t32 = / t31 3 ; ans t32",
+     "t1 = * 4 6 ; t2 = * t1 4 ; t3 = * t2 12 ; t4 = * t3 10 ; t5 = * t4 2 ; t6 = * t5 4 ; t7 = * t6 11 ; t8 = * t7 11 ; t9 = * t8 7 ; t10 = * t9 12 ; t11 = * t10 9 ; t12 = * t11 7 ; t13 = * t12 6 ; t14 = * t13 12 ; t15 = * t14 4 ; t16 = * t15 6 ; t17 = * t16 11 ; t18 = * t17 5 ; t19 = * t18 4 ; t20 = * t19 7 ; t21 = * t20 11 ; t22 = * t21 7 ; t23 = * t22 6 ; t24 = * t23 4 ; t25 = * t24 3 ; t26 = * t25 7 ; t27 = * t26 5 ; t28 = * t27 3 ; t29 = * t28 3 ; t30 = * t29 5 ; t31 = * t30 2 ; t32 = * t31 2 ; ans t32",
+     "t1 = + 1 4 ; t2 = + 7 t1 ; t3 = + 10 t2 ; t4 = + 6 t3 ; t5 = + 1 t4 ; t6 = + 8 t5 ; t7 = + 8 t6 ; t8 = + 10 t7 ; t9 = + 11 t8 ; t10 = + 12 t9 ; t11 = + 2 t10 ; t12 = + 4 t11 ; t13 = + 11 t12 ; t14 = + 5 t13 ; t15 = + 11 t14 ; t16 = + 11 t15 ; t17 = + 2 t16 ; t18 = + 12 t17 ; t19 = + 5 t18 ; t20 = + 1 t19 ; t21 = + 3 t20 ; t22 = + 1 t21 ; t23 = + 9 t22 ; t24 = + 1 t23 ; t25 = + 8 t24 ; t26 = + 5 t25 ; t27 = + 9 t26 ; t28 = + 9 t27 ; t29 = + 3 t28 ; t30 = + 3 t29 ; t31 = + 6 t30 ; t32 = + 7 t31 ; ans t32"
+    ]
+   }
+  }
+ },
+ "oracle_ops": {
+  "sequential": {
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3",
+     "t1 = # 1 12 ; t2 = # 9 t1 ; t3 = # 1 t2 ; ans t3",
+     "t1 = ^ 10 11 ; t2 = ^ t1 3 ; t3 = ^ t2 11 ; ans t3"
+    ]
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "samples": [
+     "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 9 ; ans t3",
+     "t1 = * 5 2 ; t2 = * t1 4 ; t3 = * t2 8 ; ans t3",
+     "t1 = ^ 12 11 ; t2 = ^ t1 4 ; t3 = ^ t2 9 ; ans t3"
+    ]
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "wrong_value": 149,
+     "ok": 1
+    },
+    "samples": [
+     "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3",
+     "t1 = * 4 6 ; t2 = * t1 4 ; t3 = * t2 2 ; ans t3",
+     "t1 = + 7 6 ; t2 = + t1 3 ; t3 = + t2 4 ; ans t3"
+    ]
+   }
+  }
+ },
+ "oracle_both": {
+  "sequential": {
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8",
+     "t1 = # 1 12 ; t2 = # 9 t1 ; t3 = # 2 t2 ; t4 = # 1 t3 ; t5 = # 10 t4 ; t6 = # 11 t5 ; t7 = # 3 t6 ; t8 = # 1 t7 ; ans t8",
+     "t1 = ^ 1 11 ; t2 = ^ 11 t1 ; t3 = ^ 10 t2 ; t4 = ^ 5 t3 ; t5 = ^ 1 t4 ; t6 = ^ 3 t5 ; t7 = ^ 11 t6 ; t8 = ^ 10 t7 ; ans t8"
+    ]
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14 5 ; t16 = # t15 9 ; ans t16",
+     "t1 = * 5 2 ; t2 = * t1 4 ; t3 = * t2 8 ; t4 = * t3 9 ; t5 = * t4 1 ; t6 = * t5 12 ; t7 = * t6 3 ; t8 = * t7 3 ; t9 = * t8 8 ; t10 = * t9 8 ; t11 = * t10 12 ; t12 = * t11 8 ; t13 = * t12 8 ; t14 = * t13 8 ; t15 = * t14 12 ; t16 = * t15 11 ; ans t16",
+     "t1 = ^ 2 9 ; t2 = ^ 12 t1 ; t3 = ^ 10 t2 ; t4 = ^ 8 t3 ; t5 = ^ 12 t4 ; t6 = ^ 11 t5 ; t7 = ^ 2 t6 ; t8 = ^ 12 t7 ; t9 = ^ 9 t8 ; t10 = ^ 3 t9 ; t11 = ^ 11 t10 ; t12 = ^ 11 t11 ; t13 = ^ 5 t12 ; t14 = ^ 4 t13 ; t15 = ^ 11 t14 ; t16 = ^ 12 t15 ; ans t16"
+    ]
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "samples": [
+     "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14 9 ; t16 = / t15 10 ; t17 = / t16 4 ; t18 = / t17 5 ; t19 = / t18 3 ; t20 = / t19 12 ; t21 = / t20 3 ; t22 = / t21 7 ; t23 = / t22 11 ; t24 = / t23 7 ; t25 = / t24 7 ; t26 = / t25 9 ; t27 = / t26 12 ; t28 = / t27 5 ; t29 = / t28 11 ; t30 = / t29 3 ; t31 = / t30 8 ; t32 = / t31 3 ; ans t32",
+     "t1 = * 4 6 ; t2 = * t1 4 ; t3 = * t2 12 ; t4 = * t3 10 ; t5 = * t4 2 ; t6 = * t5 4 ; t7 = * t6 11 ; t8 = * t7 11 ; t9 = * t8 7 ; t10 = * t9 12 ; t11 = * t10 9 ; t12 = * t11 7 ; t13 = * t12 6 ; t14 = * t13 12 ; t15 = * t14 4 ; t16 = * t15 6 ; t17 = * t16 11 ; t18 = * t17 5 ; t19 = * t18 4 ; t20 = * t19 7 ; t21 = * t20 11 ; t22 = * t21 7 ; t23 = * t22 6 ; t24 = * t23 4 ; t25 = * t24 3 ; t26 = * t25 7 ; t27 = * t26 5 ; t28 = * t27 3 ; t29 = * t28 3 ; t30 = * t29 5 ; t31 = * t30 2 ; t32 = * t31 2 ; ans t32",
+     "t1 = + 1 4 ; t2 = + 7 t1 ; t3 = + 10 t2 ; t4 = + 6 t3 ; t5 = + 1 t4 ; t6 = + 8 t5 ; t7 = + 8 t6 ; t8 = + 10 t7 ; t9 = + 11 t8 ; t10 = + 12 t9 ; t11 = + 2 t10 ; t12 = + 4 t11 ; t13 = + 11 t12 ; t14 = + 5 t13 ; t15 = + 11 t14 ; t16 = + 11 t15 ; t17 = + 2 t16 ; t18 = + 12 t17 ; t19 = + 5 t18 ; t20 = + 1 t19 ; t21 = + 3 t20 ; t22 = + 1 t21 ; t23 = + 9 t22 ; t24 = + 1 t23 ; t25 = + 8 t24 ; t26 = + 5 t25 ; t27 = + 9 t26 ; t28 = + 9 t27 ; t29 = + 3 t28 ; t30 = + 3 t29 ; t31 = + 6 t30 ; t32 = + 7 t31 ; ans t32"
+    ]
+   }
+  }
+ },
+ "plan_execute@para": {
+  "sequential": {
+   "8": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "execute": 60,
+     "wrong_value": 89,
+     "ok": 1
+    },
+    "samples": [
+     "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3",
+     "t1 = # 1 12 ; t2 = # 9 t1 ; t3 = # 1 t2 ; ans t3",
+     "t1 = ^ 10 11 ; t2 = ^ t1 3 ; t3 = ^ t2 11 ; ans t3"
+    ]
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0067,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9933,
+    "reasons": {
+     "execute": 65,
+     "wrong_value": 84,
+     "ok": 1
+    },
+    "samples": [
+     "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 9 ; ans t3",
+     "t1 = * 5 2 ; t2 = * t1 4 ; t3 = * t2 8 ; ans t3",
+     "t1 = ^ 12 11 ; t2 = ^ t1 4 ; t3 = ^ t2 9 ; ans t3"
+    ]
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0133,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.9867,
+    "reasons": {
+     "wrong_value": 95,
+     "execute": 53,
+     "ok": 2
+    },
+    "samples": [
+     "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3",
+     "t1 = * 4 6 ; t2 = * t1 4 ; t3 = * t2 2 ; ans t3",
+     "t1 = + 7 6 ; t2 = + t1 3 ; t3 = + t2 4 ; ans t3"
+    ]
+   }
+  }
+ },
+ "oracle_plan@para": {
+  "sequential": {
+   "8": {
+    "n": 150,
+    "acc": 0.58,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.42,
+    "reasons": {
+     "execute": 60,
+     "ok": 87,
+     "wrong_value": 3
+    },
+    "samples": [
+     "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8",
+     "t1 = # 1 12 ; t2 = # 9 t1 ; t3 = # 2 t2 ; t4 = # 1 t3 ; t5 = # 10 t4 ; t6 = # 11 t5 ; t7 = # 3 t6 ; t8 = # 1 t7 ; ans t8",
+     "t1 = ^ 1 11 ; t2 = ^ 11 t1 ; t3 = ^ 10 t2 ; t4 = ^ 5 t3 ; t5 = ^ 1 t4 ; t6 = ^ 3 t5 ; t7 = ^ 11 t6 ; t8 = ^ 10 t7 ; ans t8"
+    ]
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.54,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.46,
+    "reasons": {
+     "execute": 65,
+     "ok": 81,
+     "wrong_value": 4
+    },
+    "samples": [
+     "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14 5 ; t16 = # t15 9 ; ans t16",
+     "t1 = * 5 2 ; t2 = * t1 4 ; t3 = * t2 8 ; t4 = * t3 9 ; t5 = * t4 1 ; t6 = * t5 12 ; t7 = * t6 3 ; t8 = * t7 3 ; t9 = * t8 8 ; t10 = * t9 8 ; t11 = * t10 12 ; t12 = * t11 8 ; t13 = * t12 8 ; t14 = * t13 8 ; t15 = * t14 12 ; t16 = * t15 11 ; ans t16",
+     "t1 = ^ 2 9 ; t2 = ^ 12 t1 ; t3 = ^ 10 t2 ; t4 = ^ 8 t3 ; t5 = ^ 12 t4 ; t6 = ^ 11 t5 ; t7 = ^ 2 t6 ; t8 = ^ 12 t7 ; t9 = ^ 9 t8 ; t10 = ^ 3 t9 ; t11 = ^ 11 t10 ; t12 = ^ 11 t11 ; t13 = ^ 5 t12 ; t14 = ^ 4 t13 ; t15 = ^ 11 t14 ; t16 = ^ 12 t15 ; ans t16"
+    ]
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.64,
+    "plan_parses": 1.0,
+    "well_typed": 0.0,
+    "exact_gold_plan": 0.0,
+    "parsed_but_wrong": 0.36,
+    "reasons": {
+     "ok": 96,
+     "execute": 53,
+     "wrong_value": 1
+    },
+    "samples": [
+     "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14 9 ; t16 = / t15 10 ; t17 = / t16 4 ; t18 = / t17 5 ; t19 = / t18 3 ; t20 = / t19 12 ; t21 = / t20 3 ; t22 = / t21 7 ; t23 = / t22 11 ; t24 = / t23 7 ; t25 = / t24 7 ; t26 = / t25 9 ; t27 = / t26 12 ; t28 = / t27 5 ; t29 = / t28 11 ; t30 = / t29 3 ; t31 = / t30 8 ; t32 = / t31 3 ; ans t32",
+     "t1 = * 4 6 ; t2 = * t1 4 ; t3 = * t2 12 ; t4 = * t3 10 ; t5 = * t4 2 ; t6 = * t5 4 ; t7 = * t6 11 ; t8 = * t7 11 ; t9 = * t8 7 ; t10 = * t9 12 ; t11 = * t10 9 ; t12 = * t11 7 ; t13 = * t12 6 ; t14 = * t13 12 ; t15 = * t14 4 ; t16 = * t15 6 ; t17 = * t16 11 ; t18 = * t17 5 ; t19 = * t18 4 ; t20 = * t19 7 ; t21 = * t20 11 ; t22 = * t21 7 ; t23 = * t22 6 ; t24 = * t23 4 ; t25 = * t24 3 ; t26 = * t25 7 ; t27 = * t26 5 ; t28 = * t27 3 ; t29 = * t28 3 ; t30 = * t29 5 ; t31 = * t30 2 ; t32 = * t31 2 ; ans t32",
+     "t1 = + 1 4 ; t2 = + 7 t1 ; t3 = + 10 t2 ; t4 = + 6 t3 ; t5 = + 1 t4 ; t6 = + 8 t5 ; t7 = + 8 t6 ; t8 = + 10 t7 ; t9 = + 11 t8 ; t10 = + 12 t9 ; t11 = + 2 t10 ; t12 = + 4 t11 ; t13 = + 11 t12 ; t14 = + 5 t13 ; t15 = + 11 t14 ; t16 = + 11 t15 ; t17 = + 2 t16 ; t18 = + 12 t17 ; t19 = + 5 t18 ; t20 = + 1 t19 ; t21 = + 3 t20 ; t22 = + 1 t21 ; t23 = + 9 t22 ; t24 = + 1 t23 ; t25 = + 8 t24 ; t26 = + 5 t25 ; t27 = + 9 t26 ; t28 = + 9 t27 ; t29 = + 3 t28 ; t30 = + 3 t29 ; t31 = + 6 t30 ; t32 = + 7 t31 ; ans t32"
+    ]
+   }
+  }
+ }
+}

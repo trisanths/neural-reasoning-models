@@ -1,0 +1,499 @@
+{
+ "source": "results/audit_leak_raw_s0.json",
+ "induction": {
+  "pages": 600,
+  "pages_parsed": 600,
+  "gold_ops": 900,
+  "induced_ops": 900,
+  "exact_text": 600,
+  "behavioural": 600
+ },
+ "c61_identity": {
+  "n_worlds": 150,
+  "induced_object_ids": 900,
+  "gold_object_ids": 900,
+  "ids_shared_between_tables": 0,
+  "per_cond": {
+   "plan_execute": {
+    "calls": {
+     "induced_object": 3132
+    },
+    "tables": {
+     "table_induced=6_gold=0": 1200
+    }
+   },
+   "oracle_plan": {
+    "calls": {
+     "induced_object": 5400
+    },
+    "tables": {
+     "table_induced=6_gold=0": 1200
+    }
+   },
+   "oracle_ops": {
+    "calls": {
+     "gold_object": 3140
+    },
+    "tables": {
+     "table_induced=0_gold=6": 1200
+    }
+   },
+   "oracle_both": {
+    "calls": {
+     "gold_object": 5400
+    },
+    "tables": {
+     "table_induced=0_gold=6": 1200
+    }
+   }
+  }
+ },
+ "c62_gold_plans": {
+  "1": {
+   "plans": 150,
+   "steps": 150,
+   "operator_steps": 150,
+   "literal_args": 300,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 1
+  },
+  "2": {
+   "plans": 150,
+   "steps": 300,
+   "operator_steps": 300,
+   "literal_args": 450,
+   "temp_args": 150,
+   "ans_is_temporary": 150
+  },
+  "3": {
+   "plans": 150,
+   "steps": 450,
+   "operator_steps": 450,
+   "literal_args": 600,
+   "temp_args": 300,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 1
+  },
+  "4": {
+   "plans": 150,
+   "steps": 600,
+   "operator_steps": 600,
+   "literal_args": 750,
+   "temp_args": 450,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 3
+  },
+  "5": {
+   "plans": 150,
+   "steps": 750,
+   "operator_steps": 750,
+   "literal_args": 900,
+   "temp_args": 600,
+   "ans_is_temporary": 150
+  },
+  "6": {
+   "plans": 150,
+   "steps": 900,
+   "operator_steps": 900,
+   "literal_args": 1050,
+   "temp_args": 750,
+   "ans_is_temporary": 150,
+   "gold_answer_token_in_plan": 1
+  },
+  "7": {
+   "plans": 150,
+   "steps": 1050,
+   "operator_steps": 1050,
+   "literal_args": 1200,
+   "temp_args": 900,
+   "ans_is_temporary": 150
+  },
+  "8": {
+   "plans": 150,
+   "steps": 1200,
+   "operator_steps": 1200,
+   "literal_args": 1350,
+   "temp_args": 1050,
+   "ans_is_temporary": 150
+  }
+ },
+ "c62_intermediate_leak": {
+  "1": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 0
+  },
+  "2": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 4
+  },
+  "3": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 9
+  },
+  "4": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 15
+  },
+  "5": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 22
+  },
+  "6": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 23
+  },
+  "7": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 43
+  },
+  "8": {
+   "n": 150,
+   "plans_whose_literal_matches_an_intermediate": 32
+  }
+ },
+ "c63_prompts": {},
+ "c64_counterfactuals": {
+  "1": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "2": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "3": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "4": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0133,
+   "identity": 0.0,
+   "constant": 0.0133,
+   "empty": 0.0
+  },
+  "5": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "6": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "7": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0,
+   "identity": 0.0,
+   "constant": 0.0,
+   "empty": 0.0
+  },
+  "8": {
+   "as_induced": 1.0,
+   "gold": 1.0,
+   "plus_one": 0.0133,
+   "identity": 0.0,
+   "constant": 0.0067,
+   "empty": 0.0
+  }
+ },
+ "c65_reverse_leak": {
+  "1": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 150,
+    "builtin_calls": 0,
+    "step_len_1": 150
+   }
+  },
+  "2": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 72,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 72,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 300,
+    "builtin_calls": 0,
+    "step_len_2": 150
+   }
+  },
+  "3": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 75,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 76,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150
+   }
+  },
+  "4": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 3,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 3
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 600,
+    "builtin_calls": 0,
+    "step_len_4": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 3,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 3
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 600,
+    "builtin_calls": 0,
+    "step_len_4": 150
+   }
+  },
+  "5": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 5,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 5
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 750,
+    "builtin_calls": 0,
+    "step_len_5": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 5,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 5
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 750,
+    "builtin_calls": 0,
+    "step_len_5": 150
+   }
+  },
+  "6": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 3,
+    "operator_calls": 432,
+    "builtin_calls": 0,
+    "step_len_3": 141,
+    "step_len_1": 9,
+    "CORRECT_with_plan_shorter_than_depth": 3
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 900,
+    "builtin_calls": 0,
+    "step_len_6": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 3,
+    "operator_calls": 440,
+    "builtin_calls": 0,
+    "step_len_3": 145,
+    "CORRECT_with_plan_shorter_than_depth": 3,
+    "step_len_1": 5
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 900,
+    "builtin_calls": 0,
+    "step_len_6": 150
+   }
+  },
+  "7": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 1,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 1
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 1050,
+    "builtin_calls": 0,
+    "step_len_7": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 1,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 1
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 1050,
+    "builtin_calls": 0,
+    "step_len_7": 150
+   }
+  },
+  "8": {
+   "plan_execute": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 2
+   },
+   "oracle_plan": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 1200,
+    "builtin_calls": 0,
+    "step_len_8": 150
+   },
+   "oracle_ops": {
+    "items": 150,
+    "correct": 2,
+    "operator_calls": 450,
+    "builtin_calls": 0,
+    "step_len_3": 150,
+    "CORRECT_with_plan_shorter_than_depth": 2
+   },
+   "oracle_both": {
+    "items": 150,
+    "correct": 150,
+    "operator_calls": 1200,
+    "builtin_calls": 0,
+    "step_len_8": 150
+   }
+  }
+ },
+ "assoc": {
+  "2": {
+   "n": 150,
+   "model_matches_gold_assoc": 70,
+   "rate": 0.4667,
+   "table": {
+    "gold=left|model=left": 34,
+    "gold=left|model=right": 33,
+    "gold=right|model=left": 47,
+    "gold=right|model=right": 36
+   }
+  },
+  "3": {
+   "n": 150,
+   "model_matches_gold_assoc": 74,
+   "rate": 0.4933,
+   "table": {
+    "gold=left|model=left": 41,
+    "gold=left|model=right": 33,
+    "gold=right|model=left": 43,
+    "gold=right|model=right": 33
+   }
+  }
+ }
+}

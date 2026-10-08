@@ -1,0 +1,110 @@
+{
+ "head": "p4",
+ "step": 2000,
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p4",
+  "out": "runs/iter/p4.pt",
+  "steps": 16000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 250,
+  "seed": 17,
+  "ckpt_every": 2000
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 93126,
+   "2": 33154,
+   "3": 33720
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160000
+ },
+ "corruption_mixture": {
+  "all_mask": 0.22,
+  "random_mask": 0.22,
+  "transpose": 0.09,
+  "wrong_op": 0.13,
+  "truncate": 0.13,
+  "sparse": 0.08,
+  "edge_noise": 0.13
+ },
+ "corruption_counts": {
+  "all_mask": 6920,
+  "wrong_op": 4090,
+  "edge_noise": 4168,
+  "truncate": 4163,
+  "random_mask": 7165,
+  "transpose": 2899,
+  "sparse": 2595
+ },
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 64000
+ },
+ "log": [
+  {
+   "step": 1,
+   "kind": "induce",
+   "loss": 4.12182,
+   "lr": 1e-07,
+   "secs": 1.0
+  },
+  {
+   "step": 250,
+   "kind": "plan",
+   "loss": 0.06281,
+   "lr": 2e-05,
+   "secs": 87.8
+  },
+  {
+   "step": 500,
+   "kind": "plan",
+   "loss": 0.02026,
+   "lr": 1.998e-05,
+   "secs": 174.0
+  },
+  {
+   "step": 750,
+   "kind": "plan",
+   "loss": 0.00841,
+   "lr": 1.994e-05,
+   "secs": 257.5
+  },
+  {
+   "step": 1000,
+   "kind": "plan",
+   "loss": 0.00216,
+   "lr": 1.987e-05,
+   "secs": 341.1
+  },
+  {
+   "step": 1250,
+   "kind": "plan",
+   "loss": 0.00525,
+   "lr": 1.978e-05,
+   "secs": 422.9
+  },
+  {
+   "step": 1500,
+   "kind": "plan",
+   "loss": 0.00417,
+   "lr": 1.967e-05,
+   "secs": 507.2
+  },
+  {
+   "step": 1750,
+   "kind": "plan",
+   "loss": 0.00362,
+   "lr": 1.953e-05,
+   "secs": 590.8
+  }
+ ]
+}

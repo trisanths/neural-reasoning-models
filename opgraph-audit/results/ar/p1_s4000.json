@@ -1,0 +1,4731 @@
+{
+ "config": {
+  "ckpt": "runs/ar/p1_s4000.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "out": "results/ar/p1_s4000.json",
+  "n": 150,
+  "batch_size": 96,
+  "kinds": "sequential",
+  "styles": "0,1",
+  "max_new": 320,
+  "temperatures": "0.0,0.8",
+  "verify_counter": true
+ },
+ "head": "p1",
+ "corruption_mixture": {
+  "all_mask": 0.25,
+  "random_mask": 0.25,
+  "transpose": 0.1,
+  "wrong_op": 0.15,
+  "truncate": 0.15,
+  "sparse": 0.1
+ },
+ "train_args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p1",
+  "out": "runs/ar/p1_s4000.pt",
+  "steps": 4000,
+  "batch_size": 32,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 200,
+  "worlds": 40000,
+  "log_every": 100,
+  "seed": 17
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 93126,
+   "2": 33154,
+   "3": 33720
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160000
+ },
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 128000
+ },
+ "grid": {
+  "sequential": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   12,
+   16,
+   32
+  ],
+  "sequential_paren": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   12,
+   16,
+   32
+  ],
+  "breadth": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "novel": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   8,
+   12
+  ],
+  "same_page_pair": [
+   2
+  ],
+  "units": [
+   1
+  ]
+ },
+ "max_new": 320,
+ "induction": {
+  "worlds": 150,
+  "pages": 600,
+  "pages_parsed": 600,
+  "gold_ops": 900,
+  "induced_ops": 900,
+  "self_verified": 900,
+  "exact_text": 900,
+  "behavioural": 900,
+  "secs": 35.1
+ },
+ "oracle_both": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0
+   },
+   "12": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0
+   }
+  }
+ },
+ "oracle_both_roundtrip": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0
+   },
+   "12": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0
+   }
+  }
+ },
+ "counter_check": {
+  "p1@T0": {
+   "reported": 12,
+   "observed": 12,
+   "ok": true
+  },
+  "p1@T0.8": {
+   "reported": 12,
+   "observed": 12,
+   "ok": true
+  },
+  "p1@T0@para": {
+   "reported": 12,
+   "observed": 12,
+   "ok": true
+  },
+  "p1@T0.8@para": {
+   "reported": 12,
+   "observed": 12,
+   "ok": true
+  }
+ },
+ "plan_execute@T0": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 55.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 1.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 65.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 2.5,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 3.6,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.08,
+    "secs": 3.6,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.007,
+    "secs": 3.6,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 81.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1133,
+    "first_step_correct_rate": 0.9533,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 3.6,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 85.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0667,
+    "first_step_correct_rate": 0.8867,
+    "matched_prefix_len_mean": 1.72,
+    "secs": 3.6,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 93.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1267,
+    "first_step_correct_rate": 0.86,
+    "matched_prefix_len_mean": 1.727,
+    "secs": 3.6,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 101.007,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.88,
+    "matched_prefix_len_mean": 1.54,
+    "secs": 3.6,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 133.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0267,
+    "first_step_correct_rate": 0.66,
+    "matched_prefix_len_mean": 1.207,
+    "secs": 3.7,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_ops@T0": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 55.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 65.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 1.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.08,
+    "secs": 1.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.007,
+    "secs": 1.5,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 81.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1133,
+    "first_step_correct_rate": 0.9533,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 85.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0667,
+    "first_step_correct_rate": 0.8867,
+    "matched_prefix_len_mean": 1.72,
+    "secs": 1.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 93.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1267,
+    "first_step_correct_rate": 0.86,
+    "matched_prefix_len_mean": 1.727,
+    "secs": 1.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 101.007,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.88,
+    "matched_prefix_len_mean": 1.54,
+    "secs": 1.5,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 133.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0267,
+    "first_step_correct_rate": 0.66,
+    "matched_prefix_len_mean": 1.207,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_plan@T0": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 0.0,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0,
+    "secs": 0.0,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; t4 = # t3 2 ; ans t4"
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 6 ; t4 = / t3 3 ; t5 = / t4 4 ; ans t5"
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 3 ; t4 = # t3 10 ; t5 = # t4 12 ; t6 = # t5 1 ; ans t6"
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8"
+   },
+   "12": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 12 ; t4 = / t3 6 ; t5 = / t4 12 ; t6 = / t5 8 ; t7 = / t6 8 ; t8 = / t7 10 ; t9 = / t8 6 ; t10 = / t9 10 ; t11 = / t10 5 ; t12 = / t11 1 ; ans t12"
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0,
+    "secs": 0.0,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14"
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0,
+    "secs": 0.1,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14"
+   }
+  }
+ },
+ "plan_execute@T0.8": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 55.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 65.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.1,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 1.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.093,
+    "secs": 1.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0867,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.013,
+    "secs": 1.5,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 81.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1133,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.027,
+    "secs": 1.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 85.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.06,
+    "first_step_correct_rate": 0.9,
+    "matched_prefix_len_mean": 1.727,
+    "secs": 1.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 93.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0933,
+    "first_step_correct_rate": 0.84,
+    "matched_prefix_len_mean": 1.667,
+    "secs": 1.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 101.007,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.86,
+    "matched_prefix_len_mean": 1.5,
+    "secs": 1.5,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 133.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.02,
+    "first_step_correct_rate": 0.66,
+    "matched_prefix_len_mean": 1.2,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_ops@T0.8": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 55.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.7,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 65.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.1,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 1.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.093,
+    "secs": 1.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0867,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.013,
+    "secs": 1.5,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 81.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1133,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.027,
+    "secs": 1.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 85.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.06,
+    "first_step_correct_rate": 0.9,
+    "matched_prefix_len_mean": 1.727,
+    "secs": 1.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 93.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0933,
+    "first_step_correct_rate": 0.84,
+    "matched_prefix_len_mean": 1.667,
+    "secs": 1.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 101.007,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.86,
+    "matched_prefix_len_mean": 1.5,
+    "secs": 1.5,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 133.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.02,
+    "first_step_correct_rate": 0.66,
+    "matched_prefix_len_mean": 1.2,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_plan@T0.8": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 0.0,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0,
+    "secs": 0.0,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; t4 = # t3 2 ; ans t4"
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 6 ; t4 = / t3 3 ; t5 = / t4 4 ; ans t5"
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 3 ; t4 = # t3 10 ; t5 = # t4 12 ; t6 = # t5 1 ; ans t6"
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8"
+   },
+   "12": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 12 ; t4 = / t3 6 ; t5 = / t4 12 ; t6 = / t5 8 ; t7 = / t6 8 ; t8 = / t7 10 ; t9 = / t8 6 ; t10 = / t9 10 ; t11 = / t10 5 ; t12 = / t11 1 ; ans t12"
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0,
+    "secs": 0.0,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14"
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0,
+    "secs": 0.1,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14"
+   }
+  }
+ },
+ "induction@para": {
+  "worlds": 150,
+  "pages": 600,
+  "pages_parsed": 591,
+  "gold_ops": 900,
+  "induced_ops": 884,
+  "self_verified": 104,
+  "exact_text": 346,
+  "behavioural": 425,
+  "secs": 31.9
+ },
+ "oracle_both@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0
+   },
+   "12": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0
+   }
+  }
+ },
+ "oracle_both_roundtrip@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0
+   },
+   "4": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0
+   },
+   "5": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0
+   },
+   "6": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0
+   },
+   "8": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0
+   },
+   "12": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0
+   },
+   "16": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0
+   },
+   "32": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0
+   }
+  }
+ },
+ "plan_execute@T0@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 0.82,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.18,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 53.287,
+    "reasons": {
+     "ok": 123,
+     "execute": 6,
+     "wrong_value": 21
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.3,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 0.44,
+    "parsed_but_wrong_rate": 0.7,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 63.287,
+    "reasons": {
+     "ok": 45,
+     "wrong_value": 99,
+     "execute": 6
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 0.44,
+    "first_step_correct_rate": 0.4467,
+    "matched_prefix_len_mean": 0.887,
+    "secs": 1.1,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.2533,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 0.48,
+    "parsed_but_wrong_rate": 0.7467,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 73.287,
+    "reasons": {
+     "ok": 38,
+     "wrong_value": 106,
+     "execute": 6
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 0.48,
+    "first_step_correct_rate": 0.48,
+    "matched_prefix_len_mean": 1.44,
+    "secs": 1.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.287,
+    "reasons": {
+     "wrong_value": 144,
+     "execute": 3,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0533,
+    "first_step_correct_rate": 0.4933,
+    "matched_prefix_len_mean": 1.04,
+    "secs": 1.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.287,
+    "reasons": {
+     "wrong_value": 143,
+     "execute": 4,
+     "ok": 3
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0533,
+    "first_step_correct_rate": 0.4933,
+    "matched_prefix_len_mean": 1.04,
+    "secs": 1.5,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0333,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9667,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.287,
+    "reasons": {
+     "wrong_value": 141,
+     "execute": 4,
+     "ok": 5
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0467,
+    "first_step_correct_rate": 0.4933,
+    "matched_prefix_len_mean": 1.02,
+    "secs": 1.5,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 83.287,
+    "reasons": {
+     "wrong_value": 144,
+     "execute": 4,
+     "ok": 2
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0267,
+    "first_step_correct_rate": 0.4733,
+    "matched_prefix_len_mean": 0.973,
+    "secs": 1.5,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.0067,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9933,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 91.287,
+    "reasons": {
+     "wrong_value": 145,
+     "execute": 4,
+     "ok": 1
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0733,
+    "first_step_correct_rate": 0.5267,
+    "matched_prefix_len_mean": 1.127,
+    "secs": 1.5,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 99.287,
+    "reasons": {
+     "wrong_value": 145,
+     "execute": 3,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0667,
+    "first_step_correct_rate": 0.5467,
+    "matched_prefix_len_mean": 1.153,
+    "secs": 1.5,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 131.287,
+    "reasons": {
+     "wrong_value": 142,
+     "execute": 6,
+     "ok": 2
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0133,
+    "first_step_correct_rate": 0.5067,
+    "matched_prefix_len_mean": 1.013,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_ops@T0@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 55.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 65.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.1,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 1.5,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.08,
+    "secs": 1.5,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.007,
+    "secs": 1.4,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 81.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1133,
+    "first_step_correct_rate": 0.9533,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.4,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 85.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0667,
+    "first_step_correct_rate": 0.8867,
+    "matched_prefix_len_mean": 1.72,
+    "secs": 1.4,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 93.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1267,
+    "first_step_correct_rate": 0.86,
+    "matched_prefix_len_mean": 1.727,
+    "secs": 1.4,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 101.007,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.88,
+    "matched_prefix_len_mean": 1.54,
+    "secs": 1.4,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 133.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0267,
+    "first_step_correct_rate": 0.66,
+    "matched_prefix_len_mean": 1.207,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_plan@T0@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 0.82,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.18,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 123,
+     "execute": 6,
+     "wrong_value": 21
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.6467,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.3533,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 97,
+     "wrong_value": 47,
+     "execute": 6
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.5333,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4667,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 80,
+     "wrong_value": 64,
+     "execute": 6
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 0.0,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.54,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.46,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "wrong_value": 66,
+     "execute": 3,
+     "ok": 81
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0,
+    "secs": 0.0,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; t4 = # t3 2 ; ans t4"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.5733,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4267,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 86,
+     "execute": 4,
+     "wrong_value": 60
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 6 ; t4 = / t3 3 ; t5 = / t4 4 ; ans t5"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.5267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4733,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "wrong_value": 67,
+     "ok": 79,
+     "execute": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 3 ; t4 = # t3 10 ; t5 = # t4 12 ; t6 = # t5 1 ; ans t6"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.5533,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4467,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "wrong_value": 63,
+     "ok": 83,
+     "execute": 4
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.5333,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4667,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 80,
+     "wrong_value": 66,
+     "execute": 4
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 12 ; t4 = / t3 6 ; t5 = / t4 12 ; t6 = / t5 8 ; t7 = / t6 8 ; t8 = / t7 10 ; t9 = / t8 6 ; t10 = / t9 10 ; t11 = / t10 5 ; t12 = / t11 1 ; ans t12"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.52,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.48,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 78,
+     "wrong_value": 69,
+     "execute": 3
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0,
+    "secs": 0.0,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.46,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.54,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 69,
+     "wrong_value": 75,
+     "execute": 6
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0,
+    "secs": 0.1,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14"
+   }
+  }
+ },
+ "plan_execute@T0.8@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 0.82,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.18,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 53.287,
+    "reasons": {
+     "ok": 123,
+     "execute": 6,
+     "wrong_value": 21
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.3,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 0.44,
+    "parsed_but_wrong_rate": 0.7,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 63.287,
+    "reasons": {
+     "ok": 45,
+     "wrong_value": 99,
+     "execute": 6
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 0.44,
+    "first_step_correct_rate": 0.4467,
+    "matched_prefix_len_mean": 0.887,
+    "secs": 1.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.2533,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 0.4733,
+    "parsed_but_wrong_rate": 0.7467,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 73.287,
+    "reasons": {
+     "ok": 38,
+     "wrong_value": 106,
+     "execute": 6
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 0.4733,
+    "first_step_correct_rate": 0.4733,
+    "matched_prefix_len_mean": 1.42,
+    "secs": 1.4,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.287,
+    "reasons": {
+     "wrong_value": 144,
+     "execute": 3,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.06,
+    "first_step_correct_rate": 0.4933,
+    "matched_prefix_len_mean": 1.047,
+    "secs": 1.4,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.287,
+    "reasons": {
+     "wrong_value": 143,
+     "execute": 4,
+     "ok": 3
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0533,
+    "first_step_correct_rate": 0.4933,
+    "matched_prefix_len_mean": 1.04,
+    "secs": 1.4,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.287,
+    "reasons": {
+     "wrong_value": 142,
+     "execute": 4,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0533,
+    "first_step_correct_rate": 0.5,
+    "matched_prefix_len_mean": 1.033,
+    "secs": 1.4,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 83.287,
+    "reasons": {
+     "wrong_value": 144,
+     "execute": 4,
+     "ok": 2
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0267,
+    "first_step_correct_rate": 0.48,
+    "matched_prefix_len_mean": 0.987,
+    "secs": 1.4,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.0067,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9933,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 91.287,
+    "reasons": {
+     "wrong_value": 145,
+     "execute": 4,
+     "ok": 1
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0733,
+    "first_step_correct_rate": 0.5267,
+    "matched_prefix_len_mean": 1.127,
+    "secs": 1.4,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0067,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9933,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 99.287,
+    "reasons": {
+     "wrong_value": 146,
+     "execute": 3,
+     "ok": 1
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0733,
+    "first_step_correct_rate": 0.5467,
+    "matched_prefix_len_mean": 1.16,
+    "secs": 1.4,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.0067,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9933,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 131.287,
+    "reasons": {
+     "wrong_value": 143,
+     "execute": 6,
+     "ok": 1
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.02,
+    "first_step_correct_rate": 0.5067,
+    "matched_prefix_len_mean": 1.02,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_ops@T0.8@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 12.0,
+    "slot_decisions_mean": 11.0,
+    "position_evals_mean": 55.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 11.0,
+    "gen_tokens_max": 11,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.6,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 20.0,
+    "slot_decisions_mean": 19.0,
+    "position_evals_mean": 65.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 19.0,
+    "gen_tokens_max": 19,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 1.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 1.0,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.0,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 75.007,
+    "reasons": {
+     "ok": 150
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 1.4,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 77.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.093,
+    "secs": 1.4,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 2 ; ans t3"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 79.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0867,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.013,
+    "secs": 1.4,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 4 ; ans t3"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.0267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9733,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 81.007,
+    "reasons": {
+     "wrong_value": 146,
+     "ok": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.1133,
+    "first_step_correct_rate": 0.9667,
+    "matched_prefix_len_mean": 2.027,
+    "secs": 1.4,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 1 ; ans t3"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 85.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.06,
+    "first_step_correct_rate": 0.9,
+    "matched_prefix_len_mean": 1.727,
+    "secs": 1.4,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 4 ; ans t3"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 93.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.0933,
+    "first_step_correct_rate": 0.84,
+    "matched_prefix_len_mean": 1.667,
+    "secs": 1.4,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 1 ; ans t3"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.0133,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.9867,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 101.007,
+    "reasons": {
+     "wrong_value": 148,
+     "ok": 2
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.08,
+    "first_step_correct_rate": 0.86,
+    "matched_prefix_len_mean": 1.5,
+    "secs": 1.4,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 8 ; ans t3"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.02,
+    "parse_rate": 1.0,
+    "well_typed_rate": 1.0,
+    "exact_gold_plan_rate": 0.0,
+    "parsed_but_wrong_rate": 0.98,
+    "fwd_passes_mean": 28.0,
+    "slot_decisions_mean": 27.0,
+    "position_evals_mean": 133.007,
+    "reasons": {
+     "wrong_value": 147,
+     "ok": 3
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 27.0,
+    "gen_tokens_max": 27,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 0.0,
+    "prefix_of_gold_rate": 0.02,
+    "first_step_correct_rate": 0.66,
+    "matched_prefix_len_mean": 1.2,
+    "secs": 1.5,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 3 ; ans t3"
+   }
+  }
+ },
+ "oracle_plan@T0.8@para": {
+  "sequential": {
+   "1": {
+    "n": 150,
+    "acc": 0.82,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.18,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 123,
+     "execute": 6,
+     "wrong_value": 21
+    },
+    "gold_steps": 1,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 1.0,
+    "emitted_steps_hist": {
+     "1": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 1.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 3 ; ans t1"
+   },
+   "2": {
+    "n": 150,
+    "acc": 0.6467,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.3533,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 97,
+     "wrong_value": 47,
+     "execute": 6
+    },
+    "gold_steps": 2,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 2.0,
+    "emitted_steps_hist": {
+     "2": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 2.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 2 ; t2 = / t1 3 ; ans t2"
+   },
+   "3": {
+    "n": 150,
+    "acc": 0.5333,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4667,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 80,
+     "wrong_value": 64,
+     "execute": 6
+    },
+    "gold_steps": 3,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 3.0,
+    "emitted_steps_hist": {
+     "3": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 3.0,
+    "secs": 0.0,
+    "sample": "t1 = # 12 8 ; t2 = # t1 6 ; t3 = # t2 10 ; ans t3"
+   },
+   "4": {
+    "n": 150,
+    "acc": 0.54,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.46,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "wrong_value": 66,
+     "execute": 3,
+     "ok": 81
+    },
+    "gold_steps": 4,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 4.0,
+    "emitted_steps_hist": {
+     "4": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 4.0,
+    "secs": 0.0,
+    "sample": "t1 = # 1 7 ; t2 = # t1 5 ; t3 = # t2 5 ; t4 = # t3 2 ; ans t4"
+   },
+   "5": {
+    "n": 150,
+    "acc": 0.5733,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4267,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 86,
+     "execute": 4,
+     "wrong_value": 60
+    },
+    "gold_steps": 5,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 5.0,
+    "emitted_steps_hist": {
+     "5": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 5.0,
+    "secs": 0.0,
+    "sample": "t1 = / 11 9 ; t2 = / t1 10 ; t3 = / t2 6 ; t4 = / t3 3 ; t5 = / t4 4 ; ans t5"
+   },
+   "6": {
+    "n": 150,
+    "acc": 0.5267,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4733,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "wrong_value": 67,
+     "ok": 79,
+     "execute": 4
+    },
+    "gold_steps": 6,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 6.0,
+    "emitted_steps_hist": {
+     "6": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 6.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 5 ; t2 = # t1 3 ; t3 = # t2 3 ; t4 = # t3 10 ; t5 = # t4 12 ; t6 = # t5 1 ; ans t6"
+   },
+   "8": {
+    "n": 150,
+    "acc": 0.5533,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4467,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "wrong_value": 63,
+     "ok": 83,
+     "execute": 4
+    },
+    "gold_steps": 8,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 8.0,
+    "emitted_steps_hist": {
+     "8": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 8.0,
+    "secs": 0.0,
+    "sample": "t1 = # 3 8 ; t2 = # t1 12 ; t3 = # t2 2 ; t4 = # t3 2 ; t5 = # t4 9 ; t6 = # t5 5 ; t7 = # t6 2 ; t8 = # t7 4 ; ans t8"
+   },
+   "12": {
+    "n": 150,
+    "acc": 0.5333,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.9733,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.4667,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 80,
+     "wrong_value": 66,
+     "execute": 4
+    },
+    "gold_steps": 12,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 12.0,
+    "emitted_steps_hist": {
+     "12": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 12.0,
+    "secs": 0.0,
+    "sample": "t1 = / 8 4 ; t2 = / t1 2 ; t3 = / t2 12 ; t4 = / t3 6 ; t5 = / t4 12 ; t6 = / t5 8 ; t7 = / t6 8 ; t8 = / t7 10 ; t9 = / t8 6 ; t10 = / t9 10 ; t11 = / t10 5 ; t12 = / t11 1 ; ans t12"
+   },
+   "16": {
+    "n": 150,
+    "acc": 0.52,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.98,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.48,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 78,
+     "wrong_value": 69,
+     "execute": 3
+    },
+    "gold_steps": 16,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 16.0,
+    "emitted_steps_hist": {
+     "16": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 16.0,
+    "secs": 0.0,
+    "sample": "t1 = # 7 4 ; t2 = # t1 4 ; t3 = # t2 12 ; t4 = # t3 12 ; t5 = # t4 3 ; t6 = # t5 2 ; t7 = # t6 8 ; t8 = # t7 4 ; t9 = # t8 7 ; t10 = # t9 11 ; t11 = # t10 12 ; t12 = # t11 3 ; t13 = # t12 8 ; t14 = # t13 10 ; t15 = # t14"
+   },
+   "32": {
+    "n": 150,
+    "acc": 0.46,
+    "parse_rate": 1.0,
+    "well_typed_rate": 0.96,
+    "exact_gold_plan_rate": 1.0,
+    "parsed_but_wrong_rate": 0.54,
+    "fwd_passes_mean": 0.0,
+    "slot_decisions_mean": 0.0,
+    "position_evals_mean": 0.0,
+    "reasons": {
+     "ok": 69,
+     "wrong_value": 75,
+     "execute": 6
+    },
+    "gold_steps": 32,
+    "gen_tokens_mean": 0.0,
+    "gen_tokens_max": 0,
+    "at_generation_cap": 0,
+    "emitted_steps_mean": 32.0,
+    "emitted_steps_hist": {
+     "32": 150
+    },
+    "emitted_steps_eq_gold_rate": 1.0,
+    "prefix_of_gold_rate": 1.0,
+    "first_step_correct_rate": 1.0,
+    "matched_prefix_len_mean": 32.0,
+    "secs": 0.1,
+    "sample": "t1 = / 4 5 ; t2 = / t1 12 ; t3 = / t2 2 ; t4 = / t3 11 ; t5 = / t4 10 ; t6 = / t5 3 ; t7 = / t6 5 ; t8 = / t7 3 ; t9 = / t8 4 ; t10 = / t9 4 ; t11 = / t10 11 ; t12 = / t11 10 ; t13 = / t12 5 ; t14 = / t13 7 ; t15 = / t14"
+   }
+  }
+ }
+}

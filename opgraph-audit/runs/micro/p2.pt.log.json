@@ -1,0 +1,71 @@
+{
+ "head": "p2",
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "head": "p2",
+  "out": "runs/micro/p2.pt",
+  "steps": 4,
+  "batch_size": 4,
+  "max_len": 640,
+  "lr": 2e-05,
+  "head_lr": 0.0002,
+  "warmup": 2,
+  "worlds": 40,
+  "log_every": 1,
+  "seed": 17
+ },
+ "holdout": {
+  "depth_histogram": {
+   "1": 95,
+   "2": 31,
+   "3": 34
+  },
+  "max_distinct_operator_symbols": 1,
+  "plans": 160
+ },
+ "corruption_mixture": {
+  "all_mask": 0.25,
+  "random_mask": 0.25,
+  "transpose": 0.1,
+  "wrong_op": 0.15,
+  "truncate": 0.15,
+  "sparse": 0.1
+ },
+ "corruption_counts": {},
+ "dropped": {
+  "induce": 0,
+  "plan": 0,
+  "sequences": 16
+ },
+ "log": [
+  {
+   "step": 1,
+   "kind": "induce",
+   "loss": 4.15508,
+   "lr": 1e-05,
+   "secs": 0.7
+  },
+  {
+   "step": 2,
+   "kind": "plan",
+   "loss": 5.62737,
+   "lr": 2e-05,
+   "secs": 0.9
+  },
+  {
+   "step": 3,
+   "kind": "induce",
+   "loss": 2.79449,
+   "lr": 1e-05,
+   "secs": 1.1
+  },
+  {
+   "step": 4,
+   "kind": "plan",
+   "loss": 4.27595,
+   "lr": 0.0,
+   "secs": 1.3
+  }
+ ]
+}

@@ -1,0 +1,44 @@
+{
+ "arm": "ladder_goalstack",
+ "args": {
+  "base": "ckpt/base350.pt",
+  "tokenizer": "/home/ec2-user/data/tokenizer_v2.json",
+  "arm": "ladder_goalstack",
+  "out": "runs/ladder/trial_goal.pt",
+  "steps": 40,
+  "batch_size": 8,
+  "max_len": 1024,
+  "lr": 2e-05,
+  "warmup": 10,
+  "worlds": 400,
+  "log_every": 20,
+  "rounds": 3,
+  "seed": 0
+ },
+ "log": [
+  {
+   "step": 1,
+   "loss": 3.754704713821411,
+   "lr": 2.0000000000000003e-06,
+   "tokens": 1464,
+   "supervised": 370,
+   "secs": 1.4
+  },
+  {
+   "step": 20,
+   "loss": 0.7458667755126953,
+   "lr": 1.5000000000000002e-05,
+   "tokens": 27952,
+   "supervised": 7064,
+   "secs": 4.7
+  },
+  {
+   "step": 40,
+   "loss": 0.531801700592041,
+   "lr": 0.0,
+   "tokens": 54608,
+   "supervised": 13205,
+   "secs": 7.8
+  }
+ ]
+}

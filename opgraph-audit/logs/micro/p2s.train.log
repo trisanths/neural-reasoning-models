@@ -1,0 +1,9 @@
+[holdout] {"depth_histogram": {"1": 95, "2": 31, "3": 34}, "max_distinct_operator_symbols": 1, "plans": 160}
+[pools] induction=160 plans=160 head=p2s
+[head] params=1359872 slots=97 mixture={"all_mask": 0.25, "random_mask": 0.25, "transpose": 0.1, "wrong_op": 0.15, "truncate": 0.15, "sparse": 0.1}
+{"step": 1, "kind": "induce", "loss": 4.15508, "lr": 1e-05, "secs": 0.8}
+{"step": 2, "kind": "plan", "loss": 7.09304, "lr": 2e-05, "secs": 1.2}
+{"step": 3, "kind": "induce", "loss": 2.76699, "lr": 1e-05, "secs": 1.4}
+{"step": 4, "kind": "plan", "loss": 2.56426, "lr": 0.0, "secs": 1.6}
+[dropped] {"induce": 0, "plan": 0, "sequences": 16}
+[done] head=p2s -> runs/micro/p2s.pt
